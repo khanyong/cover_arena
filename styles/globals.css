@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* 커스텀 스크롤바 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* 극한 격자 애니메이션 */
+.grid-item {
+  transition: all 1.2s cubic-bezier(0.4, 0, 0.6, 1);
+  position: relative;
+  min-width: 20px;
+  min-height: 20px;
+}
+
+.grid-item:hover {
+  transform: scale(1.1);
+  z-index: 50;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+}
+
+/* 극한 크기 변화 애니메이션 */
+.grid-item[style*="col-span-1"] {
+  transition: all 0.5s ease-in-out;
+}
+
+.grid-item[style*="col-span-100"] {
+  transition: all 2s ease-in-out;
+}
+
+/* YouTube iframe 스타일링 */
+iframe {
+  pointer-events: none;
+}
+
+.grid-item:hover iframe {
+  pointer-events: auto;
+}
+/* 팝업 전용 iframe은 항상 인터랙션 가능 */
+.popup-iframe {
+  pointer-events: auto !important;
+}
+
+/* 텍스트 말줄임 */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Arena 고정 크기 */
+.arena-container {
+  width: 90vw;
+  height: 60vh;
+  max-width: 1600px;
+  min-height: 600px;
+  margin: 0 auto;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+} 
