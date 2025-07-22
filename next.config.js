@@ -1,9 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  staticPageGenerationTimeout: 180, // 180초(3분)로 설정
-  images: {
-    domains: ['img.youtube.com', 'i.ytimg.com'],
-  },
-}
+  reactStrictMode: true,
+  // ...기타 설정
+};
 
-module.exports = nextConfig
+export default nextConfig;
