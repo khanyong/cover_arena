@@ -1,154 +1,202 @@
-import VideoCard from './VideoCard';
+import React, { useRef, useState, useEffect } from 'react';
+
+// 반응형 Arena 크기
+const arenaH = 400; // 기본 높이(모바일)
+const arenaHmd = 700; // md 이상 높이
+const maxSize = 400; // 1위 크기
+const minSize = 120; // 최하위 크기
+const packingWidth = 1200 * 2.5; // 가로 packing은 고정(추후 개선 가능)
+const minimapW = 120; // 모바일에서 더 작게
+const minimapH = 72;
 
 export default function VideoGrid({ videos, setVideos, user, setSelectedVideo }) {
-  // Arena 크기
-  const arenaW = 1200;
-  const arenaH = 1400;
-  const cx = arenaW / 2;
-  const cy = arenaH / 2;
-  const rOuter = Math.min(cx, cy) - 80; // 바깥쪽 반지름
-  const rInner = 120; // 중앙(1~3위) 반지름
+  const arenaRef = useRef(null);
+  // 드래그/터치 스크롤 상태
+  const isDragging = useRef(false);
+  const lastPos = useRef({ x: 0, y: 0 });
+  const isTouching = useRef(false);
+  const dragThreshold = 8; // px
+  const dragStart = useRef({ x: 0, y: 0 });
+  const dragVideoId = useRef(null);
 
-  // 좋아요 기반 정렬
+  // 1. 랭킹/크기 계산
   const sorted = [...videos]
     .map((v, i) => ({ ...v, originalIndex: i }))
-    .sort((a, b) => (b.arenaLikes || 0) - (a.arenaLikes || 0));
-
-  // spiralRectPositions: 직사각형 나선형(spiral) 좌표 생성 함수
-  function spiralRectPositions(arenaW, arenaH, sizes) {
-    // 중앙 빈 공간 영역
-    const centerW = 300;
-    const centerH = 200;
-    const centerX = (arenaW - centerW) / 2;
-    const centerY = (arenaH - centerH) / 2;
-    const spiralMargin = 160; // 상하좌우 여백
-    const n = sizes.length;
-    const positions = Array(n);
-    let left = spiralMargin, right = arenaW - spiralMargin, top = spiralMargin, bottom = arenaH - spiralMargin;
-    let dir = 0; // 0: left, 1: up, 2: right, 3: down
-    let x = right, y = bottom;
-    let step = 0;
-    for (let i = n - 1; i >= 0; i--) { // 큰 것부터 중앙에 배치
-      const { width, height } = sizes[i];
-      let tryCount = 0;
-      while (true) {
-        // 방향에 따라 위치 계산
-        if (dir === 0) { // ← 왼쪽
-          x = right - width;
-          y = bottom - height;
-          right -= width * 0.05;
-        } else if (dir === 1) { // ↑ 위
-          x = left;
-          y = bottom - height;
-          bottom -= height * 0.05;
-        } else if (dir === 2) { // → 오른쪽
-          x = left;
-          y = top;
-          left += width * 0.05;
-        } else if (dir === 3) { // ↓ 아래
-          x = right - width;
-          y = top;
-          top += height * 0.05;
-        }
-        // 중앙 빈 공간과 겹치면 spiral 한 칸 더 진행
-        const overlap = !(x + width < centerX || x > centerX + centerW || y + height < centerY || y > centerY + centerH);
-        if (!overlap || tryCount > 10) break;
-        dir = (dir + 1) % 4;
-        tryCount++;
-      }
-      positions[i] = { x, y };
-      dir = (dir + 1) % 4;
-      step++;
-    }
-    return positions;
-  }
-
-  // VS 중앙 빈 공간 영역
-  const centerW = 300;
-  const centerH = 200;
-  const centerX = (arenaW - centerW) / 2;
-  const centerY = (arenaH - centerH) / 2;
-
-  // site_score 기준 내림차순 정렬 (큰 수가 중앙)
-  const sortedByScore = [...videos]
-    .map((v, i) => ({ ...v, originalIndex: i }))
     .sort((a, b) => (b.site_score || 0) - (a.site_score || 0));
-
-  // 1,2,3위는 VS 주변에 고정 배치
-  const top3Angles = [Math.PI / 2, Math.PI, 3 * Math.PI / 2]; // 위, 왼, 아래 (시계방향)
-  const top3Positions = top3Angles.map((angle, idx) => {
-    // VS 영역의 중심을 기준으로, VS 영역 바깥쪽에 위치
-    const r = Math.max(centerW, centerH) / 2 + 80; // VS 영역 반지름 + 여유
-    const cx = centerX + centerW / 2;
-    const cy = centerY + centerH / 2;
-    const x = cx + r * Math.cos(angle) - 80; // 80은 대략 썸네일 절반 폭
-    const y = cy + r * Math.sin(angle) - 45; // 45는 대략 썸네일 절반 높이
-    return { x, y };
+  const videoWithRankAndSize = sorted.map((v, idx) => {
+    const rank = idx + 1;
+    const ratio = (sorted.length === 1) ? 1 : 1 - (rank - 1) / (sorted.length - 1);
+    const size = minSize + (maxSize - minSize) * ratio;
+    return { ...v, rank, size };
   });
 
-  // 동적 크기 계산 (site_score 기반)
-  const minSize = 160;
-  const maxSize = 400;
-  const siteScores = sortedByScore.map(v => v.site_score || 0);
-  const maxScore = Math.max(...siteScores, 1);
-  const minScore = Math.min(...siteScores, 0);
-  const sizes = sortedByScore.map(v => {
-    // site_score가 0~maxScore 사이에서 선형 보간
-    const score = v.site_score || 0;
-    const ratio = maxScore === minScore ? 0 : (score - minScore) / (maxScore - minScore);
-    const width = minSize + (maxSize - minSize) * ratio;
-    return { width, height: width * 9 / 16 };
+  // 2. Packing: 좌상단부터 한 줄씩 채우기 (packingWidth 기준)
+  let x = 0, y = 0, rowMaxH = 0;
+  const positions = [];
+  videoWithRankAndSize.forEach((v, i) => {
+    if (x + v.size > packingWidth) {
+      x = 0;
+      y += rowMaxH;
+      rowMaxH = 0;
+    }
+    positions.push({ ...v, x, y });
+    x += v.size;
+    if (v.size > rowMaxH) rowMaxH = v.size;
   });
-  // spiral 경로 좌표 생성 (site_score 큰 것부터, 1~3위 제외)
-  const spiralPositions = spiralRectPositions(
-    arenaW,
-    arenaH,
-    sizes.slice(3)
-  );
-  // 각 영상의 실제 위치를 spiralPositions/top3Positions에서 찾아 매칭
-  const positionsForVideo = Array(videos.length);
-  // 1,2,3위는 VS 주변에 고정
-  for (let i = 0; i < 3 && i < sortedByScore.length; i++) {
-    positionsForVideo[sortedByScore[i].originalIndex] = top3Positions[i];
-  }
-  // 나머지는 spiral
-  sortedByScore.slice(3).forEach((v, i) => {
-    positionsForVideo[v.originalIndex] = spiralPositions[i] || { x: 0, y: 0 };
-  });
+  const totalPackingHeight = y + rowMaxH;
+
+  // 드래그 스크롤 이벤트 (수정)
+  const onMouseDown = (e, videoId) => {
+    if (e.button !== 0) return; // 좌클릭만 허용
+    isDragging.current = false;
+    dragStart.current = { x: e.clientX, y: e.clientY };
+    dragVideoId.current = videoId;
+    lastPos.current = { x: e.clientX, y: e.clientY };
+    document.addEventListener('mousemove', onMouseMoveDoc);
+    document.addEventListener('mouseup', onMouseUpDoc);
+  };
+  const onMouseMoveDoc = (e) => {
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    if (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold) {
+      isDragging.current = true;
+    }
+    if (isDragging.current) {
+      if (arenaRef.current) {
+        arenaRef.current.scrollLeft -= e.movementX;
+        arenaRef.current.scrollTop -= e.movementY;
+      }
+    }
+    lastPos.current = { x: e.clientX, y: e.clientY };
+  };
+  const onMouseUpDoc = (e) => {
+    const dx = e.clientX - dragStart.current.x;
+    const dy = e.clientY - dragStart.current.y;
+    if (!isDragging.current && Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) {
+      // 클릭으로 간주 → 영상 재생
+      const video = positions.find(v => v.id === dragVideoId.current);
+      if (video) setSelectedVideo(video);
+    }
+    isDragging.current = false;
+    dragVideoId.current = null;
+    document.removeEventListener('mousemove', onMouseMoveDoc);
+    document.removeEventListener('mouseup', onMouseUpDoc);
+  };
+
+  // 터치 스크롤 이벤트 (수정)
+  const onTouchStart = (e, videoId) => {
+    isTouching.current = false;
+    dragStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    dragVideoId.current = videoId;
+    lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchMove = (e) => {
+    const dx = e.touches[0].clientX - dragStart.current.x;
+    const dy = e.touches[0].clientY - dragStart.current.y;
+    if (Math.abs(dx) > dragThreshold || Math.abs(dy) > dragThreshold) {
+      isTouching.current = true;
+    }
+    if (isTouching.current) {
+      if (arenaRef.current) {
+        arenaRef.current.scrollLeft -= e.touches[0].clientX - lastPos.current.x;
+        arenaRef.current.scrollTop -= e.touches[0].clientY - lastPos.current.y;
+      }
+    }
+    lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  };
+  const onTouchEnd = (e, video) => {
+    const dx = lastPos.current.x - dragStart.current.x;
+    const dy = lastPos.current.y - dragStart.current.y;
+    if (!isTouching.current && Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) {
+      setSelectedVideo(video);
+    }
+    isTouching.current = false;
+    dragVideoId.current = null;
+  };
+
+  // 미니맵 스크롤 상태
+  const [scroll, setScroll] = useState({ left: 0, top: 0 });
+  useEffect(() => {
+    const handler = () => {
+      if (!arenaRef.current) return;
+      setScroll({
+        left: arenaRef.current.scrollLeft,
+        top: arenaRef.current.scrollTop,
+      });
+    };
+    if (arenaRef.current) {
+      arenaRef.current.addEventListener('scroll', handler);
+    }
+    return () => {
+      if (arenaRef.current) {
+        arenaRef.current.removeEventListener('scroll', handler);
+      }
+    };
+  }, [videos.length]);
+
+  // 미니맵 클릭 이동
+  const handleMinimapClick = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    if (arenaRef.current) {
+      arenaRef.current.scrollLeft = (x / minimapW) * (packingWidth - arenaRef.current.offsetWidth);
+      arenaRef.current.scrollTop = (y / minimapH) * (totalPackingHeight - arenaRef.current.offsetHeight);
+    }
+  };
+
+  // 미니맵 스케일
+  const scaleX = minimapW / packingWidth;
+  const scaleY = minimapH / totalPackingHeight;
 
   return (
-    <div
-      className="arena-container"
-      style={{
-        position: 'relative',
-        width: arenaW,
-        height: 1400,
-        margin: '40px auto 40px auto',
-        overflow: 'hidden',
-      }}
-    >
-      {/* 중앙 VS 텍스트 (항상 영상 위에 보이도록 zIndex를 크게) */}
+    <div className="mx-auto px-2 sm:px-4" style={{ position: 'relative', maxWidth: 1200, margin: '24px auto' }}>
+      {/* 안내 문구 */}
+      <div style={{
+        position: 'absolute',
+        top: 8,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 3000,
+        background: 'rgba(0,0,0,0.7)',
+        color: '#fff',
+        padding: '4px 12px',
+        borderRadius: 12,
+        fontSize: 14,
+        fontWeight: 'bold',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+      }}>
+        드래그와 미니맵을 이용해서 영상을 이동할 수 있습니다.
+      </div>
+      {/* VS 글자: Arena 바깥, wrapper에 고정 */}
       <div
         style={{
           position: 'absolute',
-          left: `${centerX}px`,
-          top: `${centerY}px`,
-          width: centerW,
-          height: centerH,
+          left: '50%',
+          top: '50%',
+          width: '40vw',
+          maxWidth: 300,
+          minWidth: 120,
+          height: '20vw',
+          maxHeight: 200,
+          minHeight: 60,
+          transform: 'translate(-50%, -50%)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           pointerEvents: 'none',
-          zIndex: 9999,
+          zIndex: 2000,
         }}
       >
         <span
           style={{
-            fontSize: 120,
+            fontSize: '8vw',
+            maxFontSize: 120,
+            minFontSize: 32,
             fontWeight: 'bold',
             color: 'rgba(255,255,255,0.28)',
             textShadow: '0 4px 32px rgba(0,0,0,0.85), 0 0 0 #fff, 2px 2px 8px #000',
-            letterSpacing: 16,
+            letterSpacing: 8,
             userSelect: 'none',
             WebkitTextStroke: '2px #222',
           }}
@@ -156,47 +204,126 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
           VS
         </span>
       </div>
-      {videos.map((video, i) => {
-        const size = sizes[sortedByScore.findIndex(v => v.originalIndex === i)];
-        const pos = positionsForVideo[i] || { x: 0, y: 0 };
-        // zIndex: 1~3위가 가장 높게, 나머지는 낮게
-        const z = sorted.findIndex(v => v.originalIndex === i);
-        const opacity = z <= 2 ? 1 : 0.85;
-        return (
+      {/* Arena(스크롤 영역) */}
+      <div
+        ref={arenaRef}
+        style={{
+          width: '100%',
+          height: `min(${arenaHmd}px, 60vw)`,
+          minHeight: 240,
+          maxHeight: arenaHmd,
+          overflow: 'auto',
+          background: '#fff',
+          borderRadius: 24,
+          position: 'relative',
+          cursor: isDragging.current || isTouching.current ? 'grabbing' : 'grab',
+          scrollbarWidth: 'none',
+          margin: '0 auto',
+        }}
+        className="hide-scrollbar"
+      >
+        {/* 영상들: packing absolute 배치 + 랭킹 뱃지 */}
+        {positions.map(v => (
           <div
-            key={video.id}
+            key={v.id}
             style={{
               position: 'absolute',
-              left: pos.x,
-              top: pos.y,
-              width: size.width,
-              height: size.height,
-              zIndex: 100 + (2 - z),
-              opacity,
-              boxShadow: '0 2px 16px rgba(0,0,0,0.4)',
-              borderRadius: 12,
+              left: v.x,
+              top: v.y,
+              width: v.size,
+              height: v.size,
+              borderRadius: 10,
               overflow: 'hidden',
+              background: '#222',
               cursor: 'pointer',
-              transition: 'all 0.7s cubic-bezier(0.4,0,0.6,1)',
-              display: 'flex',
-              flexDirection: 'column',
             }}
-            onClick={() => setSelectedVideo(video)}
+            onMouseDown={e => onMouseDown(e, v.id)}
+            onDragStart={e => e.preventDefault()}
+            onTouchStart={e => onTouchStart(e, v.id)}
+            onTouchMove={onTouchMove}
+            onTouchEnd={e => onTouchEnd(e, v)}
           >
-            <img
-              src={video.thumbnail}
-              alt={video.title}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', flex: 1 }}
-            />
-            <div style={{ padding: 4, background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: 10 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>🏆 {video.arenaLikes || 0}</span>
-                <span>❤️ {video.likes}</span>
+            {/* 랭킹 숫자 뱃지 */}
+            <div style={{
+              position: 'absolute',
+              top: 4,
+              left: 4,
+              zIndex: 10,
+              background: 'rgba(0,0,0,0.7)',
+              color: '#fff',
+              borderRadius: '50%',
+              width: 24,
+              height: 24,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontWeight: 'bold',
+              fontSize: 13,
+              border: '1.5px solid #fff'
+            }}>
+              {v.rank}
+            </div>
+            <img src={v.thumbnail} alt={v.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} draggable={false} />
+            <div style={{ padding: 2, background: 'rgba(0,0,0,0.7)', color: '#fff', fontSize: 9 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11 }}>
+                <span>🏆 {v.arena_likes || 0}</span>
+                <span>👤 {v.guest_likes || 0}</span>
               </div>
             </div>
           </div>
-        );
-      })}
+        ))}
+        {/* Arena 스크롤바 숨김 (Webkit, Firefox) */}
+        <style jsx global>{`
+          .hide-scrollbar {
+            scrollbar-width: none !important;
+          }
+          .hide-scrollbar::-webkit-scrollbar {
+            display: none !important;
+          }
+        `}</style>
+      </div>
+      {/* 미니맵: Arena wrapper의 오른쪽 아래에 고정 */}
+      <div
+        style={{
+          position: 'absolute',
+          right: 16,
+          bottom: 16,
+          width: minimapW,
+          height: minimapH,
+          background: 'rgba(0,0,0,0.5)',
+          borderRadius: 8,
+          zIndex: 9999,
+          overflow: 'hidden',
+          cursor: 'pointer',
+        }}
+        onClick={handleMinimapClick}
+      >
+        {/* 전체 packing grid 축소판 */}
+        {positions.map(v => (
+          <div key={v.id}
+            style={{
+              position: 'absolute',
+              left: v.x * scaleX,
+              top: v.y * scaleY,
+              width: v.size * scaleX,
+              height: v.size * scaleY,
+              background: 'rgba(255,255,255,0.3)',
+              borderRadius: 2,
+            }}
+          />
+        ))}
+        {/* 현재 뷰포트 표시 */}
+        <div style={{
+          position: 'absolute',
+          left: scroll.left * scaleX,
+          top: scroll.top * scaleY,
+          width: (arenaRef.current?.offsetWidth || 0) * scaleX,
+          height: (arenaRef.current?.offsetHeight || 0) * scaleY,
+          border: '2px solid #ff0',
+          boxSizing: 'border-box',
+          pointerEvents: 'none'
+        }} />
+      </div>
     </div>
   );
 } 

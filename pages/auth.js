@@ -40,10 +40,21 @@ export default function Auth() {
         }
       } else {
         // 회원 가입
-        const { error } = await auth.signUp(email, password, username)
+        const { data, error } = await auth.signUp(email, password, username)
         if (error) {
           setMessage(error.message)
         } else {
+          // 회원가입 성공 시 profiles 테이블에 row 생성/업데이트
+          const user = data.user;
+          if (user) {
+            await auth.supabase
+              .from('profiles')
+              .upsert({
+                id: user.id,         // PK
+                username: username,
+                email: email
+              });
+          }
           setMessage('회원 가입이 완료되었습니다! 이메일을 확인해주세요.')
           setIsLogin(true)
         }
