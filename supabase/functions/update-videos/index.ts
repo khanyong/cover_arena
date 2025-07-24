@@ -13,6 +13,7 @@ const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 // 유튜브에서 topic으로 영상 검색
 async function searchVideosByTopic(topic, maxResults = 300) {
   try {
+    console.log(`[Edge] searchVideosByTopic: topic=${topic}`);
     // 1. 검색 API 호출
     const searchRes = await fetch(
       `${YOUTUBE_API_BASE_URL}/search?` +
@@ -57,9 +58,10 @@ async function searchVideosByTopic(topic, maxResults = 300) {
       publishedAt: item.snippet.publishedAt,
       description: item.snippet.description
     }));
+    console.log(`[Edge] searchVideosByTopic: found ${videos.length} videos`);
     return videos;
   } catch (error) {
-    console.error('YouTube API 오류:', error);
+    console.error('[Edge] YouTube API 오류:', error);
     return [];
   }
 }
@@ -73,25 +75,29 @@ function calcSiteScore(video, guest_likes) {
 }
 
 Deno.serve(async (req) => {
-  // 1. coversong_competitions에서 topic, guest_likes 조회
+  console.log('[Edge] update-videos 함수 진입');
+  // 1. competitions 쿼리
   const { data: competitions, error: compError } = await supabase
     .from('coversong_competitions')
-    .select('id, topic, guest_likes')
+    .select('id, topic')
     .eq('status', 'active');
-  if (compError) return new Response(JSON.stringify({ error: compError.message }), { status: 500 });
+  if (compError) {
+    console.error('[Edge] competitions 조회 에러:', compError.message);
+    return new Response(JSON.stringify({ error: compError.message }), { status: 500 });
+  }
+  console.log(`[Edge] competitions 개수: ${competitions.length}`);
 
   for (const comp of competitions) {
     const topic = comp.topic;
-    const guest_likes = comp.guest_likes || 0;
+    console.log(`[Edge] topic: ${topic}`);
 
     // 2. YouTube API로 영상 긁기
     const videos = await searchVideosByTopic(topic, 300);
 
     // 3. coversong_video_rankings에서 arena_likes 조회 및 매핑
-    const { data: rankings, error: rankError } = await supabase
+    const { data: rankings } = await supabase
       .from('coversong_video_rankings')
       .select('video_id, arena_likes');
-    if (rankError) continue;
     const arenaLikesMap = {};
     rankings.forEach(r => { arenaLikesMap[r.video_id] = r.arena_likes; });
 
@@ -100,12 +106,12 @@ Deno.serve(async (req) => {
       const candidate_score = calcCandidateScore(v);
       const site_score = calcSiteScore(
         { ...v, arena_likes: arenaLikesMap[v.id] || 0 },
-        guest_likes
+        v.guest_likes || 0
       );
       return {
         ...v,
         arena_likes: arenaLikesMap[v.id] || 0,
-        guest_likes,
+        guest_likes: v.guest_likes || 0,
         candidate_score,
         site_score,
         topic,
@@ -126,14 +132,20 @@ Deno.serve(async (req) => {
     top100.forEach((v, i) => v.rank = i + 1);
 
     // 8. DB 저장 (upsert)
-    const { error: upsertError } = await supabase
-      .from('coversong_videos')
-      .upsert(top100, { onConflict: ['id'] });
-    if (upsertError) {
-      // 에러 로깅
-      console.error('DB 저장 실패:', upsertError.message);
+    try {
+      const { error: upsertError } = await supabase
+        .from('coversong_videos')
+        .upsert(top100, { onConflict: ['id'] });
+      if (upsertError) {
+        console.error('[Edge] DB 저장 실패:', upsertError.message);
+      } else {
+        console.log(`[Edge] DB 저장 성공: ${top100.length}개`);
+      }
+    } catch (e) {
+      console.error('[Edge] DB upsert 예외:', e);
     }
   }
 
+  console.log('[Edge] update-videos 함수 종료');
   return new Response(JSON.stringify({ success: true }), { status: 200 });
 });
