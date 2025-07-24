@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
-  // Authorization 로그 및 체크
   const authHeader = req.headers.authorization || req.headers.Authorization;
   console.log('Authorization header:', authHeader);
+  console.log('CRON_SECRET:', process.env.CRON_SECRET);
 
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ code: 401, message: "Missing authorization header" });
