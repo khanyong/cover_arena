@@ -14,7 +14,6 @@ const YOUTUBE_API_BASE_URL = 'https://www.googleapis.com/youtube/v3';
 async function searchVideosByTopic(topic, maxResults = 300) {
   try {
     console.log(`[Edge] searchVideosByTopic: topic=${topic}`);
-    // 1. 검색 API 호출
     const searchRes = await fetch(
       `${YOUTUBE_API_BASE_URL}/search?` +
       `part=snippet&` +
@@ -29,11 +28,9 @@ async function searchVideosByTopic(topic, maxResults = 300) {
     const searchData = await searchRes.json();
     if (!searchData.items) return [];
 
-    // 2. 영상 ID 목록 추출
     const videoIds = searchData.items.map(item => item.id.videoId).join(',');
     if (!videoIds) return [];
 
-    // 3. 상세 정보 API 호출
     const detailsRes = await fetch(
       `${YOUTUBE_API_BASE_URL}/videos?` +
       `part=statistics,snippet&` +
@@ -43,7 +40,6 @@ async function searchVideosByTopic(topic, maxResults = 300) {
     if (!detailsRes.ok) throw new Error('영상 상세 정보 요청 실패');
     const detailsData = await detailsRes.json();
 
-    // 4. 영상 데이터 변환
     const videos = detailsData.items.map(item => ({
       id: item.id,
       title: item.snippet.title,
@@ -66,7 +62,6 @@ async function searchVideosByTopic(topic, maxResults = 300) {
   }
 }
 
-// 후보 score 계산 함수
 function calcCandidateScore(video) {
   return (video.views || 0) + (video.likes || 0) * 100;
 }
@@ -76,6 +71,7 @@ function calcSiteScore(video, guest_likes) {
 
 Deno.serve(async (req) => {
   console.log('[Edge] update-videos 함수 진입');
+
   // 1. competitions 쿼리
   const { data: competitions, error: compError } = await supabase
     .from('coversong_competitions')
@@ -85,9 +81,17 @@ Deno.serve(async (req) => {
     console.error('[Edge] competitions 조회 에러:', compError.message);
     return new Response(JSON.stringify({ error: compError.message }), { status: 500 });
   }
+  if (!competitions || competitions.length === 0) {
+    console.error('[Edge] competitions 쿼리 결과가 null이거나 비어있음');
+    return new Response(JSON.stringify({ error: 'competitions 쿼리 결과가 null이거나 비어있음' }), { status: 500 });
+  }
   console.log(`[Edge] competitions 개수: ${competitions.length}`);
 
-  for (const comp of competitions) {
+  // 타임아웃 방지를 위해 topic 개수가 많으면 일부만 처리(운영시 삭제)
+  // const competitionsToProcess = competitions.slice(0, 2); // 예시: 2개만 처리
+  const competitionsToProcess = competitions;
+
+  for (const comp of competitionsToProcess) {
     const topic = comp.topic;
     console.log(`[Edge] topic: ${topic}`);
 
@@ -95,9 +99,17 @@ Deno.serve(async (req) => {
     const videos = await searchVideosByTopic(topic, 300);
 
     // 3. coversong_video_rankings에서 arena_likes 조회 및 매핑
-    const { data: rankings } = await supabase
+    const { data: rankings, error: rankingsError } = await supabase
       .from('coversong_video_rankings')
       .select('video_id, arena_likes');
+    if (rankingsError) {
+      console.error('[Edge] rankings 조회 에러:', rankingsError.message);
+      continue;
+    }
+    if (!rankings) {
+      console.error('[Edge] rankings 쿼리 결과가 null입니다.');
+      continue;
+    }
     const arenaLikesMap = {};
     rankings.forEach(r => { arenaLikesMap[r.video_id] = r.arena_likes; });
 
