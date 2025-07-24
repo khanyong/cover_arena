@@ -12,7 +12,14 @@ export default async function handler(req, res) {
       "https://iklsghevdtqqkjuaympc.supabase.co/functions/v1/update-videos",
       { method: "POST" }
     );
-    const data = await response.json();
+    const text = await response.text();
+    console.log('Supabase Edge Function raw response:', text);
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      data = { raw: text };
+    }
     res.status(response.ok ? 200 : 500).json(data);
   } catch (error) {
     console.error('API Route Error:', error);
