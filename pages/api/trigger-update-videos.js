@@ -1,33 +1,13 @@
-export default async function handler(req, res) {
-  const authHeader = req.headers.authorization || req.headers.Authorization;
-  console.log('Authorization header:', authHeader, 'length:', authHeader.length);
-  console.log('CRON_SECRET:', process.env.CRON_SECRET, 'length:', process.env.CRON_SECRET.length);
+const jwt = require('jsonwebtoken');
+const secret = 'YOUR_LEGACY_JWT_SECRET';
 
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-    return res.status(401).json({ code: 401, message: "Missing authorization header" });
-  }
+const token = jwt.sign(
+  {
+    role: 'service_role', // 또는 'authenticated'
+    // 필요하다면 sub, exp 등 추가
+  },
+  secret,
+  { algorithm: 'HS256', expiresIn: '1h' }
+);
 
-  try {
-    const response = await fetch(
-      "https://iklsghevdtqqkjuaympc.supabase.co/functions/v1/update-videos",
-      {
-        method: "POST",
-        headers: {
-          "Authorization": authHeader
-        }
-      }
-    );
-    const text = await response.text();
-    console.log('Supabase Edge Function raw response:', text);
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (e) {
-      data = { raw: text };
-    }
-    res.status(response.ok ? 200 : 500).json(data);
-  } catch (error) {
-    console.error('API Route Error:', error);
-    res.status(500).json({ code: 500, message: error.message || "Internal Server Error" });
-  }
-}
+console.log(token);
