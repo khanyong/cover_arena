@@ -1,7 +1,7 @@
 export default async function handler(req, res) {
   const authHeader = req.headers.authorization || req.headers.Authorization;
-  console.log('Authorization header:', authHeader);
-  console.log('CRON_SECRET:', process.env.CRON_SECRET);
+  console.log('Authorization header:', authHeader, 'length:', authHeader.length);
+  console.log('CRON_SECRET:', process.env.CRON_SECRET, 'length:', process.env.CRON_SECRET.length);
 
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return res.status(401).json({ code: 401, message: "Missing authorization header" });
@@ -10,7 +10,12 @@ export default async function handler(req, res) {
   try {
     const response = await fetch(
       "https://iklsghevdtqqkjuaympc.supabase.co/functions/v1/update-videos",
-      { method: "POST" }
+      {
+        method: "POST",
+        headers: {
+          "Authorization": authHeader
+        }
+      }
     );
     const text = await response.text();
     console.log('Supabase Edge Function raw response:', text);
