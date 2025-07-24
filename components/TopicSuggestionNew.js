@@ -115,36 +115,36 @@ export default function TopicSuggestionNew() {
         🗳️ 다음 Competition 주제 제안
       </h3>
       {/* 아래 전체 내용 항상 보이도록 */}
-
-          {/* 새 주제 제안 폼 */}
-          <form onSubmit={handleSubmit} className="mb-6">
-            <div className="flex space-x-4">
-              <input
-                type="text"
-                value={newTopic}
-                onChange={(e) => setNewTopic(e.target.value)}
-                placeholder="새로운 주제를 입력하세요 (예: Taylor Swift - Cruel Summer)"
-                disabled={!user || loading}
-                className="flex-1 px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
-              />
-              <button
-                type="submit"
-                disabled={!user || loading || !newTopic.trim()}
-                className={`px-6 py-2 rounded-lg transition-colors ${
-                  !user || loading || !newTopic.trim()
-                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                }`}
-              >
-                {loading ? '제안 중...' : '제안하기'}
-              </button>
-            </div>
-            {!user && (
-              <p className="text-sm text-gray-300 mt-2">
-                💡 주제 제안을 하려면 <a href="/auth" className="text-blue-400 hover:underline">로그인</a>이 필요합니다.
-              </p>
-            )}
-          </form>
+      
+      {/* 새 주제 제안 폼 */}
+      <form onSubmit={handleSubmit} className="mb-6">
+        <div className="flex space-x-4">
+          <input
+            type="text"
+            value={newTopic}
+            onChange={(e) => setNewTopic(e.target.value)}
+            placeholder="새로운 주제를 입력하세요 (예: Taylor Swift - Cruel Summer)"
+            disabled={!user || loading}
+            className="flex-1 px-4 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          />
+          <button
+            type="submit"
+            disabled={!user || loading || !newTopic.trim()}
+            className={`px-6 py-2 rounded-lg transition-colors ${
+              !user || loading || !newTopic.trim()
+                ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                : 'bg-blue-600 text-white hover:bg-blue-700'
+            }`}
+          >
+            {loading ? '제안 중...' : '제안하기'}
+          </button>
+        </div>
+        {!user && (
+          <p className="text-sm text-gray-300 mt-2">
+            💡 주제 제안을 하려면 <a href="/auth" className="text-blue-400 hover:underline">로그인</a>이 필요합니다.
+          </p>
+        )}
+      </form>
 
           {/* 상위 3개 인기 주제 강조 */}
           {/* (상위 3개 인기 주제 강조 박스 완전 삭제) */}
@@ -171,53 +171,53 @@ export default function TopicSuggestionNew() {
           </div>
 
           {/* 주제 목록: 인기 순위 + 투표 버튼이 한 박스에서 함께 보이도록, votes_count 내림차순 정렬 */}
-          <div className="space-y-3">
-            <h4 className="text-white font-semibold mb-3">인기 주제 순위</h4>
-            {suggestedTopics.length === 0 ? (
-              <div className="text-center text-gray-300 py-8">
-                아직 제안된 주제가 없습니다.
-              </div>
-            ) : (
+      <div className="space-y-3">
+        <h4 className="text-white font-semibold mb-3">인기 주제 순위</h4>
+        {suggestedTopics.length === 0 ? (
+          <div className="text-center text-gray-300 py-8">
+            아직 제안된 주제가 없습니다.
+          </div>
+        ) : (
               suggestedTopics
                 .slice() // 복사본 생성
                 .sort((a, b) => (b.votes_count || 0) - (a.votes_count || 0))
                 .slice(0, 3)
                 .map((topic, index) => (
-                  <div 
-                    key={topic.id}
-                    className="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition-colors"
-                  >
-                    <div className="flex items-center space-x-3">
-                      <span className="text-lg font-bold text-yellow-400 w-6">
-                        {index + 1}
-                      </span>
-                      <div>
+            <div 
+              key={topic.id}
+              className="flex items-center justify-between p-3 bg-white bg-opacity-10 rounded-lg hover:bg-opacity-20 transition-colors"
+            >
+              <div className="flex items-center space-x-3">
+                <span className="text-lg font-bold text-yellow-400 w-6">
+                  {index + 1}
+                </span>
+                <div>
                         <span className="text-white">{topic.title || topic.topic}</span>
-                        {topic.description && (
-                          <p className="text-sm text-gray-300">{topic.description}</p>
-                        )}
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3">
-                      <span className="text-gray-300 text-sm">
-                        {topic.votes_count}표
-                      </span>
-                      <button
-                        onClick={() => handleVote(topic.id)}
-                        disabled={!user}
-                        className={`px-3 py-1 text-sm rounded-full transition-colors ${
-                          user
-                            ? 'bg-green-600 text-white hover:bg-green-700'
-                            : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                        }`}
-                      >
-                        {user ? '투표' : '🔒 투표'}
-                      </button>
-                    </div>
-                  </div>
-                ))
-            )}
-          </div>
+                  {topic.description && (
+                    <p className="text-sm text-gray-300">{topic.description}</p>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center space-x-3">
+                <span className="text-gray-300 text-sm">
+                  {topic.votes_count}표
+                </span>
+                <button
+                  onClick={() => handleVote(topic.id)}
+                  disabled={!user}
+                  className={`px-3 py-1 text-sm rounded-full transition-colors ${
+                    user
+                      ? 'bg-green-600 text-white hover:bg-green-700'
+                      : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  {user ? '투표' : '🔒 투표'}
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
 
       {/* 안내 메시지 */}
       <div className="mt-4 text-sm text-gray-300">

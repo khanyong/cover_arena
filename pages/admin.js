@@ -224,14 +224,14 @@ export default function Admin() {
         let videos = await searchVideosByTopic(topic, 200);
         videos = videos.slice(0, 100);
         const videoRows = videos.map(v => ({
-          id: v.id,
-          title: v.title,
-          channel: v.channel,
-          thumbnail: v.thumbnail,
-          youtube_id: v.youtubeId,
-          views: v.views,
-          likes: v.likes,
-          arena_likes: 0,
+            id: v.id,
+            title: v.title,
+            channel: v.channel,
+            thumbnail: v.thumbnail,
+            youtube_id: v.youtubeId,
+            views: v.views,
+            likes: v.likes,
+            arena_likes: 0,
           topic,
           competition_id: competitionId
         }));
@@ -240,7 +240,7 @@ export default function Admin() {
           .upsert(videoRows, { onConflict: ['id'] });
         if (videoError) {
           alert(`'${topic}' 영상 저장 실패: ` + videoError.message); return;
-        }
+      }
         totalVideos += videoRows.length;
       }
       alert(`스크랩 완료!\n총 ${selectedTopics.length}개 주제, ${totalVideos}개 영상이 저장되었습니다.`);
@@ -385,7 +385,7 @@ export default function Admin() {
                     </span>
                   </label>
                 ))}
-              </div>
+                </div>
               <div className="flex space-x-2">
                 <button
                   onClick={handleExecuteTopics}

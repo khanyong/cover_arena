@@ -86,7 +86,7 @@ iframe {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
-}
+} 
 
 /* Arena 고정 크기 */
 .arena-container {

@@ -162,7 +162,7 @@ export default function Home() {
     const now = new Date();
     const endTime = new Date(votingPeriod.endTime);
     const remaining = endTime - now;
-
+    
     if (remaining <= 0) return '종료됨';
 
     const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
@@ -281,7 +281,7 @@ useEffect(() => {
             <div className="flex items-center space-x-2">
               <span className={`text-lg ${mounted && isVotingActive() ? 'text-green-400' : 'text-red-400'}`}>●</span>
               <span className={`font-bold ${mounted && isVotingActive() ? 'text-green-300' : 'text-red-300'}`}>{mounted ? (isVotingActive() ? '투표 진행중' : '투표 종료') : '로딩 중...'}</span>
-            </div>
+                </div>
             <div className="font-bold text-xl text-white">{getRemainingTime()}</div>
             <div className="text-xs text-gray-300">
               기간: {formatDateTime(votingPeriod.startTime)} ~ {formatDateTime(votingPeriod.endTime)}
@@ -319,9 +319,9 @@ useEffect(() => {
         <div className="arena-container mb-16">
           {videos.length === 0 ? (
             <div className="flex justify-center items-center h-full">
-              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
-            </div>
-          ) : (
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
+          </div>
+        ) : (
             <VideoGrid videos={videos} setVideos={setVideos} user={user} setSelectedVideo={setSelectedVideo} />
           )}
         </div>
@@ -377,15 +377,15 @@ useEffect(() => {
         {selectedVideo && (
           <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg p-4 max-w-2xl w-full">
-              <iframe
+                <iframe
                 className="popup-iframe"
-                width="100%"
+                  width="100%"
                 height="400"
                 src={`https://www.youtube.com/embed/${selectedVideo.youtubeId || selectedVideo.youtube_id}?autoplay=1&rel=0`}
-                title={selectedVideo.title}
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
+                  title={selectedVideo.title}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
               />
               {/* Arena 좋아요 버튼 */}
               <div className="flex justify-between items-center mt-4">

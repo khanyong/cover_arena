@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { auth } from '../lib/supabase'
+import { auth, supabase } from '../lib/supabase'
 import { useRouter } from 'next/router'
 
 export default function Auth() {
@@ -12,6 +12,12 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.mode === 'signup') {
+      setIsLogin(false);
+    }
+  }, [router.query.mode]);
 
   useEffect(() => {
     // 이미 로그인된 사용자는 메인 페이지로 리다이렉트
@@ -35,25 +41,33 @@ export default function Auth() {
         const { error } = await auth.signIn(email, password)
         if (error) {
           setMessage(error.message)
+          console.error('로그인 에러:', error)
         } else {
           router.push('/')
         }
       } else {
         // 회원 가입
         const { data, error } = await auth.signUp(email, password, username)
+        console.log('회원가입 응답:', { data, error });
         if (error) {
           setMessage(error.message)
+          console.error('회원가입 에러:', error)
         } else {
           // 회원가입 성공 시 profiles 테이블에 row 생성/업데이트
           const user = data.user;
           if (user) {
-            await auth.supabase
-              .from('profiles')
-              .upsert({
-                id: user.id,         // PK
-                username: username,
-                email: email
-              });
+            try {
+              await supabase
+                .from('profiles')
+                .upsert({
+                  id: user.id,         // PK
+                  username: username,
+                  email: email,
+                  site_id: "cover_arena"
+                });
+            } catch (upsertError) {
+              console.error('profiles upsert 에러:', upsertError);
+            }
           }
           setMessage('회원 가입이 완료되었습니다! 이메일을 확인해주세요.')
           setIsLogin(true)
@@ -61,6 +75,7 @@ export default function Auth() {
       }
     } catch (error) {
       setMessage('오류가 발생했습니다.')
+      console.error('회원가입 처리 중 예외:', error);
     } finally {
       setLoading(false)
     }

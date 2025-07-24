@@ -102,12 +102,20 @@ export default function Header({ currentTopic }) {
                 </button>
               </>
             ) : (
-              <a 
-                href="/auth"
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                로그인
-              </a>
+              <div className="flex space-x-2">
+                <a 
+                  href="/auth"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  로그인
+                </a>
+                <a 
+                  href="/auth?mode=signup"
+                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                >
+                  회원가입
+                </a>
+              </div>
             )}
           </div>
         </div>

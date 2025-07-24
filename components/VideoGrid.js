@@ -167,7 +167,7 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
         boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
       }}>
         드래그와 미니맵을 이용해서 영상을 이동할 수 있습니다.
-      </div>
+        </div>
       {/* VS 글자: Arena 바깥, wrapper에 고정 */}
       <div
         style={{
