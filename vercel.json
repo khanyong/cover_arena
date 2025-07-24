@@ -1,0 +1,8 @@
+{
+  "cron": [
+    {
+      "path": "/api/trigger-update-videos",
+      "schedule": "0 0 * * *"
+    }
+  ]
+}
