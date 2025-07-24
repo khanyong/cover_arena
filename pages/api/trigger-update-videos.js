@@ -11,3 +11,10 @@ const token = jwt.sign(
 );
 
 console.log(token);
+
+export default async function handler(req, res) {
+  if (req.method !== "POST") {
+    return res.status(405).json({ message: "Method Not Allowed" });
+  }
+  // ...이하 생략...
+}
