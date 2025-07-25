@@ -63,7 +63,7 @@ export default function Header({ currentTopic }) {
   }
 
   return (
-    <header className="bg-black bg-opacity-50 backdrop-blur-sm border-b border-white border-opacity-20">
+    <header className="bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 backdrop-blur-md border-b border-neutral-700 shadow-lg">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* 로고 */}
@@ -86,7 +86,7 @@ export default function Header({ currentTopic }) {
             {isAdmin && (
               <a 
                 href="/admin"
-                className="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors"
+                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
               >
                 👨‍💼 Admin
               </a>
@@ -96,7 +96,7 @@ export default function Header({ currentTopic }) {
                 <span className="text-white">안녕하세요, {user.user_metadata?.username || user.email}!</span>
                 <button 
                   onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                  className="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 text-white rounded-lg hover:from-rose-700 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
                   로그아웃
                 </button>

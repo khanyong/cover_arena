@@ -4,7 +4,13 @@ import CompetitionArena from '../components/CompetitionArena'
 import Header from '../components/Header'
 import TopicSuggestionNew from '../components/TopicSuggestionNew'
 import VideoGrid from '../components/VideoGrid'
+import VideoTable from '../components/VideoTable'
+import Top3Videos from '../components/Top3Videos'
+import VideoFilters from '../components/VideoFilters'
+import VideoDetailModal from '../components/VideoDetailModal'
+import RankChangeSummary from '../components/RankChangeSummary'
 import { auth, supabase } from '../lib/supabase'
+import { saveCurrentRanks, saveRankHistory } from '../lib/rankTracker'
 
 // 코드 상단에 운영자가 직접 입력
 // MAIN_TITLE 상수 선언 및 사용 완전 제거
@@ -27,6 +33,8 @@ export default function Home() {
   const [popularTopics, setPopularTopics] = useState([]);
   const [mounted, setMounted] = useState(false);
   const [mainTitle, setMainTitle] = useState(''); // 반드시 위에!
+  const [viewMode, setViewMode] = useState('table'); // 'table' 또는 'grid'
+  const [activeFilter, setActiveFilter] = useState('all'); // 필터 상태 추가
 
   // 2. 함수, useEffect 등 mainTitle 사용 코드
   // 아래 함수 전체를 삭제
@@ -115,8 +123,16 @@ export default function Home() {
         .eq('competition_id', latestCompetition.id);
 
       console.log('videos:', videos, vidError);
-      setVideos(Array.isArray(videos) ? videos : []);
-      console.log('isLoading:', false, 'videos:', Array.isArray(videos) ? videos.length : 0);
+      const videoArray = Array.isArray(videos) ? videos : [];
+      setVideos(videoArray);
+      
+      // 순위 데이터 저장 (클라이언트 사이드에서만)
+      if (videoArray.length > 0 && typeof window !== 'undefined') {
+        saveCurrentRanks(videoArray);
+        saveRankHistory(videoArray);
+      }
+      
+      console.log('isLoading:', false, 'videos:', videoArray.length);
     }
     fetchLatestCompetitionAndVideos();
   }, []);
@@ -133,6 +149,45 @@ export default function Home() {
 
   // 팝업 닫기
   const handleClosePopup = () => setSelectedVideo(null)
+  
+  // 필터링 로직
+  const getFilteredVideos = () => {
+    if (!videos || videos.length === 0) return [];
+    
+    switch (activeFilter) {
+      case 'trending':
+        // 최근 업로드된 영상 중 조회수가 높은 것들
+        return videos
+          .filter(video => video.views > 10000)
+          .sort((a, b) => b.views - a.views)
+          .slice(0, Math.floor(videos.length * 0.3));
+      
+      case 'recent':
+        // 최근 업로드된 영상들 (created_at 기준)
+        return videos
+          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+          .slice(0, Math.floor(videos.length * 0.2));
+      
+      case 'high-score':
+        // 본선 점수가 높은 영상들
+        return videos
+          .filter(video => video.site_score > 100000)
+          .sort((a, b) => b.site_score - a.site_score)
+          .slice(0, Math.floor(videos.length * 0.25));
+      
+      case 'arena-likes':
+        // 회원 좋아요가 있는 영상들
+        return videos
+          .filter(video => video.arena_likes > 0)
+          .sort((a, b) => b.arena_likes - a.arena_likes)
+          .slice(0, Math.floor(videos.length * 0.15));
+      
+      default:
+        return videos;
+    }
+  };
+  
+  const filteredVideos = getFilteredVideos();
   
   // 투표 가능 여부 체크
   const isVotingActive = () => {
@@ -290,19 +345,19 @@ useEffect(() => {
           {/* 통계 카드 3분할 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* 영상 수 */}
-            <div className="bg-black bg-opacity-10 rounded-lg py-4 flex flex-col items-center justify-center shadow">
+            <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-blue-700/30 shadow-lg">
               <div className="text-3xl font-bold text-white mb-1">🎬 {videos.length}</div>
-              <div className="text-gray-300 text-sm">총 영상 수</div>
+              <div className="text-gray-300 text-sm">총 영상 수<br/><span className="text-xs">(135개 중 100개만 표시)</span></div>
             </div>
             {/* Arena 좋아요 */}
-            <div className="bg-black bg-opacity-10 rounded-lg py-4 flex flex-col items-center justify-center shadow">
+            <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-purple-700/30 shadow-lg">
               <div className="text-3xl font-bold text-white mb-1">
                 🏆 {totalArenaLikes.toLocaleString()} <span className="ml-2">👤 {totalGuestLikes.toLocaleString()}</span>
               </div>
               <div className="text-gray-300 text-sm">총 Arena 좋아요<br/><span className="text-xs">(회원/비회원)</span></div>
             </div>
             {/* 유튜브 좋아요/조회수 */}
-            <div className="bg-black bg-opacity-10 rounded-lg py-4 flex flex-col items-center justify-center shadow">
+            <div className="bg-gradient-to-br from-emerald-900/30 to-teal-900/30 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-emerald-700/30 shadow-lg">
               <div className="text-2xl font-bold text-white mb-1">
                 👍 {videos.reduce((sum, video) => sum + video.likes, 0).toLocaleString()}
               </div>
@@ -315,16 +370,69 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Arena를 타이틀/상태 바로 아래에 배치 */}
-        <div className="arena-container mb-16">
-          {videos.length === 0 ? (
-            <div className="flex justify-center items-center h-full">
+        {/* TOP 3 영상 섹션 */}
+        {videos.length > 0 && (
+          <Top3Videos 
+            videos={videos} 
+            onVideoClick={setSelectedVideo}
+          />
+        )}
+
+        {/* 순위 변동 요약 */}
+        {videos.length > 0 && (
+          <RankChangeSummary videos={videos} />
+        )}
+
+        {/* 필터 옵션 */}
+        {videos.length > 0 && (
+          <VideoFilters
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
+            totalVideos={videos.length}
+            filteredCount={filteredVideos.length}
+          />
+        )}
+
+        {/* 뷰 모드 토글 */}
+        {videos.length > 0 && (
+          <div className="flex justify-center mb-6">
+            <div className="bg-gradient-to-r from-neutral-800/50 to-neutral-900/50 backdrop-blur-sm rounded-lg p-1 border border-neutral-700/50 shadow-lg">
+              <button
+                onClick={() => setViewMode('table')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  viewMode === 'table'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
+                    : 'text-gray-300 hover:text-white hover:bg-neutral-700/50'
+                }`}
+              >
+                📊 표 보기
+              </button>
+              <button
+                onClick={() => setViewMode('grid')}
+                className={`px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                  viewMode === 'grid'
+                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
+                    : 'text-gray-300 hover:text-white hover:bg-neutral-700/50'
+                }`}
+              >
+                🎯 그리드 보기
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* 영상 목록 (표 또는 그리드) */}
+        {videos.length === 0 ? (
+          <div className="flex justify-center items-center h-32">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
           </div>
+        ) : viewMode === 'table' ? (
+          <VideoTable videos={filteredVideos} onVideoClick={setSelectedVideo} />
         ) : (
-            <VideoGrid videos={videos} setVideos={setVideos} user={user} setSelectedVideo={setSelectedVideo} />
-          )}
-        </div>
+          <div className="mb-16">
+            <VideoGrid videos={filteredVideos} setVideos={setVideos} user={user} setSelectedVideo={setSelectedVideo} />
+          </div>
+        )}
 
         {/* 그 아래에 주제 제안, 인기 순위 등 */}
         <div className="mt-16" style={{ minHeight: '300px' }}>
@@ -334,7 +442,7 @@ useEffect(() => {
         {/* 산정/업데이트 방식 안내 카드 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
           {/* 후보 리스트 산정 방식 */}
-          <div className="bg-black bg-opacity-10 rounded-lg py-6 px-4 flex flex-col items-center justify-center shadow">
+          <div className="bg-gradient-to-br from-blue-900/20 to-indigo-900/20 backdrop-blur-sm rounded-lg py-6 px-4 flex flex-col items-center justify-center border border-blue-700/30 shadow-lg">
             <div className="text-xl font-bold text-white mb-2">📋 예선 점수 산정</div>
             <div className="text-gray-200 text-base mb-2 text-center">
               <span className="font-bold">예선 점수</span><br />
@@ -345,7 +453,7 @@ useEffect(() => {
             </div>
           </div>
           {/* 최종 랭킹 산정 방식 */}
-          <div className="bg-black bg-opacity-10 rounded-lg py-6 px-4 flex flex-col items-center justify-center shadow">
+          <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm rounded-lg py-6 px-4 flex flex-col items-center justify-center border border-purple-700/30 shadow-lg">
             <div className="text-xl font-bold text-white mb-2">🏆 본선 점수 산정</div>
             <div className="text-gray-200 text-base mb-2 text-center">
               <span className="font-bold">본선 점수</span><br />
@@ -356,57 +464,29 @@ useEffect(() => {
             </div>
           </div>
           {/* 데이터 업데이트/스크래핑 방식 */}
-          <div className="bg-black bg-opacity-10 rounded-lg py-6 px-4 flex flex-col items-center justify-center shadow">
+          <div className="bg-gradient-to-br from-emerald-900/20 to-teal-900/20 backdrop-blur-sm rounded-lg py-6 px-4 flex flex-col items-center justify-center border border-emerald-700/30 shadow-lg">
             <div className="text-xl font-bold text-white mb-2">🔄 데이터 자동 업데이트</div>
             <div className="text-gray-200 text-base mb-2 text-center">
               n8n 워크플로우에서<br />
               YouTube API로 최대 <span className="font-bold">300개</span> 영상 스크랩<br />
-              후보 score 및 site_score 계산 후<br />
+              예선 점수 및 본선 점수 계산 후<br />
               DB <span className="font-bold">upsert</span>로 DB 테이블 갱신
             </div>
             <div className="text-gray-400 text-xs text-center">
               업데이트 주기: <span className="font-bold">1일 1회 자동 실행</span><br />
-              (규모: 최대 300개 후보, 100개 노출)
+              (규모: 최대 300개 예선, 100개 본선)
             </div>
           </div>
         </div>
 
-        {/* 영상 팝업 모달 */}
-        {selectedVideo && (
-          <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-4 max-w-2xl w-full">
-                <iframe
-                className="popup-iframe"
-                  width="100%"
-                height="400"
-                src={`https://www.youtube.com/embed/${selectedVideo.youtubeId || selectedVideo.youtube_id}?autoplay=1&rel=0`}
-                  title={selectedVideo.title}
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-              />
-              {/* Arena 좋아요 버튼 */}
-              <div className="flex justify-between items-center mt-4">
-                <div className="text-gray-700 font-semibold">
-                  🏆 회원 좋아요: {selectedVideo.arena_likes || 0}
-                  <span className="ml-4">👤 비회원 좋아요: {selectedVideo.guest_likes || 0}</span>
-                </div>
-                <button
-                  onClick={() => handleArenaLike(selectedVideo)}
-                  className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 font-bold"
-                >
-                  Arena 좋아요
-                </button>
-                <button
-                  onClick={() => setSelectedVideo(null)}
-                  className="ml-4 px-4 py-2 bg-gray-400 text-white rounded"
-                >
-                  닫기
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
+        {/* 영상 상세 정보 모달 */}
+        <VideoDetailModal
+          video={selectedVideo}
+          isOpen={!!selectedVideo}
+          onClose={() => setSelectedVideo(null)}
+          user={user}
+          onArenaLike={handleArenaLike}
+        />
       </main>
     </div>
   )

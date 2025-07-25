@@ -5,9 +5,8 @@ const arenaH = 400; // 기본 높이(모바일)
 const arenaHmd = 700; // md 이상 높이
 const maxSize = 400; // 1위 크기
 const minSize = 120; // 최하위 크기
-const packingWidth = 1200 * 2.5; // 가로 packing은 고정(추후 개선 가능)
-const minimapW = 120; // 모바일에서 더 작게
-const minimapH = 72;
+const packingWidth = 1200; // 가로 packing 너비 조정
+
 
 export default function VideoGrid({ videos, setVideos, user, setSelectedVideo }) {
   const arenaRef = useRef(null);
@@ -19,10 +18,11 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
   const dragStart = useRef({ x: 0, y: 0 });
   const dragVideoId = useRef(null);
 
-  // 1. 랭킹/크기 계산
+  // 1. 랭킹/크기 계산 (상위 100개만)
   const sorted = [...videos]
     .map((v, i) => ({ ...v, originalIndex: i }))
-    .sort((a, b) => (b.site_score || 0) - (a.site_score || 0));
+    .sort((a, b) => (b.site_score || 0) - (a.site_score || 0))
+    .slice(0, 100);
   const videoWithRankAndSize = sorted.map((v, idx) => {
     const rank = idx + 1;
     const ratio = (sorted.length === 1) ? 1 : 1 - (rank - 1) / (sorted.length - 1);
@@ -32,15 +32,16 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
 
   // 2. Packing: 좌상단부터 한 줄씩 채우기 (packingWidth 기준)
   let x = 0, y = 0, rowMaxH = 0;
+  const gap = 10; // 영상 간 간격
   const positions = [];
   videoWithRankAndSize.forEach((v, i) => {
-    if (x + v.size > packingWidth) {
+    if (x + v.size + gap > packingWidth) {
       x = 0;
-      y += rowMaxH;
+      y += rowMaxH + gap;
       rowMaxH = 0;
     }
     positions.push({ ...v, x, y });
-    x += v.size;
+    x += v.size + gap;
     if (v.size > rowMaxH) rowMaxH = v.size;
   });
   const totalPackingHeight = y + rowMaxH;
@@ -134,20 +135,7 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
     };
   }, [videos.length]);
 
-  // 미니맵 클릭 이동
-  const handleMinimapClick = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    if (arenaRef.current) {
-      arenaRef.current.scrollLeft = (x / minimapW) * (packingWidth - arenaRef.current.offsetWidth);
-      arenaRef.current.scrollTop = (y / minimapH) * (totalPackingHeight - arenaRef.current.offsetHeight);
-    }
-  };
 
-  // 미니맵 스케일
-  const scaleX = minimapW / packingWidth;
-  const scaleY = minimapH / totalPackingHeight;
 
   return (
     <div className="mx-auto px-2 sm:px-4" style={{ position: 'relative', maxWidth: 1200, margin: '24px auto' }}>
@@ -166,54 +154,18 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
         fontWeight: 'bold',
         boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
       }}>
-        드래그와 미니맵을 이용해서 영상을 이동할 수 있습니다.
+        드래그로 스크롤하거나 영상을 클릭하여 상세 정보를 확인하세요
         </div>
-      {/* VS 글자: Arena 바깥, wrapper에 고정 */}
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          top: '50%',
-          width: '40vw',
-          maxWidth: 300,
-          minWidth: 120,
-          height: '20vw',
-          maxHeight: 200,
-          minHeight: 60,
-          transform: 'translate(-50%, -50%)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          pointerEvents: 'none',
-          zIndex: 2000,
-        }}
-      >
-        <span
-          style={{
-            fontSize: '8vw',
-            maxFontSize: 120,
-            minFontSize: 32,
-            fontWeight: 'bold',
-            color: 'rgba(255,255,255,0.28)',
-            textShadow: '0 4px 32px rgba(0,0,0,0.85), 0 0 0 #fff, 2px 2px 8px #000',
-            letterSpacing: 8,
-            userSelect: 'none',
-            WebkitTextStroke: '2px #222',
-          }}
-        >
-          VS
-        </span>
-      </div>
+
       {/* Arena(스크롤 영역) */}
       <div
         ref={arenaRef}
         style={{
           width: '100%',
-          height: `min(${arenaHmd}px, 60vw)`,
-          minHeight: 240,
-          maxHeight: arenaHmd,
+          height: '70vh',
+          minHeight: 500,
           overflow: 'auto',
-          background: '#fff',
+          background: 'linear-gradient(135deg, rgba(31, 41, 55, 0.8), rgba(17, 24, 39, 0.9))',
           borderRadius: 24,
           position: 'relative',
           cursor: isDragging.current || isTouching.current ? 'grabbing' : 'grab',
@@ -282,48 +234,7 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
           }
         `}</style>
       </div>
-      {/* 미니맵: Arena wrapper의 오른쪽 아래에 고정 */}
-      <div
-        style={{
-          position: 'absolute',
-          right: 16,
-          bottom: 16,
-          width: minimapW,
-          height: minimapH,
-          background: 'rgba(0,0,0,0.5)',
-          borderRadius: 8,
-          zIndex: 9999,
-          overflow: 'hidden',
-          cursor: 'pointer',
-        }}
-        onClick={handleMinimapClick}
-      >
-        {/* 전체 packing grid 축소판 */}
-        {positions.map(v => (
-          <div key={v.id}
-            style={{
-              position: 'absolute',
-              left: v.x * scaleX,
-              top: v.y * scaleY,
-              width: v.size * scaleX,
-              height: v.size * scaleY,
-              background: 'rgba(255,255,255,0.3)',
-              borderRadius: 2,
-            }}
-          />
-        ))}
-        {/* 현재 뷰포트 표시 */}
-        <div style={{
-          position: 'absolute',
-          left: scroll.left * scaleX,
-          top: scroll.top * scaleY,
-          width: (arenaRef.current?.offsetWidth || 0) * scaleX,
-          height: (arenaRef.current?.offsetHeight || 0) * scaleY,
-          border: '2px solid #ff0',
-          boxSizing: 'border-box',
-          pointerEvents: 'none'
-        }} />
-      </div>
+
     </div>
   );
 } 

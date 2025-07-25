@@ -6,42 +6,69 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  
+  /* 전문적 색상 팔레트 */
+  --primary-blue: 59, 130, 246;
+  --primary-indigo: 99, 102, 241;
+  --primary-purple: 147, 51, 234;
+  --accent-emerald: 16, 185, 129;
+  --accent-amber: 245, 158, 11;
+  --accent-rose: 244, 63, 94;
+  --neutral-50: 250, 250, 250;
+  --neutral-100: 245, 245, 245;
+  --neutral-200: 229, 229, 229;
+  --neutral-300: 212, 212, 212;
+  --neutral-400: 163, 163, 163;
+  --neutral-500: 115, 115, 115;
+  --neutral-600: 82, 82, 82;
+  --neutral-700: 64, 64, 64;
+  --neutral-800: 38, 38, 38;
+  --neutral-900: 23, 23, 23;
+  --neutral-950: 10, 10, 10;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 10, 10, 10;
+    --background-end-rgb: 23, 23, 23;
   }
 }
 
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+      135deg,
+      rgb(var(--background-start-rgb)) 0%,
+      rgb(15, 15, 15) 25%,
+      rgb(20, 20, 20) 50%,
+      rgb(15, 15, 15) 75%,
+      rgb(var(--background-end-rgb)) 100%
+    );
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
 /* 커스텀 스크롤바 */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f1f1;
+  background: rgba(64, 64, 64, 0.1);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
+  background: linear-gradient(180deg, rgb(var(--primary-blue)), rgb(var(--primary-indigo)));
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: content-box;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: linear-gradient(180deg, rgb(var(--primary-indigo)), rgb(var(--primary-purple)));
+  background-clip: content-box;
 }
 
 /* 극한 격자 애니메이션 */
@@ -75,10 +102,7 @@ iframe {
 .grid-item:hover iframe {
   pointer-events: auto;
 }
-/* 팝업 전용 iframe은 항상 인터랙션 가능 */
-.popup-iframe {
-  pointer-events: auto !important;
-}
+
 
 /* 텍스트 말줄임 */
 .line-clamp-2 {
@@ -86,14 +110,145 @@ iframe {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+/* TOP 3 카드 호버 효과 */
+.top3-card {
+  transition: all 0.3s ease-in-out;
+}
+
+.top3-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* 순위 변동 애니메이션 */
+.rank-change {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* 표 스타일링 */
+.video-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.video-table th {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.video-table tr:hover {
+  background-color: rgba(55, 65, 81, 0.8);
+}
+
+/* 반응형 표 */
+@media (max-width: 768px) {
+  .video-table {
+    font-size: 0.75rem;
+  }
+
+  .video-table th,
+  .video-table td {
+    padding: 0.5rem 0.25rem;
+  }
+}
+
+/* 필터 버튼 애니메이션 */
+.filter-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-button:hover {
+  transform: translateY(-1px);
+}
+
+.filter-button.active {
+  animation: pulse 2s infinite;
+}
+
+/* 모달 애니메이션 */
+.modal-enter {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.modal-enter-active {
+  opacity: 1;
+  transform: scale(1);
+  transition: opacity 200ms, transform 200ms;
+}
+
+.modal-exit {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.modal-exit-active {
+  opacity: 0;
+  transform: scale(0.9);
+  transition: opacity 200ms, transform 200ms;
+}
+
+/* 순위 변동 애니메이션 */
+.rank-change-up {
+  animation: rankUp 0.5s ease-in-out;
+}
+
+.rank-change-down {
+  animation: rankDown 0.5s ease-in-out;
+}
+
+@keyframes rankUp {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+}
+
+@keyframes rankDown {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(5px); }
+  100% { transform: translateY(0); }
+}
+
+/* 순위 변동 요약 카드 호버 효과 */
+.rank-summary-card {
+  transition: all 0.3s ease-in-out;
+}
+
+.rank-summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* 전문적 그라데이션 효과 */
+.professional-gradient {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1) 0%,
+    rgba(99, 102, 241, 0.1) 25%,
+    rgba(147, 51, 234, 0.1) 50%,
+    rgba(16, 185, 129, 0.1) 75%,
+    rgba(245, 158, 11, 0.1) 100%
+  );
+}
+
+/* 글래스모피즘 효과 */
+.glass-effect {
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 } 
 
 /* Arena 고정 크기 */
 .arena-container {
   width: 90vw;
-  height: 60vh;
   max-width: 1600px;
-  min-height: 600px;
   margin: 0 auto;
   border-radius: 24px;
   overflow: hidden;
