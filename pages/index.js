@@ -335,10 +335,10 @@ useEffect(() => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-8">
           {/* 후보 리스트 산정 방식 */}
           <div className="bg-black bg-opacity-10 rounded-lg py-6 px-4 flex flex-col items-center justify-center shadow">
-            <div className="text-xl font-bold text-white mb-2">📋 후보 리스트 산정</div>
+            <div className="text-xl font-bold text-white mb-2">📋 예선 점수 산정</div>
             <div className="text-gray-200 text-base mb-2 text-center">
-              <span className="font-bold">리스트 score</span><br />
-              = 유튜브 조회수 + (유튜브 좋아요 × <span className="font-bold">100</span>)
+              <span className="font-bold">예선 점수</span><br />
+              = 유튜브 조회수 + (유튜브 좋아요 × 가중치)
             </div>
             <div className="text-gray-400 text-xs text-center">
               유튜브 데이터 기준, 상위 300개 후보 선정
@@ -346,12 +346,10 @@ useEffect(() => {
           </div>
           {/* 최종 랭킹 산정 방식 */}
           <div className="bg-black bg-opacity-10 rounded-lg py-6 px-4 flex flex-col items-center justify-center shadow">
-            <div className="text-xl font-bold text-white mb-2">🏆 최종 랭킹 산정</div>
+            <div className="text-xl font-bold text-white mb-2">🏆 본선 점수 산정</div>
             <div className="text-gray-200 text-base mb-2 text-center">
-              <span className="font-bold">최종 score</span><br />
-              = 리스트 score<br />
-              + (회원 좋아요 × <span className="font-bold">500</span>)<br />
-              + (비회원 좋아요 × <span className="font-bold">10</span>)
+              <span className="font-bold">본선 점수</span><br />
+              = 예선 점수 + (회원 좋아요 × 높은 가중치) + (비회원 좋아요 × 낮은 가중치)
             </div>
             <div className="text-gray-400 text-xs text-center">
               site_score 기준, 상위 100개만 노출
@@ -361,10 +359,10 @@ useEffect(() => {
           <div className="bg-black bg-opacity-10 rounded-lg py-6 px-4 flex flex-col items-center justify-center shadow">
             <div className="text-xl font-bold text-white mb-2">🔄 데이터 자동 업데이트</div>
             <div className="text-gray-200 text-base mb-2 text-center">
-              Supabase Edge Function에서<br />
+              n8n 워크플로우에서<br />
               YouTube API로 최대 <span className="font-bold">300개</span> 영상 스크랩<br />
               후보 score 및 site_score 계산 후<br />
-              DB <span className="font-bold">upsert</span>로 coversong_videos 테이블 갱신
+              DB <span className="font-bold">upsert</span>로 DB 테이블 갱신
             </div>
             <div className="text-gray-400 text-xs text-center">
               업데이트 주기: <span className="font-bold">1일 1회 자동 실행</span><br />
