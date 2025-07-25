@@ -35,6 +35,7 @@ export default function Home() {
   const [mainTitle, setMainTitle] = useState(''); // 반드시 위에!
   const [viewMode, setViewMode] = useState('table'); // 'table' 또는 'grid'
   const [activeFilter, setActiveFilter] = useState('all'); // 필터 상태 추가
+  const [latestUpdateTime, setLatestUpdateTime] = useState(null); // 최신 업데이트 시간
 
   // 2. 함수, useEffect 등 mainTitle 사용 코드
   // 아래 함수 전체를 삭제
@@ -125,6 +126,15 @@ export default function Home() {
       console.log('videos:', videos, vidError);
       const videoArray = Array.isArray(videos) ? videos : [];
       setVideos(videoArray);
+      
+      // 최신 업데이트 시간 찾기
+      if (videoArray.length > 0) {
+        const latestUpdate = videoArray.reduce((latest, video) => {
+          const videoUpdateTime = new Date(video.updated_at);
+          return videoUpdateTime > latest ? videoUpdateTime : latest;
+        }, new Date(0));
+        setLatestUpdateTime(latestUpdate);
+      }
       
       // 순위 데이터 저장 (클라이언트 사이드에서만)
       if (videoArray.length > 0 && typeof window !== 'undefined') {
@@ -229,6 +239,34 @@ export default function Home() {
     if (hours > 0 || days > 0) result += `${hours}시간 `;
     result += `${minutes}분`;
     return result.trim();
+  }
+
+  // 최신 업데이트 시간 포맷팅
+  const getLatestUpdateDisplay = () => {
+    if (!latestUpdateTime) return '업데이트 정보 없음';
+    
+    const now = new Date();
+    const updateTime = new Date(latestUpdateTime);
+    const diffMs = now - updateTime;
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+    
+    const formatTime = (date) => {
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${year}.${month}.${day} ${hours}:${minutes}`;
+    };
+    
+    if (diffDays > 0) {
+      return `${diffDays}일 전 (${formatTime(updateTime)})`;
+    } else if (diffHours > 0) {
+      return `${diffHours}시간 전 (${formatTime(updateTime)})`;
+    } else {
+      return `방금 전 (${formatTime(updateTime)})`;
+    }
   }
 
   // 현재 주제 수동 입력 상태 추가
@@ -337,7 +375,10 @@ useEffect(() => {
               <span className={`text-lg ${mounted && isVotingActive() ? 'text-green-400' : 'text-red-400'}`}>●</span>
               <span className={`font-bold ${mounted && isVotingActive() ? 'text-green-300' : 'text-red-300'}`}>{mounted ? (isVotingActive() ? '투표 진행중' : '투표 종료') : '로딩 중...'}</span>
                 </div>
-            <div className="font-bold text-xl text-white">{getRemainingTime()}</div>
+            <div className="text-center">
+              <div className="font-bold text-xl text-white">{getRemainingTime()}</div>
+              <div className="text-xs text-gray-300">투표 마감까지</div>
+            </div>
             <div className="text-xs text-gray-300">
               기간: {formatDateTime(votingPeriod.startTime)} ~ {formatDateTime(votingPeriod.endTime)}
             </div>
@@ -366,6 +407,16 @@ useEffect(() => {
                 ▶️ {videos.reduce((sum, video) => sum + video.views, 0).toLocaleString()}
               </div>
               <div className="text-gray-300 text-sm">유튜브 조회수</div>
+            </div>
+          </div>
+          
+          {/* 최신 업데이트 정보 */}
+          <div className="mt-4 text-center">
+            <div className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-green-600/20 to-emerald-600/20 backdrop-blur-sm rounded-lg border border-green-500/30 shadow-lg">
+              <span className="text-green-400 mr-2">🔄</span>
+              <span className="text-green-300 text-sm font-medium">
+                최신 정보 기준: <span className="text-white font-bold">{getLatestUpdateDisplay()}</span>
+              </span>
             </div>
           </div>
         </div>
