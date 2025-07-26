@@ -78,15 +78,19 @@ export default function TopicSuggestionNew() {
         .from('coversong_topic_votes')
         .insert([{ user_id: user.id, topic_id: topicId }])
       
-      if (voteError && voteError.code !== '23505') { // 23505는 중복 키 오류
-        alert('투표에 실패했습니다: ' + voteError.message)
+      if (voteError) {
+        if (voteError.code === '23505') { // 중복 키 오류
+          alert('이미 투표한 주제입니다.')
+        } else {
+          alert('투표에 실패했습니다: ' + voteError.message)
+        }
         return
       }
       
       // 주제 투표 수 증가
       const { error } = await supabase
         .from('coversong_topics')
-        .update({ votes_count: supabase.rpc('coversong_increment') })
+        .update({ votes_count: supabase.sql`votes_count + 1` })
         .eq('id', topicId)
       
       if (error) {

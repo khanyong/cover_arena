@@ -254,6 +254,21 @@ export default function Home() {
     console.log('isLoading:', isLoading, 'videos:', videos.length);
   }, [isLoading, videos]);
 
+  // 메인 타이틀 가져오기
+  useEffect(() => {
+    async function fetchMainTitle() {
+      const { data, error } = await supabase
+        .from('coversong_config')
+        .select('value')
+        .eq('key', 'main_title')
+        .order('created_at', { ascending: false })
+        .limit(1);
+      console.log('main_title fetch:', data, error);
+      if (data && data.length > 0) setMainTitle(data[0].value);
+    }
+    fetchMainTitle();
+  }, []);
+
   // 주제 변경 핸들러 (Admin에서만 실행 가능)
   const handleTopicChange = (newTopic) => {
     // 일반 사용자는 주제 변경 불가
@@ -383,20 +398,6 @@ export default function Home() {
 
   // 만약 필요하다면 아래처럼 mainTitle 이후에 선언
   // const [manualTitle, setManualTitle] = useState(mainTitle);
-
-useEffect(() => {
-  async function fetchMainTitle() {
-    const { data, error } = await supabase
-      .from('coversong_config')
-      .select('value')
-      .eq('key', 'main_title')
-      .order('created_at', { ascending: false })
-      .limit(1);
-    console.log('main_title fetch:', data, error);
-    if (data && data.length > 0) setMainTitle(data[0].value);
-  }
-  fetchMainTitle();
-}, []);
 
   // Arena 좋아요 DB 반영 함수 (로그인/비로그인 구분)
   const handleArenaLike = async (video) => {
@@ -675,11 +676,11 @@ useEffect(() => {
                       onClick={() => {
                         // 히스토리 상세 보기 (추후 구현)
                         alert(`${history.round_number}회차 - ${history.topic}\n\n` +
-                          `🥇 1위: ${history.winner_channel} (${history.winner_score?.toLocaleString()}점)\n` +
-                          `🥈 2위: ${history.runner_up_channel} (${history.runner_up_score?.toLocaleString()}점)\n` +
-                          `🥉 3위: ${history.third_place_channel} (${history.third_place_score?.toLocaleString()}점)\n\n` +
-                          `총 ${history.total_participants}개 영상 참가\n` +
-                          `발표일: ${new Date(history.announcement_date).toLocaleDateString()}`)
+                          `🥇 1위: ${history.winner_channel || '미정'} (${history.winner_score?.toLocaleString() || 0}점)\n` +
+                          `🥈 2위: ${history.runner_up_channel || '미정'} (${history.runner_up_score?.toLocaleString() || 0}점)\n` +
+                          `🥉 3위: ${history.third_place_channel || '미정'} (${history.third_place_score?.toLocaleString() || 0}점)\n\n` +
+                          `총 ${history.total_participants || 0}개 영상 참가\n` +
+                          `발표일: ${history.announcement_date ? new Date(history.announcement_date).toLocaleDateString() : '미정'}`)
                       }}
                     >
                       <div className="flex items-center justify-between mb-3">

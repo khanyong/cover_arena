@@ -480,7 +480,24 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
--- 11. 확인 쿼리
+-- 11. 대회 생성 시 round_number 자동 설정 함수
+CREATE OR REPLACE FUNCTION set_competition_round_number()
+RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.round_number IS NULL THEN
+    NEW.round_number := get_next_round_number();
+  END IF;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 트리거 생성
+CREATE TRIGGER trigger_set_competition_round_number
+  BEFORE INSERT ON coversong_competitions
+  FOR EACH ROW
+  EXECUTE FUNCTION set_competition_round_number();
+
+-- 12. 확인 쿼리
 SELECT 
   'coversong_competitions' as table_name,
   COUNT(*) as total_competitions,
