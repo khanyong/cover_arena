@@ -1,69 +1,42 @@
 import { useState, useEffect } from 'react'
 import { auth, supabase } from '../lib/supabase'
 
-export default function Header({ currentTopic }) {
-  const [user, setUser] = useState(null)
+export default function Header({ mainTitle, onTopicChange, user }) {
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    const getCurrentUser = async () => {
-      const currentUser = await auth.getCurrentUser()
-      setUser(currentUser)
-      
-              // Admin 권한 확인
-        if (currentUser) {
-          try {
-            const { data: profile, error } = await supabase
-              .from('profiles')
-              .select('is_admin')
-              .eq('id', currentUser.id)
-              .single()
-            
-            if (profile && profile.is_admin) {
-              setIsAdmin(true)
-            }
-          } catch (error) {
-            console.error('Admin 권한 확인 오류:', error)
-          }
-        }
-    }
-    getCurrentUser()
-
-    const { data: { subscription } } = auth.onAuthStateChange(async (event, session) => {
-      setUser(session?.user || null)
-      
-              // 인증 상태 변경 시 Admin 권한 재확인
-        if (session?.user) {
-          try {
-            const { data: profile, error } = await supabase
-              .from('profiles')
-              .select('is_admin')
-              .eq('id', session.user.id)
-              .single()
-            
-            if (profile && profile.is_admin) {
-              setIsAdmin(true)
-            } else {
-              setIsAdmin(false)
-            }
-          } catch (error) {
-            console.error('Admin 권한 확인 오류:', error)
+    // Admin 권한 확인
+    if (user) {
+      const checkAdminStatus = async () => {
+        try {
+          const { data: profile, error } = await supabase
+            .from('profiles')
+            .select('is_admin')
+            .eq('id', user.id)
+            .single()
+          
+          if (profile && profile.is_admin) {
+            setIsAdmin(true)
+          } else {
             setIsAdmin(false)
           }
-        } else {
+        } catch (error) {
+          console.error('Admin 권한 확인 오류:', error)
           setIsAdmin(false)
         }
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
+      }
+      checkAdminStatus()
+    } else {
+      setIsAdmin(false)
+    }
+  }, [user])
 
   const handleLogout = async () => {
     await auth.signOut()
   }
 
   return (
-    <header className="bg-gradient-to-r from-neutral-900 via-neutral-800 to-neutral-900 backdrop-blur-md border-b border-neutral-700 shadow-lg">
+    <header className="bg-gray-800 border-b border-gray-600 shadow-sm">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* 로고 */}
@@ -75,10 +48,16 @@ export default function Header({ currentTopic }) {
             </div>
           </div>
 
-          {/* 현재 주제 */}
-          <div className="text-center">
-            <p className="text-sm text-gray-300">현재 주제</p>
-            <p className="text-white font-semibold">{currentTopic}</p>
+          {/* 현재 주제 - 심플한 디자인 */}
+          <div className="text-center bg-gray-900 rounded-lg p-4 border border-gray-700">
+            <div className="flex items-center justify-center space-x-2 mb-2">
+              <span className="text-blue-400 text-sm">●</span>
+              <p className="text-gray-400 text-xs font-medium uppercase tracking-wide">현재 주제</p>
+            </div>
+            <p className="text-white font-bold text-xl tracking-wide mb-1">{mainTitle || '주제가 설정되지 않았습니다'}</p>
+            <div className="inline-block px-2 py-1 bg-blue-600 text-white text-xs rounded font-medium">
+              LIVE
+            </div>
           </div>
 
           {/* 사용자 메뉴 */}
@@ -86,9 +65,9 @@ export default function Header({ currentTopic }) {
             {isAdmin && (
               <a 
                 href="/admin"
-                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg hover:from-indigo-700 hover:to-purple-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors border border-gray-600"
               >
-                👨‍💼 Admin
+                Admin
               </a>
             )}
             {user ? (
@@ -96,7 +75,7 @@ export default function Header({ currentTopic }) {
                 <span className="text-white">안녕하세요, {user.user_metadata?.username || user.email}!</span>
                 <button 
                   onClick={handleLogout}
-                  className="px-4 py-2 bg-gradient-to-r from-rose-600 to-red-600 text-white rounded-lg hover:from-rose-700 hover:to-red-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                  className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors border border-gray-600"
                 >
                   로그아웃
                 </button>
@@ -105,13 +84,13 @@ export default function Header({ currentTopic }) {
               <div className="flex space-x-2">
                 <a 
                   href="/auth"
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-700 transition-colors border border-gray-600"
                 >
                   로그인
                 </a>
                 <a 
                   href="/auth?mode=signup"
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
                   회원가입
                 </a>

@@ -37,6 +37,99 @@ export default function Home() {
   const [activeFilter, setActiveFilter] = useState('all'); // 필터 상태 추가
   const [latestUpdateTime, setLatestUpdateTime] = useState(null); // 최신 업데이트 시간
 
+  // 최종 순위 발표 이벤트 상태 추가
+  const [announcedCompetition, setAnnouncedCompetition] = useState(null)
+  const [showAnnouncement, setShowAnnouncement] = useState(false)
+  const [finalResults, setFinalResults] = useState([])
+
+  // Competition 히스토리 상태 추가
+  const [competitionHistory, setCompetitionHistory] = useState([])
+  const [historyLoading, setHistoryLoading] = useState(false)
+
+  // 발표된 Competition 확인
+  const checkAnnouncedCompetition = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('coversong_competitions')
+        .select('*')
+        .eq('status', 'ended')
+        .order('updated_at', { ascending: false })
+        .limit(1)
+        .single()
+      
+      if (data && !error) {
+        // 최근 24시간 내에 발표된 Competition인지 확인
+        const announcementTime = new Date(data.updated_at)
+        const now = new Date()
+        const hoursDiff = (now - announcementTime) / (1000 * 60 * 60)
+        
+        if (hoursDiff <= 24) { // 24시간 이내 발표
+          setAnnouncedCompetition(data)
+          setShowAnnouncement(true)
+          
+          // 최종 결과 로드
+          await loadFinalResults(data.id)
+        }
+      }
+    } catch (error) {
+      console.error('발표된 Competition 확인 오류:', error)
+    }
+  }
+
+  // 최종 결과 로드
+  const loadFinalResults = async (competitionId) => {
+    try {
+      const { data, error } = await supabase
+        .from('coversong_videos')
+        .select('*')
+        .eq('competition_id', competitionId)
+        .not('final_rank', 'is', null)
+        .order('final_rank', { ascending: true })
+        .limit(10)
+      
+      if (!error && data) {
+        setFinalResults(data)
+      }
+    } catch (error) {
+      console.error('최종 결과 로드 오류:', error)
+    }
+  }
+
+  // 발표 알림 닫기
+  const closeAnnouncement = () => {
+    setShowAnnouncement(false)
+  }
+
+  // 발표 알림을 로컬 스토리지에 저장 (24시간 동안 표시하지 않음)
+  const dismissAnnouncement = () => {
+    if (announcedCompetition) {
+      localStorage.setItem(`announcement_${announcedCompetition.id}`, 'dismissed')
+      setShowAnnouncement(false)
+    }
+  }
+
+  // Competition 히스토리 로드 (기존 테이블 사용)
+  const loadCompetitionHistory = async () => {
+    setHistoryLoading(true)
+    try {
+      const { data, error } = await supabase
+        .from('coversong_competitions')
+        .select('*')
+        .eq('status', 'ended')
+        .not('round_number', 'is', null)
+        .order('round_number', { ascending: false })
+        .limit(5) // 최근 5회차만 표시
+      
+      if (!error && data) {
+        setCompetitionHistory(data)
+      }
+    } catch (error) {
+      console.error('히스토리 로드 오류:', error)
+    } finally {
+      setHistoryLoading(false)
+    }
+  }
+
   // 2. 함수, useEffect 등 mainTitle 사용 코드
   // 아래 함수 전체를 삭제
   // const loadVideos = async (topic) => {
@@ -92,60 +185,70 @@ export default function Home() {
     return () => subscription.unsubscribe()
   }, [])
 
-  // 초기 로드
   useEffect(() => {
     async function fetchLatestCompetitionAndVideos() {
-      const { data: competitions, error: compError } = await supabase
-        .from('coversong_competitions')
-        .select('*')
-        .eq('status', 'active')
-        .order('start_time', { ascending: false })
-        .limit(1);
+      try {
+        const { data: competitions, error: compError } = await supabase
+          .from('coversong_competitions')
+          .select('*')
+          .eq('status', 'active')
+          .order('start_time', { ascending: false })
+          .limit(1);
 
-      console.log('competitions:', competitions, compError);
+        console.log('competitions:', competitions, compError);
 
-      const latestCompetition = competitions?.[0];
-      if (!latestCompetition) {
-        setVideos([]);
-        console.log('isLoading:', false, 'videos:', 0);
-        return;
+        const latestCompetition = competitions?.[0];
+        if (!latestCompetition) {
+          setVideos([]);
+          console.log('isLoading:', false, 'videos:', 0);
+          return;
+        }
+
+        // DB의 기간을 votingPeriod에 반영
+        setVotingPeriod({
+          startTime: latestCompetition.start_time,
+          endTime: latestCompetition.end_time,
+          status: latestCompetition.status
+        });
+
+        const { data: videos, error: vidError } = await supabase
+          .from('coversong_videos')
+          .select('*')
+          .eq('competition_id', latestCompetition.id);
+
+        console.log('videos:', videos, vidError);
+        const videoArray = Array.isArray(videos) ? videos : [];
+        setVideos(videoArray);
+        
+        // 최신 업데이트 시간 찾기
+        if (videoArray.length > 0) {
+          const latestUpdate = videoArray.reduce((latest, video) => {
+            const videoUpdateTime = new Date(video.updated_at);
+            return videoUpdateTime > latest ? videoUpdateTime : latest;
+          }, new Date(0));
+          setLatestUpdateTime(latestUpdate);
+        }
+        
+        // 순위 데이터 저장 (클라이언트 사이드에서만)
+        if (videoArray.length > 0 && typeof window !== 'undefined') {
+          saveCurrentRanks(videoArray);
+          saveRankHistory(videoArray);
+        }
+        
+        console.log('isLoading:', false, 'videos:', videoArray.length);
+
+        // 발표된 Competition 확인
+        await checkAnnouncedCompetition()
+        
+        // 히스토리 로드
+        await loadCompetitionHistory()
+        
+      } catch (error) {
+        console.error('데이터 로드 오류:', error)
       }
-
-      // DB의 기간을 votingPeriod에 반영
-      setVotingPeriod({
-        startTime: latestCompetition.start_time,
-        endTime: latestCompetition.end_time,
-        status: latestCompetition.status
-      });
-
-      const { data: videos, error: vidError } = await supabase
-        .from('coversong_videos')
-        .select('*')
-        .eq('competition_id', latestCompetition.id);
-
-      console.log('videos:', videos, vidError);
-      const videoArray = Array.isArray(videos) ? videos : [];
-      setVideos(videoArray);
-      
-      // 최신 업데이트 시간 찾기
-      if (videoArray.length > 0) {
-        const latestUpdate = videoArray.reduce((latest, video) => {
-          const videoUpdateTime = new Date(video.updated_at);
-          return videoUpdateTime > latest ? videoUpdateTime : latest;
-        }, new Date(0));
-        setLatestUpdateTime(latestUpdate);
-      }
-      
-      // 순위 데이터 저장 (클라이언트 사이드에서만)
-      if (videoArray.length > 0 && typeof window !== 'undefined') {
-        saveCurrentRanks(videoArray);
-        saveRankHistory(videoArray);
-      }
-      
-      console.log('isLoading:', false, 'videos:', videoArray.length);
     }
-    fetchLatestCompetitionAndVideos();
-  }, []);
+    fetchLatestCompetitionAndVideos()
+  }, [])
 
   useEffect(() => {
     console.log('isLoading:', isLoading, 'videos:', videos.length);
@@ -357,18 +460,119 @@ useEffect(() => {
   const totalGuestLikes = videos.reduce((sum, v) => sum + (v.guest_likes || 0), 0);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900">
+    <div className="min-h-screen bg-gradient-to-br from-gray-700 via-gray-800 to-gray-900">
       <Head>
-        <title>Cover Battle Arena 100 - {mainTitle || '...'}</title>
-        <meta name="description" content="100개 실시간 커버송 competition 플랫폼" />
+        <title>{mainTitle || 'Cover Battle Arena 100'}</title>
+        <meta name="description" content="Cover Battle Arena 100 - 커버 영상 랭킹 대회" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Header currentTopic={mainTitle || '...'} />
+      {/* 최종 순위 발표 이벤트 모달 */}
+      {showAnnouncement && announcedCompetition && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75 backdrop-blur-sm">
+          <div className="relative max-w-4xl w-full mx-4 bg-gradient-to-br from-yellow-900/90 to-orange-900/90 backdrop-blur-md rounded-2xl border-2 border-yellow-500/50 shadow-2xl animate-pulse">
+            {/* 닫기 버튼 */}
+            <button
+              onClick={dismissAnnouncement}
+              className="absolute top-4 right-4 text-white hover:text-yellow-300 transition-colors z-10"
+            >
+              <span className="text-2xl">×</span>
+            </button>
+
+            {/* 발표 헤더 */}
+            <div className="text-center py-8 px-6">
+              <div className="text-6xl mb-4 animate-bounce">🏆</div>
+              <h1 className="text-3xl font-bold text-white mb-2 animate-pulse">
+                최종 순위 발표!
+              </h1>
+              <div className="text-xl text-yellow-300 mb-4">
+                {announcedCompetition.topic}
+              </div>
+              <div className="text-sm text-gray-300">
+                {new Date(announcedCompetition.updated_at).toLocaleString()} 발표
+              </div>
+            </div>
+
+            {/* TOP 3 결과 */}
+            <div className="px-6 pb-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                {finalResults.slice(0, 3).map((video, index) => (
+                  <div
+                    key={video.id}
+                    className={`relative p-4 rounded-xl border-2 transition-all duration-500 hover:scale-105 ${
+                      index === 0 ? 'bg-gradient-to-br from-yellow-600/30 to-yellow-800/30 border-yellow-400' :
+                      index === 1 ? 'bg-gradient-to-br from-gray-600/30 to-gray-800/30 border-gray-400' :
+                      'bg-gradient-to-br from-orange-600/30 to-orange-800/30 border-orange-400'
+                    }`}
+                  >
+                    {/* 순위 배지 */}
+                    <div className={`absolute -top-3 -left-3 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg border-2 ${
+                      index === 0 ? 'bg-yellow-500 border-yellow-300' :
+                      index === 1 ? 'bg-gray-500 border-gray-300' :
+                      'bg-orange-500 border-orange-300'
+                    }`}>
+                      {index === 0 ? '🥇' : index === 1 ? '🥈' : '🥉'}
+                    </div>
+
+                    {/* 썸네일 */}
+                    <div className="mb-3">
+                      <img
+                        src={video.thumbnail}
+                        alt={video.title}
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                    </div>
+
+                    {/* 정보 */}
+                    <div className="text-center">
+                      <h3 className="text-white font-semibold text-sm mb-2 line-clamp-2">
+                        {video.title}
+                      </h3>
+                      <div className="text-gray-300 text-xs mb-2">
+                        {video.channel}
+                      </div>
+                      <div className="text-yellow-400 font-bold text-lg">
+                        {video.site_score?.toLocaleString()}점
+                      </div>
+                      <div className="text-gray-400 text-xs">
+                        조회수: {video.views?.toLocaleString()} | 좋아요: {video.likes?.toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* 전체 순위 링크 */}
+              <div className="text-center">
+                <button
+                  onClick={() => {
+                    setShowAnnouncement(false)
+                    // 전체 순위 페이지로 이동 (추후 구현)
+                    alert('전체 순위 페이지는 추후 구현 예정입니다!')
+                  }}
+                  className="px-6 py-3 bg-gradient-to-r from-yellow-600 to-orange-600 text-white font-semibold rounded-lg hover:from-yellow-700 hover:to-orange-700 transition-all duration-200 shadow-lg"
+                >
+                  🏅 전체 순위 보기
+                </button>
+              </div>
+            </div>
+
+            {/* 하단 안내 */}
+            <div className="bg-black bg-opacity-30 p-4 rounded-b-2xl">
+              <div className="text-center text-gray-300 text-sm">
+                새로운 Competition이 곧 시작됩니다! 🚀
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 기존 헤더 */}
+      <Header mainTitle={mainTitle} onTopicChange={handleTopicChange} user={user} />
       
       <main className="container mx-auto px-4 py-8">
         {/* 상단 통계/상태 영역 */}
-        <div className="bg-white bg-opacity-10 rounded-lg p-4 mb-8">
+        <div className="bg-gray-800 bg-opacity-80 rounded-lg p-4 mb-8 border border-gray-600">
           {/* 상태/시간/기간: 상단 한 줄 */}
           <div className="flex flex-col md:flex-row md:justify-between items-center mb-4">
             <div className="flex items-center space-x-2">
@@ -383,6 +587,194 @@ useEffect(() => {
               기간: {formatDateTime(votingPeriod.startTime)} ~ {formatDateTime(votingPeriod.endTime)}
             </div>
           </div>
+          {/* 발표된 Competition 결과 섹션 */}
+          {announcedCompetition && !showAnnouncement && (
+            <div className="mb-8 bg-yellow-900/40 backdrop-blur-sm rounded-lg p-6 border border-yellow-600/50 shadow-lg">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-3xl">🏆</span>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">최종 순위 발표</h2>
+                    <p className="text-yellow-300 text-sm">{announcedCompetition.topic}</p>
+                  </div>
+                </div>
+                <button
+                  onClick={() => setShowAnnouncement(true)}
+                  className="px-4 py-2 bg-gradient-to-r from-yellow-600 to-orange-600 text-white rounded-lg hover:from-yellow-700 hover:to-orange-700 transition-all duration-200"
+                >
+                  🎉 발표 이벤트 보기
+                </button>
+              </div>
+
+              {/* TOP 3 미리보기 */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {finalResults.slice(0, 3).map((video, index) => (
+                  <div
+                    key={video.id}
+                    className="flex items-center space-x-3 p-3 bg-white bg-opacity-10 rounded-lg hover:bg-white hover:bg-opacity-20 transition-colors cursor-pointer"
+                    onClick={() => setSelectedVideo(video)}
+                  >
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white font-bold ${
+                      index === 0 ? 'bg-yellow-500' :
+                      index === 1 ? 'bg-gray-400' :
+                      'bg-orange-500'
+                    }`}>
+                      {index + 1}
+                    </div>
+                    <img
+                      src={video.thumbnail}
+                      alt={video.title}
+                      className="w-12 h-12 object-cover rounded"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="text-white text-sm font-medium truncate">
+                        {video.title}
+                      </div>
+                      <div className="text-gray-300 text-xs truncate">
+                        {video.channel}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-yellow-400 font-bold text-sm">
+                        {video.site_score?.toLocaleString()}
+                      </div>
+                      <div className="text-gray-400 text-xs">점수</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-4 text-center">
+                <div className="text-gray-300 text-sm">
+                  발표일: {new Date(announcedCompetition.updated_at).toLocaleDateString()}
+                </div>
+              </div>
+            </div>
+          )}
+          {/* Competition 히스토리 섹션 */}
+          {competitionHistory.length > 0 && (
+            <div className="mb-8 bg-gray-800/80 backdrop-blur-sm rounded-lg p-6 border border-gray-600 shadow-lg">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center space-x-3">
+                  <span className="text-3xl">📚</span>
+                  <div>
+                    <h2 className="text-xl font-bold text-white">Competition 히스토리</h2>
+                    <p className="text-gray-300 text-sm">지난 대회 결과</p>
+                  </div>
+                </div>
+              </div>
+
+              {historyLoading ? (
+                <div className="text-center text-gray-300 py-4">로딩 중...</div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {competitionHistory.map((history) => (
+                    <div
+                      key={history.id}
+                      className="p-4 bg-white bg-opacity-10 rounded-lg border border-white border-opacity-20 hover:bg-white hover:bg-opacity-20 transition-colors cursor-pointer"
+                      onClick={() => {
+                        // 히스토리 상세 보기 (추후 구현)
+                        alert(`${history.round_number}회차 - ${history.topic}\n\n` +
+                          `🥇 1위: ${history.winner_channel} (${history.winner_score?.toLocaleString()}점)\n` +
+                          `🥈 2위: ${history.runner_up_channel} (${history.runner_up_score?.toLocaleString()}점)\n` +
+                          `🥉 3위: ${history.third_place_channel} (${history.third_place_score?.toLocaleString()}점)\n\n` +
+                          `총 ${history.total_participants}개 영상 참가\n` +
+                          `발표일: ${new Date(history.announcement_date).toLocaleDateString()}`)
+                      }}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-2xl">🏆</span>
+                          <div>
+                            <h3 className="text-white font-semibold text-sm">
+                              {history.round_number}회차
+                            </h3>
+                            <div className="text-gray-300 text-xs truncate">
+                              {history.topic}
+                            </div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-gray-400 font-bold text-sm">
+                            {history.total_participants}개
+                          </div>
+                          <div className="text-gray-400 text-xs">참가</div>
+                        </div>
+                      </div>
+
+                      {/* TOP 3 미리보기 */}
+                      <div className="space-y-2">
+                        {/* 1위 */}
+                        {history.winner_channel && (
+                          <div className="flex items-center justify-between p-2 bg-gradient-to-r from-yellow-600/20 to-yellow-800/20 rounded">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-sm">🥇</span>
+                              <span className="text-yellow-300 text-xs truncate">
+                                {history.winner_channel}
+                              </span>
+                            </div>
+                            <span className="text-yellow-400 font-bold text-xs">
+                              {history.winner_score?.toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* 2위 */}
+                        {history.runner_up_channel && (
+                          <div className="flex items-center justify-between p-2 bg-gradient-to-r from-gray-600/20 to-gray-800/20 rounded">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-sm">🥈</span>
+                              <span className="text-gray-300 text-xs truncate">
+                                {history.runner_up_channel}
+                              </span>
+                            </div>
+                            <span className="text-gray-400 font-bold text-xs">
+                              {history.runner_up_score?.toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+
+                        {/* 3위 */}
+                        {history.third_place_channel && (
+                          <div className="flex items-center justify-between p-2 bg-gradient-to-r from-orange-600/20 to-orange-800/20 rounded">
+                            <div className="flex items-center space-x-2">
+                              <span className="text-sm">🥉</span>
+                              <span className="text-orange-300 text-xs truncate">
+                                {history.third_place_channel}
+                              </span>
+                            </div>
+                            <span className="text-orange-400 font-bold text-xs">
+                              {history.third_place_score?.toLocaleString()}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+
+                      <div className="mt-3 pt-2 border-t border-white border-opacity-20">
+                        <div className="text-gray-400 text-xs text-center">
+                          {new Date(history.announcement_date).toLocaleDateString()} 발표
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* 전체 히스토리 링크 */}
+              <div className="mt-4 text-center">
+                <button
+                  onClick={() => {
+                    // 전체 히스토리 페이지로 이동 (추후 구현)
+                    alert('전체 히스토리 페이지는 추후 구현 예정입니다!')
+                  }}
+                  className="px-4 py-2 bg-gray-700 text-white text-sm rounded-lg hover:bg-gray-600 transition-colors border border-gray-600"
+                >
+                  📚 전체 히스토리 보기
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* 통계 카드 3분할 */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {/* 영상 수 */}
@@ -391,7 +783,7 @@ useEffect(() => {
               <div className="text-gray-300 text-sm">총 영상 수<br/><span className="text-xs">(135개 중 100개만 표시)</span></div>
             </div>
             {/* Arena 좋아요 */}
-            <div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-purple-700/30 shadow-lg">
+                          <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-gray-600 shadow-lg">
               <div className="text-3xl font-bold text-white mb-1">
                 🏆 {totalArenaLikes.toLocaleString()} <span className="ml-2">👤 {totalGuestLikes.toLocaleString()}</span>
               </div>
@@ -504,7 +896,7 @@ useEffect(() => {
             </div>
           </div>
           {/* 최종 랭킹 산정 방식 */}
-          <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 backdrop-blur-sm rounded-lg py-6 px-4 flex flex-col items-center justify-center border border-purple-700/30 shadow-lg">
+                      <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg py-6 px-4 flex flex-col items-center justify-center border border-gray-600 shadow-lg">
             <div className="text-xl font-bold text-white mb-2">🏆 본선 점수 산정</div>
             <div className="text-gray-200 text-base mb-2 text-center">
               <span className="font-bold">본선 점수</span><br />

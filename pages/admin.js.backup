@@ -1199,7 +1199,8 @@ export default function Admin() {
               </div>
             )}
           </div>
-        </main>
-      </div>
-    )
-  }
+        </div>
+      </main>
+    </div>
+  )
+} 

@@ -3,8 +3,8 @@ import React, { useRef, useState, useEffect } from 'react';
 // 반응형 Arena 크기
 const arenaH = 400; // 기본 높이(모바일)
 const arenaHmd = 700; // md 이상 높이
-const maxSize = 400; // 1위 크기
-const minSize = 120; // 최하위 크기
+const maxSize = 500; // 1위 크기 (증가)
+const minSize = 100; // 최하위 크기 (감소)
 const packingWidth = 1200; // 가로 packing 너비 조정
 
 
@@ -25,8 +25,21 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
     .slice(0, 100);
   const videoWithRankAndSize = sorted.map((v, idx) => {
     const rank = idx + 1;
-    const ratio = (sorted.length === 1) ? 1 : 1 - (rank - 1) / (sorted.length - 1);
-    const size = minSize + (maxSize - minSize) * ratio;
+    
+    // 상위 3위까지는 특별한 크기 적용
+    let size;
+    if (rank === 1) {
+      size = maxSize; // 1위: 최대 크기
+    } else if (rank === 2) {
+      size = maxSize * 0.75; // 2위: 1위의 75%
+    } else if (rank === 3) {
+      size = maxSize * 0.6; // 3위: 1위의 60%
+    } else {
+      // 4위부터는 기존 공식 사용하되 더 급격한 감소
+      const ratio = (sorted.length === 1) ? 1 : Math.pow(0.95, rank - 1);
+      size = minSize + (maxSize * 0.5 - minSize) * ratio;
+    }
+    
     return { ...v, rank, size };
   });
 
