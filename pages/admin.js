@@ -430,8 +430,7 @@ export default function Admin() {
         .from('coversong_competitions')
         .select('*')
         .eq('status', 'ended')
-        .not('round_number', 'is', null)
-        .order('round_number', { ascending: false })
+        .order('updated_at', { ascending: false })
         .limit(20)
       
       if (!error && data) {
@@ -743,7 +742,7 @@ export default function Admin() {
                       <span className="text-2xl">🏆</span>
                       <div>
                         <h3 className="text-white font-semibold">
-                          {history.round_number}회차 - {history.topic}
+                          {history.id}회차 - {history.topic}
                         </h3>
                         <div className="text-gray-300 text-sm">
                           {new Date(history.announcement_date).toLocaleDateString()} 발표
@@ -836,7 +835,7 @@ export default function Admin() {
                   )}개
                 </div>
                 <div>
-                  최근: {competitionHistory[0]?.round_number}회차
+                  최근: {competitionHistory[0]?.id}회차
                 </div>
               </div>
             </div>

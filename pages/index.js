@@ -45,6 +45,7 @@ export default function Home() {
   // Competition 히스토리 상태 추가
   const [competitionHistory, setCompetitionHistory] = useState([])
   const [historyLoading, setHistoryLoading] = useState(false)
+  const [totalVideoCount, setTotalVideoCount] = useState(0) // 총 영상 수 상태 추가
 
   // 발표된 Competition 확인
   const checkAnnouncedCompetition = async () => {
@@ -116,8 +117,7 @@ export default function Home() {
         .from('coversong_competitions')
         .select('*')
         .eq('status', 'ended')
-        .not('round_number', 'is', null)
-        .order('round_number', { ascending: false })
+        .order('updated_at', { ascending: false })
         .limit(5) // 최근 5회차만 표시
       
       if (!error && data) {
@@ -171,6 +171,8 @@ export default function Home() {
 
   // 사용자 인증 상태 관리
   useEffect(() => {
+    if (!mounted) return;
+    
     const getCurrentUser = async () => {
       const currentUser = await auth.getCurrentUser()
       setUser(currentUser)
@@ -183,9 +185,11 @@ export default function Home() {
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, [mounted])
 
   useEffect(() => {
+    if (!mounted) return;
+    
     async function fetchLatestCompetitionAndVideos() {
       try {
         const { data: competitions, error: compError } = await supabase
@@ -220,6 +224,9 @@ export default function Home() {
         const videoArray = Array.isArray(videos) ? videos : [];
         setVideos(videoArray);
         
+        // 총 영상 수 설정 (상위 100개만 표시하므로 실제 총 개수)
+        setTotalVideoCount(videoArray.length);
+        
         // 최신 업데이트 시간 찾기
         if (videoArray.length > 0) {
           const latestUpdate = videoArray.reduce((latest, video) => {
@@ -248,7 +255,7 @@ export default function Home() {
       }
     }
     fetchLatestCompetitionAndVideos()
-  }, [])
+  }, [mounted])
 
   useEffect(() => {
     console.log('isLoading:', isLoading, 'videos:', videos.length);
@@ -256,6 +263,8 @@ export default function Home() {
 
   // 메인 타이틀 가져오기
   useEffect(() => {
+    if (!mounted) return;
+    
     async function fetchMainTitle() {
       const { data, error } = await supabase
         .from('coversong_config')
@@ -267,7 +276,7 @@ export default function Home() {
       if (data && data.length > 0) setMainTitle(data[0].value);
     }
     fetchMainTitle();
-  }, []);
+  }, [mounted]);
 
   // 주제 변경 핸들러 (Admin에서만 실행 가능)
   const handleTopicChange = (newTopic) => {
@@ -425,13 +434,24 @@ export default function Home() {
         alert('좋아요 저장에 실패했습니다.');
       }
     } else {
-      // 비로그인: guest_likes 증가
+      // 비로그인: Local Storage로 중복 방지
+      const guestLikesKey = `guest_likes_${video.id}`;
+      const hasLiked = localStorage.getItem(guestLikesKey);
+      
+      if (hasLiked) {
+        alert('이미 좋아요를 누른 영상입니다.');
+        return;
+      }
+
       const { data, error } = await supabase
         .from('coversong_videos')
         .update({ guest_likes: (video.guest_likes || 0) + 1 })
         .eq('id', video.id);
 
       if (!error) {
+        // Local Storage에 좋아요 기록 저장
+        localStorage.setItem(guestLikesKey, 'true');
+        
         setVideos(prev =>
           prev.map(v =>
             v.id === video.id
@@ -781,7 +801,7 @@ export default function Home() {
             {/* 영상 수 */}
             <div className="bg-gradient-to-br from-blue-900/30 to-indigo-900/30 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-blue-700/30 shadow-lg">
               <div className="text-3xl font-bold text-white mb-1">🎬 {videos.length}</div>
-              <div className="text-gray-300 text-sm">총 영상 수<br/><span className="text-xs">(135개 중 100개만 표시)</span></div>
+              <div className="text-gray-300 text-sm">총 영상 수<br/><span className="text-xs">({totalVideoCount}개 중 100개만 표시)</span></div>
             </div>
             {/* Arena 좋아요 */}
                           <div className="bg-gray-800/80 backdrop-blur-sm rounded-lg py-4 flex flex-col items-center justify-center border border-gray-600 shadow-lg">
