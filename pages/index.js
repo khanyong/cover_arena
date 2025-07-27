@@ -261,6 +261,45 @@ export default function Home() {
     console.log('isLoading:', isLoading, 'videos:', videos.length);
   }, [isLoading, videos]);
 
+  // 실시간 좋아요 업데이트 구독
+  useEffect(() => {
+    if (!videos.length) return
+
+    // 현재 competition_id 가져오기 (첫 번째 비디오에서)
+    const competitionId = videos[0]?.competition_id
+    if (!competitionId) return
+
+    const channel = supabase
+      .channel('video-likes-realtime')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'coversong_videos',
+          filter: `competition_id=eq.${competitionId}`
+        },
+        (payload) => {
+          // 실시간으로 좋아요 수 업데이트
+          setVideos(prev => prev.map(v => 
+            v.id === payload.new.id 
+              ? { 
+                  ...v, 
+                  arena_likes: payload.new.arena_likes,
+                  guest_likes: payload.new.guest_likes,
+                  updated_at: payload.new.updated_at
+                }
+              : v
+          ))
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [videos])
+
   // 메인 타이틀 가져오기
   useEffect(() => {
     if (!mounted) return;
@@ -844,7 +883,7 @@ export default function Home() {
 
         {/* 순위 변동 요약 */}
         {videos.length > 0 && (
-          <RankChangeSummary videos={videos} />
+          <RankChangeSummary videos={videos} competitionId={videos[0]?.competition_id} />
         )}
 
         {/* 필터 옵션 */}

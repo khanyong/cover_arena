@@ -49,6 +49,12 @@ CREATE TABLE IF NOT EXISTS coversong_videos (
   arena_likes INTEGER DEFAULT 0,
   topic TEXT NOT NULL,
   competition_id INTEGER REFERENCES coversong_competitions(id),
+  -- 순위변동 추적 필드 추가
+  current_rank INTEGER,
+  previous_rank INTEGER,
+  rank_change INTEGER DEFAULT 0, -- 양수: 상승, 음수: 하락, 0: 변화없음, null: 신규
+  rank_status TEXT DEFAULT 'new', -- 'new', 'up', 'down', 'same'
+  last_updated TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
@@ -544,6 +550,72 @@ SELECT
   ROW_NUMBER() OVER (PARTITION BY v.topic ORDER BY v.arena_likes DESC) as rank
 FROM coversong_videos v
 WHERE v.arena_likes > 0;
+
+-- 13. 순위변동 계산 및 업데이트 함수
+CREATE OR REPLACE FUNCTION update_video_rankings(
+  p_competition_id INTEGER
+)
+RETURNS VOID AS $$
+DECLARE
+  v_video RECORD;
+  v_current_rank INTEGER;
+BEGIN
+  -- 현재 순위 계산 및 업데이트
+  FOR v_video IN 
+    SELECT 
+      id,
+      previous_rank,
+      ROW_NUMBER() OVER (ORDER BY arena_likes DESC, likes DESC, views DESC) as new_rank
+    FROM coversong_videos 
+    WHERE competition_id = p_competition_id
+    ORDER BY arena_likes DESC, likes DESC, views DESC
+  LOOP
+    v_current_rank := v_video.new_rank;
+    
+    -- 순위변동 계산
+    UPDATE coversong_videos SET
+      previous_rank = current_rank,
+      current_rank = v_current_rank,
+      rank_change = CASE 
+        WHEN current_rank IS NULL THEN NULL -- 신규
+        WHEN current_rank < v_current_rank THEN current_rank - v_current_rank -- 하락 (음수)
+        WHEN current_rank > v_current_rank THEN current_rank - v_current_rank -- 상승 (양수)
+        ELSE 0 -- 변화없음
+      END,
+      rank_status = CASE 
+        WHEN current_rank IS NULL THEN 'new'
+        WHEN current_rank < v_current_rank THEN 'down'
+        WHEN current_rank > v_current_rank THEN 'up'
+        ELSE 'same'
+      END,
+      last_updated = NOW(),
+      updated_at = NOW()
+    WHERE id = v_video.id;
+  END LOOP;
+END;
+$$ LANGUAGE plpgsql;
+
+-- 14. 순위변동 요약 조회 함수
+CREATE OR REPLACE FUNCTION get_ranking_summary(
+  p_competition_id INTEGER
+)
+RETURNS TABLE (
+  new_count INTEGER,
+  up_count INTEGER,
+  down_count INTEGER,
+  same_count INTEGER
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT 
+    COUNT(*) FILTER (WHERE rank_status = 'new') as new_count,
+    COUNT(*) FILTER (WHERE rank_status = 'up') as up_count,
+    COUNT(*) FILTER (WHERE rank_status = 'down') as down_count,
+    COUNT(*) FILTER (WHERE rank_status = 'same') as same_count
+  FROM coversong_videos 
+  WHERE competition_id = p_competition_id;
+END;
+$$ LANGUAGE plpgsql;
 
 -- 완료 메시지
 SELECT 'Cover Battle Arena 100 Database Schema updated successfully using existing profiles table!' as message; 

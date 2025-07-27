@@ -7,6 +7,40 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
   const arenaRef = useRef(null)
   const [arenaSize, setArenaSize] = useState({ width: 0, height: 0 })
 
+  // 실시간 좋아요 업데이트 구독
+  useEffect(() => {
+    if (!videos.length) return
+
+    const channel = supabase
+      .channel('video-likes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'UPDATE',
+          schema: 'public',
+          table: 'coversong_videos',
+          filter: `id=in.(${videos.map(v => v.id).join(',')})`
+        },
+        (payload) => {
+          // 실시간으로 좋아요 수 업데이트
+          setVideos(prev => prev.map(v => 
+            v.id === payload.new.id 
+              ? { 
+                  ...v, 
+                  arenaLikes: payload.new.arena_likes,
+                  guest_likes: payload.new.guest_likes 
+                } 
+              : v
+          ))
+        }
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
+  }, [videos, setVideos])
+
   // Arena 크기 측정 (반응형)
   useEffect(() => {
     function updateSize() {
@@ -342,20 +376,42 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
       alert('투표 기간이 종료되었습니다.')
       return
     }
-    if (user) {
-      // 로그인: arena_likes 증가
-      await supabase
-        .from('coversong_videos')
-        .update({ arena_likes: (video.arenaLikes || 0) + 1 })
-        .eq('id', video.id)
-      setVideos(prev => prev.map(v => v.id === video.id ? { ...v, arenaLikes: (v.arenaLikes || 0) + 1 } : v))
-    } else {
-      // 비로그인: guest_likes 증가
-      await supabase
-        .from('coversong_videos')
-        .update({ guest_likes: (video.guest_likes || 0) + 1 })
-        .eq('id', video.id)
-      setVideos(prev => prev.map(v => v.id === video.id ? { ...v, guest_likes: (v.guest_likes || 0) + 1 } : v))
+
+    try {
+      // 데이터베이스 함수 호출로 좋아요 증가
+      const { data, error } = await supabase.rpc('increment_likes', {
+        p_video_id: video.id,
+        p_competition_id: video.competition_id,
+        p_user_id: user?.id || null,
+        p_like_type: user ? 'arena' : 'guest'
+      })
+
+      if (error) {
+        console.error('좋아요 업데이트 오류:', error)
+        alert('좋아요 업데이트에 실패했습니다.')
+        return
+      }
+
+      if (data) {
+        if (data.success) {
+          // 성공적으로 업데이트된 경우에만 UI 업데이트
+          setVideos(prev => prev.map(v => 
+            v.id === video.id 
+              ? { 
+                  ...v, 
+                  arenaLikes: data.arena_likes,
+                  guest_likes: data.guest_likes 
+                } 
+              : v
+          ))
+        } else {
+          // 이미 투표한 경우
+          alert(data.message)
+        }
+      }
+    } catch (error) {
+      console.error('좋아요 처리 오류:', error)
+      alert('좋아요 처리 중 오류가 발생했습니다.')
     }
   }
 
