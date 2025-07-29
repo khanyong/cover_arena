@@ -95,9 +95,9 @@ export default function Admin() {
 
   // 회원 승인/거부 처리
   const handleUserApproval = async (userId, approved, status) => {
-    try {
+        try {
       const { error } = await supabase
-        .from('profiles')
+            .from('profiles')
         .update({ 
           approved: approved,
           status: status, // 'active' 또는 'rejected'
@@ -110,8 +110,8 @@ export default function Admin() {
       } else {
         alert('회원 상태가 변경되었습니다.')
         loadUsers() // 목록 새로고침
-      }
-    } catch (error) {
+          }
+        } catch (error) {
       alert('회원 상태 변경 중 오류가 발생했습니다.')
     }
   }
@@ -306,7 +306,7 @@ export default function Admin() {
       setIsAnnouncing(false)
     }
   }
-
+  
   // 3. 복수 주제 실행 핸들러
   const handleExecuteTopics = async () => {
     if (!selectedTopics.length) {
@@ -561,26 +561,26 @@ export default function Admin() {
             {/* 왼쪽: 주제 선택 및 현재 주제 */}
             <div className="space-y-6">
               {/* 현재 주제 표시 */}
-              <div>
+            <div>
                 <label className="block text-gray-300 text-sm mb-2">현재 진행 중인 주제</label>
                 <div className="text-white font-semibold text-lg bg-white bg-opacity-10 rounded-lg p-3">
                   {manualTopic || '설정된 주제가 없습니다'}
                 </div>
-              </div>
-
+            </div>
+            
               {/* 새 주제 선택 */}
-              <div>
+            <div>
                 <label className="block text-gray-300 text-sm mb-3">새 주제 선택 (실행할 주제)</label>
                 
                 {/* 빠른 선택 버튼 */}
                 <div className="mb-3">
-                  <button
-                    onClick={() => setSelectedTopics(suggestedTopics.slice(0, 3).map(t => t.topic))}
+                <button
+                  onClick={() => setSelectedTopics(suggestedTopics.slice(0, 3).map(t => t.topic))}
                     className="px-3 py-2 bg-yellow-500 text-white rounded-lg mr-2 hover:bg-yellow-600 transition-colors"
-                    disabled={isScraping || suggestedTopics.length < 3}
-                  >
+                  disabled={isScraping || suggestedTopics.length < 3}
+                >
                     🔥 인기 TOP 3 전체 선택
-                  </button>
+                </button>
                   <button
                     onClick={() => setSelectedTopics([])}
                     className="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
@@ -597,84 +597,84 @@ export default function Admin() {
                   ) : (
                     suggestedTopics.map((item, idx) => (
                       <label key={item.id} className="flex items-center space-x-3 p-2 bg-white bg-opacity-10 rounded hover:bg-white hover:bg-opacity-20 transition-colors">
-                        <input
-                          type="checkbox"
-                          value={item.topic}
-                          checked={selectedTopics.includes(item.topic)}
-                          onChange={e => {
-                            if (e.target.checked) {
-                              setSelectedTopics([...selectedTopics, item.topic]);
-                            } else {
-                              setSelectedTopics(selectedTopics.filter(t => t !== item.topic));
-                            }
-                          }}
-                          disabled={isScraping}
-                          className="accent-blue-500"
-                        />
+                    <input
+                      type="checkbox"
+                      value={item.topic}
+                      checked={selectedTopics.includes(item.topic)}
+                      onChange={e => {
+                        if (e.target.checked) {
+                          setSelectedTopics([...selectedTopics, item.topic]);
+                        } else {
+                          setSelectedTopics(selectedTopics.filter(t => t !== item.topic));
+                        }
+                      }}
+                      disabled={isScraping}
+                      className="accent-blue-500"
+                    />
                         <div className="flex-1">
                           <span className="text-white text-sm">
-                            {idx < 3 && <span className="text-yellow-400 mr-1">🔥</span>}
+                      {idx < 3 && <span className="text-yellow-400 mr-1">🔥</span>}
                             {item.topic}
-                          </span>
+                    </span>
                           <div className="text-gray-300 text-xs">({item.votes_count}표)</div>
                         </div>
-                      </label>
+                  </label>
                     ))
                   )}
-                </div>
-
+            </div>
+            
                 {/* 선택된 주제 표시 */}
                 {selectedTopics.length > 0 && (
                   <div className="mt-3 p-3 bg-blue-600 bg-opacity-20 rounded-lg border border-blue-500 border-opacity-30">
                     <div className="text-blue-300 text-sm font-semibold mb-2">선택된 주제 ({selectedTopics.length}개):</div>
                     <div className="text-white text-sm">
                       {selectedTopics.join(', ')}
-                    </div>
+            </div>
                   </div>
                 )}
-              </div>
-            </div>
+          </div>
+        </div>
 
             {/* 오른쪽: 투표 기간 설정 */}
             <div className="space-y-6">
               <div>
                 <label className="block text-gray-300 text-sm mb-3">투표 기간 설정</label>
-                
-                <div className="space-y-4">
-                  <div>
+            
+            <div className="space-y-4">
+              <div>
                     <label className="block text-gray-300 text-xs mb-1">시작 시간</label>
-                    <input
-                      type="datetime-local"
-                      value={votingPeriod.startTime.slice(0, 16)}
-                      onChange={(e) => handleVotingPeriodChange('startTime', e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <div>
+                <input
+                  type="datetime-local"
+                  value={votingPeriod.startTime.slice(0, 16)}
+                  onChange={(e) => handleVotingPeriodChange('startTime', e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
                     <label className="block text-gray-300 text-xs mb-1">종료 시간</label>
-                    <input
-                      type="datetime-local"
-                      value={votingPeriod.endTime.slice(0, 16)}
-                      onChange={(e) => handleVotingPeriodChange('endTime', e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    />
-                  </div>
-                  
-                  <div>
+                <input
+                  type="datetime-local"
+                  value={votingPeriod.endTime.slice(0, 16)}
+                  onChange={(e) => handleVotingPeriodChange('endTime', e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              
+              <div>
                     <label className="block text-gray-300 text-xs mb-1">상태</label>
-                    <select
-                      value={votingPeriod.status}
-                      onChange={(e) => handleStatusChange(e.target.value)}
-                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="preparing">준비중</option>
-                      <option value="active">진행중</option>
-                      <option value="ended">종료됨</option>
-                    </select>
+                <select
+                  value={votingPeriod.status}
+                  onChange={(e) => handleStatusChange(e.target.value)}
+                  className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="preparing">준비중</option>
+                  <option value="active">진행중</option>
+                  <option value="ended">종료됨</option>
+                </select>
                   </div>
-                </div>
-
+              </div>
+              
                 {/* 현재 설정 미리보기 */}
                 <div className="mt-4 p-3 bg-white bg-opacity-10 rounded-lg">
                   <div className="text-gray-300 text-xs mb-2">설정 미리보기:</div>
@@ -682,11 +682,11 @@ export default function Admin() {
                     <div>상태: <span className="font-semibold">{votingPeriod.status}</span></div>
                     <div>시작: <span className="font-semibold">{new Date(votingPeriod.startTime).toLocaleString()}</span></div>
                     <div>종료: <span className="font-semibold">{new Date(votingPeriod.endTime).toLocaleString()}</span></div>
-                  </div>
+                </div>
+                </div>
                 </div>
               </div>
             </div>
-          </div>
 
           {/* 실행 버튼 (하단 중앙) */}
           <div className="mt-8 text-center">
@@ -951,7 +951,7 @@ export default function Admin() {
               <div>거부: {users.filter(u => u.status === 'rejected').length}명</div>
             </div>
           </div>
-        </div>
+          </div>
 
           {/* 주제 제안 관리 */}
           <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
@@ -1010,7 +1010,7 @@ export default function Admin() {
                 🗑️ 저투표 제안 정리
               </button>
             </div>
-
+            
             {/* 새 주제 추가 */}
             <form onSubmit={handleAddTopic} className="mb-4">
               <div className="flex space-x-2">
@@ -1040,8 +1040,8 @@ export default function Admin() {
                 </div>
               ) : (
                 suggestedTopics.map((item, index) => (
-                  <div 
-                    key={item.id}
+                <div 
+                  key={item.id}
                     className={`p-3 rounded-lg transition-all duration-200 ${
                       item.votes_count >= 50 ? 'bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border border-yellow-500/30' :
                       item.votes_count >= 20 ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-500/30' :
@@ -1058,8 +1058,8 @@ export default function Admin() {
                             item.votes_count >= 10 ? 'text-blue-400' :
                             'text-gray-400'
                           }`}>
-                            {index + 1}
-                          </span>
+                      {index + 1}
+                    </span>
                           <span className={`text-xs ${
                             item.votes_count >= 50 ? 'text-yellow-400' :
                             item.votes_count >= 20 ? 'text-green-400' :
@@ -1075,32 +1075,32 @@ export default function Admin() {
                             제안일: {new Date(item.created_at).toLocaleDateString()}
                           </div>
                         </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="number"
-                          value={item.votes_count}
-                          onChange={(e) => handleVoteChange(item.id, parseInt(e.target.value) || 0)}
-                          className="w-16 px-2 py-1 rounded bg-white bg-opacity-20 text-white text-sm border border-white border-opacity-30"
-                        />
-                        <button
-                          onClick={() => handleDeleteTopic(item.id)}
-                          className="px-2 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
-                        >
-                          삭제
-                        </button>
-                      </div>
-                    </div>
                   </div>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="number"
+                      value={item.votes_count}
+                      onChange={(e) => handleVoteChange(item.id, parseInt(e.target.value) || 0)}
+                      className="w-16 px-2 py-1 rounded bg-white bg-opacity-20 text-white text-sm border border-white border-opacity-30"
+                    />
+                    <button
+                      onClick={() => handleDeleteTopic(item.id)}
+                      className="px-2 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                    >
+                      삭제
+                    </button>
+                  </div>
+                </div>
+            </div>
                 ))
               )}
-            </div>
           </div>
+        </div>
 
-          {/* 최종 순위 발표 */}
+        {/* 최종 순위 발표 */}
           <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
-            <h2 className="text-xl font-bold text-white mb-4">🏆 최종 순위 발표</h2>
-            
+          <h2 className="text-xl font-bold text-white mb-4">🏆 최종 순위 발표</h2>
+          
             {currentCompetition ? (
               <div className="space-y-4">
                 {/* 현재 Competition 정보 */}
@@ -1161,22 +1161,22 @@ export default function Admin() {
                 )}
 
                 {/* 발표 버튼 */}
-                <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between">
                   <div className="text-gray-300 text-sm">
                     {currentCompetition.status === 'ended' 
                       ? '이미 종료된 Competition입니다.'
                       : '투표 기간이 종료되면 최종 순위를 발표할 수 있습니다.'
                     }
-                  </div>
-                  <button
-                    onClick={handleAnnounceResults}
+            </div>
+            <button
+              onClick={handleAnnounceResults}
                     disabled={currentCompetition.status !== 'ended' || isAnnouncing}
-                    className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
+              className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
                       currentCompetition.status === 'ended' && !isAnnouncing
                         ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white hover:from-yellow-700 hover:to-orange-700 shadow-lg'
-                        : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                    }`}
-                  >
+                  : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+              }`}
+            >
                     {isAnnouncing ? (
                       <span className="flex items-center">
                         <span className="animate-spin mr-2">🔄</span>
@@ -1187,8 +1187,8 @@ export default function Admin() {
                         🏆 최종 순위 발표
                       </span>
                     )}
-                  </button>
-                </div>
+            </button>
+          </div>
               </div>
             ) : (
               <div className="text-center text-gray-300 py-8">
@@ -1197,8 +1197,8 @@ export default function Admin() {
                 <div className="text-xs text-gray-400 mt-1">새로운 Competition을 시작하면 여기에 표시됩니다.</div>
               </div>
             )}
-          </div>
-        </main>
-      </div>
-    )
-  }
+        </div>
+      </main>
+    </div>
+  )
+} 

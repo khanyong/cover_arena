@@ -404,7 +404,7 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
                 } 
               : v
           ))
-        } else {
+    } else {
           // 이미 투표한 경우
           alert(data.message)
         }

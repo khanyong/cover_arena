@@ -97,7 +97,7 @@ export default function RankChangeSummary({ videos, competitionId }) {
           <div className="text-2xl font-bold text-gray-400">
             {summary.same_count}
           </div>
-          <div className="text-sm text-gray-300">→ 유지</div>
+          <div className="text-sm text-gray-300">🔄 유지</div>
         </div>
       </div>
 

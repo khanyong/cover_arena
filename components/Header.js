@@ -5,30 +5,30 @@ export default function Header({ mainTitle, onTopicChange, user }) {
   const [isAdmin, setIsAdmin] = useState(false)
 
   useEffect(() => {
-    // Admin 권한 확인
+              // Admin 권한 확인
     if (user) {
       const checkAdminStatus = async () => {
-        try {
-          const { data: profile, error } = await supabase
-            .from('profiles')
-            .select('is_admin')
+          try {
+            const { data: profile, error } = await supabase
+              .from('profiles')
+              .select('is_admin')
             .eq('id', user.id)
-            .single()
-          
-          if (profile && profile.is_admin) {
-            setIsAdmin(true)
-          } else {
+              .single()
+            
+            if (profile && profile.is_admin) {
+              setIsAdmin(true)
+            } else {
+              setIsAdmin(false)
+            }
+          } catch (error) {
+            console.error('Admin 권한 확인 오류:', error)
             setIsAdmin(false)
           }
-        } catch (error) {
-          console.error('Admin 권한 확인 오류:', error)
-          setIsAdmin(false)
-        }
       }
       checkAdminStatus()
-    } else {
-      setIsAdmin(false)
-    }
+        } else {
+          setIsAdmin(false)
+        }
   }, [user])
 
   const handleLogout = async () => {

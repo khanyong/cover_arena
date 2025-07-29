@@ -9,6 +9,7 @@ import Top3Videos from '../components/Top3Videos'
 import VideoFilters from '../components/VideoFilters'
 import VideoDetailModal from '../components/VideoDetailModal'
 import RankChangeSummary from '../components/RankChangeSummary'
+import RisingStarVideo from '../components/RisingStarVideo'
 import { auth, supabase } from '../lib/supabase'
 import { saveCurrentRanks, saveRankHistory } from '../lib/rankTracker'
 
@@ -192,35 +193,35 @@ export default function Home() {
     
     async function fetchLatestCompetitionAndVideos() {
       try {
-        const { data: competitions, error: compError } = await supabase
-          .from('coversong_competitions')
-          .select('*')
-          .eq('status', 'active')
-          .order('start_time', { ascending: false })
-          .limit(1);
+      const { data: competitions, error: compError } = await supabase
+        .from('coversong_competitions')
+        .select('*')
+        .eq('status', 'active')
+        .order('start_time', { ascending: false })
+        .limit(1);
 
-        console.log('competitions:', competitions, compError);
+      console.log('competitions:', competitions, compError);
 
-        const latestCompetition = competitions?.[0];
-        if (!latestCompetition) {
-          setVideos([]);
-          console.log('isLoading:', false, 'videos:', 0);
-          return;
-        }
+      const latestCompetition = competitions?.[0];
+      if (!latestCompetition) {
+        setVideos([]);
+        console.log('isLoading:', false, 'videos:', 0);
+        return;
+      }
 
-        // DB의 기간을 votingPeriod에 반영
-        setVotingPeriod({
-          startTime: latestCompetition.start_time,
-          endTime: latestCompetition.end_time,
-          status: latestCompetition.status
-        });
+      // DB의 기간을 votingPeriod에 반영
+      setVotingPeriod({
+        startTime: latestCompetition.start_time,
+        endTime: latestCompetition.end_time,
+        status: latestCompetition.status
+      });
 
-        const { data: videos, error: vidError } = await supabase
-          .from('coversong_videos')
-          .select('*')
-          .eq('competition_id', latestCompetition.id);
+      const { data: videos, error: vidError } = await supabase
+        .from('coversong_videos')
+        .select('*')
+        .eq('competition_id', latestCompetition.id);
 
-        console.log('videos:', videos, vidError);
+      console.log('videos:', videos, vidError);
         const videoArray = Array.isArray(videos) ? videos : [];
         setVideos(videoArray);
         
@@ -640,7 +641,7 @@ export default function Home() {
               <span className={`font-bold ${mounted && isVotingActive() ? 'text-green-300' : 'text-red-300'}`}>{mounted ? (isVotingActive() ? '투표 진행중' : '투표 종료') : '로딩 중...'}</span>
                 </div>
             <div className="text-center">
-              <div className="font-bold text-xl text-white">{getRemainingTime()}</div>
+            <div className="font-bold text-xl text-white">{getRemainingTime()}</div>
               <div className="text-xs text-gray-300">투표 마감까지</div>
             </div>
             <div className="text-xs text-gray-300">
@@ -881,6 +882,14 @@ export default function Home() {
           />
         )}
 
+        {/* 순위 급상승 1위 섹션 */}
+        {videos.length > 0 && (
+          <RisingStarVideo 
+            videos={videos} 
+            onVideoClick={setSelectedVideo}
+          />
+        )}
+
         {/* 순위 변동 요약 */}
         {videos.length > 0 && (
           <RankChangeSummary videos={videos} competitionId={videos[0]?.competition_id} />
@@ -925,7 +934,7 @@ export default function Home() {
         )}
 
         {/* 영상 목록 (표 또는 그리드) */}
-        {videos.length === 0 ? (
+          {videos.length === 0 ? (
           <div className="flex justify-center items-center h-32">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-white"></div>
           </div>
@@ -935,7 +944,7 @@ export default function Home() {
           <div className="mb-16">
             <VideoGrid videos={filteredVideos} setVideos={setVideos} user={user} setSelectedVideo={setSelectedVideo} />
           </div>
-        )}
+          )}
 
         {/* 그 아래에 주제 제안, 인기 순위 등 */}
         <div className="mt-16" style={{ minHeight: '300px' }}>

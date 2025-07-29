@@ -82,7 +82,7 @@ export default function TopicSuggestionNew() {
         if (voteError.code === '23505') { // 중복 키 오류
           alert('이미 투표한 주제입니다.')
         } else {
-          alert('투표에 실패했습니다: ' + voteError.message)
+        alert('투표에 실패했습니다: ' + voteError.message)
         }
         return
       }

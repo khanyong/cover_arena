@@ -1,4 +1,4 @@
-// === n8n Code Node - 최종처리 ===
+// === n8n Code Node - 최종처리 (간소화 버전) ===
 // API Keys (상단에 선언)
 const SUPABASE_API_KEY = '여기에_실제_서비스_롤_키_입력';
 const YOUTUBE_API_KEY = '여기에_실제_유튜브_API_키_입력';
@@ -165,50 +165,9 @@ try {
   console.log('Expected videos: N topics × 6 iterations × 50 videos = N×300 videos');
   console.log('Final competition_id being used:', competitionId);
   
-  // 중복 체크 로직 추가
-  const idCounts = {};
-  const duplicateIds = [];
-  
-  allVideos.forEach(video => {
-    const videoId = video.id || video.youtube_id;
-    if (idCounts[videoId]) {
-      idCounts[videoId]++;
-      if (!duplicateIds.includes(videoId)) {
-        duplicateIds.push(videoId);
-      }
-    } else {
-      idCounts[videoId] = 1;
-    }
-  });
-  
-  // 중복된 ID가 있으면 로그 출력
-  if (duplicateIds.length > 0) {
-    console.log('🚨 중복된 ID 발견:', duplicateIds);
-    console.log('중복 ID 상세 정보:');
-    duplicateIds.forEach(id => {
-      const duplicates = allVideos.filter(v => (v.id || v.youtube_id) === id);
-      console.log(`ID ${id}: ${duplicates.length}개 중복`);
-      duplicates.forEach((dup, index) => {
-        console.log(`  ${index + 1}. ${dup.title}`);
-      });
-    });
-  } else {
-    console.log('✅ 모든 ID가 고유합니다.');
-  }
-  
-  // 고유한 ID만 유지 (중복 제거)
-  const uniqueVideos = [];
-  const seenIds = new Set();
-  
-  allVideos.forEach(video => {
-    const videoId = video.id || video.youtube_id;
-    if (!seenIds.has(videoId)) {
-      seenIds.add(videoId);
-      uniqueVideos.push(video);
-    }
-  });
-  
-  console.log(`📊 중복 제거 후 고유 영상 수: ${uniqueVideos.length}개`);
+  // 중복 제거는 이미 Code-데이터처리에서 처리되었으므로 여기서는 간단한 확인만
+  const uniqueVideos = allVideos;
+  console.log(`📊 처리할 영상 수: ${uniqueVideos.length}개`);
   
   // 점수 기준으로 정렬
   uniqueVideos.sort((a, b) => b.site_score - a.site_score);
@@ -221,7 +180,7 @@ try {
   console.log('First video title:', top100[0]?.title || 'N/A');
   console.log('First video score:', top100[0]?.candidate_score || 'N/A');
   console.log('First video ID:', top100[0]?.id || 'N/A');
-  console.log('First video competition_id:', top100[0]?.competition_id || 'N/A'); // competition_id 확인 로그 추가
+  console.log('First video competition_id:', top100[0]?.competition_id || 'N/A');
   
   // 상위 5개 영상 ID 출력
   console.log('📋 상위 5개 영상 ID:');

@@ -1,7 +1,7 @@
-// === n8n Code Node - 최종처리 ===
+// === n8n Code Node - 최종처리 (완전한 버전) ===
 // API Keys (상단에 선언)
-const SUPABASE_API_KEY = '여기에_실제_서비스_롤_키_입력';
-const YOUTUBE_API_KEY = '여기에_실제_유튜브_API_키_입력';
+const SUPABASE_URL = 'https://iklsghevdtqqkjuaympc.supabase.co';
+const SUPABASE_SERVICE_ROLE_KEY = '여기에_실제_서비스_롤_키_입력';
 
 try {
   console.log('=== DEBUG: 최종처리 시작 ===');
@@ -21,6 +21,36 @@ try {
   console.log('Using competition_id:', competitionId);
   console.log('Using competition_topic:', competitionTopic);
   
+  // 1. Supabase에서 기존 비디오 데이터 가져오기 (fetch 사용)
+  console.log('기존 비디오 데이터 조회 시작...');
+  
+  const existingVideosResponse = await fetch(
+    `${SUPABASE_URL}/rest/v1/coversong_videos?competition_id=eq.${competitionId}&select=id,arena_likes,guest_likes,topic,competition_id`,
+    {
+      headers: {
+        'apikey': SUPABASE_SERVICE_ROLE_KEY,
+        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    }
+  );
+  
+  if (!existingVideosResponse.ok) {
+    throw new Error(`기존 데이터 조회 실패: ${existingVideosResponse.status}`);
+  }
+  
+  const existingVideos = await existingVideosResponse.json();
+  console.log('기존 비디오 수:', existingVideos.length);
+  
+  // 2. 기존 데이터를 Map으로 변환 (빠른 조회용)
+  const existingVideosMap = new Map();
+  existingVideos.forEach(video => {
+    existingVideosMap.set(video.id, video);
+  });
+  
+  console.log('기존 비디오 Map 생성 완료');
+  
+  // 3. YouTube에서 가져온 새 데이터 처리
   let allVideos = [];
   
   items.forEach((item, index) => {
@@ -54,7 +84,7 @@ try {
     
     console.log(`Item ${index + 1} - Videos with thumbnails:`, videosWithThumbnails.length);
     
-    // 비디오 처리 및 allVideos에 추가
+    // 비디오 처리 및 기존 데이터와 병합
     const processedVideos = videosWithThumbnails.map(v => {
       const snippet = v.snippet;
       const statistics = v.statistics;
@@ -67,14 +97,43 @@ try {
       const favorites = parseInt(statistics?.favoriteCount || 0);
       const comments = parseInt(statistics?.commentCount || 0);
       
-      // arena_likes와 guest_likes 변수 추가
-      const arena_likes = 0; // 새로 추가된 영상이므로 0으로 초기화
-      const guest_likes = 0; // 새로 추가된 영상이므로 0으로 초기화
+      // 기존 데이터 확인
+      const existingVideo = existingVideosMap.get(v.id);
       
+      // arena_likes, guest_likes 처리
+      let arena_likes = 0;
+      let guest_likes = 0;
+      
+      if (existingVideo) {
+        // 기존 비디오: 기존 값 유지
+        arena_likes = existingVideo.arena_likes || 0;
+        guest_likes = existingVideo.guest_likes || 0;
+        console.log(`기존 비디오 ${v.id}: arena_likes=${arena_likes}, guest_likes=${guest_likes}`);
+      } else {
+        // 새로운 비디오: 0으로 초기화
+        arena_likes = 0;
+        guest_likes = 0;
+        console.log(`새로운 비디오 ${v.id}: arena_likes=0, guest_likes=0`);
+      }
+      
+      // 점수 계산
       const candidate_score = views + (likes * 100);
       const site_score = candidate_score + (arena_likes * 500) + (guest_likes * 10);
       const score = site_score;
       const weight = 1.0;
+      
+      console.log(`비디오 ${v.id} 점수 계산:`, {
+        views,
+        likes,
+        candidate_score,
+        arena_likes,
+        guest_likes,
+        site_score
+      });
+      
+      // 기존 topic, competition_id 유지
+      const topic = existingVideo ? existingVideo.topic : competitionTopic;
+      const competition_id = existingVideo ? existingVideo.competition_id : competitionId;
       
       // duration 파싱
       function parseDuration(duration) {
@@ -115,16 +174,16 @@ try {
         youtube_id: v.id || '',
         views: views || 0,
         likes: likes || 0,
-        arena_likes: 0,
-        topic: competitionTopic, // 동적으로 가져온 topic 사용
-        competition_id: competitionId, // 동적으로 가져온 competition_id 사용
+        arena_likes: arena_likes, // 기존 값 유지 또는 0
+        topic: topic, // 기존 값 유지 또는 기본값
+        competition_id: competition_id, // 기존 값 유지 또는 기본값
         size: durationInSeconds || 0,
         score: score || 0,
         rank: 0,
         weight: weight || 1.0,
         candidate_score: candidate_score || 0,
-        site_score: site_score || 0,
-        guest_likes: 0,
+        site_score: site_score || 0, // arena_likes, guest_likes 포함된 최종 점수
+        guest_likes: guest_likes, // 기존 값 유지 또는 0
         description: cleanString(snippet.description || '', 500),
         published_at: snippet.publishedAt || null,
         channel_id: snippet.channelId || '',
@@ -165,55 +224,14 @@ try {
   console.log('Expected videos: N topics × 6 iterations × 50 videos = N×300 videos');
   console.log('Final competition_id being used:', competitionId);
   
-  // 중복 체크 로직 추가
-  const idCounts = {};
-  const duplicateIds = [];
+  // 중복 제거는 이미 Code-데이터처리에서 처리되었으므로 여기서는 간단한 확인만
+  const uniqueVideos = allVideos;
+  console.log(`📊 처리할 영상 수: ${uniqueVideos.length}개`);
   
-  allVideos.forEach(video => {
-    const videoId = video.id || video.youtube_id;
-    if (idCounts[videoId]) {
-      idCounts[videoId]++;
-      if (!duplicateIds.includes(videoId)) {
-        duplicateIds.push(videoId);
-      }
-    } else {
-      idCounts[videoId] = 1;
-    }
-  });
-  
-  // 중복된 ID가 있으면 로그 출력
-  if (duplicateIds.length > 0) {
-    console.log('🚨 중복된 ID 발견:', duplicateIds);
-    console.log('중복 ID 상세 정보:');
-    duplicateIds.forEach(id => {
-      const duplicates = allVideos.filter(v => (v.id || v.youtube_id) === id);
-      console.log(`ID ${id}: ${duplicates.length}개 중복`);
-      duplicates.forEach((dup, index) => {
-        console.log(`  ${index + 1}. ${dup.title}`);
-      });
-    });
-  } else {
-    console.log('✅ 모든 ID가 고유합니다.');
-  }
-  
-  // 고유한 ID만 유지 (중복 제거)
-  const uniqueVideos = [];
-  const seenIds = new Set();
-  
-  allVideos.forEach(video => {
-    const videoId = video.id || video.youtube_id;
-    if (!seenIds.has(videoId)) {
-      seenIds.add(videoId);
-      uniqueVideos.push(video);
-    }
-  });
-  
-  console.log(`📊 중복 제거 후 고유 영상 수: ${uniqueVideos.length}개`);
-  
-  // 점수 기준으로 정렬
+  // 4. site_score 기준으로 정렬 (arena_likes, guest_likes 포함된 점수)
   uniqueVideos.sort((a, b) => b.site_score - a.site_score);
   
-  // 상위 100개 선택
+  // 5. 상위 100개 선택
   const top100 = uniqueVideos.slice(0, 100);
   top100.forEach((v, i) => v.rank = i + 1);
   
@@ -221,12 +239,16 @@ try {
   console.log('First video title:', top100[0]?.title || 'N/A');
   console.log('First video score:', top100[0]?.candidate_score || 'N/A');
   console.log('First video ID:', top100[0]?.id || 'N/A');
-  console.log('First video competition_id:', top100[0]?.competition_id || 'N/A'); // competition_id 확인 로그 추가
+  console.log('First video competition_id:', top100[0]?.competition_id || 'N/A');
   
-  // 상위 5개 영상 ID 출력
-  console.log('📋 상위 5개 영상 ID:');
-  top100.slice(0, 5).forEach((v, index) => {
-    console.log(`  ${index + 1}위: ${v.id} - ${v.title}`);
+  // 점수 계산 확인 로그
+  console.log('📋 상위 5개 영상 ID 및 점수:');
+  top100.slice(0, 5).forEach((video, index) => {
+    console.log(`  ${index + 1}위: ${video.id} - ${video.title}`);
+    console.log(`    candidate_score: ${video.candidate_score}`);
+    console.log(`    arena_likes: ${video.arena_likes} (${video.arena_likes * 500}점)`);
+    console.log(`    guest_likes: ${video.guest_likes} (${video.guest_likes * 10}점)`);
+    console.log(`    site_score: ${video.site_score}`);
   });
   
   // JSON 유효성 최종 테스트
@@ -237,7 +259,7 @@ try {
     console.log('JSON validation failed:', jsonError.message);
   }
   
-  // n8n 형식에 맞게 반환
+  // 6. n8n 형식에 맞게 반환
   const result = top100.map(video => ({
     json: video
   }));
