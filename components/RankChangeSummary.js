@@ -79,25 +79,45 @@ export default function RankChangeSummary({ videos, competitionId }) {
           <div className="text-2xl font-bold text-blue-400">
             {summary.new_count}
           </div>
-          <div className="text-sm text-gray-300">🆕 신규</div>
+          <div className="text-sm text-gray-300 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" className="mr-1">
+              <polygon points="20,2 4,12 20,22" fill="#10B981" />
+            </svg>
+            신규
+          </div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-green-400">
             {summary.up_count}
           </div>
-          <div className="text-sm text-gray-300">↗️ 상승</div>
+          <div className="text-sm text-gray-300 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" className="mr-1">
+              <polygon points="12,4 22,20 2,20" fill="#3B82F6" />
+            </svg>
+            상승
+          </div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-red-400">
             {summary.down_count}
           </div>
-          <div className="text-sm text-gray-300">↘️ 하락</div>
+          <div className="text-sm text-gray-300 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" className="mr-1">
+              <polygon points="2,4 22,4 12,20" fill="#EF4444" />
+            </svg>
+            하락
+          </div>
         </div>
         <div className="text-center">
           <div className="text-2xl font-bold text-gray-400">
             {summary.same_count}
           </div>
-          <div className="text-sm text-gray-300">🔄 유지</div>
+          <div className="text-sm text-gray-300 flex items-center justify-center">
+            <svg width="16" height="16" viewBox="0 0 24 24" className="mr-1">
+              <polygon points="4,2 20,12 4,22" fill="#EAB308" />
+            </svg>
+            유지
+          </div>
         </div>
       </div>
 

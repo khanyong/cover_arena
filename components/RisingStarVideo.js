@@ -77,7 +77,11 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
                   <div className="text-gray-400 text-sm">이전 순위</div>
                   <div className="text-red-300 font-bold text-lg">{risingStarVideo.previous_rank}위</div>
                 </div>
-                <div className="text-2xl text-orange-400 animate-bounce">⬆️</div>
+                <div className="text-2xl text-orange-400 animate-bounce">
+                  <svg width="24" height="24" viewBox="0 0 24 24" className="inline-block">
+                    <polygon points="12,4 22,20 2,20" fill="#3B82F6" />
+                  </svg>
+                </div>
                 <div className="bg-black bg-opacity-30 rounded-lg p-3 text-center">
                   <div className="text-gray-400 text-sm">현재 순위</div>
                   <div className="text-green-300 font-bold text-lg">{risingStarVideo.rank}위</div>
