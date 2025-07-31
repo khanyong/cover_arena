@@ -379,13 +379,8 @@ export default function Home() {
   useEffect(() => {
     setMounted(true)
     
-    // 1분마다 시간 업데이트
-    const interval = setInterval(() => {
-      // 강제 리렌더링
-      setVideos(prev => [...prev])
-    }, 60000)
-    
-    return () => clearInterval(interval)
+    // 1일 1회 업데이트이므로 주기적 새로고침 제거
+    // 필요시 사용자가 페이지를 새로고침하거나 다시 방문할 때만 데이터 업데이트
   }, [])
 
   // 남은 시간 계산

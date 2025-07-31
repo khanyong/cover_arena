@@ -14,7 +14,7 @@ export default function RankChangeSummary({ videos, competitionId }) {
     if (competitionId) {
       fetchRankSummary();
     }
-  }, [competitionId, videos]);
+  }, [competitionId]); // videos 의존성 제거 - 1일 1회 업데이트이므로 불필요
 
   const fetchRankSummary = async () => {
     try {
