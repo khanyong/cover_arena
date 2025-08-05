@@ -7,7 +7,11 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
     if (!videos || videos.length === 0) return null;
     
     return videos
-      .filter(video => video.previous_rank && video.rank < video.previous_rank) // 순위 상승한 비디오만
+      .filter(video => 
+        video.previous_rank !== null && 
+        video.previous_rank !== undefined && 
+        video.rank < video.previous_rank
+      ) // 순위 상승한 비디오만 (previous_rank가 0인 경우도 포함)
       .sort((a, b) => (b.previous_rank - b.rank) - (a.previous_rank - a.rank)) // 상승폭 기준 정렬
       .slice(0, 1)[0]; // 가장 큰 상승폭
   };
