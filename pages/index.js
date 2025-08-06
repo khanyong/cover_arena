@@ -8,7 +8,7 @@ import VideoTable from '../components/VideoTable'
 import Top3Videos from '../components/Top3Videos'
 import VideoFilters from '../components/VideoFilters'
 import VideoDetailModal from '../components/VideoDetailModal'
-import RankChangeSummary from '../components/RankChangeSummary'
+import RankChangeSummaryEnhanced from '../components/RankChangeSummaryEnhanced'
 import RisingStarVideo from '../components/RisingStarVideo'
 import { auth, supabase } from '../lib/supabase'
 import { saveCurrentRanks, saveRankHistory } from '../lib/rankTracker'
@@ -885,9 +885,13 @@ export default function Home() {
           />
         )}
 
-        {/* 순위 변동 요약 */}
+        {/* 순위 변동 2-3위 요약 (1위와 중복 방지) */}
         {videos.length > 0 && (
-          <RankChangeSummary videos={videos} competitionId={videos[0]?.competition_id} />
+          <RankChangeSummaryEnhanced 
+            videos={videos} 
+            competitionId={videos[0]?.competition_id} 
+            excludeFirst={true}
+          />
         )}
 
         {/* 필터 옵션 */}
