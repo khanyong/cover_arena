@@ -81,11 +81,26 @@ export default function Home() {
   // 최종 결과 로드
   const loadFinalResults = async (competitionId) => {
     try {
-      const { data, error } = await supabase
+      // 먼저 차단된 영상 목록 가져오기
+      const { data: blockedVideos } = await supabase
+        .from('coversong_blocked_videos')
+        .select('youtube_id')
+        .eq('is_active', true);
+      
+      const blockedIds = blockedVideos ? blockedVideos.map(v => v.youtube_id) : [];
+
+      let query = supabase
         .from('coversong_videos')
         .select('*')
         .eq('competition_id', competitionId)
-        .not('final_rank', 'is', null)
+        .not('final_rank', 'is', null);
+      
+      // 차단된 영상이 있으면 필터링
+      if (blockedIds.length > 0) {
+        query = query.not('youtube_id', 'in', `(${blockedIds.join(',')})`);
+      }
+      
+      const { data, error } = await query
         .order('final_rank', { ascending: true })
         .limit(10)
       
@@ -216,10 +231,25 @@ export default function Home() {
         status: latestCompetition.status
       });
 
-      const { data: videos, error: vidError } = await supabase
+      // 먼저 차단된 영상 목록 가져오기
+      const { data: blockedVideos } = await supabase
+        .from('coversong_blocked_videos')
+        .select('youtube_id')
+        .eq('is_active', true);
+      
+      const blockedIds = blockedVideos ? blockedVideos.map(v => v.youtube_id) : [];
+
+      let query = supabase
         .from('coversong_videos')
         .select('*')
         .eq('competition_id', latestCompetition.id);
+      
+      // 차단된 영상이 있으면 필터링
+      if (blockedIds.length > 0) {
+        query = query.not('youtube_id', 'in', `(${blockedIds.join(',')})`);
+      }
+      
+      const { data: videos, error: vidError } = await query;
 
       console.log('videos:', videos, vidError);
         const videoArray = Array.isArray(videos) ? videos : [];

@@ -44,6 +44,12 @@ export default function Admin() {
   const [competitionHistory, setCompetitionHistory] = useState([])
   const [historyLoading, setHistoryLoading] = useState(false)
 
+  // 영상 차단 관리 상태 추가
+  const [blockedVideos, setBlockedVideos] = useState([])
+  const [videoSearchQuery, setVideoSearchQuery] = useState('')
+  const [searchResults, setSearchResults] = useState([])
+  const [isSearching, setIsSearching] = useState(false)
+
   useEffect(() => {
     // 최초 로드 시 main_title fetch
     async function fetchMainTitle() {
@@ -443,6 +449,95 @@ export default function Admin() {
     }
   }
 
+  // 차단된 영상 목록 로드
+  const loadBlockedVideos = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('coversong_blocked_videos')
+        .select('*')
+        .eq('is_active', true)
+        .order('blocked_at', { ascending: false })
+      
+      if (!error && data) {
+        setBlockedVideos(data)
+      }
+    } catch (error) {
+      console.error('차단 목록 로드 오류:', error)
+    }
+  }
+
+  // 영상 검색
+  const searchVideos = async () => {
+    if (!videoSearchQuery.trim()) return
+    
+    setIsSearching(true)
+    try {
+      const { data, error } = await supabase
+        .from('coversong_videos')
+        .select('*')
+        .or(`title.ilike.%${videoSearchQuery}%,channel.ilike.%${videoSearchQuery}%,youtube_id.ilike.%${videoSearchQuery}%`)
+        .limit(20)
+      
+      if (!error && data) {
+        setSearchResults(data)
+      }
+    } catch (error) {
+      console.error('영상 검색 오류:', error)
+    } finally {
+      setIsSearching(false)
+    }
+  }
+
+  // 영상 차단
+  const blockVideo = async (youtubeId, title, reason) => {
+    try {
+      const { error } = await supabase
+        .from('coversong_blocked_videos')
+        .insert({
+          youtube_id: youtubeId,
+          reason: reason || `${title} - 관리자에 의해 차단됨`,
+          blocked_by: user?.id
+        })
+      
+      if (error) {
+        if (error.code === '23505') {
+          alert('이미 차단된 영상입니다.')
+        } else {
+          alert('영상 차단에 실패했습니다: ' + error.message)
+        }
+      } else {
+        alert('영상이 차단되었습니다.')
+        loadBlockedVideos()
+        setSearchResults([])
+        setVideoSearchQuery('')
+      }
+    } catch (error) {
+      alert('영상 차단 중 오류가 발생했습니다.')
+    }
+  }
+
+  // 영상 차단 해제
+  const unblockVideo = async (id) => {
+    try {
+      const { error } = await supabase
+        .from('coversong_blocked_videos')
+        .update({
+          is_active: false,
+          unblocked_at: new Date().toISOString()
+        })
+        .eq('id', id)
+      
+      if (error) {
+        alert('차단 해제에 실패했습니다: ' + error.message)
+      } else {
+        alert('차단이 해제되었습니다.')
+        loadBlockedVideos()
+      }
+    } catch (error) {
+      alert('차단 해제 중 오류가 발생했습니다.')
+    }
+  }
+
 
 
   useEffect(() => {
@@ -468,6 +563,7 @@ export default function Admin() {
             loadUsers()
             loadCurrentCompetition()
             loadCompetitionHistory() // 히스토리 로드 추가
+            loadBlockedVideos() // 차단 목록 로드 추가
           }
         } catch (error) {
           console.error('Admin 권한 확인 오류:', error)
@@ -840,6 +936,115 @@ export default function Admin() {
               </div>
             </div>
           )}
+        </div>
+
+        {/* 영상 차단 관리 */}
+        <div className="mb-8 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
+          <h2 className="text-xl font-bold text-white mb-4">🚫 영상 차단 관리</h2>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* 왼쪽: 영상 검색 및 차단 */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">영상 검색</h3>
+              
+              {/* 검색 입력 */}
+              <div className="flex space-x-2 mb-4">
+                <input
+                  type="text"
+                  value={videoSearchQuery}
+                  onChange={(e) => setVideoSearchQuery(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && searchVideos()}
+                  placeholder="제목, 채널명 또는 YouTube ID로 검색"
+                  className="flex-1 px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
+                />
+                <button
+                  onClick={searchVideos}
+                  disabled={isSearching}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+                >
+                  {isSearching ? '검색 중...' : '검색'}
+                </button>
+              </div>
+              
+              {/* 검색 결과 */}
+              <div className="space-y-2 max-h-64 overflow-y-auto">
+                {searchResults.length === 0 ? (
+                  <div className="text-center text-gray-300 py-4">
+                    {videoSearchQuery ? '검색 결과가 없습니다.' : '영상을 검색하세요.'}
+                  </div>
+                ) : (
+                  searchResults.map((video) => (
+                    <div key={video.id} className="p-3 bg-white bg-opacity-10 rounded-lg">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="text-white font-semibold text-sm">{video.title}</div>
+                          <div className="text-gray-300 text-xs mt-1">
+                            채널: {video.channel} | ID: {video.youtube_id}
+                          </div>
+                          <div className="text-gray-400 text-xs mt-1">
+                            조회수: {video.views?.toLocaleString()} | 좋아요: {video.likes?.toLocaleString()}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            if (confirm(`"${video.title}"을(를) 차단하시겠습니까?`)) {
+                              blockVideo(video.youtube_id, video.title)
+                            }
+                          }}
+                          className="ml-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                        >
+                          차단
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+            
+            {/* 오른쪽: 차단된 영상 목록 */}
+            <div>
+              <h3 className="text-lg font-semibold text-white mb-3">
+                차단된 영상 목록 ({blockedVideos.length}개)
+              </h3>
+              
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                {blockedVideos.length === 0 ? (
+                  <div className="text-center text-gray-300 py-4">차단된 영상이 없습니다.</div>
+                ) : (
+                  blockedVideos.map((blocked) => (
+                    <div key={blocked.id} className="p-3 bg-white bg-opacity-10 rounded-lg">
+                      <div className="flex items-start justify-between">
+                        <div className="flex-1">
+                          <div className="text-white text-sm">{blocked.reason}</div>
+                          <div className="text-gray-400 text-xs mt-1">
+                            YouTube ID: {blocked.youtube_id}
+                          </div>
+                          <div className="text-gray-400 text-xs mt-1">
+                            차단일: {new Date(blocked.blocked_at).toLocaleDateString()}
+                          </div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            if (confirm('차단을 해제하시겠습니까?')) {
+                              unblockVideo(blocked.id)
+                            }
+                          }}
+                          className="ml-2 px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
+                        >
+                          해제
+                        </button>
+                      </div>
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 text-sm text-gray-300">
+            💡 차단된 영상은 모든 리스트와 순위에서 제외됩니다.
+          </div>
         </div>
 
         {/* 회원 관리 */}

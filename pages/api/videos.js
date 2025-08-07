@@ -16,11 +16,26 @@ export default async function handler(req, res) {
     const from = (pageNum - 1) * limitNum;
     const to = from + limitNum - 1;
 
-    // DB에서 해당 topic의 영상 가져오기 (페이지네이션 적용)
-    const { data: videos, error, count } = await supabase
+    // 먼저 차단된 영상 목록 가져오기
+    const { data: blockedVideos } = await supabase
+      .from('coversong_blocked_videos')
+      .select('youtube_id')
+      .eq('is_active', true);
+    
+    const blockedIds = blockedVideos ? blockedVideos.map(v => v.youtube_id) : [];
+
+    // DB에서 해당 topic의 영상 가져오기 (차단된 영상 제외, 페이지네이션 적용)
+    let query = supabase
       .from('coversong_videos')
       .select('*', { count: 'exact' }) // count: 'exact'로 전체 개수도 함께 조회
-      .eq('topic', topic)
+      .eq('topic', topic);
+    
+    // 차단된 영상이 있으면 필터링
+    if (blockedIds.length > 0) {
+      query = query.not('youtube_id', 'in', `(${blockedIds.join(',')})`);
+    }
+    
+    const { data: videos, error, count } = await query
       .order('arena_likes', { ascending: false })
       .range(from, to); // 여기서 페이지네이션 적용
 
