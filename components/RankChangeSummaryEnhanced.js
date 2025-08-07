@@ -22,27 +22,66 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
     try {
       setLoading(true);
       
-      // 오늘의 급상승 영상들 조회
+      // 가장 최근의 급상승 영상들 조회
+      console.log('Fetching rising stars for competition:', competitionId);
+      
+      // 먼저 가장 최근 날짜 확인
+      const { data: latestDate } = await supabase
+        .from('coversong_rising_stars')
+        .select('recorded_date')
+        .eq('competition_id', competitionId)
+        .order('recorded_date', { ascending: false })
+        .limit(1)
+        .single();
+      
+      const targetDate = latestDate?.recorded_date || new Date().toISOString().split('T')[0];
+      console.log('Using date:', targetDate);
+      
       const { data, error } = await supabase
         .from('coversong_rising_stars')
-        .select(`
-          *,
-          video:coversong_videos(*)
-        `)
+        .select('*')
         .eq('competition_id', competitionId)
-        .eq('recorded_date', new Date().toISOString().split('T')[0])
+        .eq('recorded_date', targetDate)
         .order('rank_position', { ascending: true });
+
+      console.log('Rising stars data:', data);
+      console.log('Rising stars error:', error);
 
       if (error) {
         console.error('급상승 영상 조회 오류:', error);
         return;
       }
 
-      if (data) {
+      if (data && data.length > 0) {
+        // video_id로 실제 비디오 정보 가져오기
+        const videoIds = [...new Set(data.map(d => d.video_id))];
+        const { data: videos } = await supabase
+          .from('coversong_videos')
+          .select('*')
+          .in('id', videoIds);
+        
+        const videoMap = {};
+        if (videos) {
+          videos.forEach(v => {
+            videoMap[v.id] = v;
+          });
+        }
+        
+        // 각 rising star에 video 정보 추가
+        const enrichedData = data.map(star => ({
+          ...star,
+          video: videoMap[star.video_id] || {
+            title: star.video_title,
+            channel: star.channel,
+            thumbnail: star.thumbnail
+          }
+        }));
+        
+        console.log('Enriched data:', enrichedData);
         // excludeFirst가 true면 1위 제외 (RisingStarVideo와 중복 방지)
-        let daily = data.filter(d => d.category === 'daily_rising');
-        let weekly = data.filter(d => d.category === 'weekly_rising');
-        let newEntry = data.filter(d => d.category === 'new_entry');
+        let daily = enrichedData.filter(d => d.category === 'daily_rising');
+        let weekly = enrichedData.filter(d => d.category === 'weekly_rising');
+        let newEntry = enrichedData.filter(d => d.category === 'new_entry');
         
         if (excludeFirst) {
           daily = daily.filter(d => d.rank_position > 1);
@@ -50,10 +89,20 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
           newEntry = newEntry.filter(d => d.rank_position > 1);
         }
         
+        console.log('Final rising stars:', { daily, weekly, newEntry });
+        
         setRisingStars({
           daily,
           weekly,
           newEntry
+        });
+      } else {
+        // 데이터가 없을 때
+        console.log('No rising stars data found');
+        setRisingStars({
+          daily: [],
+          weekly: [],
+          newEntry: []
         });
       }
     } catch (error) {
