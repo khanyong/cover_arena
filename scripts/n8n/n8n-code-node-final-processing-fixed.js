@@ -171,7 +171,8 @@ try {
 
     const candidate_score = views + (likes * 100);
     const site_score = candidate_score + (arena_likes * 500) + (guest_likes * 10);
-    const final_site_score = Math.max(candidate_score, site_score);
+    // 본선 점수는 항상 예선 점수 + 추가 점수여야 함
+    const final_site_score = site_score;
 
     const topic = existingVideo ? existingVideo.topic : competitionTopic;
     const competition_id = existingVideo ? existingVideo.competition_id : competitionId;

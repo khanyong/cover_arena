@@ -49,6 +49,7 @@ export default function Admin() {
   const [videoSearchQuery, setVideoSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
+  const [selectedVideosForBlock, setSelectedVideosForBlock] = useState([]) // 선택된 영상들
 
   useEffect(() => {
     // 최초 로드 시 main_title fetch
@@ -471,15 +472,30 @@ export default function Admin() {
     if (!videoSearchQuery.trim()) return
     
     setIsSearching(true)
+    setSelectedVideosForBlock([]) // 검색 시 선택 초기화
     try {
+      // 먼저 차단된 영상 목록 가져오기
+      const { data: blockedData } = await supabase
+        .from('coversong_blocked_videos')
+        .select('youtube_id')
+        .eq('is_active', true)
+      
+      const blockedYoutubeIds = blockedData ? blockedData.map(b => b.youtube_id) : []
+      
+      // 영상 검색
       const { data, error } = await supabase
         .from('coversong_videos')
         .select('*')
         .or(`title.ilike.%${videoSearchQuery}%,channel.ilike.%${videoSearchQuery}%,youtube_id.ilike.%${videoSearchQuery}%`)
-        .limit(20)
+        .limit(50) // 더 많이 가져온 후 필터링
       
       if (!error && data) {
-        setSearchResults(data)
+        // 차단된 영상 제외
+        const filteredResults = data.filter(video => 
+          !blockedYoutubeIds.includes(video.youtube_id)
+        ).slice(0, 20) // 최종적으로 20개만 표시
+        
+        setSearchResults(filteredResults)
       }
     } catch (error) {
       console.error('영상 검색 오류:', error)
@@ -535,6 +551,65 @@ export default function Admin() {
       }
     } catch (error) {
       alert('차단 해제 중 오류가 발생했습니다.')
+    }
+  }
+
+  // 일괄 차단
+  const blockSelectedVideos = async () => {
+    if (selectedVideosForBlock.length === 0) {
+      alert('차단할 영상을 선택해주세요.')
+      return
+    }
+
+    const confirmed = window.confirm(
+      `선택한 ${selectedVideosForBlock.length}개 영상을 차단하시겠습니까?`
+    )
+    if (!confirmed) return
+
+    try {
+      const blockPromises = selectedVideosForBlock.map(video => 
+        supabase
+          .from('coversong_blocked_videos')
+          .insert({
+            youtube_id: video.youtube_id,
+            reason: `${video.title} - 관리자에 의해 일괄 차단됨`,
+            blocked_by: user?.id
+          })
+      )
+
+      const results = await Promise.allSettled(blockPromises)
+      const successCount = results.filter(r => r.status === 'fulfilled').length
+      const failCount = results.filter(r => r.status === 'rejected').length
+
+      alert(`차단 완료: ${successCount}개 성공${failCount > 0 ? `, ${failCount}개 실패` : ''}`)
+      
+      loadBlockedVideos()
+      setSearchResults([])
+      setSelectedVideosForBlock([])
+      setVideoSearchQuery('')
+    } catch (error) {
+      alert('일괄 차단 중 오류가 발생했습니다.')
+    }
+  }
+
+  // 체크박스 토글
+  const toggleVideoSelection = (video) => {
+    setSelectedVideosForBlock(prev => {
+      const isSelected = prev.some(v => v.id === video.id)
+      if (isSelected) {
+        return prev.filter(v => v.id !== video.id)
+      } else {
+        return [...prev, video]
+      }
+    })
+  }
+
+  // 전체 선택/해제
+  const toggleSelectAll = () => {
+    if (selectedVideosForBlock.length === searchResults.length) {
+      setSelectedVideosForBlock([])
+    } else {
+      setSelectedVideosForBlock(searchResults)
     }
   }
 
@@ -966,6 +1041,34 @@ export default function Admin() {
                 </button>
               </div>
               
+              {/* 일괄 선택 버튼들 */}
+              {searchResults.length > 0 && (
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={toggleSelectAll}
+                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                    >
+                      {selectedVideosForBlock.length === searchResults.length ? '전체 해제' : '전체 선택'}
+                    </button>
+                    {selectedVideosForBlock.length > 0 && (
+                      <span className="text-white text-sm">
+                        {selectedVideosForBlock.length}개 선택됨
+                      </span>
+                    )}
+                  </div>
+                  {selectedVideosForBlock.length > 0 && (
+                    <button
+                      onClick={blockSelectedVideos}
+                      className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
+                    >
+                      <span>🚫</span>
+                      <span>선택한 {selectedVideosForBlock.length}개 일괄 차단</span>
+                    </button>
+                  )}
+                </div>
+              )}
+              
               {/* 검색 결과 */}
               <div className="space-y-2 max-h-64 overflow-y-auto">
                 {searchResults.length === 0 ? (
@@ -973,31 +1076,47 @@ export default function Admin() {
                     {videoSearchQuery ? '검색 결과가 없습니다.' : '영상을 검색하세요.'}
                   </div>
                 ) : (
-                  searchResults.map((video) => (
-                    <div key={video.id} className="p-3 bg-white bg-opacity-10 rounded-lg">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="text-white font-semibold text-sm">{video.title}</div>
-                          <div className="text-gray-300 text-xs mt-1">
-                            채널: {video.channel} | ID: {video.youtube_id}
+                  searchResults.map((video) => {
+                    const isSelected = selectedVideosForBlock.some(v => v.id === video.id)
+                    return (
+                      <div 
+                        key={video.id} 
+                        className={`p-3 rounded-lg transition-all ${
+                          isSelected 
+                            ? 'bg-red-600 bg-opacity-20 border border-red-500 border-opacity-50' 
+                            : 'bg-white bg-opacity-10'
+                        }`}
+                      >
+                        <div className="flex items-start">
+                          <input
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => toggleVideoSelection(video)}
+                            className="mt-1 mr-3 accent-red-500"
+                          />
+                          <div className="flex-1">
+                            <div className="text-white font-semibold text-sm">{video.title}</div>
+                            <div className="text-gray-300 text-xs mt-1">
+                              채널: {video.channel} | ID: {video.youtube_id}
+                            </div>
+                            <div className="text-gray-400 text-xs mt-1">
+                              조회수: {video.views?.toLocaleString()} | 좋아요: {video.likes?.toLocaleString()}
+                            </div>
                           </div>
-                          <div className="text-gray-400 text-xs mt-1">
-                            조회수: {video.views?.toLocaleString()} | 좋아요: {video.likes?.toLocaleString()}
-                          </div>
+                          <button
+                            onClick={() => {
+                              if (confirm(`"${video.title}"을(를) 차단하시겠습니까?`)) {
+                                blockVideo(video.youtube_id, video.title)
+                              }
+                            }}
+                            className="ml-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                          >
+                            개별 차단
+                          </button>
                         </div>
-                        <button
-                          onClick={() => {
-                            if (confirm(`"${video.title}"을(를) 차단하시겠습니까?`)) {
-                              blockVideo(video.youtube_id, video.title)
-                            }
-                          }}
-                          className="ml-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
-                        >
-                          차단
-                        </button>
                       </div>
-                    </div>
-                  ))
+                    )
+                  })
                 )}
               </div>
             </div>

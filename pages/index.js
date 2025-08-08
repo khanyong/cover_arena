@@ -81,13 +81,16 @@ export default function Home() {
   // 최종 결과 로드
   const loadFinalResults = async (competitionId) => {
     try {
-      // 먼저 차단된 영상 목록 가져오기
-      const { data: blockedVideos } = await supabase
-        .from('coversong_blocked_videos')
-        .select('youtube_id')
-        .eq('is_active', true);
-      
-      const blockedIds = blockedVideos ? blockedVideos.map(v => v.youtube_id) : [];
+      // API를 통해 차단된 영상 목록 가져오기 (RLS 우회)
+      let blockedIds = [];
+      try {
+        const response = await fetch('/api/blocked-videos');
+        const data = await response.json();
+        blockedIds = data.blockedIds || [];
+      } catch (error) {
+        console.error('Failed to fetch blocked videos:', error);
+        blockedIds = [];
+      }
 
       let query = supabase
         .from('coversong_videos')
@@ -95,9 +98,9 @@ export default function Home() {
         .eq('competition_id', competitionId)
         .not('final_rank', 'is', null);
       
-      // 차단된 영상이 있으면 필터링
+      // 차단된 영상이 있으면 필터링 후 정렬
       if (blockedIds.length > 0) {
-        query = query.not('youtube_id', 'in', `(${blockedIds.join(',')})`);
+        query = query.not('youtube_id', 'in', `(${blockedIds.map(id => `"${id}"`).join(',')})`);
       }
       
       const { data, error } = await query
@@ -231,13 +234,16 @@ export default function Home() {
         status: latestCompetition.status
       });
 
-      // 먼저 차단된 영상 목록 가져오기
-      const { data: blockedVideos } = await supabase
-        .from('coversong_blocked_videos')
-        .select('youtube_id')
-        .eq('is_active', true);
-      
-      const blockedIds = blockedVideos ? blockedVideos.map(v => v.youtube_id) : [];
+      // API를 통해 차단된 영상 목록 가져오기 (RLS 우회)
+      let blockedIds = [];
+      try {
+        const response = await fetch('/api/blocked-videos');
+        const data = await response.json();
+        blockedIds = data.blockedIds || [];
+      } catch (error) {
+        console.error('Failed to fetch blocked videos:', error);
+        blockedIds = [];
+      }
 
       let query = supabase
         .from('coversong_videos')
@@ -245,13 +251,25 @@ export default function Home() {
         .eq('competition_id', latestCompetition.id);
       
       // 차단된 영상이 있으면 필터링
+      let videos;
       if (blockedIds.length > 0) {
-        query = query.not('youtube_id', 'in', `(${blockedIds.join(',')})`);
+        // Supabase의 not in 필터를 올바른 문법으로 사용
+        const { data, error: vidError } = await query.not('youtube_id', 'in', `(${blockedIds.map(id => `"${id}"`).join(',')})`);
+        videos = data;
+        if (vidError) {
+          console.error('Video query error:', vidError);
+          videos = [];
+        }
+      } else {
+        const { data, error: vidError } = await query;
+        videos = data;
+        if (vidError) {
+          console.error('Video query error:', vidError);
+          videos = [];
+        }
       }
-      
-      const { data: videos, error: vidError } = await query;
 
-      console.log('videos:', videos, vidError);
+      console.log('videos:', videos, 'blockedIds:', blockedIds);
         const videoArray = Array.isArray(videos) ? videos : [];
         setVideos(videoArray);
         

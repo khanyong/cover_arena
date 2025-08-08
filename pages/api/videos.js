@@ -1,4 +1,4 @@
-import { supabase } from '../../lib/supabase';
+import { supabase, supabaseAdmin } from '../../lib/supabase';
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -16,8 +16,11 @@ export default async function handler(req, res) {
     const from = (pageNum - 1) * limitNum;
     const to = from + limitNum - 1;
 
-    // 먼저 차단된 영상 목록 가져오기
-    const { data: blockedVideos } = await supabase
+    // Service role client 사용 (RLS 우회)
+    const dbClient = supabaseAdmin || supabase;
+
+    // 먼저 차단된 영상 목록 가져오기 (RLS 우회)
+    const { data: blockedVideos } = await dbClient
       .from('coversong_blocked_videos')
       .select('youtube_id')
       .eq('is_active', true);
@@ -32,7 +35,7 @@ export default async function handler(req, res) {
     
     // 차단된 영상이 있으면 필터링
     if (blockedIds.length > 0) {
-      query = query.not('youtube_id', 'in', `(${blockedIds.join(',')})`);
+      query = query.not('youtube_id', 'in', `(${blockedIds.map(id => `"${id}"`).join(',')})`);
     }
     
     const { data: videos, error, count } = await query

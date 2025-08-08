@@ -103,7 +103,8 @@ try {
     
     console.log(`비디오 ${v.id} 점수 계산:`, { views, likes, candidate_score, arena_likes, guest_likes, site_score });
     
-    const final_site_score = Math.max(candidate_score, site_score);
+    // 본선 점수는 항상 예선 점수 + 추가 점수여야 함 (Math.max 제거)
+    const final_site_score = site_score;
     const topic = existingVideo ? existingVideo.topic : competitionTopic;
     const competition_id = existingVideo ? existingVideo.competition_id : competitionId;
 
