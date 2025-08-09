@@ -1,6 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { getVideoReviewSummary } from '../lib/reviewApi';
 
 export default function VideoTable({ videos, onVideoClick }) {
+  const [reviewSummaries, setReviewSummaries] = useState({});
+  
+  // 리뷰 요약 정보 일괄 로드
+  useEffect(() => {
+    const loadReviewSummaries = async () => {
+      const summaries = {};
+      for (const video of videos.slice(0, 100)) {
+        try {
+          const summary = await getVideoReviewSummary(video.youtube_id);
+          summaries[video.youtube_id] = summary;
+        } catch (error) {
+          console.error('Failed to load review summary:', error);
+        }
+      }
+      setReviewSummaries(summaries);
+    };
+    
+    if (videos && videos.length > 0) {
+      loadReviewSummaries();
+    }
+  }, [videos]);
+  
   if (!videos || videos.length === 0) {
     return <div className="text-center text-gray-400 py-8">영상이 없습니다.</div>;
   }
@@ -143,6 +166,9 @@ export default function VideoTable({ videos, onVideoClick }) {
               <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
                 Arena
               </th>
+              <th scope="col" className="px-3 py-3 text-left text-xs font-medium text-gray-300 uppercase tracking-wider">
+                회원평가
+              </th>
             </tr>
           </thead>
           <tbody className="bg-neutral-900/50 divide-y divide-neutral-700">
@@ -208,6 +234,28 @@ export default function VideoTable({ videos, onVideoClick }) {
                       <span className="text-yellow-400">🏆 {video.arena_likes || 0}</span>
                       <span className="text-gray-400">👤 {video.guest_likes || 0}</span>
                     </div>
+                  </td>
+                  <td className="px-3 py-4 whitespace-nowrap text-sm">
+                    {reviewSummaries[video.youtube_id] && reviewSummaries[video.youtube_id].total_reviews > 0 ? (
+                      <div className="flex flex-col items-center">
+                        <div className="flex items-center gap-1">
+                          <span className="text-yellow-400 font-bold">⭐</span>
+                          <span className="text-white font-semibold">
+                            {reviewSummaries[video.youtube_id].avg_overall_rating?.toFixed(1)}
+                          </span>
+                        </div>
+                        <span className="text-xs text-gray-400">
+                          ({reviewSummaries[video.youtube_id].total_reviews}명)
+                        </span>
+                      </div>
+                    ) : (
+                      <button 
+                        onClick={() => onVideoClick(video)}
+                        className="text-xs text-gray-500 hover:text-purple-400 transition-colors"
+                      >
+                        평가하기
+                      </button>
+                    )}
                   </td>
                 </tr>
               );

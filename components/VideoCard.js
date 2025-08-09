@@ -1,12 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getVideoReviewSummary } from '../lib/reviewApi';
 
 export default function VideoCard({ video, isHovered }) {
+  const [reviewSummary, setReviewSummary] = useState(null);
   const youtubeId = video.youtubeId || video.youtube_id;
   // 썸네일 우선순위 fallback
   const [thumb, setThumb] = useState(
     video.thumbnail ||
     `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`
   );
+
+  // 리뷰 요약 정보 가져오기
+  useEffect(() => {
+    const loadReviewSummary = async () => {
+      try {
+        const summary = await getVideoReviewSummary(youtubeId);
+        setReviewSummary(summary);
+      } catch (error) {
+        console.error('Failed to load review summary:', error);
+      }
+    };
+    
+    if (youtubeId) {
+      loadReviewSummary();
+    }
+  }, [youtubeId]);
 
   // 순위변동 표시 함수
   const getRankChangeDisplay = () => {
@@ -62,7 +80,7 @@ export default function VideoCard({ video, isHovered }) {
         </div>
       )}
 
-      {/* 크기 표시 (우상단) - 극한 크기용 */}
+      {/* 크기 표시 (우상단) */}
       <div className="absolute top-1 right-1 bg-black bg-opacity-70 text-white text-[8px] px-1 py-0.5 rounded">
         {video.size.toFixed(1)}
       </div>
@@ -79,6 +97,21 @@ export default function VideoCard({ video, isHovered }) {
             <span>❤️{video.likes > 999 ? (video.likes/1000).toFixed(1)+'K' : video.likes}</span>
           </div>
         </div>
+        
+        {/* 평점 표시 (우하단) */}
+        {reviewSummary && reviewSummary.total_reviews > 0 && (
+          <div className="absolute bottom-1 right-1 bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
+            <span className="text-[7px] font-bold">⭐{reviewSummary.avg_overall_rating?.toFixed(1)}</span>
+            <span className="text-[6px] text-purple-100">({reviewSummary.total_reviews})</span>
+          </div>
+        )}
+        
+        {/* 평가 가능 표시 (리뷰가 없을 때) */}
+        {(!reviewSummary || reviewSummary.total_reviews === 0) && (
+          <div className="absolute bottom-1 right-1 bg-gradient-to-r from-gray-600/90 to-gray-700/90 text-white px-1.5 py-0.5 rounded-full">
+            <span className="text-[6px] font-bold">⭐평가하기</span>
+          </div>
+        )}
       </div>
     </div>
   );

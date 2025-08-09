@@ -675,6 +675,22 @@ export default function Home() {
       {/* 기존 헤더 */}
       <Header mainTitle={mainTitle} onTopicChange={handleTopicChange} user={user} />
       
+      {/* 평가 기능 안내 배너 */}
+      <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 backdrop-blur-sm border-b border-purple-600/30">
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-center gap-3 text-white">
+            <span className="text-2xl animate-bounce">⭐</span>
+            <div className="text-center">
+              <span className="font-bold text-lg">NEW! 회원 평가 시스템 오픈</span>
+              <span className="text-sm ml-2 text-purple-200">
+                영상을 클릭하여 상세 리뷰와 평점을 남겨주세요! 여러분의 평가가 본선 점수에 반영됩니다.
+              </span>
+            </div>
+            <span className="text-2xl animate-bounce">💬</span>
+          </div>
+        </div>
+      </div>
+      
       <main className="container mx-auto px-4 py-8">
         {/* 상단 통계/상태 영역 */}
         <div className="bg-gray-800 bg-opacity-80 rounded-lg p-4 mb-8 border border-gray-600">
