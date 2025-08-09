@@ -10,6 +10,7 @@ import VideoFilters from '../components/VideoFilters'
 import VideoDetailModal from '../components/VideoDetailModal'
 import RankChangeSummaryEnhanced from '../components/RankChangeSummaryEnhanced'
 import RisingStarVideo from '../components/RisingStarVideo'
+import Footer from '../components/Footer'
 import { auth, supabase } from '../lib/supabase'
 import { saveCurrentRanks, saveRankHistory } from '../lib/rankTracker'
 
@@ -1047,6 +1048,9 @@ export default function Home() {
           onArenaLike={handleArenaLike}
         />
       </main>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   )
 } 

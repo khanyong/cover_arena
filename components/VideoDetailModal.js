@@ -1,6 +1,44 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import ReviewForm from './ReviewForm';
+import ReviewList from './ReviewList';
+import ReviewStats from './ReviewStats';
+import { getUserVideoReview } from '../lib/reviewApi';
 
 export default function VideoDetailModal({ video, isOpen, onClose, user, onArenaLike }) {
+  const [activeTab, setActiveTab] = useState('info');
+  const [showReviewForm, setShowReviewForm] = useState(false);
+  const [existingReview, setExistingReview] = useState(null);
+  const [refreshReviews, setRefreshReviews] = useState(0);
+
+  useEffect(() => {
+    if (isOpen && video && user) {
+      loadUserReview();
+    }
+  }, [isOpen, video, user]);
+
+  const loadUserReview = async () => {
+    if (!user || !video) return;
+    try {
+      const review = await getUserVideoReview(user.id, video.youtube_id);
+      setExistingReview(review);
+    } catch (error) {
+      console.error('Failed to load user review:', error);
+    }
+  };
+
+  const handleReviewSubmit = (review) => {
+    setShowReviewForm(false);
+    setExistingReview(review);
+    setRefreshReviews(prev => prev + 1);
+    setActiveTab('reviews');
+  };
+
+  const handleEditReview = (review) => {
+    setExistingReview(review);
+    setShowReviewForm(true);
+    setActiveTab('reviews');
+  };
+
   if (!isOpen || !video) return null;
 
   const formatNumber = (num) => {
@@ -45,9 +83,36 @@ export default function VideoDetailModal({ video, isOpen, onClose, user, onArena
           </button>
         </div>
 
+        {/* 탭 네비게이션 */}
+        <div className="flex border-b border-neutral-700">
+          <button
+            onClick={() => setActiveTab('info')}
+            className={`px-6 py-3 font-semibold transition-colors ${
+              activeTab === 'info'
+                ? 'text-blue-400 border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            📊 정보
+          </button>
+          <button
+            onClick={() => setActiveTab('reviews')}
+            className={`px-6 py-3 font-semibold transition-colors ${
+              activeTab === 'reviews'
+                ? 'text-blue-400 border-b-2 border-blue-400'
+                : 'text-gray-400 hover:text-white'
+            }`}
+          >
+            💬 리뷰 & 평가
+          </button>
+        </div>
+
         {/* 메인 콘텐츠 */}
         <div className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* 정보 탭 */}
+          {activeTab === 'info' && (
+            <>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* 왼쪽: 썸네일 및 기본 정보 */}
             <div>
               {/* 썸네일 */}
@@ -151,10 +216,10 @@ export default function VideoDetailModal({ video, isOpen, onClose, user, onArena
                 </p>
               </div>
             </div>
-          </div>
+              </div>
 
-          {/* 추가 정보 (YouTube API에서 가져온 모든 정보) */}
-          {video.description && (
+              {/* 추가 정보 (YouTube API에서 가져온 모든 정보) */}
+              {video.description && (
             <div className="mt-6 bg-gradient-to-br from-neutral-800/30 to-neutral-900/30 rounded-lg p-4 border border-neutral-700/50">
               <h4 className="text-lg font-bold text-white mb-3">📝 영상 설명</h4>
               <p className="text-gray-300 text-sm leading-relaxed">
@@ -180,6 +245,67 @@ export default function VideoDetailModal({ video, isOpen, onClose, user, onArena
                   </span>
                 ))}
               </div>
+            </div>
+          )}
+            </>
+          )}
+
+          {/* 리뷰 탭 */}
+          {activeTab === 'reviews' && (
+            <div>
+              {/* 리뷰 통계 */}
+              <ReviewStats videoId={video.youtube_id} />
+
+              {/* 리뷰 작성 버튼 또는 폼 */}
+              {user && !showReviewForm && (
+                <div className="mb-6 text-center">
+                  <button
+                    onClick={() => setShowReviewForm(true)}
+                    className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:from-blue-600 hover:to-indigo-700 transition-all"
+                  >
+                    {existingReview ? '📝 내 리뷰 수정하기' : '✍️ 리뷰 작성하기'}
+                  </button>
+                  {existingReview && (
+                    <p className="text-sm text-gray-400 mt-2">
+                      이미 작성한 리뷰가 있습니다. 수정하실 수 있습니다.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              {/* 리뷰 작성 폼 */}
+              {user && showReviewForm && (
+                <div className="mb-6">
+                  <ReviewForm
+                    videoId={video.youtube_id}
+                    existingReview={existingReview}
+                    userId={user.id}
+                    onSubmit={handleReviewSubmit}
+                    onCancel={() => setShowReviewForm(false)}
+                  />
+                </div>
+              )}
+
+              {/* 로그인 안내 */}
+              {!user && (
+                <div className="mb-6 text-center p-6 bg-gray-800 rounded-lg">
+                  <p className="text-gray-300 mb-3">리뷰를 작성하려면 로그인이 필요합니다.</p>
+                  <button
+                    onClick={() => window.location.href = '/auth'}
+                    className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+                  >
+                    로그인하기
+                  </button>
+                </div>
+              )}
+
+              {/* 리뷰 목록 */}
+              <ReviewList
+                key={refreshReviews}
+                videoId={video.youtube_id}
+                currentUserId={user?.id}
+                onEditReview={handleEditReview}
+              />
             </div>
           )}
         </div>
