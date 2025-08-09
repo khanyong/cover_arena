@@ -10,7 +10,8 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
       .filter(video => 
         video.previous_rank !== null && 
         video.previous_rank !== undefined && 
-        video.rank < video.previous_rank
+        video.rank < video.previous_rank &&
+        video.rank <= 100 // 현재 순위가 100위 이내인 것만
       )
       .sort((a, b) => {
         const aRankIncrease = a.previous_rank - a.rank;
@@ -40,7 +41,7 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
     const newVideos = videos
       .filter(video => 
         (video.previous_rank === null || video.previous_rank === undefined) && 
-        video.rank <= 50 // 50위 이내로 신규 진입한 비디오
+        video.rank <= 100 // 100위 이내로 신규 진입한 비디오만
       )
       .sort((a, b) => a.rank - b.rank); // 현재 순위 기준 정렬 (높은 순위부터)
     

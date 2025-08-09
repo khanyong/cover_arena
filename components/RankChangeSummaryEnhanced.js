@@ -79,9 +79,19 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
         
         console.log('Enriched data:', enrichedData);
         // excludeFirst가 true면 1위 제외 (RisingStarVideo와 중복 방지)
-        let daily = enrichedData.filter(d => d.category === 'daily_rising');
-        let weekly = enrichedData.filter(d => d.category === 'weekly_rising');
-        let newEntry = enrichedData.filter(d => d.category === 'new_entry');
+        // 현재 순위가 100위 이내인 영상만 필터링
+        let daily = enrichedData.filter(d => 
+          d.category === 'daily_rising' && 
+          d.end_rank && d.end_rank <= 100
+        );
+        let weekly = enrichedData.filter(d => 
+          d.category === 'weekly_rising' && 
+          d.end_rank && d.end_rank <= 100
+        );
+        let newEntry = enrichedData.filter(d => 
+          d.category === 'new_entry' && 
+          d.end_rank && d.end_rank <= 100
+        );
         
         if (excludeFirst) {
           daily = daily.filter(d => d.rank_position > 1);
