@@ -11,6 +11,7 @@ import VideoDetailModal from '../components/VideoDetailModal'
 import RankChangeSummaryEnhanced from '../components/RankChangeSummaryEnhanced'
 import RisingStarVideo from '../components/RisingStarVideo'
 import Footer from '../components/Footer'
+import VisitorCounter from '../components/VisitorCounter'
 import { auth, supabase } from '../lib/supabase'
 import { saveCurrentRanks, saveRankHistory } from '../lib/rankTracker'
 
@@ -1064,6 +1065,11 @@ export default function Home() {
           onArenaLike={handleArenaLike}
         />
       </main>
+      
+      {/* 방문자 통계 */}
+      <div className="container mx-auto px-4 py-8">
+        <VisitorCounter />
+      </div>
       
       {/* Footer */}
       <Footer />
