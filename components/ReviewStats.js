@@ -13,14 +13,18 @@ export default function ReviewStats({ videoId }) {
   const loadStats = async () => {
     try {
       setLoading(true)
+      console.log('Loading stats for video:', videoId)
       const [summaryData, reviewersData] = await Promise.all([
         getVideoReviewSummary(videoId),
         getTopReviewers(5)
       ])
+      console.log('Summary data:', summaryData)
+      console.log('Reviewers data:', reviewersData)
       setSummary(summaryData)
       setTopReviewers(reviewersData || [])
     } catch (error) {
       console.error('Failed to load review stats:', error)
+      console.error('Error details:', error.message, error.details)
     } finally {
       setLoading(false)
     }
@@ -179,8 +183,8 @@ export default function ReviewStats({ videoId }) {
           </h4>
           <div className="flex gap-2 flex-wrap">
             {topReviewers.slice(0, 3).map((reviewer, index) => {
-              const userName = reviewer.user?.raw_user_meta_data?.name || 
-                              reviewer.user?.email?.split('@')[0] || 'Anonymous'
+              // 익명 처리 - 모든 사용자를 *** 표시
+              const userName = '***'
               return (
                 <div key={reviewer.user_id} className="flex items-center gap-2 px-3 py-1 bg-gray-700/50 rounded-full">
                   <span className="text-xs font-bold text-yellow-400">#{index + 1}</span>

@@ -1,4 +1,11 @@
--- 리뷰 테이블 생성
+-- 기존 테이블 삭제 (잘못된 참조 수정을 위해)
+DROP TABLE IF EXISTS coversong_review_comments CASCADE;
+DROP TABLE IF EXISTS coversong_review_reactions CASCADE;
+DROP TABLE IF EXISTS coversong_reviewer_stats CASCADE;
+DROP TABLE IF EXISTS coversong_reviews CASCADE;
+DROP VIEW IF EXISTS coversong_review_summary CASCADE;
+
+-- 리뷰 테이블 재생성 (profiles 테이블 참조)
 CREATE TABLE IF NOT EXISTS coversong_reviews (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   user_id UUID REFERENCES profiles(id) ON DELETE CASCADE NOT NULL,
@@ -59,7 +66,7 @@ CREATE TABLE IF NOT EXISTS coversong_review_reactions (
 CREATE TABLE IF NOT EXISTS coversong_reviewer_stats (
   user_id UUID REFERENCES profiles(id) ON DELETE CASCADE PRIMARY KEY,
   
-  total_coversong_reviews INTEGER DEFAULT 0,
+  total_reviews INTEGER DEFAULT 0,
   total_helpful_received INTEGER DEFAULT 0,
   average_rating_given DECIMAL(3,2),
   reviewer_level TEXT DEFAULT 'beginner' CHECK (reviewer_level IN ('beginner', 'intermediate', 'expert')),
@@ -72,11 +79,11 @@ CREATE TABLE IF NOT EXISTS coversong_reviewer_stats (
 );
 
 -- 인덱스 생성 (성능 최적화)
-CREATE INDEX idx_coversong_reviews_video_id ON coversong_reviews(video_id);
-CREATE INDEX idx_coversong_reviews_user_id ON coversong_reviews(user_id);
-CREATE INDEX idx_coversong_reviews_created_at ON coversong_reviews(created_at DESC);
-CREATE INDEX idx_coversong_review_comments_review_id ON coversong_review_comments(review_id);
-CREATE INDEX idx_coversong_review_reactions_review_id ON coversong_review_reactions(review_id);
+CREATE INDEX idx_reviews_video_id ON coversong_reviews(video_id);
+CREATE INDEX idx_reviews_user_id ON coversong_reviews(user_id);
+CREATE INDEX idx_reviews_created_at ON coversong_reviews(created_at DESC);
+CREATE INDEX idx_review_comments_review_id ON coversong_review_comments(review_id);
+CREATE INDEX idx_review_reactions_review_id ON coversong_review_reactions(review_id);
 
 -- RLS (Row Level Security) 정책 설정
 ALTER TABLE coversong_reviews ENABLE ROW LEVEL SECURITY;
@@ -85,16 +92,16 @@ ALTER TABLE coversong_review_reactions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE coversong_reviewer_stats ENABLE ROW LEVEL SECURITY;
 
 -- 리뷰 정책
-CREATE POLICY "Anyone can view coversong_reviews" ON coversong_reviews
+CREATE POLICY "Anyone can view reviews" ON coversong_reviews
   FOR SELECT USING (true);
 
-CREATE POLICY "Authenticated users can create coversong_reviews" ON coversong_reviews
+CREATE POLICY "Authenticated users can create reviews" ON coversong_reviews
   FOR INSERT WITH CHECK (auth.uid() = user_id);
 
-CREATE POLICY "Users can update their own coversong_reviews" ON coversong_reviews
+CREATE POLICY "Users can update their own reviews" ON coversong_reviews
   FOR UPDATE USING (auth.uid() = user_id);
 
-CREATE POLICY "Users can delete their own coversong_reviews" ON coversong_reviews
+CREATE POLICY "Users can delete their own reviews" ON coversong_reviews
   FOR DELETE USING (auth.uid() = user_id);
 
 -- 댓글 정책
@@ -136,10 +143,10 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER update_coversong_reviews_updated_at BEFORE UPDATE ON coversong_reviews
+CREATE TRIGGER update_reviews_updated_at BEFORE UPDATE ON coversong_reviews
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
-CREATE TRIGGER update_coversong_review_comments_updated_at BEFORE UPDATE ON coversong_review_comments
+CREATE TRIGGER update_review_comments_updated_at BEFORE UPDATE ON coversong_review_comments
   FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();
 
 -- 트리거 함수: helpful_count 자동 업데이트
@@ -164,18 +171,18 @@ CREATE TRIGGER update_review_helpful_count
   FOR EACH ROW EXECUTE FUNCTION update_helpful_count();
 
 -- 트리거 함수: 리뷰어 통계 자동 업데이트
-CREATE OR REPLACE FUNCTION update_coversong_reviewer_stats()
+CREATE OR REPLACE FUNCTION update_reviewer_stats()
 RETURNS TRIGGER AS $$
 BEGIN
   IF TG_OP = 'INSERT' THEN
-    INSERT INTO coversong_reviewer_stats (user_id, total_coversong_reviews, average_rating_given)
+    INSERT INTO coversong_reviewer_stats (user_id, total_reviews, average_rating_given)
     VALUES (NEW.user_id, 1, NEW.overall_rating)
     ON CONFLICT (user_id) DO UPDATE
     SET 
-      total_coversong_reviews = coversong_reviewer_stats.total_coversong_reviews + 1,
+      total_reviews = coversong_reviewer_stats.total_reviews + 1,
       average_rating_given = (
-        (coversong_reviewer_stats.average_rating_given * coversong_reviewer_stats.total_coversong_reviews + NEW.overall_rating) 
-        / (coversong_reviewer_stats.total_coversong_reviews + 1)
+        (coversong_reviewer_stats.average_rating_given * coversong_reviewer_stats.total_reviews + NEW.overall_rating) 
+        / (coversong_reviewer_stats.total_reviews + 1)
       ),
       updated_at = TIMEZONE('utc', NOW());
   END IF;
@@ -183,15 +190,15 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
-CREATE TRIGGER update_coversong_reviewer_stats_on_review
+CREATE TRIGGER update_reviewer_stats_on_review
   AFTER INSERT ON coversong_reviews
-  FOR EACH ROW EXECUTE FUNCTION update_coversong_reviewer_stats();
+  FOR EACH ROW EXECUTE FUNCTION update_reviewer_stats();
 
 -- 뷰: 리뷰 요약 정보
 CREATE OR REPLACE VIEW coversong_review_summary AS
 SELECT 
   video_id,
-  COUNT(*) as total_coversong_reviews,
+  COUNT(*) as total_reviews,
   AVG(overall_rating)::DECIMAL(3,2) as avg_overall_rating,
   AVG(vocal_rating)::DECIMAL(3,2) as avg_vocal_rating,
   AVG(emotion_rating)::DECIMAL(3,2) as avg_emotion_rating,

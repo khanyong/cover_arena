@@ -146,14 +146,16 @@ export default function ReviewComments({ reviewId, currentUserId, initialComment
   }
 
   const CommentItem = ({ comment, isReply = false, parentId = null }) => {
-    const userName = comment.user?.raw_user_meta_data?.name || comment.user?.email?.split('@')[0] || 'Anonymous'
+    // 익명 처리 - 모든 사용자를 *** 표시
+    const userName = '***'
+    const avatarLetter = '?'
     const isOwner = comment.user_id === currentUserId
 
     return (
       <div className={`${isReply ? 'ml-12' : ''} mb-3`}>
         <div className="flex gap-3">
-          <div className="w-8 h-8 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
-            {userName[0].toUpperCase()}
+          <div className="w-8 h-8 bg-gradient-to-br from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+            {avatarLetter}
           </div>
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-1">
@@ -197,7 +199,7 @@ export default function ReviewComments({ reviewId, currentUserId, initialComment
                     <button
                       onClick={() => {
                         setReplyTo(comment.id)
-                        setNewComment(`@${userName} `)
+                        setNewComment('')
                       }}
                       className="text-xs text-gray-500 hover:text-gray-400"
                     >

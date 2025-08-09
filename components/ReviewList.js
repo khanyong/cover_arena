@@ -16,7 +16,9 @@ export default function ReviewList({ videoId, currentUserId, onEditReview }) {
   const loadReviews = async () => {
     try {
       setLoading(true)
+      console.log('Loading reviews for video:', videoId)
       const data = await getVideoReviews(videoId, sortBy, sortBy === 'created_at')
+      console.log('Loaded reviews:', data)
       setReviews(data || [])
     } catch (error) {
       console.error('Failed to load reviews:', error)
@@ -132,15 +134,17 @@ export default function ReviewList({ videoId, currentUserId, onEditReview }) {
         {reviews.map(review => {
           const userReaction = review.reactions?.find(r => r.user_id === currentUserId)
           const isOwner = review.user_id === currentUserId
-          const userName = review.user?.raw_user_meta_data?.name || review.user?.email?.split('@')[0] || 'Anonymous'
+          // 익명 처리 - 모든 사용자를 *** 표시
+          const userName = '***'
+          const avatarLetter = '?'
 
           return (
             <div key={review.id} className="bg-gray-800 rounded-lg p-4">
               {/* 리뷰 헤더 */}
               <div className="flex justify-between items-start mb-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
-                    {userName[0].toUpperCase()}
+                  <div className="w-10 h-10 bg-gradient-to-br from-gray-500 to-gray-600 rounded-full flex items-center justify-center text-white font-bold">
+                    {avatarLetter}
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
