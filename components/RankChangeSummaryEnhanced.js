@@ -16,7 +16,7 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
     if (competitionId) {
       fetchRisingStars();
     }
-  }, [competitionId]);
+  }, [competitionId, videos]); // videos가 변경될 때도 다시 실행
 
   const fetchRisingStars = async () => {
     try {
@@ -68,16 +68,60 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
         }
         
         // 각 rising star에 video 정보 추가
-        const enrichedData = data.map(star => ({
-          ...star,
-          video: videoMap[star.video_id] || {
-            title: star.video_title,
-            channel: star.channel,
-            thumbnail: star.thumbnail
-          }
-        }));
+        // videos prop에서 현재 displayRank 찾기
+        const currentVideoMap = {};
+        console.log('=== RankChangeSummaryEnhanced Debug ===');
+        console.log('videos prop:', videos);
+        console.log('videos length:', videos?.length);
         
-        console.log('Enriched data:', enrichedData);
+        if (videos && videos.length > 0) {
+          console.log('First video sample:', videos[0]);
+          videos.forEach(v => {
+            // videos 배열의 id 필드가 실제로는 youtube_id를 담고 있음
+            const videoId = v.id || v.youtube_id;
+            if (videoId) {
+              currentVideoMap[videoId] = v;
+              console.log(`Mapping video ${videoId}: displayRank=${v.displayRank}, originalRank=${v.originalRank}`);
+            }
+          });
+        }
+        
+        const enrichedData = data.map(star => {
+          // star.video_id는 실제로 youtube_id일 수 있음
+          const currentVideo = currentVideoMap[star.video_id];
+          console.log(`Star video_id ${star.video_id}: found in currentVideoMap?`, !!currentVideo);
+          if (currentVideo) {
+            console.log(`  - displayRank: ${currentVideo.displayRank}, originalRank: ${currentVideo.originalRank}`);
+          } else {
+            // video_id로 못 찾으면 videos에서 youtube_id로 다시 찾기
+            const foundVideo = videos?.find(v => v.youtube_id === star.video_id);
+            if (foundVideo) {
+              console.log(`  Found by youtube_id search: displayRank=${foundVideo.displayRank}`);
+              currentVideoMap[star.video_id] = foundVideo;
+            }
+          }
+          
+          const finalVideo = currentVideoMap[star.video_id];
+          // displayRank 계산: 블럭된 영상을 제외한 실제 순위
+          let displayRank = finalVideo?.displayRank;
+          if (!displayRank && star.category === 'new_entry') {
+            // 신규 진입은 rank_position이 블럭을 제외한 순위
+            displayRank = star.rank_position;
+          }
+          
+          return {
+            ...star,
+            video: videoMap[star.video_id] || {
+              title: star.video_title,
+              channel: star.channel,
+              thumbnail: star.thumbnail
+            },
+            // 현재 표시 순위 추가
+            displayRank: displayRank || star.end_rank
+          };
+        });
+        
+        console.log('Enriched data with displayRank:', enrichedData);
         // excludeFirst가 true면 1위 제외 (RisingStarVideo와 중복 방지)
         // 현재 순위가 100위 이내인 영상만 필터링
         let daily = enrichedData.filter(d => 
@@ -223,7 +267,7 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
             )}
             {star.category === 'new_entry' && (
               <p className="text-xs text-green-400 mt-2">
-                신규 진입 • 현재 {star.end_rank || video.current_rank}위
+                신규 진입 • 현재 {star.displayRank || star.rank_position}위
               </p>
             )}
           </div>

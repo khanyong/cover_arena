@@ -10,8 +10,8 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
       .filter(video => 
         video.previous_rank !== null && 
         video.previous_rank !== undefined && 
-        video.rank < video.previous_rank &&
-        video.rank <= 100 // 현재 순위가 100위 이내인 것만
+        (video.displayRank || video.rank) < video.previous_rank &&
+        (video.displayRank || video.rank) <= 100 // 현재 순위가 100위 이내인 것만
       )
       .sort((a, b) => {
         const aRankIncrease = a.previous_rank - a.rank;
@@ -23,7 +23,7 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
         }
         
         // 2차: 상승폭이 같으면 현재 순위 기준 정렬 (작은 것부터 = 높은 순위부터)
-        return a.rank - b.rank;
+        return (a.displayRank || a.rank) - (b.displayRank || b.rank);
       });
     
     if (risingVideos.length === 0) return [];
@@ -41,14 +41,14 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
     const newVideos = videos
       .filter(video => 
         (video.previous_rank === null || video.previous_rank === undefined) && 
-        video.rank <= 100 // 100위 이내로 신규 진입한 비디오만
+        (video.displayRank || video.rank) <= 100 // 100위 이내로 신규 진입한 비디오만
       )
-      .sort((a, b) => a.rank - b.rank); // 현재 순위 기준 정렬 (높은 순위부터)
+      .sort((a, b) => (a.displayRank || a.rank) - (b.displayRank || b.rank)); // 현재 순위 기준 정렬 (높은 순위부터)
     
     if (newVideos.length === 0) return [];
     
-    const topRank = newVideos[0].rank;
-    return newVideos.filter(video => video.rank === topRank);
+    const topRank = newVideos[0].displayRank || newVideos[0].rank;
+    return newVideos.filter(video => (video.displayRank || video.rank) === topRank);
   };
 
   const risingVideos = getRisingVideos();
@@ -73,7 +73,8 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
 
   // 비디오 카드 렌더링 함수
   const renderVideoCard = (video, isNewEntry, index, totalCount) => {
-    const rankIncrease = isNewEntry ? 0 : video.previous_rank - video.rank;
+    const currentRank = video.displayRank || video.rank;
+    const rankIncrease = isNewEntry ? 0 : video.previous_rank - currentRank;
     
     return (
       <div key={video.id} className={`backdrop-blur-sm rounded-lg p-6 shadow-lg border ${
@@ -87,7 +88,7 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
               공동 1위
             </span>
             <span className="text-gray-300 text-sm">
-              {isNewEntry ? `${video.rank}위 신규 진입` : `+${rankIncrease}단계 상승`}
+              {isNewEntry ? `${currentRank}위 신규 진입` : `+${rankIncrease}단계 상승`}
             </span>
           </div>
         )}
@@ -108,12 +109,12 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
                 ? 'bg-gradient-to-r from-green-500 to-emerald-500' 
                 : 'bg-gradient-to-r from-red-500 to-orange-500'
             }`}>
-              {isNewEntry ? `🌟 ${video.rank}위 신규!` : `🔥 +${rankIncrease}단계 상승!`}
+              {isNewEntry ? `🌟 ${currentRank}위 신규!` : `🔥 +${rankIncrease}단계 상승!`}
             </div>
             
             {/* 현재 순위 */}
             <div className="absolute top-3 right-3 bg-black bg-opacity-70 text-white px-2 py-1 rounded text-sm font-bold">
-              {video.rank}위
+              {currentRank}위
             </div>
           </div>
           
@@ -140,7 +141,7 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
                     </div>
                     <div className="bg-black bg-opacity-30 rounded-lg p-3 text-center">
                       <div className="text-gray-400 text-sm">현재 순위</div>
-                      <div className="text-green-300 font-bold text-lg">{video.rank}위</div>
+                      <div className="text-green-300 font-bold text-lg">{currentRank}위</div>
                     </div>
                     <div className="bg-gradient-to-r from-green-500 to-emerald-500 rounded-lg p-3 text-center">
                       <div className="text-white text-sm font-bold">진입</div>
@@ -160,7 +161,7 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
                     </div>
                     <div className="bg-black bg-opacity-30 rounded-lg p-3 text-center">
                       <div className="text-gray-400 text-sm">현재 순위</div>
-                      <div className="text-green-300 font-bold text-lg">{video.rank}위</div>
+                      <div className="text-green-300 font-bold text-lg">{currentRank}위</div>
                     </div>
                     <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-lg p-3 text-center">
                       <div className="text-white text-sm font-bold">상승폭</div>
