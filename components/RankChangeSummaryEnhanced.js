@@ -13,157 +13,84 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
   const [showHistoryModal, setShowHistoryModal] = useState(false);
 
   useEffect(() => {
-    if (competitionId) {
-      fetchRisingStars();
+    if (videos && videos.length > 0) {
+      calculateRisingStars();
     }
-  }, [competitionId, videos]); // videos가 변경될 때도 다시 실행
+  }, [videos, excludeFirst]); // videos가 변경될 때 다시 계산
 
-  const fetchRisingStars = async () => {
-    try {
-      setLoading(true);
-      
-      // 가장 최근의 급상승 영상들 조회
-      console.log('Fetching rising stars for competition:', competitionId);
-      
-      // 먼저 가장 최근 날짜 확인
-      const { data: latestDate } = await supabase
-        .from('coversong_rising_stars')
-        .select('recorded_date')
-        .eq('competition_id', competitionId)
-        .order('recorded_date', { ascending: false })
-        .limit(1)
-        .single();
-      
-      const targetDate = latestDate?.recorded_date || new Date().toISOString().split('T')[0];
-      console.log('Using date:', targetDate);
-      
-      const { data, error } = await supabase
-        .from('coversong_rising_stars')
-        .select('*')
-        .eq('competition_id', competitionId)
-        .eq('recorded_date', targetDate)
-        .order('rank_position', { ascending: true });
-
-      console.log('Rising stars data:', data);
-      console.log('Rising stars error:', error);
-
-      if (error) {
-        console.error('급상승 영상 조회 오류:', error);
-        return;
-      }
-
-      if (data && data.length > 0) {
-        // video_id로 실제 비디오 정보 가져오기
-        const videoIds = [...new Set(data.map(d => d.video_id))];
-        const { data: videos } = await supabase
-          .from('coversong_videos')
-          .select('*')
-          .in('id', videoIds);
-        
-        const videoMap = {};
-        if (videos) {
-          videos.forEach(v => {
-            videoMap[v.id] = v;
-          });
-        }
-        
-        // 각 rising star에 video 정보 추가
-        // videos prop에서 현재 displayRank 찾기
-        const currentVideoMap = {};
-        console.log('=== RankChangeSummaryEnhanced Debug ===');
-        console.log('videos prop:', videos);
-        console.log('videos length:', videos?.length);
-        
-        if (videos && videos.length > 0) {
-          console.log('First video sample:', videos[0]);
-          videos.forEach(v => {
-            // videos 배열의 id 필드가 실제로는 youtube_id를 담고 있음
-            const videoId = v.id || v.youtube_id;
-            if (videoId) {
-              currentVideoMap[videoId] = v;
-              console.log(`Mapping video ${videoId}: displayRank=${v.displayRank}, originalRank=${v.originalRank}`);
-            }
-          });
-        }
-        
-        const enrichedData = data.map(star => {
-          // star.video_id는 실제로 youtube_id일 수 있음
-          const currentVideo = currentVideoMap[star.video_id];
-          console.log(`Star video_id ${star.video_id}: found in currentVideoMap?`, !!currentVideo);
-          if (currentVideo) {
-            console.log(`  - displayRank: ${currentVideo.displayRank}, originalRank: ${currentVideo.originalRank}`);
-          } else {
-            // video_id로 못 찾으면 videos에서 youtube_id로 다시 찾기
-            const foundVideo = videos?.find(v => v.youtube_id === star.video_id);
-            if (foundVideo) {
-              console.log(`  Found by youtube_id search: displayRank=${foundVideo.displayRank}`);
-              currentVideoMap[star.video_id] = foundVideo;
-            }
-          }
-          
-          const finalVideo = currentVideoMap[star.video_id];
-          // displayRank 계산: 블럭된 영상을 제외한 실제 순위
-          let displayRank = finalVideo?.displayRank;
-          if (!displayRank && star.category === 'new_entry') {
-            // 신규 진입은 rank_position이 블럭을 제외한 순위
-            displayRank = star.rank_position;
-          }
-          
-          return {
-            ...star,
-            video: videoMap[star.video_id] || {
-              title: star.video_title,
-              channel: star.channel,
-              thumbnail: star.thumbnail
-            },
-            // 현재 표시 순위 추가
-            displayRank: displayRank || star.end_rank
-          };
-        });
-        
-        console.log('Enriched data with displayRank:', enrichedData);
-        // excludeFirst가 true면 1위 제외 (RisingStarVideo와 중복 방지)
-        // 현재 순위가 100위 이내인 영상만 필터링
-        let daily = enrichedData.filter(d => 
-          d.category === 'daily_rising' && 
-          d.end_rank && d.end_rank <= 100
-        );
-        let weekly = enrichedData.filter(d => 
-          d.category === 'weekly_rising' && 
-          d.end_rank && d.end_rank <= 100
-        );
-        let newEntry = enrichedData.filter(d => 
-          d.category === 'new_entry' && 
-          d.end_rank && d.end_rank <= 100
-        );
-        
-        if (excludeFirst) {
-          daily = daily.filter(d => d.rank_position > 1);
-          weekly = weekly.filter(d => d.rank_position > 1);
-          newEntry = newEntry.filter(d => d.rank_position > 1);
-        }
-        
-        console.log('Final rising stars:', { daily, weekly, newEntry });
-        
-        setRisingStars({
-          daily,
-          weekly,
-          newEntry
-        });
-      } else {
-        // 데이터가 없을 때
-        console.log('No rising stars data found');
-        setRisingStars({
-          daily: [],
-          weekly: [],
-          newEntry: []
-        });
-      }
-    } catch (error) {
-      console.error('급상승 영상 처리 오류:', error);
-    } finally {
+  const calculateRisingStars = () => {
+    setLoading(true);
+    
+    // videos prop에서 직접 계산하기 (블럭된 영상이 이미 제외된 상태)
+    console.log('Calculating rising stars from videos prop:', videos?.length);
+    
+    if (!videos || videos.length === 0) {
+      setRisingStars({ daily: [], weekly: [], newEntry: [] });
       setLoading(false);
+      return;
     }
+
+    // 신규 진입 찾기 (previous_rank가 null인 영상들)
+    let newEntryVideos = videos
+      .filter(v => v.originalPreviousRank === null || v.originalPreviousRank === undefined)
+      .slice(0, 3)
+      .map((v, index) => ({
+        video_id: v.youtube_id || v.id,
+        video_title: v.title,
+        channel: v.channel,
+        thumbnail: v.thumbnail,
+        category: 'new_entry',
+        rank_position: index + 1,
+        end_rank: v.displayRank,
+        displayRank: v.displayRank,
+        video: v
+      }));
+    
+    // 일일 급상승 찾기 (순위가 상승한 영상들)
+    let dailyRisingVideos = videos
+      .filter(v => 
+        v.displayPreviousRank !== null && 
+        v.displayPreviousRank !== undefined &&
+        v.displayRank < v.displayPreviousRank
+      )
+      .sort((a, b) => {
+        const aChange = a.displayPreviousRank - a.displayRank;
+        const bChange = b.displayPreviousRank - b.displayRank;
+        return bChange - aChange;
+      })
+      .slice(0, 3)
+      .map((v, index) => ({
+        video_id: v.youtube_id || v.id,
+        video_title: v.title,
+        channel: v.channel,
+        thumbnail: v.thumbnail,
+        category: 'daily_rising',
+        rank_position: index + 1,
+        rank_change: v.displayPreviousRank - v.displayRank,
+        end_rank: v.displayRank,
+        displayRank: v.displayRank,
+        video: v
+      }));
+
+    // excludeFirst가 true면 1위 제외
+    if (excludeFirst) {
+      dailyRisingVideos = dailyRisingVideos.filter(d => d.rank_position > 1);
+      newEntryVideos = newEntryVideos.filter(d => d.rank_position > 1);
+    }
+    
+    console.log('Final rising stars:', { 
+      daily: dailyRisingVideos, 
+      weekly: [], 
+      newEntry: newEntryVideos 
+    });
+    
+    setRisingStars({
+      daily: dailyRisingVideos,
+      weekly: [], // 주간 데이터는 나중에 구현
+      newEntry: newEntryVideos
+    });
+    
+    setLoading(false);
   };
 
   const fetchVideoHistory = async (videoId) => {
@@ -207,70 +134,46 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
     }
   };
 
-  const RankChangeIcon = ({ change, isNew }) => {
-    if (isNew) {
-      return (
-        <svg width="20" height="20" viewBox="0 0 24 24">
-          <polygon points="20,2 4,12 20,22" fill="#10B981" />
-        </svg>
-      );
-    }
-    if (change > 0) {
-      return (
-        <div className="flex items-center text-blue-400">
-          <svg width="20" height="20" viewBox="0 0 24 24">
-            <polygon points="12,4 22,20 2,20" fill="#3B82F6" />
-          </svg>
-          <span className="ml-1 font-bold">+{change}</span>
-        </div>
-      );
-    }
-    return null;
-  };
-
+  // 비디오 카드 컴포넌트
   const VideoCard = ({ star, index }) => {
     const video = star.video || {};
+    
     return (
       <div 
-        key={star.id}
-        className="bg-gradient-to-br from-neutral-800/60 to-neutral-900/60 rounded-lg p-4 cursor-pointer hover:scale-105 transition-transform"
+        className="bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
         onClick={() => handleVideoClick(star)}
       >
-        <div className="flex items-start space-x-3">
-          <div className="text-3xl font-bold text-yellow-400">
-            {excludeFirst ? index + 2 : index + 1}
+        <div className="relative">
+          <img 
+            src={video.thumbnail || star.thumbnail || `https://img.youtube.com/vi/${star.video_id}/hqdefault.jpg`}
+            alt={video.title || star.video_title}
+            className="w-full h-40 object-cover"
+          />
+          <div className={`absolute top-2 left-2 px-2 py-1 rounded text-xs font-bold text-white ${
+            star.category === 'new_entry' ? 'bg-green-600' : 'bg-blue-600'
+          }`}>
+            {star.rank_position === 1 ? '🥇' : star.rank_position === 2 ? '🥈' : '🥉'} 
+            {star.category === 'new_entry' ? '신규' : '급상승'} {star.rank_position}위
           </div>
-          <div className="flex-1">
-            <div className="aspect-video relative mb-2">
-              <img 
-                src={video.thumbnail} 
-                alt={video.title}
-                className="w-full h-full object-cover rounded"
-              />
-              <div className="absolute top-2 right-2 bg-black/70 rounded-full p-2">
-                <RankChangeIcon 
-                  change={star.rank_change} 
-                  isNew={star.category === 'new_entry'} 
-                />
-              </div>
-            </div>
-            <h4 className="text-sm font-bold text-white line-clamp-2">
-              {video.title}
-            </h4>
-            <p className="text-xs text-gray-400 mt-1">
-              {video.channel}
+        </div>
+        
+        <div className="p-4">
+          <h4 className="text-sm font-bold text-white line-clamp-2">
+            {video.title || star.video_title}
+          </h4>
+          <p className="text-xs text-gray-400 mt-1">
+            {video.channel || star.channel}
+          </p>
+          {star.rank_change && (
+            <p className="text-xs text-blue-400 mt-2">
+              {star.category === 'daily_rising' ? '24시간' : '7일'} 동안 {star.rank_change}계단 상승
             </p>
-            {star.rank_change && (
-              <p className="text-xs text-blue-400 mt-2">
-                {star.category === 'daily_rising' ? '24시간' : '7일'} 동안 {star.rank_change}계단 상승
-              </p>
-            )}
-            {star.category === 'new_entry' && (
-              <p className="text-xs text-green-400 mt-2">
-                신규 진입 • 현재 {star.displayRank || star.rank_position}위
-              </p>
-            )}
-          </div>
+          )}
+          {star.category === 'new_entry' && (
+            <p className="text-xs text-green-400 mt-2">
+              신규 진입 • 현재 {star.displayRank}위
+            </p>
+          )}
         </div>
       </div>
     );
@@ -337,13 +240,13 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
         {/* 카테고리별 TOP 3 표시 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {activeTab === 'daily' && risingStars.daily.map((star, index) => (
-            <VideoCard key={star.id} star={star} index={index} />
+            <VideoCard key={`daily-${index}`} star={star} index={index} />
           ))}
           {activeTab === 'weekly' && risingStars.weekly.map((star, index) => (
-            <VideoCard key={star.id} star={star} index={index} />
+            <VideoCard key={`weekly-${index}`} star={star} index={index} />
           ))}
           {activeTab === 'new' && risingStars.newEntry.map((star, index) => (
-            <VideoCard key={star.id} star={star} index={index} />
+            <VideoCard key={`new-${index}`} star={star} index={index} />
           ))}
         </div>
 
@@ -354,139 +257,52 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
           <div className="text-center text-gray-400 py-8">
             {activeTab === 'weekly' && risingStars.weekly.length === 0 
               ? '주간 데이터는 일요일마다 업데이트됩니다.' 
-              : '아직 데이터가 없습니다.'}
+              : '해당하는 영상이 없습니다.'}
           </div>
         )}
       </div>
 
-      {/* 순위 히스토리 모달 */}
+      {/* 히스토리 모달 */}
       {showHistoryModal && selectedVideo && (
-        <VideoRankHistoryModal 
-          video={selectedVideo}
-          onClose={() => {
-            setShowHistoryModal(false);
-            setSelectedVideo(null);
-          }}
-        />
-      )}
-    </>
-  );
-}
-
-// 순위 히스토리 모달 컴포넌트
-function VideoRankHistoryModal({ video, onClose }) {
-  const formatDate = (dateStr) => {
-    const date = new Date(dateStr);
-    return `${date.getMonth() + 1}/${date.getDate()}`;
-  };
-
-  const getChangeLabel = (change) => {
-    if (change > 0) return `+${change}`;
-    if (change < 0) return `${change}`;
-    return '→';
-  };
-
-  const getChangeColor = (change) => {
-    if (change > 0) return 'text-blue-400';
-    if (change < 0) return 'text-red-400';
-    return 'text-gray-400';
-  };
-
-  return (
-    <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-      <div className="bg-gradient-to-br from-neutral-800 to-neutral-900 rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
-        <div className="sticky top-0 bg-neutral-900/95 p-6 border-b border-neutral-700">
-          <div className="flex justify-between items-start">
-            <div>
-              <h2 className="text-2xl font-bold text-white mb-2">
-                순위 변동 히스토리
-              </h2>
-              <p className="text-gray-300">{video.video?.title || video.video_title}</p>
-              <p className="text-sm text-gray-400">{video.video?.channel || video.channel}</p>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-800 rounded-lg p-6 max-w-2xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-xl font-bold text-white">
+                {selectedVideo.video_title || selectedVideo.video?.title}
+              </h3>
+              <button
+                onClick={() => setShowHistoryModal(false)}
+                className="text-gray-400 hover:text-white"
+              >
+                ✕
+              </button>
             </div>
-            <button
-              onClick={onClose}
-              className="text-gray-400 hover:text-white text-2xl"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-
-        <div className="p-6">
-          {/* 기간별 요약 */}
-          {video.changes && video.changes.length > 0 && (
-            <div className="mb-6">
-              <h3 className="text-lg font-bold text-white mb-3">기간별 변동</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {video.changes.map(change => (
-                  <div key={change.id} className="bg-neutral-800/50 rounded-lg p-4">
-                    <div className="text-sm text-gray-400 mb-1">
-                      {change.period_type === 'daily' && '일일'}
-                      {change.period_type === 'weekly' && '주간'}
-                      {change.period_type === 'total' && '전체 기간'}
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-white font-bold">{change.start_rank || 'NEW'}위</span>
-                        <span className="mx-2 text-gray-500">→</span>
-                        <span className="text-white font-bold">{change.end_rank}위</span>
+            
+            {/* 히스토리 차트나 정보 표시 */}
+            <div className="space-y-4">
+              {selectedVideo.history && selectedVideo.history.length > 0 ? (
+                <div>
+                  <h4 className="text-lg font-semibold text-white mb-2">순위 변동 히스토리</h4>
+                  <div className="space-y-2">
+                    {selectedVideo.history.map((record, idx) => (
+                      <div key={idx} className="flex justify-between text-sm">
+                        <span className="text-gray-400">
+                          {new Date(record.recorded_date).toLocaleDateString()}
+                        </span>
+                        <span className="text-white font-semibold">
+                          {record.rank}위
+                        </span>
                       </div>
-                      <div className={`font-bold ${getChangeColor(change.rank_change)}`}>
-                        {getChangeLabel(change.rank_change)}
-                      </div>
-                    </div>
-                    <div className="text-xs text-gray-500 mt-2">
-                      최고: {change.max_rank}위 | 최저: {change.min_rank}위
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* 일별 히스토리 차트 */}
-          {video.history && video.history.length > 0 && (
-            <div>
-              <h3 className="text-lg font-bold text-white mb-3">일별 순위 추이</h3>
-              <div className="bg-neutral-800/50 rounded-lg p-4">
-                <div className="overflow-x-auto">
-                  <div className="min-w-[600px]">
-                    {/* 간단한 라인 차트 구현 */}
-                    <div className="relative h-64">
-                      {video.history.map((point, index) => {
-                        const maxRank = Math.max(...video.history.map(h => h.rank));
-                        const yPos = (point.rank / maxRank) * 100;
-                        
-                        return (
-                          <div
-                            key={point.id}
-                            className="absolute"
-                            style={{
-                              left: `${(index / (video.history.length - 1)) * 100}%`,
-                              bottom: `${100 - yPos}%`,
-                            }}
-                          >
-                            <div className="relative">
-                              <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
-                              <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-xs text-gray-400 whitespace-nowrap">
-                                {formatDate(point.recorded_date)}
-                              </div>
-                              <div className="absolute -top-5 left-1/2 transform -translate-x-1/2 text-xs text-white font-bold">
-                                {point.rank}위
-                              </div>
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
+                    ))}
                   </div>
                 </div>
-              </div>
+              ) : (
+                <p className="text-gray-400">히스토리 정보가 없습니다.</p>
+              )}
             </div>
-          )}
+          </div>
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
