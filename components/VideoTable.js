@@ -28,14 +28,10 @@ export default function VideoTable({ videos, onVideoClick }) {
     return <div className="text-center text-gray-400 py-8">영상이 없습니다.</div>;
   }
 
-  // 본선점수 기준으로 정렬하고 순위 부여 (상위 100개만)
+  // 데이터베이스의 실제 rank를 사용 (이미 정렬된 상태)
+  // index.js에서 이미 displayRank와 displayPreviousRank를 계산했으므로 그대로 사용
   const sortedVideos = videos
-    .sort((a, b) => (b.site_score || 0) - (a.site_score || 0))
-    .slice(0, 100)
-    .map((video, index) => ({
-      ...video,
-      rank: index + 1
-    }));
+    .slice(0, 100);
 
   // rank와 previous_rank를 사용한 순위변동 표시
   const getRankChangeDisplay = (video) => {
@@ -43,15 +39,15 @@ export default function VideoTable({ videos, onVideoClick }) {
     console.log('Video rank debug:', {
       id: video.id,
       title: video.title,
-      rank: video.rank,
-      previous_rank: video.previous_rank,
-      has_rank: !!video.rank,
-      has_previous_rank: video.previous_rank !== null && video.previous_rank !== undefined
+      displayRank: video.displayRank,
+      displayPreviousRank: video.displayPreviousRank,
+      originalRank: video.originalRank,
+      originalPreviousRank: video.originalPreviousRank
     });
     
-    // previous_rank가 없으면 신규
-    if (video.previous_rank === null || video.previous_rank === undefined) {
-      console.log('New video (no previous_rank):', video.id);
+    // displayPreviousRank가 없으면 신규
+    if (video.displayPreviousRank === null || video.displayPreviousRank === undefined) {
+      console.log('New video (no displayPreviousRank):', video.id);
       return { 
         text: '신규', 
         color: 'text-white font-bold',
@@ -63,18 +59,18 @@ export default function VideoTable({ videos, onVideoClick }) {
       };
     }
     
-    // rank가 없으면 표시 불가
-    if (!video.rank) {
-      console.log('No rank for video:', video.id);
+    // displayRank가 없으면 표시 불가
+    if (!video.displayRank) {
+      console.log('No displayRank for video:', video.id);
       return null;
     }
     
-    // 순위변동 계산
-    const rankChange = video.previous_rank - video.rank;
+    // 순위변동 계산 (표시용 순위 기준)
+    const rankChange = video.displayPreviousRank - video.displayRank;
     
     if (rankChange > 0) {
-      // 순위 상승 (previous_rank > rank)
-      console.log('Rank up:', video.id, `${video.previous_rank} -> ${video.rank} (+${rankChange})`);
+      // 순위 상승 (displayPreviousRank > displayRank)
+      console.log('Rank up:', video.id, `${video.displayPreviousRank} -> ${video.displayRank} (+${rankChange})`);
       return { 
         text: `+${rankChange}`, 
         color: 'text-white font-bold',
@@ -85,8 +81,8 @@ export default function VideoTable({ videos, onVideoClick }) {
         )
       };
     } else if (rankChange < 0) {
-      // 순위 하락 (previous_rank < rank)
-      console.log('Rank down:', video.id, `${video.previous_rank} -> ${video.rank} (${rankChange})`);
+      // 순위 하락 (displayPreviousRank < displayRank)
+      console.log('Rank down:', video.id, `${video.displayPreviousRank} -> ${video.displayRank} (${rankChange})`);
       return { 
         text: `${rankChange}`, 
         color: 'text-white font-bold',
@@ -97,8 +93,8 @@ export default function VideoTable({ videos, onVideoClick }) {
         )
       };
     } else {
-      // 순위 유지 (previous_rank = rank)
-      console.log('Rank same:', video.id, `${video.previous_rank} -> ${video.rank}`);
+      // 순위 유지 (displayPreviousRank = displayRank)
+      console.log('Rank same:', video.id, `${video.displayPreviousRank} -> ${video.displayRank}`);
       return { 
         text: '유지', 
         color: 'text-white font-bold',
@@ -177,7 +173,7 @@ export default function VideoTable({ videos, onVideoClick }) {
               return (
                 <tr key={video.id} className="hover:bg-neutral-800/70 transition-colors duration-200">
                   <td className="px-3 py-4 whitespace-nowrap text-sm font-bold text-white text-center">
-                    {video.rank}
+                    {video.displayRank}
                   </td>
                   <td className="px-3 py-4 whitespace-nowrap">
                     <img

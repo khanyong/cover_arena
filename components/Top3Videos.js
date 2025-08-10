@@ -2,9 +2,17 @@ import React from 'react';
 import { calculateRankChange } from '../lib/rankTracker';
 
 export default function Top3Videos({ videos, onVideoClick }) {
-  // 상위 3개 영상 추출
+  // 상위 3개 영상 추출 (rank 기준으로 정렬된 데이터의 첫 3개)
+  console.log('=== Top3Videos 컴포넌트 ===');
+  console.log('받은 videos 배열 길이:', videos.length);
+  console.log('첫 5개 영상:', videos.slice(0, 5).map(v => ({
+    rank: v.rank,
+    title: v.title,
+    score: v.site_score
+  })));
+  
+  // index.js에서 이미 displayRank를 계산했으므로 그대로 사용
   const top3Videos = videos
-    .sort((a, b) => (b.site_score || 0) - (a.site_score || 0))
     .slice(0, 3);
 
   if (top3Videos.length === 0) {
@@ -63,7 +71,7 @@ export default function Top3Videos({ videos, onVideoClick }) {
                   onClick={() => onVideoClick(top3Videos[0])}
                 />
                 <div className={`absolute top-2 left-2 bg-yellow-500 text-black px-2 py-1 rounded text-sm font-bold`}>
-                  {getRankBadge(1).emoji} 1위
+                  {getRankBadge(top3Videos[0].displayRank).emoji} {top3Videos[0].displayRank}위
                 </div>
                 {getRankChangeIcon(top3Videos[0])}
               </div>
@@ -123,7 +131,7 @@ export default function Top3Videos({ videos, onVideoClick }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <div className="text-xs font-bold text-gray-900">2위</div>
+                    <div className="text-xs font-bold text-gray-900">{top3Videos[1].displayRank}위</div>
                     {getRankChangeIcon(top3Videos[1])}
                   </div>
                   <h4 className="text-sm font-bold text-white line-clamp-2 mb-1">
@@ -160,7 +168,7 @@ export default function Top3Videos({ videos, onVideoClick }) {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between mb-1">
-                    <div className="text-xs font-bold text-orange-900">3위</div>
+                    <div className="text-xs font-bold text-orange-900">{top3Videos[2].displayRank}위</div>
                     {getRankChangeIcon(top3Videos[2])}
                   </div>
                   <h4 className="text-sm font-bold text-white line-clamp-2 mb-1">

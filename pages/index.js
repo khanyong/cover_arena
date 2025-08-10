@@ -250,7 +250,8 @@ export default function Home() {
       let query = supabase
         .from('coversong_videos')
         .select('*')
-        .eq('competition_id', latestCompetition.id);
+        .eq('competition_id', latestCompetition.id)
+        .order('rank', { ascending: true });
       
       // 차단된 영상이 있으면 필터링
       let videos;
@@ -273,7 +274,54 @@ export default function Home() {
 
       console.log('videos:', videos, 'blockedIds:', blockedIds);
         const videoArray = Array.isArray(videos) ? videos : [];
-        setVideos(videoArray);
+        
+        // 전체 비차단 영상 목록 가져오기 (순위 재계산용)
+        // 현재 차단되지 않은 영상들의 원본 순위를 기준으로 실제 표시 순위 계산
+        const processedVideos = videoArray.map((video, index) => {
+          // 현재 표시 순위 (차단된 영상 제외 후 순차적 번호)
+          const displayRank = index + 1;
+          
+          // 이전 순위 재계산
+          // previous_rank가 있는 경우, 그 순위보다 높은 차단된 영상 수를 계산
+          let displayPreviousRank = null;
+          
+          if (video.previous_rank !== null && video.previous_rank !== undefined) {
+            // 이전 대회에서도 차단된 영상들을 고려해야 함
+            // 현재 대회에서 차단된 영상들 중 이전 순위가 있는 것들을 확인
+            // (실제로는 이전 대회 시점의 차단 목록이 필요하지만, 현재 차단 목록으로 추정)
+            
+            // 현재 필터링된 비디오들의 previous_rank를 수집
+            const allPreviousRanks = videoArray
+              .filter(v => v.previous_rank !== null && v.previous_rank !== undefined)
+              .map(v => v.previous_rank)
+              .sort((a, b) => a - b);
+            
+            // 이 비디오의 previous_rank가 몇 번째인지 찾기
+            const previousRankIndex = allPreviousRanks.indexOf(video.previous_rank);
+            
+            if (previousRankIndex !== -1) {
+              // 이전 대회에서의 표시 순위는 인덱스 + 1
+              displayPreviousRank = previousRankIndex + 1;
+            }
+          }
+          
+          return {
+            ...video,
+            displayRank,
+            displayPreviousRank,
+            originalRank: video.rank, // 원본 순위 보존
+            originalPreviousRank: video.previous_rank // 원본 이전 순위 보존
+          };
+        });
+        
+        // 디버그: TOP 5 영상 확인
+        console.log('=== TOP 5 영상 (처리 후) ===');
+        console.log('총 차단된 영상 수:', blockedIds.length);
+        processedVideos.slice(0, 5).forEach((v, i) => {
+          console.log(`${i+1}. displayRank: ${v.displayRank}, originalRank: ${v.originalRank}, displayPreviousRank: ${v.displayPreviousRank}, originalPreviousRank: ${v.originalPreviousRank}, title: ${v.title.substring(0, 30)}...`);
+        });
+        
+        setVideos(processedVideos);
         
         // 총 영상 수 설정 (상위 100개만 표시하므로 실제 총 개수)
         setTotalVideoCount(videoArray.length);
@@ -953,11 +1001,14 @@ export default function Home() {
 
         {/* 순위 변동 2-3위 요약 (1위와 중복 방지) */}
         {videos.length > 0 && (
-          <RankChangeSummaryEnhanced 
-            videos={videos} 
-            competitionId={videos[0]?.competition_id} 
-            excludeFirst={true}
-          />
+          <>
+            {console.log('=== Passing to RankChangeSummaryEnhanced ===', videos.length, 'videos')}
+            <RankChangeSummaryEnhanced 
+              videos={videos} 
+              competitionId={videos[0]?.competition_id} 
+              excludeFirst={true}
+            />
+          </>
         )}
 
         {/* 필터 옵션 */}
