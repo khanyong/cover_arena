@@ -13,25 +13,35 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
         (video.displayRank || video.rank) < video.previous_rank &&
         (video.displayRank || video.rank) <= 100 // 현재 순위가 100위 이내인 것만
       )
+      .map(video => {
+        const currentRank = video.displayRank || video.rank;
+        const rankIncrease = video.previous_rank - currentRank;
+        return { ...video, currentRank, rankIncrease };
+      })
       .sort((a, b) => {
-        const aRankIncrease = a.previous_rank - a.rank;
-        const bRankIncrease = b.previous_rank - b.rank;
-        
         // 1차: 상승폭 기준 정렬 (큰 것부터)
-        if (bRankIncrease !== aRankIncrease) {
-          return bRankIncrease - aRankIncrease;
+        if (b.rankIncrease !== a.rankIncrease) {
+          return b.rankIncrease - a.rankIncrease;
         }
         
         // 2차: 상승폭이 같으면 현재 순위 기준 정렬 (작은 것부터 = 높은 순위부터)
-        return (a.displayRank || a.rank) - (b.displayRank || b.rank);
+        return a.currentRank - b.currentRank;
       });
     
     if (risingVideos.length === 0) return [];
     
-    const maxRankIncrease = risingVideos[0].previous_rank - risingVideos[0].rank;
-    return risingVideos.filter(video => 
-      (video.previous_rank - video.rank) === maxRankIncrease
-    );
+    // 디버깅: 상위 3개 영상의 상승폭 확인
+    console.log('Top 3 rising videos:');
+    risingVideos.slice(0, 3).forEach((video, index) => {
+      console.log(`${index + 1}. ${video.title}: 상승폭 +${video.rankIncrease} (${video.previous_rank}위 → ${video.currentRank}위)`);
+    });
+    
+    const maxRankIncrease = risingVideos[0].rankIncrease;
+    const topVideos = risingVideos.filter(video => video.rankIncrease === maxRankIncrease);
+    
+    console.log(`최대 상승폭: +${maxRankIncrease}, 동률 개수: ${topVideos.length}`);
+    
+    return topVideos;
   };
 
   // 신규 진입 비디오들 찾기
@@ -73,8 +83,8 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
 
   // 비디오 카드 렌더링 함수
   const renderVideoCard = (video, isNewEntry, index, totalCount) => {
-    const currentRank = video.displayRank || video.rank;
-    const rankIncrease = isNewEntry ? 0 : video.previous_rank - currentRank;
+    const currentRank = video.currentRank || video.displayRank || video.rank;
+    const rankIncrease = isNewEntry ? 0 : (video.rankIncrease || video.previous_rank - currentRank);
     
     return (
       <div key={video.id} className={`backdrop-blur-sm rounded-lg p-6 shadow-lg border ${
@@ -85,7 +95,7 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
         {totalCount > 1 && (
           <div className="flex items-center justify-between mb-4">
             <span className={`font-bold text-lg ${isNewEntry ? 'text-green-300' : 'text-orange-300'}`}>
-              공동 1위
+              공동 1위 ({index + 1}/{totalCount})
             </span>
             <span className="text-gray-300 text-sm">
               {isNewEntry ? `${currentRank}위 신규 진입` : `+${rankIncrease}단계 상승`}
@@ -227,7 +237,9 @@ export default function RisingStarVideo({ videos, onVideoClick }) {
           <h2 className="text-2xl font-bold text-white mb-4 flex items-center">
             🔥 순위 급상승 1위
             {risingVideos.length > 1 && (
-              <span className="ml-2 text-sm text-orange-300">({risingVideos.length}개 동률)</span>
+              <span className="ml-2 text-sm text-orange-300">
+                ({risingVideos.length}개 동률 - 모두 +{risingVideos[0].rankIncrease}단계 상승)
+              </span>
             )}
             <span className="ml-2 text-sm text-gray-300">(이전 업데이트 대비)</span>
           </h2>
