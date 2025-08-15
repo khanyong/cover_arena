@@ -78,6 +78,13 @@ export default async function handler(req, res) {
       }
       
       console.log('✅ 투표 기록 저장 성공')
+    } else {
+      // 비로그인 사용자의 경우 로그만 남김
+      console.log('👤 비로그인 사용자 투표:', {
+        videoId,
+        likeType: 'guest',
+        timestamp: new Date().toISOString()
+      })
     }
 
     // 좋아요 수 증가

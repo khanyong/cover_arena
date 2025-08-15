@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>비로그인 투표 테스트</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 2px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        button {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        .status {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        .localStorage-info {
+            background: #f9f9f9;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 비로그인 사용자 투표 중복 방지 테스트</h1>
+        
+        <div class="test-section">
+            <h2>📋 현재 상태</h2>
+            <p>로그인 상태: <strong style="color: red;">비로그인</strong></p>
+            <p>테스트 비디오 ID: <code id="videoId">test-video-001</code></p>
+            <div id="localStorageStatus" class="localStorage-info"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>🗳️ 투표 테스트</h2>
+            <button onclick="simulateVote()">투표하기</button>
+            <button onclick="clearVote()">투표 기록 삭제</button>
+            <button onclick="checkLocalStorage()">localStorage 확인</button>
+            
+            <div id="voteStatus"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 localStorage 내용</h2>
+            <div id="storageContent" class="localStorage-info"></div>
+        </div>
+    </div>
+
+    <script>
+        const videoId = 'test-video-001';
+        
+        // 페이지 로드 시 상태 확인
+        window.onload = function() {
+            checkLocalStorage();
+        };
+
+        function simulateVote() {
+            const guestLikesKey = `guest_likes_${videoId}`;
+            const hasVoted = localStorage.getItem(guestLikesKey);
+            
+            const statusDiv = document.getElementById('voteStatus');
+            
+            if (hasVoted) {
+                statusDiv.innerHTML = `
+                    <div class="status error">
+                        ❌ 중복 투표 차단됨!<br>
+                        이미 이 영상에 투표하셨습니다.<br>
+                        <small>localStorage key: ${guestLikesKey}</small>
+                    </div>
+                `;
+                return;
+            }
+            
+            // 투표 처리 시뮬레이션
+            localStorage.setItem(guestLikesKey, 'true');
+            
+            statusDiv.innerHTML = `
+                <div class="status success">
+                    ✅ 투표 성공!<br>
+                    localStorage에 기록되었습니다.<br>
+                    <small>key: ${guestLikesKey}, value: true</small>
+                </div>
+            `;
+            
+            // localStorage 상태 업데이트
+            checkLocalStorage();
+        }
+        
+        function clearVote() {
+            const guestLikesKey = `guest_likes_${videoId}`;
+            localStorage.removeItem(guestLikesKey);
+            
+            document.getElementById('voteStatus').innerHTML = `
+                <div class="status info">
+                    🗑️ 투표 기록이 삭제되었습니다.
+                </div>
+            `;
+            
+            checkLocalStorage();
+        }
+        
+        function checkLocalStorage() {
+            const guestLikesKey = `guest_likes_${videoId}`;
+            const hasVoted = localStorage.getItem(guestLikesKey);
+            
+            // 현재 상태 표시
+            document.getElementById('localStorageStatus').innerHTML = `
+                <strong>현재 투표 상태:</strong> ${hasVoted ? '✅ 이미 투표함' : '⭕ 투표 가능'}
+            `;
+            
+            // 전체 localStorage 내용 표시
+            const allGuestVotes = {};
+            for (let i = 0; i < localStorage.length; i++) {
+                const key = localStorage.key(i);
+                if (key.startsWith('guest_likes_')) {
+                    allGuestVotes[key] = localStorage.getItem(key);
+                }
+            }
+            
+            document.getElementById('storageContent').innerHTML = `
+                <strong>모든 guest_likes_* 항목:</strong><br>
+                <pre>${JSON.stringify(allGuestVotes, null, 2)}</pre>
+            `;
+        }
+        
+        // 실제 API 호출 테스트
+        async function testRealVote() {
+            const response = await fetch('/api/vote-video', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    videoId: videoId,
+                    competitionId: 5,
+                    userId: null,
+                    likeType: 'guest'
+                })
+            });
+            
+            const data = await response.json();
+            console.log('API 응답:', data);
+        }
+    </script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../lib/supabase';
 
-export default function RankChangeSummaryEnhanced({ videos, competitionId, excludeFirst = false }) {
+export default function RankChangeSummaryEnhanced({ videos, competitionId, excludeFirst = false, onVideoClick }) {
   const [activeTab, setActiveTab] = useState('daily'); // 'daily', 'weekly', 'new'
   const [risingStars, setRisingStars] = useState({
     daily: [],
@@ -141,7 +141,21 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
     return (
       <div 
         className="bg-gradient-to-br from-neutral-800/50 to-neutral-900/50 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
-        onClick={() => handleVideoClick(star)}
+        onClick={() => {
+          // onVideoClick이 전달되면 상세 모달 열기, 아니면 히스토리 모달 열기
+          if (onVideoClick) {
+            const videoData = star.video || {
+              id: star.video_id,
+              title: star.video_title,
+              channel: star.channel,
+              thumbnail: star.thumbnail,
+              ...star
+            };
+            onVideoClick(videoData);
+          } else {
+            handleVideoClick(star);
+          }
+        }}
       >
         <div className="relative">
           <img 

@@ -543,6 +543,17 @@ export default function Home() {
 
   // Arena 좋아요 DB 반영 함수 (로그인/비로그인 구분)
   const handleArenaLike = async (video) => {
+    // 비로그인 사용자의 경우 먼저 localStorage 체크
+    if (!user) {
+      const guestLikesKey = `guest_likes_${video.id}`;
+      const hasVoted = localStorage.getItem(guestLikesKey);
+      
+      if (hasVoted) {
+        alert('이미 이 영상에 투표하셨습니다.');
+        return;
+      }
+    }
+    
     try {
       // API 엔드포인트 호출
       const response = await fetch('/api/vote-video', {
@@ -1006,6 +1017,7 @@ export default function Home() {
               videos={videos} 
               competitionId={videos[0]?.competition_id} 
               excludeFirst={true}
+              onVideoClick={setSelectedVideo}
             />
           </>
         )}
