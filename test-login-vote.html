@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 투표 테스트</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .test-section {
+            margin: 25px 0;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            background: #f9f9f9;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+        .response {
+            margin-top: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .success {
+            border-left-color: #4caf50;
+            background: #f1f8e9;
+        }
+        .error {
+            border-left-color: #f44336;
+            background: #ffebee;
+        }
+        .info {
+            border-left-color: #2196f3;
+            background: #e3f2fd;
+        }
+        pre {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        .status-badge.logged-in {
+            background: #4caf50;
+            color: white;
+        }
+        .status-badge.logged-out {
+            background: #f44336;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎤 로그인 사용자 투표 중복 방지 테스트</h1>
+        
+        <div class="test-section">
+            <h2>테스트 설정</h2>
+            <p>비디오 ID: <input type="text" id="videoId" value="88888888-8888-8888-8888-888888888888" style="width: 300px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;"></p>
+            <p>대회 ID: <input type="text" id="competitionId" value="99999999-9999-9999-9999-999999999999" style="width: 300px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;"></p>
+            <p>사용자 ID: <input type="text" id="userId" value="77777777-7777-7777-7777-777777777777" style="width: 300px; padding: 5px; border-radius: 5px; border: 1px solid #ddd;"></p>
+            <p>로그인 상태: <span id="loginStatus" class="status-badge logged-in">로그인됨</span></p>
+        </div>
+
+        <div class="test-section">
+            <h2>📝 테스트 시나리오</h2>
+            <ol style="line-height: 1.8;">
+                <li>첫 번째 투표 시도 - 성공해야 함 ✅</li>
+                <li>두 번째 투표 시도 - 중복으로 차단되어야 함 ❌</li>
+                <li>다른 비디오 ID로 투표 시도 - 성공해야 함 ✅</li>
+            </ol>
+        </div>
+
+        <div class="test-section">
+            <h2>🚀 투표 테스트</h2>
+            <button onclick="voteVideo()">투표하기 (Arena Like)</button>
+            <button onclick="voteVideoAgain()">같은 영상 재투표 시도</button>
+            <button onclick="voteOtherVideo()">다른 영상 투표</button>
+            <button onclick="clearResponses()">결과 초기화</button>
+            
+            <div id="voteResponse"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>📊 투표 기록 확인</h2>
+            <button onclick="checkVoteHistory()">내 투표 기록 조회</button>
+            <div id="historyResponse"></div>
+        </div>
+    </div>
+
+    <script>
+        async function voteVideo() {
+            const videoId = document.getElementById('videoId').value;
+            const competitionId = document.getElementById('competitionId').value;
+            const userId = document.getElementById('userId').value;
+            
+            try {
+                const response = await fetch('/api/vote-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        videoId: videoId,
+                        competitionId: competitionId,
+                        userId: userId,
+                        likeType: 'arena'
+                    })
+                });
+
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('voteResponse');
+                if (response.ok) {
+                    responseDiv.innerHTML = `
+                        <div class="response success">
+                            <h3>✅ 첫 번째 투표 성공!</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                            <p>Arena Likes: ${data.arena_likes}</p>
+                        </div>
+                    `;
+                } else {
+                    responseDiv.innerHTML = `
+                        <div class="response error">
+                            <h3>❌ 투표 실패</h3>
+                            <p>상태 코드: ${response.status}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('voteResponse').innerHTML = `
+                    <div class="response error">
+                        <h3>⚠️ 오류 발생</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        async function voteVideoAgain() {
+            const videoId = document.getElementById('videoId').value;
+            const competitionId = document.getElementById('competitionId').value;
+            const userId = document.getElementById('userId').value;
+            
+            try {
+                const response = await fetch('/api/vote-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        videoId: videoId,
+                        competitionId: competitionId,
+                        userId: userId,
+                        likeType: 'arena'
+                    })
+                });
+
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('voteResponse');
+                if (response.status === 400) {
+                    responseDiv.innerHTML += `
+                        <div class="response info" style="margin-top: 15px;">
+                            <h3>✅ 중복 투표 차단 성공!</h3>
+                            <p>예상대로 중복 투표가 차단되었습니다.</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else if (response.ok) {
+                    responseDiv.innerHTML += `
+                        <div class="response error" style="margin-top: 15px;">
+                            <h3>⚠️ 문제 발견!</h3>
+                            <p>중복 투표가 차단되어야 하는데 성공했습니다.</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('voteResponse').innerHTML += `
+                    <div class="response error" style="margin-top: 15px;">
+                        <h3>⚠️ 오류 발생</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        async function voteOtherVideo() {
+            const competitionId = document.getElementById('competitionId').value;
+            const userId = document.getElementById('userId').value;
+            const otherVideoId = '11111111-1111-1111-1111-111111111111';
+            
+            try {
+                const response = await fetch('/api/vote-video', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        videoId: otherVideoId,
+                        competitionId: competitionId,
+                        userId: userId,
+                        likeType: 'arena'
+                    })
+                });
+
+                const data = await response.json();
+                
+                const responseDiv = document.getElementById('voteResponse');
+                if (response.ok) {
+                    responseDiv.innerHTML += `
+                        <div class="response success" style="margin-top: 15px;">
+                            <h3>✅ 다른 영상 투표 성공!</h3>
+                            <p>Video ID: ${otherVideoId}</p>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                } else {
+                    responseDiv.innerHTML += `
+                        <div class="response error" style="margin-top: 15px;">
+                            <h3>❌ 다른 영상 투표 실패</h3>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('voteResponse').innerHTML += `
+                    <div class="response error" style="margin-top: 15px;">
+                        <h3>⚠️ 오류 발생</h3>
+                        <pre>${error.message}</pre>
+                    </div>
+                `;
+            }
+        }
+
+        async function checkVoteHistory() {
+            const userId = document.getElementById('userId').value;
+            const competitionId = document.getElementById('competitionId').value;
+            
+            const historyDiv = document.getElementById('historyResponse');
+            historyDiv.innerHTML = `
+                <div class="response info">
+                    <h3>📋 투표 기록</h3>
+                    <p>사용자 ID: ${userId}</p>
+                    <p>대회 ID: ${competitionId}</p>
+                    <p><em>실제 구현 시 Supabase 쿼리로 조회</em></p>
+                </div>
+            `;
+        }
+
+        function clearResponses() {
+            document.getElementById('voteResponse').innerHTML = '';
+            document.getElementById('historyResponse').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

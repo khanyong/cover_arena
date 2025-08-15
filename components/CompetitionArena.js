@@ -436,29 +436,52 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
     }
 
     try {
-      // 데이터베이스 함수 호출로 좋아요 증가
-      const { data, error } = await supabase.rpc('increment_likes', {
-        p_video_id: video.id,
-        p_competition_id: video.competition_id,
-        p_user_id: user?.id || null,
-        p_like_type: user ? 'arena' : 'guest'
+      // API 호출로 좋아요 증가
+      const response = await fetch('/api/vote-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          videoId: video.id,
+          competitionId: video.competition_id,
+          userId: user?.id || null,
+          likeType: user ? 'arena' : 'guest'
+        })
       })
 
-      if (error) {
-        console.error('좋아요 업데이트 오류:', error)
-        alert('좋아요 업데이트에 실패했습니다.')
+      const data = await response.json()
+
+      if (!response.ok) {
+        // 중복 투표인 경우에도 votedVideos에 추가
+        if (response.status === 400 && data.message && data.message.includes('이미')) {
+          if (user) {
+            setVotedVideos(prev => new Set([...prev, video.id]))
+          } else {
+            const competitionId = video.competition_id
+            const storageKey = `guest_votes_${competitionId}`
+            const newVotedIds = new Set([...guestVotedVideos, video.id])
+            setGuestVotedVideos(newVotedIds)
+            localStorage.setItem(storageKey, JSON.stringify([...newVotedIds]))
+          }
+        }
+        
+        if (data.message) {
+          alert(data.message)
+        } else {
+          alert('투표 처리 중 오류가 발생했습니다.')
+        }
         return
       }
 
-      if (data) {
-        if (data.success) {
+      if (data && data.success) {
           // 성공적으로 업데이트된 경우에만 UI 업데이트
           setVideos(prev => prev.map(v => 
             v.id === video.id 
               ? { 
                   ...v, 
-                  arenaLikes: data.arena_likes,
-                  guest_likes: data.guest_likes 
+                  arenaLikes: data.arena_likes || v.arenaLikes,
+                  guest_likes: data.guest_likes || v.guest_likes
                 } 
               : v
           ))
@@ -474,10 +497,9 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
             setGuestVotedVideos(newVotedIds)
             localStorage.setItem(storageKey, JSON.stringify([...newVotedIds]))
           }
-        } else {
-          // 이미 투표한 경우
-          alert(data.message)
-        }
+      } else {
+        // 실패한 경우
+        alert(data.message || '투표 처리에 실패했습니다.')
       }
     } catch (error) {
       console.error('좋아요 처리 오류:', error)

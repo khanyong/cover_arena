@@ -543,63 +543,62 @@ export default function Home() {
 
   // Arena 좋아요 DB 반영 함수 (로그인/비로그인 구분)
   const handleArenaLike = async (video) => {
-    if (user) {
-      // 로그인 회원: arena_likes 증가
-      const { data, error } = await supabase
-        .from('coversong_videos')
-        .update({ arena_likes: (video.arena_likes || 0) + 1 })
-        .eq('id', video.id);
+    try {
+      // API 엔드포인트 호출
+      const response = await fetch('/api/vote-video', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          videoId: video.id,
+          competitionId: video.competition_id || 5, // 기본값 5 (현재 대회)
+          userId: user?.id || null,
+          likeType: user ? 'arena' : 'guest'
+        })
+      });
 
-      if (!error) {
-        setVideos(prev =>
-          prev.map(v =>
-            v.id === video.id
-              ? { ...v, arena_likes: (v.arena_likes || 0) + 1 }
-              : v
-          )
-        );
-        setSelectedVideo(prev =>
-          prev
-            ? { ...prev, arena_likes: (prev.arena_likes || 0) + 1 }
-            : prev
-        );
-      } else {
-        alert('좋아요 저장에 실패했습니다.');
-      }
-    } else {
-      // 비로그인: Local Storage로 중복 방지
-      const guestLikesKey = `guest_likes_${video.id}`;
-      const hasLiked = localStorage.getItem(guestLikesKey);
-      
-      if (hasLiked) {
-        alert('이미 좋아요를 누른 영상입니다.');
+      const data = await response.json();
+
+      if (!response.ok) {
+        // 중복 투표 또는 오류 메시지 표시
+        alert(data.message || '투표 처리 중 오류가 발생했습니다.');
         return;
       }
 
-      const { data, error } = await supabase
-        .from('coversong_videos')
-        .update({ guest_likes: (video.guest_likes || 0) + 1 })
-        .eq('id', video.id);
-
-      if (!error) {
-        // Local Storage에 좋아요 기록 저장
-        localStorage.setItem(guestLikesKey, 'true');
-        
+      if (data && data.success) {
+        // 성공적으로 업데이트된 경우 UI 업데이트
         setVideos(prev =>
           prev.map(v =>
             v.id === video.id
-              ? { ...v, guest_likes: (v.guest_likes || 0) + 1 }
+              ? { 
+                  ...v, 
+                  arena_likes: data.arena_likes || v.arena_likes,
+                  guest_likes: data.guest_likes || v.guest_likes
+                }
               : v
           )
         );
+        
         setSelectedVideo(prev =>
-          prev
-            ? { ...prev, guest_likes: (prev.guest_likes || 0) + 1 }
+          prev && prev.id === video.id
+            ? { 
+                ...prev, 
+                arena_likes: data.arena_likes || prev.arena_likes,
+                guest_likes: data.guest_likes || prev.guest_likes
+              }
             : prev
         );
-      } else {
-        alert('좋아요 저장에 실패했습니다.');
+
+        // 비로그인 사용자의 경우 로컬 스토리지에 저장
+        if (!user) {
+          const guestLikesKey = `guest_likes_${video.id}`;
+          localStorage.setItem(guestLikesKey, 'true');
+        }
       }
+    } catch (error) {
+      console.error('좋아요 처리 오류:', error);
+      alert('좋아요 처리 중 오류가 발생했습니다.');
     }
   };
 
