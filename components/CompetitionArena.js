@@ -6,6 +6,8 @@ import { supabase } from '../lib/supabase'
 export default function CompetitionArena({ videos, setVideos, onVideoClick, isVotingActive = true, user }) {
   const arenaRef = useRef(null)
   const [arenaSize, setArenaSize] = useState({ width: 0, height: 0 })
+  const [votedVideos, setVotedVideos] = useState(new Set()) // 투표한 비디오 ID 추적
+  const [guestVotedVideos, setGuestVotedVideos] = useState(new Set()) // 비로그인 사용자 투표 추적
 
   // 실시간 좋아요 업데이트 구독
   useEffect(() => {
@@ -40,6 +42,50 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
       supabase.removeChannel(channel)
     }
   }, [videos, setVideos])
+
+  // 사용자가 이미 투표한 비디오 로드
+  useEffect(() => {
+    const loadVotedVideos = async () => {
+      if (!videos.length) return
+      
+      const competitionId = videos[0]?.competition_id
+      if (!competitionId) return
+      
+      // 로그인 사용자의 경우 데이터베이스에서 로드
+      if (user) {
+        try {
+          // 사용자의 투표 히스토리 조회
+          const { data, error } = await supabase
+            .from('coversong_like_history')
+            .select('video_id')
+            .eq('user_id', user.id)
+            .eq('competition_id', competitionId)
+            .eq('like_type', 'arena')
+          
+          if (!error && data) {
+            const votedIds = new Set(data.map(item => item.video_id))
+            setVotedVideos(votedIds)
+          }
+        } catch (error) {
+          console.error('투표 히스토리 로드 오류:', error)
+        }
+      } else {
+        // 비로그인 사용자의 경우 로컬 스토리지에서 로드
+        const storageKey = `guest_votes_${competitionId}`
+        const storedVotes = localStorage.getItem(storageKey)
+        if (storedVotes) {
+          try {
+            const votedIds = new Set(JSON.parse(storedVotes))
+            setGuestVotedVideos(votedIds)
+          } catch (error) {
+            console.error('로컬 스토리지 파싱 오류:', error)
+          }
+        }
+      }
+    }
+    
+    loadVotedVideos()
+  }, [user, videos])
 
   // Arena 크기 측정 (반응형)
   useEffect(() => {
@@ -377,6 +423,18 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
       return
     }
 
+    // 클라이언트 측 중복 투표 체크
+    if (user && votedVideos.has(video.id)) {
+      alert('이미 이 영상에 투표하셨습니다.')
+      return
+    }
+    
+    // 비로그인 사용자 중복 투표 체크
+    if (!user && guestVotedVideos.has(video.id)) {
+      alert('이미 이 영상에 투표하셨습니다.')
+      return
+    }
+
     try {
       // 데이터베이스 함수 호출로 좋아요 증가
       const { data, error } = await supabase.rpc('increment_likes', {
@@ -404,7 +462,19 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
                 } 
               : v
           ))
-    } else {
+          
+          // 투표한 비디오 ID 추가
+          if (user) {
+            setVotedVideos(prev => new Set([...prev, video.id]))
+          } else {
+            // 비로그인 사용자의 경우 로컬 스토리지에 저장
+            const competitionId = video.competition_id
+            const storageKey = `guest_votes_${competitionId}`
+            const newVotedIds = new Set([...guestVotedVideos, video.id])
+            setGuestVotedVideos(newVotedIds)
+            localStorage.setItem(storageKey, JSON.stringify([...newVotedIds]))
+          }
+        } else {
           // 이미 투표한 경우
           alert(data.message)
         }
@@ -452,14 +522,20 @@ export default function CompetitionArena({ videos, setVideos, onVideoClick, isVo
             </div>
             <button
               onClick={e => { e.stopPropagation(); handleLike(video); }}
-              disabled={!isVotingActive}
+              disabled={!isVotingActive || (user && votedVideos.has(video.id)) || (!user && guestVotedVideos.has(video.id))}
               className={`w-full py-0.5 rounded text-[10px] mt-0.5 transition-colors ${
-                isVotingActive
-                  ? 'bg-red-600 hover:bg-red-700 text-white'
-                  : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                !isVotingActive
+                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  : (user && votedVideos.has(video.id)) || (!user && guestVotedVideos.has(video.id))
+                  ? 'bg-green-600 text-white cursor-not-allowed'
+                  : 'bg-red-600 hover:bg-red-700 text-white cursor-pointer'
               }`}
             >
-              {isVotingActive ? 'Arena 좋아요' : '🔒 투표 종료'}
+              {!isVotingActive 
+                ? '🔒 투표 종료' 
+                : (user && votedVideos.has(video.id)) || (!user && guestVotedVideos.has(video.id))
+                ? '✓ 투표 완료'
+                : 'Arena 좋아요'}
             </button>
           </div>
         </div>
