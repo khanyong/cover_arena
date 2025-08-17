@@ -95,7 +95,7 @@ export default function Home() {
       }
 
       let query = supabase
-        .from('coversong_videos')
+        .from('coversong_videos_filtered')
         .select('*')
         .eq('competition_id', competitionId)
         .not('final_rank', 'is', null);
@@ -162,7 +162,7 @@ export default function Home() {
   //     if (data.success) {
   //       // Supabase에서 Arena 좋아요 데이터 가져오기
   //       const { data: videoData, error } = await supabase
-  //         .from('coversong_videos')
+  //         .from('coversong_videos_filtered')
   //         .select('id, arena_likes, guest_likes')
   //         .eq('topic', topic)
         
@@ -248,7 +248,7 @@ export default function Home() {
       }
 
       let query = supabase
-        .from('coversong_videos')
+        .from('coversong_videos_filtered')
         .select('*')
         .eq('competition_id', latestCompetition.id)
         .order('rank', { ascending: true });

@@ -19,26 +19,11 @@ export default async function handler(req, res) {
     // Service role client 사용 (RLS 우회)
     const dbClient = supabaseAdmin || supabase;
 
-    // 먼저 차단된 영상 목록 가져오기 (RLS 우회)
-    const { data: blockedVideos } = await dbClient
-      .from('coversong_blocked_videos')
-      .select('youtube_id')
-      .eq('is_active', true);
-    
-    const blockedIds = blockedVideos ? blockedVideos.map(v => v.youtube_id) : [];
-
-    // DB에서 해당 topic의 영상 가져오기 (차단된 영상 제외, 페이지네이션 적용)
-    let query = supabase
-      .from('coversong_videos')
+    // coversong_videos_filtered 뷰 사용 (차단된 영상/채널 자동 필터링)
+    const { data: videos, error, count } = await supabase
+      .from('coversong_videos_filtered')
       .select('*', { count: 'exact' }) // count: 'exact'로 전체 개수도 함께 조회
-      .eq('topic', topic);
-    
-    // 차단된 영상이 있으면 필터링
-    if (blockedIds.length > 0) {
-      query = query.not('youtube_id', 'in', `(${blockedIds.map(id => `"${id}"`).join(',')})`);
-    }
-    
-    const { data: videos, error, count } = await query
+      .eq('topic', topic)
       .order('arena_likes', { ascending: false })
       .range(from, to); // 여기서 페이지네이션 적용
 

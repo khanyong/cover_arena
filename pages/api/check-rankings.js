@@ -12,7 +12,7 @@ export default async function handler(req, res) {
 
   try {
     const { data, error } = await supabase
-      .from('coversong_videos')
+      .from('coversong_videos_filtered')
       .select('rank, id, title, site_score, candidate_score, arena_likes, guest_likes')
       .eq('competition_id', 5)
       .order('rank', { ascending: true })
