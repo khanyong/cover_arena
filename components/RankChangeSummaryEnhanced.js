@@ -3,6 +3,7 @@ import { supabase } from '../lib/supabase';
 
 export default function RankChangeSummaryEnhanced({ videos, competitionId, excludeFirst = false, onVideoClick }) {
   const [activeTab, setActiveTab] = useState('daily'); // 'daily', 'weekly', 'new'
+  const [weeklyPeriod, setWeeklyPeriod] = useState('weekly_1'); // 주간 기간 선택
   const [risingStars, setRisingStars] = useState({
     daily: [],
     weekly: [],
@@ -16,9 +17,9 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
     if (videos && videos.length > 0) {
       calculateRisingStars();
     }
-  }, [videos, excludeFirst]); // videos가 변경될 때 다시 계산
+  }, [videos, excludeFirst, competitionId, weeklyPeriod]); // videos가 변경될 때 다시 계산
 
-  const calculateRisingStars = () => {
+  const calculateRisingStars = async () => {
     setLoading(true);
     
     // videos prop에서 직접 계산하기 (블럭된 영상이 이미 제외된 상태)
@@ -72,21 +73,106 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
         video: v
       }));
 
+    // 주간 급상승 데이터 가져오기 (DB에서)
+    let weeklyRisingVideos = [];
+    try {
+      // 선택된 기간의 데이터 조회
+      const { data: weeklyData, error } = await supabase
+        .from('coversong_rank_changes')
+        .select(`
+          *,
+          video:coversong_videos(*)
+        `)
+        .eq('competition_id', competitionId)
+        .eq('period_type', weeklyPeriod)
+        .eq('is_new_entry', false)
+        .gt('rank_change', 0)
+        .order('period_end', { ascending: false })
+        .order('rank_change', { ascending: false })
+        .limit(3);
+
+      if (!error && weeklyData && weeklyData.length > 0) {
+        weeklyRisingVideos = weeklyData.map((item, index) => ({
+          video_id: item.video?.youtube_id || item.video_id,
+          video_title: item.video?.title || '',
+          channel: item.video?.channel || '',
+          thumbnail: item.video?.thumbnail || '',
+          category: 'weekly_rising',
+          rank_position: index + 1,
+          rank_change: item.rank_change,
+          end_rank: item.end_rank,
+          displayRank: item.end_rank,
+          video: item.video || videos.find(v => (v.youtube_id || v.id) === item.video_id)
+        }));
+      } else {
+        // 주간 데이터가 없으면 7일 전 데이터로 직접 계산
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+        const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0];
+
+        const { data: historyData } = await supabase
+          .from('coversong_rank_history')
+          .select('*')
+          .eq('competition_id', competitionId)
+          .eq('recorded_date', sevenDaysAgoStr);
+
+        if (historyData && historyData.length > 0) {
+          const weeklyRankMap = {};
+          historyData.forEach(h => {
+            weeklyRankMap[h.video_id] = h.rank;
+          });
+
+          weeklyRisingVideos = videos
+            .filter(v => {
+              const videoId = v.youtube_id || v.id;
+              const oldRank = weeklyRankMap[videoId];
+              return oldRank && v.displayRank < oldRank;
+            })
+            .sort((a, b) => {
+              const aVideoId = a.youtube_id || a.id;
+              const bVideoId = b.youtube_id || b.id;
+              const aChange = weeklyRankMap[aVideoId] - a.displayRank;
+              const bChange = weeklyRankMap[bVideoId] - b.displayRank;
+              return bChange - aChange;
+            })
+            .slice(0, 3)
+            .map((v, index) => {
+              const videoId = v.youtube_id || v.id;
+              return {
+                video_id: videoId,
+                video_title: v.title,
+                channel: v.channel,
+                thumbnail: v.thumbnail,
+                category: 'weekly_rising',
+                rank_position: index + 1,
+                rank_change: weeklyRankMap[videoId] - v.displayRank,
+                end_rank: v.displayRank,
+                displayRank: v.displayRank,
+                video: v
+              };
+            });
+        }
+      }
+    } catch (error) {
+      console.error('주간 급상승 데이터 조회 오류:', error);
+    }
+
     // excludeFirst가 true면 1위 제외
     if (excludeFirst) {
       dailyRisingVideos = dailyRisingVideos.filter(d => d.rank_position > 1);
       newEntryVideos = newEntryVideos.filter(d => d.rank_position > 1);
+      weeklyRisingVideos = weeklyRisingVideos.filter(d => d.rank_position > 1);
     }
     
     console.log('Final rising stars:', { 
       daily: dailyRisingVideos, 
-      weekly: [], 
+      weekly: weeklyRisingVideos, 
       newEntry: newEntryVideos 
     });
     
     setRisingStars({
       daily: dailyRisingVideos,
-      weekly: [], // 주간 데이터는 나중에 구현
+      weekly: weeklyRisingVideos,
       newEntry: newEntryVideos
     });
     
@@ -180,7 +266,14 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
           </p>
           {star.rank_change && (
             <p className="text-xs text-blue-400 mt-2">
-              {star.category === 'daily_rising' ? '24시간' : '7일'} 동안 {star.rank_change}계단 상승
+              {star.category === 'daily_rising' ? '24시간' : 
+               star.category === 'weekly_rising' ? 
+                 (weeklyPeriod === 'weekly_1' ? '1주' : 
+                  weeklyPeriod === 'weekly_2' ? '2주' : 
+                  weeklyPeriod === 'weekly_3' ? '3주' : 
+                  weeklyPeriod === 'weekly_4' ? '4주' : 
+                  weeklyPeriod === 'total' ? '전체 기간' : '기간')
+               : '기간'} 동안 {star.rank_change}계단 상승
             </p>
           )}
           {star.category === 'new_entry' && (
@@ -217,37 +310,95 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
           </h3>
           
           {/* 탭 선택 */}
-          <div className="flex space-x-2">
-            <button
-              onClick={() => setActiveTab('daily')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                activeTab === 'daily' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-neutral-700 text-gray-300 hover:bg-neutral-600'
-              }`}
-            >
-              일일 급상승
-            </button>
-            <button
-              onClick={() => setActiveTab('weekly')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                activeTab === 'weekly' 
-                  ? 'bg-blue-600 text-white' 
-                  : 'bg-neutral-700 text-gray-300 hover:bg-neutral-600'
-              }`}
-            >
-              주간 급상승
-            </button>
-            <button
-              onClick={() => setActiveTab('new')}
-              className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
-                activeTab === 'new' 
-                  ? 'bg-green-600 text-white' 
-                  : 'bg-neutral-700 text-gray-300 hover:bg-neutral-600'
-              }`}
-            >
-              신규 진입
-            </button>
+          <div className="flex flex-col gap-2">
+            <div className="flex space-x-2">
+              <button
+                onClick={() => setActiveTab('daily')}
+                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                  activeTab === 'daily' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-neutral-700 text-gray-300 hover:bg-neutral-600'
+                }`}
+              >
+                일일 급상승
+              </button>
+              <button
+                onClick={() => setActiveTab('weekly')}
+                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                  activeTab === 'weekly' 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-neutral-700 text-gray-300 hover:bg-neutral-600'
+                }`}
+              >
+                기간별 급상승
+              </button>
+              <button
+                onClick={() => setActiveTab('new')}
+                className={`px-4 py-2 rounded-lg font-semibold transition-colors ${
+                  activeTab === 'new' 
+                    ? 'bg-green-600 text-white' 
+                    : 'bg-neutral-700 text-gray-300 hover:bg-neutral-600'
+                }`}
+              >
+                신규 진입
+              </button>
+            </div>
+            
+            {/* 주간 기간 선택 (주간 탭이 선택된 경우만) */}
+            {activeTab === 'weekly' && (
+              <div className="flex space-x-2">
+                <button
+                  onClick={() => setWeeklyPeriod('weekly_1')}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    weeklyPeriod === 'weekly_1'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-neutral-800 text-gray-400 hover:bg-neutral-700'
+                  }`}
+                >
+                  1주
+                </button>
+                <button
+                  onClick={() => setWeeklyPeriod('weekly_2')}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    weeklyPeriod === 'weekly_2'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-neutral-800 text-gray-400 hover:bg-neutral-700'
+                  }`}
+                >
+                  2주
+                </button>
+                <button
+                  onClick={() => setWeeklyPeriod('weekly_3')}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    weeklyPeriod === 'weekly_3'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-neutral-800 text-gray-400 hover:bg-neutral-700'
+                  }`}
+                >
+                  3주
+                </button>
+                <button
+                  onClick={() => setWeeklyPeriod('weekly_4')}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    weeklyPeriod === 'weekly_4'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-neutral-800 text-gray-400 hover:bg-neutral-700'
+                  }`}
+                >
+                  4주
+                </button>
+                <button
+                  onClick={() => setWeeklyPeriod('total')}
+                  className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
+                    weeklyPeriod === 'total'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-neutral-800 text-gray-400 hover:bg-neutral-700'
+                  }`}
+                >
+                  전체
+                </button>
+              </div>
+            )}
           </div>
         </div>
 
@@ -270,7 +421,7 @@ export default function RankChangeSummaryEnhanced({ videos, competitionId, exclu
           (activeTab === 'new' && risingStars.newEntry.length === 0)) && (
           <div className="text-center text-gray-400 py-8">
             {activeTab === 'weekly' && risingStars.weekly.length === 0 
-              ? '주간 데이터는 일요일마다 업데이트됩니다.' 
+              ? '주간 급상승 데이터를 계산 중입니다. 7일 이상 누적된 데이터가 필요합니다.' 
               : '해당하는 영상이 없습니다.'}
           </div>
         )}

@@ -50,6 +50,14 @@ export default function Admin() {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const [selectedVideosForBlock, setSelectedVideosForBlock] = useState([]) // 선택된 영상들
+  
+  // 채널 차단 관리 상태 추가
+  const [blockedChannels, setBlockedChannels] = useState([])
+  const [channelSearchQuery, setChannelSearchQuery] = useState('')
+  const [channelToBlock, setChannelToBlock] = useState('')
+  const [channelIdToBlock, setChannelIdToBlock] = useState('')  // 채널 ID 추가
+  const [blockReason, setBlockReason] = useState('')
+  const [blockTab, setBlockTab] = useState('videos') // 'videos' or 'channels'
 
   useEffect(() => {
     // 최초 로드 시 main_title fetch
@@ -466,6 +474,17 @@ export default function Admin() {
       console.error('차단 목록 로드 오류:', error)
     }
   }
+  
+  // 차단된 채널 목록 로드
+  const loadBlockedChannels = async () => {
+    try {
+      const response = await fetch('/api/blocked-channels')
+      const data = await response.json()
+      setBlockedChannels(data.blockedChannels || [])
+    } catch (error) {
+      console.error('차단된 채널 로드 오류:', error)
+    }
+  }
 
   // 영상 검색
   const searchVideos = async () => {
@@ -603,6 +622,79 @@ export default function Admin() {
       }
     })
   }
+  
+  // 채널 차단
+  const blockChannel = async () => {
+    if (!channelToBlock.trim() && !channelIdToBlock.trim()) {
+      alert('차단할 채널명 또는 채널 ID를 입력해주세요.')
+      return
+    }
+    
+    try {
+      const response = await fetch('/api/blocked-channels', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          channel_name: channelToBlock.trim() || null,
+          channel_id: channelIdToBlock.trim() || null,
+          reason: blockReason.trim() || `채널 차단 - 관리자에 의해 차단됨`,
+          user_id: user?.id
+        })
+      })
+      
+      const result = await response.json()
+      
+      if (response.ok) {
+        const blockedName = channelToBlock || channelIdToBlock;
+        alert(`채널 "${blockedName}"이(가) 차단되었습니다.`)
+        setChannelToBlock('')
+        setChannelIdToBlock('')
+        setBlockReason('')
+        loadBlockedChannels()
+      } else {
+        console.error('Channel block error:', result);
+        const errorMsg = result.details 
+          ? `채널 차단 실패: ${result.details}` 
+          : (result.error || '채널 차단에 실패했습니다.');
+        alert(errorMsg);
+      }
+    } catch (error) {
+      console.error('채널 차단 오류:', error)
+      alert('채널 차단 중 오류가 발생했습니다.')
+    }
+  }
+  
+  // 채널 차단 해제
+  const unblockChannel = async (channelIdentifier) => {
+    try {
+      // channelIdentifier가 채널명인지 채널ID인지 판단
+      const isChannelId = channelIdentifier && channelIdentifier.startsWith('UC');
+      
+      const response = await fetch('/api/blocked-channels', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          isChannelId 
+            ? { channel_id: channelIdentifier }
+            : { channel_name: channelIdentifier }
+        )
+      })
+      
+      if (response.ok) {
+        alert(`채널 "${channelIdentifier}"의 차단이 해제되었습니다.`)
+        loadBlockedChannels()
+      } else {
+        alert('채널 차단 해제에 실패했습니다.')
+      }
+    } catch (error) {
+      console.error('채널 차단 해제 오류:', error)
+      alert('차단 해제 중 오류가 발생했습니다.')
+    }
+  }
 
   // 전체 선택/해제
   const toggleSelectAll = () => {
@@ -639,6 +731,7 @@ export default function Admin() {
             loadCurrentCompetition()
             loadCompetitionHistory() // 히스토리 로드 추가
             loadBlockedVideos() // 차단 목록 로드 추가
+            loadBlockedChannels() // 채널 차단 목록 로드 추가
           }
         } catch (error) {
           console.error('Admin 권한 확인 오류:', error)
@@ -1013,11 +1106,37 @@ export default function Admin() {
           )}
         </div>
 
-        {/* 영상 차단 관리 */}
+        {/* 차단 관리 탭 */}
         <div className="mb-8 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
-          <h2 className="text-xl font-bold text-white mb-4">🚫 영상 차단 관리</h2>
+          <h2 className="text-xl font-bold text-white mb-4">🚫 차단 관리</h2>
           
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* 탭 메뉴 */}
+          <div className="flex space-x-4 mb-6 border-b border-white border-opacity-20 pb-2">
+            <button
+              onClick={() => setBlockTab('videos')}
+              className={`px-4 py-2 font-semibold transition-colors ${
+                blockTab === 'videos' 
+                  ? 'text-white border-b-2 border-red-500' 
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              개별 영상 차단
+            </button>
+            <button
+              onClick={() => setBlockTab('channels')}
+              className={`px-4 py-2 font-semibold transition-colors ${
+                blockTab === 'channels' 
+                  ? 'text-white border-b-2 border-red-500' 
+                  : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              채널 차단
+            </button>
+          </div>
+          
+          {/* 영상 차단 탭 */}
+          {blockTab === 'videos' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* 왼쪽: 영상 검색 및 차단 */}
             <div>
               <h3 className="text-lg font-semibold text-white mb-3">영상 검색</h3>
@@ -1160,9 +1279,119 @@ export default function Admin() {
               </div>
             </div>
           </div>
+          )}
+          
+          {/* 채널 차단 탭 */}
+          {blockTab === 'channels' && (
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* 왼쪽: 채널 차단 추가 */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-3">채널 차단 추가</h3>
+                
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-gray-300 text-sm mb-2">채널명</label>
+                    <input
+                      type="text"
+                      value={channelToBlock}
+                      onChange={(e) => setChannelToBlock(e.target.value)}
+                      placeholder="차단할 채널명을 입력하세요 (예: MBC K-POP)"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-gray-300 text-sm mb-2">채널 ID (선택)</label>
+                    <input
+                      type="text"
+                      value={channelIdToBlock}
+                      onChange={(e) => setChannelIdToBlock(e.target.value)}
+                      placeholder="YouTube 채널 ID (예: UCe52oeb7Xv_KaJsEzcKXJJg)"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-gray-300 text-sm mb-2">차단 사유 (선택)</label>
+                    <input
+                      type="text"
+                      value={blockReason}
+                      onChange={(e) => setBlockReason(e.target.value)}
+                      placeholder="차단 사유를 입력하세요"
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
+                    />
+                  </div>
+                  
+                  <button
+                    onClick={blockChannel}
+                    className="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center space-x-2"
+                  >
+                    <span>🚫</span>
+                    <span>채널 차단</span>
+                  </button>
+                </div>
+                
+                <div className="mt-6 p-4 bg-yellow-600 bg-opacity-20 rounded-lg">
+                  <div className="text-yellow-300 text-sm font-semibold mb-2">⚠️ 주의사항</div>
+                  <ul className="text-yellow-200 text-xs space-y-1">
+                    <li>• 채널을 차단하면 해당 채널의 모든 영상이 차단됩니다</li>
+                    <li>• 차단 후에도 새로 업로드되는 영상도 자동으로 차단됩니다</li>
+                    <li>• 채널명은 정확히 일치해야 합니다</li>
+                  </ul>
+                </div>
+              </div>
+              
+              {/* 오른쪽: 차단된 채널 목록 */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-3">
+                  차단된 채널 목록 ({blockedChannels.length}개)
+                </h3>
+                
+                <div className="space-y-2 max-h-96 overflow-y-auto">
+                  {blockedChannels.length === 0 ? (
+                    <div className="text-center text-gray-300 py-4">차단된 채널이 없습니다.</div>
+                  ) : (
+                    blockedChannels.map((channel) => (
+                      <div key={channel.id} className="p-3 bg-white bg-opacity-10 rounded-lg">
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <div className="text-white font-semibold">
+                              {channel.channel_name || channel.channel_id || '알 수 없음'}
+                            </div>
+                            {channel.channel_id && (
+                              <div className="text-gray-300 text-xs mt-1">
+                                ID: {channel.channel_id}
+                              </div>
+                            )}
+                            <div className="text-gray-400 text-xs mt-1">
+                              {channel.reason || '관리자에 의해 차단됨'}
+                            </div>
+                            <div className="text-gray-400 text-xs mt-1">
+                              차단일: {new Date(channel.blocked_at).toLocaleDateString()}
+                            </div>
+                          </div>
+                          <button
+                            onClick={() => {
+                              const channelIdentifier = channel.channel_name || channel.channel_id;
+                              if (confirm(`"${channelIdentifier}" 채널의 차단을 해제하시겠습니까?`)) {
+                                unblockChannel(channel.channel_name || channel.channel_id)
+                              }
+                            }}
+                            className="ml-2 px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
+                          >
+                            해제
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
           
           <div className="mt-4 text-sm text-gray-300">
-            💡 차단된 영상은 모든 리스트와 순위에서 제외됩니다.
+            💡 차단된 영상과 채널은 모든 리스트와 순위에서 제외됩니다.
           </div>
         </div>
 

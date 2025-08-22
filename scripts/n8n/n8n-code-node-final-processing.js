@@ -51,9 +51,13 @@ try {
   const competitionId = activeCompetition.id;
   const competitionTopic = activeCompetition.topic;
 
-  // === 블럭된 영상 목록 가져오기 ===
-  console.log('=== 블럭된 영상 확인 중 ===');
+  // === 블럭된 영상 및 채널 목록 가져오기 ===
+  console.log('=== 블럭된 영상 및 채널 확인 중 ===');
   let blockedYoutubeIds = [];
+  let blockedChannels = [];
+  let blockedChannelIds = [];
+  
+  // 블럭된 영상 목록
   try {
     const blockedResponse = await this.helpers.httpRequest({
       method: 'GET',
@@ -72,6 +76,31 @@ try {
     }
   } catch (error) {
     console.error('⚠️ 블럭된 영상 목록을 가져오는데 실패:', error.message);
+  }
+  
+  // 블럭된 채널 목록
+  try {
+    const blockedChannelsResponse = await this.helpers.httpRequest({
+      method: 'GET',
+      url: `${SUPABASE_URL}/rest/v1/coversong_blocked_channels?is_active=eq.true&select=channel_name,channel_id`,
+      headers: {
+        'apikey': SUPABASE_SERVICE_ROLE_KEY,
+        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+      },
+      returnFullResponse: true
+    });
+    
+    if (blockedChannelsResponse.statusCode === 200 && blockedChannelsResponse.body) {
+      blockedChannelsResponse.body.forEach(item => {
+        if (item.channel_name) blockedChannels.push(item.channel_name);
+        if (item.channel_id) blockedChannelIds.push(item.channel_id);
+      });
+      console.log(`✅ 블럭된 채널 ${blockedChannels.length}개 확인`);
+      console.log('블럭된 채널명:', blockedChannels.slice(0, 5));
+      console.log('블럭된 채널 ID:', blockedChannelIds.slice(0, 5));
+    }
+  } catch (error) {
+    console.error('⚠️ 블럭된 채널 목록을 가져오는데 실패:', error.message);
   }
 
   // 기존 데이터를 Map으로 변환
@@ -201,13 +230,29 @@ try {
     };
   });
 
-  // 블럭된 영상 필터링
-  const unblockedVideos = processedVideos.filter(v => !blockedYoutubeIds.includes(v.youtube_id));
-  const blockedVideos = processedVideos.filter(v => blockedYoutubeIds.includes(v.youtube_id));
+  // 블럭된 영상 및 채널 필터링
+  const unblockedVideos = processedVideos.filter(v => {
+    // 영상 ID로 차단 확인
+    if (blockedYoutubeIds.includes(v.youtube_id)) return false;
+    // 채널명으로 차단 확인
+    if (blockedChannels.includes(v.channel)) return false;
+    // 채널 ID로 차단 확인
+    if (v.channel_id && blockedChannelIds.includes(v.channel_id)) return false;
+    return true;
+  });
+  
+  const blockedVideos = processedVideos.filter(v => {
+    return blockedYoutubeIds.includes(v.youtube_id) || 
+           blockedChannels.includes(v.channel) ||
+           (v.channel_id && blockedChannelIds.includes(v.channel_id));
+  });
   
   console.log(`📊 전체 영상 수: ${processedVideos.length}개`);
   console.log(`✅ 블럭되지 않은 영상 수: ${unblockedVideos.length}개`);
   console.log(`🚫 블럭된 영상 수: ${blockedVideos.length}개`);
+  console.log(`  - 영상 ID로 차단: ${processedVideos.filter(v => blockedYoutubeIds.includes(v.youtube_id)).length}개`);
+  console.log(`  - 채널명으로 차단: ${processedVideos.filter(v => blockedChannels.includes(v.channel)).length}개`);
+  console.log(`  - 채널 ID로 차단: ${processedVideos.filter(v => v.channel_id && blockedChannelIds.includes(v.channel_id)).length}개`);
   console.log(`🆕 신규 영상 수: ${newVideos.length}개`);
   console.log(`신규 영상 ID 목록:`, newVideos);
 
