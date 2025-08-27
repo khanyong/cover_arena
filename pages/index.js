@@ -1069,7 +1069,7 @@ export default function Home() {
           <VideoTable videos={filteredVideos} onVideoClick={setSelectedVideo} />
         ) : (
           <div className="mb-16">
-            <VideoGrid videos={filteredVideos} setVideos={setVideos} user={user} setSelectedVideo={setSelectedVideo} />
+            <VideoGrid videos={filteredVideos} allVideos={videos} setVideos={setVideos} user={user} setSelectedVideo={setSelectedVideo} />
           </div>
           )}
 

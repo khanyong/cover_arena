@@ -8,7 +8,7 @@ const minSize = 100; // 최하위 크기 (감소)
 const packingWidth = 1200; // 가로 packing 너비 조정
 
 
-export default function VideoGrid({ videos, setVideos, user, setSelectedVideo }) {
+export default function VideoGrid({ videos, allVideos, setVideos, user, setSelectedVideo }) {
   const arenaRef = useRef(null);
   // 드래그/터치 스크롤 상태
   const isDragging = useRef(false);
@@ -18,25 +18,43 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
   const dragStart = useRef({ x: 0, y: 0 });
   const dragVideoId = useRef(null);
 
-  // 1. 랭킹/크기 계산 (상위 100개만)
+  // 1. 이미 index.js에서 displayRank가 계산되어 있으므로 그대로 사용
+  // videos는 이미 정렬되고 displayRank가 부여된 상태
   const sorted = [...videos]
-    .map((v, i) => ({ ...v, originalIndex: i }))
     .sort((a, b) => (b.site_score || 0) - (a.site_score || 0))
     .slice(0, 100);
-  const videoWithRankAndSize = sorted.map((v, idx) => {
-    const rank = idx + 1;
+  
+  console.log('VideoGrid - videos:', videos.length, 'First video displayRank:', videos[0]?.displayRank);
     
-    // 상위 3위까지는 특별한 크기 적용
+  const videoWithRankAndSize = sorted.map((v, idx) => {
+    // displayRank를 사용 (index.js에서 이미 계산됨)
+    const rank = v.displayRank || idx + 1;
+    
+    // 현재 필터링된 비디오들 중에서의 순위 (크기 계산용)
+    const displayOrderForSize = idx + 1;
+    
+    // 첫 번째 비디오만 디버깅
+    if (idx === 0) {
+      console.log('First video in grid:', {
+        title: v.title,
+        displayRank: v.displayRank,
+        rank: rank,
+        displayOrderForSize: displayOrderForSize,
+        site_score: v.site_score
+      });
+    }
+    
+    // 상위 3위까지는 특별한 크기 적용 (display 순서 기준)
     let size;
-    if (rank === 1) {
+    if (displayOrderForSize === 1) {
       size = maxSize; // 1위: 최대 크기
-    } else if (rank === 2) {
+    } else if (displayOrderForSize === 2) {
       size = maxSize * 0.75; // 2위: 1위의 75%
-    } else if (rank === 3) {
+    } else if (displayOrderForSize === 3) {
       size = maxSize * 0.6; // 3위: 1위의 60%
     } else {
       // 4위부터는 기존 공식 사용하되 더 급격한 감소
-      const ratio = (sorted.length === 1) ? 1 : Math.pow(0.95, rank - 1);
+      const ratio = (sorted.length === 1) ? 1 : Math.pow(0.95, displayOrderForSize - 1);
       size = minSize + (maxSize * 0.5 - minSize) * ratio;
     }
     
@@ -88,8 +106,11 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
     const dy = e.clientY - dragStart.current.y;
     if (!isDragging.current && Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) {
       // 클릭으로 간주 → 영상 재생
-      const video = positions.find(v => v.id === dragVideoId.current);
-      if (video) setSelectedVideo(video);
+      const videoWithRank = positions.find(v => v.id === dragVideoId.current);
+      if (videoWithRank) {
+        console.log('Clicked video rank:', videoWithRank.rank, 'Title:', videoWithRank.title);
+        setSelectedVideo(videoWithRank);
+      }
     }
     isDragging.current = false;
     dragVideoId.current = null;
@@ -118,11 +139,12 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
     }
     lastPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   };
-  const onTouchEnd = (e, video) => {
+  const onTouchEnd = (e, videoId) => {
     const dx = lastPos.current.x - dragStart.current.x;
     const dy = lastPos.current.y - dragStart.current.y;
     if (!isTouching.current && Math.abs(dx) < dragThreshold && Math.abs(dy) < dragThreshold) {
-      setSelectedVideo(video);
+      const videoWithRank = positions.find(v => v.id === videoId);
+      if (videoWithRank) setSelectedVideo(videoWithRank);
     }
     isTouching.current = false;
     dragVideoId.current = null;
@@ -206,7 +228,7 @@ export default function VideoGrid({ videos, setVideos, user, setSelectedVideo })
             onDragStart={e => e.preventDefault()}
             onTouchStart={e => onTouchStart(e, v.id)}
             onTouchMove={onTouchMove}
-            onTouchEnd={e => onTouchEnd(e, v)}
+            onTouchEnd={e => onTouchEnd(e, v.id)}
           >
             {/* 랭킹 숫자 뱃지 */}
             <div style={{
