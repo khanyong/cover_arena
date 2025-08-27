@@ -67,7 +67,15 @@ export default function VideoDetailModal({ video, isOpen, onClose, user, onArena
     return { bgColor: 'from-blue-500 to-blue-700', text: `${rank}위` };
   };
 
-  const rankBadge = getRankBadge(video.rank);
+  // displayRank가 있으면 우선 사용, 없으면 rank 사용
+  const actualRank = video.displayRank || video.rank;
+  console.log('VideoDetailModal - rank debug:', {
+    title: video.title,
+    displayRank: video.displayRank,
+    rank: video.rank,
+    actualRank: actualRank
+  });
+  const rankBadge = getRankBadge(actualRank);
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4">
