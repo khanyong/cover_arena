@@ -1,0 +1,101 @@
+.nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgb(209, 213, 219);
+  z-index: 50;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+.navContainer {
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .navContainer {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.navContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 4rem;
+}
+
+.navBrand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.navLogo {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: linear-gradient(to bottom right, rgb(79, 70, 229), rgb(147, 51, 234));
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.navLogoText {
+  color: white;
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.navTitle {
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: rgb(17, 24, 39);
+}
+
+.navSubtitle {
+  font-size: 0.75rem;
+  color: rgb(107, 114, 128);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.navLink {
+  color: rgb(55, 65, 81);
+  font-weight: 600;
+  transition: color 0.3s;
+  text-decoration: none;
+}
+
+.navLink:hover {
+  color: rgb(79, 70, 229);
+}
+
+.navButton {
+  padding: 0.625rem 1.5rem;
+  background: rgb(79, 70, 229);
+  color: white;
+  font-weight: 700;
+  border-radius: 0.5rem;
+  transition: all 0.3s;
+  border: none;
+  cursor: pointer;
+}
+
+.navButton:hover {
+  background: rgb(67, 56, 202);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
