@@ -1,0 +1,94 @@
+.factionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 25px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.factionCard {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.factionCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.factionTitle {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #4ecdc4;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.factionDescription {
+  color: #e0e0e0;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  text-align: center;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.factionIdeology {
+  background: rgba(255, 107, 107, 0.1);
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  font-size: 0.9rem;
+  color: #e0e0e0;
+  border-left: 3px solid #ff6b6b;
+}
+
+.factionIdeology strong {
+  color: #ff6b6b;
+}
+
+.factionMembers {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.factionMembers li {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid #45b7d1;
+  transition: all 0.3s ease;
+}
+
+.factionMembers li:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.memberName {
+  font-weight: bold;
+  color: #45b7d1;
+  margin-bottom: 4px;
+  font-size: 1rem;
+}
+
+.memberRole {
+  font-size: 0.85rem;
+  color: #ccc;
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
+@media (max-width: 768px) {
+  .factionGrid {
+    grid-template-columns: 1fr;
+  }
+}

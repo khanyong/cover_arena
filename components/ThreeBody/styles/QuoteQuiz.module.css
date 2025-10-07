@@ -1,0 +1,273 @@
+.quizContainer {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.quizHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.progress {
+  font-size: 16px;
+  color: #4ecdc4;
+  font-weight: 600;
+}
+
+.scoreBox {
+  background: rgba(78, 205, 196, 0.2);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #4ecdc4;
+}
+
+.quoteCard {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 30px;
+  position: relative;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.quoteIcon {
+  position: absolute;
+  top: 20px;
+  left: 30px;
+  font-size: 80px;
+  color: rgba(78, 205, 196, 0.2);
+  font-family: Georgia, serif;
+}
+
+.quoteText {
+  font-size: 24px;
+  line-height: 1.6;
+  color: #e0e0e0;
+  margin: 0 0 20px 0;
+  padding-left: 60px;
+  font-style: italic;
+}
+
+.bookTag {
+  display: inline-block;
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  padding: 6px 16px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-left: 60px;
+}
+
+.questionText {
+  text-align: center;
+  font-size: 20px;
+  color: #fff;
+  margin-bottom: 30px;
+  font-weight: 600;
+}
+
+.optionsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.optionButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 12px;
+  padding: 20px;
+  font-size: 18px;
+  color: #e0e0e0;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.optionButton:hover:not(:disabled) {
+  background: rgba(78, 205, 196, 0.1);
+  border-color: #4ecdc4;
+  transform: translateY(-2px);
+}
+
+.optionButton:disabled {
+  cursor: not-allowed;
+}
+
+.optionButton.correct {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: #4ecdc4;
+  color: #4ecdc4;
+  animation: correctPulse 0.5s ease;
+}
+
+.optionButton.incorrect {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+  animation: shake 0.5s ease;
+}
+
+@keyframes correctPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-10px);
+  }
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+.feedback {
+  text-align: center;
+  padding: 15px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease;
+}
+
+.feedbackCorrect {
+  background: rgba(78, 205, 196, 0.2);
+  color: #4ecdc4;
+  border: 1px solid #4ecdc4;
+}
+
+.feedbackIncorrect {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  border: 1px solid #ff6b6b;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.resultCard {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  border-radius: 30px;
+  padding: 60px 40px;
+  text-align: center;
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  animation: resultSlideIn 0.5s ease;
+}
+
+@keyframes resultSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.resultTitle {
+  font-size: 36px;
+  color: #4ecdc4;
+  margin: 0 0 30px 0;
+  font-weight: 700;
+}
+
+.scoreDisplay {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.scoreNumber {
+  font-size: 80px;
+  font-weight: 700;
+  color: #4ecdc4;
+  line-height: 1;
+}
+
+.scoreTotal {
+  font-size: 40px;
+  color: #888;
+  font-weight: 600;
+}
+
+.percentage {
+  font-size: 48px;
+  color: #ff6b6b;
+  font-weight: 700;
+  margin-bottom: 30px;
+}
+
+.resultMessage {
+  font-size: 24px;
+  color: #e0e0e0;
+  margin: 0 0 40px 0;
+  line-height: 1.6;
+}
+
+.retryButton {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border: none;
+  border-radius: 50px;
+  padding: 16px 40px;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+
+.retryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+@media (max-width: 768px) {
+  .optionsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .quoteText {
+    font-size: 20px;
+  }
+
+  .scoreNumber {
+    font-size: 60px;
+  }
+
+  .percentage {
+    font-size: 36px;
+  }
+
+  .resultTitle {
+    font-size: 28px;
+  }
+
+  .resultMessage {
+    font-size: 18px;
+  }
+}

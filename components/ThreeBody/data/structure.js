@@ -1,0 +1,126 @@
+// Separated structure: Trisolaran-aligned vs Human organizations
+export const structureData = {
+  // Trisolaran side (top section)
+  trisolaranSide: {
+    root: {
+      id: "삼체 문명",
+      group: "삼체"
+    },
+    branches: [
+      {
+        title: "ETO (지구삼체 조직)",
+        color: "#FF9900",
+        nodes: [
+          { id: "예원제", group: "지구-최초접촉", role: "ETO 창립자", level: 1 },
+          { id: "마이크 에반스", group: "ETO", role: "ETO 수장", level: 1 },
+          { id: "구세파", group: "ETO", role: "극단주의", level: 2, parent: "마이크 에반스" },
+          { id: "구도파", group: "ETO", role: "온건파", level: 2, parent: "마이크 에반스" }
+        ]
+      }
+    ]
+  },
+
+  // Human side (bottom section) - independent organizations
+  humanSide: {
+    root: {
+      id: "인류 연합",
+      group: "정치"
+    },
+    branches: [
+      {
+        title: "면벽 계획",
+        color: "#66CCFF",
+        nodes: [
+          { id: "뤄지", group: "면벽자", role: "사회학자", level: 1 },
+          { id: "프레데릭 타일러", group: "면벽자", role: "美 국방장관", level: 1 },
+          { id: "마누엘 레이디아즈", group: "면벽자", role: "베네수엘라 대통령", level: 1 },
+          { id: "빌 하인즈", group: "면벽자", role: "英 과학자", level: 1 },
+          { id: "아마소 게이코", group: "면벽자", role: "日 과학자", level: 2, parent: "빌 하인즈" }
+        ]
+      },
+      {
+        title: "PDC (행성방위이사회)",
+        color: "#66CC66",
+        nodes: [
+          { id: "세이", group: "정치", role: "UN 사무총장", level: 1 },
+          { id: "가라닛", group: "정치", role: "PDC 의장", level: 1 },
+          { id: "켄트", group: "정치", role: "PDC 연락관", level: 2, parent: "가라닛" }
+        ]
+      },
+      {
+        title: "우주군",
+        color: "#0099CC",
+        nodes: [
+          { id: "창웨이스", group: "군사", role: "우주군 사령관", level: 1 },
+          { id: "장베이하이", group: "군사", role: "정치위원", level: 2, parent: "창웨이스" },
+          { id: "둥펑웨이", group: "우주전", role: "함장", level: 2, parent: "창웨이스" },
+          { id: "우웨이", group: "군사", role: "해군 대령", level: 2, parent: "창웨이스" }
+        ]
+      },
+      {
+        title: "우주 함대",
+        color: "#CC66FF",
+        nodes: [
+          { id: "벤저 시트", group: "우주전", role: "파견관", level: 1 },
+          { id: "지쯔", group: "우주전", role: "과학교", level: 1 },
+          { id: "조지 피츠로이", group: "군사", role: "美 장군", level: 1 }
+        ]
+      },
+      {
+        title: "민간/과학",
+        color: "#CCCCCC",
+        nodes: [
+          { id: "딩이", group: "과학", role: "이론물리학자", level: 1 },
+          { id: "소창", group: "민간", role: "PDC 보안", level: 1 },
+          { id: "소샤오밍", group: "민간", role: "아들", level: 2, parent: "소창" },
+          { id: "샹원차오", group: "민간", role: "은퇴 노동자", level: 1 },
+          { id: "양진원", group: "민간", role: "은퇴 교사", level: 1 },
+          { id: "장잉", group: "예술", role: "예술가", level: 1 }
+        ]
+      }
+    ]
+  }
+}
+
+export const groupColors = {
+  "삼체": "#FF6666",
+  "ETO": "#FF9900",
+  "면벽자": "#66CCFF",
+  "군사": "#0099CC",
+  "정치": "#66CC66",
+  "우주전": "#CC66FF",
+  "민간": "#CCCCCC",
+  "과학": "#00CC99",
+  "예술": "#FFCC99",
+  "지구-최초접촉": "#FF3366"
+}
+
+// 관계 설명 데이터
+export const relationshipDescriptions = {
+  "삼체 문명->예원제": "첫 접촉 - 삼체 평화주의자의 경고를 무시하고 답신",
+  "삼체 문명->마이크 에반스": "지구 침공 협력 - ETO에 기술과 전략 지원",
+  "예원제->마이크 에반스": "ETO 공동 창립 - 인류 배신의 동맹",
+  "마이크 에반스->구세파": "극단주의 분파 - 삼체의 완전 승리 추구",
+  "마이크 에반스->구도파": "온건파 분파 - 삼체와의 공존 모색",
+  "인류 연합->뤄지": "면벽자 임명 - 유일하게 성공한 전략가",
+  "인류 연합->프레데릭 타일러": "면벽자 임명 - 우주 함대 전략 (실패)",
+  "인류 연합->마누엘 레이디아즈": "면벽자 임명 - 항성 폭탄 계획 (실패)",
+  "인류 연합->빌 하인즈": "면벽자 임명 - 사고 통제 연구 (실패)",
+  "빌 하인즈->아마소 게이코": "연구 협력 - 신경과학 공동 연구",
+  "인류 연합->세이": "UN 수장 - 인류 방어 조율",
+  "인류 연합->가라닛": "PDC 의장 - 행성 방위 총괄",
+  "가라닛->켄트": "상하 관계 - PDC 실무 담당",
+  "인류 연합->창웨이스": "우주군 사령관 - 함대 지휘",
+  "창웨이스->장베이하이": "상하 관계 - 정치 교육 담당",
+  "창웨이스->둥펑웨이": "상하 관계 - 함대 작전 지휘",
+  "창웨이스->우웨이": "상하 관계 - 전술 담당",
+  "인류 연합->벤저 시트": "우주 함대 파견 - 전략 자문",
+  "인류 연합->지쯔": "우주 함대 파견 - 과학 교육",
+  "인류 연합->조지 피츠로이": "군사 지도부 - 미국 대표",
+  "인류 연합->딩이": "과학 자문 - 이론물리 연구",
+  "인류 연합->소창": "보안 담당 - PDC 경호",
+  "소창->소샤오밍": "부자 관계 - 가족",
+  "인류 연합->샹원차오": "민간 대표 - 평범한 시민",
+  "인류 연합->양진원": "민간 대표 - 평범한 시민",
+  "인류 연합->장잉": "문화 예술 - 인류 정신 보존"
+}

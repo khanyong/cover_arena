@@ -206,6 +206,7 @@ export const PROJECTS: Project[] = [
     category: 'Data Visualization',
     year: '2024',
     status: 'development',
+    path: '/three-body',
 
     executiveSummary: '류츠신의 삼체 3부작을 체계적으로 탐구할 수 있는 인터랙티브 문학 분석 플랫폼입니다. D3.js 기반 인물 관계 그래프와 Neo4j 그래프 데이터베이스로 복잡한 세계관을 시각화합니다.',
 
