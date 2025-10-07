@@ -1,4 +1,4 @@
-import type { Feature } from '../../../../data/projects'
+import type { Feature } from '../../../data/projects'
 
 interface FeaturesProps {
   features: Feature[]
