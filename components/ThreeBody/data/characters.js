@@ -124,6 +124,13 @@ export const characterDetails = {
     relations: [],
     fate: "도덕적 딜레마 직면"
   },
+  "벤 조너선": {
+    role: "태양계 함대 협의회의 특별 파견관",
+    description: "함대 2호 우주 망원경의 군 연락 담당",
+    actions: ["태양계 함대 협의회 대표 활동"],
+    relations: [],
+    fate: "말일 전투에서 전사"
+  },
   "지쯔": {
     role: "아시아 함대 과학교",
     description: "함대 과학 지원 담당",
@@ -131,7 +138,14 @@ export const characterDetails = {
     relations: [],
     fate: "말일 전투에서 전사"
   },
-  "샹원차오": {
+  "앨버트 린저": {
+    role: "허블 2호 우주 망원경의 천문학자",
+    description: "우주 관측 및 분석을 담당하는 천문학자",
+    actions: ["우주 망원경 운영", "천체 관측"],
+    relations: [],
+    fate: "생존"
+  },
+  "장위안차오": {
     role: "은퇴 노동자",
     description: "민간인 시각에서 위기를 바라봄",
     actions: ["민간 생존 경험"],
@@ -140,23 +154,30 @@ export const characterDetails = {
   },
   "양진원": {
     role: "은퇴 교사",
-    description: "민간인 시각에서 위기를 바라봄",
-    actions: ["교육적 관점 제시"],
-    relations: [],
+    description: "베이징에 사는 은퇴한 중학교 교사",
+    actions: ["교육적 관점 제시", "민간 생존"],
+    relations: ["마오푸취안(이웃)"],
     fate: "생존"
   },
-  "소창": {
-    role: "PDC 보안 담당관",
-    description: "행성방위이사회 보안 업무 담당",
+  "마오푸취안": {
+    role: "산시 성에서 석탄 공장을 운영하는 사업가",
+    description: "장위안차오와 양진원의 이웃으로 등장하는 민간인",
+    actions: ["민간 사업 운영", "지역 주민 교류"],
+    relations: ["장위안차오(이웃)", "양진원(이웃)"],
+    fate: "생존"
+  },
+  "스창": {
+    role: "행성 방위 이사회의 보안담당관",
+    description: "행성방위이사회 보안 업무 담당 (별칭 다스)",
     actions: ["PDC 보안 유지"],
-    relations: ["소샤오밍(부자-아들)"],
+    relations: ["스샤오밍(부자-아들)"],
     fate: "생존"
   },
-  "소샤오밍": {
-    role: "소창의 아들",
-    description: "아버지 소창과 함께 등장",
+  "스샤오밍": {
+    role: "스창의 아들",
+    description: "아버지 스창과 함께 등장",
     actions: [],
-    relations: ["소창(부자-아버지)"],
+    relations: ["스창(부자-아버지)"],
     fate: "생존"
   },
   "딩이": {
@@ -164,6 +185,13 @@ export const characterDetails = {
     description: "물리학 법칙 붕괴를 발견",
     actions: ["과학 연구", "소폰 현상 발견"],
     relations: ["왕먀오(동료)"],
+    fate: "생존"
+  },
+  "참옌": {
+    role: "중국 중앙 미술 학원 졸업생",
+    description: "미술을 전공한 예술가로 등장하는 인물",
+    actions: ["예술 활동", "미술 창작"],
+    relations: [],
     fate: "생존"
   },
   "장잉": {

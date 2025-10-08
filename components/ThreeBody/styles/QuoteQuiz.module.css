@@ -4,11 +4,84 @@
   padding: 20px;
 }
 
+/* 모드 선택 화면 */
+.modeSelection {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.modeTitle {
+  font-size: 48px;
+  color: #4ecdc4;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.modeSubtitle {
+  font-size: 20px;
+  color: #888;
+  margin: 0 0 50px 0;
+}
+
+.modeGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.modeCard {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 20px;
+  padding: 40px 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.modeCard:hover {
+  transform: translateY(-10px);
+  border-color: #4ecdc4;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+  box-shadow: 0 15px 40px rgba(78, 205, 196, 0.3);
+}
+
+.modeIcon {
+  font-size: 60px;
+  margin-bottom: 20px;
+}
+
+.modeCard h3 {
+  font-size: 24px;
+  color: #4ecdc4;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.modeCard p {
+  font-size: 16px;
+  color: #888;
+  margin: 8px 0;
+}
+
+.modeDesc {
+  color: #aaa !important;
+  font-size: 14px !important;
+  margin-top: 15px !important;
+}
+
 .quizHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
+}
+
+.headerRight {
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
 .progress {
@@ -23,6 +96,62 @@
   border-radius: 20px;
   font-weight: 600;
   color: #4ecdc4;
+}
+
+.timerBox {
+  background: rgba(102, 126, 234, 0.2);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 600;
+  color: #667eea;
+  animation: pulse 2s infinite;
+}
+
+.timerWarning {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  animation: timerPulse 0.5s infinite;
+}
+
+@keyframes timerPulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+.comboBox {
+  background: linear-gradient(135deg, #ff6b6b, #ff9966);
+  padding: 8px 20px;
+  border-radius: 20px;
+  font-weight: 700;
+  color: #fff;
+  animation: comboAppear 0.5s ease;
+}
+
+@keyframes comboAppear {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.difficultyBadge {
+  display: inline-block;
+  background: rgba(255, 107, 107, 0.2);
+  border: 1px solid #ff6b6b;
+  color: #ff6b6b;
+  padding: 6px 16px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .quoteCard {
@@ -135,13 +264,58 @@
   }
 }
 
+/* 힌트 */
+.hintBox {
+  background: rgba(255, 206, 86, 0.2);
+  border: 1px solid #ffce56;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  color: #ffce56;
+  font-size: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.hintButton {
+  display: block;
+  margin: 0 auto 20px;
+  background: rgba(255, 206, 86, 0.2);
+  border: 2px solid #ffce56;
+  color: #ffce56;
+  padding: 12px 30px;
+  border-radius: 25px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hintButton:hover {
+  background: rgba(255, 206, 86, 0.3);
+  transform: translateY(-2px);
+}
+
 .feedback {
   text-align: center;
-  padding: 15px;
+  padding: 20px;
   border-radius: 10px;
   font-size: 18px;
   font-weight: 600;
   animation: fadeIn 0.3s ease;
+}
+
+.feedbackMain {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.feedbackContext {
+  font-size: 14px;
+  font-weight: 400;
+  opacity: 0.8;
+  margin: 10px 0 0 0;
+  line-height: 1.5;
 }
 
 .feedbackCorrect {
@@ -190,7 +364,14 @@
 .resultTitle {
   font-size: 36px;
   color: #4ecdc4;
-  margin: 0 0 30px 0;
+  margin: 0 0 20px 0;
+  font-weight: 700;
+}
+
+.rankBadge {
+  font-size: 28px;
+  color: #ff6b6b;
+  margin-bottom: 20px;
   font-weight: 700;
 }
 
@@ -200,6 +381,32 @@
   align-items: baseline;
   gap: 10px;
   margin-bottom: 20px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 30px 0;
+  padding: 20px 0;
+  border-top: 1px solid rgba(78, 205, 196, 0.3);
+  border-bottom: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 8px;
+}
+
+.statValue {
+  font-size: 24px;
+  color: #4ecdc4;
+  font-weight: 700;
 }
 
 .scoreNumber {
@@ -247,12 +454,35 @@
 }
 
 @media (max-width: 768px) {
+  .modeGrid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .modeCard {
+    padding: 30px 20px;
+  }
+
+  .modeTitle {
+    font-size: 36px;
+  }
+
   .optionsGrid {
     grid-template-columns: 1fr;
   }
 
   .quoteText {
     font-size: 20px;
+    padding-left: 40px;
+  }
+
+  .quoteIcon {
+    font-size: 60px;
+    left: 15px;
+  }
+
+  .bookTag {
+    margin-left: 40px;
   }
 
   .scoreNumber {
@@ -269,5 +499,29 @@
 
   .resultMessage {
     font-size: 18px;
+  }
+
+  .rankBadge {
+    font-size: 22px;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .statValue {
+    font-size: 20px;
+  }
+
+  .headerRight {
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-end;
+  }
+
+  .comboBox, .timerBox, .scoreBox {
+    font-size: 14px;
+    padding: 6px 15px;
   }
 }
