@@ -1,0 +1,242 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.title {
+  font-size: 48px;
+  color: #4ecdc4;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 20px;
+  color: #888;
+  margin: 0;
+}
+
+.filterBar {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 25px;
+  padding: 10px 25px;
+  color: #888;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.filterButton:hover {
+  border-color: #4ecdc4;
+  color: #4ecdc4;
+  background: rgba(78, 205, 196, 0.1);
+}
+
+.filterButton.active {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: #4ecdc4;
+  color: #4ecdc4;
+}
+
+.issuesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 25px;
+}
+
+.issueCard {
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 20px;
+  padding: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.issueCard:hover {
+  transform: translateY(-5px);
+  border-color: #4ecdc4;
+  box-shadow: 0 10px 30px rgba(78, 205, 196, 0.3);
+}
+
+.issueCard.expanded {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.15), rgba(118, 75, 162, 0.15));
+  border-color: #4ecdc4;
+}
+
+.issueHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.category {
+  background: rgba(255, 107, 107, 0.2);
+  color: #ff6b6b;
+  padding: 6px 16px;
+  border-radius: 15px;
+  font-size: 14px;
+  font-weight: 600;
+  border: 1px solid #ff6b6b;
+}
+
+.period {
+  color: #888;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.issueTitle {
+  font-size: 24px;
+  color: #4ecdc4;
+  margin: 0 0 15px 0;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.issueDescription {
+  font-size: 16px;
+  color: #aaa;
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+}
+
+.characterTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.characterTag {
+  background: rgba(102, 126, 234, 0.2);
+  color: #667eea;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(102, 126, 234, 0.4);
+}
+
+.issueDetails {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid rgba(78, 205, 196, 0.3);
+  animation: expandIn 0.4s ease;
+}
+
+@keyframes expandIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.detailSection {
+  margin-bottom: 30px;
+}
+
+.detailSection h4 {
+  font-size: 20px;
+  color: #4ecdc4;
+  margin: 0 0 12px 0;
+  font-weight: 700;
+}
+
+.detailSection p {
+  font-size: 16px;
+  color: #ccc;
+  line-height: 1.8;
+  margin: 0;
+}
+
+.resolution {
+  color: #ffce56 !important;
+  font-weight: 700;
+  font-size: 18px !important;
+  margin-bottom: 12px !important;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(78, 205, 196, 0.2);
+}
+
+.tag {
+  background: rgba(255, 206, 86, 0.2);
+  color: #ffce56;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  border: 1px solid rgba(255, 206, 86, 0.4);
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 36px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .issuesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .filterBar {
+    gap: 10px;
+  }
+
+  .filterButton {
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+
+  .issueCard {
+    padding: 25px;
+  }
+
+  .issueTitle {
+    font-size: 20px;
+  }
+
+  .issueDescription {
+    font-size: 14px;
+  }
+
+  .detailSection h4 {
+    font-size: 18px;
+  }
+
+  .detailSection p {
+    font-size: 14px;
+  }
+}

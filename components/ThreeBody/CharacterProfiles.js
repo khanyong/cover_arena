@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import styles from './styles/CharacterProfiles.module.css'
 
 const characters = [
@@ -271,43 +272,175 @@ const characters = [
 ]
 
 export default function CharacterProfiles() {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [sortBy, setSortBy] = useState('name')
+  const [compareMode, setCompareMode] = useState(false)
+  const [selectedForCompare, setSelectedForCompare] = useState([])
+  const [fateFilter, setFateFilter] = useState('all')
+
+  // Filter characters by search and fate
+  const filteredCharacters = characters.filter(char => {
+    const matchesSearch = char.name.includes(searchTerm) ||
+                         char.role.includes(searchTerm) ||
+                         char.chinese.includes(searchTerm)
+
+    if (fateFilter === 'all') return matchesSearch
+    if (fateFilter === 'alive') return matchesSearch && (char.fate.includes('생존') || char.fate.includes('은퇴'))
+    if (fateFilter === 'dead') return matchesSearch && (char.fate.includes('사망') || char.fate.includes('전사') || char.fate.includes('자살'))
+    return matchesSearch
+  })
+
+  // Sort characters
+  const sortedCharacters = [...filteredCharacters].sort((a, b) => {
+    if (sortBy === 'name') return a.name.localeCompare(b.name, 'ko')
+    if (sortBy === 'role') return a.role.localeCompare(b.role, 'ko')
+    if (sortBy === 'fate') return a.fate.localeCompare(b.fate, 'ko')
+    return 0
+  })
+
+  // Handle compare selection
+  const toggleCompare = (char) => {
+    if (selectedForCompare.find(c => c.name === char.name)) {
+      setSelectedForCompare(selectedForCompare.filter(c => c.name !== char.name))
+    } else if (selectedForCompare.length < 3) {
+      setSelectedForCompare([...selectedForCompare, char])
+    }
+  }
+
   return (
     <div className={styles.characterProfiles}>
-      {characters.map((char, index) => (
-        <div key={index} className={styles.characterCard}>
-          <div className={styles.characterHeader}>
-            <div className={styles.characterAvatar}>{char.initial}</div>
-            <div>
-              <div className={styles.characterName}>{char.name}</div>
-              <div className={styles.characterChinese}>{char.chinese}</div>
-            </div>
-          </div>
+      {/* Control Panel */}
+      <div className={styles.controlPanel}>
+        <div className={styles.searchBar}>
+          <span className={styles.searchIcon}>🔍</span>
+          <input
+            type="text"
+            placeholder="인물 이름, 역할, 한자 검색..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className={styles.searchInput}
+          />
+        </div>
 
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>역할</div>
-            <div className={styles.sectionContent}>{char.role}</div>
-          </div>
+        <div className={styles.filterGroup}>
+          <select
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className={styles.select}
+          >
+            <option value="name">이름순</option>
+            <option value="role">역할순</option>
+            <option value="fate">운명순</option>
+          </select>
 
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>배경</div>
-            <div className={styles.sectionContent}>{char.background}</div>
-          </div>
+          <select
+            value={fateFilter}
+            onChange={(e) => setFateFilter(e.target.value)}
+            className={styles.select}
+          >
+            <option value="all">전체</option>
+            <option value="alive">생존자</option>
+            <option value="dead">사망자</option>
+          </select>
 
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>주요 행동</div>
-            <ul className={styles.actionList}>
-              {char.actions.map((action, i) => (
-                <li key={i}>{action}</li>
-              ))}
-            </ul>
-          </div>
+          <button
+            onClick={() => {
+              setCompareMode(!compareMode)
+              setSelectedForCompare([])
+            }}
+            className={`${styles.compareButton} ${compareMode ? styles.active : ''}`}
+          >
+            {compareMode ? '비교 종료' : '인물 비교'}
+          </button>
+        </div>
+      </div>
 
-          <div className={styles.section}>
-            <div className={styles.sectionTitle}>최종 운명</div>
-            <div className={styles.sectionContent}>{char.fate}</div>
+      {/* Result count */}
+      <div className={styles.resultCount}>
+        {sortedCharacters.length}명의 인물 {compareMode && selectedForCompare.length > 0 && `(${selectedForCompare.length}명 선택됨)`}
+      </div>
+
+      {/* Compare View */}
+      {compareMode && selectedForCompare.length > 0 && (
+        <div className={styles.comparePanel}>
+          <h3 className={styles.compareTitle}>선택된 인물 비교</h3>
+          <div className={styles.compareGrid}>
+            {selectedForCompare.map((char, idx) => (
+              <div key={idx} className={styles.compareCard}>
+                <button
+                  className={styles.removeCompare}
+                  onClick={() => toggleCompare(char)}
+                >
+                  ✕
+                </button>
+                <div className={styles.compareAvatar}>{char.initial}</div>
+                <h4>{char.name}</h4>
+                <p className={styles.compareRole}>{char.role}</p>
+                <p className={styles.compareFate}><strong>운명:</strong> {char.fate}</p>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
+      )}
+
+      {/* Character Cards */}
+      <div className={styles.characterGrid}>
+        {sortedCharacters.map((char, index) => {
+          const isSelected = compareMode && selectedForCompare.find(c => c.name === char.name)
+          return (
+            <div
+              key={index}
+              className={`${styles.characterCard} ${isSelected ? styles.selected : ''}`}
+              onClick={() => compareMode && toggleCompare(char)}
+              style={{ animationDelay: `${index * 0.05}s` }}
+            >
+              {compareMode && (
+                <div className={styles.selectBadge}>
+                  {isSelected ? '✓' : '+'}
+                </div>
+              )}
+
+              <div className={styles.characterHeader}>
+                <div className={styles.characterAvatar}>{char.initial}</div>
+                <div>
+                  <div className={styles.characterName}>{char.name}</div>
+                  <div className={styles.characterChinese}>{char.chinese}</div>
+                </div>
+              </div>
+
+              <div className={styles.section}>
+                <div className={styles.sectionTitle}>역할</div>
+                <div className={styles.sectionContent}>{char.role}</div>
+              </div>
+
+              <div className={styles.section}>
+                <div className={styles.sectionTitle}>배경</div>
+                <div className={styles.sectionContent}>{char.background}</div>
+              </div>
+
+              <div className={styles.section}>
+                <div className={styles.sectionTitle}>주요 행동</div>
+                <ul className={styles.actionList}>
+                  {char.actions.map((action, i) => (
+                    <li key={i}>{action}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className={styles.section}>
+                <div className={styles.sectionTitle}>최종 운명</div>
+                <div className={styles.sectionContent}>{char.fate}</div>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+
+      {sortedCharacters.length === 0 && (
+        <div className={styles.noResults}>
+          <p>검색 결과가 없습니다.</p>
+        </div>
+      )}
     </div>
   )
 }

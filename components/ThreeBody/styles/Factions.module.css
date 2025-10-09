@@ -1,9 +1,134 @@
+.factionsContainer {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Statistics Panel */
+.statsPanel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.statsTitle {
+  text-align: center;
+  color: #4ecdc4;
+  font-size: 24px;
+  margin: 0 0 25px 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+}
+
+.statCard {
+  text-align: center;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  transition: all 0.3s ease;
+}
+
+.statCard:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.statNumber {
+  font-size: 48px;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: #888;
+}
+
+/* Control Panel */
+.controlPanel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  flex-wrap: wrap;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.filterGroup {
+  display: flex;
+  gap: 10px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+
+.filterButton {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.filterButton:hover {
+  border-color: #4ecdc4;
+  background: rgba(78, 205, 196, 0.2);
+}
+
+.filterButton.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-color: #667eea;
+  font-weight: 600;
+}
+
+.select {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select:hover {
+  border-color: #4ecdc4;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.select option {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.resultCount {
+  text-align: center;
+  font-size: 18px;
+  color: #4ecdc4;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+/* Faction Grid */
 .factionGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 25px;
-  max-width: 1400px;
-  margin: 0 auto;
 }
 
 .factionCard {
@@ -13,6 +138,10 @@
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
 }
 
 .factionCard:hover {
@@ -20,12 +149,67 @@
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
+/* Alignment-based styling */
+.factionCard.인류 {
+  border-color: rgba(78, 205, 196, 0.5);
+}
+
+.factionCard.인류:hover {
+  box-shadow: 0 10px 30px rgba(78, 205, 196, 0.4);
+}
+
+.factionCard.삼체 {
+  border-color: rgba(255, 107, 107, 0.5);
+}
+
+.factionCard.삼체:hover {
+  box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+}
+
+.factionCard.중립 {
+  border-color: rgba(255, 206, 86, 0.5);
+}
+
+.factionCard.중립:hover {
+  box-shadow: 0 10px 30px rgba(255, 206, 86, 0.4);
+}
+
+.factionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
 .factionTitle {
   font-size: 1.3rem;
   font-weight: bold;
   color: #4ecdc4;
-  margin-bottom: 15px;
+}
+
+.alignmentBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.alignmentBadge span {
+  color: #e0e0e0;
+}
+
+.memberCount {
   text-align: center;
+  padding: 8px;
+  background: rgba(102, 126, 234, 0.2);
+  border-radius: 8px;
+  color: #667eea;
+  font-weight: 600;
+  margin-bottom: 15px;
 }
 
 .factionDescription {
@@ -51,6 +235,21 @@
 
 .factionIdeology strong {
   color: #ff6b6b;
+}
+
+/* Member Expanded Section */
+.memberExpanded {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 2px solid rgba(78, 205, 196, 0.3);
+  animation: expandDown 0.3s ease;
+}
+
+.memberTitle {
+  color: #4ecdc4;
+  font-size: 18px;
+  margin: 0 0 15px 0;
+  text-align: center;
 }
 
 .factionMembers {
@@ -87,7 +286,75 @@
   line-height: 1.4;
 }
 
+.expandHint {
+  text-align: center;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 1000px;
+  }
+}
+
 @media (max-width: 768px) {
+  .factionsContainer {
+    padding: 10px;
+  }
+
+  .statsPanel {
+    padding: 20px;
+  }
+
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  .statNumber {
+    font-size: 36px;
+  }
+
+  .controlPanel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filterGroup {
+    width: 100%;
+  }
+
+  .filterButton {
+    flex: 1;
+    min-width: calc(50% - 5px);
+  }
+
+  .select {
+    width: 100%;
+  }
+
   .factionGrid {
     grid-template-columns: 1fr;
   }

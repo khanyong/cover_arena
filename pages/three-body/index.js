@@ -7,6 +7,8 @@ import CharacterProfiles from '../../components/ThreeBody/CharacterProfiles'
 import Factions from '../../components/ThreeBody/Factions'
 import QuoteQuiz from '../../components/ThreeBody/QuoteQuiz'
 import ImageGallery from '../../components/ThreeBody/ImageGallery'
+import KeyIssues from '../../components/ThreeBody/KeyIssues'
+import ScienceConcepts from '../../components/ThreeBody/ScienceConcepts'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
 export default function ThreeBodyPage() {
@@ -76,6 +78,18 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>이미지 갤러리</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'issues' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('issues')}
+                >
+                  <span className={styles.label}>주요 이슈 & 논쟁</span>
+                </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'concepts' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('concepts')}
+                >
+                  <span className={styles.label}>과학 개념 사전</span>
+                </button>
               </div>
             )}
 
@@ -128,6 +142,8 @@ export default function ThreeBodyPage() {
             {activeTab === 'factions' && <Factions />}
             {activeTab === 'quiz' && <QuoteQuiz />}
             {activeTab === 'gallery' && <ImageGallery />}
+            {activeTab === 'issues' && <KeyIssues />}
+            {activeTab === 'concepts' && <ScienceConcepts />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (

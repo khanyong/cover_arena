@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './styles/Timeline.module.css'
 
 const timelineEvents = [
   {
     year: '1967년',
+    era: '문화대혁명',
     title: '예저타이 교수 살해',
     description: '물리학 교수 예저타이가 "반혁명적" 빅뱅 이론을 가르쳤다는 이유로 제자들에게 살해당함',
     characters: ['예저타이', '예원제'],
@@ -13,6 +14,7 @@ const timelineEvents = [
   },
   {
     year: '1969년',
+    era: '문화대혁명',
     title: '홍안 기지 건설',
     description: '내몽골 다싱안링에 군사 전파 천문학 기지 홍안 건설',
     characters: ['예원제', '양웨이닝'],
@@ -22,6 +24,7 @@ const timelineEvents = [
   },
   {
     year: '1979년',
+    era: '위기기원',
     title: '삼체 문명과의 첫 접촉',
     description: '예원제가 레이더 피크에서 삼체 문명의 신호를 수신하고 지구 위치를 송신',
     characters: ['예원제'],
@@ -31,6 +34,7 @@ const timelineEvents = [
   },
   {
     year: '1984년',
+    era: '위기기원',
     title: 'ETO(지구삼체조직) 창립',
     description: '예원제와 마이크 에반스가 만나 삼체 침공을 돕기 위한 비밀 조직 결성',
     characters: ['예원제', '마이크 에반스'],
@@ -40,6 +44,7 @@ const timelineEvents = [
   },
   {
     year: '2005년',
+    era: '위기기원',
     title: '삼체 게임 출현',
     description: 'VR 게임 형식으로 위장한 삼체 문명 선전 및 ETO 모집 도구 등장',
     characters: ['왕먀오', '예원제'],
@@ -49,6 +54,7 @@ const timelineEvents = [
   },
   {
     year: '2007년',
+    era: '위기기원',
     title: '과학자 연쇄 자살 사건',
     description: '양둥을 포함한 다수의 과학자들이 물리학 법칙 붕괴를 발견하고 자살',
     characters: ['양둥', '딩이', '왕먀오'],
@@ -58,6 +64,7 @@ const timelineEvents = [
   },
   {
     year: '2007년',
+    era: '위기기원',
     title: '나노와이어 작전',
     description: '왕먀오의 나노와이어를 이용해 마이크 에번스의 선박을 절단, ETO 핵심부 소탕',
     characters: ['왕먀오', '스창', '마이크 에번스', '예원제'],
@@ -67,6 +74,7 @@ const timelineEvents = [
   },
   {
     year: '2008년',
+    era: '위기기원',
     title: '면벽자 프로젝트 시작',
     description: '삼체의 지자(智子) 감시를 피해 비밀 계획을 수행할 면벽자 4명 선정',
     characters: ['뤄지', '타일러', '레이디아즈', '하인즈'],
@@ -76,6 +84,7 @@ const timelineEvents = [
   },
   {
     year: '2015년',
+    era: '위기기원',
     title: '우주군 창설과 장베이하이',
     description: '삼체 위협에 대응하기 위한 우주군 창설, 정치위원 장베이하이 임명',
     characters: ['창웨이스', '장베이하이'],
@@ -85,6 +94,7 @@ const timelineEvents = [
   },
   {
     year: '2016년',
+    era: '위기기원',
     title: '삼체 함대 추적과 워터 드롭 발견',
     description: '인류가 삼체 함대를 망원경으로 추적하던 중 정체불명의 탐사체 포착',
     characters: ['딩이', '장베이하이'],
@@ -94,6 +104,7 @@ const timelineEvents = [
   },
   {
     year: '2205년',
+    era: '억제기원',
     title: '말일 전투 - 인류 함대 전멸',
     description: '워터 드롭 1기가 지구의 2000척 우주 함대를 단독으로 전멸',
     characters: ['창웨이스', '장베이하이', '둥펑웨이'],
@@ -103,6 +114,7 @@ const timelineEvents = [
   },
   {
     year: '2205년',
+    era: '억제기원',
     title: '암흑 전투와 도망주의',
     description: '살아남은 함선들이 서로를 공격하여 연료와 자원 확보',
     characters: ['장베이하이', '우웨이'],
@@ -112,6 +124,7 @@ const timelineEvents = [
   },
   {
     year: '2205년',
+    era: '억제기원',
     title: '암흑의 숲 이론 발견',
     description: '뤄지가 우주사회학을 통해 암흑의 숲 이론을 발견하고 삼체 함대를 위협',
     characters: ['뤄지'],
@@ -121,6 +134,7 @@ const timelineEvents = [
   },
   {
     year: '2208년',
+    era: '억제기원',
     title: '검잡이 체제 시작',
     description: '뤄지가 검잡이가 되어 암흑의 숲 타격으로 삼체를 위협하는 균형 체제 구축',
     characters: ['뤄지'],
@@ -130,6 +144,7 @@ const timelineEvents = [
   },
   {
     year: '2263년',
+    era: '억제기원',
     title: '계단 프로젝트 - 윈톈밍의 우주 여행',
     description: '윈톈밍이 뇌만으로 삼체 함대로 보내지는 계단 프로젝트 지원자가 됨',
     characters: ['윈톈밍', '정청신', '토마스 웨이드'],
@@ -139,6 +154,7 @@ const timelineEvents = [
   },
   {
     year: '2270년',
+    era: '방송기원',
     title: '검잡이 교체와 위협 해제',
     description: '정청신이 검잡이가 되지만 위협 의지 부족으로 삼체가 지구 재침공',
     characters: ['정청신', '뤄지'],
@@ -148,6 +164,7 @@ const timelineEvents = [
   },
   {
     year: '2271년',
+    era: '방송기원',
     title: '광속 우주선 개발 은폐',
     description: '토마스 웨이드가 비밀리에 광속 우주선 "중력호" 개발 추진',
     characters: ['토마스 웨이드', '정청신', '관이판'],
@@ -157,6 +174,7 @@ const timelineEvents = [
   },
   {
     year: '2271년',
+    era: '방송기원',
     title: '암흑의 숲 타격 - 삼체 멸망',
     description: '삼체 세계가 우주의 다른 문명에 의해 차원 공격으로 멸망',
     characters: ['정청신', '관이판', '블루스페이스호'],
@@ -166,6 +184,7 @@ const timelineEvents = [
   },
   {
     year: '2272년',
+    era: '은하기원',
     title: '태양계 광속 추진 연구 재개',
     description: '삼체 멸망 후 관이판과 정청신이 비밀리에 광속 우주선 개발',
     characters: ['관이판', '정청신'],
@@ -175,6 +194,7 @@ const timelineEvents = [
   },
   {
     year: '2273년',
+    era: '은하기원',
     title: '태양계 이차원화',
     description: '태양계가 차원 타격을 받아 3차원에서 2차원으로 붕괴',
     characters: ['정청신', '관이판', '뤄지'],
@@ -184,6 +204,7 @@ const timelineEvents = [
   },
   {
     year: '18903310년',
+    era: '우주재시작',
     title: '우주 재시작 참여',
     description: '정청신과 관이판이 소우주에 남아 우주 재시작 프로젝트에 참여',
     characters: ['정청신', '관이판'],
@@ -195,40 +216,142 @@ const timelineEvents = [
 
 export default function Timeline() {
   const [selectedEvent, setSelectedEvent] = useState(null)
+  const [eraFilter, setEraFilter] = useState('all')
+  const [characterSearch, setCharacterSearch] = useState('')
+  const [autoPlay, setAutoPlay] = useState(false)
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  // Get unique eras
+  const eras = ['all', ...new Set(timelineEvents.map(e => e.era))]
+
+  // Filter events
+  const filteredEvents = timelineEvents.filter(event => {
+    const matchesEra = eraFilter === 'all' || event.era === eraFilter
+    const matchesCharacter = !characterSearch ||
+      event.characters.some(char => char.includes(characterSearch))
+    return matchesEra && matchesCharacter
+  })
+
+  // Auto-play effect
+  useEffect(() => {
+    if (autoPlay && filteredEvents.length > 0) {
+      const timer = setInterval(() => {
+        setCurrentIndex(prev => {
+          const next = (prev + 1) % filteredEvents.length
+          setSelectedEvent(next)
+          // Scroll to element
+          const element = document.getElementById(`timeline-${next}`)
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'center' })
+          }
+          return next
+        })
+      }, 5000)
+      return () => clearInterval(timer)
+    }
+  }, [autoPlay, filteredEvents.length])
 
   return (
-    <div className={styles.timeline}>
-      {timelineEvents.map((event, index) => (
-        <div key={index} className={styles.timelineItem}>
-          <div
-            className={`${styles.timelineCard} ${selectedEvent === index ? styles.timelineCardExpanded : ''}`}
-            onClick={() => setSelectedEvent(selectedEvent === index ? null : index)}
-          >
-            <div className={styles.timelineYear}>{event.year}</div>
-            <div className={styles.timelineTitle}>{event.title}</div>
-            <div className={styles.timelineDescription}>{event.description}</div>
-            <div className={styles.timelineCharacters}>
-              {event.characters.map((char, i) => (
-                <span key={i} className={styles.characterTag}>{char}</span>
-              ))}
-            </div>
-            <div className={styles.timelineResult}>{event.result}</div>
-
-            {selectedEvent === index && (
-              <div className={styles.timelineDetails}>
-                <div className={styles.detailSection}>
-                  <h4>상세 설명</h4>
-                  <p>{event.details}</p>
-                </div>
-                <div className={styles.detailSection}>
-                  <h4>역사적 영향</h4>
-                  <p>{event.impact}</p>
-                </div>
-              </div>
-            )}
-          </div>
+    <div className={styles.timelineContainer}>
+      {/* Control Panel */}
+      <div className={styles.controlPanel}>
+        <div className={styles.searchBar}>
+          <span className={styles.searchIcon}>🔍</span>
+          <input
+            type="text"
+            placeholder="인물 이름으로 검색..."
+            value={characterSearch}
+            onChange={(e) => setCharacterSearch(e.target.value)}
+            className={styles.searchInput}
+          />
         </div>
-      ))}
+
+        <div className={styles.eraFilters}>
+          {eras.map(era => (
+            <button
+              key={era}
+              onClick={() => setEraFilter(era)}
+              className={`${styles.eraButton} ${eraFilter === era ? styles.active : ''}`}
+            >
+              {era === 'all' ? '전체' : era}
+            </button>
+          ))}
+        </div>
+
+        <button
+          onClick={() => setAutoPlay(!autoPlay)}
+          className={`${styles.autoPlayButton} ${autoPlay ? styles.playing : ''}`}
+        >
+          {autoPlay ? '⏸ 자동재생 중지' : '▶ 자동재생'}
+        </button>
+
+        <div className={styles.resultCount}>
+          {filteredEvents.length}개의 사건
+        </div>
+      </div>
+
+      {/* Timeline */}
+      <div className={styles.timeline}>
+        {filteredEvents.map((event, index) => (
+          <div
+            key={index}
+            id={`timeline-${index}`}
+            className={styles.timelineItem}
+            style={{ animationDelay: `${index * 0.1}s` }}
+          >
+            <div className={styles.timelineDot}></div>
+            <div
+              className={`${styles.timelineCard} ${selectedEvent === index ? styles.timelineCardExpanded : ''} ${autoPlay && currentIndex === index ? styles.highlighted : ''}`}
+              onClick={() => setSelectedEvent(selectedEvent === index ? null : index)}
+            >
+              <div className={styles.cardHeader}>
+                <div className={styles.timelineYear}>{event.year}</div>
+                <div className={styles.eraBadge}>{event.era}</div>
+              </div>
+              <div className={styles.timelineTitle}>{event.title}</div>
+              <div className={styles.timelineDescription}>{event.description}</div>
+              <div className={styles.timelineCharacters}>
+                {event.characters.map((char, i) => (
+                  <span
+                    key={i}
+                    className={styles.characterTag}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setCharacterSearch(char)
+                    }}
+                  >
+                    {char}
+                  </span>
+                ))}
+              </div>
+              <div className={styles.timelineResult}>{event.result}</div>
+
+              {selectedEvent === index && (
+                <div className={styles.timelineDetails}>
+                  <div className={styles.detailSection}>
+                    <h4>상세 설명</h4>
+                    <p>{event.details}</p>
+                  </div>
+                  <div className={styles.detailSection}>
+                    <h4>역사적 영향</h4>
+                    <p>{event.impact}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className={styles.expandHint}>
+                {selectedEvent === index ? '클릭하여 접기 ▲' : '클릭하여 상세보기 ▼'}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {filteredEvents.length === 0 && (
+        <div className={styles.noResults}>
+          <p>검색 결과가 없습니다.</p>
+        </div>
+      )}
     </div>
   )
 }
