@@ -12,6 +12,7 @@ import ScienceConcepts from '../../components/ThreeBody/ScienceConcepts'
 import SpaceshipsAndTech from '../../components/ThreeBody/SpaceshipsAndTech'
 import TopScenes from '../../components/ThreeBody/TopScenes'
 import MathVideos from '../../components/ThreeBody/MathVideos'
+import Glossary from '../../components/ThreeBody/Glossary'
 import { CrossReferenceProvider } from '../../components/ThreeBody/CrossReferenceContext'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
@@ -123,6 +124,12 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>삼체의 수학적 이해</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'glossary' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('glossary')}
+                >
+                  <span className={styles.label}>용어 사전</span>
+                </button>
               </div>
             )}
 
@@ -180,6 +187,7 @@ export default function ThreeBodyPage() {
             {activeTab === 'ships' && <SpaceshipsAndTech />}
             {activeTab === 'scenes' && <TopScenes />}
             {activeTab === 'math' && <MathVideos />}
+            {activeTab === 'glossary' && <Glossary />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (

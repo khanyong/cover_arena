@@ -1,0 +1,385 @@
+.glossaryContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+/* Control Panel */
+.controlPanel {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.5) 0%, rgba(22, 33, 62, 0.5) 100%);
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(78, 205, 196, 0.2);
+  position: relative;
+  z-index: 10;
+}
+
+.searchBar {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  opacity: 0.6;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 12px 15px 12px 45px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4ecdc4;
+  box-shadow: 0 0 20px rgba(78, 205, 196, 0.3);
+}
+
+.filterGroup {
+  display: flex;
+  gap: 15px;
+}
+
+.select {
+  padding: 12px 20px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  border-radius: 8px;
+  color: #e2e8f0;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select:hover {
+  border-color: #4ecdc4;
+}
+
+.select:focus {
+  outline: none;
+  border-color: #4ecdc4;
+  box-shadow: 0 0 15px rgba(78, 205, 196, 0.3);
+}
+
+.resultCount {
+  color: #4ecdc4;
+  font-weight: 600;
+  font-size: 1rem;
+  white-space: nowrap;
+}
+
+/* Terms List */
+.termsList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.termCard {
+  background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(22, 33, 62, 0.95) 100%);
+  border-radius: 12px;
+  padding: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid rgba(78, 205, 196, 0.1);
+  animation: fadeInUp 0.6s ease forwards;
+  opacity: 0;
+}
+
+.termCard:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(78, 205, 196, 0.3);
+  border-color: rgba(78, 205, 196, 0.4);
+}
+
+.termCard.expanded {
+  border-color: #4ecdc4;
+  box-shadow: 0 0 30px rgba(78, 205, 196, 0.5);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.termHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 20px;
+}
+
+.termMain {
+  flex: 1;
+}
+
+.termTitle {
+  font-size: 1.6rem;
+  color: #e2e8f0;
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.termTitleEn {
+  font-size: 1rem;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.categoryBadge {
+  background: rgba(78, 205, 196, 0.2);
+  color: #4ecdc4;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.termShortDesc {
+  font-size: 1.05rem;
+  color: #cbd5e1;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+/* Term Details */
+.termDetails {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 1px solid rgba(78, 205, 196, 0.2);
+  animation: expandDetail 0.4s ease;
+}
+
+@keyframes expandDetail {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 5000px;
+  }
+}
+
+.detailSection {
+  margin-bottom: 25px;
+}
+
+.detailSection h4 {
+  font-size: 1.2rem;
+  color: #4ecdc4;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.definition {
+  font-size: 1.05rem;
+  color: #e2e8f0;
+  line-height: 1.7;
+  background: rgba(78, 205, 196, 0.05);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #4ecdc4;
+}
+
+.explanation {
+  font-size: 1rem;
+  color: #cbd5e1;
+  line-height: 1.8;
+}
+
+.explanation p {
+  margin-bottom: 15px;
+}
+
+.explanation strong,
+.explanation h4 {
+  color: #4ecdc4;
+  font-weight: 600;
+}
+
+.relatedSection {
+  margin-bottom: 20px;
+}
+
+.relatedSection h4 {
+  font-size: 1.1rem;
+  color: #4ecdc4;
+  margin-bottom: 10px;
+}
+
+.relatedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.relatedTag {
+  background: rgba(78, 205, 196, 0.1);
+  color: #4ecdc4;
+  padding: 6px 14px;
+  border-radius: 16px;
+  font-size: 0.9rem;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  transition: all 0.2s ease;
+}
+
+.relatedTag:hover {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: #4ecdc4;
+}
+
+.realWorldSection {
+  background: rgba(102, 126, 234, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #667eea;
+  margin-bottom: 20px;
+}
+
+.realWorldSection h4 {
+  color: #667eea;
+  margin-bottom: 10px;
+}
+
+.realWorldSection p {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.notesSection {
+  background: rgba(255, 193, 7, 0.1);
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 3px solid #ffc107;
+  margin-bottom: 20px;
+}
+
+.notesSection h4 {
+  color: #ffc107;
+  margin-bottom: 10px;
+}
+
+.notesSection p {
+  color: #cbd5e1;
+  line-height: 1.7;
+}
+
+.expandHint {
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.9rem;
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(78, 205, 196, 0.1);
+}
+
+/* No Results */
+.noResults {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+  font-size: 1.2rem;
+}
+
+/* Index Help */
+.indexHelp {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  background: rgba(78, 205, 196, 0.05);
+  border-radius: 12px;
+  border: 1px solid rgba(78, 205, 196, 0.2);
+}
+
+.indexHelp p {
+  color: #94a3b8;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .controlPanel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .searchBar {
+    min-width: 100%;
+  }
+
+  .filterGroup {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .select {
+    width: 100%;
+  }
+
+  .termHeader {
+    flex-direction: column;
+  }
+
+  .termTitle {
+    font-size: 1.3rem;
+  }
+
+  .categoryBadge {
+    align-self: flex-start;
+  }
+}
