@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import CrossReferenceLink from './CrossReferenceLink'
 import styles from './styles/ScienceConcepts.module.css'
 
 const scienceConcepts = [
@@ -552,7 +553,7 @@ export default function ScienceConcepts() {
                     <h4>관련 인물</h4>
                     <div className={styles.relatedTags}>
                       {concept.relatedCharacters.map((char, i) => (
-                        <span key={i} className={styles.relatedTag}>{char}</span>
+                        <CrossReferenceLink key={i} type="character" name={char} />
                       ))}
                     </div>
                   </div>
@@ -563,7 +564,7 @@ export default function ScienceConcepts() {
                     <h4>관련 사건</h4>
                     <div className={styles.relatedTags}>
                       {concept.relatedEvents.map((event, i) => (
-                        <span key={i} className={styles.relatedTag}>{event}</span>
+                        <CrossReferenceLink key={i} type="event" name={event} />
                       ))}
                     </div>
                   </div>

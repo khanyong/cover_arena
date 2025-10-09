@@ -1,0 +1,82 @@
+.crossRefLink {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 0 4px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+
+.crossRefLink:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Type-specific colors */
+.crossRefLink.character {
+  background: rgba(78, 205, 196, 0.2);
+  border-color: #4ecdc4;
+  color: #4ecdc4;
+}
+
+.crossRefLink.character:hover {
+  background: rgba(78, 205, 196, 0.4);
+  box-shadow: 0 5px 15px rgba(78, 205, 196, 0.4);
+}
+
+.crossRefLink.event {
+  background: rgba(255, 107, 107, 0.2);
+  border-color: #ff6b6b;
+  color: #ff6b6b;
+}
+
+.crossRefLink.event:hover {
+  background: rgba(255, 107, 107, 0.4);
+  box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.crossRefLink.concept {
+  background: rgba(102, 126, 234, 0.2);
+  border-color: #667eea;
+  color: #a8b8ff;
+}
+
+.crossRefLink.concept:hover {
+  background: rgba(102, 126, 234, 0.4);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.crossRefLink.ship {
+  background: rgba(255, 206, 86, 0.2);
+  border-color: #ffce56;
+  color: #ffce56;
+}
+
+.crossRefLink.ship:hover {
+  background: rgba(255, 206, 86, 0.4);
+  box-shadow: 0 5px 15px rgba(255, 206, 86, 0.4);
+}
+
+.crossRefLink.faction {
+  background: rgba(153, 102, 255, 0.2);
+  border-color: #9966ff;
+  color: #b399ff;
+}
+
+.crossRefLink.faction:hover {
+  background: rgba(153, 102, 255, 0.4);
+  box-shadow: 0 5px 15px rgba(153, 102, 255, 0.4);
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .crossRefLink {
+    font-size: 12px;
+    padding: 3px 8px;
+    margin: 0 2px 4px;
+  }
+}

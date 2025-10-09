@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import CrossReferenceLink from './CrossReferenceLink'
 import styles from './styles/Factions.module.css'
 
 const factions = [
@@ -258,7 +259,9 @@ export default function Factions() {
                 <ul className={styles.factionMembers}>
                   {faction.members.map((member, i) => (
                     <li key={i}>
-                      <div className={styles.memberName}>{member.name}</div>
+                      <div className={styles.memberName}>
+                        <CrossReferenceLink type="character" name={member.name} />
+                      </div>
                       <div className={styles.memberRole}>{member.role}</div>
                     </li>
                   ))}

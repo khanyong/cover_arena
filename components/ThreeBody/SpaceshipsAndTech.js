@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import CrossReferenceLink from './CrossReferenceLink'
 import styles from './styles/SpaceshipsAndTech.module.css'
 
 const spaceships = [
@@ -606,7 +607,7 @@ export default function SpaceshipsAndTech() {
                     <h4>관련 인물</h4>
                     <div className={styles.relatedTags}>
                       {item.relatedCharacters.map((char, i) => (
-                        <span key={i} className={styles.relatedTag}>{char}</span>
+                        <CrossReferenceLink key={i} type="character" name={char} />
                       ))}
                     </div>
                   </div>
@@ -617,7 +618,7 @@ export default function SpaceshipsAndTech() {
                     <h4>관련 사건</h4>
                     <div className={styles.relatedTags}>
                       {item.relatedEvents.map((event, i) => (
-                        <span key={i} className={styles.relatedTag}>{event}</span>
+                        <CrossReferenceLink key={i} type="event" name={event} />
                       ))}
                     </div>
                   </div>

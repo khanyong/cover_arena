@@ -10,6 +10,8 @@ import ImageGallery from '../../components/ThreeBody/ImageGallery'
 import KeyIssues from '../../components/ThreeBody/KeyIssues'
 import ScienceConcepts from '../../components/ThreeBody/ScienceConcepts'
 import SpaceshipsAndTech from '../../components/ThreeBody/SpaceshipsAndTech'
+import TopScenes from '../../components/ThreeBody/TopScenes'
+import { CrossReferenceProvider } from '../../components/ThreeBody/CrossReferenceContext'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
 export default function ThreeBodyPage() {
@@ -17,9 +19,20 @@ export default function ThreeBodyPage() {
   const [novelExpanded, setNovelExpanded] = useState(true)
   const [netflixExpanded, setNetflixExpanded] = useState(false)
   const [selectedEpisode, setSelectedEpisode] = useState(null)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  // Handle cross-reference navigation
+  const handleNavigation = (tab, itemName = null) => {
+    setActiveTab(tab)
+    if (itemName) {
+      setSearchTerm(itemName)
+      // Reset search term after a short delay to allow component to filter
+      setTimeout(() => setSearchTerm(''), 100)
+    }
+  }
 
   return (
-    <>
+    <CrossReferenceProvider onNavigate={handleNavigation}>
       <Head>
         <title>삼체 3부작 분석 - Three Body Universe</title>
         <meta name="description" content="류츠신의 삼체 3부작 인물 관계도, 시간흐름도, 세력 분석" />
@@ -97,6 +110,12 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>우주선 & 기술 도감</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'scenes' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('scenes')}
+                >
+                  <span className={styles.label}>명장면 TOP 10</span>
+                </button>
               </div>
             )}
 
@@ -152,6 +171,7 @@ export default function ThreeBodyPage() {
             {activeTab === 'issues' && <KeyIssues />}
             {activeTab === 'concepts' && <ScienceConcepts />}
             {activeTab === 'ships' && <SpaceshipsAndTech />}
+            {activeTab === 'scenes' && <TopScenes />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (
@@ -398,6 +418,6 @@ export default function ThreeBodyPage() {
           </div>
         </main>
       </div>
-    </>
+    </CrossReferenceProvider>
   )
 }
