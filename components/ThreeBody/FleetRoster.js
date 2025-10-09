@@ -254,6 +254,38 @@ const fleetData = [
       '레이저 방어 시스템'
     ],
     propulsion: '핵융합 추진'
+  },
+  {
+    id: 7,
+    shipName: '당랑호',
+    shipNameEn: 'Mantis',
+    class: '소형 무인 우주선 (채굴선)',
+    length: '50m',
+    crew: 0,
+    construction: '2200년대 초',
+    status: '삼체 탐측기 포획 작전 투입',
+    description: '소행성대에서 광물 표본을 채취하는 소형 무인 우주선. 기다란 로봇 팔을 장착하여 워터 드롭(삼체 탐측기) 포획 작전에 투입되었다.',
+    officers: [
+      {
+        name: '원격 조종팀',
+        nameEn: 'Remote Control Team',
+        rank: '지상 관제',
+        role: 'Ground Control',
+        bio: '지구에서 원격으로 당랑호를 조종하는 관제팀',
+        fate: '생존'
+      }
+    ],
+    keyEvents: [
+      '소행성대 광물 채굴 임무',
+      '워터 드롭 포획 작전 투입',
+      '로봇 팔로 탐측기 접근 시도',
+      '워터 드롭의 완벽한 표면에 접촉 실패'
+    ],
+    armament: [
+      '무장 없음 (채굴선)',
+      '대형 로봇 팔 (채굴/포획용)'
+    ],
+    propulsion: '소형 추진 엔진'
   }
 ]
 
