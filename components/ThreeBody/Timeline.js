@@ -292,18 +292,84 @@ export default function Timeline() {
 
       {/* Timeline */}
       <div className={styles.timeline}>
-        {filteredEvents.map((event, index) => (
-          <div
-            key={index}
-            id={`timeline-${index}`}
-            className={styles.timelineItem}
-            style={{ animationDelay: `${index * 0.1}s` }}
-          >
-            <div className={styles.timelineDot}></div>
+        {/* SVG Curved Path - Create continuous wave */}
+        <svg
+          className={styles.timelinePath}
+          viewBox="0 0 200 100"
+          preserveAspectRatio="none"
+        >
+          <defs>
+            <linearGradient id="pathGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style={{ stopColor: '#ff6b6b', stopOpacity: 1 }} />
+              <stop offset="15%" style={{ stopColor: '#ff9966', stopOpacity: 1 }} />
+              <stop offset="35%" style={{ stopColor: '#4ecdc4', stopOpacity: 1 }} />
+              <stop offset="55%" style={{ stopColor: '#45b7d1', stopOpacity: 1 }} />
+              <stop offset="75%" style={{ stopColor: '#667eea', stopOpacity: 1 }} />
+              <stop offset="100%" style={{ stopColor: '#764ba2', stopOpacity: 1 }} />
+            </linearGradient>
+            <filter id="glow">
+              <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <path
+            d={(() => {
+              if (filteredEvents.length === 0) return 'M 100 0'
+
+              // Create continuous sine wave from top to bottom
+              let path = 'M 100 0'
+              const segments = 500 // More segments for smoother curve
+
+              for (let i = 1; i <= segments; i++) {
+                const progress = i / segments
+                const y = progress * 100 // 0 to 100%
+                const amplitude = 20 // Wave amplitude
+                const frequency = 4 // Number of complete waves
+                const x = 100 + Math.sin(progress * Math.PI * 2 * frequency) * amplitude
+
+                path += ` L ${x} ${y}`
+              }
+
+              return path
+            })()}
+            stroke="url(#pathGradient)"
+            strokeWidth="3"
+            fill="none"
+            filter="url(#glow)"
+            className={styles.pathLine}
+          />
+        </svg>
+
+        {filteredEvents.map((event, index) => {
+          // Calculate horizontal offset for wave effect on dot
+          const totalEvents = filteredEvents.length
+          const progress = index / Math.max(totalEvents - 1, 1)
+          const waveAmplitude = 20 // pixels
+          const frequency = 4 // number of waves
+          const xOffset = Math.sin(progress * Math.PI * frequency) * waveAmplitude
+
+          return (
             <div
-              className={`${styles.timelineCard} ${selectedEvent === index ? styles.timelineCardExpanded : ''} ${autoPlay && currentIndex === index ? styles.highlighted : ''}`}
-              onClick={() => setSelectedEvent(selectedEvent === index ? null : index)}
+              key={index}
+              id={`timeline-${index}`}
+              className={styles.timelineItem}
+              style={{
+                animationDelay: `${index * 0.1}s`
+              }}
             >
+              <div
+                className={styles.timelineDot}
+                style={{
+                  left: `calc(50% + ${xOffset}px)`
+                }}
+              ></div>
+              <div
+                className={`${styles.timelineCard} ${selectedEvent === index ? styles.timelineCardExpanded : ''} ${autoPlay && currentIndex === index ? styles.highlighted : ''}`}
+                onClick={() => setSelectedEvent(selectedEvent === index ? null : index)}
+              >
               <div className={styles.cardHeader}>
                 <div className={styles.timelineYear}>{event.year}</div>
                 <div className={styles.eraBadge}>{event.era}</div>
@@ -344,7 +410,8 @@ export default function Timeline() {
               </div>
             </div>
           </div>
-        ))}
+          )
+        })}
       </div>
 
       {filteredEvents.length === 0 && (
