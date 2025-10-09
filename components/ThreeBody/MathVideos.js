@@ -34,10 +34,11 @@ export default function MathVideos() {
       <div className={styles.videoPlayer}>
         <div className={styles.videoWrapper}>
           <iframe
-            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}`}
+            key={selectedVideo.youtubeId}
+            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
             title={selectedVideo.title}
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className={styles.iframe}
           ></iframe>
