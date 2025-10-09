@@ -239,6 +239,25 @@
   padding: 12px;
   background: rgba(255, 107, 107, 0.1);
   border-left: 3px solid #ff6b6b;
+  border-radius: 8px;
+}
+
+.detailIdeology {
+  color: #ffce56;
+  font-weight: 600;
+  padding: 12px;
+  background: rgba(255, 206, 86, 0.1);
+  border-left: 3px solid #ffce56;
+  border-radius: 8px;
+  font-style: italic;
+}
+
+.detailFaction {
+  color: #ff9900;
+  font-weight: 600;
+  padding: 12px;
+  background: rgba(255, 153, 0, 0.1);
+  border-left: 3px solid #ff9900;
   border-radius: 4px;
   margin: 0;
 }

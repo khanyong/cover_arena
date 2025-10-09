@@ -5,7 +5,7 @@ import styles from './styles/Factions.module.css'
 const factions = [
   {
     title: '삼체-지구 조직 (ETO)',
-    description: '인류를 배신하고 삼체 문명의 지구 침공을 돕는 조직. 구세파와 구도파로 분열',
+    description: '인류를 배신하고 삼체 문명의 지구 침공을 돕는 조직. 강림파와 구원파로 분열',
     members: [
       { name: '예원제', role: '천체물리학자, 조직 창립자' },
       { name: '마이크 에반스', role: 'ETO 수장, 환경보호주의자' }
@@ -15,25 +15,28 @@ const factions = [
     size: 2
   },
   {
-    title: '구세파 (Adventist)',
-    description: 'ETO 내 극단주의 분파. 삼체의 완전한 승리와 인류 정복 지지',
+    title: '강림파 (Adventists)',
+    description: 'ETO 내 극단주의 분파. 삼체의 완전한 승리와 인류 멸망 추구',
     members: [
-      { name: '마이크 에반스', role: '구세파 지도자' },
+      { name: '마이크 에반스', role: '강림파 지도자, 환경 극단주의자' },
+      { name: '선즈', role: '강림파 핵심 인물' },
       { name: '판한', role: '생물학자, 인류 멸종 지지' }
     ],
-    ideology: '인류는 구원받을 가치가 없으며 삼체가 지구를 완전히 정복해야 한다고 믿음. 가장 극단적인 삼체 숭배자들',
+    ideology: '인류는 구원받을 가치가 없으며 삼체가 지구를 완전히 정복하고 인류를 멸망시켜야 한다고 믿음. 가장 극단적인 삼체 숭배자들. "주님(삼체)이 오신다"를 외침',
     alignment: '삼체',
-    size: 2
+    size: 3
   },
   {
-    title: '구도파 (Redemptionist)',
-    description: 'ETO 내 온건 분파. 삼체와 인류의 공존 추구',
+    title: '구원파 (Redemptionists)',
+    description: 'ETO 내 온건 분파. 삼체 문명의 지도로 인류 개조와 공존 추구',
     members: [
-      { name: '셴위', role: '구도파 지도부' }
+      { name: '신칭', role: '구원파 지도부' },
+      { name: '웨이청', role: '구원파 사상가' },
+      { name: '예원제', role: '초기 구원파 성향' }
     ],
-    ideology: '삼체 문명의 도움으로 인류 사회를 개혁하고 공존을 모색. 구세파보다 온건하지만 여전히 인류 배신자',
+    ideology: '삼체 문명의 고등 지식과 기술로 인류를 개조하여 더 나은 존재로 만들 수 있다고 믿음. 강림파보다 온건하며 삼체-인류 공존을 모색하지만 여전히 인류 배신자',
     alignment: '삼체',
-    size: 1
+    size: 3
   },
   {
     title: '면벽자 프로젝트',

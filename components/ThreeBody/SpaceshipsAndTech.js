@@ -455,7 +455,7 @@ export default function SpaceshipsAndTech() {
             setSelectedForCompare([])
           }}
         >
-          🚀 우주선
+          우주선
         </button>
         <button
           className={`${styles.tabButton} ${activeCategory === 'technologies' ? styles.active : ''}`}
@@ -467,14 +467,13 @@ export default function SpaceshipsAndTech() {
             setSelectedForCompare([])
           }}
         >
-          ⚙️ 기술
+          기술
         </button>
       </div>
 
       {/* Control Panel */}
       <div className={styles.controlPanel}>
         <div className={styles.searchBar}>
-          <span className={styles.searchIcon}>🔍</span>
           <input
             type="text"
             placeholder="검색..."
