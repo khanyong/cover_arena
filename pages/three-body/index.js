@@ -13,6 +13,7 @@ import SpaceshipsAndTech from '../../components/ThreeBody/SpaceshipsAndTech'
 import TopScenes from '../../components/ThreeBody/TopScenes'
 import MathVideos from '../../components/ThreeBody/MathVideos'
 import Glossary from '../../components/ThreeBody/Glossary'
+import FleetRoster from '../../components/ThreeBody/FleetRoster'
 import { CrossReferenceProvider } from '../../components/ThreeBody/CrossReferenceContext'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
@@ -130,6 +131,12 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>용어 사전</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'fleet' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('fleet')}
+                >
+                  <span className={styles.label}>함대 명부</span>
+                </button>
               </div>
             )}
 
@@ -188,6 +195,7 @@ export default function ThreeBodyPage() {
             {activeTab === 'scenes' && <TopScenes />}
             {activeTab === 'math' && <MathVideos />}
             {activeTab === 'glossary' && <Glossary />}
+            {activeTab === 'fleet' && <FleetRoster />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (
