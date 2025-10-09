@@ -186,20 +186,6 @@ const characters = [
     background: '행성방위이사회(PDC)를 이끌며 인류의 생존 전략을 최고 수준에서 결정. 면벽자들의 활동을 총괄 감독.'
   },
   {
-    initial: '둥',
-    name: '둥펑웨이',
-    chinese: '東方延續',
-    role: '여성 함대 사령관, 개척자',
-    actions: [
-      '아시아 함대 지휘',
-      '여성 최초 함대 사령관',
-      '우주 전투 전략 수립',
-      '말일 전투 참전'
-    ],
-    fate: '말일 전투에서 전사',
-    background: '인류 역사상 최초의 여성 우주 함대 사령관. 뛰어난 전술 능력과 리더십으로 존경받음.'
-  },
-  {
     initial: '타',
     name: '프레데릭 타일러',
     chinese: 'Frederick Tyler',
