@@ -53,7 +53,7 @@ export const structureData = {
         nodes: [
           { id: "창웨이스", group: "군사", role: "우주군 사령관", level: 1 },
           { id: "장베이하이", group: "군사", role: "정치위원", level: 2, parent: "창웨이스" },
-          { id: "둥펑웨이", group: "우주전", role: "함장", level: 2, parent: "창웨이스" },
+          { id: "등팡옌쉬", group: "우주전", role: "자연선택호 함장", level: 2, parent: "창웨이스" },
           { id: "우웨이", group: "군사", role: "해군 대령", level: 2, parent: "창웨이스" }
         ]
       },
@@ -65,7 +65,9 @@ export const structureData = {
           { id: "벤 조너선", group: "우주전", role: "특별 파견관", level: 1 },
           { id: "지쯔", group: "우주전", role: "과학교", level: 1 },
           { id: "조지 피츠로이", group: "군사", role: "美 장군", level: 1 },
-          { id: "앨버트 린저", group: "과학", role: "천문학자", level: 1 }
+          { id: "앨버트 린저", group: "과학", role: "천문학자", level: 1 },
+          { id: "켄", group: "과학", role: "관측소 책임자", level: 1 },
+          { id: "로빈슨", group: "군사", role: "관측소 책임자", level: 1 }
         ]
       },
       {
@@ -134,5 +136,8 @@ export const relationshipDescriptions = {
   "장위안차오->마오푸취안": "이웃 관계 - 같은 지역 거주",
   "양진원->마오푸취안": "이웃 관계 - 같은 지역 거주",
   "뤄지->좡옌": "부부 관계 - 뤄지가 이상향으로 만든 여성을 현실에서 만남",
-  "인류 연합->장잉": "문화 예술 - 인류 정신 보존"
+  "인류 연합->장잉": "문화 예술 - 인류 정신 보존",
+  "인류 연합->켄": "관측소 운영 - 우주학 연구 담당",
+  "인류 연합->로빈슨": "관측소 운영 - 함대 이익 수호",
+  "켄->로빈슨": "대립 관계 - 관측소 중력 조절 방식 갈등"
 }
