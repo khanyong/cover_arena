@@ -43,6 +43,7 @@
   border-radius: 12px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  background: #000;
 }
 
 .iframe {
@@ -51,7 +52,10 @@
   left: 0;
   width: 100%;
   height: 100%;
+  border: none;
   border-radius: 12px;
+  pointer-events: auto;
+  cursor: pointer;
 }
 
 .videoInfo {
@@ -80,6 +84,23 @@
   border-radius: 20px;
   font-size: 0.9rem;
   font-weight: 500;
+}
+
+.youtubeLink {
+  display: inline-block;
+  color: #4ecdc4;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 8px 16px;
+  border: 1px solid #4ecdc4;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.youtubeLink:hover {
+  background: rgba(78, 205, 196, 0.2);
+  transform: translateX(5px);
 }
 
 /* 비디오 목록 */

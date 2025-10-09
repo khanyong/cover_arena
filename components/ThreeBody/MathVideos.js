@@ -35,18 +35,30 @@ export default function MathVideos() {
         <div className={styles.videoWrapper}>
           <iframe
             key={selectedVideo.youtubeId}
-            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?rel=0&modestbranding=1`}
+            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}`}
             title={selectedVideo.title}
             frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
             allowFullScreen
+            loading="lazy"
             className={styles.iframe}
+            style={{ border: 0, pointerEvents: 'auto' }}
           ></iframe>
         </div>
         <div className={styles.videoInfo}>
           <h2>{selectedVideo.title}</h2>
           <p>{selectedVideo.description}</p>
           <span className={styles.duration}>{selectedVideo.duration}</span>
+          <div style={{ marginTop: '15px' }}>
+            <a
+              href={`https://www.youtube.com/watch?v=${selectedVideo.youtubeId}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.youtubeLink}
+            >
+              YouTube에서 직접 보기 →
+            </a>
+          </div>
         </div>
       </div>
 
