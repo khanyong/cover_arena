@@ -213,6 +213,47 @@ const fleetData = [
       '함대 지휘 시스템'
     ],
     propulsion: '핵융합 추진'
+  },
+  {
+    id: 6,
+    shipName: '양자호',
+    shipNameEn: 'Quantum',
+    class: '항성급 전함',
+    length: '3.3km',
+    crew: 2000,
+    construction: '2180년대',
+    status: '암흑 전투에서 파괴됨',
+    description: '유럽 함대 소속 주력 전함. 말일 전투에서 살아남았으나 암흑 전투에서 다른 함선들에게 공격받아 파괴되었다.',
+    officers: [
+      {
+        name: '마르티네스',
+        nameEn: 'Martinez',
+        rank: '함장',
+        role: 'Captain',
+        bio: '유럽 함대 출신 지휘관. 암흑 전투의 비극을 직면했다.',
+        fate: '암흑 전투에서 전사'
+      },
+      {
+        name: '이사벨라',
+        nameEn: 'Isabella',
+        rank: '과학관',
+        role: 'Science Officer',
+        bio: '함대 천체물리학자',
+        fate: '암흑 전투에서 전사'
+      }
+    ],
+    keyEvents: [
+      '말일 전투에서 살아남음',
+      '태양계로의 귀환 시도',
+      '연료 부족으로 암흑 전투 참전',
+      '블루스페이스호와 자연선택호에게 공격받아 파괴됨'
+    ],
+    armament: [
+      '전자기 레일건',
+      '핵미사일',
+      '레이저 방어 시스템'
+    ],
+    propulsion: '핵융합 추진'
   }
 ]
 
