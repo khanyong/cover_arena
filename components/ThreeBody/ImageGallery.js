@@ -2,9 +2,6 @@ import { useState } from 'react'
 import ImageWithFallback from './ImageWithFallback'
 import styles from './styles/ImageGallery.module.css'
 
-// Supabase Storage URL (사용자가 업로드 후 제공)
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL || ''
-
 const galleryImages = [
   {
     id: 1,
@@ -12,7 +9,7 @@ const galleryImages = [
     category: "소설",
     description: "류츠신의 SF 대작 삼체 1부 표지",
     tags: ["소설", "1부", "표지"],
-    imagePath: `${SUPABASE_URL}/covers/book1-cover.jpg`,
+    imagePath: '/images/three-body/covers/book1-cover.jpg',
     fallback: 'https://via.placeholder.com/400x600/1a1a2e/4ecdc4?text=삼체+1부'
   },
   {
@@ -21,7 +18,7 @@ const galleryImages = [
     category: "소설",
     description: "인류의 생존 전략을 그린 2부",
     tags: ["소설", "2부", "표지"],
-    imagePath: `${SUPABASE_URL}/covers/book2-cover.jpg`,
+    imagePath: '/images/three-body/covers/book2-cover.jpg',
     fallback: 'https://via.placeholder.com/400x600/16213e/4ecdc4?text=암흑의+숲'
   },
   {
@@ -30,53 +27,53 @@ const galleryImages = [
     category: "소설",
     description: "우주의 종말을 다룬 최종부",
     tags: ["소설", "3부", "표지"],
-    imagePath: `${SUPABASE_URL}/covers/book3-cover.jpg`,
+    imagePath: '/images/three-body/covers/book3-cover.jpg',
     fallback: 'https://via.placeholder.com/400x600/0f3460/4ecdc4?text=사신의+영생'
   },
   {
     id: 4,
+    title: "워터 드롭 (水滴)",
+    category: "컨셉아트",
+    description: "완벽한 거울면을 가진 삼체 탐사선 - 암흑전투의 공포",
+    tags: ["워터드롭", "삼체", "우주선", "무적"],
+    imagePath: '/images/three-body/scenes/droplet.png',
+    fallback: 'https://via.placeholder.com/800x600/1a1a2e/c0c0c0?text=워터+드롭'
+  },
+  {
+    id: 5,
     title: "넷플릭스 삼체 포스터",
     category: "넷플릭스",
     description: "2024년 넷플릭스 각색 드라마",
     tags: ["넷플릭스", "드라마", "포스터"],
-    imagePath: `${SUPABASE_URL}/netflix/netflix-poster.jpg`,
+    imagePath: '',
     fallback: 'https://via.placeholder.com/600x900/e94560/fff?text=Netflix+3+Body+Problem'
   },
   {
-    id: 5,
+    id: 6,
     title: "3항성계 시뮬레이션",
     category: "컨셉아트",
     description: "혼돈의 3항성계를 표현한 아트워크",
     tags: ["과학", "3항성", "시뮬레이션"],
-    imagePath: `${SUPABASE_URL}/concept-art/trisolaran-planet.jpg`,
+    imagePath: '',
     fallback: 'https://via.placeholder.com/1200x675/1a1a2e/ff6b6b?text=3항성계'
   },
   {
-    id: 6,
+    id: 7,
     title: "암흑의 숲 타격",
     category: "컨셉아트",
     description: "우주 공격 장면 시각화",
     tags: ["암흑의숲", "공격", "우주"],
-    imagePath: `${SUPABASE_URL}/scenes/dark-forest-theory.jpg`,
+    imagePath: '',
     fallback: 'https://via.placeholder.com/1200x675/0f3460/4ecdc4?text=암흑의+숲'
   },
   {
-    id: 7,
+    id: 8,
     title: "소폰(智子) 전개",
     category: "컨셉아트",
     description: "2차원에서 11차원으로 전개되는 소폰",
     tags: ["지자", "소폰", "차원"],
-    imagePath: `${SUPABASE_URL}/tech/sophon.jpg`,
+    imagePath: '',
     fallback: 'https://via.placeholder.com/800x600/16213e/ffce56?text=소폰'
-  },
-  {
-    id: 8,
-    title: "워터 드롭",
-    category: "컨셉아트",
-    description: "완벽한 거울면을 가진 삼체 탐사선",
-    tags: ["워터드롭", "삼체", "우주선"],
-    imagePath: `${SUPABASE_URL}/ships/water-drop.jpg`,
-    fallback: 'https://via.placeholder.com/800x600/1a1a2e/c0c0c0?text=워터+드롭'
   }
 ]
 

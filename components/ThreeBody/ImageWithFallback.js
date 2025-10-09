@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import Image from 'next/image'
 
 /**
  * 이미지 로딩 실패 시 자동으로 폴백을 표시하는 컴포넌트
@@ -53,15 +52,16 @@ export default function ImageWithFallback({
   }
 
   return (
-    <Image
+    <img
       src={finalSrc}
       alt={alt}
-      width={width}
-      height={height}
       className={className}
-      style={{ objectFit }}
+      style={{
+        width: typeof width === 'number' ? `${width}px` : width,
+        height: typeof height === 'number' ? `${height}px` : height,
+        objectFit
+      }}
       onError={handleError}
-      priority={priority}
       {...props}
     />
   )

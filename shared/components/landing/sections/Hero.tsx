@@ -27,13 +27,13 @@ export default function Hero({ projectCount, activeProjectCount }: HeroProps) {
 
         {/* Title */}
         <h1 id="hero-title" className={styles.title}>
-          <span className={styles.titleBlock}>Building real-time, data-driven</span>
-          <span className={styles.gradientText}>web experiences</span>
+          <span className={styles.titleBlock}>AI-powered vibe coding으로</span>
+          <span className={styles.gradientText}>혁신적인 웹을 구축합니다</span>
         </h1>
 
         {/* Description */}
         <p className={styles.description}>
-          실시간 시스템, 데이터 시각화, 서버리스 아키텍처에 강한 풀스택 엔지니어.
+          빠른 프로토타이핑부터 프로덕션 배포까지, AI와 함께 실시간 데이터 중심의 웹 경험을 만듭니다.
           복잡한 문제를 사용자 중심으로 단순하게 풀어냅니다.
         </p>
 
