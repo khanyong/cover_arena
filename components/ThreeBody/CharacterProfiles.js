@@ -269,8 +269,8 @@ const characters = [
     background: '생존을 위해 동족을 죽여야 하는 극한 상황에 직면. 인류의 도덕과 생존 본능 사이의 갈등을 상징.'
   },
   {
-    initial: '등',
-    name: '등팡옌쉬',
+    initial: '둥',
+    name: '둥팡옌쉬',
     chinese: '东方延续 (Dongfang Yanxu)',
     role: '자연선택호 함장, 여성 최초 함대 사령관',
     actions: [

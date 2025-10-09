@@ -53,7 +53,7 @@ export const structureData = {
         nodes: [
           { id: "창웨이스", group: "군사", role: "우주군 사령관", level: 1 },
           { id: "장베이하이", group: "군사", role: "정치위원", level: 2, parent: "창웨이스" },
-          { id: "등팡옌쉬", group: "우주전", role: "자연선택호 함장", level: 2, parent: "창웨이스" },
+          { id: "둥팡옌쉬", group: "우주전", role: "자연선택호 함장", level: 2, parent: "창웨이스" },
           { id: "우웨이", group: "군사", role: "해군 대령", level: 2, parent: "창웨이스" }
         ]
       },

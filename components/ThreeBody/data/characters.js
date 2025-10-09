@@ -139,7 +139,7 @@ export const characterDetails = {
     relations: [],
     fate: "임기 후 생존"
   },
-  "등팡옌쉬": {
+  "둥팡옌쉬": {
     role: "자연선택호 함장, 여성 최초 함대 사령관 (东方延续, Dongfang Yanxu)",
     description: "뛰어난 전술 능력과 리더십으로 존경받음. 장베이하이를 선배로 존경. 이름은 '동방의 연속'을 의미하며 인류 문명의 계승을 상징",
     actions: ["자연선택호 지휘", "아시아 함대 작전", "말일 전투 참전"],

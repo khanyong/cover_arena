@@ -15,7 +15,7 @@ const fleetData = [
     description: '아시아 함대 소속 주력 전함. 장베이하이가 탈취하여 도망주의를 실현했다.',
     officers: [
       {
-        name: '등팡옌쉬',
+        name: '둥팡옌쉬',
         nameEn: 'Dongfang Yanxu',
         rank: '함장',
         role: 'Captain',
