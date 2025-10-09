@@ -216,12 +216,12 @@ export const characterDetails = {
     relations: ["왕먀오(동료)"],
     fate: "생존"
   },
-  "참옌": {
-    role: "중국 중앙 미술 학원 졸업생",
-    description: "미술을 전공한 예술가로 등장하는 인물",
-    actions: ["예술 활동", "미술 창작"],
-    relations: [],
-    fate: "생존"
+  "좡옌": {
+    role: "뤄지의 아내 (庄颜, Zhuang Yan)",
+    description: "중국 중앙 미술 학원 출신. 뤄지가 삼체 게임에서 이상형으로 만든 여성과 똑같은 모습으로 현실에서 나타나 운명적으로 만남",
+    actions: ["뤄지와 결혼", "동면 선택", "가족 유지"],
+    relations: ["뤄지(남편)", "뤄지의 딸(자녀)"],
+    fate: "생존 - 동면으로 뤄지와 함께 미래로"
   },
   "장잉": {
     role: "예술가",
