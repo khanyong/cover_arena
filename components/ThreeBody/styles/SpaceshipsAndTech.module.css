@@ -1,0 +1,524 @@
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Tab Navigation */
+.tabNavigation {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.tabButton {
+  flex: 1;
+  padding: 15px 30px;
+  background: transparent;
+  border: none;
+  border-radius: 15px;
+  color: #888;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.tabButton:hover {
+  color: #4ecdc4;
+  background: rgba(78, 205, 196, 0.1);
+}
+
+.tabButton.active {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+}
+
+/* Control Panel */
+.controlPanel {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+.filterGroup {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.select {
+  flex: 1;
+  min-width: 200px;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 12px;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.select:hover {
+  border-color: #4ecdc4;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.select option {
+  background: #1a1a2e;
+  color: #fff;
+}
+
+.compareMode {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  background: rgba(255, 107, 107, 0.1);
+  border: 2px solid #ff6b6b;
+  border-radius: 12px;
+  margin-top: 15px;
+}
+
+.compareInfo {
+  color: #ffb3b3;
+  font-weight: 600;
+}
+
+.compareButtons {
+  display: flex;
+  gap: 10px;
+}
+
+.clearButton,
+.viewCompareButton {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clearButton {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.clearButton:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.viewCompareButton {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+}
+
+.viewCompareButton:hover {
+  box-shadow: 0 5px 20px rgba(102, 126, 234, 0.5);
+}
+
+/* Grid Layout */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+  gap: 25px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 25px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+  border-color: #4ecdc4;
+}
+
+.card.expanded {
+  background: rgba(78, 205, 196, 0.15);
+  border-color: #4ecdc4;
+  box-shadow: 0 20px 50px rgba(78, 205, 196, 0.3);
+}
+
+.card.selected {
+  border: 3px solid #ff6b6b;
+  box-shadow: 0 0 30px rgba(255, 107, 107, 0.5);
+}
+
+.selectCheckbox {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  accent-color: #ff6b6b;
+}
+
+/* Card Header */
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 15px;
+  gap: 15px;
+}
+
+.imageIcon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #4ecdc4;
+  flex: 1;
+  line-height: 1.3;
+}
+
+.cardTitleEn {
+  font-size: 0.95rem;
+  color: #888;
+  margin-bottom: 15px;
+  font-style: italic;
+}
+
+.badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+}
+
+.categoryBadge {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  border-radius: 15px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.categoryBadge.인류 {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+}
+
+.categoryBadge.삼체 {
+  background: linear-gradient(135deg, #ff6b6b, #c92a2a);
+}
+
+.description {
+  color: #e0e0e0;
+  line-height: 1.7;
+  font-size: 15px;
+  margin-bottom: 15px;
+}
+
+/* Specs Section */
+.specs {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 15px;
+}
+
+.specs h4 {
+  color: #ff6b6b;
+  font-size: 14px;
+  margin: 0 0 10px 0;
+  font-weight: 600;
+}
+
+.specsList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.specItem {
+  color: #b0b0b0;
+  font-size: 13px;
+}
+
+.specLabel {
+  color: #4ecdc4;
+  font-weight: 600;
+  margin-right: 5px;
+}
+
+/* Expanded Details */
+.detailedInfo {
+  margin-top: 25px;
+  padding-top: 25px;
+  border-top: 2px solid rgba(78, 205, 196, 0.3);
+  animation: expandDown 0.4s ease;
+}
+
+.detailedText {
+  background: rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  border-radius: 12px;
+  border-left: 4px solid #4ecdc4;
+  color: #e0e0e0;
+  line-height: 1.8;
+  font-size: 15px;
+  white-space: pre-line;
+  margin-bottom: 20px;
+}
+
+.relatedSection,
+.quoteSection,
+.fateSection,
+.applicationsSection {
+  margin-top: 20px;
+}
+
+.relatedSection h4,
+.quoteSection h4,
+.fateSection h4,
+.applicationsSection h4 {
+  color: #ff6b6b;
+  font-size: 16px;
+  margin: 0 0 12px 0;
+  font-weight: 600;
+}
+
+.relatedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.relatedTag {
+  padding: 8px 15px;
+  background: rgba(102, 126, 234, 0.2);
+  border: 1px solid #667eea;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #a8b8ff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.relatedTag:hover {
+  background: rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.quote {
+  background: rgba(255, 107, 107, 0.1);
+  padding: 15px 20px;
+  border-left: 4px solid #ff6b6b;
+  border-radius: 8px;
+  color: #ffb3b3;
+  font-style: italic;
+  margin: 0;
+  line-height: 1.7;
+}
+
+.fate {
+  background: rgba(78, 205, 196, 0.1);
+  padding: 15px;
+  border-radius: 10px;
+  border: 1px solid #4ecdc4;
+  color: #e0e0e0;
+  line-height: 1.7;
+  margin: 0;
+}
+
+.applicationsList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.applicationsList li {
+  padding: 10px 15px;
+  background: rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #4ecdc4;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  color: #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.applicationsList li:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(5px);
+}
+
+.expandHint {
+  text-align: center;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #888;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* Comparison View */
+.comparisonView {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.comparisonHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.comparisonTitle {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #4ecdc4;
+}
+
+.closeButton {
+  padding: 10px 25px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(78, 205, 196, 0.3);
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.closeButton:hover {
+  border-color: #4ecdc4;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.comparisonGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+.comparisonCard {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 25px;
+  border: 2px solid #4ecdc4;
+}
+
+.comparisonCard h3 {
+  color: #4ecdc4;
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.comparisonCard h4 {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+.noResults {
+  text-align: center;
+  padding: 60px 20px;
+  color: #888;
+  font-size: 18px;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes expandDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 5000px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .container {
+    padding: 10px;
+  }
+
+  .tabNavigation {
+    flex-direction: column;
+  }
+
+  .controlPanel {
+    padding: 20px;
+  }
+
+  .filterGroup {
+    flex-direction: column;
+  }
+
+  .select {
+    min-width: 100%;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cardTitle {
+    font-size: 1.3rem;
+  }
+
+  .comparisonGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .selectCheckbox {
+    top: 15px;
+    right: 15px;
+  }
+}

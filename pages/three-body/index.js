@@ -9,6 +9,7 @@ import QuoteQuiz from '../../components/ThreeBody/QuoteQuiz'
 import ImageGallery from '../../components/ThreeBody/ImageGallery'
 import KeyIssues from '../../components/ThreeBody/KeyIssues'
 import ScienceConcepts from '../../components/ThreeBody/ScienceConcepts'
+import SpaceshipsAndTech from '../../components/ThreeBody/SpaceshipsAndTech'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
 export default function ThreeBodyPage() {
@@ -90,6 +91,12 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>과학 개념 사전</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'ships' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('ships')}
+                >
+                  <span className={styles.label}>우주선 & 기술 도감</span>
+                </button>
               </div>
             )}
 
@@ -144,6 +151,7 @@ export default function ThreeBodyPage() {
             {activeTab === 'gallery' && <ImageGallery />}
             {activeTab === 'issues' && <KeyIssues />}
             {activeTab === 'concepts' && <ScienceConcepts />}
+            {activeTab === 'ships' && <SpaceshipsAndTech />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (
