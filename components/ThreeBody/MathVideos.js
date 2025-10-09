@@ -35,7 +35,7 @@ export default function MathVideos() {
         <div className={styles.videoWrapper}>
           <iframe
             key={selectedVideo.youtubeId}
-            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
+            src={`https://www.youtube.com/embed/${selectedVideo.youtubeId}?rel=0&modestbranding=1`}
             title={selectedVideo.title}
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
