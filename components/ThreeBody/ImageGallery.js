@@ -1,5 +1,9 @@
 import { useState } from 'react'
+import ImageWithFallback from './ImageWithFallback'
 import styles from './styles/ImageGallery.module.css'
+
+// Supabase Storage URL (사용자가 업로드 후 제공)
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL || ''
 
 const galleryImages = [
   {
@@ -7,56 +11,72 @@ const galleryImages = [
     title: "삼체 1부 - 삼체",
     category: "소설",
     description: "류츠신의 SF 대작 삼체 1부 표지",
-    tags: ["소설", "1부", "표지"]
+    tags: ["소설", "1부", "표지"],
+    imagePath: `${SUPABASE_URL}/covers/book1-cover.jpg`,
+    fallback: 'https://via.placeholder.com/400x600/1a1a2e/4ecdc4?text=삼체+1부'
   },
   {
     id: 2,
     title: "삼체 2부 - 암흑의 숲",
     category: "소설",
     description: "인류의 생존 전략을 그린 2부",
-    tags: ["소설", "2부", "표지"]
+    tags: ["소설", "2부", "표지"],
+    imagePath: `${SUPABASE_URL}/covers/book2-cover.jpg`,
+    fallback: 'https://via.placeholder.com/400x600/16213e/4ecdc4?text=암흑의+숲'
   },
   {
     id: 3,
     title: "삼체 3부 - 사신의 영생",
     category: "소설",
     description: "우주의 종말을 다룬 최종부",
-    tags: ["소설", "3부", "표지"]
+    tags: ["소설", "3부", "표지"],
+    imagePath: `${SUPABASE_URL}/covers/book3-cover.jpg`,
+    fallback: 'https://via.placeholder.com/400x600/0f3460/4ecdc4?text=사신의+영생'
   },
   {
     id: 4,
     title: "넷플릭스 삼체 포스터",
     category: "넷플릭스",
     description: "2024년 넷플릭스 각색 드라마",
-    tags: ["넷플릭스", "드라마", "포스터"]
+    tags: ["넷플릭스", "드라마", "포스터"],
+    imagePath: `${SUPABASE_URL}/netflix/netflix-poster.jpg`,
+    fallback: 'https://via.placeholder.com/600x900/e94560/fff?text=Netflix+3+Body+Problem'
   },
   {
     id: 5,
     title: "3항성계 시뮬레이션",
     category: "컨셉아트",
     description: "혼돈의 3항성계를 표현한 아트워크",
-    tags: ["과학", "3항성", "시뮬레이션"]
+    tags: ["과학", "3항성", "시뮬레이션"],
+    imagePath: `${SUPABASE_URL}/concept-art/trisolaran-planet.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/1a1a2e/ff6b6b?text=3항성계'
   },
   {
     id: 6,
     title: "암흑의 숲 타격",
     category: "컨셉아트",
     description: "우주 공격 장면 시각화",
-    tags: ["암흑의숲", "공격", "우주"]
+    tags: ["암흑의숲", "공격", "우주"],
+    imagePath: `${SUPABASE_URL}/scenes/dark-forest-theory.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/0f3460/4ecdc4?text=암흑의+숲'
   },
   {
     id: 7,
-    title: "지자(智子) 전개",
+    title: "소폰(智子) 전개",
     category: "컨셉아트",
     description: "2차원에서 11차원으로 전개되는 소폰",
-    tags: ["지자", "소폰", "차원"]
+    tags: ["지자", "소폰", "차원"],
+    imagePath: `${SUPABASE_URL}/tech/sophon.jpg`,
+    fallback: 'https://via.placeholder.com/800x600/16213e/ffce56?text=소폰'
   },
   {
     id: 8,
-    title: "옥스퍼드 5인",
-    category: "넷플릭스",
-    description: "넷플릭스 드라마의 주인공들",
-    tags: ["넷플릭스", "옥스퍼드", "캐릭터"]
+    title: "워터 드롭",
+    category: "컨셉아트",
+    description: "완벽한 거울면을 가진 삼체 탐사선",
+    tags: ["워터드롭", "삼체", "우주선"],
+    imagePath: `${SUPABASE_URL}/ships/water-drop.jpg`,
+    fallback: 'https://via.placeholder.com/800x600/1a1a2e/c0c0c0?text=워터+드롭'
   }
 ]
 
@@ -98,9 +118,15 @@ export default function ImageGallery() {
             className={styles.imageCard}
             onClick={() => setSelectedImage(image)}
           >
-            <div className={styles.imagePlaceholder}>
-              <div className={styles.placeholderIcon}>🖼️</div>
-              <div className={styles.placeholderText}>{image.title}</div>
+            <div className={styles.imageWrapper}>
+              <ImageWithFallback
+                src={image.imagePath}
+                fallbackSrc={image.fallback}
+                alt={image.title}
+                width={400}
+                height={300}
+                className={styles.galleryImage}
+              />
             </div>
             <div className={styles.imageInfo}>
               <h3 className={styles.imageTitle}>{image.title}</h3>
@@ -121,11 +147,16 @@ export default function ImageGallery() {
             <button className={styles.closeButton} onClick={() => setSelectedImage(null)}>
               ✕
             </button>
-            <div className={styles.lightboxImage}>
-              <div className={styles.lightboxPlaceholder}>
-                <div className={styles.lightboxIcon}>🖼️</div>
-                <div className={styles.lightboxTitle}>{selectedImage.title}</div>
-              </div>
+            <div className={styles.lightboxImageWrapper}>
+              <ImageWithFallback
+                src={selectedImage.imagePath}
+                fallbackSrc={selectedImage.fallback}
+                alt={selectedImage.title}
+                width={1200}
+                height={800}
+                className={styles.lightboxImage}
+                objectFit="contain"
+              />
             </div>
             <div className={styles.lightboxInfo}>
               <h2>{selectedImage.title}</h2>
@@ -143,9 +174,9 @@ export default function ImageGallery() {
 
       <div className={styles.galleryNote}>
         <p>
-          💡 실제 이미지는 저작권 문제로 플레이스홀더로 표시됩니다.
+          💡 이미지를 클릭하면 확대하여 볼 수 있습니다.
           <br />
-          이미지를 클릭하면 확대하여 볼 수 있습니다.
+          실제 이미지는 Supabase Storage에 업로드 후 자동으로 표시됩니다.
         </p>
       </div>
     </div>

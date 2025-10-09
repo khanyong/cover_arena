@@ -75,26 +75,22 @@
   border-color: #4ecdc4;
 }
 
-.imagePlaceholder {
+.imageWrapper {
   aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
+  overflow: hidden;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+  position: relative;
 }
 
-.placeholderIcon {
-  font-size: 60px;
-  opacity: 0.5;
+.galleryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
 }
 
-.placeholderText {
-  color: #999;
-  font-size: 14px;
-  text-align: center;
-  padding: 0 20px;
+.imageCard:hover .galleryImage {
+  transform: scale(1.05);
 }
 
 .imageInfo {
@@ -178,31 +174,23 @@
   transform: rotate(90deg);
 }
 
-.lightboxImage {
+.lightboxImageWrapper {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
-}
-
-.lightboxPlaceholder {
-  width: 100%;
-  height: 100%;
+  max-height: 70vh;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 20px;
 }
 
-.lightboxIcon {
-  font-size: 100px;
-  opacity: 0.3;
-}
-
-.lightboxTitle {
-  color: #4ecdc4;
-  font-size: 24px;
-  font-weight: 600;
+.lightboxImage {
+  width: 100%;
+  height: auto;
+  max-height: 70vh;
+  object-fit: contain;
 }
 
 .lightboxInfo {

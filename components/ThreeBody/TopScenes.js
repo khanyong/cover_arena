@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import CrossReferenceLink from './CrossReferenceLink'
+import ImageWithFallback from './ImageWithFallback'
 import styles from './styles/TopScenes.module.css'
+
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_STORAGE_URL || ''
 
 const topScenes = [
   {
@@ -11,6 +14,8 @@ const topScenes = [
     book: '1부: 삼체',
     chapter: '홍안 기지',
     image: '📡',
+    imagePath: `${SUPABASE_URL}/scenes/ye-wenjie-betrayal.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/1a1a2e/ff6b6b?text=예원제의+배신',
     impact: 10,
     emotionalWeight: 10,
     category: '결정적 순간',
@@ -44,6 +49,8 @@ const topScenes = [
     book: '2부: 암흑의 숲',
     chapter: '뤄지의 주문',
     image: '🌲',
+    imagePath: `${SUPABASE_URL}/scenes/dark-forest-theory.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/0f3460/4ecdc4?text=암흑의+숲',
     impact: 10,
     emotionalWeight: 9,
     category: '깨달음',
@@ -76,6 +83,8 @@ const topScenes = [
     book: '2부: 암흑의 숲',
     chapter: '말일 전투',
     image: '💥',
+    imagePath: `${SUPABASE_URL}/scenes/doomsday-battle.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/16213e/ff6b6b?text=말일+전투',
     impact: 9,
     emotionalWeight: 10,
     category: '전투',
@@ -114,6 +123,8 @@ const topScenes = [
     book: '3부: 사신의 영생',
     chapter: '검잡이 교체',
     image: '⚔️',
+    imagePath: `${SUPABASE_URL}/scenes/swordholder-handover.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/1a1a2e/ffce56?text=검잡이+교체',
     impact: 10,
     emotionalWeight: 8,
     category: '결정적 순간',
@@ -154,6 +165,8 @@ const topScenes = [
     book: '3부: 사신의 영생',
     chapter: '태양계 2차원화',
     image: '🎨',
+    imagePath: `${SUPABASE_URL}/scenes/dimensional-strike.jpg`,
+    fallback: 'https://via.placeholder.com/1200x675/0f3460/ff6b6b?text=차원+타격',
     impact: 10,
     emotionalWeight: 10,
     category: '우주적 재앙',
@@ -196,6 +209,8 @@ const topScenes = [
     book: '1부: 삼체',
     chapter: '고증(古筝) 작전',
     image: '🧵',
+    imagePath: `${SUPABASE_URL}/scenes/operation-guzheng.jpg`,
+    fallback: \'https://via.placeholder.com/1200x675/1a1a2e/4ecdc4?text=심판의+날\',
     impact: 8,
     emotionalWeight: 9,
     category: '작전',
@@ -235,6 +250,8 @@ Thomas Wade: "우리는 괴물과 싸우기 위해 괴물이 되었다."`,
     book: '2부: 암흑의 숲',
     chapter: '도주',
     image: '🚀',
+    imagePath: `${SUPABASE_URL}/scenes/zhang-beihai-choice.jpg`,
+    fallback: \'https://via.placeholder.com/1200x675/1a1a2e/4ecdc4?text=장베이하이의+선택\',
     impact: 9,
     emotionalWeight: 9,
     category: '결정적 순간',
@@ -276,6 +293,8 @@ Thomas Wade: "우리는 괴물과 싸우기 위해 괴물이 되었다."`,
     book: '2부: 암흑의 숲',
     chapter: '암흑 전투',
     image: '⚫',
+    imagePath: `${SUPABASE_URL}/scenes/dark-battle.jpg`,
+    fallback: \'https://via.placeholder.com/1200x675/1a1a2e/4ecdc4?text=암흑+전투\',
     impact: 8,
     emotionalWeight: 10,
     category: '전투',
@@ -318,6 +337,8 @@ Thomas Wade: "우리는 괴물과 싸우기 위해 괴물이 되었다."`,
     book: '3부: 사신의 영생',
     chapter: '세 개의 동화',
     image: '📖',
+    imagePath: `${SUPABASE_URL}/scenes/fairy-tales.jpg`,
+    fallback: \'https://via.placeholder.com/1200x675/1a1a2e/4ecdc4?text=윈톈밍+동화\',
     impact: 9,
     emotionalWeight: 7,
     category: '깨달음',
@@ -357,6 +378,8 @@ Thomas Wade: "우리는 괴물과 싸우기 위해 괴물이 되었다."`,
     book: '3부: 사신의 영생',
     chapter: '우주의 귀환',
     image: '♾️',
+    imagePath: `${SUPABASE_URL}/scenes/universe-reset.jpg`,
+    fallback: \'https://via.placeholder.com/1200x675/1a1a2e/4ecdc4?text=우주+재시작\',
     impact: 10,
     emotionalWeight: 10,
     category: '결말',
@@ -477,9 +500,19 @@ export default function TopScenes() {
             onClick={() => setSelectedScene(selectedScene === scene.id ? null : scene.id)}
             style={{ animationDelay: `${index * 0.05}s` }}
           >
+            <div className={styles.sceneImageWrapper}>
+              <ImageWithFallback
+                src={scene.imagePath}
+                fallbackSrc={scene.fallback}
+                alt={scene.title}
+                width={1200}
+                height={675}
+                className={styles.sceneImage}
+              />
+              <div className={styles.rankOverlay}>#{scene.rank}</div>
+            </div>
+
             <div className={styles.sceneHeader}>
-              <div className={styles.rankBadge}>#{scene.rank}</div>
-              <div className={styles.imageIcon}>{scene.image}</div>
               <div className={styles.sceneInfo}>
                 <h2 className={styles.sceneTitle}>{scene.title}</h2>
                 <p className={styles.sceneTitleEn}>{scene.titleEn}</p>
