@@ -544,6 +544,16 @@ ETO가 각 면벽자에게 배정한 분석가. 면벽자의 행동을 분석하
   }
 ]
 
+// Category icons
+const categoryIcons = {
+  '기술': '⚙️',
+  '사건': '⚡',
+  '환경': '🌍',
+  '조직': '👥',
+  '사상': '💭',
+  '사회': '🏛️'
+}
+
 export default function Glossary() {
   const [searchTerm, setSearchTerm] = useState('')
   const [categoryFilter, setCategoryFilter] = useState('all')
@@ -616,13 +626,22 @@ export default function Glossary() {
           >
             <div className={styles.termHeader}>
               <div className={styles.termMain}>
-                <h3 className={styles.termTitle}>{term.term}</h3>
+                <h3 className={styles.termTitle}>
+                  <span className={styles.categoryIcon}>{categoryIcons[term.category] || '📚'}</span>
+                  {term.term}
+                </h3>
                 <div className={styles.termTitleEn}>{term.termEn}</div>
               </div>
               <span className={styles.categoryBadge}>{term.category}</span>
             </div>
 
             <div className={styles.termShortDesc}>{term.shortDesc}</div>
+
+            {selectedTerm !== term.id && (
+              <div className={styles.expandHint}>
+                클릭하여 상세보기 ▼
+              </div>
+            )}
 
             {selectedTerm === term.id && (
               <div className={styles.termDetails}>
@@ -702,12 +721,12 @@ export default function Glossary() {
                     <p>{term.notes}</p>
                   </div>
                 )}
+
+                <div className={styles.expandHint}>
+                  클릭하여 접기 ▲
+                </div>
               </div>
             )}
-
-            <div className={styles.expandHint}>
-              {selectedTerm === term.id ? '클릭하여 접기 ▲' : '클릭하여 상세보기 ▼'}
-            </div>
           </div>
         ))}
       </div>
