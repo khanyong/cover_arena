@@ -14,6 +14,7 @@ import TopScenes from '../../components/ThreeBody/TopScenes'
 import MathVideos from '../../components/ThreeBody/MathVideos'
 import Glossary from '../../components/ThreeBody/Glossary'
 import FleetRoster from '../../components/ThreeBody/FleetRoster'
+import DoomsdayBattle from '../../components/ThreeBody/DoomsdayBattle'
 import { CrossReferenceProvider } from '../../components/ThreeBody/CrossReferenceContext'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
@@ -137,6 +138,12 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>함대 명부</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'doomsday' ? styles.active : ''}`}
+                  onClick={() => setActiveTab('doomsday')}
+                >
+                  <span className={styles.label}>말일 전투</span>
+                </button>
               </div>
             )}
 
@@ -196,6 +203,7 @@ export default function ThreeBodyPage() {
             {activeTab === 'math' && <MathVideos />}
             {activeTab === 'glossary' && <Glossary />}
             {activeTab === 'fleet' && <FleetRoster />}
+            {activeTab === 'doomsday' && <DoomsdayBattle />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (
