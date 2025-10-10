@@ -5,14 +5,14 @@ const videos = [
   {
     id: 1,
     title: '삼체 문제의 수학적 이해 1',
-    youtubeId: 'J8KKfyZC9l4',
+    youtubeId: '123NRIgIQkk',
     description: '3체 문제의 기본 개념과 혼돈 이론',
     duration: '약 15분'
   },
   {
     id: 2,
     title: '삼체 문제의 수학적 이해 2',
-    youtubeId: '123NRIgIQkk',
+    youtubeId: 'J8KKfyZC9l4',
     description: '3체 문제의 수학적 해법과 시뮬레이션',
     duration: '약 20분'
   }
