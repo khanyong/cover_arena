@@ -89,7 +89,9 @@ const fleetData = [
       }
     ],
     keyEvents: [
+      '자연선택호 추격 함대 (장베이하이 탈취 사건)',
       '말일 전투에서 살아남음',
+      '말일 전투 후 유일 생존 함대',
       '암흑 전투를 시작함 (먼저 공격)',
       '외계 유적 발견',
       '광속 우주선으로 개조',
@@ -286,6 +288,70 @@ const fleetData = [
       '대형 로봇 팔 (채굴/포획용)'
     ],
     propulsion: '소형 추진 엔진'
+  },
+  {
+    id: 8,
+    shipName: '딥스페이스호',
+    shipNameEn: 'Deep Space',
+    class: '항성급 전함',
+    length: '3.4km',
+    crew: 2000,
+    construction: '2180년대',
+    status: '말일 전투 후 유일 생존 함대',
+    description: '아시아 함대 소속 주력 전함. 장베이하이의 자연선택호 탈취를 추격했던 함대 중 하나. 말일 전투에서 살아남아 유일 생존 함대가 되었다.',
+    officers: [
+      {
+        name: '천타이펑',
+        nameEn: 'Chen Taipeng',
+        rank: '함장',
+        role: 'Captain',
+        bio: '자연선택호 추격 작전 지휘관',
+        fate: '말일 전투 후 생존'
+      }
+    ],
+    keyEvents: [
+      '자연선택호 추격 함대 (장베이하이 탈취 사건)',
+      '말일 전투에서 살아남음',
+      '말일 전투 후 유일 생존 함대'
+    ],
+    armament: [
+      '전자기 레일건',
+      '핵미사일',
+      '레이저 방어 시스템'
+    ],
+    propulsion: '핵융합 추진'
+  },
+  {
+    id: 9,
+    shipName: '무한법칙호',
+    shipNameEn: 'Ultimate Law',
+    class: '항성급 전함',
+    length: '3.6km',
+    crew: 2000,
+    construction: '2180년대',
+    status: '말일 전투 후 유일 생존 함대',
+    description: '유럽 함대 소속 주력 전함. 장베이하이의 자연선택호 탈취를 추격했던 함대 중 하나. 말일 전투에서 살아남아 유일 생존 함대가 되었다.',
+    officers: [
+      {
+        name: '요하네스',
+        nameEn: 'Johannes',
+        rank: '함장',
+        role: 'Captain',
+        bio: '유럽 함대 출신 지휘관. 자연선택호 추격 작전 참가',
+        fate: '말일 전투 후 생존'
+      }
+    ],
+    keyEvents: [
+      '자연선택호 추격 함대 (장베이하이 탈취 사건)',
+      '말일 전투에서 살아남음',
+      '말일 전투 후 유일 생존 함대'
+    ],
+    armament: [
+      '전자기 레일건',
+      '핵미사일',
+      '레이저 방어 시스템'
+    ],
+    propulsion: '핵융합 추진'
   }
 ]
 
