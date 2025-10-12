@@ -15,12 +15,19 @@ import MathVideos from '../../components/ThreeBody/MathVideos'
 import Glossary from '../../components/ThreeBody/Glossary'
 import FleetRoster from '../../components/ThreeBody/FleetRoster'
 import DoomsdayBattle from '../../components/ThreeBody/DoomsdayBattle'
+import DoomsdayBattle3D from '../../components/ThreeBody/DoomsdayBattle3D'
+import StaircaseProject from '../../components/ThreeBody/StaircaseProject'
+import WallfacerPlans from '../../components/ThreeBody/WallfacerPlans'
+import DiscussionBoard from '../../components/ThreeBody/DiscussionBoard'
 import { CrossReferenceProvider } from '../../components/ThreeBody/CrossReferenceContext'
 import styles from '../../components/ThreeBody/styles/ThreeBody.module.css'
 
 export default function ThreeBodyPage() {
   const [activeTab, setActiveTab] = useState('timeline')
   const [novelExpanded, setNovelExpanded] = useState(true)
+  const [novelStoryExpanded, setNovelStoryExpanded] = useState(false)
+  const [novelReferenceExpanded, setNovelReferenceExpanded] = useState(false)
+  const [novelBattleExpanded, setNovelBattleExpanded] = useState(false)
   const [netflixExpanded, setNetflixExpanded] = useState(false)
   const [selectedEpisode, setSelectedEpisode] = useState(null)
   const [searchTerm, setSearchTerm] = useState('')
@@ -60,30 +67,118 @@ export default function ThreeBodyPage() {
             {/* 소설 삼체 하위 메뉴 */}
             {novelExpanded && (
               <div className={styles.submenuContainer}>
+                {/* 스토리 & 인물 그룹 */}
                 <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'timeline' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('timeline')}
+                  className={`${styles.sidebarButton} ${styles.submenu} ${styles.subParent}`}
+                  onClick={() => setNovelStoryExpanded(!novelStoryExpanded)}
                 >
-                  <span className={styles.label}>시간흐름도</span>
+                  <span className={styles.label}>스토리 & 인물</span>
+                  <span className={styles.expandIcon}>{novelStoryExpanded ? '▼' : '▶'}</span>
                 </button>
+                {novelStoryExpanded && (
+                  <div className={styles.subSubmenuContainer}>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'timeline' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('timeline')}
+                    >
+                      <span className={styles.label}>시간흐름도</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'network' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('network')}
+                    >
+                      <span className={styles.label}>인물 관계도</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'profiles' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('profiles')}
+                    >
+                      <span className={styles.label}>인물 프로필</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'factions' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('factions')}
+                    >
+                      <span className={styles.label}>세력 분석</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'scenes' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('scenes')}
+                    >
+                      <span className={styles.label}>명장면 TOP 10</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* 자료 & 참고 그룹 */}
                 <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'network' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('network')}
+                  className={`${styles.sidebarButton} ${styles.submenu} ${styles.subParent}`}
+                  onClick={() => setNovelReferenceExpanded(!novelReferenceExpanded)}
                 >
-                  <span className={styles.label}>인물 관계도</span>
+                  <span className={styles.label}>자료 & 참고</span>
+                  <span className={styles.expandIcon}>{novelReferenceExpanded ? '▼' : '▶'}</span>
                 </button>
+                {novelReferenceExpanded && (
+                  <div className={styles.subSubmenuContainer}>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'concepts' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('concepts')}
+                    >
+                      <span className={styles.label}>과학 개념 사전</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'ships' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('ships')}
+                    >
+                      <span className={styles.label}>우주선 & 기술 도감</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'glossary' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('glossary')}
+                    >
+                      <span className={styles.label}>용어 사전</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'math' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('math')}
+                    >
+                      <span className={styles.label}>삼체의 수학적 이해</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* 전투 & 프로젝트 그룹 */}
                 <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'profiles' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('profiles')}
+                  className={`${styles.sidebarButton} ${styles.submenu} ${styles.subParent}`}
+                  onClick={() => setNovelBattleExpanded(!novelBattleExpanded)}
                 >
-                  <span className={styles.label}>인물 프로필</span>
+                  <span className={styles.label}>전투 & 프로젝트</span>
+                  <span className={styles.expandIcon}>{novelBattleExpanded ? '▼' : '▶'}</span>
                 </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'factions' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('factions')}
-                >
-                  <span className={styles.label}>세력 분석</span>
-                </button>
+                {novelBattleExpanded && (
+                  <div className={styles.subSubmenuContainer}>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'fleet' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('fleet')}
+                    >
+                      <span className={styles.label}>함대 명부</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'doomsday' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('doomsday')}
+                    >
+                      <span className={styles.label}>말일 전투</span>
+                    </button>
+                    <button
+                      className={`${styles.sidebarButton} ${styles.subSubmenu} ${activeTab === 'staircase' ? styles.active : ''}`}
+                      onClick={() => setActiveTab('staircase')}
+                    >
+                      <span className={styles.label}>계단 프로젝트</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* 인터랙티브 */}
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'quiz' ? styles.active : ''}`}
                   onClick={() => setActiveTab('quiz')}
@@ -102,50 +197,30 @@ export default function ThreeBodyPage() {
                 >
                   <span className={styles.label}>주요 이슈 & 논쟁</span>
                 </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'concepts' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('concepts')}
-                >
-                  <span className={styles.label}>과학 개념 사전</span>
-                </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'ships' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('ships')}
-                >
-                  <span className={styles.label}>우주선 & 기술 도감</span>
-                </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'scenes' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('scenes')}
-                >
-                  <span className={styles.label}>명장면 TOP 10</span>
-                </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'math' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('math')}
-                >
-                  <span className={styles.label}>삼체의 수학적 이해</span>
-                </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'glossary' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('glossary')}
-                >
-                  <span className={styles.label}>용어 사전</span>
-                </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'fleet' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('fleet')}
-                >
-                  <span className={styles.label}>함대 명부</span>
-                </button>
-                <button
-                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'doomsday' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('doomsday')}
-                >
-                  <span className={styles.label}>말일 전투</span>
-                </button>
               </div>
             )}
+
+            {/* 커뮤니티 - 동일 레벨 메뉴 */}
+            <button
+              className={`${styles.sidebarButton} ${styles.parentMenu}`}
+              onClick={() => setActiveTab('wallfacer-plans')}
+            >
+              <span className={styles.label}>나만의 면벽 계획</span>
+            </button>
+
+            <button
+              className={`${styles.sidebarButton} ${styles.parentMenu}`}
+              onClick={() => setActiveTab('discussions')}
+            >
+              <span className={styles.label}>토론 게시판</span>
+            </button>
+
+            <button
+              className={`${styles.sidebarButton} ${styles.parentMenu}`}
+              onClick={() => setActiveTab('doomsday-3d')}
+            >
+              <span className={styles.label}>말일 전투 3D</span>
+            </button>
 
             {/* 넷플릭스 삼체 - 동일 레벨 메뉴 */}
             <button
@@ -204,6 +279,12 @@ export default function ThreeBodyPage() {
             {activeTab === 'glossary' && <Glossary />}
             {activeTab === 'fleet' && <FleetRoster />}
             {activeTab === 'doomsday' && <DoomsdayBattle />}
+            {activeTab === 'staircase' && <StaircaseProject />}
+
+            {/* 커뮤니티 콘텐츠 */}
+            {activeTab === 'wallfacer-plans' && <WallfacerPlans />}
+            {activeTab === 'discussions' && <DiscussionBoard />}
+            {activeTab === 'doomsday-3d' && <DoomsdayBattle3D />}
 
             {/* 넷플릭스 콘텐츠 */}
             {activeTab === 'netflix-episodes' && (

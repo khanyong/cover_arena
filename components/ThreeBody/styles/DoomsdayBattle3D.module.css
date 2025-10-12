@@ -1,0 +1,354 @@
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+  min-height: 100vh;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  border: 2px solid rgba(127, 227, 214, 0.3);
+}
+
+.title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6633 0%, #ff9900 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 15px;
+}
+
+.subtitle {
+  font-size: 1.3rem;
+  color: #b8c5d6;
+}
+
+.visualizationWrapper {
+  background: rgba(0, 5, 16, 0.8);
+  border-radius: 20px;
+  padding: 20px;
+  border: 2px solid rgba(127, 227, 214, 0.3);
+  margin-bottom: 40px;
+}
+
+.canvasContainer {
+  width: 100%;
+  height: 600px;
+  border-radius: 15px;
+  overflow: hidden;
+  margin-bottom: 20px;
+  background: #000510;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  margin-bottom: 20px;
+}
+
+.playbackControls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.playButton,
+.resetButton {
+  padding: 14px 32px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.playButton {
+  background: linear-gradient(135deg, #7fe3d6 0%, #66ccff 100%);
+  color: #0a0e27;
+}
+
+.playButton:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(127, 227, 214, 0.5);
+}
+
+.resetButton {
+  background: rgba(255, 153, 0, 0.3);
+  border: 2px solid #ff9900;
+  color: #ff9900;
+}
+
+.resetButton:hover {
+  background: rgba(255, 153, 0, 0.5);
+  transform: translateY(-3px);
+}
+
+.speedControls,
+.viewControls,
+.labelControls {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.labelControls {
+  justify-content: center;
+}
+
+.speedControls label,
+.viewControls label {
+  color: #b8c5d6;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.speedButtons,
+.viewButtons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.speedButtons button,
+.viewButtons button {
+  padding: 10px 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(127, 227, 214, 0.3);
+  border-radius: 10px;
+  color: #b8c5d6;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.speedButtons button:hover,
+.viewButtons button:hover {
+  background: rgba(127, 227, 214, 0.15);
+  border-color: #7fe3d6;
+  color: #fff;
+}
+
+.speedButtons button.active,
+.viewButtons button.active {
+  background: #7fe3d6;
+  border-color: #7fe3d6;
+  color: #0a0e27;
+  font-weight: 700;
+}
+
+.shipTooltip {
+  position: fixed;
+  background: rgba(10, 14, 39, 0.95);
+  border: 2px solid #7fe3d6;
+  border-radius: 12px;
+  padding: 20px;
+  min-width: 300px;
+  z-index: 1000;
+  pointer-events: none;
+  box-shadow: 0 8px 32px rgba(127, 227, 214, 0.4);
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.tooltipHeader {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid rgba(127, 227, 214, 0.3);
+}
+
+.tooltipHeader h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #7fe3d6;
+  margin: 0 0 8px 0;
+}
+
+.shipType {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(102, 204, 255, 0.2);
+  border: 1px solid #66ccff;
+  border-radius: 12px;
+  color: #66ccff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tooltipBody {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tooltipRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+}
+
+.tooltipLabel {
+  color: #b8c5d6;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.tooltipValue {
+  color: #fff;
+  font-weight: 500;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.timeline {
+  margin-bottom: 20px;
+}
+
+.timelineBar {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.timelineProgress {
+  height: 100%;
+  transition: width 0.1s linear, background-color 0.3s ease;
+  border-radius: 5px;
+}
+
+.timelineLabels {
+  display: flex;
+  justify-content: space-between;
+  color: #b8c5d6;
+  font-size: 0.9rem;
+}
+
+.eventDisplay {
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+}
+
+.currentEvent {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 15px 20px;
+  background: rgba(0, 0, 0, 0.3);
+  border-left: 4px solid #7fe3d6;
+  border-radius: 10px;
+}
+
+.eventTime {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #7fe3d6;
+  min-width: 60px;
+}
+
+.eventText {
+  font-size: 1.2rem;
+  color: #e0e6ed;
+  font-weight: 600;
+}
+
+.info {
+  display: grid;
+  gap: 25px;
+}
+
+.infoCard {
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(127, 227, 214, 0.3);
+  border-radius: 20px;
+}
+
+.infoCard h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #7fe3d6;
+  margin-bottom: 15px;
+}
+
+.infoCard p {
+  color: #e0e6ed;
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.infoCard ul {
+  color: #e0e6ed;
+  font-size: 1.05rem;
+  line-height: 1.8;
+  padding-left: 20px;
+}
+
+.infoCard li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+  }
+
+  .canvasContainer {
+    height: 400px;
+  }
+
+  .controls {
+    padding: 15px;
+  }
+
+  .playbackControls {
+    flex-direction: column;
+  }
+
+  .speedControls,
+  .viewControls,
+  .labelControls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .eventTime {
+    font-size: 1.2rem;
+    min-width: 50px;
+  }
+
+  .eventText {
+    font-size: 1rem;
+  }
+}

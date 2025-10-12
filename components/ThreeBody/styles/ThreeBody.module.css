@@ -170,6 +170,38 @@
   background: linear-gradient(90deg, rgba(78, 205, 196, 0.15) 0%, rgba(78, 205, 196, 0.05) 100%);
 }
 
+/* Sub-parent menu (2nd level) */
+.sidebarButton.subParent {
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  color: #c0c0c0;
+  font-weight: 600;
+}
+
+.subSubmenuContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-left: 8px;
+  padding-left: 16px;
+  border-left: 1px solid rgba(78, 205, 196, 0.15);
+}
+
+.sidebarButton.subSubmenu {
+  padding: 8px 10px;
+  font-size: 0.85rem;
+  color: #909090;
+}
+
+.sidebarButton.subSubmenu:hover {
+  color: #4ecdc4;
+}
+
+.sidebarButton.subSubmenu.active {
+  color: #ffffff;
+  background: linear-gradient(90deg, rgba(78, 205, 196, 0.15) 0%, rgba(78, 205, 196, 0.05) 100%);
+}
+
 .comingSoon {
   display: flex;
   flex-direction: column;
