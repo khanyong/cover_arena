@@ -74,9 +74,17 @@ const fleetData = [
       {
         name: '우웨이',
         nameEn: 'Wu Yue',
-        rank: '함장',
-        role: 'Captain',
+        rank: '초대 함장',
+        role: 'First Captain',
         bio: '해군 대령 출신. 장베이하이의 도망주의를 계승하여 인류의 씨앗을 우주에 퍼뜨렸다.',
+        fate: '우주 깊은 곳에서 생존'
+      },
+      {
+        name: '추옌',
+        nameEn: 'Chu Yan',
+        rank: '함장 (위협의 세기 후반)',
+        role: 'Captain (Deterrence Era)',
+        bio: '위협의 세기 후반 블루스페이스호 함장. 62년 11월 28일 오르트 구름 밖에서 중력호와 조우',
         fate: '우주 깊은 곳에서 생존'
       },
       {
@@ -108,50 +116,49 @@ const fleetData = [
     id: 3,
     shipName: '중력호',
     shipNameEn: 'Gravity',
-    class: '광속 탐사선',
+    class: '항성급 전함',
     length: '1.2km',
     crew: 500,
-    construction: '2272년',
-    status: '태양계 탈출 성공',
-    description: '인류 최초의 광속 우주선. 정청신과 관이판이 개발했으며, 태양계 이차원화를 피해 탈출했다.',
+    construction: '위협의 세기 초기',
+    status: '생존',
+    description: '위협의 세기에 건조된 전함. 블루스페이스호 추격 임무를 수행했다. 62년 11월 28일 오르트 구름 밖에서 블루스페이스호와 조우했다.',
     officers: [
       {
-        name: '정청신',
-        nameEn: 'Cheng Xin',
+        name: '모로비치',
+        nameEn: 'Morobitch',
         rank: '함장',
         role: 'Captain',
-        bio: '전 검잡이. 우주공학자. 인류애와 책임감이 넘치는 인물.',
-        fate: '소우주에서 우주 재시작 참여'
+        bio: '중력호 함장. 62년 11월 28일 오르트 구름 밖에서 블루스페이스호와 조우',
+        fate: '생존'
       },
       {
         name: '관이판',
         nameEn: 'Guan Yifan',
-        rank: '부함장 겸 조종사',
-        role: 'Pilot & First Officer',
-        bio: '광속 우주선 개발자. 우주 탐험가.',
-        fate: '소우주에서 정청신과 함께'
+        rank: '우주학자',
+        role: 'Cosmologist',
+        bio: '중력호 탑승 우주학자. 블루스페이스호 추격 중 관측 스테이션에서 고립되어 폐소공포증과 싸우며 미스테리한 사건들을 관찰했다.',
+        fate: '생존'
       },
       {
-        name: 'AA',
-        nameEn: 'AA',
-        rank: '생활 관리관',
-        role: 'Life Support Officer',
-        bio: '정청신의 친구이자 보호자',
-        fate: '태양계 이차원화로 사망'
+        name: '제임스 헌터',
+        nameEn: 'James Hunter (Old Hunter)',
+        rank: '조리관리원 (비밀 잠복자)',
+        role: 'Food Officer (Secret Sleeper)',
+        bio: '중력파 발사 통제기 파괴 권한을 가진 비밀 잠복자. 동면하지 않고 내내 깨어있었다.',
+        fate: '아키하라 레이코를 발견하고 사랑에 빠짐'
       }
     ],
     keyEvents: [
-      '곡률 추진 엔진 탑재',
-      '태양계 탈출',
-      '죽은 선 생성',
-      '윈톈밍 구출',
-      '소우주 발견',
-      '우주 재시작 프로젝트 참여'
+      '블루스페이스호 추격 임무',
+      '62년 11월 28일 16:17-16:27 블루스페이스호와 조우 (오르트 구름 밖)',
+      '위협의 세기 최후의 10분'
     ],
     armament: [
-      '무장 없음 (탐사선)'
+      '전자기 레일건',
+      '핵미사일',
+      '중력파 발사 안테나 (비밀 장비)'
     ],
-    propulsion: '곡률 추진 엔진'
+    propulsion: '핵융합 추진 엔진'
   },
   {
     id: 4,
