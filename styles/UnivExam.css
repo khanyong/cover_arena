@@ -905,9 +905,11 @@
 }
 
 .grade-label {
-  writing-mode: vertical-rl;
+  writing-mode: vertical-lr;
   text-orientation: upright;
   letter-spacing: 0.1rem;
+  font-weight: 700;
+  color: #667eea;
 }
 
 .content-cell {
@@ -956,6 +958,88 @@
 }
 
 /* 추가 정보 섹션 */
+/* 행동특성 및 종합의견 섹션 */
+.behavioral-section {
+  margin-top: 3rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem;
+  text-align: center;
+}
+
+.section-subtitle {
+  font-size: 1rem;
+  color: #64748b;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+
+.behavioral-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.behavioral-card {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  transition: all 0.3s;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.behavioral-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+  transform: translateY(-2px);
+}
+
+.behavioral-card .card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #e5e7eb;
+}
+
+.behavioral-card .grade-badge {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.behavioral-card .teacher-label {
+  font-size: 0.875rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.behavioral-card .card-content {
+  line-height: 1.8;
+}
+
+.behavioral-card .card-content p {
+  margin: 0;
+  color: #334155;
+  font-size: 0.95rem;
+  text-align: justify;
+  word-break: keep-all;
+}
+
 .additional-info-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1397,6 +1481,31 @@
   .univ-card {
     padding: 1.25rem;
   }
+
+  /* 행동특성 섹션 모바일 대응 */
+  .behavioral-section {
+    padding: 1.5rem 1rem;
+    margin-top: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .behavioral-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .behavioral-card {
+    padding: 1.25rem;
+  }
+
+  .behavioral-card .card-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
   .record-by-grade-table {
     padding: 1rem;
   }

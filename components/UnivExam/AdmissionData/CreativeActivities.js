@@ -45,7 +45,7 @@ const CreativeActivities = () => {
             {/* 1학년 */}
             <tr className="grade-row">
               <td className="grade-cell">
-                <div className="grade-label">1<br/>학<br/>년</div>
+                <div className="grade-label">1학년</div>
               </td>
               <td className="content-cell">
                 {renderActivityContent(recordByYear.grade1.자율활동)}
@@ -61,7 +61,7 @@ const CreativeActivities = () => {
             {/* 2학년 */}
             <tr className="grade-row">
               <td className="grade-cell">
-                <div className="grade-label">2<br/>학<br/>년</div>
+                <div className="grade-label">2학년</div>
               </td>
               <td className="content-cell">
                 {renderActivityContent(recordByYear.grade2.자율활동)}
@@ -77,7 +77,7 @@ const CreativeActivities = () => {
             {/* 3학년 */}
             <tr className="grade-row">
               <td className="grade-cell">
-                <div className="grade-label">3<br/>학<br/>년</div>
+                <div className="grade-label">3학년</div>
               </td>
               <td className="content-cell">
                 {renderActivityContent(recordByYear.grade3.자율활동)}
@@ -93,7 +93,48 @@ const CreativeActivities = () => {
         </table>
       </div>
 
-      {/* 봉사활동 및 수상경력 */}
+      {/* 행동특성 및 종합의견 (학년별 요약) */}
+      <div className="behavioral-section">
+        <h2 className="section-title">행동특성 및 종합의견</h2>
+        <p className="section-subtitle">각 학년 담임교사의 종합의견</p>
+
+        <div className="behavioral-cards">
+          {/* 1학년 */}
+          <div className="behavioral-card">
+            <div className="card-header">
+              <span className="grade-badge">1학년</span>
+              <span className="teacher-label">담임교사 의견</span>
+            </div>
+            <div className="card-content">
+              <p>{parsedStudentRecord.behavioralCharacteristics.grade1}</p>
+            </div>
+          </div>
+
+          {/* 2학년 */}
+          <div className="behavioral-card">
+            <div className="card-header">
+              <span className="grade-badge">2학년</span>
+              <span className="teacher-label">담임교사 의견</span>
+            </div>
+            <div className="card-content">
+              <p>{parsedStudentRecord.behavioralCharacteristics.grade2}</p>
+            </div>
+          </div>
+
+          {/* 3학년 */}
+          <div className="behavioral-card">
+            <div className="card-header">
+              <span className="grade-badge">3학년</span>
+              <span className="teacher-label">담임교사 의견</span>
+            </div>
+            <div className="card-content">
+              <p>{parsedStudentRecord.behavioralCharacteristics.grade3}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 수상경력 */}
       <div className="additional-info-section">
         <div className="info-card">
           <h3>수상 경력</h3>
@@ -106,24 +147,6 @@ const CreativeActivities = () => {
                 <span className="award-date">{award.수상연월일}</span>
               </div>
             ))}
-          </div>
-        </div>
-
-        <div className="info-card">
-          <h3>행동특성 및 종합의견</h3>
-          <div className="behavioral-opinions">
-            <div className="opinion-item">
-              <h4>1학년</h4>
-              <p>{parsedStudentRecord.behavioralCharacteristics.grade1}</p>
-            </div>
-            <div className="opinion-item">
-              <h4>2학년</h4>
-              <p>{parsedStudentRecord.behavioralCharacteristics.grade2}</p>
-            </div>
-            <div className="opinion-item">
-              <h4>3학년</h4>
-              <p>{parsedStudentRecord.behavioralCharacteristics.grade3}</p>
-            </div>
           </div>
         </div>
       </div>
