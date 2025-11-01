@@ -22,6 +22,7 @@ const UnivExamMain = () => {
   const [currentView, setCurrentView] = useState('overview'); // overview, creative-activities, subject-performance, university, interview, analysis
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [expandedMenus, setExpandedMenus] = useState(['admission-data']); // 확장된 메뉴 ID 배열
+  const [sidebarOpen, setSidebarOpen] = useState(false); // 모바일 사이드바 토글
 
   // 초기 데이터 로드
   useEffect(() => {
@@ -65,7 +66,7 @@ const UnivExamMain = () => {
       type: 'parent',
       children: [
         { id: 'univ-hufs', label: '한국외국어대학교 스페인어과', icon: '' },
-        { id: 'univ-kyunghee', label: '경희대학교 스페인어과', icon: '' },
+        { id: 'univ-kyunghee', label: '경희대학교 스페인어학과', icon: '' },
         { id: 'univ-uos', label: '서울시립대학교 철학과', icon: '' },
         { id: 'univ-konkuk', label: '건국대학교 철학과', icon: '' },
         { id: 'univ-hanyang', label: '한양대학교 글로벌문화통상학부', icon: '' },
@@ -93,6 +94,22 @@ const UnivExamMain = () => {
         ? prev.filter(id => id !== menuId)
         : [...prev, menuId]
     );
+  };
+
+  // 사이드바 토글 (모바일)
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  // 사이드바 닫기
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  // 메뉴 클릭 시 사이드바 닫기 (모바일)
+  const handleMenuClick = (viewId) => {
+    setCurrentView(viewId);
+    closeSidebar();
   };
 
   // 뷰 렌더링
@@ -302,10 +319,53 @@ const UnivExamMain = () => {
     return Math.round((calculateAnsweredQuestions() / generatedQuestions.length) * 100);
   };
 
+  // 하단 탭 바 네비게이션 (모바일)
+  const bottomTabItems = [
+    { id: 'overview', label: '개요', icon: '🏠' },
+    { id: 'admission-data', label: '자료', icon: '📚' },
+    { id: 'university', label: '대학', icon: '🎓' },
+    { id: 'interview-prep', label: '면접', icon: '💼' },
+    { id: 'analysis', label: '분석', icon: '📊' }
+  ];
+
+  // 하단 탭 클릭 핸들러
+  const handleBottomTabClick = (tabId) => {
+    if (tabId === 'admission-data') {
+      // 대입전형자료: 첫 번째 자식으로 이동
+      setExpandedMenus(['admission-data']);
+      setCurrentView('creative-activities');
+    } else if (tabId === 'university') {
+      // 지원대학: 첫 번째 대학으로 이동
+      setExpandedMenus(['university']);
+      setCurrentView('univ-hufs');
+    } else if (tabId === 'interview-prep') {
+      // 면접 준비: 스페인어과로 이동
+      setExpandedMenus(['interview-prep']);
+      setCurrentView('spanish-interview');
+    } else {
+      // 단일 페이지 (개요, 분석)
+      setCurrentView(tabId);
+    }
+    closeSidebar();
+  };
+
+  // 현재 활성 탭 확인 함수
+  const isBottomTabActive = (tabId) => {
+    if (tabId === 'overview') return currentView === 'overview';
+    if (tabId === 'admission-data') return ['creative-activities', 'subject-performance'].includes(currentView);
+    if (tabId === 'university') return currentView.startsWith('univ-');
+    if (tabId === 'interview-prep') return ['interview', 'spanish-interview', 'philosophy-interview'].includes(currentView);
+    if (tabId === 'analysis') return currentView === 'analysis';
+    return false;
+  };
+
   return (
     <div className="univ-exam-container-sidebar">
+      {/* 오버레이 배경 (모바일) */}
+      {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar}></div>}
+
       {/* 좌측 사이드바 */}
-      <aside className="sidebar">
+      <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* 로고 및 헤더 */}
         <div className="sidebar-header">
           <h1 className="sidebar-logo">🎓 UnivExam</h1>
@@ -331,7 +391,7 @@ const UnivExamMain = () => {
               {item.type === 'single' ? (
                 <button
                   className={`sidebar-nav-item ${currentView === item.id ? 'active' : ''}`}
-                  onClick={() => setCurrentView(item.id)}
+                  onClick={() => handleMenuClick(item.id)}
                 >
                   <span className="nav-icon">{item.icon}</span>
                   <span className="nav-label">{item.label}</span>
@@ -352,7 +412,7 @@ const UnivExamMain = () => {
                         <button
                           key={child.id}
                           className={`sidebar-nav-item child ${currentView === child.id ? 'active' : ''}`}
-                          onClick={() => setCurrentView(child.id)}
+                          onClick={() => handleMenuClick(child.id)}
                         >
                           <span className="nav-icon">{child.icon}</span>
                           <span className="nav-label">{child.label}</span>
@@ -405,6 +465,10 @@ const UnivExamMain = () => {
         {/* 상단 헤더 바 */}
         <header className="main-header">
           <div className="header-left">
+            {/* 햄버거 메뉴 버튼 (모바일) */}
+            <button className="mobile-menu-button" onClick={toggleSidebar} aria-label="메뉴 열기">
+              <span className="hamburger-icon">☰</span>
+            </button>
             <h2 className="page-title">
               {(() => {
                 // 먼저 단일 메뉴에서 찾기
@@ -436,6 +500,21 @@ const UnivExamMain = () => {
           {renderView()}
         </main>
       </div>
+
+      {/* 하단 탭 바 (모바일 전용) */}
+      <nav className="bottom-tab-bar">
+        {bottomTabItems.map(tab => (
+          <button
+            key={tab.id}
+            className={`bottom-tab-item ${isBottomTabActive(tab.id) ? 'active' : ''}`}
+            onClick={() => handleBottomTabClick(tab.id)}
+            aria-label={tab.label}
+          >
+            <span className="tab-icon">{tab.icon}</span>
+            <span className="tab-label">{tab.label}</span>
+          </button>
+        ))}
+      </nav>
     </div>
   );
 };
