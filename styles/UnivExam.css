@@ -5276,3 +5276,390 @@
     align-self: flex-start;
   }
 }
+
+/* ========================================
+   봉사활동상황 스타일
+   ======================================== */
+
+.volunteer-activities-container {
+  padding: 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 활동 목록 테이블 */
+.activities-list {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-top: 2rem;
+  overflow-x: auto;
+}
+
+.list-header {
+  display: grid;
+  grid-template-columns: 80px 180px 200px 1fr 80px 80px;
+  gap: 1rem;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.header-cell {
+  text-align: center;
+}
+
+.header-cell.content {
+  text-align: left;
+}
+
+.activity-row {
+  display: grid;
+  grid-template-columns: 80px 180px 200px 1fr 80px 80px;
+  gap: 1rem;
+  padding: 1.25rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+  align-items: start;
+}
+
+.activity-row:hover {
+  background: #f9fafb;
+  transform: translateX(4px);
+}
+
+.activity-row:last-child {
+  border-bottom: none;
+}
+
+.activity-row.grade-1 {
+  border-left: 4px solid #3b82f6;
+}
+
+.activity-row.grade-2 {
+  border-left: 4px solid #10b981;
+}
+
+.activity-row.grade-3 {
+  border-left: 4px solid #f59e0b;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.cell.content {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.cell.date,
+.cell.location {
+  font-size: 0.85rem;
+  justify-content: flex-start;
+}
+
+.content-text {
+  line-height: 1.6;
+  color: #1f2937;
+  font-size: 0.9rem;
+  word-break: keep-all;
+}
+
+.grade-badge {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.activity-type-badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.activity-type-badge.환경 {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.activity-type-badge.교육 {
+  background: #dbeafe;
+  color: #1e40af;
+}
+
+.activity-type-badge.학습지원 {
+  background: #fce7f3;
+  color: #9f1239;
+}
+
+.activity-type-badge.홍보 {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.activity-type-badge.기타 {
+  background: #f3f4f6;
+  color: #4b5563;
+}
+
+.hours-badge {
+  background: #eff6ff;
+  color: #1e40af;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.cumulative-badge {
+  background: #f0fdf4;
+  color: #065f46;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 3rem;
+  color: #9ca3af;
+  font-size: 0.95rem;
+}
+
+/* 활동 유형별 분석 */
+.activity-analysis {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.activity-analysis h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  color: #1f2937;
+}
+
+.analysis-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.analysis-card {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.analysis-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.analysis-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.analysis-content h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.analysis-content p {
+  margin: 0 0 0.75rem 0;
+  font-size: 0.85rem;
+  color: #6b7280;
+  line-height: 1.5;
+}
+
+.activity-count {
+  display: inline-block;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* 성찰 섹션 */
+.reflection-section {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, #fff9e6 0%, #fff4d5 100%);
+  border-radius: 12px;
+  border: 2px solid #f59e0b;
+}
+
+.reflection-section h3 {
+  margin: 0 0 1.5rem 0;
+  font-size: 1.25rem;
+  color: #92400e;
+}
+
+.reflection-content {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.reflection-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.reflection-icon {
+  font-size: 2rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.reflection-text h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1rem;
+  color: #1f2937;
+}
+
+.reflection-text p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.6;
+}
+
+/* 필터 섹션 */
+.filter-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.filter-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.95rem;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.filter-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e5e7eb;
+  background: white;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #6b7280;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-btn:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.filter-btn.active {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-color: transparent;
+}
+
+/* 모바일 반응형 */
+@media (max-width: 1024px) {
+  .list-header,
+  .activity-row {
+    grid-template-columns: 70px 150px 180px 1fr 70px 70px;
+    gap: 0.75rem;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .volunteer-activities-container {
+    padding: 1rem;
+  }
+
+  .activities-list {
+    padding: 1rem;
+  }
+
+  .list-header {
+    display: none;
+  }
+
+  .activity-row {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding: 1rem;
+    border-left: 4px solid #667eea;
+  }
+
+  .cell {
+    justify-content: flex-start;
+  }
+
+  .cell::before {
+    content: attr(data-label);
+    font-weight: 600;
+    margin-right: 0.5rem;
+    color: #6b7280;
+  }
+
+  .analysis-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .filter-buttons {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    flex: 1;
+    min-width: calc(50% - 0.25rem);
+  }
+}
