@@ -114,34 +114,70 @@ const UniversityDetail = ({ universityId }) => {
                     <thead>
                       <tr>
                         <th>구분</th>
-                        <th>서류평가</th>
-                        <th>면접평가(인·적성면접)</th>
-                        <th>총점</th>
-                        <th>선발</th>
+                        {university.id === 'hufs' ? (
+                          <>
+                            <th>서류평가</th>
+                            <th>면접평가(인·적성면접)</th>
+                            <th>총점</th>
+                            <th>선발</th>
+                          </>
+                        ) : (
+                          <>
+                            <th>선발 비율</th>
+                            <th>서류평가 성적</th>
+                            <th>면접평가 성적</th>
+                            <th>계</th>
+                          </>
+                        )}
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1단계</td>
-                        <td>{university.selectionMethod.stage1.selection}</td>
-                        <td>-</td>
-                        <td>{university.selectionMethod.stage1.selection}</td>
-                        <td>{university.selectionMethod.stage1.ratio}</td>
-                      </tr>
-                      <tr>
-                        <td>2단계</td>
-                        <td>{university.selectionMethod.stage2.components[0].score}</td>
-                        <td>{university.selectionMethod.stage2.components[1].score}</td>
-                        <td>{university.selectionMethod.stage2.selection}</td>
-                        <td></td>
-                      </tr>
+                      {university.id === 'hufs' ? (
+                        // 한국외대 형식
+                        <>
+                          <tr>
+                            <td>1단계</td>
+                            <td>{university.selectionMethod.stage1.selection}</td>
+                            <td>-</td>
+                            <td>{university.selectionMethod.stage1.selection}</td>
+                            <td>{university.selectionMethod.stage1.ratio}</td>
+                          </tr>
+                          <tr>
+                            <td>2단계</td>
+                            <td>{university.selectionMethod.stage2.components[0].score}</td>
+                            <td>{university.selectionMethod.stage2.components[1].score}</td>
+                            <td>{university.selectionMethod.stage2.selection}</td>
+                            <td></td>
+                          </tr>
+                        </>
+                      ) : (
+                        // 경희대 등 다른 대학 형식
+                        <>
+                          <tr>
+                            <td>1단계</td>
+                            <td>{university.selectionMethod.stage1.selection || university.selectionMethod.stage1.ratio}</td>
+                            <td>{university.selectionMethod.stage1.components[0].percentage}<br/>{university.selectionMethod.stage1.components[0].score}</td>
+                            <td>-</td>
+                            <td>{university.selectionMethod.stage1.components[0].percentage}<br/>{university.selectionMethod.stage1.components[0].score}</td>
+                          </tr>
+                          <tr>
+                            <td>2단계</td>
+                            <td>{university.selectionMethod.stage2.selection}</td>
+                            <td>{university.selectionMethod.stage2.components[0].percentage}<br/>{university.selectionMethod.stage2.components[0].score}</td>
+                            <td>{university.selectionMethod.stage2.components[1].percentage}<br/>{university.selectionMethod.stage2.components[1].score}</td>
+                            <td>100%<br/>1,000점</td>
+                          </tr>
+                        </>
+                      )}
                     </tbody>
                   </table>
                 </div>
 
-                <div className="selection-cutoff">
-                  <p><strong>[서류평가]</strong> {university.selectionMethod.stage1.cutoff} / <strong>[면접평가]</strong> {university.selectionMethod.stage2.cutoff}</p>
-                </div>
+                {university.selectionMethod.stage1.cutoff && university.selectionMethod.stage2.cutoff && (
+                  <div className="selection-cutoff">
+                    <p><strong>[서류평가]</strong> {university.selectionMethod.stage1.cutoff} / <strong>[면접평가]</strong> {university.selectionMethod.stage2.cutoff}</p>
+                  </div>
+                )}
 
                 {/* 유의사항 */}
                 {university.selectionMethod.notes && university.selectionMethod.notes.length > 0 && (
@@ -285,15 +321,35 @@ const UniversityDetail = ({ universityId }) => {
                               <td>학생부종합전형<br />(면접형)</td>
                               <td>
                                 {schedule.date}<br />
-                                {schedule.times.map((time, tidx) => (
-                                  <span key={tidx}>
-                                    {time}
-                                    {tidx < schedule.times.length - 1 && ' / '}
-                                  </span>
-                                ))}
+                                {schedule.times ? (
+                                  // 한국외대 형식 (times 배열)
+                                  schedule.times.map((time, tidx) => (
+                                    <span key={tidx}>
+                                      {time}
+                                      {tidx < schedule.times.length - 1 && ' / '}
+                                    </span>
+                                  ))
+                                ) : (
+                                  // 경희대 형식 (단일 time)
+                                  schedule.time
+                                )}
                               </td>
-                              <td>{schedule.targetCampus}</td>
-                              <td>{schedule.location}</td>
+                              <td>
+                                {schedule.targetCampus || ''}
+                                {schedule.campus && (
+                                  <>
+                                    <strong>{schedule.campus}</strong><br />
+                                    {schedule.college && <>&lt;{schedule.college}&gt;<br /></>}
+                                    {schedule.departments && schedule.departments.map((dept, didx) => (
+                                      <span key={didx}>
+                                        {dept}
+                                        {didx < schedule.departments.length - 1 && ', '}
+                                      </span>
+                                    ))}
+                                  </>
+                                )}
+                              </td>
+                              <td>{schedule.location || schedule.campus || '-'}</td>
                               <td>{schedule.note || '-'}</td>
                             </tr>
                           ))}

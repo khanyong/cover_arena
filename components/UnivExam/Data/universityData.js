@@ -208,7 +208,7 @@ export const universityDatabase = [
   },
   {
     id: "kyunghee-suwon",
-    name: "경희대-수원",
+    name: "경희대학교",
     department: "스페인어과",
     campus: "국제캠퍼스(수원)",
     admissionType: "학종(네오르네상스)",
@@ -216,28 +216,34 @@ export const universityDatabase = [
     duration: 15,
     selectionMethod: {
       stage1: {
-        description: "1단계는 서류평가로 모집인원의 3배수(의·약학 계열은 4배수)를 선발합니다.",
+        description: "1단계는 서류평가 성적으로 모집인원의 3배수(의·약학 계열은 4배수)를 선발합니다.",
         ratio: "300% (의·약학 계열 400%)",
+        selection: "비율 100%",
+        scoreBreakdown: {
+          document: { percentage: 100, maxScore: 700 },
+          total: 700
+        },
         components: [
-          { type: "서류평가 성적", weight: 100 }
+          { type: "서류평가 성적", percentage: "100%", score: "700점" }
         ]
       },
       stage2: {
         description: "2단계는 다음과 같이 선발합니다.",
-        components: [
-          { type: "서류평가 성적", weight: 70 },
-          { type: "면접평가 성적", weight: 30 }
-        ],
+        selection: "비율 100%",
         scoreBreakdown: {
           document: { percentage: 70, maxScore: 700 },
           interview: { percentage: 30, maxScore: 300 },
           total: 1000
-        }
+        },
+        components: [
+          { type: "서류평가 성적", percentage: "70%", score: "700점" },
+          { type: "면접평가 성적", percentage: "30%", score: "300점" }
+        ]
       },
       notes: [
-        "일반학과[의·약학 계열 제외], 한의예과(인문/자연), 치의예과, 약학과: 1단계 성적(70%)과 면접평가 성적(30%)을 합산하여 총점 순으로 선발하되, 수능 최저학력기준을 충족한 자를 선발",
-        "의예과, 한의예과(인문/자연), 치의예과, 약학과: 1단계 성적(70%)과 면접평가 성적(30%)을 합산하여 총점 순으로 선발",
-        "학교생활기록부에 '학교폭력사실'이 기재된 경우, 각 호수(제1~9호)에 따라 감점 처리합니다. 자세한 성적 반영 방법은 학생부종합전형 전형요소별 평가 안내(pp.108~110)를 참고하기 바랍니다."
+        "일반학과[의·약학계열제외], 한의예과(인문/자연), 치의예과, 약학과[제외]: 1단계 성적(70%)과 면접평가 성적(30%)을 합산하여 총점 순으로 선발하되, 수능 최저학력기준을 충족한 자를 선발",
+        "의예과, 한의예과(인문/자연), 치의예과, 약학과: 1단계 성적(70%) 면접평가 성적(30%)을 합산하여 총점 순으로 선발",
+        "학교생활기록부에 '학교폭력사실'이 기재된 경우, 각 호수(제1~9호)에 따라 감점 처리합니다. 자세한 성적 반영 방법은 (학생부종합전형 전형요소별 평가 안내)(pp.108~110)를 참고하기 바랍니다."
       ]
     },
     scheduleInfo: {
@@ -248,8 +254,16 @@ export const universityDatabase = [
       stage1AnnouncementNote: "www.khu.ac.kr (경희대학교 홈페이지)",
       admissionConfirm: "2025. 11. 26(수) 18:00",
       admissionConfirmNote: "iphak.khu.ac.kr (경희대학교 입학처 홈페이지)",
-      interviewDate: "2025. 11. 29(토) ~ 30(일)",
-      interviewNote: "※ p.35 [면접평가 상세일정] 확인, 중원합격자 발표 일정은 p.23 참고",
+      interviewSchedule: [
+        {
+          date: "2025. 11. 29(토)",
+          time: "14:00 ~ 18:00",
+          campus: "국제캠퍼스",
+          college: "외국어대학",
+          departments: ["스페인어학과", "체육대학(스포츠지도학과 제외)"]
+        }
+      ],
+      interviewNote: "※ 모든 의학계열 학과(의학과, 한의예과(인문/자연), 치의예과)는 11.30(일) 14:00~18:00에 면접을 실시하며, 타 모집단위와 동일하게 '출제문항 면접' 없이, '서류확인 면접'만 진행합니다.",
       finalAnnouncement: "2025. 12. 12(금) 18:00"
     },
     pdfGuideUrl: "/pdfs/kyunghee_suwon_admission_guide.pdf",
@@ -487,7 +501,7 @@ export const universityDatabase = [
   },
   {
     id: "silimdae",
-    name: "시립대",
+    name: "서울시립대학교",
     department: "철학과",
     campus: "본교",
     admissionType: "학종(면접형)",
@@ -553,7 +567,7 @@ export const universityDatabase = [
   },
   {
     id: "konkuk",
-    name: "건국대",
+    name: "건국대학교",
     department: "철학과",
     campus: "서울캠퍼스",
     admissionType: "학종(KU자기추천)",
@@ -619,7 +633,7 @@ export const universityDatabase = [
   },
   {
     id: "hanyang-erica",
-    name: "한양대(에리카)",
+    name: "한양대학교",
     department: "글로벌 문화통상학부",
     campus: "ERICA캠퍼스",
     admissionType: "학종(서류)",

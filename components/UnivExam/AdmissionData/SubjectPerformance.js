@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import parsedStudentRecord from '../Data/parsedStudentRecord';
 
 /**
@@ -6,6 +6,8 @@ import parsedStudentRecord from '../Data/parsedStudentRecord';
  * 학년별 성적 및 세부능력 및 특기사항 표시
  */
 const SubjectPerformance = () => {
+  const [activeGradeTab, setActiveGradeTab] = useState(1);
+
   return (
     <div className="subject-performance-container">
       {/* 헤더 */}
@@ -14,11 +16,34 @@ const SubjectPerformance = () => {
         <p className="table-subtitle">학년별 교과 성적 및 세부능력 특기사항</p>
       </div>
 
+      {/* 학년 탭 */}
+      <div className="grade-tabs">
+        <button
+          className={`grade-tab-btn ${activeGradeTab === 1 ? 'active' : ''}`}
+          onClick={() => setActiveGradeTab(1)}
+        >
+          1학년
+        </button>
+        <button
+          className={`grade-tab-btn ${activeGradeTab === 2 ? 'active' : ''}`}
+          onClick={() => setActiveGradeTab(2)}
+        >
+          2학년
+        </button>
+        <button
+          className={`grade-tab-btn ${activeGradeTab === 3 ? 'active' : ''}`}
+          onClick={() => setActiveGradeTab(3)}
+        >
+          3학년
+        </button>
+      </div>
+
       {/* 교과학습발달상황 */}
       <div className="info-card full-width">
         {/* 1학년 */}
-        <div className="subject-performance-section">
-          <h4>[1학년]</h4>
+        {activeGradeTab === 1 && (
+          <div className="subject-performance-section">
+            <h4>[1학년]</h4>
           <div className="subject-table-wrapper">
             <table className="subject-performance-table">
               <thead>
@@ -58,10 +83,11 @@ const SubjectPerformance = () => {
               </div>
             ))}
           </div>
-        </div>
+          </div>
+        )}
 
         {/* 2학년 */}
-        {parsedStudentRecord.subjectPerformance.grade2.length > 0 && (
+        {activeGradeTab === 2 && parsedStudentRecord.subjectPerformance.grade2.length > 0 && (
           <div className="subject-performance-section">
             <h4>[2학년]</h4>
             <div className="subject-table-wrapper">
@@ -109,7 +135,7 @@ const SubjectPerformance = () => {
         )}
 
         {/* 3학년 */}
-        {parsedStudentRecord.subjectPerformance.grade3.length > 0 && (
+        {activeGradeTab === 3 && parsedStudentRecord.subjectPerformance.grade3.length > 0 && (
           <div className="subject-performance-section">
             <h4>[3학년]</h4>
             <div className="subject-table-wrapper">

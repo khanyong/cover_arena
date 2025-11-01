@@ -6,6 +6,7 @@ import UniversitySelector from './University/UniversitySelector';
 import UniversityDetail from './University/UniversityDetail';
 import QuestionGenerator from './Interview/QuestionGenerator';
 import SpanishInterview from './Interview/SpanishInterview';
+import PhilosophyInterview from './Interview/PhilosophyInterview';
 import AnalysisDashboard from './Analysis/AnalysisDashboard';
 import { sampleStudentRecord } from './Data/sampleStudentRecord';
 import { universityDatabase } from './Data/universityData';
@@ -63,12 +64,12 @@ const UnivExamMain = () => {
       icon: '',
       type: 'parent',
       children: [
-        { id: 'univ-hufs', label: '한국외국어대학교-스페인어과', icon: '' },
-        { id: 'univ-kyunghee', label: '경희대-스페인어과', icon: '' },
-        { id: 'univ-uos', label: '시립대-철학과', icon: '' },
-        { id: 'univ-konkuk', label: '건국대-철학과', icon: '' },
-        { id: 'univ-hanyang', label: '한양대-글로벌문화통상학부', icon: '' },
-        { id: 'univ-myongji', label: '명지대학교-영어영문', icon: '' }
+        { id: 'univ-hufs', label: '한국외국어대학교 스페인어과', icon: '' },
+        { id: 'univ-kyunghee', label: '경희대학교 스페인어과', icon: '' },
+        { id: 'univ-uos', label: '서울시립대학교 철학과', icon: '' },
+        { id: 'univ-konkuk', label: '건국대학교 철학과', icon: '' },
+        { id: 'univ-hanyang', label: '한양대학교 글로벌문화통상학부', icon: '' },
+        { id: 'univ-myongji', label: '명지대학교 영어영문학과', icon: '' }
       ]
     },
     {
@@ -78,7 +79,8 @@ const UnivExamMain = () => {
       type: 'parent',
       children: [
         { id: 'interview', label: '예상 질문 생성', icon: '' },
-        { id: 'spanish-interview', label: '스페인어과', icon: '' }
+        { id: 'spanish-interview', label: '스페인어과', icon: '' },
+        { id: 'philosophy-interview', label: '철학과', icon: '' }
       ]
     },
     { id: 'analysis', label: '분석 및 통계', icon: '', type: 'single' }
@@ -110,61 +112,114 @@ const UnivExamMain = () => {
               </div>
 
               <div className="overview-card">
-                <h3>생활기록부 통계</h3>
-                <p><strong>총 활동 수:</strong> {calculateTotalActivities()}개</p>
-                <p><strong>동아리 활동:</strong> {calculateClubActivities()}개</p>
-                <p><strong>진로 활동:</strong> {calculateCareerActivities()}개</p>
+                <h3>지원 대학 현황</h3>
+                <div className="university-list">
+                  <p><strong>한국외국어대학교</strong> - 스페인어과</p>
+                  <p><strong>경희대학교</strong> - 스페인어과</p>
+                  <p><strong>서울시립대학교</strong> - 철학과</p>
+                  <p><strong>건국대학교</strong> - 철학과</p>
+                  <p><strong>한양대학교</strong> - 글로벌문화통상학부</p>
+                  <p><strong>명지대학교</strong> - 영어영문학과</p>
+                </div>
               </div>
 
               <div className="overview-card">
-                <h3>지원 대학</h3>
-                <p><strong>선택된 대학:</strong> {selectedUniversities.length}개 / 5개</p>
-                {selectedUniversities.length < 5 && (
+                <h3>대입전형자료</h3>
+                <div className="data-summary">
                   <button
-                    className="btn-primary"
-                    onClick={() => setCurrentView('university')}
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['admission-data']);
+                      setCurrentView('creative-activities');
+                    }}
                   >
-                    대학 추가하기
+                    📋 창의적 체험활동상황 →
                   </button>
-                )}
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['admission-data']);
+                      setCurrentView('subject-performance');
+                    }}
+                  >
+                    📚 교과학습발달상황 →
+                  </button>
+                </div>
               </div>
 
               <div className="overview-card">
-                <h3>면접 준비 현황</h3>
-                <p><strong>생성된 질문:</strong> {generatedQuestions.length}개</p>
-                <p><strong>답변 작성:</strong> {calculateAnsweredQuestions()}개</p>
-                <p><strong>준비도:</strong> {calculateReadiness()}%</p>
+                <h3>면접 준비</h3>
+                <div className="interview-summary">
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['interview-prep']);
+                      setCurrentView('spanish-interview');
+                    }}
+                  >
+                    🗣️ 스페인어과 면접 준비 →
+                  </button>
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['interview-prep']);
+                      setCurrentView('philosophy-interview');
+                    }}
+                  >
+                    🧠 철학과 면접 준비 →
+                  </button>
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['interview-prep']);
+                      setCurrentView('interview');
+                    }}
+                  >
+                    💡 예상 질문 생성 →
+                  </button>
+                </div>
               </div>
             </div>
 
-            <div className="quick-actions">
-              <h3>빠른 시작</h3>
-              <div className="action-buttons">
-                <button
-                  className="action-btn"
-                  onClick={() => setCurrentView('creative-activities')}
-                >
-                  🎨 창의적 체험활동 확인하기
-                </button>
-                <button
-                  className="action-btn"
-                  onClick={() => setCurrentView('subject-performance')}
-                >
-                  📚 교과학습발달 확인하기
-                </button>
-                <button
-                  className="action-btn"
-                  onClick={() => setCurrentView('university')}
-                >
-                  🏫 지원 대학 설정하기
-                </button>
-                <button
-                  className="action-btn"
-                  onClick={() => setCurrentView('interview')}
-                  disabled={selectedUniversities.length === 0}
-                >
-                  💼 예상 질문 생성하기
-                </button>
+            <div className="university-details-grid">
+              <h3>지원 대학 상세 정보</h3>
+              <div className="university-cards">
+                <div className="univ-card" onClick={() => setCurrentView('univ-hufs')}>
+                  <h4>한국외국어대학교</h4>
+                  <p className="univ-dept">스페인어과</p>
+                  <p className="univ-type">학생부종합 (면접형)</p>
+                  <span className="view-detail">상세보기 →</span>
+                </div>
+                <div className="univ-card" onClick={() => setCurrentView('univ-kyunghee')}>
+                  <h4>경희대학교</h4>
+                  <p className="univ-dept">스페인어과</p>
+                  <p className="univ-type">학생부종합 (네오르네상스)</p>
+                  <span className="view-detail">상세보기 →</span>
+                </div>
+                <div className="univ-card" onClick={() => setCurrentView('univ-uos')}>
+                  <h4>서울시립대학교</h4>
+                  <p className="univ-dept">철학과</p>
+                  <p className="univ-type">학생부종합</p>
+                  <span className="view-detail">상세보기 →</span>
+                </div>
+                <div className="univ-card" onClick={() => setCurrentView('univ-konkuk')}>
+                  <h4>건국대학교</h4>
+                  <p className="univ-dept">철학과</p>
+                  <p className="univ-type">학생부종합</p>
+                  <span className="view-detail">상세보기 →</span>
+                </div>
+                <div className="univ-card" onClick={() => setCurrentView('univ-hanyang')}>
+                  <h4>한양대학교</h4>
+                  <p className="univ-dept">글로벌문화통상학부</p>
+                  <p className="univ-type">학생부종합</p>
+                  <span className="view-detail">상세보기 →</span>
+                </div>
+                <div className="univ-card" onClick={() => setCurrentView('univ-myongji')}>
+                  <h4>명지대학교</h4>
+                  <p className="univ-dept">영어영문학과</p>
+                  <p className="univ-type">학생부종합</p>
+                  <span className="view-detail">상세보기 →</span>
+                </div>
               </div>
             </div>
           </div>
@@ -220,6 +275,9 @@ const UnivExamMain = () => {
       case 'spanish-interview':
         return <SpanishInterview />;
 
+      case 'philosophy-interview':
+        return <PhilosophyInterview />;
+
       case 'analysis':
         return (
           <AnalysisDashboard
@@ -235,25 +293,6 @@ const UnivExamMain = () => {
   };
 
   // 통계 계산 함수들
-  const calculateTotalActivities = () => {
-    return studentRecord.records.reduce((total, record) => {
-      if (record.activities) {
-        return total + record.activities.length;
-      }
-      return total;
-    }, 0);
-  };
-
-  const calculateClubActivities = () => {
-    return studentRecord.records.filter(r => r.category === '동아리활동')
-      .reduce((total, record) => total + (record.activities?.length || 0), 0);
-  };
-
-  const calculateCareerActivities = () => {
-    return studentRecord.records.filter(r => r.category === '진로활동')
-      .reduce((total, record) => total + (record.activities?.length || 0), 0);
-  };
-
   const calculateAnsweredQuestions = () => {
     return generatedQuestions.filter(q => q.answer && q.answer.trim() !== '').length;
   };

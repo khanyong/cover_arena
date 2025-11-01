@@ -403,33 +403,57 @@
 }
 
 /* 오버뷰 섹션 */
+.overview-section {
+  padding: 0;
+}
+
+.overview-section > h2 {
+  margin: 0 0 2rem;
+  font-size: 2rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
 .overview-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.5rem;
-  margin: 2rem 0;
+  margin: 0 0 3rem 0;
 }
 
 .overview-card {
   padding: 1.5rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
   border-radius: 12px;
-  color: white;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.overview-card:hover {
+  box-shadow: 0 4px 16px rgba(102, 126, 234, 0.15);
+  border-color: #667eea;
 }
 
 .overview-card h3 {
   margin: 0 0 1rem;
   font-size: 1.25rem;
+  color: #667eea;
+  font-weight: 600;
+  border-bottom: 2px solid #f1f5f9;
+  padding-bottom: 0.75rem;
 }
 
 .overview-card p {
   margin: 0.5rem 0;
   font-size: 0.95rem;
+  color: #475569;
+  line-height: 1.6;
 }
 
 .overview-card strong {
   font-weight: 600;
+  color: #1e293b;
 }
 
 .overview-card .btn-primary {
@@ -440,6 +464,116 @@
 
 .overview-card .btn-primary:hover {
   background: #f8fafc;
+}
+
+/* 대학 목록 스타일 */
+.university-list p {
+  margin: 0.75rem 0;
+  padding-left: 0.5rem;
+  border-left: 3px solid #667eea;
+  color: #334155;
+}
+
+/* 데이터 요약 및 면접 요약 */
+.data-summary,
+.interview-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.overview-link-btn {
+  padding: 0.875rem 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.overview-link-btn:hover {
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+/* 대학 상세 카드 그리드 */
+.university-details-grid {
+  margin-top: 3rem;
+  padding-top: 3rem;
+  border-top: 2px solid #e5e7eb;
+}
+
+.university-details-grid > h3 {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.university-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.univ-card {
+  padding: 1.5rem;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+}
+
+.univ-card:hover {
+  border-color: #667eea;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+}
+
+.univ-card h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.univ-card .univ-dept {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #667eea;
+  font-weight: 600;
+}
+
+.univ-card .univ-type {
+  margin: 0.5rem 0 1rem;
+  font-size: 0.875rem;
+  color: #64748b;
+  padding: 0.5rem;
+  background: #f1f5f9;
+  border-radius: 6px;
+  display: inline-block;
+}
+
+.univ-card .view-detail {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #667eea;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.univ-card:hover .view-detail {
+  transform: translateX(4px);
 }
 
 /* 빠른 시작 */
@@ -999,6 +1133,45 @@
 /* 교과학습발달상황 컨테이너 */
 .subject-performance-container {
   padding: 2rem;
+}
+
+/* 학년 탭 스타일 */
+.grade-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin: 2rem 0 1.5rem;
+  border-bottom: 2px solid #e5e7eb;
+  padding: 0 1rem;
+}
+
+.grade-tab-btn {
+  padding: 0.875rem 2rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #64748b;
+  transition: all 0.3s;
+  position: relative;
+  bottom: -2px;
+}
+
+.grade-tab-btn:hover {
+  color: #667eea;
+  background: #f1f5f9;
+  border-radius: 8px 8px 0 0;
+}
+
+.grade-tab-btn.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+  background: #f8fafc;
+}
+
+.grade-tab-btn.active:hover {
+  background: #f8fafc;
 }
 
 /* 반응형 디자인 */
