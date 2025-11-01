@@ -42,7 +42,14 @@ const PhilosophyInterview = () => {
           <div className="stat-icon">❓</div>
           <div className="stat-content">
             <div className="stat-value">{interviewQuestions.length}</div>
-            <div className="stat-label">총 예상 질문</div>
+            <div className="stat-label">기본 질문</div>
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-icon">🔍</div>
+          <div className="stat-content">
+            <div className="stat-value">{interviewQuestions.filter(q => q.followUpQuestion).length}</div>
+            <div className="stat-label">심화 질문</div>
           </div>
         </div>
         <div className="stat-card">
@@ -195,6 +202,26 @@ const PhilosophyInterview = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* 심화 질문 */}
+                  {question.followUpQuestion && (
+                    <div className="follow-up-section">
+                      <div className="follow-up-header">
+                        <span className="follow-up-icon">🔍</span>
+                        <span className="follow-up-label">심화 질문</span>
+                      </div>
+                      <div className="follow-up-question">
+                        {question.followUpQuestion.question}
+                      </div>
+                      <div className="follow-up-answer-label">
+                        <span className="answer-icon">💬</span>
+                        <span>심화 질문 모범 답변</span>
+                      </div>
+                      <div className="follow-up-answer">
+                        {question.followUpQuestion.answer}
+                      </div>
+                    </div>
+                  )}
 
                   {/* 답변 팁 */}
                   <div className="answer-tips">

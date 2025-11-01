@@ -3698,6 +3698,65 @@
   font-weight: 600;
 }
 
+/* 심화 질문 섹션 */
+.follow-up-section {
+  background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+  border: 2px solid #8b5cf6;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.follow-up-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #5b21b6;
+  font-size: 1.1rem;
+}
+
+.follow-up-icon {
+  font-size: 1.25rem;
+}
+
+.follow-up-label {
+  font-weight: 700;
+}
+
+.follow-up-question {
+  background: white;
+  border-left: 4px solid #8b5cf6;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #1e293b;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+.follow-up-answer-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 1rem 0 0.75rem;
+  font-weight: 700;
+  color: #5b21b6;
+  font-size: 0.95rem;
+}
+
+.follow-up-answer {
+  background: white;
+  border-radius: 8px;
+  padding: 1.25rem;
+  color: #334155;
+  font-size: 0.95rem;
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
 /* 답변 팁 */
 .answer-tips {
   background: #fef3c7;
