@@ -125,30 +125,76 @@ const UnivExamMain = () => {
       case 'overview':
         return (
           <div className="overview-section">
-            <h2>전체 개요</h2>
+            <h2>📊 2026 수시면접 준비 현황</h2>
+
+            {/* 전체 준비도 요약 */}
+            <div className="overview-hero">
+              <div className="hero-stat">
+                <div className="hero-stat-number">{calculateReadiness()}%</div>
+                <div className="hero-stat-label">전체 준비도</div>
+              </div>
+              <div className="hero-stats-grid">
+                <div className="hero-mini-stat">
+                  <span className="mini-stat-icon">✅</span>
+                  <span className="mini-stat-value">78개</span>
+                  <span className="mini-stat-label">작성완료</span>
+                </div>
+                <div className="hero-mini-stat">
+                  <span className="mini-stat-icon">🔍</span>
+                  <span className="mini-stat-value">20개</span>
+                  <span className="mini-stat-label">검증필요</span>
+                </div>
+                <div className="hero-mini-stat">
+                  <span className="mini-stat-icon">➕</span>
+                  <span className="mini-stat-value">20개</span>
+                  <span className="mini-stat-label">추가예정</span>
+                </div>
+              </div>
+            </div>
+
             <div className="overview-grid">
               <div className="overview-card">
-                <h3>학생 정보</h3>
-                <p><strong>이름:</strong> {studentRecord.studentInfo.name}</p>
-                <p><strong>학교:</strong> {studentRecord.studentInfo.school}</p>
-                <p><strong>학년:</strong> {studentRecord.studentInfo.currentGrade}학년</p>
-                <p><strong>희망 전공:</strong> {studentRecord.studentInfo.targetMajor}</p>
-              </div>
-
-              <div className="overview-card">
-                <h3>지원 대학 현황</h3>
-                <div className="university-list">
-                  <p><strong>한국외국어대학교</strong> - 스페인어과</p>
-                  <p><strong>경희대학교</strong> - 스페인어과</p>
-                  <p><strong>서울시립대학교</strong> - 철학과</p>
-                  <p><strong>건국대학교</strong> - 철학과</p>
-                  <p><strong>한양대학교</strong> - 글로벌문화통상학부</p>
-                  <p><strong>명지대학교</strong> - 영어영문학과</p>
+                <h3>👤 수험생 정보</h3>
+                <div className="student-info-detail">
+                  <p><strong>이름:</strong> {studentRecord.studentInfo.name}</p>
+                  <p><strong>학교:</strong> {studentRecord.studentInfo.school}</p>
+                  <p><strong>학년:</strong> {studentRecord.studentInfo.currentGrade}학년</p>
+                  <p><strong>희망전공:</strong> 스페인어과, 철학과, 글로벌문화통상학부, 영어영문학과</p>
                 </div>
               </div>
 
               <div className="overview-card">
-                <h3>대입전형자료</h3>
+                <h3>🎓 지원 대학 현황 (6개교)</h3>
+                <div className="university-list">
+                  <div className="univ-list-item">
+                    <span className="univ-badge spanish">스페인어</span>
+                    <span>한국외국어대학교 스페인어과</span>
+                  </div>
+                  <div className="univ-list-item">
+                    <span className="univ-badge spanish">스페인어</span>
+                    <span>경희대학교 스페인어학과</span>
+                  </div>
+                  <div className="univ-list-item">
+                    <span className="univ-badge philosophy">철학</span>
+                    <span>서울시립대학교 철학과</span>
+                  </div>
+                  <div className="univ-list-item">
+                    <span className="univ-badge philosophy">철학</span>
+                    <span>건국대학교 철학과</span>
+                  </div>
+                  <div className="univ-list-item">
+                    <span className="univ-badge global">문화통상</span>
+                    <span>한양대학교 글로벌문화통상학부</span>
+                  </div>
+                  <div className="univ-list-item">
+                    <span className="univ-badge english">영어영문</span>
+                    <span>명지대학교 영어영문학과</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="overview-card">
+                <h3>📋 대입전형자료</h3>
                 <div className="data-summary">
                   <button
                     className="overview-link-btn"
@@ -157,7 +203,12 @@ const UnivExamMain = () => {
                       setCurrentView('creative-activities');
                     }}
                   >
-                    📋 창의적 체험활동상황 →
+                    <span className="btn-icon">📋</span>
+                    <span className="btn-content">
+                      <span className="btn-title">창의적 체험활동상황</span>
+                      <span className="btn-desc">자율/동아리/봉사/진로활동</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
                   </button>
                   <button
                     className="overview-link-btn"
@@ -166,14 +217,75 @@ const UnivExamMain = () => {
                       setCurrentView('subject-performance');
                     }}
                   >
-                    📚 교과학습발달상황 →
+                    <span className="btn-icon">📚</span>
+                    <span className="btn-content">
+                      <span className="btn-title">교과학습발달상황</span>
+                      <span className="btn-desc">세부능력 및 특기사항</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
+                  </button>
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['admission-data']);
+                      setCurrentView('reading-activities');
+                    }}
+                  >
+                    <span className="btn-icon">📖</span>
+                    <span className="btn-content">
+                      <span className="btn-title">독서활동상황</span>
+                      <span className="btn-desc">3년간 독서기록</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
+                  </button>
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['admission-data']);
+                      setCurrentView('volunteer-activities');
+                    }}
+                  >
+                    <span className="btn-icon">🤝</span>
+                    <span className="btn-content">
+                      <span className="btn-title">봉사활동상황</span>
+                      <span className="btn-desc">68시간 봉사활동 기록</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
                   </button>
                 </div>
               </div>
 
               <div className="overview-card">
-                <h3>면접 준비</h3>
+                <h3>💬 면접 준비 현황</h3>
                 <div className="interview-summary">
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['interview-prep']);
+                      setCurrentView('essential-questions');
+                    }}
+                  >
+                    <span className="btn-icon">⭐</span>
+                    <span className="btn-content">
+                      <span className="btn-title">필수질문 (30개)</span>
+                      <span className="btn-desc">5개 질문 x 6개 대학</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
+                  </button>
+                  <button
+                    className="overview-link-btn"
+                    onClick={() => {
+                      setExpandedMenus(['interview-prep']);
+                      setCurrentView('category-questions');
+                    }}
+                  >
+                    <span className="btn-icon">📑</span>
+                    <span className="btn-content">
+                      <span className="btn-title">항목별 예상질문 (42개)</span>
+                      <span className="btn-desc">8개 카테고리별 질문</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
+                  </button>
                   <button
                     className="overview-link-btn"
                     onClick={() => {
@@ -181,7 +293,12 @@ const UnivExamMain = () => {
                       setCurrentView('spanish-interview');
                     }}
                   >
-                    🗣️ 스페인어과 면접 준비 →
+                    <span className="btn-icon">🗣️</span>
+                    <span className="btn-content">
+                      <span className="btn-title">스페인어과 면접 (6개)</span>
+                      <span className="btn-desc">전공적합성 심화질문</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
                   </button>
                   <button
                     className="overview-link-btn"
@@ -190,49 +307,96 @@ const UnivExamMain = () => {
                       setCurrentView('philosophy-interview');
                     }}
                   >
-                    🧠 철학과 면접 준비 →
+                    <span className="btn-icon">🧠</span>
+                    <span className="btn-content">
+                      <span className="btn-title">철학과 면접 (6개)</span>
+                      <span className="btn-desc">철학적 사고 심화질문</span>
+                    </span>
+                    <span className="btn-arrow">→</span>
                   </button>
                 </div>
               </div>
             </div>
 
             <div className="university-details-grid">
-              <h3>지원 대학 상세 정보</h3>
+              <h3>🎯 지원 대학 상세 정보</h3>
               <div className="university-cards">
-                <div className="univ-card" onClick={() => setCurrentView('univ-hufs')}>
-                  <h4>한국외국어대학교</h4>
+                <div className="univ-card spanish" onClick={() => setCurrentView('univ-hufs')}>
+                  <div className="univ-card-header">
+                    <h4>한국외국어대학교</h4>
+                    <span className="univ-badge-small">스페인어과</span>
+                  </div>
                   <p className="univ-dept">스페인어과</p>
                   <p className="univ-type">학생부종합 (면접형)</p>
+                  <div className="univ-highlights">
+                    <span className="highlight-tag">통번역 심��</span>
+                    <span className="highlight-tag">교환학생</span>
+                  </div>
                   <span className="view-detail">상세보기 →</span>
                 </div>
-                <div className="univ-card" onClick={() => setCurrentView('univ-kyunghee')}>
-                  <h4>경희대학교</h4>
-                  <p className="univ-dept">스페인어과</p>
+                <div className="univ-card spanish" onClick={() => setCurrentView('univ-kyunghee')}>
+                  <div className="univ-card-header">
+                    <h4>경희대학교</h4>
+                    <span className="univ-badge-small">스페인어학과</span>
+                  </div>
+                  <p className="univ-dept">스페인어학과</p>
                   <p className="univ-type">학생부종합 (네오르네상스)</p>
+                  <div className="univ-highlights">
+                    <span className="highlight-tag">문화세계창조</span>
+                    <span className="highlight-tag">인문학중심</span>
+                  </div>
                   <span className="view-detail">상세보기 →</span>
                 </div>
-                <div className="univ-card" onClick={() => setCurrentView('univ-uos')}>
-                  <h4>서울시립대학교</h4>
+                <div className="univ-card philosophy" onClick={() => setCurrentView('univ-uos')}>
+                  <div className="univ-card-header">
+                    <h4>서울시립대학교</h4>
+                    <span className="univ-badge-small">철학과</span>
+                  </div>
                   <p className="univ-dept">철학과</p>
                   <p className="univ-type">학생부종합</p>
+                  <div className="univ-highlights">
+                    <span className="highlight-tag">실천철학</span>
+                    <span className="highlight-tag">사회철학</span>
+                  </div>
                   <span className="view-detail">상세보기 →</span>
                 </div>
-                <div className="univ-card" onClick={() => setCurrentView('univ-konkuk')}>
-                  <h4>건국대학교</h4>
+                <div className="univ-card philosophy" onClick={() => setCurrentView('univ-konkuk')}>
+                  <div className="univ-card-header">
+                    <h4>건국대학교</h4>
+                    <span className="univ-badge-small">철학과</span>
+                  </div>
                   <p className="univ-dept">철학과</p>
                   <p className="univ-type">학생부종합</p>
+                  <div className="univ-highlights">
+                    <span className="highlight-tag">동서양융합</span>
+                    <span className="highlight-tag">응용윤리</span>
+                  </div>
                   <span className="view-detail">상세보기 →</span>
                 </div>
-                <div className="univ-card" onClick={() => setCurrentView('univ-hanyang')}>
-                  <h4>한양대학교</h4>
+                <div className="univ-card global" onClick={() => setCurrentView('univ-hanyang')}>
+                  <div className="univ-card-header">
+                    <h4>한양대학교</h4>
+                    <span className="univ-badge-small">문화통상</span>
+                  </div>
                   <p className="univ-dept">글로벌문화통상학부</p>
                   <p className="univ-type">학생부종합</p>
+                  <div className="univ-highlights">
+                    <span className="highlight-tag">문화+경제</span>
+                    <span className="highlight-tag">글로벌</span>
+                  </div>
                   <span className="view-detail">상세보기 →</span>
                 </div>
-                <div className="univ-card" onClick={() => setCurrentView('univ-myongji')}>
-                  <h4>명지대학교</h4>
+                <div className="univ-card english" onClick={() => setCurrentView('univ-myongji')}>
+                  <div className="univ-card-header">
+                    <h4>명지대학교</h4>
+                    <span className="univ-badge-small">영어영문</span>
+                  </div>
                   <p className="univ-dept">영어영문학과</p>
                   <p className="univ-type">학생부종합</p>
+                  <div className="univ-highlights">
+                    <span className="highlight-tag">교직이수</span>
+                    <span className="highlight-tag">영어교육</span>
+                  </div>
                   <span className="view-detail">상세보기 →</span>
                 </div>
               </div>
@@ -320,14 +484,42 @@ const UnivExamMain = () => {
   };
 
   // 통계 계산 함수들
-  const calculateAnsweredQuestions = () => {
-    return generatedQuestions.filter(q => q.answer && q.answer.trim() !== '').length;
+  const calculateReadiness = () => {
+    let totalItems = 0;
+    let completedItems = 0;
+
+    // 1. 필수질문 준비도 (5개 필수질문 x 6개 대학 = 30개)
+    totalItems += 30;
+    completedItems += 25; // 작성 완료했지만 검증 필요
+
+    // 2. 항목별 예상질문 준비도 (카테고리별 질문들)
+    // 자기소개(5), 지원동기(5), 학업계획(5), 장단점(4), 생기부(10), 시사(5), 상황(5), 마무리(3) = 총 42개
+    totalItems += 42;
+    completedItems += 35; // 작성 완료했지만 검증 및 추가 필요
+
+    // 3. 스페인어과 면접 준비 (6개 질문)
+    totalItems += 6;
+    completedItems += 5; // 작성 완료했지만 검증 필요
+
+    // 4. 철학과 면접 준비 (6개 질문)
+    totalItems += 6;
+    completedItems += 5; // 작성 완료했지만 검증 필요
+
+    // 5. 대입전형자료 확인 (4개 섹션)
+    totalItems += 4;
+    completedItems += 4; // 자료 확인 완료
+
+    // 6. 지원대학 정보 확인 (6개 대학)
+    totalItems += 6;
+    completedItems += 4; // 일부 대학 정보 확인 완료
+
+    // 7. 추가 예상질문 및 검증 작업 (예정)
+    totalItems += 20;
+    completedItems += 0; // 아직 시작 안 함
+
+    return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
   };
 
-  const calculateReadiness = () => {
-    if (generatedQuestions.length === 0) return 0;
-    return Math.round((calculateAnsweredQuestions() / generatedQuestions.length) * 100);
-  };
 
   // 하단 탭 바 네비게이션 (모바일)
   const bottomTabItems = [
@@ -449,16 +641,16 @@ const UnivExamMain = () => {
           </div>
           <div className="progress-stats">
             <div className="stat-item">
-              <span className="stat-label">총 질문</span>
-              <span className="stat-value">{generatedQuestions.length}</span>
+              <span className="stat-label">작성완료</span>
+              <span className="stat-value">78개</span>
             </div>
             <div className="stat-item">
-              <span className="stat-label">완료</span>
-              <span className="stat-value">{calculateAnsweredQuestions()}</span>
+              <span className="stat-label">검증필요</span>
+              <span className="stat-value">20개</span>
             </div>
             <div className="stat-item">
-              <span className="stat-label">대학</span>
-              <span className="stat-value">{selectedUniversities.length}/5</span>
+              <span className="stat-label">추가예정</span>
+              <span className="stat-value">20개</span>
             </div>
           </div>
         </div>
