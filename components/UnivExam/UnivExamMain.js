@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import RecordOverview from './StudentRecord/RecordOverview';
 import CreativeActivities from './AdmissionData/CreativeActivities';
 import SubjectPerformance from './AdmissionData/SubjectPerformance';
+import ReadingActivities from './AdmissionData/ReadingActivities';
 import UniversitySelector from './University/UniversitySelector';
 import UniversityDetail from './University/UniversityDetail';
 import QuestionGenerator from './Interview/QuestionGenerator';
+import CategoryQuestions from './Interview/CategoryQuestions';
 import SpanishInterview from './Interview/SpanishInterview';
 import PhilosophyInterview from './Interview/PhilosophyInterview';
 import AnalysisDashboard from './Analysis/AnalysisDashboard';
@@ -56,7 +58,8 @@ const UnivExamMain = () => {
       type: 'parent',
       children: [
         { id: 'creative-activities', label: '창의적 체험활동상황', icon: '' },
-        { id: 'subject-performance', label: '교과학습발달상황', icon: '' }
+        { id: 'subject-performance', label: '교과학습발달상황', icon: '' },
+        { id: 'reading-activities', label: '독서활동상황', icon: '' }
       ]
     },
     {
@@ -80,6 +83,7 @@ const UnivExamMain = () => {
       type: 'parent',
       children: [
         { id: 'interview', label: '예상 질문 생성', icon: '' },
+        { id: 'category-questions', label: '항목별 예상질문', icon: '' },
         { id: 'spanish-interview', label: '스페인어과', icon: '' },
         { id: 'philosophy-interview', label: '철학과', icon: '' }
       ]
@@ -248,6 +252,9 @@ const UnivExamMain = () => {
       case 'subject-performance':
         return <SubjectPerformance />;
 
+      case 'reading-activities':
+        return <ReadingActivities />;
+
       case 'record':
         return <RecordOverview studentRecord={studentRecord} />;
 
@@ -288,6 +295,9 @@ const UnivExamMain = () => {
             setGeneratedQuestions={setGeneratedQuestions}
           />
         );
+
+      case 'category-questions':
+        return <CategoryQuestions />;
 
       case 'spanish-interview':
         return <SpanishInterview />;
