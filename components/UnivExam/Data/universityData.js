@@ -209,7 +209,7 @@ export const universityDatabase = [
   {
     id: "kyunghee-suwon",
     name: "경희대학교",
-    department: "스페인어과",
+    department: "스페인어학과",
     campus: "국제캠퍼스(수원)",
     admissionType: "학종(네오르네상스)",
     type: "다단계 면접",
@@ -695,7 +695,7 @@ export const universityDatabase = [
   },
   {
     id: "myongji-seoul",
-    name: "명지대교-서울",
+    name: "명지대학교",
     department: "영어영문",
     campus: "인문캠퍼스(서울)",
     admissionType: "명지인재 면접",
