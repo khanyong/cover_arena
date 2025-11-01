@@ -41,15 +41,11 @@ const PhilosophyInterview = () => {
         <div className="stat-card">
           <div className="stat-icon">❓</div>
           <div className="stat-content">
-            <div className="stat-value">{interviewQuestions.length}</div>
-            <div className="stat-label">기본 질문</div>
-          </div>
-        </div>
-        <div className="stat-card">
-          <div className="stat-icon">🔍</div>
-          <div className="stat-content">
-            <div className="stat-value">{interviewQuestions.filter(q => q.followUpQuestion).length}</div>
-            <div className="stat-label">심화 질문</div>
+            <div className="stat-value">
+              {interviewQuestions.length + interviewQuestions.filter(q => q.followUpQuestion).length}
+            </div>
+            <div className="stat-label">총 질문</div>
+            <div className="stat-detail">기본 {interviewQuestions.length}, 심화 {interviewQuestions.filter(q => q.followUpQuestion).length}</div>
           </div>
         </div>
         <div className="stat-card">
