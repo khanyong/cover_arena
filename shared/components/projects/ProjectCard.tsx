@@ -53,12 +53,24 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         )}
       </div>
 
-      <Link
-        href={`/projects/${project.slug}`}
-        className="inline-block w-full text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white font-medium"
-      >
-        자세히 보기 →
-      </Link>
+      <div className="flex gap-2">
+        <Link
+          href={`/projects/${project.slug}`}
+          className="flex-1 text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white font-medium"
+        >
+          자세히 보기 →
+        </Link>
+        {project.path && (
+          <Link
+            href={project.path}
+            target={project.path.startsWith('http') ? '_blank' : undefined}
+            rel={project.path.startsWith('http') ? 'noopener noreferrer' : undefined}
+            className="px-4 py-2 bg-green-600 hover:bg-green-700 rounded-lg transition-colors text-white font-medium"
+          >
+            ▶
+          </Link>
+        )}
+      </div>
     </div>
   )
 }
