@@ -2340,6 +2340,447 @@
 }
 
 /* ===================================
+   Essential Questions Styles
+   =================================== */
+
+.essential-questions-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.essential-questions-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 3px solid #667eea;
+}
+
+.essential-questions-header h2 {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.essential-questions-header .header-description {
+  font-size: 1.05rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* 안내 카드 */
+.essential-info-card {
+  display: flex;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.essential-info-card .info-icon {
+  font-size: 2.5rem;
+  flex-shrink: 0;
+}
+
+.essential-info-card .info-content h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.essential-info-card .info-content p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* 질문 카드 리스트 */
+.essential-questions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.essential-question-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.essential-question-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.15);
+}
+
+.essential-question-card.expanded {
+  border-color: #667eea;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.2);
+}
+
+/* 질문 헤더 */
+.essential-question-header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  cursor: pointer;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  transition: background 0.2s;
+}
+
+.essential-question-header:hover {
+  background: linear-gradient(135deg, #f1f5f9 0%, #f8fafc 100%);
+}
+
+.question-number-badge {
+  flex-shrink: 0;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.question-info {
+  flex: 1;
+}
+
+.question-title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.question-description {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.5;
+}
+
+.toggle-icon {
+  flex-shrink: 0;
+  font-size: 1.25rem;
+  color: #667eea;
+  font-weight: 700;
+}
+
+/* 답변 섹션 */
+.essential-answer-section {
+  padding: 2rem;
+  border-top: 2px solid #e5e7eb;
+  background: white;
+}
+
+/* 학과별 탭 컨테이너 */
+.major-tabs-container {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border: 2px solid #0ea5e9;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.major-tabs-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #0c4a6e;
+  font-size: 1rem;
+}
+
+.tabs-icon {
+  font-size: 1.25rem;
+}
+
+.major-tabs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.75rem;
+}
+
+.major-tab {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem 1.5rem;
+  background: white;
+  border: 2px solid #bae6fd;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #0c4a6e;
+  transition: all 0.2s;
+  font-size: 0.95rem;
+}
+
+.major-tab:hover {
+  border-color: #0ea5e9;
+  background: #f0f9ff;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.15);
+}
+
+.major-tab.active {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  border-color: #0ea5e9;
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.3);
+}
+
+.major-icon {
+  font-size: 1.25rem;
+}
+
+/* 모범 답변 박스 */
+.answer-box {
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.answer-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1.1rem;
+}
+
+.answer-icon {
+  font-size: 1.25rem;
+}
+
+.answer-text {
+  color: #334155;
+  line-height: 1.8;
+  font-size: 1rem;
+  white-space: pre-wrap;
+}
+
+/* 핵심 키워드 */
+.answer-keywords {
+  background: linear-gradient(135deg, #fef3c7 0%, #fef9e3 100%);
+  border: 2px solid #fbbf24;
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.keywords-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #92400e;
+  font-size: 1rem;
+}
+
+.keywords-icon {
+  font-size: 1.25rem;
+}
+
+.keywords-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.essential-questions-container .keyword-tag {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: white;
+  color: #667eea;
+  border: 2px solid #667eea;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* 답변 작성 팁 */
+.answer-tips-box {
+  background: linear-gradient(135deg, #e0e7ff 0%, #f0f4ff 100%);
+  border: 2px solid #667eea;
+  border-radius: 12px;
+  padding: 1.25rem;
+}
+
+.tips-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  font-size: 1rem;
+}
+
+.tips-icon {
+  font-size: 1.25rem;
+}
+
+.tips-list {
+  margin: 0;
+  padding-left: 1.5rem;
+  list-style: none;
+}
+
+.tip-item {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #475569;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.tip-item:last-child {
+  margin-bottom: 0;
+}
+
+.tip-item::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #667eea;
+  font-weight: 700;
+}
+
+/* 준비 가이드 */
+.essential-preparation-guide {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  margin-bottom: 2rem;
+}
+
+.essential-preparation-guide h3 {
+  margin: 0 0 1.5rem;
+  font-size: 1.5rem;
+  color: #1e293b;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.guide-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.guide-item {
+  display: flex;
+  gap: 1rem;
+  padding: 1.5rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  transition: all 0.3s;
+}
+
+.guide-item:hover {
+  border-color: #667eea;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+}
+
+.guide-number {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.guide-content h4 {
+  margin: 0 0 0.5rem;
+  font-size: 1.05rem;
+  color: #1e293b;
+  font-weight: 700;
+}
+
+.guide-content p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.6;
+}
+
+/* 주의사항 박스 */
+.essential-warning-box {
+  display: flex;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, #fee2e2 0%, #fef2f2 100%);
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.warning-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.warning-content h4 {
+  margin: 0 0 1rem;
+  font-size: 1.15rem;
+  color: #991b1b;
+  font-weight: 700;
+}
+
+.warning-content ul {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.warning-content li {
+  margin-bottom: 0.75rem;
+  color: #7f1d1d;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.warning-content li:last-child {
+  margin-bottom: 0;
+}
+
+/* ===================================
    Spanish Interview Styles
    =================================== */
 
@@ -2639,6 +3080,12 @@
   flex-shrink: 0;
 }
 
+.question-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
 .question-category-badge {
   background: white;
   color: #667eea;
@@ -2648,6 +3095,7 @@
   font-size: 0.8rem;
   font-weight: 600;
   flex-shrink: 0;
+  align-self: flex-start;
 }
 
 .question-text {
@@ -2684,6 +3132,39 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.source-content {
+  background: linear-gradient(135deg, #fff9e6 0%, #fff4d5 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.source-label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  color: #92400e;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+.source-icon {
+  font-size: 1.1rem;
+}
+
+.source-text {
+  color: #78350f;
+  line-height: 1.8;
+  font-size: 0.95rem;
+  white-space: pre-wrap;
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #f59e0b;
 }
 
 /* Thinking Process */
@@ -2922,6 +3403,66 @@
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
+  /* Essential Questions 모바일 대응 */
+  .essential-questions-container {
+    padding: 1rem;
+  }
+
+  .essential-questions-header h2 {
+    font-size: 1.75rem;
+  }
+
+  .essential-info-card {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .major-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .major-tab {
+    width: 100%;
+  }
+
+  .essential-question-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .question-number-badge {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .question-title {
+    font-size: 1.25rem;
+  }
+
+  .essential-answer-section {
+    padding: 1.5rem 1rem;
+  }
+
+  .answer-box {
+    padding: 1.25rem;
+  }
+
+  .answer-keywords,
+  .answer-tips-box {
+    padding: 1rem;
+  }
+
+  .guide-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .essential-warning-box {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
   /* Category Questions 모바일 대응 */
   .category-questions-container {
     padding: 1rem;
@@ -2991,10 +3532,16 @@
   .question-header {
     grid-template-columns: 1fr;
     gap: 0.75rem;
+    position: relative;
   }
 
-  .question-header-left {
+  .question-number {
     order: -1;
+    align-self: flex-start;
+  }
+
+  .question-content {
+    order: 0;
   }
 
   .question-toggle-icon {

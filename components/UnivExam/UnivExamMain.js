@@ -3,9 +3,11 @@ import RecordOverview from './StudentRecord/RecordOverview';
 import CreativeActivities from './AdmissionData/CreativeActivities';
 import SubjectPerformance from './AdmissionData/SubjectPerformance';
 import ReadingActivities from './AdmissionData/ReadingActivities';
+import VolunteerActivities from './AdmissionData/VolunteerActivities';
 import UniversitySelector from './University/UniversitySelector';
 import UniversityDetail from './University/UniversityDetail';
 import QuestionGenerator from './Interview/QuestionGenerator';
+import EssentialQuestions from './Interview/EssentialQuestions';
 import CategoryQuestions from './Interview/CategoryQuestions';
 import SpanishInterview from './Interview/SpanishInterview';
 import PhilosophyInterview from './Interview/PhilosophyInterview';
@@ -59,7 +61,8 @@ const UnivExamMain = () => {
       children: [
         { id: 'creative-activities', label: '창의적 체험활동상황', icon: '' },
         { id: 'subject-performance', label: '교과학습발달상황', icon: '' },
-        { id: 'reading-activities', label: '독서활동상황', icon: '' }
+        { id: 'reading-activities', label: '독서활동상황', icon: '' },
+        { id: 'volunteer-activities', label: '봉사활동상황', icon: '' }
       ]
     },
     {
@@ -82,7 +85,7 @@ const UnivExamMain = () => {
       icon: '',
       type: 'parent',
       children: [
-        { id: 'interview', label: '예상 질문 생성', icon: '' },
+        { id: 'essential-questions', label: '필수질문', icon: '' },
         { id: 'category-questions', label: '항목별 예상질문', icon: '' },
         { id: 'spanish-interview', label: '스페인어과', icon: '' },
         { id: 'philosophy-interview', label: '철학과', icon: '' }
@@ -189,15 +192,6 @@ const UnivExamMain = () => {
                   >
                     🧠 철학과 면접 준비 →
                   </button>
-                  <button
-                    className="overview-link-btn"
-                    onClick={() => {
-                      setExpandedMenus(['interview-prep']);
-                      setCurrentView('interview');
-                    }}
-                  >
-                    💡 예상 질문 생성 →
-                  </button>
                 </div>
               </div>
             </div>
@@ -255,6 +249,9 @@ const UnivExamMain = () => {
       case 'reading-activities':
         return <ReadingActivities />;
 
+      case 'volunteer-activities':
+        return <VolunteerActivities />;
+
       case 'record':
         return <RecordOverview studentRecord={studentRecord} />;
 
@@ -295,6 +292,9 @@ const UnivExamMain = () => {
             setGeneratedQuestions={setGeneratedQuestions}
           />
         );
+
+      case 'essential-questions':
+        return <EssentialQuestions />;
 
       case 'category-questions':
         return <CategoryQuestions />;
