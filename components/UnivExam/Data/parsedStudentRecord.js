@@ -513,3 +513,6 @@ export const parsedStudentRecord = {
     grade3: ``
   }
 }
+
+// Named export와 default export 둘 다 지원
+export default parsedStudentRecord;
