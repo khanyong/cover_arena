@@ -19,10 +19,20 @@ const InterviewNotebook = ({ studentRecord }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [filterCategory, setFilterCategory] = useState('전체');
 
+  // 디버깅: studentRecord 확인
+  console.log('[InterviewNotebook] studentRecord:', studentRecord);
+  console.log('[InterviewNotebook] has recordByYear:', !!studentRecord?.recordByYear);
+
   // 데이터 계산 (useMemo로 최적화) - studentRecord가 없으면 빈 배열 반환
   const allKeywords = useMemo(() => {
-    if (!studentRecord || !studentRecord.recordByYear) return [];
-    return extractAllKeywords(studentRecord);
+    console.log('[InterviewNotebook] Computing allKeywords...');
+    if (!studentRecord || !studentRecord.recordByYear) {
+      console.log('[InterviewNotebook] No studentRecord, returning empty array');
+      return [];
+    }
+    const keywords = extractAllKeywords(studentRecord);
+    console.log('[InterviewNotebook] Extracted keywords:', keywords.length);
+    return keywords;
   }, [studentRecord]);
 
   const activities = useMemo(() => {
