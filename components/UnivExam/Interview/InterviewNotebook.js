@@ -22,23 +22,38 @@ const InterviewNotebook = ({ studentRecord }) => {
   // 디버깅: studentRecord 확인
   console.log('[InterviewNotebook] studentRecord:', studentRecord);
   console.log('[InterviewNotebook] has recordByYear:', !!studentRecord?.recordByYear);
+  console.log('[InterviewNotebook] has records:', !!studentRecord?.records);
+
+  // studentRecord가 없거나 데이터가 없으면 빈 상태 처리
+  const hasValidData = studentRecord && (studentRecord.recordByYear || studentRecord.records);
 
   // 데이터 계산 (useMemo로 최적화) - studentRecord가 없으면 빈 배열 반환
   const allKeywords = useMemo(() => {
     console.log('[InterviewNotebook] Computing allKeywords...');
-    if (!studentRecord || !studentRecord.recordByYear) {
-      console.log('[InterviewNotebook] No studentRecord, returning empty array');
+    if (!hasValidData) {
+      console.log('[InterviewNotebook] No valid studentRecord data, returning empty array');
       return [];
     }
-    const keywords = extractAllKeywords(studentRecord);
-    console.log('[InterviewNotebook] Extracted keywords:', keywords.length);
-    return keywords;
-  }, [studentRecord]);
+
+    // recordByYear 구조가 있으면 extractAllKeywords 사용
+    if (studentRecord.recordByYear) {
+      const keywords = extractAllKeywords(studentRecord);
+      console.log('[InterviewNotebook] Extracted keywords from recordByYear:', keywords.length);
+      return keywords;
+    }
+
+    // records 배열 구조는 지원하지 않음 - parsedStudentRecord를 사용해야 함
+    console.warn('[InterviewNotebook] Legacy data structure detected. Please clear localStorage and refresh.');
+    return [];
+  }, [studentRecord, hasValidData]);
 
   const activities = useMemo(() => {
-    if (!studentRecord || !studentRecord.recordByYear) return [];
-    return mapKeywordsToActivities(studentRecord);
-  }, [studentRecord]);
+    if (!hasValidData) return [];
+    if (studentRecord.recordByYear) {
+      return mapKeywordsToActivities(studentRecord);
+    }
+    return [];
+  }, [studentRecord, hasValidData]);
 
   const keywordConnections = useMemo(() => {
     if (!activities || activities.length === 0) return {};

@@ -69,23 +69,25 @@ const UnivExamMain = () => {
     const savedData = localStorage.getItem('univExamData');
     if (savedData) {
       const data = JSON.parse(savedData);
-      if (data.studentRecord) setStudentRecord(data.studentRecord);
+      // studentRecord는 localStorage에서 불러오지 않음 (항상 parsedStudentRecord 사용)
+      // 오래된 데이터 구조와의 충돌 방지
+      // if (data.studentRecord) setStudentRecord(data.studentRecord);
       if (data.selectedUniversities) setSelectedUniversities(data.selectedUniversities);
       if (data.generatedQuestions) setGeneratedQuestions(data.generatedQuestions);
       if (data.completionStatus) setCompletionStatus(data.completionStatus);
     }
   }, []);
 
-  // 데이터 저장
+  // 데이터 저장 (studentRecord는 제외 - 항상 parsedStudentRecord 사용)
   useEffect(() => {
     const dataToSave = {
-      studentRecord,
+      // studentRecord, // 제외: 항상 parsedStudentRecord를 사용하므로 저장 불필요
       selectedUniversities,
       generatedQuestions,
       completionStatus
     };
     localStorage.setItem('univExamData', JSON.stringify(dataToSave));
-  }, [studentRecord, selectedUniversities, generatedQuestions, completionStatus]);
+  }, [selectedUniversities, generatedQuestions, completionStatus]);
 
   // 네비게이션 메뉴 (계층형 구조)
   const navigationMenu = [
