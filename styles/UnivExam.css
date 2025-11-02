@@ -7841,22 +7841,27 @@
 /* 카테고리별 색상 */
 .category-전공-학문 {
   fill: #3b82f6;
+  background-color: #3b82f6;
 }
 
 .category-철학자-사상가 {
   fill: #8b5cf6;
+  background-color: #8b5cf6;
 }
 
 .category-개념-이론 {
   fill: #ec4899;
+  background-color: #ec4899;
 }
 
 .category-주제-이슈 {
   fill: #f59e0b;
+  background-color: #f59e0b;
 }
 
 .category-활동유형 {
   fill: #10b981;
+  background-color: #10b981;
 }
 
 .node:hover .node-circle {

@@ -38,16 +38,22 @@ const InterviewNotebook = ({ studentRecord }) => {
     // 상위 20개 키워드만 표시 (너무 많으면 복잡함)
     const topKeywords = filteredKeywords.slice(0, 20);
 
-    // 노드 생성
-    const nodes = topKeywords.map((kw, idx) => ({
-      id: kw.keyword,
-      keyword: kw.keyword,
-      count: kw.count,
-      category: kw.category,
-      // 원형 배치
-      x: 300 + 250 * Math.cos((idx / topKeywords.length) * 2 * Math.PI),
-      y: 300 + 250 * Math.sin((idx / topKeywords.length) * 2 * Math.PI)
-    }));
+    // 원형 레이아웃으로 노드 배치
+    const centerX = 400;
+    const centerY = 350;
+    const radius = 280; // 원의 반지름을 크게
+
+    const nodes = topKeywords.map((kw, idx) => {
+      const angle = (idx / topKeywords.length) * 2 * Math.PI - Math.PI / 2; // -90도부터 시작
+      return {
+        id: kw.keyword,
+        keyword: kw.keyword,
+        count: kw.count,
+        category: kw.category,
+        x: centerX + radius * Math.cos(angle),
+        y: centerY + radius * Math.sin(angle)
+      };
+    });
 
     // 엣지(연결선) 생성 - 같은 활동에 등장한 키워드끼리 연결
     const edges = [];
@@ -152,7 +158,7 @@ const InterviewNotebook = ({ studentRecord }) => {
             <h3>키워드 연결 네트워크 ({networkData.nodes.length}개 키워드, {networkData.edges.length}개 연결)</h3>
             <p className="network-hint">💡 키워드를 클릭하면 관련 활동을 볼 수 있습니다</p>
 
-            <svg className="network-graph" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+            <svg className="network-graph" viewBox="0 0 800 700" xmlns="http://www.w3.org/2000/svg">
               {/* 연결선 (엣지) */}
               <g className="edges">
                 {networkData.edges.map((edge, idx) => {
@@ -172,8 +178,8 @@ const InterviewNotebook = ({ studentRecord }) => {
                       x2={targetNode.x}
                       y2={targetNode.y}
                       className={`edge ${isHighlighted ? 'highlighted' : ''}`}
-                      strokeWidth={Math.min(edge.strength * 0.5 + 1, 5)}
-                      opacity={isHighlighted ? 0.8 : Math.min(edge.strength * 0.1 + 0.2, 0.5)}
+                      strokeWidth={Math.min(edge.strength * 1.5 + 2, 8)} // 더 굵게 (최소 2px, 최대 8px)
+                      opacity={isHighlighted ? 0.9 : Math.min(edge.strength * 0.15 + 0.3, 0.6)} // 불투명도도 증가
                     />
                   );
                 })}
@@ -187,7 +193,7 @@ const InterviewNotebook = ({ studentRecord }) => {
                     e => (e.source === selectedKeyword.keyword && e.target === node.id) ||
                          (e.target === selectedKeyword.keyword && e.source === node.id)
                   );
-                  const radius = Math.min(Math.max(node.count * 3 + 10, 15), 40);
+                  const radius = Math.min(Math.max(node.count * 4 + 20, 30), 50); // 크기를 더 크게
 
                   return (
                     <g
@@ -208,7 +214,8 @@ const InterviewNotebook = ({ studentRecord }) => {
                         textAnchor="middle"
                         dominantBaseline="middle"
                         className="node-label"
-                        fontSize={Math.min(radius * 0.4, 14)}
+                        fontSize={16} // 고정된 읽기 쉬운 크기
+                        fontWeight="500"
                       >
                         {node.keyword}
                       </text>
