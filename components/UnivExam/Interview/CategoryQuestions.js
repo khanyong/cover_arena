@@ -4,7 +4,7 @@ import React, { useState } from 'react';
  * 항목별 예상질문 컴포넌트
  * 유아인 학생의 실제 생활기록부 내용만을 기반으로 작성
  */
-const CategoryQuestions = () => {
+const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) => {
   const [activeCategory, setActiveCategory] = useState('자율활동');
   const [expandedQuestion, setExpandedQuestion] = useState(null);
 
@@ -526,25 +526,42 @@ const CategoryQuestions = () => {
         </div>
 
         <div className="questions-list">
-          {categoryQuestions[activeCategory].items.map((item) => (
-            <div
-              key={item.id}
-              className={`question-card ${expandedQuestion === item.id ? 'expanded' : ''}`}
-            >
-              {/* 질문 헤더 */}
+          {categoryQuestions[activeCategory].items.map((item) => {
+            const itemKey = `${activeCategory}-${item.id}`;
+            const isCompleted = completionStatus.categoryQuestions?.includes(itemKey) || false;
+
+            return (
               <div
-                className="question-header"
-                onClick={() => toggleQuestion(item.id)}
+                key={item.id}
+                className={`question-card ${expandedQuestion === item.id ? 'expanded' : ''} ${isCompleted ? 'completed' : ''}`}
               >
-                <div className="question-number">Q{item.id}</div>
-                <div className="question-content">
-                  <div className="question-category-badge">{item.category}</div>
-                  <div className="question-text">{item.question}</div>
+                {/* 질문 헤더 */}
+                <div className="question-header">
+                  <div className="toggle-container">
+                    <label className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        className="toggle-input"
+                        checked={isCompleted}
+                        onChange={() => toggleCompletion && toggleCompletion('categoryQuestions', itemKey)}
+                        disabled={!user}
+                        title={user ? "확인 완료 표시" : "로그인이 필요합니다"}
+                      />
+                      <span className="toggle-slider"></span>
+                    </label>
+                    <span className={`toggle-label ${isCompleted ? 'completed' : ''} ${!user ? 'disabled' : ''}`}>
+                      {isCompleted ? '확인완료' : '미확인'}
+                    </span>
+                  </div>
+                  <div className="question-number" onClick={() => toggleQuestion(item.id)}>Q{item.id}</div>
+                  <div className="question-content" onClick={() => toggleQuestion(item.id)}>
+                    <div className="question-category-badge">{item.category}</div>
+                    <div className="question-text">{item.question}</div>
+                  </div>
+                  <div className="question-toggle-icon" onClick={() => toggleQuestion(item.id)}>
+                    {expandedQuestion === item.id ? '▲' : '▼'}
+                  </div>
                 </div>
-                <div className="question-toggle-icon">
-                  {expandedQuestion === item.id ? '▲' : '▼'}
-                </div>
-              </div>
 
               {/* 답변 섹션 */}
               {expandedQuestion === item.id && (
@@ -588,7 +605,8 @@ const CategoryQuestions = () => {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

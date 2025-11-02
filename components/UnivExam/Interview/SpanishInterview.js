@@ -5,7 +5,7 @@ import { spanishInterviewData } from '../Data/spanishInterviewData';
  * 스페인어과 면접 준비 컴포넌트
  * 예상 질문과 모범 답변을 카테고리별로 정리하여 표시
  */
-const SpanishInterview = () => {
+const SpanishInterview = ({ completionStatus = {}, toggleCompletion, user }) => {
   const [expandedQuestion, setExpandedQuestion] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [showSubjectDetails, setShowSubjectDetails] = useState(false);
@@ -120,25 +120,41 @@ const SpanishInterview = () => {
         </div>
 
         <div className="questions-list">
-          {filteredQuestions.map((question, index) => (
-            <div
-              key={question.id}
-              className={`question-card ${expandedQuestion === question.id ? 'expanded' : ''}`}
-            >
-              {/* 질문 헤더 */}
+          {filteredQuestions.map((question, index) => {
+            const isCompleted = completionStatus.spanishInterview?.includes(question.id) || false;
+
+            return (
               <div
-                className="question-header"
-                onClick={() => toggleQuestion(question.id)}
+                key={question.id}
+                className={`question-card ${expandedQuestion === question.id ? 'expanded' : ''} ${isCompleted ? 'completed' : ''}`}
               >
-                <div className="question-header-left">
-                  <span className="question-number">Q{index + 1}</span>
-                  <span className="question-category-badge">{question.category}</span>
+                {/* 질문 헤더 */}
+                <div className="question-header">
+                  <div className="toggle-container">
+                    <label className="toggle-switch">
+                      <input
+                        type="checkbox"
+                        className="toggle-input"
+                        checked={isCompleted}
+                        onChange={() => toggleCompletion && toggleCompletion('spanishInterview', question.id)}
+                        disabled={!user}
+                        title={user ? "확인 완료 표시" : "로그인이 필요합니다"}
+                      />
+                      <span className="toggle-slider"></span>
+                    </label>
+                    <span className={`toggle-label ${isCompleted ? 'completed' : ''} ${!user ? 'disabled' : ''}`}>
+                      {isCompleted ? '확인완료' : '미확인'}
+                    </span>
+                  </div>
+                  <div className="question-header-left" onClick={() => toggleQuestion(question.id)}>
+                    <span className="question-number">Q{index + 1}</span>
+                    <span className="question-category-badge">{question.category}</span>
+                  </div>
+                  <div className="question-text" onClick={() => toggleQuestion(question.id)}>{question.question}</div>
+                  <div className="question-toggle-icon" onClick={() => toggleQuestion(question.id)}>
+                    {expandedQuestion === question.id ? '▲' : '▼'}
+                  </div>
                 </div>
-                <div className="question-text">{question.question}</div>
-                <div className="question-toggle-icon">
-                  {expandedQuestion === question.id ? '▲' : '▼'}
-                </div>
-              </div>
 
               {/* 답변 내용 */}
               {expandedQuestion === question.id && (
@@ -207,7 +223,8 @@ const SpanishInterview = () => {
                 </div>
               )}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
 

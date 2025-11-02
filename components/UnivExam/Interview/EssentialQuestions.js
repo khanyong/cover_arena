@@ -5,7 +5,7 @@ import React, { useState } from 'react';
  * STEP 1~5 무조건 준비해야 하는 공통 필수문항
  * 각 대학/학과별 맞춤 답변 제공
  */
-const EssentialQuestions = () => {
+const EssentialQuestions = ({ completionStatus = {}, toggleCompletion, user }) => {
   const [expandedQuestion, setExpandedQuestion] = useState(null);
   const [selectedUniversity, setSelectedUniversity] = useState('hufs');
 
@@ -340,18 +340,37 @@ ${majorSpecificIntro[selectedUniversity]}`,
 
       {/* 필수 질문 리스트 */}
       <div className="questions-list">
-        {essentialQuestions.map((item) => (
-          <div key={item.id} className="question-card">
-            <div className="question-header" onClick={() => toggleQuestion(item.id)}>
-              <div className="question-number">{item.id}</div>
-              <div className="question-content">
-                <div className="question-category-badge">{item.category}</div>
-                <div className="question-text">{item.question}</div>
+        {essentialQuestions.map((item) => {
+          const isCompleted = completionStatus.essentialQuestions?.includes(item.id) || false;
+
+          return (
+            <div key={item.id} className={`question-card ${isCompleted ? 'completed' : ''}`}>
+              <div className="question-header">
+                <div className="toggle-container">
+                  <label className="toggle-switch">
+                    <input
+                      type="checkbox"
+                      className="toggle-input"
+                      checked={isCompleted}
+                      onChange={() => toggleCompletion && toggleCompletion('essentialQuestions', item.id)}
+                      disabled={!user}
+                      title={user ? "확인 완료 표시" : "로그인이 필요합니다"}
+                    />
+                    <span className="toggle-slider"></span>
+                  </label>
+                  <span className={`toggle-label ${isCompleted ? 'completed' : ''} ${!user ? 'disabled' : ''}`}>
+                    {isCompleted ? '확인완료' : '미확인'}
+                  </span>
+                </div>
+                <div className="question-number" onClick={() => toggleQuestion(item.id)}>{item.id}</div>
+                <div className="question-content" onClick={() => toggleQuestion(item.id)}>
+                  <div className="question-category-badge">{item.category}</div>
+                  <div className="question-text">{item.question}</div>
+                </div>
+                <div className="question-toggle-icon" onClick={() => toggleQuestion(item.id)}>
+                  {expandedQuestion === item.id ? '▲' : '▼'}
+                </div>
               </div>
-              <div className="question-toggle-icon">
-                {expandedQuestion === item.id ? '▲' : '▼'}
-              </div>
-            </div>
 
             {expandedQuestion === item.id && (
               <div className="question-details">
@@ -375,7 +394,8 @@ ${majorSpecificIntro[selectedUniversity]}`,
               </div>
             )}
           </div>
-        ))}
+          );
+        })}
       </div>
 
       {/* 하단 안내 */}

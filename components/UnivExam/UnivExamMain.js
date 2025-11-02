@@ -11,7 +11,7 @@ import EssentialQuestions from './Interview/EssentialQuestions';
 import CategoryQuestions from './Interview/CategoryQuestions';
 import SpanishInterview from './Interview/SpanishInterview';
 import PhilosophyInterview from './Interview/PhilosophyInterview';
-import AnalysisDashboard from './Analysis/AnalysisDashboard';
+import InterviewNotebook from './Interview/InterviewNotebook';
 import { sampleStudentRecord } from './Data/sampleStudentRecord';
 import { universityDatabase } from './Data/universityData';
 import { auth } from '../../lib/supabase';
@@ -30,6 +30,14 @@ const UnivExamMain = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // 모바일 사이드바 토글
   const [user, setUser] = useState(null); // 사용자 인증 상태
   const [loading, setLoading] = useState(true); // 인증 로딩 상태
+  const [completionStatus, setCompletionStatus] = useState({
+    essentialQuestions: [], // 완료한 필수질문 ID들
+    categoryQuestions: [],  // 완료한 항목별 질문 ID들
+    spanishInterview: [],   // 완료한 스페인어과 질문 ID들
+    philosophyInterview: [], // 완료한 철학과 질문 ID들
+    documentsChecked: [],   // 확인한 대입전형자료 섹션들
+    universitiesChecked: [] // 확인한 지원대학들
+  });
 
   // 사용자 인증 상태 확인
   useEffect(() => {
@@ -64,6 +72,7 @@ const UnivExamMain = () => {
       if (data.studentRecord) setStudentRecord(data.studentRecord);
       if (data.selectedUniversities) setSelectedUniversities(data.selectedUniversities);
       if (data.generatedQuestions) setGeneratedQuestions(data.generatedQuestions);
+      if (data.completionStatus) setCompletionStatus(data.completionStatus);
     }
   }, []);
 
@@ -72,10 +81,11 @@ const UnivExamMain = () => {
     const dataToSave = {
       studentRecord,
       selectedUniversities,
-      generatedQuestions
+      generatedQuestions,
+      completionStatus
     };
     localStorage.setItem('univExamData', JSON.stringify(dataToSave));
-  }, [studentRecord, selectedUniversities, generatedQuestions]);
+  }, [studentRecord, selectedUniversities, generatedQuestions, completionStatus]);
 
   // 네비게이션 메뉴 (계층형 구조)
   const navigationMenu = [
@@ -163,8 +173,11 @@ const UnivExamMain = () => {
             {/* 전체 준비도 요약 */}
             <div className="overview-hero">
               <div className="hero-stat">
-                <div className="hero-stat-number">{calculateReadiness()}%</div>
+                <div className="hero-stat-number">{getReadinessStats().percentage}%</div>
                 <div className="hero-stat-label">전체 준비도</div>
+                <div className="hero-stat-progress">
+                  {getReadinessStats().completedItems} / {getReadinessStats().totalItems} 완료
+                </div>
               </div>
               <div className="hero-stats-grid">
                 <div className="hero-mini-stat">
@@ -456,16 +469,40 @@ const UnivExamMain = () => {
         );
 
       case 'creative-activities':
-        return <CreativeActivities />;
+        return (
+          <CreativeActivities
+            isCompleted={completionStatus.documentsChecked?.includes('creative-activities') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('documentsChecked', 'creative-activities')}
+            user={user}
+          />
+        );
 
       case 'subject-performance':
-        return <SubjectPerformance />;
+        return (
+          <SubjectPerformance
+            isCompleted={completionStatus.documentsChecked?.includes('subject-performance') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('documentsChecked', 'subject-performance')}
+            user={user}
+          />
+        );
 
       case 'reading-activities':
-        return <ReadingActivities />;
+        return (
+          <ReadingActivities
+            isCompleted={completionStatus.documentsChecked?.includes('reading-activities') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('documentsChecked', 'reading-activities')}
+            user={user}
+          />
+        );
 
       case 'volunteer-activities':
-        return <VolunteerActivities />;
+        return (
+          <VolunteerActivities
+            isCompleted={completionStatus.documentsChecked?.includes('volunteer-activities') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('documentsChecked', 'volunteer-activities')}
+            user={user}
+          />
+        );
 
       case 'record':
         return <RecordOverview studentRecord={studentRecord} />;
@@ -481,22 +518,64 @@ const UnivExamMain = () => {
 
       // 개별 대학 상세 페이지
       case 'univ-hufs':
-        return <UniversityDetail universityId="hufs" />;
+        return (
+          <UniversityDetail
+            universityId="hufs"
+            isCompleted={completionStatus.universitiesChecked?.includes('univ-hufs') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('universitiesChecked', 'univ-hufs')}
+            user={user}
+          />
+        );
 
       case 'univ-kyunghee':
-        return <UniversityDetail universityId="kyunghee-suwon" />;
+        return (
+          <UniversityDetail
+            universityId="kyunghee-suwon"
+            isCompleted={completionStatus.universitiesChecked?.includes('univ-kyunghee') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('universitiesChecked', 'univ-kyunghee')}
+            user={user}
+          />
+        );
 
       case 'univ-uos':
-        return <UniversityDetail universityId="silimdae" />;
+        return (
+          <UniversityDetail
+            universityId="silimdae"
+            isCompleted={completionStatus.universitiesChecked?.includes('univ-uos') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('universitiesChecked', 'univ-uos')}
+            user={user}
+          />
+        );
 
       case 'univ-konkuk':
-        return <UniversityDetail universityId="konkuk" />;
+        return (
+          <UniversityDetail
+            universityId="konkuk"
+            isCompleted={completionStatus.universitiesChecked?.includes('univ-konkuk') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('universitiesChecked', 'univ-konkuk')}
+            user={user}
+          />
+        );
 
       case 'univ-hanyang':
-        return <UniversityDetail universityId="hanyang-erica" />;
+        return (
+          <UniversityDetail
+            universityId="hanyang-erica"
+            isCompleted={completionStatus.universitiesChecked?.includes('univ-hanyang') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('universitiesChecked', 'univ-hanyang')}
+            user={user}
+          />
+        );
 
       case 'univ-myongji':
-        return <UniversityDetail universityId="myongji-seoul" />;
+        return (
+          <UniversityDetail
+            universityId="myongji-seoul"
+            isCompleted={completionStatus.universitiesChecked?.includes('univ-myongji') || false}
+            toggleCompletion={() => toggleCompletion && toggleCompletion('universitiesChecked', 'univ-myongji')}
+            user={user}
+          />
+        );
 
       case 'interview':
         return (
@@ -509,23 +588,45 @@ const UnivExamMain = () => {
         );
 
       case 'essential-questions':
-        return <EssentialQuestions />;
+        return (
+          <EssentialQuestions
+            completionStatus={completionStatus}
+            toggleCompletion={toggleCompletion}
+            user={user}
+          />
+        );
 
       case 'category-questions':
-        return <CategoryQuestions />;
+        return (
+          <CategoryQuestions
+            completionStatus={completionStatus}
+            toggleCompletion={toggleCompletion}
+            user={user}
+          />
+        );
 
       case 'spanish-interview':
-        return <SpanishInterview />;
+        return (
+          <SpanishInterview
+            completionStatus={completionStatus}
+            toggleCompletion={toggleCompletion}
+            user={user}
+          />
+        );
 
       case 'philosophy-interview':
-        return <PhilosophyInterview />;
+        return (
+          <PhilosophyInterview
+            completionStatus={completionStatus}
+            toggleCompletion={toggleCompletion}
+            user={user}
+          />
+        );
 
       case 'analysis':
         return (
-          <AnalysisDashboard
+          <InterviewNotebook
             studentRecord={studentRecord}
-            selectedUniversities={selectedUniversities}
-            generatedQuestions={generatedQuestions}
           />
         );
 
@@ -534,37 +635,59 @@ const UnivExamMain = () => {
     }
   };
 
+  // 체크박스 토글 함수
+  const toggleCompletion = (category, itemId) => {
+    if (!user) return; // 로그인하지 않은 경우 체크 불가
+
+    setCompletionStatus(prev => {
+      const currentList = prev[category] || [];
+      const isCompleted = currentList.includes(itemId);
+
+      return {
+        ...prev,
+        [category]: isCompleted
+          ? currentList.filter(id => id !== itemId) // 체크 해제
+          : [...currentList, itemId] // 체크
+      };
+    });
+  };
+
   // 통계 계산 함수들
-  const calculateReadiness = () => {
+  const getReadinessStats = () => {
     let totalItems = 0;
     let completedItems = 0;
 
     // 1. 필수질문 준비도 (5개 공통 필수질문)
     totalItems += 5;
-    completedItems += 5; // 작성 완료
+    completedItems += completionStatus.essentialQuestions.length;
 
     // 2. 항목별 예상질문 준비도 (28개 질문)
-    // 자율활동(3), 동아리활동(3), 진로활동(4), 세부능력및특기사항(2), 봉사활동(4), 행동특성및종합의견(2) + 기타(10) = 총 28개
     totalItems += 28;
-    completedItems += 28; // 작성 완료
+    completedItems += completionStatus.categoryQuestions.length;
 
     // 3. 스페인어과 면접 준비 (24개 질문)
     totalItems += 24;
-    completedItems += 24; // 작성 완료
+    completedItems += completionStatus.spanishInterview.length;
 
     // 4. 철학과 면접 준비 (16개 질문: 기본 8개 + 심화 8개)
     totalItems += 16;
-    completedItems += 16; // 작성 완료
+    completedItems += completionStatus.philosophyInterview.length;
 
     // 5. 대입전형자료 확인 (4개 섹션)
     totalItems += 4;
-    completedItems += 4; // 자료 확인 완료
+    completedItems += completionStatus.documentsChecked.length;
 
     // 6. 지원대학 정보 확인 (6개 대학)
     totalItems += 6;
-    completedItems += 6; // 대학 정보 확인 완료
+    completedItems += completionStatus.universitiesChecked.length;
 
-    return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+    const percentage = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+
+    return {
+      totalItems,
+      completedItems,
+      percentage
+    };
   };
 
 
@@ -697,12 +820,17 @@ const UnivExamMain = () => {
         {/* 준비도 요약 */}
         <div className="sidebar-progress">
           <h4>전체 준비도</h4>
+          <div className="progress-info">
+            <span className="progress-fraction">
+              {getReadinessStats().completedItems} / {getReadinessStats().totalItems} 완료
+            </span>
+            <span className="progress-percentage">{getReadinessStats().percentage}%</span>
+          </div>
           <div className="progress-bar-wrapper">
             <div
               className="progress-bar-fill"
-              style={{ width: `${calculateReadiness()}%` }}
+              style={{ width: `${getReadinessStats().percentage}%` }}
             >
-              <span className="progress-text">{calculateReadiness()}%</span>
             </div>
           </div>
           <div className="progress-stats">
