@@ -14,6 +14,7 @@ import PhilosophyInterview from './Interview/PhilosophyInterview';
 import AnalysisDashboard from './Analysis/AnalysisDashboard';
 import { sampleStudentRecord } from './Data/sampleStudentRecord';
 import { universityDatabase } from './Data/universityData';
+import { auth } from '../../lib/supabase';
 
 /**
  * UnivExam 메인 컴포넌트
@@ -27,6 +28,32 @@ const UnivExamMain = () => {
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
   const [expandedMenus, setExpandedMenus] = useState(['admission-data']); // 확장된 메뉴 ID 배열
   const [sidebarOpen, setSidebarOpen] = useState(false); // 모바일 사이드바 토글
+  const [user, setUser] = useState(null); // 사용자 인증 상태
+  const [loading, setLoading] = useState(true); // 인증 로딩 상태
+
+  // 사용자 인증 상태 확인
+  useEffect(() => {
+    const checkAuth = async () => {
+      const currentUser = await auth.getCurrentUser()
+      setUser(currentUser)
+      setLoading(false)
+    }
+
+    checkAuth()
+
+    // 인증 상태 변경 감지
+    const { data: authListener } = auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        setUser(session.user)
+      } else {
+        setUser(null)
+      }
+    })
+
+    return () => {
+      authListener?.subscription?.unsubscribe()
+    }
+  }, [])
 
   // 초기 데이터 로드
   useEffect(() => {
@@ -58,11 +85,12 @@ const UnivExamMain = () => {
       label: '대입전형자료',
       icon: '',
       type: 'parent',
+      requireAuth: true, // 로그인 필요
       children: [
-        { id: 'creative-activities', label: '창의적 체험활동상황', icon: '' },
-        { id: 'subject-performance', label: '교과학습발달상황', icon: '' },
-        { id: 'reading-activities', label: '독서활동상황', icon: '' },
-        { id: 'volunteer-activities', label: '봉사활동상황', icon: '' }
+        { id: 'creative-activities', label: '창의적 체험활동상황', icon: '', requireAuth: true },
+        { id: 'subject-performance', label: '교과학습발달상황', icon: '', requireAuth: true },
+        { id: 'reading-activities', label: '독서활동상황', icon: '', requireAuth: true },
+        { id: 'volunteer-activities', label: '봉사활동상황', icon: '', requireAuth: true }
       ]
     },
     {
@@ -114,7 +142,12 @@ const UnivExamMain = () => {
   };
 
   // 메뉴 클릭 시 사이드바 닫기 (모바일)
-  const handleMenuClick = (viewId) => {
+  const handleMenuClick = (viewId, requireAuth = false) => {
+    // 로그인이 필요한 메뉴인데 로그인하지 않은 경우
+    if (requireAuth && !user) {
+      alert('로그인이 필요한 서비스입니다.');
+      return;
+    }
     setCurrentView(viewId);
     closeSidebar();
   };
@@ -136,31 +169,40 @@ const UnivExamMain = () => {
               <div className="hero-stats-grid">
                 <div className="hero-mini-stat">
                   <span className="mini-stat-icon">✅</span>
-                  <span className="mini-stat-value">78개</span>
-                  <span className="mini-stat-label">작성완료</span>
+                  <span className="mini-stat-value">73개</span>
+                  <span className="mini-stat-label">면접질문</span>
                 </div>
                 <div className="hero-mini-stat">
-                  <span className="mini-stat-icon">🔍</span>
-                  <span className="mini-stat-value">20개</span>
-                  <span className="mini-stat-label">검증필요</span>
+                  <span className="mini-stat-icon">🎓</span>
+                  <span className="mini-stat-value">6개</span>
+                  <span className="mini-stat-label">지원대학</span>
                 </div>
                 <div className="hero-mini-stat">
-                  <span className="mini-stat-icon">➕</span>
-                  <span className="mini-stat-value">20개</span>
-                  <span className="mini-stat-label">추가예정</span>
+                  <span className="mini-stat-icon">📋</span>
+                  <span className="mini-stat-value">4개</span>
+                  <span className="mini-stat-label">전형자료</span>
                 </div>
               </div>
             </div>
 
             <div className="overview-grid">
               <div className="overview-card">
-                <h3>👤 수험생 정보</h3>
-                <div className="student-info-detail">
-                  <p><strong>이름:</strong> {studentRecord.studentInfo.name}</p>
-                  <p><strong>학교:</strong> {studentRecord.studentInfo.school}</p>
-                  <p><strong>학년:</strong> {studentRecord.studentInfo.currentGrade}학년</p>
-                  <p><strong>희망전공:</strong> 스페인어과, 철학과, 글로벌문화통상학부, 영어영문학과</p>
-                </div>
+                <h3>👤 수험생 정보 {!user && <span className="lock-badge">🔒</span>}</h3>
+                {user ? (
+                  <div className="student-info-detail">
+                    <p><strong>이름:</strong> {studentRecord.studentInfo.name}</p>
+                    <p><strong>학교:</strong> {studentRecord.studentInfo.school}</p>
+                    <p><strong>학년:</strong> {studentRecord.studentInfo.currentGrade}학년</p>
+                    <p><strong>희망전공:</strong> 스페인어과, 철학과, 글로벌문화통상학부, 영어영문학과</p>
+                  </div>
+                ) : (
+                  <div className="login-required-message">
+                    <p>🔒 수험생 정보는 로그인 후 이용 가능합니다.</p>
+                    <a href="/univexam-auth" className="login-link-btn">
+                      로그인하기
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="overview-card">
@@ -194,65 +236,74 @@ const UnivExamMain = () => {
               </div>
 
               <div className="overview-card">
-                <h3>📋 대입전형자료</h3>
-                <div className="data-summary">
-                  <button
-                    className="overview-link-btn"
-                    onClick={() => {
-                      setExpandedMenus(['admission-data']);
-                      setCurrentView('creative-activities');
-                    }}
-                  >
-                    <span className="btn-icon">📋</span>
-                    <span className="btn-content">
-                      <span className="btn-title">창의적 체험활동상황</span>
-                      <span className="btn-desc">자율/동아리/봉사/진로활동</span>
-                    </span>
-                    <span className="btn-arrow">→</span>
-                  </button>
-                  <button
-                    className="overview-link-btn"
-                    onClick={() => {
-                      setExpandedMenus(['admission-data']);
-                      setCurrentView('subject-performance');
-                    }}
-                  >
-                    <span className="btn-icon">📚</span>
-                    <span className="btn-content">
-                      <span className="btn-title">교과학습발달상황</span>
-                      <span className="btn-desc">세부능력 및 특기사항</span>
-                    </span>
-                    <span className="btn-arrow">→</span>
-                  </button>
-                  <button
-                    className="overview-link-btn"
-                    onClick={() => {
-                      setExpandedMenus(['admission-data']);
-                      setCurrentView('reading-activities');
-                    }}
-                  >
-                    <span className="btn-icon">📖</span>
-                    <span className="btn-content">
-                      <span className="btn-title">독서활동상황</span>
-                      <span className="btn-desc">3년간 독서기록</span>
-                    </span>
-                    <span className="btn-arrow">→</span>
-                  </button>
-                  <button
-                    className="overview-link-btn"
-                    onClick={() => {
-                      setExpandedMenus(['admission-data']);
-                      setCurrentView('volunteer-activities');
-                    }}
-                  >
-                    <span className="btn-icon">🤝</span>
-                    <span className="btn-content">
-                      <span className="btn-title">봉사활동상황</span>
-                      <span className="btn-desc">68시간 봉사활동 기록</span>
-                    </span>
-                    <span className="btn-arrow">→</span>
-                  </button>
-                </div>
+                <h3>📋 대입전형자료 {!user && <span className="lock-badge">🔒</span>}</h3>
+                {user ? (
+                  <div className="data-summary">
+                    <button
+                      className="overview-link-btn"
+                      onClick={() => {
+                        setExpandedMenus(['admission-data']);
+                        setCurrentView('creative-activities');
+                      }}
+                    >
+                      <span className="btn-icon">📋</span>
+                      <span className="btn-content">
+                        <span className="btn-title">창의적 체험활동상황</span>
+                        <span className="btn-desc">자율/동아리/봉사/진로활동</span>
+                      </span>
+                      <span className="btn-arrow">→</span>
+                    </button>
+                    <button
+                      className="overview-link-btn"
+                      onClick={() => {
+                        setExpandedMenus(['admission-data']);
+                        setCurrentView('subject-performance');
+                      }}
+                    >
+                      <span className="btn-icon">📚</span>
+                      <span className="btn-content">
+                        <span className="btn-title">교과학습발달상황</span>
+                        <span className="btn-desc">세부능력 및 특기사항</span>
+                      </span>
+                      <span className="btn-arrow">→</span>
+                    </button>
+                    <button
+                      className="overview-link-btn"
+                      onClick={() => {
+                        setExpandedMenus(['admission-data']);
+                        setCurrentView('reading-activities');
+                      }}
+                    >
+                      <span className="btn-icon">📖</span>
+                      <span className="btn-content">
+                        <span className="btn-title">독서활동상황</span>
+                        <span className="btn-desc">3년간 독서기록</span>
+                      </span>
+                      <span className="btn-arrow">→</span>
+                    </button>
+                    <button
+                      className="overview-link-btn"
+                      onClick={() => {
+                        setExpandedMenus(['admission-data']);
+                        setCurrentView('volunteer-activities');
+                      }}
+                    >
+                      <span className="btn-icon">🤝</span>
+                      <span className="btn-content">
+                        <span className="btn-title">봉사활동상황</span>
+                        <span className="btn-desc">68시간 봉사활동 기록</span>
+                      </span>
+                      <span className="btn-arrow">→</span>
+                    </button>
+                  </div>
+                ) : (
+                  <div className="login-required-message">
+                    <p>🔒 대입전형자료는 로그인 후 이용 가능합니다.</p>
+                    <a href="/univexam-auth" className="login-link-btn">
+                      로그인하기
+                    </a>
+                  </div>
+                )}
               </div>
 
               <div className="overview-card">
@@ -267,8 +318,8 @@ const UnivExamMain = () => {
                   >
                     <span className="btn-icon">⭐</span>
                     <span className="btn-content">
-                      <span className="btn-title">필수질문 (30개)</span>
-                      <span className="btn-desc">5개 질문 x 6개 대학</span>
+                      <span className="btn-title">필수질문 (5개)</span>
+                      <span className="btn-desc">공통 필수질문</span>
                     </span>
                     <span className="btn-arrow">→</span>
                   </button>
@@ -281,8 +332,8 @@ const UnivExamMain = () => {
                   >
                     <span className="btn-icon">📑</span>
                     <span className="btn-content">
-                      <span className="btn-title">항목별 예상질문 (42개)</span>
-                      <span className="btn-desc">8개 카테고리별 질문</span>
+                      <span className="btn-title">항목별 예상질문 (28개)</span>
+                      <span className="btn-desc">6개 카테고리별 질문</span>
                     </span>
                     <span className="btn-arrow">→</span>
                   </button>
@@ -295,7 +346,7 @@ const UnivExamMain = () => {
                   >
                     <span className="btn-icon">🗣️</span>
                     <span className="btn-content">
-                      <span className="btn-title">스페인어과 면접 (6개)</span>
+                      <span className="btn-title">스페인어과 면접 (24개)</span>
                       <span className="btn-desc">전공적합성 심화질문</span>
                     </span>
                     <span className="btn-arrow">→</span>
@@ -309,8 +360,8 @@ const UnivExamMain = () => {
                   >
                     <span className="btn-icon">🧠</span>
                     <span className="btn-content">
-                      <span className="btn-title">철학과 면접 (6개)</span>
-                      <span className="btn-desc">철학적 사고 심화질문</span>
+                      <span className="btn-title">철학과 면접 (16개)</span>
+                      <span className="btn-desc">기본 8개 + 심화 8개</span>
                     </span>
                     <span className="btn-arrow">→</span>
                   </button>
@@ -488,22 +539,22 @@ const UnivExamMain = () => {
     let totalItems = 0;
     let completedItems = 0;
 
-    // 1. 필수질문 준비도 (5개 필수질문 x 6개 대학 = 30개)
-    totalItems += 30;
-    completedItems += 25; // 작성 완료했지만 검증 필요
+    // 1. 필수질문 준비도 (5개 공통 필수질문)
+    totalItems += 5;
+    completedItems += 5; // 작성 완료
 
-    // 2. 항목별 예상질문 준비도 (카테고리별 질문들)
-    // 자기소개(5), 지원동기(5), 학업계획(5), 장단점(4), 생기부(10), 시사(5), 상황(5), 마무리(3) = 총 42개
-    totalItems += 42;
-    completedItems += 35; // 작성 완료했지만 검증 및 추가 필요
+    // 2. 항목별 예상질문 준비도 (28개 질문)
+    // 자율활동(3), 동아리활동(3), 진로활동(4), 세부능력및특기사항(2), 봉사활동(4), 행동특성및종합의견(2) + 기타(10) = 총 28개
+    totalItems += 28;
+    completedItems += 28; // 작성 완료
 
-    // 3. 스페인어과 면접 준비 (6개 질문)
-    totalItems += 6;
-    completedItems += 5; // 작성 완료했지만 검증 필요
+    // 3. 스페인어과 면접 준비 (24개 질문)
+    totalItems += 24;
+    completedItems += 24; // 작성 완료
 
-    // 4. 철학과 면접 준비 (6개 질문)
-    totalItems += 6;
-    completedItems += 5; // 작성 완료했지만 검증 필요
+    // 4. 철학과 면접 준비 (16개 질문: 기본 8개 + 심화 8개)
+    totalItems += 16;
+    completedItems += 16; // 작성 완료
 
     // 5. 대입전형자료 확인 (4개 섹션)
     totalItems += 4;
@@ -511,11 +562,7 @@ const UnivExamMain = () => {
 
     // 6. 지원대학 정보 확인 (6개 대학)
     totalItems += 6;
-    completedItems += 4; // 일부 대학 정보 확인 완료
-
-    // 7. 추가 예상질문 및 검증 작업 (예정)
-    totalItems += 20;
-    completedItems += 0; // 아직 시작 안 함
+    completedItems += 6; // 대학 정보 확인 완료
 
     return totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
   };
@@ -551,6 +598,12 @@ const UnivExamMain = () => {
     closeSidebar();
   };
 
+  // 로그아웃 핸들러
+  const handleLogout = async () => {
+    await auth.signOut()
+    setUser(null)
+  };
+
   // 현재 활성 탭 확인 함수
   const isBottomTabActive = (tabId) => {
     if (tabId === 'overview') return currentView === 'overview';
@@ -575,16 +628,26 @@ const UnivExamMain = () => {
         </div>
 
         {/* 학생 정보 요약 */}
-        <div className="sidebar-student-info">
-          <div className="student-avatar">
-            {studentRecord.studentInfo.name.charAt(0)}
+        {user ? (
+          <div className="sidebar-student-info">
+            <div className="student-avatar">
+              {studentRecord.studentInfo.name.charAt(0)}
+            </div>
+            <div className="student-details">
+              <p className="student-name">{studentRecord.studentInfo.name}</p>
+              <p className="student-school">{studentRecord.studentInfo.school}</p>
+              <p className="student-major">{studentRecord.studentInfo.targetMajor}</p>
+            </div>
           </div>
-          <div className="student-details">
-            <p className="student-name">{studentRecord.studentInfo.name}</p>
-            <p className="student-school">{studentRecord.studentInfo.school}</p>
-            <p className="student-major">{studentRecord.studentInfo.targetMajor}</p>
+        ) : (
+          <div className="sidebar-login-prompt">
+            <div className="login-prompt-icon">🔒</div>
+            <p className="login-prompt-text">로그인하여<br/>수험생 정보를 확인하세요</p>
+            <a href="/univexam-auth" className="sidebar-login-btn">
+              로그인
+            </a>
           </div>
-        </div>
+        )}
 
         {/* 네비게이션 메뉴 */}
         <nav className="sidebar-nav">
@@ -592,20 +655,22 @@ const UnivExamMain = () => {
             <div key={item.id}>
               {item.type === 'single' ? (
                 <button
-                  className={`sidebar-nav-item ${currentView === item.id ? 'active' : ''}`}
-                  onClick={() => handleMenuClick(item.id)}
+                  className={`sidebar-nav-item ${currentView === item.id ? 'active' : ''} ${item.requireAuth && !user ? 'locked' : ''}`}
+                  onClick={() => handleMenuClick(item.id, item.requireAuth)}
                 >
                   <span className="nav-icon">{item.icon}</span>
                   <span className="nav-label">{item.label}</span>
+                  {item.requireAuth && !user && <span className="lock-icon">🔒</span>}
                 </button>
               ) : (
                 <>
                   <button
-                    className={`sidebar-nav-item parent ${expandedMenus.includes(item.id) ? 'expanded' : ''}`}
+                    className={`sidebar-nav-item parent ${expandedMenus.includes(item.id) ? 'expanded' : ''} ${item.requireAuth && !user ? 'locked' : ''}`}
                     onClick={() => toggleMenu(item.id)}
                   >
                     <span className="nav-icon">{item.icon}</span>
                     <span className="nav-label">{item.label}</span>
+                    {item.requireAuth && !user && <span className="lock-icon">🔒</span>}
                     <span className="nav-arrow">{expandedMenus.includes(item.id) ? '▼' : '▶'}</span>
                   </button>
                   {expandedMenus.includes(item.id) && (
@@ -613,11 +678,12 @@ const UnivExamMain = () => {
                       {item.children.map(child => (
                         <button
                           key={child.id}
-                          className={`sidebar-nav-item child ${currentView === child.id ? 'active' : ''}`}
-                          onClick={() => handleMenuClick(child.id)}
+                          className={`sidebar-nav-item child ${currentView === child.id ? 'active' : ''} ${child.requireAuth && !user ? 'locked' : ''}`}
+                          onClick={() => handleMenuClick(child.id, child.requireAuth)}
                         >
                           <span className="nav-icon">{child.icon}</span>
                           <span className="nav-label">{child.label}</span>
+                          {child.requireAuth && !user && <span className="lock-icon">🔒</span>}
                         </button>
                       ))}
                     </div>
@@ -641,16 +707,16 @@ const UnivExamMain = () => {
           </div>
           <div className="progress-stats">
             <div className="stat-item">
-              <span className="stat-label">작성완료</span>
-              <span className="stat-value">78개</span>
+              <span className="stat-label">면접질문</span>
+              <span className="stat-value">73개</span>
             </div>
             <div className="stat-item">
-              <span className="stat-label">검증필요</span>
-              <span className="stat-value">20개</span>
+              <span className="stat-label">지원대학</span>
+              <span className="stat-value">6개</span>
             </div>
             <div className="stat-item">
-              <span className="stat-label">추가예정</span>
-              <span className="stat-value">20개</span>
+              <span className="stat-label">전형자료</span>
+              <span className="stat-value">4개</span>
             </div>
           </div>
         </div>
@@ -693,6 +759,20 @@ const UnivExamMain = () => {
               <span className="info-badge">
                 📅 {new Date().toLocaleDateString('ko-KR')}
               </span>
+              {!loading && (
+                user ? (
+                  <div className="user-info">
+                    <span className="username">{user.email}</span>
+                    <button onClick={handleLogout} className="logout-btn">
+                      로그아웃
+                    </button>
+                  </div>
+                ) : (
+                  <a href="/univexam-auth" className="login-btn">
+                    로그인
+                  </a>
+                )
+              )}
             </div>
           </div>
         </header>
