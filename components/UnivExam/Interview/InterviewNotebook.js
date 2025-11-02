@@ -31,8 +31,58 @@ const InterviewNotebook = ({ studentRecord }) => {
   // 키워드 클릭 핸들러
   const handleKeywordClick = (keyword) => {
     setSelectedKeyword(keyword);
-    // 해당 키워드가 포함된 활동들 필터링
   };
+
+  // 네트워크 그래프 데이터 생성
+  const networkData = useMemo(() => {
+    // 상위 20개 키워드만 표시 (너무 많으면 복잡함)
+    const topKeywords = filteredKeywords.slice(0, 20);
+
+    // 노드 생성
+    const nodes = topKeywords.map((kw, idx) => ({
+      id: kw.keyword,
+      keyword: kw.keyword,
+      count: kw.count,
+      category: kw.category,
+      // 원형 배치
+      x: 300 + 250 * Math.cos((idx / topKeywords.length) * 2 * Math.PI),
+      y: 300 + 250 * Math.sin((idx / topKeywords.length) * 2 * Math.PI)
+    }));
+
+    // 엣지(연결선) 생성 - 같은 활동에 등장한 키워드끼리 연결
+    const edges = [];
+    const edgeMap = new Map();
+
+    activities.forEach(activity => {
+      const activityKeywords = activity.keywords || [];
+      // 이 활동에 등장한 상위 키워드들끼리 연결
+      for (let i = 0; i < activityKeywords.length; i++) {
+        for (let j = i + 1; j < activityKeywords.length; j++) {
+          const kw1 = activityKeywords[i].keyword;
+          const kw2 = activityKeywords[j].keyword;
+
+          // 둘 다 상위 20개 키워드에 포함되는 경우만
+          if (topKeywords.find(k => k.keyword === kw1) && topKeywords.find(k => k.keyword === kw2)) {
+            const edgeKey = [kw1, kw2].sort().join('-');
+
+            if (!edgeMap.has(edgeKey)) {
+              edgeMap.set(edgeKey, {
+                source: kw1,
+                target: kw2,
+                strength: 0
+              });
+            }
+            edgeMap.get(edgeKey).strength++;
+          }
+        }
+      }
+    });
+
+    return {
+      nodes,
+      edges: Array.from(edgeMap.values()).filter(e => e.strength > 0)
+    };
+  }, [filteredKeywords, activities]);
 
   // 활동별 그룹핑
   const activitiesByYear = useMemo(() => {
@@ -97,29 +147,88 @@ const InterviewNotebook = ({ studentRecord }) => {
             ))}
           </div>
 
-          {/* 키워드 클라우드 */}
-          <div className="keyword-cloud-section">
-            <h3>핵심 키워드 ({filteredKeywords.length}개)</h3>
-            <div className="keyword-cloud">
-              {filteredKeywords.map(({ keyword, count, category }) => {
-                const size = Math.min(Math.max(count * 0.3 + 1, 1), 3);
-                const isSelected = selectedKeyword?.keyword === keyword;
+          {/* 키워드 네트워크 그래프 */}
+          <div className="keyword-network-section">
+            <h3>키워드 연결 네트워크 ({networkData.nodes.length}개 키워드, {networkData.edges.length}개 연결)</h3>
+            <p className="network-hint">💡 키워드를 클릭하면 관련 활동을 볼 수 있습니다</p>
 
-                return (
-                  <button
-                    key={keyword}
-                    className={`keyword-bubble ${isSelected ? 'selected' : ''}`}
-                    style={{
-                      fontSize: `${size}rem`,
-                      opacity: isSelected ? 1 : 0.7 + count * 0.1
-                    }}
-                    onClick={() => handleKeywordClick({ keyword, count, category })}
-                    title={`${category} • ${count}회 등장`}
-                  >
-                    {keyword}
-                  </button>
-                );
-              })}
+            <svg className="network-graph" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+              {/* 연결선 (엣지) */}
+              <g className="edges">
+                {networkData.edges.map((edge, idx) => {
+                  const sourceNode = networkData.nodes.find(n => n.id === edge.source);
+                  const targetNode = networkData.nodes.find(n => n.id === edge.target);
+
+                  if (!sourceNode || !targetNode) return null;
+
+                  const isHighlighted = selectedKeyword &&
+                    (selectedKeyword.keyword === edge.source || selectedKeyword.keyword === edge.target);
+
+                  return (
+                    <line
+                      key={idx}
+                      x1={sourceNode.x}
+                      y1={sourceNode.y}
+                      x2={targetNode.x}
+                      y2={targetNode.y}
+                      className={`edge ${isHighlighted ? 'highlighted' : ''}`}
+                      strokeWidth={Math.min(edge.strength * 0.5 + 1, 5)}
+                      opacity={isHighlighted ? 0.8 : Math.min(edge.strength * 0.1 + 0.2, 0.5)}
+                    />
+                  );
+                })}
+              </g>
+
+              {/* 노드 (키워드) */}
+              <g className="nodes">
+                {networkData.nodes.map((node) => {
+                  const isSelected = selectedKeyword?.keyword === node.id;
+                  const isConnected = selectedKeyword && networkData.edges.some(
+                    e => (e.source === selectedKeyword.keyword && e.target === node.id) ||
+                         (e.target === selectedKeyword.keyword && e.source === node.id)
+                  );
+                  const radius = Math.min(Math.max(node.count * 3 + 10, 15), 40);
+
+                  return (
+                    <g
+                      key={node.id}
+                      className={`node ${isSelected ? 'selected' : ''} ${isConnected ? 'connected' : ''}`}
+                      onClick={() => handleKeywordClick(node)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <circle
+                        cx={node.x}
+                        cy={node.y}
+                        r={radius}
+                        className={`node-circle category-${node.category.replace(/[\/\s]/g, '-')}`}
+                      />
+                      <text
+                        x={node.x}
+                        y={node.y}
+                        textAnchor="middle"
+                        dominantBaseline="middle"
+                        className="node-label"
+                        fontSize={Math.min(radius * 0.4, 14)}
+                      >
+                        {node.keyword}
+                      </text>
+                    </g>
+                  );
+                })}
+              </g>
+            </svg>
+
+            {/* 범례 */}
+            <div className="network-legend">
+              <h4>카테고리</h4>
+              <div className="legend-items">
+                {categories.filter(c => c !== '전체').map(cat => (
+                  <div key={cat} className="legend-item">
+                    <div className={`legend-color category-${cat.replace(/[\/\s]/g, '-')}`}></div>
+                    <span>{cat}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

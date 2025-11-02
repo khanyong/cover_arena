@@ -12,7 +12,7 @@ import CategoryQuestions from './Interview/CategoryQuestions';
 import SpanishInterview from './Interview/SpanishInterview';
 import PhilosophyInterview from './Interview/PhilosophyInterview';
 import InterviewNotebook from './Interview/InterviewNotebook';
-import { sampleStudentRecord } from './Data/sampleStudentRecord';
+import { parsedStudentRecord } from './Data/parsedStudentRecord';
 import { universityDatabase } from './Data/universityData';
 import { auth } from '../../lib/supabase';
 
@@ -22,7 +22,7 @@ import { auth } from '../../lib/supabase';
  */
 const UnivExamMain = () => {
   // 상태 관리
-  const [studentRecord, setStudentRecord] = useState(sampleStudentRecord);
+  const [studentRecord, setStudentRecord] = useState(parsedStudentRecord);
   const [selectedUniversities, setSelectedUniversities] = useState([]);
   const [currentView, setCurrentView] = useState('overview'); // overview, creative-activities, subject-performance, university, interview, analysis
   const [generatedQuestions, setGeneratedQuestions] = useState([]);
