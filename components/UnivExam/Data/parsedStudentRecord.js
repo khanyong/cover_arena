@@ -513,5 +513,3 @@ export const parsedStudentRecord = {
     grade3: ``
   }
 }
-
-export default parsedStudentRecord
