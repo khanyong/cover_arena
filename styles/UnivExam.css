@@ -2615,6 +2615,7 @@
 
 .question-card {
   display: flex;
+  flex-direction: column;
   gap: 1.5rem;
   padding: 1.5rem;
   background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
@@ -3578,7 +3579,7 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   gap: 1rem;
-  align-items: center;
+  align-items: start;
   transition: background 0.2s;
 }
 
@@ -3630,6 +3631,9 @@
   font-weight: 600;
   color: #1e293b;
   line-height: 1.5;
+  min-width: 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
 .question-toggle-icon {
@@ -4313,6 +4317,13 @@
 
   .question-content {
     order: 0;
+  }
+
+  .question-text {
+    width: 100%;
+    max-width: 100%;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   .question-toggle-icon {
