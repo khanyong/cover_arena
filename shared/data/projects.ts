@@ -239,7 +239,7 @@ export const PROJECTS: Project[] = [
   {
     id: 'univ-exam',
     slug: 'univ-exam',
-    title: 'UnivExam',
+    title: 'InterviewCoach',
     subtitle: '2026 수시면접 준비 시스템',
     category: 'EdTech',
     year: '2025',
