@@ -84,7 +84,7 @@ export default function UnivExamAuth() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-indigo-900 to-purple-900 flex items-center justify-center">
       <Head>
-        <title>{isLogin ? '로그인' : '회원가입'} - UnivExam 수시면접 준비</title>
+        <title>{isLogin ? '로그인' : '회원가입'} - InterviewCoach 수시면접 준비</title>
       </Head>
 
       <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-8 w-96">
@@ -93,7 +93,7 @@ export default function UnivExamAuth() {
             {isLogin ? '🔐 로그인' : '📝 회원가입'}
           </h1>
           <p className="text-gray-300">
-            UnivExam 수시면접 준비 시스템에 {isLogin ? '로그인' : '가입'}하세요
+            InterviewCoach 수시면접 준비 시스템에 {isLogin ? '로그인' : '가입'}하세요
           </p>
         </div>
 
@@ -175,7 +175,7 @@ export default function UnivExamAuth() {
 
         <div className="mt-4 text-center">
           <Link href="/univ-exam" className="text-gray-300 hover:text-white">
-            ← UnivExam 홈으로 돌아가기
+            ← InterviewCoach 홈으로 돌아가기
           </Link>
         </div>
       </div>

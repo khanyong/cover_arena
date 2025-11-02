@@ -623,7 +623,7 @@ const UnivExamMain = () => {
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
         {/* 로고 및 헤더 */}
         <div className="sidebar-header">
-          <h1 className="sidebar-logo">🎓 UnivExam</h1>
+          <h1 className="sidebar-logo">🎓 InterviewCoach</h1>
           <p className="sidebar-subtitle">수시면접 준비</p>
         </div>
 
@@ -724,7 +724,7 @@ const UnivExamMain = () => {
         {/* 푸터 */}
         <div className="sidebar-footer">
           <p className="auto-save-note">💾 자동 저장 활성화</p>
-          <p className="copyright">© 2025 UnivExam</p>
+          <p className="copyright">© 2025 InterviewCoach</p>
         </div>
       </aside>
 
