@@ -19,10 +19,21 @@ const InterviewNotebook = ({ studentRecord }) => {
   const [selectedActivity, setSelectedActivity] = useState(null);
   const [filterCategory, setFilterCategory] = useState('전체');
 
-  // 데이터 계산 (useMemo로 최적화)
-  const allKeywords = useMemo(() => extractAllKeywords(studentRecord), [studentRecord]);
-  const activities = useMemo(() => mapKeywordsToActivities(studentRecord), [studentRecord]);
-  const keywordConnections = useMemo(() => analyzeKeywordConnections(activities), [activities]);
+  // 데이터 계산 (useMemo로 최적화) - studentRecord가 없으면 빈 배열 반환
+  const allKeywords = useMemo(() => {
+    if (!studentRecord || !studentRecord.recordByYear) return [];
+    return extractAllKeywords(studentRecord);
+  }, [studentRecord]);
+
+  const activities = useMemo(() => {
+    if (!studentRecord || !studentRecord.recordByYear) return [];
+    return mapKeywordsToActivities(studentRecord);
+  }, [studentRecord]);
+
+  const keywordConnections = useMemo(() => {
+    if (!activities || activities.length === 0) return {};
+    return analyzeKeywordConnections(activities);
+  }, [activities]);
 
   // 카테고리별 필터링
   const categories = ['전체', '전공/학문', '철학자/사상가', '개념/이론', '주제/이슈', '활동유형'];
