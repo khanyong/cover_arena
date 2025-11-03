@@ -1,4 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  getUserQuestion,
+  getUserAnswer,
+  saveUserQuestion,
+  saveUserAnswer
+} from '../../../lib/interviewService';
+import {
+  generateCategoryQuestionsPDF,
+  downloadPDF
+} from '../../../lib/pdfGenerator';
 
 /**
  * 항목별 예상질문 컴포넌트
@@ -7,6 +17,10 @@ import React, { useState } from 'react';
 const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) => {
   const [activeCategory, setActiveCategory] = useState('자율활동');
   const [expandedQuestion, setExpandedQuestion] = useState(null);
+  const [editingQuestion, setEditingQuestion] = useState(null);
+  const [editingAnswer, setEditingAnswer] = useState(null);
+  const [userCustomizations, setUserCustomizations] = useState({});
+  const [isSaving, setIsSaving] = useState(false);
 
   // 항목별 예상질문 데이터 - 실제 parsedStudentRecord 기반
   const categoryQuestions = {
@@ -98,7 +112,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 - 국가 이익을 최우선으로 고려
 - 현실주의적 국제정치 관점
 
-**��상주의 (Idealism)**:
+**이상주의 (Idealism)**:
 - 국가 간 이익보다 인류의 보편적 가치 강조
 - 지역 연합, 국제기구 협력, 국제법 제정 등을 통한 평화 추구
 - 도덕과 윤리를 중시하는 관점
@@ -182,7 +196,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 1. **재판 비용 절감**: 효율적인 재판 진행
 2. **재범률 감소**: 또래의 판단이 더 큰 영향
 3. **청소년 법률 교육**: 교과서가 아닌 실제 법률 경험
-4. **책임과 역량 인식**: 시민으로서의 역할 이해
+4. **책임��� 역량 인식**: 시민으로서의 역할 이해
 5. **또래 공감**: 같은 연령대의 관점 반영
 
 이 정책 제안을 통해 법과 인권, 그리고 참여 민주주의에 대한 관심이 깊어졌고, 사회 문제를 해결하는 제도적 접근법에 대해 배울 수 있었습니다.`,
@@ -278,7 +292,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
             category: '수학Ⅰ (2학년)',
             content: `수학적 관심사를 공유하며 모둠원들과 함께 '다양한 시각으로 본 수학'을 표제로 한 수학신문 만들기 활동을 진행함. '수학문제 해결하는 인공지능'을 주제로 한 기사를 통해 구글이 개발한 '알파지오메트리' 인공지능 모델을 통해 현재 인공지능이 복잡한 기하학 문제를 해결할 수 있는 단계에 도달했음을 소개하고 이러한 사례를 통해 교육과 연구분야에서 인공지능의 역할을 제시함.`
           },
-          answer: `2학년 수학Ⅰ 시간에 '다양한 시각으로 본 수학'이라는 표제로 수학신문을 만들었습니다. 제가 작성한 기사는 '수학문제 해결하는 인공지능'이었습니다.
+          answer: `2학년 수학Ⅰ 시간에 '다양한 시각으로 본 수학'이라는 표제로 수학신문을 만들었습니다. 제가 작성한 기사는 '수학문제 해결하는 인공지능'이��습니다.
 
 **주요 내용**:
 구글이 개발한 **알파지오메트리(AlphaGeometry)** AI 모델을 소개했습니다. 이 AI는 복잡한 기하학 문제를 인간 수학자 수준으로 해결할 수 있는 단계에 도달했습니다.
@@ -293,7 +307,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 2. **연구**: 인간이 발견하지 못한 새로운 정리 발견 가능
 3. **미래**: 수학자와 AI의 협업 시대
 
-이 활��을 통해 수학이 단순히 계산이 아니라, AI와 결합하여 새로운 가능성을 열고 있음을 깨달았습니다. 경영학에서도 AI와 빅데이터를 활용한 의사결정이 중요해지고 있어, 이러한 기술적 이해가 도움이 될 것입니다.`,
+이 활동을 통해 수학이 단순히 계산이 아니라, AI와 결합하여 새로운 가능성을 열고 있음을 깨달았습니다. 경영학에서도 AI와 빅데이터를 활용한 의사결정이 중요해지고 있어, 이러한 기술적 이해가 도움이 될 것입니다.`,
           keywords: ['AI', '알파지오메트리', '수학과기술', '교육혁신', '미래학습']
         },
         {
@@ -381,7 +395,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
           question: '모교인 상명중학교에서 홍보활동을 했는데, 후배들에게 어떤 메시지를 전하고 싶었나요?',
           source: {
             category: '봉사활동 (1-2학년)',
-            content: `1학년(2023.10.16): 상명중학교 요강 책자 전달, 포스터 부착, 중학생 대상 홍보활동 4시간
+            content: `1학년(2023.10.16): 상명중학교 요강 책자 전달, 포스터 부���, 중학생 대상 홍보활동 4시간
 2학년(2024.10.21): 상명중학교 요강 책자 전달, 포스터 부착, 중학생 대상 홍보활동 4시간`
           },
           answer: `1학년과 2학년 연속으로 모교인 상명중학교를 방문하여 고등학교 입학 요강 책자를 전달하고 홍보활동을 했습니다.
@@ -414,7 +428,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 **지속적 참여의 동력**:
 
 **1. 작은 변화의 체험**
-환경정화활동을 하면서 깨끗해진 학교 주변을 보고, 학급 영어회화활동을 통해 ���구들이 성장하는 모습을 보면서, 작은 실천이 큰 변화를 만든다는 것을 체감했습니다. 이것이 계속 봉사를 하게 만든 가장 큰 동력이었습니다.
+환경정화활동을 하면서 깨끗해진 학교 주변을 보고, 학급 영어회화활동을 통해 친구들이 성장하는 모습을 보면서, 작은 실천이 큰 변화를 만든다는 것을 체감했습니다. 이것이 계속 봉사를 하게 만든 가장 큰 동력이었습니다.
 
 **2. 책임감과 습관**
 1학년 때 물자재활용위원과 분리수거위원을 맡으면서 책임감이 생겼습니다. 한 번 시작한 일은 끝까지 해내야 한다는 신념으로 꾸준히 참여했고, 이것이 습관이 되었습니다.
@@ -472,7 +486,7 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 소설 형식으로 쓰인 이 책은 한 남자가 사랑에 빠지고, 관계를 이어가고, 결국 이별하는 과정을 철학적으로 분석합니다.
 
 **나의 비판적 관점**:
-알랭 드 보통의 주인공이 보이는 인식과 행동을 **이상주의 행동**이라고 비판했습니다. 주인공은 사랑을 지나치게 이상화하고 분석하며, 실제 관계보다 사랑의 '개념'에 집착하는 모습을 보입니다. 이는 현실의 불완전함을 받아들이지 못하는 미성숙한 태도라고 판단했습니다.
+알랭 드 보통의 주인공이 보이는 인식과 행동을 **이상주의 행동**이라고 비판했습니다. 주인공은 사랑을 지나치게 이상화하고 분석하며, 실제 관계보다 사랑의 '개념'에 집착하는 모습을 보입니다. 이는 현실의 불완전함을 받아들이지 못하는 미성���한 태도라고 판단했습니다.
 
 **토론에서의 역할**:
 참여자들 사이에 의견 차이가 발생했을 때, 객관적 입장에서 각자의 의견을 정리하고 중재하는 역할을 했습니다. "성숙한 사랑이란 무엇인가?"라는 질문으로 토론을 심화시켰습니다.
@@ -486,6 +500,201 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 
   const categories = Object.keys(categoryQuestions);
 
+  // Load user customizations on mount and when user changes
+  useEffect(() => {
+    if (!user) {
+      setUserCustomizations({});
+      return;
+    }
+
+    const loadUserData = async () => {
+      const customizations = {};
+
+      for (const category of categories) {
+        const items = categoryQuestions[category].items;
+
+        for (const item of items) {
+          const questionId = `category_${category}_${item.id}`;
+
+          // Load custom question
+          const { data: customQuestion } = await getUserQuestion(user.id, questionId);
+          if (customQuestion) {
+            customizations[questionId] = {
+              ...customizations[questionId],
+              customQuestion: customQuestion.custom_question
+            };
+          }
+
+          // Load custom answer
+          const { data: customAnswer } = await getUserAnswer(user.id, questionId);
+          if (customAnswer) {
+            customizations[questionId] = {
+              ...customizations[questionId],
+              customAnswer: customAnswer.answer,
+              keywords: customAnswer.keywords
+            };
+          }
+        }
+      }
+
+      setUserCustomizations(customizations);
+    };
+
+    loadUserData();
+  }, [user, activeCategory]);
+
+  // Handle question edit
+  const handleEditQuestion = (category, itemId) => {
+    const item = categoryQuestions[category].items.find(i => i.id === itemId);
+    const customizationKey = `category_${category}_${itemId}`;
+    const currentCustom = userCustomizations[customizationKey]?.customQuestion;
+
+    setEditingQuestion({
+      id: itemId,
+      category: category,
+      originalText: item.question,
+      customText: currentCustom || item.question
+    });
+  };
+
+  // Handle answer edit
+  const handleEditAnswer = (category, itemId) => {
+    const item = categoryQuestions[category].items.find(i => i.id === itemId);
+    const customizationKey = `category_${category}_${itemId}`;
+    const currentCustom = userCustomizations[customizationKey]?.customAnswer;
+
+    setEditingAnswer({
+      id: itemId,
+      category: category,
+      originalText: item.answer,
+      customText: currentCustom || ''
+    });
+  };
+
+  // Save custom question
+  const handleSaveQuestion = async () => {
+    if (!user || !editingQuestion) return;
+
+    setIsSaving(true);
+    const originalItem = categoryQuestions[editingQuestion.category].items.find(i => i.id === editingQuestion.id);
+    const questionId = `category_${editingQuestion.category}_${editingQuestion.id}`;
+
+    try {
+      await saveUserQuestion({
+        userId: user.id,
+        originalQuestionId: questionId,
+        questionType: 'category',
+        category: editingQuestion.category,
+        customQuestion: editingQuestion.customText,
+        originalQuestion: originalItem.question
+      });
+
+      setUserCustomizations(prev => ({
+        ...prev,
+        [questionId]: {
+          ...prev[questionId],
+          customQuestion: editingQuestion.customText
+        }
+      }));
+
+      setEditingQuestion(null);
+    } catch (error) {
+      console.error('Failed to save question:', error);
+      alert('질문 저장에 실패했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Save custom answer
+  const handleSaveAnswer = async () => {
+    if (!user || !editingAnswer) return;
+
+    setIsSaving(true);
+    const questionId = `category_${editingAnswer.category}_${editingAnswer.id}`;
+
+    try {
+      // Extract keywords (simple implementation)
+      const keywords = editingAnswer.customText
+        .split(/\s+/)
+        .filter(word => word.length > 2)
+        .slice(0, 10);
+
+      await saveUserAnswer({
+        userId: user.id,
+        questionId: questionId,
+        answer: editingAnswer.customText,
+        keywords: keywords,
+        isCompleted: true
+      });
+
+      setUserCustomizations(prev => ({
+        ...prev,
+        [questionId]: {
+          ...prev[questionId],
+          customAnswer: editingAnswer.customText,
+          keywords: keywords
+        }
+      }));
+
+      setEditingAnswer(null);
+    } catch (error) {
+      console.error('Failed to save answer:', error);
+      alert('답변 저장에 실패했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Get display text for question (custom or original)
+  const getQuestionText = (category, item) => {
+    const customizationKey = `category_${category}_${item.id}`;
+    return userCustomizations[customizationKey]?.customQuestion || item.question;
+  };
+
+  // Get display text for answer (custom or original)
+  const getAnswerText = (category, item) => {
+    const customizationKey = `category_${category}_${item.id}`;
+    return userCustomizations[customizationKey]?.customAnswer || item.answer;
+  };
+
+  // Check if user has customized this question
+  const hasCustomization = (category, itemId) => {
+    const customizationKey = `category_${category}_${itemId}`;
+    return !!(userCustomizations[customizationKey]?.customQuestion ||
+              userCustomizations[customizationKey]?.customAnswer);
+  };
+
+  // Handle PDF download
+  const handleDownloadPDF = () => {
+    // Prepare questions data for PDF grouped by category
+    const pdfData = {};
+
+    Object.keys(categoryQuestions).forEach(category => {
+      pdfData[category] = categoryQuestions[category].items.map(item => {
+        const customizationKey = `category_${category}_${item.id}`;
+        const customization = userCustomizations[customizationKey];
+
+        return {
+          category: item.category,
+          question: customization?.customQuestion || item.question,
+          answer: customization?.customAnswer || item.answer,
+          keywords: customization?.keywords || item.keywords
+        };
+      });
+    });
+
+    // Generate PDF
+    const doc = generateCategoryQuestionsPDF(pdfData, {
+      name: user?.email || 'Student',
+      university: '생활기록부 기반 항목별 예상질문'
+    });
+
+    // Download
+    const filename = `항목별예상질문_${new Date().toISOString().split('T')[0]}.pdf`;
+    downloadPDF(doc, filename);
+  };
+
   const toggleQuestion = (questionId) => {
     setExpandedQuestion(expandedQuestion === questionId ? null : questionId);
   };
@@ -494,10 +703,23 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
     <div className="category-questions-container">
       {/* 헤더 섹션 */}
       <div className="category-questions-header">
-        <h2>📋 항목별 예상 질문</h2>
-        <p className="header-description">
-          유아인 학생의 실제 생활기록부 내용에 기반한 예상 면접 질문과 모범답안입니다.
-        </p>
+        <div className="header-content">
+          <div>
+            <h2>📋 항목별 예상 질문</h2>
+            <p className="header-description">
+              유아인 학생의 실제 생활기록부 내용에 기반한 예상 면접 질문과 모범답안입니다.
+            </p>
+          </div>
+          {user && (
+            <button
+              className="pdf-download-btn"
+              onClick={handleDownloadPDF}
+              title="질문과 답변을 PDF로 다운로드"
+            >
+              📄 PDF 다운로드
+            </button>
+          )}
+        </div>
       </div>
 
       {/* 카테고리 탭 */}
@@ -529,11 +751,14 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
           {categoryQuestions[activeCategory].items.map((item) => {
             const itemKey = `${activeCategory}-${item.id}`;
             const isCompleted = completionStatus.categoryQuestions?.includes(itemKey) || false;
+            const isCustomized = hasCustomization(activeCategory, item.id);
+            const displayQuestion = getQuestionText(activeCategory, item);
+            const displayAnswer = getAnswerText(activeCategory, item);
 
             return (
               <div
                 key={item.id}
-                className={`question-card ${expandedQuestion === item.id ? 'expanded' : ''} ${isCompleted ? 'completed' : ''}`}
+                className={`question-card ${expandedQuestion === item.id ? 'expanded' : ''} ${isCompleted ? 'completed' : ''} ${isCustomized ? 'customized' : ''}`}
               >
                 {/* 질문 헤더 */}
                 <div className="question-header">
@@ -555,8 +780,11 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
                   </div>
                   <div className="question-number" onClick={() => toggleQuestion(item.id)}>Q{item.id}</div>
                   <div className="question-content" onClick={() => toggleQuestion(item.id)}>
-                    <div className="question-category-badge">{item.category}</div>
-                    <div className="question-text">{item.question}</div>
+                    <div className="question-category-badge">
+                      {item.category}
+                      {isCustomized && <span className="customized-badge">✏️</span>}
+                    </div>
+                    <div className="question-text">{displayQuestion}</div>
                   </div>
                   <div className="question-toggle-icon" onClick={() => toggleQuestion(item.id)}>
                     {expandedQuestion === item.id ? '▲' : '▼'}
@@ -565,35 +793,549 @@ const CategoryQuestions = ({ completionStatus = {}, toggleCompletion, user }) =>
 
               {/* 답변 섹션 */}
               {expandedQuestion === item.id && (
-                <div className="answer-section">
-                  {/* 생활기록부 출처 */}
-                  {item.source && (
-                    <div className="source-content">
-                      <div className="source-label">
-                        <span className="source-icon">📄</span>
-                        <span>생활기록부 출처: {item.source.category}</span>
+                <div className="question-details">
+                  {/* 생활기록부 출처 + 모범 답변 - 상단으로 이동 */}
+                  <div className="model-answer-section" style={{
+                    backgroundColor: '#f8f9fa',
+                    border: '1px solid #e9ecef',
+                    borderRadius: '8px',
+                    padding: '20px',
+                    marginBottom: '24px'
+                  }}>
+                    {/* 생활기록부 출처 */}
+                    {item.source && (
+                      <div className="source-content" style={{ marginBottom: '20px' }}>
+                        <div className="source-label" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          marginBottom: '12px',
+                          paddingBottom: '8px',
+                          borderBottom: '2px solid #dee2e6'
+                        }}>
+                          <span className="source-icon" style={{ fontSize: '20px' }}>📄</span>
+                          <span style={{ fontWeight: '600', color: '#495057' }}>생활기록부 출처: {item.source.category}</span>
+                        </div>
+                        <div className="source-text" style={{
+                          backgroundColor: '#fff',
+                          border: '1px solid #dee2e6',
+                          borderRadius: '6px',
+                          padding: '12px',
+                          fontSize: '14px',
+                          lineHeight: '1.8',
+                          color: '#495057'
+                        }}>{item.source.content}</div>
                       </div>
-                      <div className="source-text">{item.source.content}</div>
+                    )}
+
+                    {/* 모범 답변 */}
+                    <div className="answer-content">
+                      <div className="answer-label" style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        marginBottom: '12px',
+                        paddingBottom: '8px',
+                        borderBottom: '2px solid #dee2e6'
+                      }}>
+                        <span className="answer-icon" style={{ fontSize: '20px' }}>💬</span>
+                        <span style={{ fontWeight: '600', color: '#495057' }}>모범 답변</span>
+                      </div>
+                      <div className="answer-text" style={{
+                        lineHeight: '1.8',
+                        color: '#495057'
+                      }}>
+                        {item.answer.split('\n\n').map((paragraph, index) => (
+                          <p key={index} className="answer-paragraph" style={{
+                            marginBottom: '12px',
+                            whiteSpace: 'pre-wrap'
+                          }}>{paragraph}</p>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* User Workspace - 질문과 답변을 나란히 배치 */}
+                  {user && (
+                    <div className="user-workspace" style={{
+                      backgroundColor: '#fff',
+                      border: '2px solid #4c6ef5',
+                      borderRadius: '12px',
+                      padding: '24px',
+                      marginBottom: '20px'
+                    }}>
+                      <div className="workspace-header" style={{
+                        marginBottom: '20px',
+                        textAlign: 'center'
+                      }}>
+                        <div className="workspace-title" style={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          gap: '10px',
+                          marginBottom: '8px'
+                        }}>
+                          <span className="workspace-icon" style={{ fontSize: '28px' }}>✨</span>
+                          <h3 style={{
+                            margin: 0,
+                            fontSize: '22px',
+                            fontWeight: '700',
+                            color: '#4c6ef5'
+                          }}>나만의 면접 준비</h3>
+                        </div>
+                        <p className="workspace-description" style={{
+                          margin: 0,
+                          color: '#868e96',
+                          fontSize: '14px'
+                        }}>
+                          모범답변을 참고하여 자신만의 질문과 답변을 작성하세요
+                        </p>
+                      </div>
+
+                      <div className="workspace-grid" style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+                        gap: '20px'
+                      }}>
+                        {/* Question Edit Section */}
+                        <div className="workspace-card question-card-edit" style={{
+                          backgroundColor: '#fff9db',
+                          border: '2px solid #ffd43b',
+                          borderRadius: '8px',
+                          padding: '20px'
+                        }}>
+                          <div className="card-header" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            paddingBottom: '12px',
+                            borderBottom: '2px solid #ffd43b'
+                          }}>
+                            <div className="card-title" style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}>
+                              <span className="card-icon" style={{ fontSize: '20px' }}>❓</span>
+                              <h4 style={{
+                                margin: 0,
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: '#e67700'
+                              }}>질문 재구성</h4>
+                            </div>
+                            {!editingQuestion || editingQuestion.id !== item.id ? (
+                              <button
+                                className="start-edit-btn"
+                                onClick={() => handleEditQuestion(activeCategory, item.id)}
+                                style={{
+                                  backgroundColor: '#fab005',
+                                  color: '#fff',
+                                  border: 'none',
+                                  borderRadius: '6px',
+                                  padding: '8px 16px',
+                                  fontSize: '14px',
+                                  fontWeight: '500',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  transition: 'all 0.2s'
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f59f00'}
+                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fab005'}
+                              >
+                                <span>✏️</span> 질문 수정하기
+                              </button>
+                            ) : null}
+                          </div>
+
+                          {editingQuestion?.id === item.id ? (
+                            <div className="edit-workspace">
+                              <div className="edit-area" style={{ marginBottom: '16px' }}>
+                                <label className="edit-label" style={{
+                                  display: 'block',
+                                  marginBottom: '8px',
+                                  fontSize: '14px',
+                                  fontWeight: '600',
+                                  color: '#495057'
+                                }}>✏️ 수정중인 질문</label>
+                                <textarea
+                                  className="edit-textarea question-edit"
+                                  value={editingQuestion.customText}
+                                  onChange={(e) => setEditingQuestion({
+                                    ...editingQuestion,
+                                    customText: e.target.value
+                                  })}
+                                  placeholder="면접관이 물어볼 것 같은 질문을 자신만의 언어로 다시 작성해보세요..."
+                                  rows={5}
+                                  autoFocus
+                                  style={{
+                                    width: '100%',
+                                    padding: '12px',
+                                    fontSize: '14px',
+                                    lineHeight: '1.6',
+                                    border: '2px solid #ffd43b',
+                                    borderRadius: '6px',
+                                    resize: 'vertical',
+                                    fontFamily: 'inherit'
+                                  }}
+                                />
+                              </div>
+                              <div className="reference-box" style={{
+                                backgroundColor: '#fff',
+                                border: '1px solid #dee2e6',
+                                borderRadius: '6px',
+                                padding: '12px',
+                                marginBottom: '16px'
+                              }}>
+                                <label className="reference-label" style={{
+                                  display: 'block',
+                                  marginBottom: '6px',
+                                  fontSize: '12px',
+                                  fontWeight: '600',
+                                  color: '#868e96'
+                                }}>📌 원본 질문</label>
+                                <div className="original-text" style={{
+                                  fontSize: '13px',
+                                  color: '#495057',
+                                  lineHeight: '1.6'
+                                }}>{item.question}</div>
+                              </div>
+                              <div className="action-buttons" style={{
+                                display: 'flex',
+                                gap: '10px',
+                                justifyContent: 'flex-end'
+                              }}>
+                                <button
+                                  className="save-button primary"
+                                  onClick={handleSaveQuestion}
+                                  disabled={isSaving || !editingQuestion.customText.trim()}
+                                  style={{
+                                    backgroundColor: isSaving || !editingQuestion.customText.trim() ? '#ced4da' : '#51cf66',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    padding: '10px 20px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    cursor: isSaving || !editingQuestion.customText.trim() ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.2s'
+                                  }}
+                                >
+                                  {isSaving ? '💾 저장중...' : '💾 저장하기'}
+                                </button>
+                                <button
+                                  className="cancel-button"
+                                  onClick={() => setEditingQuestion(null)}
+                                  disabled={isSaving}
+                                  style={{
+                                    backgroundColor: '#fff',
+                                    color: '#868e96',
+                                    border: '1px solid #dee2e6',
+                                    borderRadius: '6px',
+                                    padding: '10px 20px',
+                                    fontSize: '14px',
+                                    fontWeight: '500',
+                                    cursor: isSaving ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.2s'
+                                  }}
+                                >
+                                  취소
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="current-content">
+                              {userCustomizations[`category_${activeCategory}_${item.id}`]?.customQuestion ? (
+                                <>
+                                  <div className="saved-content" style={{
+                                    backgroundColor: '#e7f5ff',
+                                    border: '1px solid #74c0fc',
+                                    borderRadius: '6px',
+                                    padding: '16px'
+                                  }}>
+                                    <div className="saved-badge" style={{
+                                      display: 'inline-block',
+                                      backgroundColor: '#51cf66',
+                                      color: '#fff',
+                                      padding: '4px 10px',
+                                      borderRadius: '12px',
+                                      fontSize: '12px',
+                                      fontWeight: '600',
+                                      marginBottom: '10px'
+                                    }}>✅ 저장됨</div>
+                                    <p className="saved-text" style={{
+                                      margin: 0,
+                                      fontSize: '14px',
+                                      lineHeight: '1.6',
+                                      color: '#1864ab'
+                                    }}>{displayQuestion}</p>
+                                  </div>
+                                  {displayQuestion !== item.question && (
+                                    <div className="reference-box collapsed" style={{
+                                      backgroundColor: '#f8f9fa',
+                                      border: '1px solid #dee2e6',
+                                      borderRadius: '6px',
+                                      padding: '10px',
+                                      marginTop: '10px'
+                                    }}>
+                                      <label className="reference-label" style={{
+                                        display: 'block',
+                                        marginBottom: '6px',
+                                        fontSize: '11px',
+                                        fontWeight: '600',
+                                        color: '#868e96'
+                                      }}>📌 원본</label>
+                                      <div className="original-text small" style={{
+                                        fontSize: '12px',
+                                        color: '#495057',
+                                        lineHeight: '1.5'
+                                      }}>{item.question}</div>
+                                    </div>
+                                  )}
+                                </>
+                              ) : (
+                                <div className="empty-state" style={{
+                                  textAlign: 'center',
+                                  padding: '40px 20px',
+                                  backgroundColor: '#fff',
+                                  borderRadius: '6px',
+                                  border: '2px dashed #ffd43b'
+                                }}>
+                                  <div className="empty-icon" style={{
+                                    fontSize: '48px',
+                                    marginBottom: '12px'
+                                  }}>✏️</div>
+                                  <p className="empty-text" style={{
+                                    margin: '0 0 8px 0',
+                                    fontSize: '15px',
+                                    fontWeight: '600',
+                                    color: '#495057'
+                                  }}>질문을 자신만의 버전으로 재구성해보세요</p>
+                                  <p className="empty-hint" style={{
+                                    margin: 0,
+                                    fontSize: '13px',
+                                    color: '#868e96'
+                                  }}>원본 질문을 참고하여 더 명확하게 만들어보세요</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+
+                        {/* Answer Edit Section */}
+                        <div className="workspace-card answer-card-edit" style={{
+                          backgroundColor: '#e7f5ff',
+                          border: '2px solid #74c0fc',
+                          borderRadius: '8px',
+                          padding: '20px'
+                        }}>
+                          <div className="card-header" style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '16px',
+                            paddingBottom: '12px',
+                            borderBottom: '2px solid #74c0fc'
+                          }}>
+                            <div className="card-title" style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '8px'
+                            }}>
+                              <span className="card-icon" style={{ fontSize: '20px' }}>💬</span>
+                              <h4 style={{
+                                margin: 0,
+                                fontSize: '16px',
+                                fontWeight: '600',
+                                color: '#1971c2'
+                              }}>답변 작성</h4>
+                            </div>
+                            {!editingAnswer || editingAnswer.id !== item.id ? (
+                              <button
+                                className="start-edit-btn"
+                                onClick={() => handleEditAnswer(activeCategory, item.id)}
+                                style={{
+                                  backgroundColor: '#4c6ef5',
+                                  color: '#fff',
+                                  border: 'none',
+                                  borderRadius: '6px',
+                                  padding: '8px 16px',
+                                  fontSize: '14px',
+                                  fontWeight: '500',
+                                  cursor: 'pointer',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  gap: '6px',
+                                  transition: 'all 0.2s'
+                                }}
+                                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4263eb'}
+                                onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#4c6ef5'}
+                              >
+                                <span>✍️</span> 답변 작성하기
+                              </button>
+                            ) : null}
+                          </div>
+
+                          {editingAnswer?.id === item.id ? (
+                            <div className="edit-workspace">
+                              <div className="edit-area" style={{ marginBottom: '16px' }}>
+                                <div className="edit-header" style={{
+                                  display: 'flex',
+                                  justifyContent: 'space-between',
+                                  alignItems: 'center',
+                                  marginBottom: '8px'
+                                }}>
+                                  <label className="edit-label" style={{
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#495057'
+                                  }}>✍️ 답변 작성</label>
+                                  <span className="char-counter" style={{
+                                    fontSize: '13px',
+                                    color: '#868e96',
+                                    fontWeight: '500'
+                                  }}>
+                                    {editingAnswer.customText.length} 자
+                                  </span>
+                                </div>
+                                <textarea
+                                  className="edit-textarea answer-edit"
+                                  value={editingAnswer.customText}
+                                  onChange={(e) => setEditingAnswer({
+                                    ...editingAnswer,
+                                    customText: e.target.value
+                                  })}
+                                  placeholder="모범답변을 참고하여 자신만의 답변을 작성하세요. 구체적인 사례와 경험을 포함하면 더 좋습니다..."
+                                  rows={18}
+                                  autoFocus
+                                  style={{
+                                    width: '100%',
+                                    padding: '12px',
+                                    fontSize: '14px',
+                                    lineHeight: '1.8',
+                                    border: '2px solid #74c0fc',
+                                    borderRadius: '6px',
+                                    resize: 'vertical',
+                                    fontFamily: 'inherit',
+                                    minHeight: '300px'
+                                  }}
+                                />
+                              </div>
+                              <div className="action-buttons" style={{
+                                display: 'flex',
+                                gap: '10px',
+                                justifyContent: 'flex-end'
+                              }}>
+                                <button
+                                  className="save-button primary large"
+                                  onClick={handleSaveAnswer}
+                                  disabled={isSaving || !editingAnswer.customText.trim()}
+                                  style={{
+                                    backgroundColor: isSaving || !editingAnswer.customText.trim() ? '#ced4da' : '#51cf66',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    padding: '12px 24px',
+                                    fontSize: '15px',
+                                    fontWeight: '600',
+                                    cursor: isSaving || !editingAnswer.customText.trim() ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.2s'
+                                  }}
+                                >
+                                  {isSaving ? '💾 저장중...' : '💾 답변 저장하기'}
+                                </button>
+                                <button
+                                  className="cancel-button"
+                                  onClick={() => setEditingAnswer(null)}
+                                  disabled={isSaving}
+                                  style={{
+                                    backgroundColor: '#fff',
+                                    color: '#868e96',
+                                    border: '1px solid #dee2e6',
+                                    borderRadius: '6px',
+                                    padding: '12px 24px',
+                                    fontSize: '15px',
+                                    fontWeight: '500',
+                                    cursor: isSaving ? 'not-allowed' : 'pointer',
+                                    transition: 'all 0.2s'
+                                  }}
+                                >
+                                  취소
+                                </button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="current-content">
+                              {userCustomizations[`category_${activeCategory}_${item.id}`]?.customAnswer ? (
+                                <div className="saved-content" style={{
+                                  backgroundColor: '#fff',
+                                  border: '1px solid #339af0',
+                                  borderRadius: '6px',
+                                  padding: '16px'
+                                }}>
+                                  <div className="saved-badge" style={{
+                                    display: 'inline-block',
+                                    backgroundColor: '#51cf66',
+                                    color: '#fff',
+                                    padding: '4px 10px',
+                                    borderRadius: '12px',
+                                    fontSize: '12px',
+                                    fontWeight: '600',
+                                    marginBottom: '12px'
+                                  }}>✅ 저장됨</div>
+                                  <div className="saved-answer" style={{
+                                    fontSize: '14px',
+                                    lineHeight: '1.8',
+                                    color: '#212529'
+                                  }}>
+                                    {userCustomizations[`category_${activeCategory}_${item.id}`].customAnswer.split('\n\n').map((para, index) => (
+                                      <p key={index} className="answer-paragraph" style={{
+                                        marginBottom: '12px',
+                                        whiteSpace: 'pre-wrap'
+                                      }}>{para}</p>
+                                    ))}
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="empty-state" style={{
+                                  textAlign: 'center',
+                                  padding: '60px 20px',
+                                  backgroundColor: '#fff',
+                                  borderRadius: '6px',
+                                  border: '2px dashed #74c0fc'
+                                }}>
+                                  <div className="empty-icon" style={{
+                                    fontSize: '56px',
+                                    marginBottom: '16px'
+                                  }}>✍️</div>
+                                  <p className="empty-text" style={{
+                                    margin: '0 0 8px 0',
+                                    fontSize: '16px',
+                                    fontWeight: '600',
+                                    color: '#495057'
+                                  }}>답변을 작성하여 면접을 준비하세요</p>
+                                  <p className="empty-hint" style={{
+                                    margin: 0,
+                                    fontSize: '14px',
+                                    color: '#868e96'
+                                  }}>모범답변을 참고하되, 자신의 경험과 생각을 담아 작성하세요</p>
+                                </div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
 
-                  {/* 모범 답변 */}
-                  <div className="answer-content">
-                    <div className="answer-label">
-                      <span className="answer-icon">💬</span>
-                      <span>모범 답변</span>
-                    </div>
-                    <div className="answer-text">{item.answer}</div>
-                  </div>
-
                   {/* 키워드 */}
                   {item.keywords && (
-                    <div className="keywords">
-                      <div className="keywords-label">
-                        <span className="keywords-icon">🔑</span>
-                        <span>핵심 키워드</span>
-                      </div>
-                      <div className="keywords-tags">
+                    <div className="keywords-section">
+                      <h4>🔑 핵심 키워드</h4>
+                      <div className="keywords-list">
                         {item.keywords.map((keyword, idx) => (
                           <span key={idx} className="keyword-tag">
                             {keyword}
