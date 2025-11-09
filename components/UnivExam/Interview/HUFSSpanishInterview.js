@@ -2042,7 +2042,9 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
                                       border: '2px solid #ffd43b',
                                       borderRadius: '6px',
                                       resize: 'vertical',
-                                      fontFamily: 'inherit'
+                                      fontFamily: 'inherit',
+                                      color: '#212529',
+                                      backgroundColor: '#fff'
                                     }}
                                   />
                                 </div>
@@ -2285,7 +2287,9 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
                                       borderRadius: '6px',
                                       resize: 'vertical',
                                       fontFamily: 'inherit',
-                                      minHeight: '300px'
+                                      minHeight: '300px',
+                                      color: '#212529',
+                                      backgroundColor: '#fff'
                                     }}
                                   />
                                 </div>
