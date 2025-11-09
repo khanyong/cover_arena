@@ -11,6 +11,7 @@ import EssentialQuestions from './Interview/EssentialQuestions';
 import CategoryQuestions from './Interview/CategoryQuestions';
 import SpanishInterview from './Interview/SpanishInterview';
 import PhilosophyInterview from './Interview/PhilosophyInterview';
+import HUFSSpanishInterview from './Interview/HUFSSpanishInterview';
 import InterviewNotebook from './Interview/InterviewNotebook';
 import { parsedStudentRecord } from './Data/parsedStudentRecord';
 import { universityDatabase } from './Data/universityData';
@@ -128,7 +129,8 @@ const UnivExamMain = () => {
         { id: 'essential-questions', label: '필수질문', icon: '' },
         { id: 'category-questions', label: '항목별 예상질문', icon: '' },
         { id: 'spanish-interview', label: '스페인어과', icon: '' },
-        { id: 'philosophy-interview', label: '철학과', icon: '' }
+        { id: 'philosophy-interview', label: '철학과', icon: '' },
+        { id: 'hufs-spanish-interview', label: '한국외국어대학교 스페인어과', icon: '' }
       ]
     },
     { id: 'analysis', label: '분석 및 통계', icon: '', type: 'single' }
@@ -619,6 +621,15 @@ const UnivExamMain = () => {
       case 'philosophy-interview':
         return (
           <PhilosophyInterview
+            completionStatus={completionStatus}
+            toggleCompletion={toggleCompletion}
+            user={user}
+          />
+        );
+
+      case 'hufs-spanish-interview':
+        return (
+          <HUFSSpanishInterview
             completionStatus={completionStatus}
             toggleCompletion={toggleCompletion}
             user={user}
