@@ -1169,7 +1169,12 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
 
   // Load customizations - shows any user's answers if logged in
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      console.log('No user logged in');
+      return;
+    }
+
+    console.log('Loading customizations for user:', user.id);
 
     const loadCustomizations = async () => {
       const customizations = {};
@@ -1179,8 +1184,10 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
 
         try {
           // Get any answer/question regardless of who wrote it (just check if user is logged in)
-          const { data: customQuestion } = await getAnyQuestionByQuestionId(questionId);
-          const { data: customAnswer } = await getAnyAnswerByQuestionId(questionId);
+          const { data: customQuestion, error: qError } = await getAnyQuestionByQuestionId(questionId);
+          const { data: customAnswer, error: aError } = await getAnyAnswerByQuestionId(questionId);
+
+          console.log(`Question ${questionId}:`, { customQuestion, qError, customAnswer, aError });
 
           if (customQuestion || customAnswer) {
             customizations[questionId] = {
@@ -1194,6 +1201,7 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
         }
       }
 
+      console.log('Final customizations:', customizations);
       setUserCustomizations(customizations);
     };
 
