@@ -5,7 +5,8 @@ import {
   saveUserQuestion,
   saveUserAnswer,
   getAnyQuestionByQuestionId,
-  getAnyAnswerByQuestionId
+  getAnyAnswerByQuestionId,
+  getLatestAnswersByQuestionId
 } from '../../../lib/interviewService';
 
 /**
@@ -1183,17 +1184,22 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
         const questionId = `hufs_${question.id}`;
 
         try {
-          // Get any answer/question regardless of who wrote it (just check if user is logged in)
+          // Get latest question (only 1)
           const { data: customQuestion, error: qError } = await getAnyQuestionByQuestionId(questionId);
-          const { data: customAnswer, error: aError } = await getAnyAnswerByQuestionId(questionId);
 
-          console.log(`Question ${questionId}:`, { customQuestion, qError, customAnswer, aError });
+          // Get latest 3 answers
+          const { data: customAnswers, error: aError } = await getLatestAnswersByQuestionId(questionId);
 
-          if (customQuestion || customAnswer) {
+          console.log(`Question ${questionId}:`, { customQuestion, qError, customAnswers, aError });
+
+          if (customQuestion || (customAnswers && customAnswers.length > 0)) {
             customizations[questionId] = {
               customQuestion: customQuestion?.custom_question,
-              customAnswer: customAnswer?.answer,
-              keywords: customAnswer?.keywords
+              // Store all 3 versions
+              answerVersions: customAnswers || [],
+              // Keep latest for backward compatibility
+              customAnswer: customAnswers?.[0]?.answer,
+              keywords: customAnswers?.[0]?.keywords
             };
           }
         } catch (error) {
@@ -2349,57 +2355,80 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
                               </div>
                             ) : (
                               <div className="current-content">
-                                {userCustomizations[`hufs_${question.id}`]?.customAnswer ? (
-                                  <div className="saved-content" style={{
-                                    backgroundColor: '#fff',
-                                    border: '1px solid #74c0fc',
-                                    borderRadius: '6px',
-                                    padding: '16px'
-                                  }}>
-                                    <div className="saved-badge" style={{
-                                      display: 'inline-block',
-                                      backgroundColor: '#4c6ef5',
-                                      color: '#fff',
-                                      padding: '4px 10px',
-                                      borderRadius: '12px',
-                                      fontSize: '12px',
-                                      fontWeight: '600',
-                                      marginBottom: '12px'
-                                    }}>✅ 작성한 답변</div>
-                                    <div className="saved-text" style={{
-                                      fontSize: '14px',
-                                      color: '#212529',
-                                      lineHeight: '1.8',
-                                      whiteSpace: 'pre-wrap'
-                                    }}>
-                                      {userCustomizations[`hufs_${question.id}`].customAnswer}
-                                    </div>
-                                    {userCustomizations[`hufs_${question.id}`].keywords && (
-                                      <div className="keywords-display" style={{ marginTop: '12px' }}>
-                                        <div className="keywords-label" style={{
-                                          fontSize: '12px',
-                                          fontWeight: '600',
-                                          color: '#868e96',
-                                          marginBottom: '6px'
-                                        }}>🔑 키워드</div>
-                                        <div className="keywords-list" style={{
-                                          display: 'flex',
-                                          flexWrap: 'wrap',
-                                          gap: '6px'
+                                {userCustomizations[`hufs_${question.id}`]?.answerVersions?.length > 0 ? (
+                                  <div className="answer-versions-container" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                                    {userCustomizations[`hufs_${question.id}`].answerVersions.map((version, versionIndex) => {
+                                      const versionLabel = versionIndex === 0 ? '최신 버전' : versionIndex === 1 ? '이전 버전' : '그 이전 버전';
+                                      const badgeColor = versionIndex === 0 ? '#4c6ef5' : versionIndex === 1 ? '#868e96' : '#adb5bd';
+
+                                      return (
+                                        <div key={version.id} className="saved-content" style={{
+                                          backgroundColor: '#fff',
+                                          border: `1px solid ${versionIndex === 0 ? '#74c0fc' : '#dee2e6'}`,
+                                          borderRadius: '6px',
+                                          padding: '16px',
+                                          opacity: versionIndex === 0 ? 1 : 0.8
                                         }}>
-                                          {userCustomizations[`hufs_${question.id}`].keywords.map((kw, kidx) => (
-                                            <span key={kidx} style={{
-                                              backgroundColor: '#e7f5ff',
-                                              color: '#1971c2',
+                                          <div className="version-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
+                                            <div className="saved-badge" style={{
+                                              display: 'inline-block',
+                                              backgroundColor: badgeColor,
+                                              color: '#fff',
                                               padding: '4px 10px',
                                               borderRadius: '12px',
                                               fontSize: '12px',
-                                              fontWeight: '500'
-                                            }}>{kw}</span>
-                                          ))}
+                                              fontWeight: '600'
+                                            }}>✅ {versionLabel}</div>
+                                            <div className="version-date" style={{
+                                              fontSize: '11px',
+                                              color: '#868e96'
+                                            }}>
+                                              {new Date(version.created_at).toLocaleString('ko-KR', {
+                                                year: 'numeric',
+                                                month: '2-digit',
+                                                day: '2-digit',
+                                                hour: '2-digit',
+                                                minute: '2-digit'
+                                              })}
+                                            </div>
+                                          </div>
+                                          <div className="saved-text" style={{
+                                            fontSize: '14px',
+                                            color: '#212529',
+                                            lineHeight: '1.8',
+                                            whiteSpace: 'pre-wrap'
+                                          }}>
+                                            {version.answer}
+                                          </div>
+                                          {version.keywords && version.keywords.length > 0 && (
+                                            <div className="keywords-display" style={{ marginTop: '12px' }}>
+                                              <div className="keywords-label" style={{
+                                                fontSize: '12px',
+                                                fontWeight: '600',
+                                                color: '#868e96',
+                                                marginBottom: '6px'
+                                              }}>🔑 키워드</div>
+                                              <div className="keywords-list" style={{
+                                                display: 'flex',
+                                                flexWrap: 'wrap',
+                                                gap: '6px'
+                                              }}>
+                                                {version.keywords.map((kw, kidx) => (
+                                                  <span key={kidx} style={{
+                                                    backgroundColor: '#e7f5ff',
+                                                    color: '#1971c2',
+                                                    padding: '4px 10px',
+                                                    borderRadius: '12px',
+                                                    fontSize: '12px',
+                                                    fontWeight: '500'
+                                                  }}>{kw}</span>
+                                                ))}
+                                              </div>
+                                            </div>
+                                          )}
                                         </div>
-                                      </div>
-                                    )}
+                                      );
+                                    })}
                                   </div>
                                 ) : (
                                   <div className="empty-state" style={{
