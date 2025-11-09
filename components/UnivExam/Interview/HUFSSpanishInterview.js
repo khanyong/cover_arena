@@ -6,7 +6,9 @@ import {
   saveUserAnswer,
   getAnyQuestionByQuestionId,
   getAnyAnswerByQuestionId,
-  getLatestAnswersByQuestionId
+  getLatestAnswersByQuestionId,
+  getAllQuestionsByIds,
+  getAllAnswersByIds
 } from '../../../lib/interviewService';
 
 /**
@@ -1178,37 +1180,78 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
     console.log('Loading customizations for user:', user.id);
 
     const loadCustomizations = async () => {
-      const customizations = {};
+      try {
+        // Create array of all question IDs
+        const allQuestionIds = hufsInterviewQuestions.map(q => `hufs_${q.id}`);
 
-      for (const question of hufsInterviewQuestions) {
-        const questionId = `hufs_${question.id}`;
+        console.log('Fetching batch data for', allQuestionIds.length, 'questions');
+        const startTime = performance.now();
 
-        try {
-          // Get latest question (only 1)
-          const { data: customQuestion, error: qError } = await getAnyQuestionByQuestionId(questionId);
+        // Fetch ALL questions and answers in just 2 queries
+        const [questionsResult, answersResult] = await Promise.all([
+          getAllQuestionsByIds(allQuestionIds),
+          getAllAnswersByIds(allQuestionIds)
+        ]);
 
-          // Get latest 3 answers
-          const { data: customAnswers, error: aError } = await getLatestAnswersByQuestionId(questionId);
+        const endTime = performance.now();
+        console.log(`Batch fetch completed in ${(endTime - startTime).toFixed(2)}ms`);
 
-          console.log(`Question ${questionId}:`, { customQuestion, qError, customAnswers, aError });
+        const { data: allQuestions, error: qError } = questionsResult;
+        const { data: allAnswers, error: aError } = answersResult;
 
-          if (customQuestion || (customAnswers && customAnswers.length > 0)) {
+        if (qError) {
+          console.error('Error loading questions:', qError);
+        }
+        if (aError) {
+          console.error('Error loading answers:', aError);
+        }
+
+        // Group questions by original_question_id
+        const questionsByIdMap = {};
+        if (allQuestions) {
+          allQuestions.forEach(q => {
+            // Keep only the latest question per ID
+            if (!questionsByIdMap[q.original_question_id]) {
+              questionsByIdMap[q.original_question_id] = q;
+            }
+          });
+        }
+
+        // Group answers by question_id and keep latest 3 per question
+        const answersByIdMap = {};
+        if (allAnswers) {
+          allAnswers.forEach(a => {
+            if (!answersByIdMap[a.question_id]) {
+              answersByIdMap[a.question_id] = [];
+            }
+            // Only keep up to 3 versions
+            if (answersByIdMap[a.question_id].length < 3) {
+              answersByIdMap[a.question_id].push(a);
+            }
+          });
+        }
+
+        // Build customizations object
+        const customizations = {};
+        allQuestionIds.forEach(questionId => {
+          const customQuestion = questionsByIdMap[questionId];
+          const customAnswers = answersByIdMap[questionId] || [];
+
+          if (customQuestion || customAnswers.length > 0) {
             customizations[questionId] = {
               customQuestion: customQuestion?.custom_question,
-              // Store all 3 versions
-              answerVersions: customAnswers || [],
-              // Keep latest for backward compatibility
-              customAnswer: customAnswers?.[0]?.answer,
-              keywords: customAnswers?.[0]?.keywords
+              answerVersions: customAnswers,
+              customAnswer: customAnswers[0]?.answer,
+              keywords: customAnswers[0]?.keywords
             };
           }
-        } catch (error) {
-          console.error(`Failed to load customization for ${questionId}:`, error);
-        }
-      }
+        });
 
-      console.log('Final customizations:', customizations);
-      setUserCustomizations(customizations);
+        console.log(`Loaded ${Object.keys(customizations).length} customizations from batch query`);
+        setUserCustomizations(customizations);
+      } catch (error) {
+        console.error('Failed to load customizations:', error);
+      }
     };
 
     loadCustomizations();
@@ -1289,7 +1332,9 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
         .filter(word => word.length > 2)
         .slice(0, 10);
 
-      await saveUserAnswer({
+      console.log('Saving answer:', { userId: user.id, questionId, answerLength: editingAnswer.customText.length });
+
+      const result = await saveUserAnswer({
         userId: user.id,
         questionId: questionId,
         answer: editingAnswer.customText,
@@ -1297,20 +1342,30 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
         isCompleted: true
       });
 
-      setUserCustomizations(prev => ({
-        ...prev,
-        [questionId]: {
-          ...prev[questionId],
-          customAnswer: editingAnswer.customText,
-          keywords: keywords
-        }
-      }));
+      console.log('Save result:', result);
+
+      // Reload the latest 3 answers after saving
+      const { data: updatedAnswers, error: fetchError } = await getLatestAnswersByQuestionId(questionId);
+
+      console.log('Updated answers:', updatedAnswers, 'Error:', fetchError);
+
+      if (updatedAnswers) {
+        setUserCustomizations(prev => ({
+          ...prev,
+          [questionId]: {
+            ...prev[questionId],
+            answerVersions: updatedAnswers,
+            customAnswer: updatedAnswers[0]?.answer,
+            keywords: updatedAnswers[0]?.keywords
+          }
+        }));
+      }
 
       setEditingAnswer(null);
       alert('답변이 저장되었습니다.');
     } catch (error) {
       console.error('Failed to save answer:', error);
-      alert('답변 저장에 실패했습니다.');
+      alert('답변 저장에 실패했습니다: ' + error.message);
     } finally {
       setIsSaving(false);
     }
