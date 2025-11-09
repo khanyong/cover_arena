@@ -3,7 +3,9 @@ import {
   getUserQuestion,
   getUserAnswer,
   saveUserQuestion,
-  saveUserAnswer
+  saveUserAnswer,
+  getAnyQuestionByQuestionId,
+  getAnyAnswerByQuestionId
 } from '../../../lib/interviewService';
 
 /**
@@ -1165,7 +1167,7 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
     return completionStatus.hufsSpanishInterview?.includes(questionId) || false;
   };
 
-  // Load user customizations
+  // Load customizations - shows any user's answers if logged in
   useEffect(() => {
     if (!user) return;
 
@@ -1176,8 +1178,9 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
         const questionId = `hufs_${question.id}`;
 
         try {
-          const { data: customQuestion, error: questionError } = await getUserQuestion(user.id, questionId);
-          const { data: customAnswer, error: answerError } = await getUserAnswer(user.id, questionId);
+          // Get any answer/question regardless of who wrote it (just check if user is logged in)
+          const { data: customQuestion } = await getAnyQuestionByQuestionId(questionId);
+          const { data: customAnswer } = await getAnyAnswerByQuestionId(questionId);
 
           if (customQuestion || customAnswer) {
             customizations[questionId] = {
