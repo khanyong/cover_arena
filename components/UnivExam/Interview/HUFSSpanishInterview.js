@@ -1,4 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import {
+  getUserQuestion,
+  getUserAnswer,
+  saveUserQuestion,
+  saveUserAnswer
+} from '../../../lib/interviewService';
 
 /**
  * 한국외국어대학교 스페인어과 면접 준비 컴포넌트
@@ -8,6 +14,10 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
   const [expandedQuestion, setExpandedQuestion] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState('전체');
   const [showDepartmentInfo, setShowDepartmentInfo] = useState(false);
+  const [editingQuestion, setEditingQuestion] = useState(null);
+  const [editingAnswer, setEditingAnswer] = useState(null);
+  const [userCustomizations, setUserCustomizations] = useState({});
+  const [isSaving, setIsSaving] = useState(false);
 
   // 한국외국어대학교 스페인어과 면접 질문 데이터
   const hufsInterviewQuestions = [
@@ -1155,6 +1165,140 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
     return completionStatus.hufsSpanishInterview?.includes(questionId) || false;
   };
 
+  // Load user customizations
+  useEffect(() => {
+    if (!user) return;
+
+    const loadCustomizations = async () => {
+      const customizations = {};
+
+      for (const question of hufsInterviewQuestions) {
+        const questionId = `hufs_${question.id}`;
+
+        try {
+          const customQuestion = await getUserQuestion(user.id, questionId);
+          const customAnswer = await getUserAnswer(user.id, questionId);
+
+          if (customQuestion || customAnswer) {
+            customizations[questionId] = {
+              customQuestion: customQuestion?.custom_question,
+              customAnswer: customAnswer?.answer,
+              keywords: customAnswer?.keywords
+            };
+          }
+        } catch (error) {
+          console.error(`Failed to load customization for ${questionId}:`, error);
+        }
+      }
+
+      setUserCustomizations(customizations);
+    };
+
+    loadCustomizations();
+  }, [user]);
+
+  // Handle question edit
+  const handleEditQuestion = (questionId) => {
+    const question = hufsInterviewQuestions.find(q => q.id === questionId);
+    const customizationKey = `hufs_${questionId}`;
+    const currentCustom = userCustomizations[customizationKey]?.customQuestion;
+
+    setEditingQuestion({
+      id: questionId,
+      originalText: question.question,
+      customText: currentCustom || question.question
+    });
+  };
+
+  // Handle answer edit
+  const handleEditAnswer = (questionId) => {
+    const question = hufsInterviewQuestions.find(q => q.id === questionId);
+    const customizationKey = `hufs_${questionId}`;
+    const currentCustom = userCustomizations[customizationKey]?.customAnswer;
+
+    setEditingAnswer({
+      id: questionId,
+      originalText: question.answer,
+      customText: currentCustom || ''
+    });
+  };
+
+  // Save custom question
+  const handleSaveQuestion = async () => {
+    if (!user || !editingQuestion) return;
+
+    setIsSaving(true);
+    const originalQuestion = hufsInterviewQuestions.find(q => q.id === editingQuestion.id);
+    const questionId = `hufs_${editingQuestion.id}`;
+
+    try {
+      await saveUserQuestion({
+        userId: user.id,
+        originalQuestionId: questionId,
+        questionType: 'hufs',
+        customQuestion: editingQuestion.customText,
+        originalQuestion: originalQuestion.question
+      });
+
+      setUserCustomizations(prev => ({
+        ...prev,
+        [questionId]: {
+          ...prev[questionId],
+          customQuestion: editingQuestion.customText
+        }
+      }));
+
+      setEditingQuestion(null);
+      alert('질문이 저장되었습니다.');
+    } catch (error) {
+      console.error('Failed to save question:', error);
+      alert('질문 저장에 실패했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  // Save custom answer
+  const handleSaveAnswer = async () => {
+    if (!user || !editingAnswer) return;
+
+    setIsSaving(true);
+    const questionId = `hufs_${editingAnswer.id}`;
+
+    try {
+      // Extract keywords (simple implementation)
+      const keywords = editingAnswer.customText
+        .split(/\s+/)
+        .filter(word => word.length > 2)
+        .slice(0, 10);
+
+      await saveUserAnswer({
+        userId: user.id,
+        questionId: questionId,
+        answer: editingAnswer.customText,
+        keywords: keywords,
+        isCompleted: true
+      });
+
+      setUserCustomizations(prev => ({
+        ...prev,
+        [questionId]: {
+          ...prev[questionId],
+          customAnswer: editingAnswer.customText,
+          keywords: keywords
+        }
+      }));
+
+      setEditingAnswer(null);
+      alert('답변이 저장되었습니다.');
+    } catch (error) {
+      console.error('Failed to save answer:', error);
+      alert('답변 저장에 실패했습니다.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <div className="spanish-interview-container">
       {/* 헤더 섹션 */}
@@ -1813,6 +1957,466 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
                   ) : (
                     // 일반 질문 렌더링
                     <>
+                      {user && (
+                        <div className="edit-workspace-container" style={{ marginBottom: '24px' }}>
+                          {/* Question Edit Section */}
+                          <div className="workspace-card question-card-edit" style={{
+                            backgroundColor: '#fff9db',
+                            border: '2px solid #ffd43b',
+                            borderRadius: '8px',
+                            padding: '20px',
+                            marginBottom: '16px'
+                          }}>
+                            <div className="card-header" style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              marginBottom: '16px',
+                              paddingBottom: '12px',
+                              borderBottom: '2px solid #ffd43b'
+                            }}>
+                              <div className="card-title" style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                              }}>
+                                <span className="card-icon" style={{ fontSize: '20px' }}>❓</span>
+                                <h4 style={{
+                                  margin: 0,
+                                  fontSize: '16px',
+                                  fontWeight: '600',
+                                  color: '#e67700'
+                                }}>질문 재구성</h4>
+                              </div>
+                              {!editingQuestion || editingQuestion.id !== question.id ? (
+                                <button
+                                  className="start-edit-btn"
+                                  onClick={() => handleEditQuestion(question.id)}
+                                  style={{
+                                    backgroundColor: '#fab005',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    padding: '8px 16px',
+                                    fontSize: '14px',
+                                    fontWeight: '500',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    transition: 'all 0.2s'
+                                  }}
+                                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f59f00'}
+                                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#fab005'}
+                                >
+                                  <span>✏️</span> 질문 수정하기
+                                </button>
+                              ) : null}
+                            </div>
+
+                            {editingQuestion?.id === question.id ? (
+                              <div className="edit-workspace">
+                                <div className="edit-area" style={{ marginBottom: '16px' }}>
+                                  <label className="edit-label" style={{
+                                    display: 'block',
+                                    marginBottom: '8px',
+                                    fontSize: '14px',
+                                    fontWeight: '600',
+                                    color: '#495057'
+                                  }}>✏️ 수정중인 질문</label>
+                                  <textarea
+                                    className="edit-textarea question-edit"
+                                    value={editingQuestion.customText}
+                                    onChange={(e) => setEditingQuestion({
+                                      ...editingQuestion,
+                                      customText: e.target.value
+                                    })}
+                                    placeholder="면접관이 물어볼 것 같은 질문을 자신만의 언어로 다시 작성해보세요..."
+                                    rows={5}
+                                    autoFocus
+                                    style={{
+                                      width: '100%',
+                                      padding: '12px',
+                                      fontSize: '14px',
+                                      lineHeight: '1.6',
+                                      border: '2px solid #ffd43b',
+                                      borderRadius: '6px',
+                                      resize: 'vertical',
+                                      fontFamily: 'inherit'
+                                    }}
+                                  />
+                                </div>
+                                <div className="reference-box" style={{
+                                  backgroundColor: '#fff',
+                                  border: '1px solid #dee2e6',
+                                  borderRadius: '6px',
+                                  padding: '12px',
+                                  marginBottom: '16px'
+                                }}>
+                                  <label className="reference-label" style={{
+                                    display: 'block',
+                                    marginBottom: '6px',
+                                    fontSize: '12px',
+                                    fontWeight: '600',
+                                    color: '#868e96'
+                                  }}>📌 원본 질문</label>
+                                  <div className="original-text" style={{
+                                    fontSize: '13px',
+                                    color: '#495057',
+                                    lineHeight: '1.6'
+                                  }}>{question.question}</div>
+                                </div>
+                                <div className="action-buttons" style={{
+                                  display: 'flex',
+                                  gap: '10px',
+                                  justifyContent: 'flex-end'
+                                }}>
+                                  <button
+                                    className="save-button primary"
+                                    onClick={handleSaveQuestion}
+                                    disabled={isSaving || !editingQuestion.customText.trim()}
+                                    style={{
+                                      backgroundColor: isSaving || !editingQuestion.customText.trim() ? '#ced4da' : '#51cf66',
+                                      color: '#fff',
+                                      border: 'none',
+                                      borderRadius: '6px',
+                                      padding: '10px 20px',
+                                      fontSize: '14px',
+                                      fontWeight: '600',
+                                      cursor: isSaving || !editingQuestion.customText.trim() ? 'not-allowed' : 'pointer',
+                                      transition: 'all 0.2s'
+                                    }}
+                                  >
+                                    {isSaving ? '💾 저장중...' : '💾 저장하기'}
+                                  </button>
+                                  <button
+                                    className="cancel-button"
+                                    onClick={() => setEditingQuestion(null)}
+                                    disabled={isSaving}
+                                    style={{
+                                      backgroundColor: '#fff',
+                                      color: '#868e96',
+                                      border: '1px solid #dee2e6',
+                                      borderRadius: '6px',
+                                      padding: '10px 20px',
+                                      fontSize: '14px',
+                                      fontWeight: '500',
+                                      cursor: isSaving ? 'not-allowed' : 'pointer',
+                                      transition: 'all 0.2s'
+                                    }}
+                                  >
+                                    취소
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="current-content">
+                                {userCustomizations[`hufs_${question.id}`]?.customQuestion ? (
+                                  <>
+                                    <div className="saved-content" style={{
+                                      backgroundColor: '#e7f5ff',
+                                      border: '1px solid #74c0fc',
+                                      borderRadius: '6px',
+                                      padding: '16px'
+                                    }}>
+                                      <div className="saved-badge" style={{
+                                        display: 'inline-block',
+                                        backgroundColor: '#51cf66',
+                                        color: '#fff',
+                                        padding: '4px 10px',
+                                        borderRadius: '12px',
+                                        fontSize: '12px',
+                                        fontWeight: '600',
+                                        marginBottom: '12px'
+                                      }}>✅ 저장된 질문</div>
+                                      <div className="saved-text" style={{
+                                        fontSize: '14px',
+                                        color: '#212529',
+                                        lineHeight: '1.6',
+                                        marginBottom: '12px'
+                                      }}>
+                                        {userCustomizations[`hufs_${question.id}`].customQuestion}
+                                      </div>
+                                      {userCustomizations[`hufs_${question.id}`].customQuestion !== question.question && (
+                                        <div className="original-reference" style={{
+                                          backgroundColor: '#f8f9fa',
+                                          border: '1px solid #dee2e6',
+                                          borderRadius: '4px',
+                                          padding: '10px',
+                                          marginTop: '8px'
+                                        }}>
+                                          <label className="original-label" style={{
+                                            display: 'block',
+                                            marginBottom: '6px',
+                                            fontSize: '11px',
+                                            fontWeight: '600',
+                                            color: '#868e96'
+                                          }}>📌 원본</label>
+                                          <div className="original-text small" style={{
+                                            fontSize: '12px',
+                                            color: '#495057',
+                                            lineHeight: '1.5'
+                                          }}>{question.question}</div>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </>
+                                ) : (
+                                  <div className="empty-state" style={{
+                                    textAlign: 'center',
+                                    padding: '40px 20px',
+                                    backgroundColor: '#fff',
+                                    borderRadius: '6px',
+                                    border: '2px dashed #ffd43b'
+                                  }}>
+                                    <div className="empty-icon" style={{
+                                      fontSize: '48px',
+                                      marginBottom: '12px'
+                                    }}>✏️</div>
+                                    <p className="empty-text" style={{
+                                      margin: '0 0 8px 0',
+                                      fontSize: '15px',
+                                      fontWeight: '600',
+                                      color: '#495057'
+                                    }}>질문을 자신만의 버전으로 재구성해보세요</p>
+                                    <p className="empty-hint" style={{
+                                      margin: 0,
+                                      fontSize: '13px',
+                                      color: '#868e96'
+                                    }}>원본 질문을 참고하여 더 명확하게 만들어보세요</p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Answer Edit Section */}
+                          <div className="workspace-card answer-card-edit" style={{
+                            backgroundColor: '#e7f5ff',
+                            border: '2px solid #74c0fc',
+                            borderRadius: '8px',
+                            padding: '20px'
+                          }}>
+                            <div className="card-header" style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              marginBottom: '16px',
+                              paddingBottom: '12px',
+                              borderBottom: '2px solid #74c0fc'
+                            }}>
+                              <div className="card-title" style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                              }}>
+                                <span className="card-icon" style={{ fontSize: '20px' }}>💬</span>
+                                <h4 style={{
+                                  margin: 0,
+                                  fontSize: '16px',
+                                  fontWeight: '600',
+                                  color: '#1971c2'
+                                }}>답변 작성</h4>
+                              </div>
+                              {!editingAnswer || editingAnswer.id !== question.id ? (
+                                <button
+                                  className="start-edit-btn"
+                                  onClick={() => handleEditAnswer(question.id)}
+                                  style={{
+                                    backgroundColor: '#4c6ef5',
+                                    color: '#fff',
+                                    border: 'none',
+                                    borderRadius: '6px',
+                                    padding: '8px 16px',
+                                    fontSize: '14px',
+                                    fontWeight: '500',
+                                    cursor: 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '6px',
+                                    transition: 'all 0.2s'
+                                  }}
+                                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4263eb'}
+                                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#4c6ef5'}
+                                >
+                                  <span>✍️</span> 답변 작성하기
+                                </button>
+                              ) : null}
+                            </div>
+
+                            {editingAnswer?.id === question.id ? (
+                              <div className="edit-workspace">
+                                <div className="edit-area" style={{ marginBottom: '16px' }}>
+                                  <div className="edit-header" style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    alignItems: 'center',
+                                    marginBottom: '8px'
+                                  }}>
+                                    <label className="edit-label" style={{
+                                      fontSize: '14px',
+                                      fontWeight: '600',
+                                      color: '#495057'
+                                    }}>✍️ 답변 작성</label>
+                                    <span className="char-counter" style={{
+                                      fontSize: '13px',
+                                      color: '#868e96',
+                                      fontWeight: '500'
+                                    }}>
+                                      {editingAnswer.customText.length} 자
+                                    </span>
+                                  </div>
+                                  <textarea
+                                    className="edit-textarea answer-edit"
+                                    value={editingAnswer.customText}
+                                    onChange={(e) => setEditingAnswer({
+                                      ...editingAnswer,
+                                      customText: e.target.value
+                                    })}
+                                    placeholder="모범답변을 참고하여 자신만의 답변을 작성하세요. 구체적인 사례와 경험을 포함하면 더 좋습니다..."
+                                    rows={18}
+                                    autoFocus
+                                    style={{
+                                      width: '100%',
+                                      padding: '12px',
+                                      fontSize: '14px',
+                                      lineHeight: '1.8',
+                                      border: '2px solid #74c0fc',
+                                      borderRadius: '6px',
+                                      resize: 'vertical',
+                                      fontFamily: 'inherit',
+                                      minHeight: '300px'
+                                    }}
+                                  />
+                                </div>
+                                <div className="action-buttons" style={{
+                                  display: 'flex',
+                                  gap: '10px',
+                                  justifyContent: 'flex-end'
+                                }}>
+                                  <button
+                                    className="save-button primary large"
+                                    onClick={handleSaveAnswer}
+                                    disabled={isSaving || !editingAnswer.customText.trim()}
+                                    style={{
+                                      backgroundColor: isSaving || !editingAnswer.customText.trim() ? '#ced4da' : '#4c6ef5',
+                                      color: '#fff',
+                                      border: 'none',
+                                      borderRadius: '6px',
+                                      padding: '12px 24px',
+                                      fontSize: '15px',
+                                      fontWeight: '600',
+                                      cursor: isSaving || !editingAnswer.customText.trim() ? 'not-allowed' : 'pointer',
+                                      transition: 'all 0.2s'
+                                    }}
+                                  >
+                                    {isSaving ? '💾 저장중...' : '💾 저장하기'}
+                                  </button>
+                                  <button
+                                    className="cancel-button"
+                                    onClick={() => setEditingAnswer(null)}
+                                    disabled={isSaving}
+                                    style={{
+                                      backgroundColor: '#fff',
+                                      color: '#868e96',
+                                      border: '1px solid #dee2e6',
+                                      borderRadius: '6px',
+                                      padding: '12px 24px',
+                                      fontSize: '15px',
+                                      fontWeight: '500',
+                                      cursor: isSaving ? 'not-allowed' : 'pointer',
+                                      transition: 'all 0.2s'
+                                    }}
+                                  >
+                                    취소
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="current-content">
+                                {userCustomizations[`hufs_${question.id}`]?.customAnswer ? (
+                                  <div className="saved-content" style={{
+                                    backgroundColor: '#fff',
+                                    border: '1px solid #74c0fc',
+                                    borderRadius: '6px',
+                                    padding: '16px'
+                                  }}>
+                                    <div className="saved-badge" style={{
+                                      display: 'inline-block',
+                                      backgroundColor: '#4c6ef5',
+                                      color: '#fff',
+                                      padding: '4px 10px',
+                                      borderRadius: '12px',
+                                      fontSize: '12px',
+                                      fontWeight: '600',
+                                      marginBottom: '12px'
+                                    }}>✅ 작성한 답변</div>
+                                    <div className="saved-text" style={{
+                                      fontSize: '14px',
+                                      color: '#212529',
+                                      lineHeight: '1.8',
+                                      whiteSpace: 'pre-wrap'
+                                    }}>
+                                      {userCustomizations[`hufs_${question.id}`].customAnswer}
+                                    </div>
+                                    {userCustomizations[`hufs_${question.id}`].keywords && (
+                                      <div className="keywords-display" style={{ marginTop: '12px' }}>
+                                        <div className="keywords-label" style={{
+                                          fontSize: '12px',
+                                          fontWeight: '600',
+                                          color: '#868e96',
+                                          marginBottom: '6px'
+                                        }}>🔑 키워드</div>
+                                        <div className="keywords-list" style={{
+                                          display: 'flex',
+                                          flexWrap: 'wrap',
+                                          gap: '6px'
+                                        }}>
+                                          {userCustomizations[`hufs_${question.id}`].keywords.map((kw, kidx) => (
+                                            <span key={kidx} style={{
+                                              backgroundColor: '#e7f5ff',
+                                              color: '#1971c2',
+                                              padding: '4px 10px',
+                                              borderRadius: '12px',
+                                              fontSize: '12px',
+                                              fontWeight: '500'
+                                            }}>{kw}</span>
+                                          ))}
+                                        </div>
+                                      </div>
+                                    )}
+                                  </div>
+                                ) : (
+                                  <div className="empty-state" style={{
+                                    textAlign: 'center',
+                                    padding: '40px 20px',
+                                    backgroundColor: '#fff',
+                                    borderRadius: '6px',
+                                    border: '2px dashed #74c0fc'
+                                  }}>
+                                    <div className="empty-icon" style={{
+                                      fontSize: '48px',
+                                      marginBottom: '12px'
+                                    }}>✍️</div>
+                                    <p className="empty-text" style={{
+                                      margin: '0 0 8px 0',
+                                      fontSize: '15px',
+                                      fontWeight: '600',
+                                      color: '#495057'
+                                    }}>자신만의 답변을 작성해보세요</p>
+                                    <p className="empty-hint" style={{
+                                      margin: 0,
+                                      fontSize: '13px',
+                                      color: '#868e96'
+                                    }}>모범답변을 참고하여 구체적인 경험을 담아 작성하세요</p>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      )}
+
                       <div className="answer-section">
                         <h5>💡 모범 답변</h5>
                         <p className="answer-text">{question.answer}</p>
