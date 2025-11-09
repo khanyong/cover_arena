@@ -1176,8 +1176,8 @@ const HUFSSpanishInterview = ({ completionStatus = {}, toggleCompletion, user })
         const questionId = `hufs_${question.id}`;
 
         try {
-          const customQuestion = await getUserQuestion(user.id, questionId);
-          const customAnswer = await getUserAnswer(user.id, questionId);
+          const { data: customQuestion, error: questionError } = await getUserQuestion(user.id, questionId);
+          const { data: customAnswer, error: answerError } = await getUserAnswer(user.id, questionId);
 
           if (customQuestion || customAnswer) {
             customizations[questionId] = {
