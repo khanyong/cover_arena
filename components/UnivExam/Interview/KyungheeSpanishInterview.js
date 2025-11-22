@@ -406,9 +406,31 @@ const KyungheeSpanishInterview = ({ completionStatus = {}, toggleCompletion, use
 
         {/* 오른쪽: 상세 내용 (메인) */}
         <div style={{ flex: '1', minWidth: '300px' }}>
-          <div style={{ marginBottom: '20px' }}>
-            <div className="common-question-number" style={{ marginBottom: '8px' }}>질문 {activeQuestion.number}</div>
-            <h4 className="common-question-title" style={{ fontSize: '22px' }}>{activeQuestion.title}</h4>
+          <div style={{ marginBottom: '20px', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <div>
+              <div className="common-question-number" style={{ marginBottom: '8px' }}>질문 {activeQuestion.number}</div>
+              <h4 className="common-question-title" style={{ fontSize: '22px', margin: 0 }}>{activeQuestion.title}</h4>
+            </div>
+            <a
+              href="/version3_sources.md"
+              download="경희대_면접_Version3_출처.md"
+              style={{
+                padding: '8px 16px',
+                backgroundColor: '#7b1fa2',
+                color: 'white',
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '14px',
+                fontWeight: '600',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '6px',
+                boxShadow: '0 2px 4px rgba(123, 31, 162, 0.2)',
+                transition: 'all 0.2s'
+              }}
+            >
+              <span>📥</span> 답변 출처 다운로드
+            </a>
           </div>
 
           <div style={{
