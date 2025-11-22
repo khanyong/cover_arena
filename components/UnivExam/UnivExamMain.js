@@ -12,6 +12,7 @@ import CategoryQuestions from './Interview/CategoryQuestions';
 import SpanishInterview from './Interview/SpanishInterview';
 import PhilosophyInterview from './Interview/PhilosophyInterview';
 import HUFSSpanishInterview from './Interview/HUFSSpanishInterview';
+import KyungheeSpanishInterview from './Interview/KyungheeSpanishInterview';
 import InterviewNotebook from './Interview/InterviewNotebook';
 import { parsedStudentRecord } from './Data/parsedStudentRecord';
 import { universityDatabase } from './Data/universityData';
@@ -36,6 +37,8 @@ const UnivExamMain = () => {
     categoryQuestions: [],  // 완료한 항목별 질문 ID들
     spanishInterview: [],   // 완료한 스페인어과 질문 ID들
     philosophyInterview: [], // 완료한 철학과 질문 ID들
+    hufsSpanishInterview: [], // 완료한 한국외대 스페인어과 질문 ID들
+    kyungheeSpanishInterview: [], // 완료한 경희대 스페인어학과 질문 ID들
     documentsChecked: [],   // 확인한 대입전형자료 섹션들
     universitiesChecked: [] // 확인한 지원대학들
   });
@@ -130,7 +133,8 @@ const UnivExamMain = () => {
         { id: 'category-questions', label: '항목별 예상질문', icon: '' },
         { id: 'spanish-interview', label: '스페인어과', icon: '' },
         { id: 'philosophy-interview', label: '철학과', icon: '' },
-        { id: 'hufs-spanish-interview', label: '한국외국어대학교 스페인어과', icon: '' }
+        { id: 'hufs-spanish-interview', label: '한국외국어대학교 스페인어과', icon: '' },
+        { id: 'kyunghee-spanish-interview', label: '경희대학교 스페인어학과', icon: '' }
       ]
     },
     { id: 'analysis', label: '분석 및 통계', icon: '', type: 'single' }
@@ -636,6 +640,15 @@ const UnivExamMain = () => {
           />
         );
 
+      case 'kyunghee-spanish-interview':
+        return (
+          <KyungheeSpanishInterview
+            completionStatus={completionStatus}
+            toggleCompletion={toggleCompletion}
+            user={user}
+          />
+        );
+
       case 'analysis':
         return (
           <InterviewNotebook
@@ -778,7 +791,7 @@ const UnivExamMain = () => {
         ) : (
           <div className="sidebar-login-prompt">
             <div className="login-prompt-icon">🔒</div>
-            <p className="login-prompt-text">로그인하여<br/>수험생 정보를 확인하세요</p>
+            <p className="login-prompt-text">로그인하여<br />수험생 정보를 확인하세요</p>
             <a href="/univexam-auth" className="sidebar-login-btn">
               로그인
             </a>
