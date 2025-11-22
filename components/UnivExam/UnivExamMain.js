@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
 import RecordOverview from './StudentRecord/RecordOverview';
 import CreativeActivities from './AdmissionData/CreativeActivities';
 import SubjectPerformance from './AdmissionData/SubjectPerformance';
@@ -23,6 +24,8 @@ import { auth } from '../../lib/supabase';
  * 2026 대학입학 수시면접 준비 시스템의 메인 페이지
  */
 const UnivExamMain = () => {
+  const router = useRouter();
+
   // 상태 관리
   const [studentRecord, setStudentRecord] = useState(parsedStudentRecord);
   const [selectedUniversities, setSelectedUniversities] = useState([]);
@@ -42,6 +45,43 @@ const UnivExamMain = () => {
     documentsChecked: [],   // 확인한 대입전형자료 섹션들
     universitiesChecked: [] // 확인한 지원대학들
   });
+
+  // URL 쿼리 파라미터와 상태 동기화 (딥링킹)
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    const { view } = router.query;
+    if (view && typeof view === 'string' && view !== currentView) {
+      setCurrentView(view);
+
+      // 해당 뷰가 서브메뉴에 있다면 부모 메뉴 확장
+      if (['creative-activities', 'subject-performance', 'reading-activities', 'volunteer-activities'].includes(view)) {
+        if (!expandedMenus.includes('admission-data')) {
+          setExpandedMenus(prev => [...prev, 'admission-data']);
+        }
+      } else if (['univ-hufs', 'univ-kyunghee', 'univ-uos', 'univ-konkuk', 'univ-hanyang', 'univ-myongji'].includes(view)) {
+        if (!expandedMenus.includes('university-list')) {
+          setExpandedMenus(prev => [...prev, 'university-list']);
+        }
+      } else if (['essential-questions', 'category-questions', 'spanish-interview', 'philosophy-interview', 'hufs-spanish-interview', 'kyunghee-spanish-interview'].includes(view)) {
+        if (!expandedMenus.includes('interview-prep')) {
+          setExpandedMenus(prev => [...prev, 'interview-prep']);
+        }
+      }
+    }
+  }, [router.isReady, router.query.view]);
+
+  // 상태 변경 시 URL 업데이트
+  useEffect(() => {
+    if (!router.isReady) return;
+
+    if (currentView !== router.query.view) {
+      router.push({
+        pathname: router.pathname,
+        query: { ...router.query, view: currentView }
+      }, undefined, { shallow: true });
+    }
+  }, [currentView, router.isReady]);
 
   // 사용자 인증 상태 확인
   useEffect(() => {
