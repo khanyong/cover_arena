@@ -17,7 +17,7 @@ import KyungheeSpanishInterview from './Interview/KyungheeSpanishInterview';
 import InterviewNotebook from './Interview/InterviewNotebook';
 import { parsedStudentRecord } from './Data/parsedStudentRecord';
 import { universityDatabase } from './Data/universityData';
-import { auth } from '../../lib/supabase';
+import { auth } from '../../shared/lib/supabase';
 
 /**
  * UnivExam 메인 컴포넌트

@@ -20,7 +20,7 @@ export default function VideoCard({ video, isHovered }) {
         console.error('Failed to load review summary:', error);
       }
     };
-    
+
     if (youtubeId) {
       loadReviewSummary();
     }
@@ -29,7 +29,7 @@ export default function VideoCard({ video, isHovered }) {
   // 순위변동 표시 함수
   const getRankChangeDisplay = () => {
     if (!video.rank_status) return null;
-    
+
     switch (video.rank_status) {
       case 'new':
         return { text: '🆕', color: 'text-green-500', bgColor: 'bg-green-100' };
@@ -72,7 +72,7 @@ export default function VideoCard({ video, isHovered }) {
           🎵
         </div>
       )}
-      
+
       {/* 순위변동 표시 (좌상단) */}
       {rankChange && (
         <div className={`absolute top-1 left-1 ${rankChange.bgColor} ${rankChange.color} text-[8px] px-1 py-0.5 rounded font-bold`}>
@@ -86,18 +86,18 @@ export default function VideoCard({ video, isHovered }) {
       </div>
 
       {/* 영상 정보 오버레이 - 극한 크기용 */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-1">
+      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/80 to-transparent p-1 pointer-events-none">
         <h3 className="font-semibold text-white text-[6px] line-clamp-1 mb-0.5">
           {video.title}
         </h3>
         <div className="flex justify-between items-center text-[5px] text-gray-300">
           <span className="truncate">{video.channel}</span>
           <div className="flex items-center space-x-1">
-            <span>👁️{video.views > 999 ? (video.views/1000).toFixed(1)+'K' : video.views}</span>
-            <span>❤️{video.likes > 999 ? (video.likes/1000).toFixed(1)+'K' : video.likes}</span>
+            <span>👁️{video.views > 999 ? (video.views / 1000).toFixed(1) + 'K' : video.views}</span>
+            <span>❤️{video.likes > 999 ? (video.likes / 1000).toFixed(1) + 'K' : video.likes}</span>
           </div>
         </div>
-        
+
         {/* 평점 표시 (우하단) */}
         {reviewSummary && reviewSummary.total_reviews > 0 && (
           <div className="absolute bottom-1 right-1 bg-gradient-to-r from-purple-600/90 to-pink-600/90 text-white px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
@@ -105,13 +105,22 @@ export default function VideoCard({ video, isHovered }) {
             <span className="text-[6px] text-purple-100">({reviewSummary.total_reviews})</span>
           </div>
         )}
-        
+
         {/* 평가 가능 표시 (리뷰가 없을 때) */}
         {(!reviewSummary || reviewSummary.total_reviews === 0) && (
           <div className="absolute bottom-1 right-1 bg-gradient-to-r from-gray-600/90 to-gray-700/90 text-white px-1.5 py-0.5 rounded-full">
             <span className="text-[6px] font-bold">⭐평가하기</span>
           </div>
         )}
+      </div>
+
+      {/* Play Icon Overlay (Hover) */}
+      <div className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/50 shadow-2xl transform scale-75 group-hover:scale-100 transition-transform">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" className="w-8 h-8 drop-shadow-lg">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
       </div>
     </div>
   );

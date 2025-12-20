@@ -1,4 +1,4 @@
-import { supabaseAdmin, supabase } from '../../lib/supabase';
+import { supabaseAdmin, supabase } from '../../shared/lib/supabase';
 
 export default async function handler(req, res) {
   const dbClient = supabaseAdmin || supabase;

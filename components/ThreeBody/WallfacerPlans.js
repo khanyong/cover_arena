@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { wallfacerPlans } from '../../lib/supabaseThreeBody'
-import { auth } from '../../lib/supabase'
+import { auth } from '../../shared/lib/supabase'
 import styles from './styles/WallfacerPlans.module.css'
 
 export default function WallfacerPlans() {

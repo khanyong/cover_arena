@@ -8,23 +8,23 @@ export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState(null)
   const [loading, setLoading] = useState(true)
-  
+
   // 투표 기간 관리 상태
   const [votingPeriod, setVotingPeriod] = useState({
     startTime: new Date().toISOString(),
     endTime: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
     status: 'active' // 'preparing', 'active', 'ended'
   })
-  
+
   // 주제 제안 상태
   const [suggestedTopics, setSuggestedTopics] = useState([])
-  
+
   // 새 주제 입력
   const [newTopic, setNewTopic] = useState('')
-  
+
   // 투표 결과 (실제로는 API에서 가져옴)
   const [votingResults, setVotingResults] = useState([])
-  
+
   // 현재 주제 수동 입력 상태 추가
   const [manualTopic, setManualTopic] = useState('');
   const [isScraping, setIsScraping] = useState(false);
@@ -50,7 +50,7 @@ export default function Admin() {
   const [searchResults, setSearchResults] = useState([])
   const [isSearching, setIsSearching] = useState(false)
   const [selectedVideosForBlock, setSelectedVideosForBlock] = useState([]) // 선택된 영상들
-  
+
   // 채널 차단 관리 상태 추가
   const [blockedChannels, setBlockedChannels] = useState([])
   const [channelSearchQuery, setChannelSearchQuery] = useState('')
@@ -76,7 +76,7 @@ export default function Admin() {
   const handleManualTopicSave = async () => {
     const { error } = await supabase
       .from('coversong_config')
-      .insert({ key: 'main_title', value: manualTopic });
+      .upsert({ key: 'main_title', value: manualTopic }, { onConflict: 'key' });
     if (error) {
       alert('저장 실패: ' + error.message);
       console.log(error);
@@ -93,7 +93,7 @@ export default function Admin() {
         .from('profiles')
         .select('*')
         .order('created_at', { ascending: false })
-      
+
       if (error) {
         console.error('회원 로드 오류:', error)
         alert('회원 목록을 불러오는데 실패했습니다: ' + error.message)
@@ -110,23 +110,23 @@ export default function Admin() {
 
   // 회원 승인/거부 처리
   const handleUserApproval = async (userId, approved, status) => {
-        try {
+    try {
       const { error } = await supabase
-            .from('profiles')
-        .update({ 
+        .from('profiles')
+        .update({
           approved: approved,
           status: status, // 'active' 또는 'rejected'
           updated_at: new Date().toISOString()
         })
         .eq('id', userId)
-      
+
       if (error) {
         alert('회원 상태 변경에 실패했습니다: ' + error.message)
       } else {
         alert('회원 상태가 변경되었습니다.')
         loadUsers() // 목록 새로고침
-          }
-        } catch (error) {
+      }
+    } catch (error) {
       alert('회원 상태 변경 중 오류가 발생했습니다.')
     }
   }
@@ -136,13 +136,13 @@ export default function Admin() {
     try {
       const { error } = await supabase
         .from('profiles')
-        .update({ 
+        .update({
           status: newStatus, // 'active', 'rejected', 'suspended'
           approved: newStatus === 'active', // active일 때만 approved = true
           updated_at: new Date().toISOString()
         })
         .eq('id', userId)
-      
+
       if (error) {
         alert('회원 상태 변경에 실패했습니다: ' + error.message)
       } else {
@@ -167,7 +167,7 @@ export default function Admin() {
         .from('coversong_topics')
         .select('*')
         .order('votes_count', { ascending: false })
-      
+
       if (error) {
         console.error('주제 로드 오류:', error)
       } else {
@@ -198,12 +198,12 @@ export default function Admin() {
       try {
         const { data, error } = await supabase
           .from('coversong_topics')
-          .insert([{ 
-            topic: newTopic.trim(), 
-            votes_count: 0 
+          .insert([{
+            topic: newTopic.trim(),
+            votes_count: 0
           }])
           .select()
-        
+
         if (error) {
           alert('주제 추가에 실패했습니다: ' + error.message)
         } else {
@@ -222,7 +222,7 @@ export default function Admin() {
         .from('coversong_topics')
         .delete()
         .eq('id', id)
-      
+
       if (error) {
         alert('주제 삭제에 실패했습니다: ' + error.message)
       } else {
@@ -239,7 +239,7 @@ export default function Admin() {
         .from('coversong_topics')
         .update({ votes_count: Math.max(0, newVotes) })
         .eq('id', id)
-      
+
       if (error) {
         alert('투표 수 변경에 실패했습니다: ' + error.message)
       } else {
@@ -321,7 +321,7 @@ export default function Admin() {
       setIsAnnouncing(false)
     }
   }
-  
+
   // 3. 복수 주제 실행 핸들러
   const handleExecuteTopics = async () => {
     if (!selectedTopics.length) {
@@ -359,18 +359,18 @@ export default function Admin() {
       let totalVideos = 0;
       for (let i = 0; i < selectedTopics.length; i++) {
         const topic = selectedTopics[i];
-        console.log(`[스크랩] ${i+1}/${selectedTopics.length}:`, topic); // 반복 로그 추가
+        console.log(`[스크랩] ${i + 1}/${selectedTopics.length}:`, topic); // 반복 로그 추가
         let videos = await searchVideosByTopic(topic, 200);
         videos = videos.slice(0, 100);
         const videoRows = videos.map(v => ({
-            id: v.id,
-            title: v.title,
-            channel: v.channel,
-            thumbnail: v.thumbnail,
-            youtube_id: v.youtubeId,
-            views: v.views,
-            likes: v.likes,
-            arena_likes: 0,
+          id: v.id,
+          title: v.title,
+          channel: v.channel,
+          thumbnail: v.thumbnail,
+          youtube_id: v.youtubeId,
+          views: v.views,
+          likes: v.likes,
+          arena_likes: 0,
           topic,
           competition_id: competitionId
         }));
@@ -379,10 +379,23 @@ export default function Admin() {
           .upsert(videoRows, { onConflict: ['id'] });
         if (videoError) {
           alert(`'${topic}' 영상 저장 실패: ` + videoError.message); return;
-      }
+        }
         totalVideos += videoRows.length;
       }
-      alert(`스크랩 완료!\n총 ${selectedTopics.length}개 주제, ${totalVideos}개 영상이 저장되었습니다.`);
+      // 4. 메인 타이틀 업데이트 (새로운 단계 추가)
+      const newMainTitle = selectedTopics.join(', ');
+      const { error: configError } = await supabase
+        .from('coversong_config')
+        .upsert({ key: 'main_title', value: newMainTitle }, { onConflict: 'key' });
+
+      if (configError) {
+        console.error('메인 타이틀 업데이트 실패:', configError);
+      } else {
+        // 수동 입력 필드도 업데이트
+        setManualTopic(newMainTitle);
+      }
+
+      alert(`스크랩 완료!\n총 ${selectedTopics.length}개 주제, ${totalVideos}개 영상이 저장되었습니다.\n메인 타이틀이 "${newMainTitle}"(으)로 변경되었습니다.`);
       window.location.href = `/?competition_id=${competitionId}`;
     } catch (error) {
       alert('스크랩 실행 중 오류: ' + error.message);
@@ -400,7 +413,7 @@ export default function Admin() {
         .order('created_at', { ascending: false })
         .limit(1)
         .single()
-      
+
       if (error && error.code !== 'PGRST116') {
         console.error('Competition 로드 오류:', error)
       } else if (data) {
@@ -422,7 +435,7 @@ export default function Admin() {
         .eq('competition_id', competitionId)
         .order('site_score', { ascending: false })
         .limit(100)
-      
+
       if (error) {
         console.error('결과 계산 오류:', error)
       } else {
@@ -447,7 +460,7 @@ export default function Admin() {
         .eq('status', 'ended')
         .order('updated_at', { ascending: false })
         .limit(20)
-      
+
       if (!error && data) {
         setCompetitionHistory(data)
       }
@@ -466,7 +479,7 @@ export default function Admin() {
         .select('*')
         .eq('is_active', true)
         .order('blocked_at', { ascending: false })
-      
+
       if (!error && data) {
         setBlockedVideos(data)
       }
@@ -474,7 +487,7 @@ export default function Admin() {
       console.error('차단 목록 로드 오류:', error)
     }
   }
-  
+
   // 차단된 채널 목록 로드
   const loadBlockedChannels = async () => {
     try {
@@ -489,7 +502,7 @@ export default function Admin() {
   // 영상 검색
   const searchVideos = async () => {
     if (!videoSearchQuery.trim()) return
-    
+
     setIsSearching(true)
     setSelectedVideosForBlock([]) // 검색 시 선택 초기화
     try {
@@ -498,22 +511,22 @@ export default function Admin() {
         .from('coversong_blocked_videos')
         .select('youtube_id')
         .eq('is_active', true)
-      
+
       const blockedYoutubeIds = blockedData ? blockedData.map(b => b.youtube_id) : []
-      
+
       // 영상 검색
       const { data, error } = await supabase
         .from('coversong_videos')
         .select('*')
         .or(`title.ilike.%${videoSearchQuery}%,channel.ilike.%${videoSearchQuery}%,youtube_id.ilike.%${videoSearchQuery}%`)
         .limit(50) // 더 많이 가져온 후 필터링
-      
+
       if (!error && data) {
         // 차단된 영상 제외
-        const filteredResults = data.filter(video => 
+        const filteredResults = data.filter(video =>
           !blockedYoutubeIds.includes(video.youtube_id)
         ).slice(0, 20) // 최종적으로 20개만 표시
-        
+
         setSearchResults(filteredResults)
       }
     } catch (error) {
@@ -533,7 +546,7 @@ export default function Admin() {
           reason: reason || `${title} - 관리자에 의해 차단됨`,
           blocked_by: user?.id
         })
-      
+
       if (error) {
         if (error.code === '23505') {
           alert('이미 차단된 영상입니다.')
@@ -561,7 +574,7 @@ export default function Admin() {
           unblocked_at: new Date().toISOString()
         })
         .eq('id', id)
-      
+
       if (error) {
         alert('차단 해제에 실패했습니다: ' + error.message)
       } else {
@@ -586,7 +599,7 @@ export default function Admin() {
     if (!confirmed) return
 
     try {
-      const blockPromises = selectedVideosForBlock.map(video => 
+      const blockPromises = selectedVideosForBlock.map(video =>
         supabase
           .from('coversong_blocked_videos')
           .insert({
@@ -601,7 +614,7 @@ export default function Admin() {
       const failCount = results.filter(r => r.status === 'rejected').length
 
       alert(`차단 완료: ${successCount}개 성공${failCount > 0 ? `, ${failCount}개 실패` : ''}`)
-      
+
       loadBlockedVideos()
       setSearchResults([])
       setSelectedVideosForBlock([])
@@ -622,14 +635,14 @@ export default function Admin() {
       }
     })
   }
-  
+
   // 채널 차단
   const blockChannel = async () => {
     if (!channelToBlock.trim() && !channelIdToBlock.trim()) {
       alert('차단할 채널명 또는 채널 ID를 입력해주세요.')
       return
     }
-    
+
     try {
       const response = await fetch('/api/blocked-channels', {
         method: 'POST',
@@ -643,9 +656,9 @@ export default function Admin() {
           user_id: user?.id
         })
       })
-      
+
       const result = await response.json()
-      
+
       if (response.ok) {
         const blockedName = channelToBlock || channelIdToBlock;
         alert(`채널 "${blockedName}"이(가) 차단되었습니다.`)
@@ -655,8 +668,8 @@ export default function Admin() {
         loadBlockedChannels()
       } else {
         console.error('Channel block error:', result);
-        const errorMsg = result.details 
-          ? `채널 차단 실패: ${result.details}` 
+        const errorMsg = result.details
+          ? `채널 차단 실패: ${result.details}`
           : (result.error || '채널 차단에 실패했습니다.');
         alert(errorMsg);
       }
@@ -665,25 +678,25 @@ export default function Admin() {
       alert('채널 차단 중 오류가 발생했습니다.')
     }
   }
-  
+
   // 채널 차단 해제
   const unblockChannel = async (channelIdentifier) => {
     try {
       // channelIdentifier가 채널명인지 채널ID인지 판단
       const isChannelId = channelIdentifier && channelIdentifier.startsWith('UC');
-      
+
       const response = await fetch('/api/blocked-channels', {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(
-          isChannelId 
+          isChannelId
             ? { channel_id: channelIdentifier }
             : { channel_name: channelIdentifier }
         )
       })
-      
+
       if (response.ok) {
         alert(`채널 "${channelIdentifier}"의 차단이 해제되었습니다.`)
         loadBlockedChannels()
@@ -713,7 +726,7 @@ export default function Admin() {
       const currentUser = await auth.getCurrentUser();
       console.log('currentUser:', currentUser);
       setUser(currentUser)
-      
+
       // Admin 권한 체크 - Supabase에서 실제 admin 권한 확인
       if (currentUser) {
         try {
@@ -722,7 +735,7 @@ export default function Admin() {
             .select('is_admin')
             .eq('id', currentUser.id)
             .single()
-          
+
           if (profile && profile.is_admin) {
             setIsAuthenticated(true)
             // Admin 인증 후 데이터 로드
@@ -737,14 +750,14 @@ export default function Admin() {
           console.error('Admin 권한 확인 오류:', error)
         }
       }
-      
+
       setLoading(false)
     }
-    
+
     checkAuth()
   }, [])
 
-    if (loading) {
+  if (loading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-900 flex items-center justify-center">
         <div className="text-white text-xl">로딩 중...</div>
@@ -789,7 +802,7 @@ export default function Admin() {
       <Head>
         <title>Admin - Cover Battle Arena 100</title>
       </Head>
-      
+
       {/* 헤더 */}
       <header className="bg-black bg-opacity-50 backdrop-blur-sm border-b border-white border-opacity-20">
         <div className="container mx-auto px-4 py-4">
@@ -801,17 +814,17 @@ export default function Admin() {
                 <p className="text-sm text-gray-300">Cover Battle Arena 100 관리</p>
               </div>
             </div>
-                                    <div className="flex items-center space-x-4">
-                          <Link href="/" className="text-gray-300 hover:text-white">
-                            메인 페이지
-                          </Link>
-                          <button
-                            onClick={() => auth.signOut()}
-                            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
-                          >
-                            로그아웃
-                          </button>
-                        </div>
+            <div className="flex items-center space-x-4">
+              <Link href="/" className="text-gray-300 hover:text-white">
+                메인 페이지
+              </Link>
+              <button
+                onClick={() => auth.signOut()}
+                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+              >
+                로그아웃
+              </button>
+            </div>
           </div>
         </div>
       </header>
@@ -820,31 +833,31 @@ export default function Admin() {
         {/* 통합된 주제 및 투표 관리 */}
         <div className="mb-8 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
           <h2 className="text-xl font-bold text-white mb-6">🎯 주제 및 투표 관리</h2>
-          
+
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             {/* 왼쪽: 주제 선택 및 현재 주제 */}
             <div className="space-y-6">
               {/* 현재 주제 표시 */}
-            <div>
+              <div>
                 <label className="block text-gray-300 text-sm mb-2">현재 진행 중인 주제</label>
                 <div className="text-white font-semibold text-lg bg-white bg-opacity-10 rounded-lg p-3">
                   {manualTopic || '설정된 주제가 없습니다'}
                 </div>
-            </div>
-            
+              </div>
+
               {/* 새 주제 선택 */}
-            <div>
+              <div>
                 <label className="block text-gray-300 text-sm mb-3">새 주제 선택 (실행할 주제)</label>
-                
+
                 {/* 빠른 선택 버튼 */}
                 <div className="mb-3">
-                <button
-                  onClick={() => setSelectedTopics(suggestedTopics.slice(0, 3).map(t => t.topic))}
+                  <button
+                    onClick={() => setSelectedTopics(suggestedTopics.slice(0, 3).map(t => t.topic))}
                     className="px-3 py-2 bg-yellow-500 text-white rounded-lg mr-2 hover:bg-yellow-600 transition-colors"
-                  disabled={isScraping || suggestedTopics.length < 3}
-                >
+                    disabled={isScraping || suggestedTopics.length < 3}
+                  >
                     🔥 인기 TOP 3 전체 선택
-                </button>
+                  </button>
                   <button
                     onClick={() => setSelectedTopics([])}
                     className="px-3 py-2 bg-gray-500 text-white rounded-lg hover:bg-gray-600 transition-colors"
@@ -861,84 +874,84 @@ export default function Admin() {
                   ) : (
                     suggestedTopics.map((item, idx) => (
                       <label key={item.id} className="flex items-center space-x-3 p-2 bg-white bg-opacity-10 rounded hover:bg-white hover:bg-opacity-20 transition-colors">
-                    <input
-                      type="checkbox"
-                      value={item.topic}
-                      checked={selectedTopics.includes(item.topic)}
-                      onChange={e => {
-                        if (e.target.checked) {
-                          setSelectedTopics([...selectedTopics, item.topic]);
-                        } else {
-                          setSelectedTopics(selectedTopics.filter(t => t !== item.topic));
-                        }
-                      }}
-                      disabled={isScraping}
-                      className="accent-blue-500"
-                    />
+                        <input
+                          type="checkbox"
+                          value={item.topic}
+                          checked={selectedTopics.includes(item.topic)}
+                          onChange={e => {
+                            if (e.target.checked) {
+                              setSelectedTopics([...selectedTopics, item.topic]);
+                            } else {
+                              setSelectedTopics(selectedTopics.filter(t => t !== item.topic));
+                            }
+                          }}
+                          disabled={isScraping}
+                          className="accent-blue-500"
+                        />
                         <div className="flex-1">
                           <span className="text-white text-sm">
-                      {idx < 3 && <span className="text-yellow-400 mr-1">🔥</span>}
+                            {idx < 3 && <span className="text-yellow-400 mr-1">🔥</span>}
                             {item.topic}
-                    </span>
+                          </span>
                           <div className="text-gray-300 text-xs">({item.votes_count}표)</div>
                         </div>
-                  </label>
+                      </label>
                     ))
                   )}
-            </div>
-            
+                </div>
+
                 {/* 선택된 주제 표시 */}
                 {selectedTopics.length > 0 && (
                   <div className="mt-3 p-3 bg-blue-600 bg-opacity-20 rounded-lg border border-blue-500 border-opacity-30">
                     <div className="text-blue-300 text-sm font-semibold mb-2">선택된 주제 ({selectedTopics.length}개):</div>
                     <div className="text-white text-sm">
                       {selectedTopics.join(', ')}
-            </div>
+                    </div>
                   </div>
                 )}
-          </div>
-        </div>
+              </div>
+            </div>
 
             {/* 오른쪽: 투표 기간 설정 */}
             <div className="space-y-6">
               <div>
                 <label className="block text-gray-300 text-sm mb-3">투표 기간 설정</label>
-            
-            <div className="space-y-4">
-              <div>
+
+                <div className="space-y-4">
+                  <div>
                     <label className="block text-gray-300 text-xs mb-1">시작 시간</label>
-                <input
-                  type="datetime-local"
-                  value={votingPeriod.startTime.slice(0, 16)}
-                  onChange={(e) => handleVotingPeriodChange('startTime', e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              
-              <div>
-                    <label className="block text-gray-300 text-xs mb-1">종료 시간</label>
-                <input
-                  type="datetime-local"
-                  value={votingPeriod.endTime.slice(0, 16)}
-                  onChange={(e) => handleVotingPeriodChange('endTime', e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              
-              <div>
-                    <label className="block text-gray-300 text-xs mb-1">상태</label>
-                <select
-                  value={votingPeriod.status}
-                  onChange={(e) => handleStatusChange(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="preparing">준비중</option>
-                  <option value="active">진행중</option>
-                  <option value="ended">종료됨</option>
-                </select>
+                    <input
+                      type="datetime-local"
+                      value={votingPeriod.startTime.slice(0, 16)}
+                      onChange={(e) => handleVotingPeriodChange('startTime', e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
                   </div>
-              </div>
-              
+
+                  <div>
+                    <label className="block text-gray-300 text-xs mb-1">종료 시간</label>
+                    <input
+                      type="datetime-local"
+                      value={votingPeriod.endTime.slice(0, 16)}
+                      onChange={(e) => handleVotingPeriodChange('endTime', e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-gray-300 text-xs mb-1">상태</label>
+                    <select
+                      value={votingPeriod.status}
+                      onChange={(e) => handleStatusChange(e.target.value)}
+                      className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="preparing">준비중</option>
+                      <option value="active">진행중</option>
+                      <option value="ended">종료됨</option>
+                    </select>
+                  </div>
+                </div>
+
                 {/* 현재 설정 미리보기 */}
                 <div className="mt-4 p-3 bg-white bg-opacity-10 rounded-lg">
                   <div className="text-gray-300 text-xs mb-2">설정 미리보기:</div>
@@ -946,11 +959,11 @@ export default function Admin() {
                     <div>상태: <span className="font-semibold">{votingPeriod.status}</span></div>
                     <div>시작: <span className="font-semibold">{new Date(votingPeriod.startTime).toLocaleString()}</span></div>
                     <div>종료: <span className="font-semibold">{new Date(votingPeriod.endTime).toLocaleString()}</span></div>
-                </div>
-                </div>
+                  </div>
                 </div>
               </div>
             </div>
+          </div>
 
           {/* 실행 버튼 (하단 중앙) */}
           <div className="mt-8 text-center">
@@ -958,13 +971,12 @@ export default function Admin() {
               <button
                 onClick={handleExecuteTopics}
                 disabled={isScraping || selectedTopics.length === 0}
-                className={`px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 ${
-                  isScraping
-                    ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                    : selectedTopics.length
-                      ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:scale-105'
-                      : 'bg-gray-500 text-gray-300 cursor-not-allowed'
-                }`}
+                className={`px-8 py-4 rounded-lg font-semibold text-lg transition-all duration-200 ${isScraping
+                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                  : selectedTopics.length
+                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white hover:from-green-700 hover:to-emerald-700 shadow-lg hover:shadow-xl transform hover:scale-105'
+                    : 'bg-gray-500 text-gray-300 cursor-not-allowed'
+                  }`}
               >
                 {isScraping ? (
                   <span className="flex items-center">
@@ -978,9 +990,9 @@ export default function Admin() {
                 )}
               </button>
             </div>
-            
+
             <div className="mt-4 text-sm text-gray-300 max-w-2xl mx-auto">
-              💡 <strong>프로세스:</strong> 주제를 선택하고 투표 기간을 설정한 후 실행하면, 
+              💡 <strong>프로세스:</strong> 주제를 선택하고 투표 기간을 설정한 후 실행하면,
               YouTube에서 해당 주제의 커버 영상을 스크랩하여 새로운 Competition을 시작합니다.
             </div>
           </div>
@@ -989,7 +1001,7 @@ export default function Admin() {
         {/* Competition 히스토리 */}
         <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
           <h2 className="text-xl font-bold text-white mb-4">🏆 Competition 히스토리</h2>
-          
+
           {historyLoading ? (
             <div className="text-center text-gray-300 py-4">로딩 중...</div>
           ) : competitionHistory.length === 0 ? (
@@ -997,7 +1009,7 @@ export default function Admin() {
           ) : (
             <div className="space-y-4 max-h-96 overflow-y-auto">
               {competitionHistory.map((history) => (
-                <div 
+                <div
                   key={history.id}
                   className="p-4 bg-white bg-opacity-10 rounded-lg border border-white border-opacity-20"
                 >
@@ -1109,185 +1121,182 @@ export default function Admin() {
         {/* 차단 관리 탭 */}
         <div className="mb-8 bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
           <h2 className="text-xl font-bold text-white mb-4">🚫 차단 관리</h2>
-          
+
           {/* 탭 메뉴 */}
           <div className="flex space-x-4 mb-6 border-b border-white border-opacity-20 pb-2">
             <button
               onClick={() => setBlockTab('videos')}
-              className={`px-4 py-2 font-semibold transition-colors ${
-                blockTab === 'videos' 
-                  ? 'text-white border-b-2 border-red-500' 
-                  : 'text-gray-300 hover:text-white'
-              }`}
+              className={`px-4 py-2 font-semibold transition-colors ${blockTab === 'videos'
+                ? 'text-white border-b-2 border-red-500'
+                : 'text-gray-300 hover:text-white'
+                }`}
             >
               개별 영상 차단
             </button>
             <button
               onClick={() => setBlockTab('channels')}
-              className={`px-4 py-2 font-semibold transition-colors ${
-                blockTab === 'channels' 
-                  ? 'text-white border-b-2 border-red-500' 
-                  : 'text-gray-300 hover:text-white'
-              }`}
+              className={`px-4 py-2 font-semibold transition-colors ${blockTab === 'channels'
+                ? 'text-white border-b-2 border-red-500'
+                : 'text-gray-300 hover:text-white'
+                }`}
             >
               채널 차단
             </button>
           </div>
-          
+
           {/* 영상 차단 탭 */}
           {blockTab === 'videos' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* 왼쪽: 영상 검색 및 차단 */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">영상 검색</h3>
-              
-              {/* 검색 입력 */}
-              <div className="flex space-x-2 mb-4">
-                <input
-                  type="text"
-                  value={videoSearchQuery}
-                  onChange={(e) => setVideoSearchQuery(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && searchVideos()}
-                  placeholder="제목, 채널명 또는 YouTube ID로 검색"
-                  className="flex-1 px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
-                />
-                <button
-                  onClick={searchVideos}
-                  disabled={isSearching}
-                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
-                >
-                  {isSearching ? '검색 중...' : '검색'}
-                </button>
-              </div>
-              
-              {/* 일괄 선택 버튼들 */}
-              {searchResults.length > 0 && (
-                <div className="flex items-center justify-between mb-3">
-                  <div className="flex items-center space-x-2">
-                    <button
-                      onClick={toggleSelectAll}
-                      className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
-                    >
-                      {selectedVideosForBlock.length === searchResults.length ? '전체 해제' : '전체 선택'}
-                    </button>
+              {/* 왼쪽: 영상 검색 및 차단 */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-3">영상 검색</h3>
+
+                {/* 검색 입력 */}
+                <div className="flex space-x-2 mb-4">
+                  <input
+                    type="text"
+                    value={videoSearchQuery}
+                    onChange={(e) => setVideoSearchQuery(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && searchVideos()}
+                    placeholder="제목, 채널명 또는 YouTube ID로 검색"
+                    className="flex-1 px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
+                  />
+                  <button
+                    onClick={searchVideos}
+                    disabled={isSearching}
+                    className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50"
+                  >
+                    {isSearching ? '검색 중...' : '검색'}
+                  </button>
+                </div>
+
+                {/* 일괄 선택 버튼들 */}
+                {searchResults.length > 0 && (
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={toggleSelectAll}
+                        className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700 transition-colors"
+                      >
+                        {selectedVideosForBlock.length === searchResults.length ? '전체 해제' : '전체 선택'}
+                      </button>
+                      {selectedVideosForBlock.length > 0 && (
+                        <span className="text-white text-sm">
+                          {selectedVideosForBlock.length}개 선택됨
+                        </span>
+                      )}
+                    </div>
                     {selectedVideosForBlock.length > 0 && (
-                      <span className="text-white text-sm">
-                        {selectedVideosForBlock.length}개 선택됨
-                      </span>
+                      <button
+                        onClick={blockSelectedVideos}
+                        className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
+                      >
+                        <span>🚫</span>
+                        <span>선택한 {selectedVideosForBlock.length}개 일괄 차단</span>
+                      </button>
                     )}
                   </div>
-                  {selectedVideosForBlock.length > 0 && (
-                    <button
-                      onClick={blockSelectedVideos}
-                      className="px-4 py-2 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors flex items-center space-x-2"
-                    >
-                      <span>🚫</span>
-                      <span>선택한 {selectedVideosForBlock.length}개 일괄 차단</span>
-                    </button>
+                )}
+
+                {/* 검색 결과 */}
+                <div className="space-y-2 max-h-64 overflow-y-auto">
+                  {searchResults.length === 0 ? (
+                    <div className="text-center text-gray-300 py-4">
+                      {videoSearchQuery ? '검색 결과가 없습니다.' : '영상을 검색하세요.'}
+                    </div>
+                  ) : (
+                    searchResults.map((video) => {
+                      const isSelected = selectedVideosForBlock.some(v => v.id === video.id)
+                      return (
+                        <div
+                          key={video.id}
+                          className={`p-3 rounded-lg transition-all ${isSelected
+                            ? 'bg-red-600 bg-opacity-20 border border-red-500 border-opacity-50'
+                            : 'bg-white bg-opacity-10'
+                            }`}
+                        >
+                          <div className="flex items-start">
+                            <input
+                              type="checkbox"
+                              checked={isSelected}
+                              onChange={() => toggleVideoSelection(video)}
+                              className="mt-1 mr-3 accent-red-500"
+                            />
+                            <div className="flex-1">
+                              <div className="text-white font-semibold text-sm">{video.title}</div>
+                              <div className="text-gray-300 text-xs mt-1">
+                                채널: {video.channel} | ID: {video.youtube_id}
+                              </div>
+                              <div className="text-gray-400 text-xs mt-1">
+                                조회수: {video.views?.toLocaleString()} | 좋아요: {video.likes?.toLocaleString()}
+                              </div>
+                            </div>
+                            <button
+                              onClick={() => {
+                                if (confirm(`"${video.title}"을(를) 차단하시겠습니까?`)) {
+                                  blockVideo(video.youtube_id, video.title)
+                                }
+                              }}
+                              className="ml-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                            >
+                              개별 차단
+                            </button>
+                          </div>
+                        </div>
+                      )
+                    })
                   )}
                 </div>
-              )}
-              
-              {/* 검색 결과 */}
-              <div className="space-y-2 max-h-64 overflow-y-auto">
-                {searchResults.length === 0 ? (
-                  <div className="text-center text-gray-300 py-4">
-                    {videoSearchQuery ? '검색 결과가 없습니다.' : '영상을 검색하세요.'}
-                  </div>
-                ) : (
-                  searchResults.map((video) => {
-                    const isSelected = selectedVideosForBlock.some(v => v.id === video.id)
-                    return (
-                      <div 
-                        key={video.id} 
-                        className={`p-3 rounded-lg transition-all ${
-                          isSelected 
-                            ? 'bg-red-600 bg-opacity-20 border border-red-500 border-opacity-50' 
-                            : 'bg-white bg-opacity-10'
-                        }`}
-                      >
-                        <div className="flex items-start">
-                          <input
-                            type="checkbox"
-                            checked={isSelected}
-                            onChange={() => toggleVideoSelection(video)}
-                            className="mt-1 mr-3 accent-red-500"
-                          />
+              </div>
+
+              {/* 오른쪽: 차단된 영상 목록 */}
+              <div>
+                <h3 className="text-lg font-semibold text-white mb-3">
+                  차단된 영상 목록 ({blockedVideos.length}개)
+                </h3>
+
+                <div className="space-y-2 max-h-96 overflow-y-auto">
+                  {blockedVideos.length === 0 ? (
+                    <div className="text-center text-gray-300 py-4">차단된 영상이 없습니다.</div>
+                  ) : (
+                    blockedVideos.map((blocked) => (
+                      <div key={blocked.id} className="p-3 bg-white bg-opacity-10 rounded-lg">
+                        <div className="flex items-start justify-between">
                           <div className="flex-1">
-                            <div className="text-white font-semibold text-sm">{video.title}</div>
-                            <div className="text-gray-300 text-xs mt-1">
-                              채널: {video.channel} | ID: {video.youtube_id}
+                            <div className="text-white text-sm">{blocked.reason}</div>
+                            <div className="text-gray-400 text-xs mt-1">
+                              YouTube ID: {blocked.youtube_id}
                             </div>
                             <div className="text-gray-400 text-xs mt-1">
-                              조회수: {video.views?.toLocaleString()} | 좋아요: {video.likes?.toLocaleString()}
+                              차단일: {new Date(blocked.blocked_at).toLocaleDateString()}
                             </div>
                           </div>
                           <button
                             onClick={() => {
-                              if (confirm(`"${video.title}"을(를) 차단하시겠습니까?`)) {
-                                blockVideo(video.youtube_id, video.title)
+                              if (confirm('차단을 해제하시겠습니까?')) {
+                                unblockVideo(blocked.id)
                               }
                             }}
-                            className="ml-2 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                            className="ml-2 px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
                           >
-                            개별 차단
+                            해제
                           </button>
                         </div>
                       </div>
-                    )
-                  })
-                )}
+                    ))
+                  )}
+                </div>
               </div>
             </div>
-            
-            {/* 오른쪽: 차단된 영상 목록 */}
-            <div>
-              <h3 className="text-lg font-semibold text-white mb-3">
-                차단된 영상 목록 ({blockedVideos.length}개)
-              </h3>
-              
-              <div className="space-y-2 max-h-96 overflow-y-auto">
-                {blockedVideos.length === 0 ? (
-                  <div className="text-center text-gray-300 py-4">차단된 영상이 없습니다.</div>
-                ) : (
-                  blockedVideos.map((blocked) => (
-                    <div key={blocked.id} className="p-3 bg-white bg-opacity-10 rounded-lg">
-                      <div className="flex items-start justify-between">
-                        <div className="flex-1">
-                          <div className="text-white text-sm">{blocked.reason}</div>
-                          <div className="text-gray-400 text-xs mt-1">
-                            YouTube ID: {blocked.youtube_id}
-                          </div>
-                          <div className="text-gray-400 text-xs mt-1">
-                            차단일: {new Date(blocked.blocked_at).toLocaleDateString()}
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => {
-                            if (confirm('차단을 해제하시겠습니까?')) {
-                              unblockVideo(blocked.id)
-                            }
-                          }}
-                          className="ml-2 px-3 py-1 bg-green-600 text-white text-sm rounded hover:bg-green-700 transition-colors"
-                        >
-                          해제
-                        </button>
-                      </div>
-                    </div>
-                  ))
-                )}
-              </div>
-            </div>
-          </div>
           )}
-          
+
           {/* 채널 차단 탭 */}
           {blockTab === 'channels' && (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* 왼쪽: 채널 차단 추가 */}
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">채널 차단 추가</h3>
-                
+
                 <div className="space-y-4">
                   <div>
                     <label className="block text-gray-300 text-sm mb-2">채널명</label>
@@ -1299,7 +1308,7 @@ export default function Admin() {
                       className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-gray-300 text-sm mb-2">채널 ID (선택)</label>
                     <input
@@ -1310,7 +1319,7 @@ export default function Admin() {
                       className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
-                  
+
                   <div>
                     <label className="block text-gray-300 text-sm mb-2">차단 사유 (선택)</label>
                     <input
@@ -1321,7 +1330,7 @@ export default function Admin() {
                       className="w-full px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-red-500"
                     />
                   </div>
-                  
+
                   <button
                     onClick={blockChannel}
                     className="w-full px-4 py-3 bg-red-600 text-white font-semibold rounded-lg hover:bg-red-700 transition-colors flex items-center justify-center space-x-2"
@@ -1330,7 +1339,7 @@ export default function Admin() {
                     <span>채널 차단</span>
                   </button>
                 </div>
-                
+
                 <div className="mt-6 p-4 bg-yellow-600 bg-opacity-20 rounded-lg">
                   <div className="text-yellow-300 text-sm font-semibold mb-2">⚠️ 주의사항</div>
                   <ul className="text-yellow-200 text-xs space-y-1">
@@ -1340,13 +1349,13 @@ export default function Admin() {
                   </ul>
                 </div>
               </div>
-              
+
               {/* 오른쪽: 차단된 채널 목록 */}
               <div>
                 <h3 className="text-lg font-semibold text-white mb-3">
                   차단된 채널 목록 ({blockedChannels.length}개)
                 </h3>
-                
+
                 <div className="space-y-2 max-h-96 overflow-y-auto">
                   {blockedChannels.length === 0 ? (
                     <div className="text-center text-gray-300 py-4">차단된 채널이 없습니다.</div>
@@ -1389,7 +1398,7 @@ export default function Admin() {
               </div>
             </div>
           )}
-          
+
           <div className="mt-4 text-sm text-gray-300">
             💡 차단된 영상과 채널은 모든 리스트와 순위에서 제외됩니다.
           </div>
@@ -1398,7 +1407,7 @@ export default function Admin() {
         {/* 회원 관리 */}
         <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
           <h2 className="text-xl font-bold text-white mb-4">👥 회원 관리</h2>
-          
+
           {/* 필터 */}
           <div className="mb-4">
             <select
@@ -1422,7 +1431,7 @@ export default function Admin() {
               <div className="text-center text-gray-300 py-4">회원이 없습니다.</div>
             ) : (
               getFilteredUsers().map((user) => (
-                <div 
+                <div
                   key={user.id}
                   className="p-3 bg-white bg-opacity-10 rounded-lg"
                 >
@@ -1431,16 +1440,15 @@ export default function Admin() {
                       <span className="text-white text-sm font-semibold">
                         {user.username || user.email?.split('@')[0] || 'Unknown'}
                       </span>
-                      <span className={`px-2 py-1 text-xs rounded ${
-                        user.status === 'active' ? 'bg-green-600 text-white' :
+                      <span className={`px-2 py-1 text-xs rounded ${user.status === 'active' ? 'bg-green-600 text-white' :
                         user.status === 'pending' ? 'bg-yellow-600 text-white' :
-                        user.status === 'rejected' ? 'bg-red-600 text-white' :
-                        'bg-gray-600 text-white'
-                      }`}>
+                          user.status === 'rejected' ? 'bg-red-600 text-white' :
+                            'bg-gray-600 text-white'
+                        }`}>
                         {user.status === 'active' ? '활성화' :
-                         user.status === 'pending' ? '대기' :
-                         user.status === 'rejected' ? '거부' :
-                         user.status === 'suspended' ? '정지' : user.status}
+                          user.status === 'pending' ? '대기' :
+                            user.status === 'rejected' ? '거부' :
+                              user.status === 'suspended' ? '정지' : user.status}
                       </span>
                       {user.is_admin && (
                         <span className="px-2 py-1 bg-purple-600 text-white text-xs rounded">
@@ -1449,11 +1457,11 @@ export default function Admin() {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="text-gray-300 text-xs mb-2">
                     {user.email}
                   </div>
-                  
+
                   <div className="text-gray-300 text-xs mb-3">
                     가입일: {new Date(user.created_at).toLocaleDateString()}
                   </div>
@@ -1504,252 +1512,246 @@ export default function Admin() {
               <div>거부: {users.filter(u => u.status === 'rejected').length}명</div>
             </div>
           </div>
+        </div>
+
+        {/* 주제 제안 관리 */}
+        <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
+          <h2 className="text-xl font-bold text-white mb-4">📝 주제 제안 관리</h2>
+
+          {/* 실시간 통계 */}
+          <div className="grid grid-cols-3 gap-4 mb-6">
+            <div className="text-center p-3 bg-white bg-opacity-10 rounded-lg">
+              <div className="text-2xl font-bold text-white">{suggestedTopics.length}</div>
+              <div className="text-xs text-gray-300">전체 제안</div>
+            </div>
+            <div className="text-center p-3 bg-white bg-opacity-10 rounded-lg">
+              <div className="text-2xl font-bold text-green-400">
+                {suggestedTopics.filter(t => t.votes_count >= 10).length}
+              </div>
+              <div className="text-xs text-gray-300">인기 제안 (10표+)</div>
+            </div>
+            <div className="text-center p-3 bg-white bg-opacity-10 rounded-lg">
+              <div className="text-2xl font-bold text-yellow-400">
+                {suggestedTopics.filter(t => t.votes_count >= 50).length}
+              </div>
+              <div className="text-xs text-gray-300">핫 제안 (50표+)</div>
+            </div>
           </div>
 
-          {/* 주제 제안 관리 */}
-          <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
-            <h2 className="text-xl font-bold text-white mb-4">📝 주제 제안 관리</h2>
-            
-            {/* 실시간 통계 */}
-            <div className="grid grid-cols-3 gap-4 mb-6">
-              <div className="text-center p-3 bg-white bg-opacity-10 rounded-lg">
-                <div className="text-2xl font-bold text-white">{suggestedTopics.length}</div>
-                <div className="text-xs text-gray-300">전체 제안</div>
-              </div>
-              <div className="text-center p-3 bg-white bg-opacity-10 rounded-lg">
-                <div className="text-2xl font-bold text-green-400">
-                  {suggestedTopics.filter(t => t.votes_count >= 10).length}
-                </div>
-                <div className="text-xs text-gray-300">인기 제안 (10표+)</div>
-              </div>
-              <div className="text-center p-3 bg-white bg-opacity-10 rounded-lg">
-                <div className="text-2xl font-bold text-yellow-400">
-                  {suggestedTopics.filter(t => t.votes_count >= 50).length}
-                </div>
-                <div className="text-xs text-gray-300">핫 제안 (50표+)</div>
-              </div>
-            </div>
+          {/* 빠른 관리 버튼 */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            <button
+              onClick={() => {
+                const top3 = suggestedTopics.slice(0, 3).map(t => t.topic);
+                setSelectedTopics(top3);
+              }}
+              className="px-3 py-2 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 transition-colors"
+              disabled={suggestedTopics.length < 3}
+            >
+              🔥 TOP 3 선택
+            </button>
+            <button
+              onClick={() => {
+                const popular = suggestedTopics.filter(t => t.votes_count >= 10).slice(0, 3).map(t => t.topic);
+                setSelectedTopics(popular);
+              }}
+              className="px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
+            >
+              ⭐ 인기 제안 선택
+            </button>
+            <button
+              onClick={() => {
+                const confirmed = confirm('투표수가 5표 미만인 주제들을 모두 삭제하시겠습니까?');
+                if (confirmed) {
+                  suggestedTopics.filter(t => t.votes_count < 5).forEach(t => handleDeleteTopic(t.id));
+                }
+              }}
+              className="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
+            >
+              🗑️ 저투표 제안 정리
+            </button>
+          </div>
 
-            {/* 빠른 관리 버튼 */}
-            <div className="flex flex-wrap gap-2 mb-4">
+          {/* 새 주제 추가 */}
+          <form onSubmit={handleAddTopic} className="mb-4">
+            <div className="flex space-x-2">
+              <input
+                type="text"
+                value={newTopic}
+                onChange={(e) => setNewTopic(e.target.value)}
+                placeholder="새 주제 입력 (예: BTS - Butter)"
+                className="flex-1 px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
               <button
-                onClick={() => {
-                  const top3 = suggestedTopics.slice(0, 3).map(t => t.topic);
-                  setSelectedTopics(top3);
-                }}
-                className="px-3 py-2 bg-yellow-600 text-white text-sm rounded-lg hover:bg-yellow-700 transition-colors"
-                disabled={suggestedTopics.length < 3}
+                type="submit"
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
               >
-                🔥 TOP 3 선택
-              </button>
-              <button
-                onClick={() => {
-                  const popular = suggestedTopics.filter(t => t.votes_count >= 10).slice(0, 3).map(t => t.topic);
-                  setSelectedTopics(popular);
-                }}
-                className="px-3 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors"
-              >
-                ⭐ 인기 제안 선택
-              </button>
-              <button
-                onClick={() => {
-                  const confirmed = confirm('투표수가 5표 미만인 주제들을 모두 삭제하시겠습니까?');
-                  if (confirmed) {
-                    suggestedTopics.filter(t => t.votes_count < 5).forEach(t => handleDeleteTopic(t.id));
-                  }
-                }}
-                className="px-3 py-2 bg-red-600 text-white text-sm rounded-lg hover:bg-red-700 transition-colors"
-              >
-                🗑️ 저투표 제안 정리
+                추가
               </button>
             </div>
-            
-            {/* 새 주제 추가 */}
-            <form onSubmit={handleAddTopic} className="mb-4">
-              <div className="flex space-x-2">
-                <input
-                  type="text"
-                  value={newTopic}
-                  onChange={(e) => setNewTopic(e.target.value)}
-                  placeholder="새 주제 입력 (예: BTS - Butter)"
-                  className="flex-1 px-3 py-2 rounded-lg bg-white bg-opacity-20 text-white placeholder-gray-300 border border-white border-opacity-30 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                />
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                >
-                  추가
-                </button>
+          </form>
+
+          {/* 주제 목록 (개선된 UI) */}
+          <div className="space-y-2 max-h-64 overflow-y-auto">
+            {suggestedTopics.length === 0 ? (
+              <div className="text-center text-gray-300 py-8">
+                <div className="text-4xl mb-2">📝</div>
+                <div>제안된 주제가 없습니다.</div>
+                <div className="text-xs text-gray-400 mt-1">사용자들이 주제를 제안하면 여기에 표시됩니다.</div>
               </div>
-            </form>
-            
-            {/* 주제 목록 (개선된 UI) */}
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {suggestedTopics.length === 0 ? (
-                <div className="text-center text-gray-300 py-8">
-                  <div className="text-4xl mb-2">📝</div>
-                  <div>제안된 주제가 없습니다.</div>
-                  <div className="text-xs text-gray-400 mt-1">사용자들이 주제를 제안하면 여기에 표시됩니다.</div>
-                </div>
-              ) : (
-                suggestedTopics.map((item, index) => (
-                <div 
+            ) : (
+              suggestedTopics.map((item, index) => (
+                <div
                   key={item.id}
-                    className={`p-3 rounded-lg transition-all duration-200 ${
-                      item.votes_count >= 50 ? 'bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border border-yellow-500/30' :
-                      item.votes_count >= 20 ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-500/30' :
+                  className={`p-3 rounded-lg transition-all duration-200 ${item.votes_count >= 50 ? 'bg-gradient-to-r from-yellow-600/20 to-orange-600/20 border border-yellow-500/30' :
+                    item.votes_count >= 20 ? 'bg-gradient-to-r from-green-600/20 to-emerald-600/20 border border-green-500/30' :
                       item.votes_count >= 10 ? 'bg-gradient-to-r from-blue-600/20 to-indigo-600/20 border border-blue-500/30' :
-                      'bg-white bg-opacity-10'
+                        'bg-white bg-opacity-10'
                     }`}
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-3 flex-1">
-                        <div className="flex flex-col items-center min-w-[40px]">
-                          <span className={`text-sm font-bold ${
-                            item.votes_count >= 50 ? 'text-yellow-400' :
-                            item.votes_count >= 20 ? 'text-green-400' :
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3 flex-1">
+                      <div className="flex flex-col items-center min-w-[40px]">
+                        <span className={`text-sm font-bold ${item.votes_count >= 50 ? 'text-yellow-400' :
+                          item.votes_count >= 20 ? 'text-green-400' :
                             item.votes_count >= 10 ? 'text-blue-400' :
-                            'text-gray-400'
+                              'text-gray-400'
                           }`}>
-                      {index + 1}
-                    </span>
-                          <span className={`text-xs ${
-                            item.votes_count >= 50 ? 'text-yellow-400' :
-                            item.votes_count >= 20 ? 'text-green-400' :
+                          {index + 1}
+                        </span>
+                        <span className={`text-xs ${item.votes_count >= 50 ? 'text-yellow-400' :
+                          item.votes_count >= 20 ? 'text-green-400' :
                             item.votes_count >= 10 ? 'text-blue-400' :
-                            'text-gray-400'
+                              'text-gray-400'
                           }`}>
-                            {item.votes_count}표
-                          </span>
+                          {item.votes_count}표
+                        </span>
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-white text-sm font-medium">{item.topic}</div>
+                        <div className="text-gray-300 text-xs">
+                          제안일: {new Date(item.created_at).toLocaleDateString()}
                         </div>
-                        <div className="flex-1">
-                          <div className="text-white text-sm font-medium">{item.topic}</div>
-                          <div className="text-gray-300 text-xs">
-                            제안일: {new Date(item.created_at).toLocaleDateString()}
-                          </div>
-                        </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      value={item.votes_count}
-                      onChange={(e) => handleVoteChange(item.id, parseInt(e.target.value) || 0)}
-                      className="w-16 px-2 py-1 rounded bg-white bg-opacity-20 text-white text-sm border border-white border-opacity-30"
-                    />
-                    <button
-                      onClick={() => handleDeleteTopic(item.id)}
-                      className="px-2 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
-                    >
-                      삭제
-                    </button>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="number"
+                        value={item.votes_count}
+                        onChange={(e) => handleVoteChange(item.id, parseInt(e.target.value) || 0)}
+                        className="w-16 px-2 py-1 rounded bg-white bg-opacity-20 text-white text-sm border border-white border-opacity-30"
+                      />
+                      <button
+                        onClick={() => handleDeleteTopic(item.id)}
+                        className="px-2 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-700 transition-colors"
+                      >
+                        삭제
+                      </button>
+                    </div>
                   </div>
                 </div>
-            </div>
-                ))
-              )}
+              ))
+            )}
           </div>
         </div>
 
         {/* 최종 순위 발표 */}
-          <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
+        <div className="bg-white bg-opacity-10 backdrop-blur-sm rounded-lg p-6">
           <h2 className="text-xl font-bold text-white mb-4">🏆 최종 순위 발표</h2>
-          
-            {currentCompetition ? (
-              <div className="space-y-4">
-                {/* 현재 Competition 정보 */}
-                <div className="p-4 bg-white bg-opacity-10 rounded-lg">
-                  <div className="text-gray-300 text-sm mb-2">현재 Competition:</div>
-                  <div className="text-white font-semibold text-lg mb-2">{currentCompetition.topic}</div>
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                      <span className="text-gray-300">상태:</span>
-                      <span className={`ml-2 px-2 py-1 rounded text-xs ${
-                        currentCompetition.status === 'active' ? 'bg-green-600 text-white' :
-                        currentCompetition.status === 'ended' ? 'bg-red-600 text-white' :
+
+          {currentCompetition ? (
+            <div className="space-y-4">
+              {/* 현재 Competition 정보 */}
+              <div className="p-4 bg-white bg-opacity-10 rounded-lg">
+                <div className="text-gray-300 text-sm mb-2">현재 Competition:</div>
+                <div className="text-white font-semibold text-lg mb-2">{currentCompetition.topic}</div>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <span className="text-gray-300">상태:</span>
+                    <span className={`ml-2 px-2 py-1 rounded text-xs ${currentCompetition.status === 'active' ? 'bg-green-600 text-white' :
+                      currentCompetition.status === 'ended' ? 'bg-red-600 text-white' :
                         'bg-yellow-600 text-white'
                       }`}>
-                        {currentCompetition.status === 'active' ? '진행중' :
-                         currentCompetition.status === 'ended' ? '종료됨' : '준비중'}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="text-gray-300">참가 영상:</span>
-                      <span className="ml-2 text-white font-semibold">{finalResults.length}개</span>
-                    </div>
+                      {currentCompetition.status === 'active' ? '진행중' :
+                        currentCompetition.status === 'ended' ? '종료됨' : '준비중'}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-300">참가 영상:</span>
+                    <span className="ml-2 text-white font-semibold">{finalResults.length}개</span>
                   </div>
                 </div>
+              </div>
 
-                {/* 최종 순위 미리보기 */}
-                {finalResults.length > 0 && (
-                  <div className="p-4 bg-white bg-opacity-10 rounded-lg">
-                    <div className="text-gray-300 text-sm mb-3">최종 순위 미리보기:</div>
-                    <div className="space-y-2 max-h-32 overflow-y-auto">
-                      {finalResults.slice(0, 5).map((video, index) => (
-                        <div key={video.id} className="flex items-center space-x-3 p-2 bg-white bg-opacity-5 rounded">
-                          <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
-                            index === 0 ? 'bg-yellow-500 text-white' :
-                            index === 1 ? 'bg-gray-400 text-white' :
+              {/* 최종 순위 미리보기 */}
+              {finalResults.length > 0 && (
+                <div className="p-4 bg-white bg-opacity-10 rounded-lg">
+                  <div className="text-gray-300 text-sm mb-3">최종 순위 미리보기:</div>
+                  <div className="space-y-2 max-h-32 overflow-y-auto">
+                    {finalResults.slice(0, 5).map((video, index) => (
+                      <div key={video.id} className="flex items-center space-x-3 p-2 bg-white bg-opacity-5 rounded">
+                        <div className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${index === 0 ? 'bg-yellow-500 text-white' :
+                          index === 1 ? 'bg-gray-400 text-white' :
                             index === 2 ? 'bg-orange-500 text-white' :
-                            'bg-gray-600 text-white'
+                              'bg-gray-600 text-white'
                           }`}>
-                            {index + 1}
-                          </div>
-                          <div className="flex-1">
-                            <div className="text-white text-sm font-medium truncate">{video.title}</div>
-                            <div className="text-gray-300 text-xs">{video.channel}</div>
-                          </div>
-                          <div className="text-right">
-                            <div className="text-white text-sm font-semibold">{video.site_score?.toLocaleString()}</div>
-                            <div className="text-gray-300 text-xs">점수</div>
-                          </div>
+                          {index + 1}
                         </div>
-                      ))}
-                    </div>
-                    {finalResults.length > 5 && (
-                      <div className="text-center text-gray-300 text-xs mt-2">
-                        ... 외 {finalResults.length - 5}개 영상
+                        <div className="flex-1">
+                          <div className="text-white text-sm font-medium truncate">{video.title}</div>
+                          <div className="text-gray-300 text-xs">{video.channel}</div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-white text-sm font-semibold">{video.site_score?.toLocaleString()}</div>
+                          <div className="text-gray-300 text-xs">점수</div>
+                        </div>
                       </div>
-                    )}
+                    ))}
                   </div>
-                )}
+                  {finalResults.length > 5 && (
+                    <div className="text-center text-gray-300 text-xs mt-2">
+                      ... 외 {finalResults.length - 5}개 영상
+                    </div>
+                  )}
+                </div>
+              )}
 
-                {/* 발표 버튼 */}
-          <div className="flex items-center justify-between">
-                  <div className="text-gray-300 text-sm">
-                    {currentCompetition.status === 'ended' 
-                      ? '이미 종료된 Competition입니다.'
-                      : '투표 기간이 종료되면 최종 순위를 발표할 수 있습니다.'
-                    }
+              {/* 발표 버튼 */}
+              <div className="flex items-center justify-between">
+                <div className="text-gray-300 text-sm">
+                  {currentCompetition.status === 'ended'
+                    ? '이미 종료된 Competition입니다.'
+                    : '투표 기간이 종료되면 최종 순위를 발표할 수 있습니다.'
+                  }
+                </div>
+                <button
+                  onClick={handleAnnounceResults}
+                  disabled={currentCompetition.status !== 'ended' || isAnnouncing}
+                  className={`px-6 py-3 rounded-lg font-semibold transition-colors ${currentCompetition.status === 'ended' && !isAnnouncing
+                    ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white hover:from-yellow-700 hover:to-orange-700 shadow-lg'
+                    : 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                    }`}
+                >
+                  {isAnnouncing ? (
+                    <span className="flex items-center">
+                      <span className="animate-spin mr-2">🔄</span>
+                      발표 중...
+                    </span>
+                  ) : (
+                    <span className="flex items-center">
+                      🏆 최종 순위 발표
+                    </span>
+                  )}
+                </button>
+              </div>
             </div>
-            <button
-              onClick={handleAnnounceResults}
-                    disabled={currentCompetition.status !== 'ended' || isAnnouncing}
-              className={`px-6 py-3 rounded-lg font-semibold transition-colors ${
-                      currentCompetition.status === 'ended' && !isAnnouncing
-                        ? 'bg-gradient-to-r from-yellow-600 to-orange-600 text-white hover:from-yellow-700 hover:to-orange-700 shadow-lg'
-                  : 'bg-gray-600 text-gray-400 cursor-not-allowed'
-              }`}
-            >
-                    {isAnnouncing ? (
-                      <span className="flex items-center">
-                        <span className="animate-spin mr-2">🔄</span>
-                        발표 중...
-                      </span>
-                    ) : (
-                      <span className="flex items-center">
-                        🏆 최종 순위 발표
-                      </span>
-                    )}
-            </button>
-          </div>
-              </div>
-            ) : (
-              <div className="text-center text-gray-300 py-8">
-                <div className="text-4xl mb-2">🏆</div>
-                <div>진행 중인 Competition이 없습니다.</div>
-                <div className="text-xs text-gray-400 mt-1">새로운 Competition을 시작하면 여기에 표시됩니다.</div>
-              </div>
-            )}
+          ) : (
+            <div className="text-center text-gray-300 py-8">
+              <div className="text-4xl mb-2">🏆</div>
+              <div>진행 중인 Competition이 없습니다.</div>
+              <div className="text-xs text-gray-400 mt-1">새로운 Competition을 시작하면 여기에 표시됩니다.</div>
+            </div>
+          )}
         </div>
       </main>
     </div>

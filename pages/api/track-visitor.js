@@ -1,4 +1,4 @@
-import { supabase } from '../../lib/supabase'
+import { supabase } from '../../shared/lib/supabase'
 import crypto from 'crypto'
 
 export default async function handler(req, res) {

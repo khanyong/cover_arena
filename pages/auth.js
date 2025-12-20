@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
-import { auth, supabase } from '../lib/supabase'
+import { auth, supabase } from '../shared/lib/supabase'
 import { useRouter } from 'next/router'
 
 export default function Auth() {
