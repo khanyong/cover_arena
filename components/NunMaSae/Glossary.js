@@ -1,4 +1,17 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/router';
+
+// 초성 추출기 (ㄱ, ㄲ, ㄴ, ㄷ, ...)
+function getChosung(str) {
+  const cho = ["ㄱ","ㄲ","ㄴ","ㄷ","ㄸ","ㄹ","ㅁ","ㅂ","ㅃ","ㅅ","ㅆ","ㅇ","ㅈ","ㅉ","ㅊ","ㅋ","ㅌ","ㅍ","ㅎ"];
+  const code = str.charCodeAt(0) - 44032;
+  if (code > -1 && code < 11172) return cho[Math.floor(code / 588)];
+  
+  // 영어나 기타 문자인 경우 첫 글자 대문자 반환
+  return str.charAt(0).toUpperCase();
+}
+
+const CONSONANTS = ["전체", "ㄱ", "ㄴ", "ㄷ", "ㄹ", "ㅁ", "ㅂ", "ㅅ", "ㅇ", "ㅈ", "ㅊ", "ㅋ", "ㅌ", "ㅍ", "ㅎ", "기타"];
 
 const GLOSSARY_CHAPTERS = [
   {
@@ -119,93 +132,230 @@ const GLOSSARY_CHAPTERS = [
         term: '군령자 (Gunryeongja - Lord of Spirits)',
         pronunciation: '[군령-자]',
         definition: '죽은 자들의 영을 빨아들여 한 사람의 육신 안에 수많은 혼을 동시에 거느리고 다스리는 기이한 자들. 보유하고 있는 영혼과 인격을 상황에 맞추어 바꿔가며 표면에 내세울 수 있는 무섭고도 신비한 능력을 가졌다.'
+      },
+      {
+        term: '밤의 다섯 딸 (The Five Daughters of the Night)',
+        pronunciation: '[밤의 다-섯 딸]',
+        definition: '혼란, 매혹, 감금, 은닉, 꿈으로 이루어진 존재들. 즈믄누리의 복잡하고 괴랄한 성 건축에 깊이 관여했다고 전해진다. 혼란은 성의 내부를, 매혹은 외형을, 감금은 수많은 미궁과 미로 및 함정을, 은닉은 비밀통로와 비밀문 및 암호를 결정했으며, 마지막 딸인 "꿈"이 성 건축에 구체적으로 어떤 개입을 했는지에 대해서는 아직까지도 불확실하게 남아 있다.'
+      },
+      {
+        term: '즈믄누리 성의 구조 (Structure of Jeumeunnuri Castle)',
+        pronunciation: '[즈믄-누-리 성의 구-조]',
+        definition: '물리 법칙과 상식을 완벽히 파괴하는 기괴한 건축 양식. 본관 4층은 항상 7층에서 위로 올라가야만 도달할 수 있으며, 성 안 어디에서든 모퉁이를 오른쪽으로 세 번 돌면 무조건 대식당에 도달한다. 또한 동쪽 탑 어느 꼭대기에 서서 왼쪽으로 딱 두 바퀴를 돌고 나면 반드시 눈앞에 공간이 점프되어 성주의 서재 바닥에 엉덩방아를 찧게 되는 기상천외한 구조를 지녔다.'
+      },
+      {
+        term: '사빈 하수언 (Sabin Hasueon)',
+        pronunciation: '[사-빈 하-수-언]',
+        definition: '즈믄누리의 무사장을 맡고 있는 도깨비. 피를 혐오하는 평화주의 종족임에도 무사장이라는 직책을 맡고 있으며, 성주를 친구 다루듯 짓궂게 놀려먹는 한량 같은 모습을 보이지만 성주와 매우 깊고 허물없는 신뢰 관계를 유지한다.'
+      },
+      {
+        term: '바우 머리돌 (Bau Meoridol)',
+        pronunciation: '[바우 머리-돌]',
+        definition: '도깨비 요새 즈믄누리의 11대 성주. 평소에는 어딘가 나사가 빠져 보이는 기상천외한 농담과 철학적 장난을 일삼지만, 그 가벼움 이면에는 즈믄누리를 수호하고 세계의 섭리를 꿰뚫어 보는 자비롭고 깊은 통찰력을 지니고 있다.'
       }
     ]
   }
 ];
 
+// Flatten terms and sort alphabetically for the new dictionary UI
+const TEMP_ALL_TERMS = GLOSSARY_CHAPTERS.flatMap(c => c.terms).sort((a, b) => a.term.localeCompare(b.term, 'ko'));
+
 export default function Glossary() {
-  const [activeChapter, setActiveChapter] = useState(GLOSSARY_CHAPTERS[0].chapterId);
+  const router = useRouter();
+  const searchParam = router.query.search || '';
+
+  const [activeChosung, setActiveChosung] = useState('전체');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTerm, setSelectedTerm] = useState(TEMP_ALL_TERMS[0]);
+
+  // URL ?search= 가 변경되면 쿼리를 자동 설정하고 매칭되는 단어로 포커스 이동
+  useEffect(() => {
+    if (searchParam) {
+      setSearchQuery(searchParam);
+      const found = TEMP_ALL_TERMS.find(t => t.term.includes(searchParam) || t.definition.includes(searchParam));
+      if (found) {
+        setSelectedTerm(found);
+        // 초성 탭도 '전체'로 풀어서 목록에 보이도록 함
+        setActiveChosung('전체');
+      }
+    }
+  }, [searchParam]);
+
+  // 검색어와 초성을 모두 적용한 필터링 배열 완성본
+  const filteredTerms = useMemo(() => {
+    return TEMP_ALL_TERMS.filter(item => {
+      // 1. 텍스트 검색 (이름 또는 설명)
+      const keyword = searchQuery.toLowerCase();
+      const matchSearch = item.term.toLowerCase().includes(keyword) || item.definition.toLowerCase().includes(keyword);
+      if (!matchSearch) return false;
+
+      // 2. 초성 필터링
+      if (activeChosung !== '전체') {
+        const firstConsonant = getChosung(item.term);
+        // 만약 추출된 초성이 'ㄱ~ㅎ'에 없으면 모두 '기타' 취급
+        const isKoreanConsonant = /^[ㄱ-ㅎ]$/.test(firstConsonant);
+        if (activeChosung === '기타') {
+          return !isKoreanConsonant;
+        } else {
+          return firstConsonant === activeChosung;
+        }
+      }
+      
+      return true;
+    });
+  }, [searchQuery, activeChosung]);
+
+  // 단어 이름에서 괄호 앞뒤를 분리하여 더 예쁘게 타이포그래피 처리하기 위함
+  const displayTermName = selectedTerm?.term.split('(')[0].trim() || '';
+  const displayEngName = selectedTerm?.term.includes('(') ? selectedTerm.term.split('(')[1].replace(')', '') : '';
 
   return (
-    <div className="p-4 md:p-8 font-serif">
-      <div className="mb-14 text-center">
-        <h2 className="text-4xl font-extrabold mb-5" style={{ color: '#5d1c1c' }}>고대어 백과사전</h2>
-        <p className="text-lg text-[#5c4a3d] max-w-3xl mx-auto leading-relaxed">
-          책갈피를 한 장씩 넘길 때마다 등장하는 낯선 고유명사와 지명, 개념들을 정리한 
-          마법 도서관의 색인(Index) 문서입니다.
+    <div className="p-4 md:p-6 font-serif h-full">
+      <div className="mb-6 text-center">
+        <h2 className="text-4xl font-extrabold mb-3" style={{ color: '#5d1c1c' }}>고대어 대사전 (Encyclopedia)</h2>
+        <p className="text-md text-[#5c4a3d] max-w-2xl mx-auto leading-relaxed">
+          수만 개의 단어가 보관된 즈믄누리의 거대한 단어장입니다. 왼쪽 색인부를 통해 초성으로 필터링하거나 직접 검색하여 상세 문헌을 열람하십시오.
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-10 max-w-7xl mx-auto items-start">
+      {/* 2단 분리형 백과사전 레이아웃 전체 뼈대 */}
+      <div className="flex flex-col lg:flex-row gap-6 h-[75vh] min-h-[650px] max-w-[1400px] mx-auto">
         
-        {/* Chapter Index Sidebar (오래된 도서관의 장부 느낌) */}
-        <div className="lg:w-1/4 sticky top-6">
-          <div className="bg-[#fbf4eb] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] rounded-sm p-6 border-2 border-[#d4c3b3] shadow-[0_10px_20px_rgba(93,64,55,0.1)]">
-            
-            <h3 className="text-[#8b0000] font-black uppercase tracking-widest text-sm mb-6 pb-2 border-b-2 border-dashed border-[#bba382]">
-              책갈피 (Chapters Index)
-            </h3>
-            
-            <ul className="flex flex-col gap-3">
-              {GLOSSARY_CHAPTERS.map(chapter => (
-                <li key={chapter.chapterId}>
-                  <button
-                    onClick={() => setActiveChapter(chapter.chapterId)}
-                    className={`w-full text-left px-5 py-4 font-bold border rounded-sm transition-all duration-300 ${
-                      activeChapter === chapter.chapterId 
-                        ? 'bg-[#eaddc5] border-[#a37222] text-[#5d1c1c] shadow-inner font-serif' 
-                        : 'bg-transparent border-transparent text-[#5d4037] hover:bg-[#efe0c8] hover:border-[#d4c3b3]'
-                    }`}
-                  >
-                    🔖 {chapter.chapterTitle}
-                  </button>
-                </li>
+        {/* ======================= 왼쪽 색인 & 리스트 영역 (35%) ======================= */}
+        <div className="lg:w-1/3 flex flex-col bg-[#fcf8e8] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] overflow-hidden relative">
+          
+          {/* 상단 검색바 및 초성 버튼 패널 */}
+          <div className="p-4 bg-[#eaddc5] border-b-[3px] border-[#8c7456] z-10 shadow-sm">
+            <div className="relative mb-3">
+              <input 
+                type="text" 
+                placeholder="어떤 단어를 찾으시나요? (ex. 케이건)" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full py-3 px-4 pr-10 bg-[#fdfaf3] border-2 border-[#bba382] rounded-sm text-[#4a3627] font-bold focus:outline-none focus:border-[#8b0000] focus:ring-1 focus:ring-[#8b0000] transition-colors"
+              />
+              {searchQuery && (
+                <button 
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bba382] hover:text-[#8b0000] font-bold"
+                >
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* 자음(초성) 인덱스 필터 풀 배치 */}
+            <div className="flex flex-wrap gap-1 mt-1 justify-center">
+              {CONSONANTS.map(cho => (
+                <button
+                  key={cho}
+                  onClick={() => setActiveChosung(cho)}
+                  className={`px-2 py-1 text-xs font-black border rounded-sm transition-colors ${
+                    activeChosung === cho 
+                      ? 'bg-[#8b0000] text-[#fbf5e9] border-[#5d1c1c]' 
+                      : 'bg-[#fbf5e9] text-[#7a5230] border-[#cbbca9] hover:bg-[#8c7456] hover:text-white'
+                  }`}
+                >
+                  {cho}
+                </button>
               ))}
-              
-              <li className="mt-6 px-4 py-4 border border-dashed border-[#d4c3b3] text-[#8d6e63] text-sm text-center italic cursor-not-allowed bg-[#fcf8e8]">
-                ... 서고의 다음 페이지는 <br/>비어 있습니다 ...
-              </li>
-            </ul>
+            </div>
+          </div>
+
+          {/* 중앙 목록 리스트부 (가장 핵심적인 컴팩트 뷰) */}
+          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#8c7456] scrollbar-track-[#fcf8e8] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
+            {filteredTerms.length === 0 ? (
+              <div className="p-10 text-center text-[#8d6e63] font-bold italic">
+                검색된 문서가 서고에 없습니다.
+              </div>
+            ) : (
+              <ul className="flex flex-col">
+                {filteredTerms.map((item, idx) => {
+                  const isSelected = selectedTerm?.term === item.term;
+                  return (
+                    <li key={idx} className="border-b border-[#dfcfbd]">
+                      <button 
+                        onClick={() => setSelectedTerm(item)}
+                        className={`w-full text-left px-5 py-4 transition-all duration-200 group flex items-center justify-between ${
+                          isSelected 
+                            ? 'bg-[#8c7456] text-white shadow-inner font-extrabold cursor-default' 
+                            : 'bg-transparent text-[#5d4037] hover:bg-[#efe0c8] font-semibold'
+                        }`}
+                      >
+                        <span className="truncate">{item.term}</span>
+                        {!isSelected && <span className="text-[#cbbca9] group-hover:text-[#a37222] font-black opacity-50">▶</span>}
+                        {isSelected && <span className="text-[#eaddc5] font-black animate-pulse">●</span>}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ul>
+            )}
+          </div>
+          
+          <div className="bg-[#eaddc5] border-t-[3px] border-[#8c7456] p-2 text-center text-xs font-bold text-[#8c7456]">
+            총 {filteredTerms.length} 권의 고서적 검색됨
           </div>
         </div>
 
-        {/* Terminology List Content (양피지 문서의 낱장들) */}
-        <div className="lg:w-3/4">
-          {GLOSSARY_CHAPTERS.map(chapter => (
-            chapter.chapterId === activeChapter && (
-              <div key={chapter.chapterId} className="animate-fade-in-up">
-                
-                <div className="mb-10 pb-4 border-b-4 border-double border-[#8c7456]">
-                  <h3 className="text-4xl font-extrabold text-[#3e2723] tracking-wide font-serif">{chapter.chapterTitle}</h3>
+        {/* ======================= 오른쪽 매머드급 상세 정보 영역 (65%) ======================= */}
+        <div className="lg:w-2/3 relative group overflow-hidden bg-[#fdfaf3] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] flex flex-col">
+          
+          {/* 그윽한 양피지 질감 오버레이 */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] pointer-events-none opacity-80 mix-blend-multiply"></div>
+          
+          {/* 우측 상단/하단 장식 디자인 */}
+          <div className="absolute top-4 right-4 w-12 h-12 border-t-4 border-r-4 border-[#8c7456] opacity-30 pointer-events-none"></div>
+          <div className="absolute bottom-4 left-4 w-12 h-12 border-b-4 border-l-4 border-[#8c7456] opacity-30 pointer-events-none"></div>
+
+          {selectedTerm ? (
+            <div className="flex-1 overflow-y-auto p-10 md:p-14 z-10 animate-fade-in-up">
+              
+              {/* 타이틀 및 발음부 */}
+              <div className="border-b-4 border-double border-[#bba382] pb-8 mb-8">
+                <div className="flex flex-col md:flex-row md:items-end gap-4 mb-4">
+                  <h1 className="text-5xl md:text-6xl font-black text-[#5d1c1c] tracking-tight text-shadow-sm">
+                    {displayTermName}
+                  </h1>
+                  {displayEngName && (
+                    <span className="text-2xl font-bold text-[#8c7456] tracking-widest uppercase mb-1">
+                      {displayEngName}
+                    </span>
+                  )}
                 </div>
                 
-                <div className="grid grid-cols-1 gap-8">
-                  {chapter.terms.map((item, idx) => (
-                    <div key={idx} className="bg-[#fcf8e8] p-8 rounded-sm border-[1.5px] border-[#d4c3b3] shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative group">
-                      
-                      {/* 오래된 책 페이지 둥근 귀퉁이 장식 */}
-                      <div className="absolute top-2 right-2 w-4 h-4 border-t-2 border-r-2 border-[#bba382] opacity-50"></div>
-                      <div className="absolute bottom-2 left-2 w-4 h-4 border-b-2 border-l-2 border-[#bba382] opacity-50"></div>
-
-                      <div className="flex flex-col md:flex-row md:items-baseline md:justify-between mb-4 border-b border-[#eaddc5] pb-3">
-                        <h4 className="text-2xl font-black text-[#8b0000] font-serif tracking-wide">{item.term}</h4>
-                        {item.pronunciation && (
-                          <span className="text-sm font-medium text-[#7a5230] bg-[#efe0c8] px-3 py-1 rounded-full shadow-inner mt-2 md:mt-0">{item.pronunciation}</span>
-                        )}
-                      </div>
-                      <p className="text-[#3e2723] leading-9 text-base font-medium">
-                        {item.definition}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
+                {selectedTerm.pronunciation && (
+                  <div className="inline-block bg-[#efe0c8] border border-[#d4c3b3] text-[#5d4037] px-4 py-1.5 rounded-full font-bold shadow-sm">
+                    🔊 발음기호: {selectedTerm.pronunciation}
+                  </div>
+                )}
               </div>
-            )
-          ))}
-        </div>
 
+              {/* 본문 디테일 */}
+              <div className="prose prose-lg max-w-none text-[#3e2723]">
+                <p className="text-[1.15rem] leading-[2] font-medium whitespace-pre-wrap first-letter:text-6xl first-letter:font-black first-letter:text-[#8b0000] first-letter:mr-3 first-letter:float-left first-letter:leading-[1.1]">
+                  {selectedTerm.definition}
+                </p>
+              </div>
+
+              {/* 하단 고서적 도장 느낌 (장식용) */}
+              <div className="mt-16 pt-8 border-t border-dashed border-[#d4c3b3] flex justify-end opacity-50">
+                <div className="text-right">
+                  <p className="text-[#8b0000] font-black text-xl tracking-[0.3em] uppercase">아라짓 공인 기록</p>
+                  <p className="text-[#5d4037] text-sm font-bold">인증 번호: #{Math.floor(Math.random() * 90000) + 10000}</p>
+                </div>
+              </div>
+              
+            </div>
+          ) : (
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-10 z-10 opacity-70">
+              <div className="text-[100px] mb-6">📖</div>
+              <h3 className="text-3xl font-black text-[#8c7456] mb-3">양피지가 덮여 있습니다.</h3>
+              <p className="text-[#5d4037] font-bold">왼쪽 목록에서 열람하실 단어를 선택해주십시오.</p>
+            </div>
+          )}
+
+        </div>
       </div>
     </div>
   );
