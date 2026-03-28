@@ -52,7 +52,9 @@ const CHARACTERS = [
     title: '군단장',
     desc: '륜 페이의 친누나이자 나가 사회 최강의 전사 중 하나. 전통적인 나가의 관습에 따라 적출을 피한 동생의 심장을 뺏어야 하는 입장이 되며, 북부 정벌의 선봉장이 된다.',
     images: [
-      '/images/nun-ma-sae/samo_pei.png'
+      '/images/nun-ma-sae/samo_pei.png',
+      '/images/nun-ma-sae/Amo_Paye1.png',
+      '/images/nun-ma-sae/Amo_Paye2.png'
     ],
     relations: ['륜 페이(남동생)', '갈로텍(정적/협력자)']
   },
