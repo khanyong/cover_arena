@@ -4,25 +4,24 @@
 .pageLayout {
   display: flex;
   min-height: 100vh;
-  /* 양피지 질감을 연상시키는 베이지색 다크/라이트 모드 배경 */
   background-color: #f7eed7; 
   background-image: 
     linear-gradient(rgba(247, 238, 215, 0.95), rgba(247, 238, 215, 0.95)),
     url('https://www.transparenttextures.com/patterns/aged-paper.png');
   color: #3e2723;
-  font-family: 'Noto Serif KR', 'Georgia', serif; /* 세리프체 강제 지정 */
+  font-family: 'Noto Serif KR', 'Georgia', serif;
 }
 
 .sidebar {
   width: 280px;
   background-color: #eaddc5;
-  border-right: 2px solid #bba382; /* 낡은 갈색 선 */
+  border-right: 2px solid #bba382;
   color: #4a3627;
   display: flex;
   flex-direction: column;
   position: relative;
-  z-index: 10;
-  box-shadow: 4px 0 15px rgba(62, 39, 35, 0.1); /* 약한 잉크빛 그림자 */
+  z-index: 100;
+  box-shadow: 4px 0 15px rgba(62, 39, 35, 0.1);
 }
 
 .sidebarHeader {
@@ -35,8 +34,7 @@
   font-size: 1.8rem;
   font-weight: 900;
   letter-spacing: -0.5px;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5); /* 양각 효과 */
-  /* 판타지풍 그라데이션 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
   background: linear-gradient(135deg, #7c1a1a, #bd4b24, #a37222);
   -webkit-background-clip: text;
   color: transparent;
@@ -87,7 +85,7 @@
 }
 
 .submenuContainer {
-  background-color: rgba(215, 204, 200, 0.3); /* 안쪽 메뉴 배경 */
+  background-color: rgba(215, 204, 200, 0.3);
   border-top: 1px solid rgba(187, 163, 130, 0.3);
   border-bottom: 1px solid rgba(187, 163, 130, 0.3);
 }
@@ -109,7 +107,6 @@
   color: #8b0000;
   font-weight: 700;
   opacity: 1;
-  /* 양피지에 잉크가 스며든 듯한 효과 */
   background-color: #d6bda4;
   box-shadow: inset 0 2px 5px rgba(93, 64, 55, 0.1);
 }
@@ -137,7 +134,79 @@
   min-height: 100%;
 }
 
-/* 추가 유틸리티 클래스 */
 .pageLayout * {
   font-family: 'Noto Serif KR', 'Georgia', serif;
+}
+
+/* =========================================
+   모바일 최적화 (Responsive Design) 구역
+   ========================================= */
+@media (max-width: 1024px) {
+  .pageLayout {
+    flex-direction: column;
+  }
+  
+  .contentWrapper {
+    padding: 1rem;
+    padding-bottom: 4rem;
+  }
+
+  .mobileHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.2rem;
+    background-color: #eaddc5;
+    border-bottom: 2px solid #bba382;
+    box-shadow: 0 4px 15px rgba(62, 39, 35, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+  }
+
+  /* 사이드바 오버레이화 (숨김/등장) */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px; /* 기본적으로 화면 밖으로 밀어둠 */
+    width: 280px;
+    height: 100vh;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.3);
+  }
+
+  /* .open 클래스가 붙었을 때 스르륵 등장 */
+  .sidebar.open {
+    left: 0;
+  }
+
+  /* 뒷단 어두워지는 반투명 먹지 오버레이 */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(30, 20, 15, 0.75); /* 어두운 밤색 반투명 */
+    backdrop-filter: blur(3px); /* 유리질 효과 */
+    z-index: 90;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+@media (min-width: 1025px) {
+  .mobileHeader {
+    display: none; /* PC 환경에서는 모바일 헤더 완전 숨김 */
+  }
+  
+  .overlay {
+    display: none; /* PC에서는 오버레이 필요 없음 */
+  }
 }

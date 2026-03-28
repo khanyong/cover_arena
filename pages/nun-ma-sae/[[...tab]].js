@@ -18,17 +18,20 @@ export default function NunMaSaeDynamicPage() {
 
   const [novelStoryExpanded, setNovelStoryExpanded] = useState(true)
   const [novelWorldExpanded, setNovelWorldExpanded] = useState(true)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false) // 반응형 모바일 햄버거 메뉴 상태
 
   // CrossReference Context에서 호출하는 깊은 네비게이션 함수 (URL Search Parameter 등을 지원하기 위함)
   const handleNavigation = (tab, itemName = null) => {
     // 탭만 아니라, 검색어가 있다면 URL 쿼리(Search Parameters)로 넘기도록 유연성 확장
     const url = `/nun-ma-sae/${tab}${itemName ? `?search=${encodeURIComponent(itemName)}` : ''}`
     router.push(url, undefined, { shallow: true })
+    setIsMobileMenuOpen(false) // 이동 시 사이드바 닫기
   }
 
   // 사이드바 전용 빠른 네비게이션
   const navigateTab = (tab) => {
     router.push(`/nun-ma-sae/${tab}`, undefined, { shallow: true })
+    setIsMobileMenuOpen(false) // 탭 클릭 시 오버레이 화면 치우침
   }
 
   return (
@@ -39,9 +42,32 @@ export default function NunMaSaeDynamicPage() {
       </Head>
 
       <div className={styles.pageLayout}>
-        <aside className={styles.sidebar}>
-          <div className={styles.sidebarHeader}>
-            <h2 className={styles.sidebarTitle} style={{ background: 'linear-gradient(45deg, #ff9f43, #ff4757, #e15f41)', WebkitBackgroundClip: 'text' }}>눈마새 Universe</h2>
+        
+        {/* 모바일 전용 반응형 헤더바 (PC에선 display:none) */}
+        <div className={styles.mobileHeader}>
+          <div className="font-extrabold text-2xl" style={{ background: 'linear-gradient(135deg, #7c1a1a, #bd4b24, #a37222)', WebkitBackgroundClip: 'text', color: 'transparent' }}>
+            눈마새 Universe
+          </div>
+          <button 
+            onClick={() => setIsMobileMenuOpen(true)}
+            className="text-4xl leading-none text-[#5d4037] px-2 pb-1 bg-[#fcf8e8] border-[1.5px] border-[#d4c3b3] rounded-sm shadow-sm hover:bg-[#eaddc5]"
+          >
+            ☰
+          </button>
+        </div>
+
+        {/* 모바일 어두운 오버레이 필름 배경 (클릭 시 메뉴 닫기) */}
+        <div 
+          className={`${styles.overlay} ${isMobileMenuOpen ? styles.open : ''}`} 
+          onClick={() => setIsMobileMenuOpen(false)}
+        ></div>
+
+        <aside className={`${styles.sidebar} ${isMobileMenuOpen ? styles.open : ''}`}>
+          <div className={`${styles.sidebarHeader} hidden lg:block`}>
+            <h2 className={styles.sidebarTitle}>눈마새 Universe</h2>
+          </div>
+          <div className="lg:hidden p-4 border-b border-[#bba382] flex justify-end">
+             <button onClick={() => setIsMobileMenuOpen(false)} className="text-[#8c7456] text-3xl font-bold">✕</button>
           </div>
           <nav className={styles.sidebarNav}>
             {/* 눈마새 인물과 사건 */}

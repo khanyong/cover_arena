@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 // 초성 추출기 (ㄱ, ㄲ, ㄴ, ㄷ, ...)
@@ -183,11 +183,21 @@ const ALL_TERMS_WITH_CHAPTERS = GLOSSARY_CHAPTERS.flatMap(chapter =>
 export default function Glossary() {
   const router = useRouter();
   const searchParam = router.query.search || '';
+  const detailPanelRef = useRef(null);
 
   const [activeChapterFilter, setActiveChapterFilter] = useState('ALL');
   const [activeChosung, setActiveChosung] = useState('전체');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTerm, setSelectedTerm] = useState(ALL_TERMS_WITH_CHAPTERS[0]);
+
+  // 모바일에서 목록 클릭 시 자동으로 아래쪽 상세문서로 부드럽게 스크롤
+  useEffect(() => {
+    if (selectedTerm && window.innerWidth <= 1024) {
+      setTimeout(() => {
+        detailPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 150);
+    }
+  }, [selectedTerm]);
 
   useEffect(() => {
     if (searchParam) {
@@ -233,16 +243,16 @@ export default function Glossary() {
   return (
     <div className="p-4 md:p-6 font-serif h-full">
       <div className="mb-6 text-center">
-        <h2 className="text-4xl font-extrabold mb-3" style={{ color: '#5d1c1c' }}>고대어 대사전 (Encyclopedia)</h2>
-        <p className="text-md text-[#5c4a3d] max-w-2xl mx-auto leading-relaxed">
+        <h2 className="text-3xl lg:text-4xl font-extrabold mb-3" style={{ color: '#5d1c1c' }}>고대어 대사전 (Encyclopedia)</h2>
+        <p className="text-sm lg:text-md text-[#5c4a3d] max-w-2xl mx-auto leading-relaxed">
           수십 권의 장(Chapter)에 기록된 방대한 단어장입니다. 왼쪽 색인에서 챕터나 초성으로 단어를 찾아 상세 문헌을 열람하십시오.
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-[75vh] min-h-[650px] max-w-[1400px] mx-auto">
+      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[75vh] min-h-[650px] max-w-[1400px] mx-auto">
         
-        {/* ======================= 왼쪽 색인 & 분류 영역 (35%) ======================= */}
-        <div className="lg:w-1/3 flex flex-col bg-[#fcf8e8] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] overflow-hidden relative">
+        {/* ======================= 왼쪽 색인 & 분류 영역 ======================= */}
+        <div className="w-full lg:w-1/3 flex flex-col bg-[#fcf8e8] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] overflow-hidden relative h-[55vh] lg:h-full">
           
           <div className="p-0 bg-[#eaddc5] border-b-[3px] border-[#8c7456] z-10 shadow-sm flex flex-col">
             
@@ -340,20 +350,20 @@ export default function Glossary() {
           </div>
         </div>
 
-        {/* ======================= 오른쪽 매머드급 상세 정보 영역 (65%) ======================= */}
-        <div className="lg:w-2/3 relative group overflow-hidden bg-[#fdfaf3] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] flex flex-col">
+        {/* ======================= 오른쪽 매머드급 상세 정보 영역 ======================= */}
+        <div ref={detailPanelRef} className="w-full lg:w-2/3 relative group overflow-hidden bg-[#fdfaf3] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] flex flex-col min-h-[60vh] lg:min-h-auto">
           
           {/* 그윽한 양피지 질감 오버레이 */}
           <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] pointer-events-none opacity-80 mix-blend-multiply"></div>
           
           {selectedTerm ? (
-            <div className="flex-1 overflow-y-auto p-10 md:p-14 z-10 animate-fade-in-up">
+            <div className="flex-1 overflow-y-auto p-6 md:p-14 z-10 animate-fade-in-up">
               
               {/* 타이틀 및 발음, 출처부 */}
-              <div className="border-b-4 border-double border-[#bba382] pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between">
+              <div className="border-b-4 border-double border-[#bba382] pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
                 <div>
-                  <div className="flex flex-col md:flex-row md:items-end gap-4 mb-3">
-                    <h1 className="text-5xl md:text-6xl font-black text-[#5d1c1c] tracking-tight text-shadow-sm">
+                  <div className="flex flex-col lg:flex-row lg:items-end gap-2 lg:gap-4 mb-3">
+                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#5d1c1c] tracking-tight text-shadow-sm">
                       {displayTermName}
                     </h1>
                     {displayEngName && (
