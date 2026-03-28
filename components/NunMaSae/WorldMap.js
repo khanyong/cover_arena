@@ -19,7 +19,7 @@ const LOCATIONS = [
     name: '마지막 주막',
     subtitle: '한계선 이북의 첫 안식처',
     desc: '키보렌의 끔찍한 정글과 한계선의 추위를 넘어온 여행자들을 가장 먼저 맞이해주는 상징적인 장소. 수많은 모험가와 상인, 이스시(뱀) 사냥꾼들이 거쳐가는 만남의 광장이다.',
-    images: ['/images/nun-ma-sae/last_inn.png'],
+    images: ['/images/nun-ma-sae/last_inn.png', '/images/nun-ma-sae/last_inn_party.png'],
     type: '거점'
   },
   {
@@ -57,7 +57,7 @@ const LOCATIONS = [
     name: '즈믄누리',
     subtitle: '도깨비 성주가 다스리는 요새',
     desc: '평화롭고 낙천적인 도깨비들의 영원한 거처. "밤의 다섯 딸"(혼란, 매혹, 감금, 은닉, 꿈)의 개입으로 지어져 상식을 초월하는 환상 건축 구조(예: 4층은 7층에서 위로 올라가야 도달, 오른쪽으로 세 번 돌면 대식당 나옴)를 자랑하며, 이 기괴함 덕분에 외부의 그 어떤 적도 침략할 수 없는 불락의 요새가 되었다.',
-    images: ['https://picsum.photos/seed/jeumeun/600/400'],
+    images: ['/images/nun-ma-sae/Chumunuri.png'],
     type: '성채'
   }
 ];
