@@ -5,28 +5,28 @@ const LOCATIONS = [
     name: '키보렌 (Kiboren)',
     subtitle: '나가들의 영토, 남부의 거대한 밀림',
     desc: '세상의 절반 이상을 뒤덮고 있는 거대한 밀림이자 나가들의 터전. 다른 종족들에게는 식인 식물과 맹수들이 우글거리는 마경으로 인식되나, 나가들에게는 생명의 요람이다. 햇빛이 바닥에 닿지 않을 정도로 울창하다.',
-    images: ['/images/nun-ma-sae/키보렌.png'],
+    images: ['/images/nun-ma-sae/kiboren.png'],
     type: '대륙'
   },
   {
     name: '하인샤 대사원 (Hainsya Temple)',
     subtitle: '파괴됨 없는 숭고한 성역',
     desc: '"어디에도 없는 신"을 모시는 북부 최대의 대사원. 구출대의 결성부터 온갖 위대한 사상의 원류가 되는 곳이며, 수천 명의 승려 대중들이 거주하는 장엄한 구역이다.',
-    images: ['/images/nun-ma-sae/하인샤_대산원.png'],
+    images: ['/images/nun-ma-sae/hainsya.png'],
     type: '성역'
   },
   {
     name: '마지막 주막',
     subtitle: '한계선 이북의 첫 안식처',
     desc: '키보렌의 끔찍한 정글과 한계선의 추위를 넘어온 여행자들을 가장 먼저 맞이해주는 상징적인 장소. 수많은 모험가와 상인, 이스시(뱀) 사냥꾼들이 거쳐가는 만남의 광장이다.',
-    images: ['/images/nun-ma-sae/마지막_주막.png'],
+    images: ['/images/nun-ma-sae/last_inn.png'],
     type: '거점'
   },
   {
     name: '유료도로당',
     subtitle: '세상에서 가장 평평한 사설 도로',
     desc: '산과 계곡이 가로막더라도 놀라운 기술력으로 그 위를 평탄하게 뚫어버린 거대한 도로 시스템. 요금을 내면 평화롭고 신속한 통행을 보장받으나 요금을 내지 않는 칩입자에게는 자비 없는 무력을 투사한다.',
-    images: ['/images/nun-ma-sae/유료도로.png'],
+    images: ['/images/nun-ma-sae/toll_road.png'],
     type: '거점'
   },
   {
@@ -34,8 +34,8 @@ const LOCATIONS = [
     subtitle: '레콘 무기의 산실',
     desc: '북부에 위치한 웅장하고 거대한 산맥과 그 안에 뚫려 있는 불가사의한 화산 분화구 지대. 뜨거운 증기와 용암을 이겨내며 쇳물을 쳐서 레콘들의 숙원인 별철 무기를 벼려내는 "최후의 대장간"이 숨 쉬고 있다.',
     images: [
-      '/images/nun-ma-sae/바이소_협곡.png',
-      '/images/nun-ma-sae/최후의대장간.png'
+      '/images/nun-ma-sae/baiso_mt.png',
+      '/images/nun-ma-sae/last_forge.png'
     ],
     type: '지형'
   },
@@ -77,7 +77,7 @@ function ImageCarousel({ images, altName }) {
   return (
     <div className="w-full h-full relative group bg-black">
       <img 
-        src={encodeURI(images[currentIndex])} 
+        src={images[currentIndex]} 
         alt={`${altName} - ${currentIndex + 1}`} 
         className="w-full h-full object-cover filter sepia-[.15] contrast-100 hover:sepia-0 hover:scale-105 transition-all duration-700"
         loading="lazy"
@@ -131,7 +131,7 @@ export default function WorldMap() {
         {/* 아날로그 액자 맵 컨테이너 */}
         <div className="relative w-full h-80 md:h-[500px] mb-14 border-[6px] border-[#8c7456] shadow-[0_10px_20px_rgba(93,64,55,0.2)] rounded-sm group overflow-hidden bg-black">
           <img 
-            src={encodeURI('/images/nun-ma-sae/눈무새_세계지도.png')} 
+            src="/images/nun-ma-sae/world_map.png" 
             alt="눈마새 세계지도" 
             className="w-full h-full object-cover filter contrast-125 sepia-[.1] duration-1000 origin-center cursor-crosshair transform hover:scale-105"
           />
