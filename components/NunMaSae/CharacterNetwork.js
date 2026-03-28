@@ -117,7 +117,7 @@ function ImageCarousel({ images, altName }) {
       <img 
         src={images[currentIndex]} 
         alt={`${altName} - ${currentIndex + 1}`} 
-        className="w-full h-full object-cover filter sepia-[.2] contrast-125 hover:sepia-0 transition-all duration-700 rounded-sm"
+        className="w-full h-full object-cover object-top filter sepia-[.2] contrast-125 hover:sepia-0 transition-all duration-700 rounded-sm"
         loading="lazy"
       />
       
