@@ -50,7 +50,7 @@ const LOCATIONS = [
     name: '하텐그라쥬',
     subtitle: '나가 사회의 중심, 심장탑',
     desc: '키보렌 내에서 가장 거대하고 중요한 나가들의 수도. 성인식을 맞이한 나가들의 심장을 적출하여 보관하는 신성한 "심장탑"이 있으며, 수호자들과 가문들이 모여 권력을 다투는 심장부이다.',
-    images: ['https://picsum.photos/seed/haten/600/400'],
+    images: ['/images/nun-ma-sae/hatengraju.png', '/images/nun-ma-sae/heart_tower.png'],
     type: '수도'
   },
   {
