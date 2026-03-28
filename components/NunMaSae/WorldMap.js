@@ -62,10 +62,9 @@ const LOCATIONS = [
   }
 ];
 
-// 캐러셀 이미지 컴포넌트
-function ImageCarousel({ images, altName }) {
+// 캐러셀 썸네일 전용 컴포넌트
+function ImageCarousel({ images, altName, onOpenModal }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleNext = (e) => {
     e.stopPropagation();
@@ -78,104 +77,120 @@ function ImageCarousel({ images, altName }) {
   };
 
   return (
-    <>
-      <div 
-        className="w-full h-full relative group bg-black cursor-zoom-in"
-        onClick={() => setIsModalOpen(true)}
-      >
+    <div 
+      className="w-full h-full relative group bg-black cursor-zoom-in"
+      onClick={() => onOpenModal(currentIndex)}
+    >
+      <img 
+        src={images[currentIndex]} 
+        alt={`${altName} - ${currentIndex + 1}`} 
+        className="w-full h-full object-cover filter sepia-[.15] contrast-100 hover:sepia-0 group-hover:scale-105 transition-all duration-700"
+        loading="lazy"
+      />
+      
+      <div className="absolute top-2 right-2 bg-black/50 text-white p-1.5 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">
+        🔍
+      </div>
+
+      {/* 사진 개수 인디케이터 */}
+      {images.length > 1 && (
+        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+          {images.map((_, i) => (
+            <div 
+              key={i} 
+              className={`w-2 h-2 rounded-full border border-white/50 ${i === currentIndex ? 'bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'bg-black/60'}`}
+            />
+          ))}
+        </div>
+      )}
+
+      {/* 좌우 버튼 */}
+      {images.length > 1 && (
+        <>
+          <button 
+            onClick={handlePrev}
+            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+          >
+            &#10094;
+          </button>
+          <button 
+            onClick={handleNext}
+            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+          >
+            &#10095;
+          </button>
+        </>
+      )}
+    </div>
+  );
+}
+
+// 전역 모달 뷰포트
+function FullscreenModal({ data, onClose }) {
+  const [currentIndex, setCurrentIndex] = useState(data.index);
+  const { images, altName } = data;
+
+  const handleNext = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const handlePrev = (e) => {
+    e.stopPropagation();
+    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
+  return (
+    <div 
+      className="fixed inset-0 z-[9999] bg-black/95 flex flex-col items-center justify-center p-4 cursor-zoom-out animate-fade-in"
+      onClick={onClose}
+    >
+      <div className="relative max-w-7xl w-full flex flex-col items-center animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
         <img 
           src={images[currentIndex]} 
-          alt={`${altName} - ${currentIndex + 1}`} 
-          className="w-full h-full object-cover filter sepia-[.15] contrast-100 hover:sepia-0 group-hover:scale-105 transition-all duration-700"
-          loading="lazy"
+          alt={`${altName} - 원본`} 
+          className="max-w-full max-h-[85vh] object-contain shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#8c7456] rounded-sm bg-black"
         />
         
-        <div className="absolute top-2 right-2 bg-black/50 text-white p-1.5 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">
-          🔍
+        <div className="absolute -top-12 left-0 right-0 flex justify-between items-center text-[#eaddc5]">
+          <span className="text-xl font-bold font-serif tracking-widest bg-black/50 px-3 py-1 rounded-sm">{altName}</span>
+          <button 
+            className="text-4xl hover:text-white transition-colors cursor-pointer w-10 h-10 flex items-center justify-center bg-black/50 rounded-full"
+            onClick={onClose}
+          >
+            &times;
+          </button>
         </div>
 
-        {/* 사진 개수 인디케이터 */}
-        {images.length > 1 && (
-          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-            {images.map((_, i) => (
-              <div 
-                key={i} 
-                className={`w-2 h-2 rounded-full border border-white/50 ${i === currentIndex ? 'bg-white shadow-[0_0_5px_rgba(255,255,255,0.8)]' : 'bg-black/60'}`}
-              />
-            ))}
-          </div>
-        )}
-
-        {/* 좌우 버튼 */}
         {images.length > 1 && (
           <>
             <button 
               onClick={handlePrev}
-              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+              className="fixed left-2 md:left-10 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 border border-white/20 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm text-2xl transition-all shadow-lg"
             >
               &#10094;
             </button>
             <button 
               onClick={handleNext}
-              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/80 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+              className="fixed right-2 md:right-10 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 border border-white/20 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm text-2xl transition-all shadow-lg"
             >
               &#10095;
             </button>
+            <div className="text-white/60 font-serif tracking-widest text-sm mt-4">
+              {currentIndex + 1} / {images.length}
+            </div>
           </>
         )}
       </div>
-
-      {/* 전체화면 팝업 뷰 */}
-      {isModalOpen && (
-        <div 
-          className="fixed inset-0 z-[1000] bg-black/95 flex flex-col items-center justify-center p-4 cursor-zoom-out animate-fade-in"
-          onClick={() => setIsModalOpen(false)}
-        >
-          <div className="relative max-w-7xl w-full flex flex-col items-center animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
-            <img 
-              src={images[currentIndex]} 
-              alt={`${altName} - 원본`} 
-              className="max-w-full max-h-[85vh] object-contain shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#8c7456] rounded-sm bg-black"
-            />
-            
-            <div className="absolute -top-12 left-0 right-0 flex justify-between items-center text-[#eaddc5]">
-              <span className="text-xl font-bold font-serif tracking-widest bg-black/50 px-3 py-1 rounded-sm">{altName}</span>
-              <button 
-                className="text-4xl hover:text-white transition-colors cursor-pointer w-10 h-10 flex items-center justify-center bg-black/50 rounded-full"
-                onClick={() => setIsModalOpen(false)}
-              >
-                &times;
-              </button>
-            </div>
-
-            {images.length > 1 && (
-              <>
-                <button 
-                  onClick={handlePrev}
-                  className="fixed left-2 md:left-10 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 border border-white/20 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm text-2xl transition-all shadow-lg"
-                >
-                  &#10094;
-                </button>
-                <button 
-                  onClick={handleNext}
-                  className="fixed right-2 md:right-10 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 border border-white/20 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm text-2xl transition-all shadow-lg"
-                >
-                  &#10095;
-                </button>
-                <div className="text-white/60 font-serif tracking-widest text-sm mt-4">
-                  {currentIndex + 1} / {images.length}
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      )}
-    </>
+    </div>
   );
 }
 
 export default function WorldMap() {
+  const [modalData, setModalData] = useState(null);
+
   return (
+    <>
     <div className="p-4 md:p-8 font-serif">
       <div className="mb-14 text-center">
         <h2 className="text-4xl font-extrabold mb-5" style={{ color: '#5d1c1c' }}>아라짓 지리 고문서</h2>
@@ -208,7 +223,7 @@ export default function WorldMap() {
               
               <div className="md:w-5/12 h-64 md:h-auto overflow-hidden relative border-b-2 md:border-b-0 md:border-r-2 border-dashed border-[#d4c3b3]">
                 {/* 갤러리 슬라이더 이식 */}
-                <ImageCarousel images={loc.images} altName={loc.name} />
+                <ImageCarousel images={loc.images} altName={loc.name} onOpenModal={(idx) => setModalData({ images: loc.images, index: idx, altName: loc.name })} />
                 <div className="absolute top-4 left-4 bg-[#fdf6e3]/90 px-3 py-1 rounded-sm text-xs text-[#8b0000] font-black border border-[#d4c3b3] shadow-[2px_2px_0px_rgba(93,64,55,0.1)] z-10 pointer-events-none">
                   {loc.type}
                 </div>
@@ -227,5 +242,10 @@ export default function WorldMap() {
         </div>
       </div>
     </div>
+
+    {modalData && (
+      <FullscreenModal data={modalData} onClose={() => setModalData(null)} />
+    )}
+    </>
   );
 }
