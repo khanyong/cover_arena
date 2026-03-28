@@ -100,57 +100,119 @@ const CHARACTERS = [
   }
 ];
 
-// 캐러셀 이미지 컴포넌트
+// 캐러셀 & 라이트박스 팝업 컴포넌트
 function ImageCarousel({ images, altName }) {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.stopPropagation(); // 모달 팝업 방지용
     setCurrentIndex((prev) => (prev + 1) % images.length);
   };
 
-  const handlePrev = () => {
+  const handlePrev = (e) => {
+    e.stopPropagation(); // 모달 팝업 방지용
     setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
   };
 
   return (
-    <div className="relative h-64 overflow-hidden border-b-2 border-[#d4c3b3] p-1 bg-[#efe0c8] group">
-      <img 
-        src={images[currentIndex]} 
-        alt={`${altName} - ${currentIndex + 1}`} 
-        className="w-full h-full object-cover object-top filter sepia-[.2] contrast-125 hover:sepia-0 transition-all duration-700 rounded-sm"
-        loading="lazy"
-      />
-      
-      {/* 사진 개수 인디케이터 */}
-      {images.length > 1 && (
-        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
-          {images.map((_, i) => (
-            <div 
-              key={i} 
-              className={`w-2 h-2 rounded-full border border-white/50 ${i === currentIndex ? 'bg-white' : 'bg-black/40'}`}
+    <>
+      {/* 카드 내 썸네일 표시 뷰 */}
+      <div 
+        className="relative h-64 overflow-hidden border-b-2 border-[#d4c3b3] p-1 bg-[#efe0c8] group cursor-zoom-in"
+        onClick={() => setIsModalOpen(true)}
+      >
+        <img 
+          src={images[currentIndex]} 
+          alt={`${altName} - ${currentIndex + 1}`} 
+          className="w-full h-full object-cover object-top filter sepia-[.2] contrast-125 hover:sepia-0 group-hover:scale-105 transition-all duration-700 rounded-sm"
+          loading="lazy"
+        />
+        
+        {/* 우상단 확대 돋보기 아이콘 힌트 */}
+        <div className="absolute top-2 right-2 bg-black/50 text-white p-1.5 rounded-sm opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">
+          🔍
+        </div>
+        
+        {/* 사진 개수 인디케이터 */}
+        {images.length > 1 && (
+          <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5 z-20">
+            {images.map((_, i) => (
+              <div 
+                key={i} 
+                className={`w-2 h-2 rounded-full border border-white/50 ${i === currentIndex ? 'bg-white' : 'bg-black/40'}`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* 좌우 버튼 */}
+        {images.length > 1 && (
+          <>
+            <button 
+              onClick={handlePrev}
+              className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+            >
+              &#10094;
+            </button>
+            <button 
+              onClick={handleNext}
+              className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
+            >
+              &#10095;
+            </button>
+          </>
+        )}
+      </div>
+
+      {/* 전체화면 팝업(모달) 뷰 */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 z-[1000] bg-black/90 flex flex-col items-center justify-center p-4 cursor-zoom-out animate-fade-in"
+          onClick={() => setIsModalOpen(false)}
+        >
+          <div className="relative max-w-7xl w-full flex flex-col items-center animate-fade-in-up" onClick={(e) => e.stopPropagation()}>
+            <img 
+              src={images[currentIndex]} 
+              alt={`${altName} - 원본`} 
+              className="max-w-full max-h-[85vh] object-contain shadow-[0_0_50px_rgba(0,0,0,0.8)] border-4 border-[#8c7456] rounded-sm bg-[#1a1412]"
             />
-          ))}
+            
+            {/* 타이틀 및 닫기 */}
+            <div className="absolute -top-12 left-0 right-0 flex justify-between items-center text-[#eaddc5]">
+              <span className="text-xl font-bold font-serif tracking-widest bg-black/50 px-3 py-1 rounded-sm">{altName}</span>
+              <button 
+                className="text-4xl hover:text-white transition-colors cursor-pointer w-10 h-10 flex items-center justify-center bg-black/50 rounded-full"
+                onClick={() => setIsModalOpen(false)}
+              >
+                &times;
+              </button>
+            </div>
+
+            {/* 모달용 좌우 컨트롤 */}
+            {images.length > 1 && (
+              <>
+                <button 
+                  onClick={handlePrev}
+                  className="fixed left-2 md:left-10 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 border border-white/20 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm text-2xl transition-all shadow-lg"
+                >
+                  &#10094;
+                </button>
+                <button 
+                  onClick={handleNext}
+                  className="fixed right-2 md:right-10 top-1/2 -translate-y-1/2 bg-white/10 hover:bg-white/30 border border-white/20 text-white rounded-full w-12 h-12 md:w-16 md:h-16 flex items-center justify-center backdrop-blur-sm text-2xl transition-all shadow-lg"
+                >
+                  &#10095;
+                </button>
+                <div className="text-white/60 font-serif tracking-widest text-sm mt-4">
+                  {currentIndex + 1} / {images.length}
+                </div>
+              </>
+            )}
+          </div>
         </div>
       )}
-
-      {/* 좌우 버튼 */}
-      {images.length > 1 && (
-        <>
-          <button 
-            onClick={handlePrev}
-            className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
-          >
-            &#10094;
-          </button>
-          <button 
-            onClick={handleNext}
-            className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20"
-          >
-            &#10095;
-          </button>
-        </>
-      )}
-    </div>
+    </>
   );
 }
 
