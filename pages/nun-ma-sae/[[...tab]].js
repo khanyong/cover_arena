@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import Timeline from '../../components/NunMaSae/Timeline'
 import CharacterNetwork from '../../components/NunMaSae/CharacterNetwork'
 import Species from '../../components/NunMaSae/Species'
@@ -9,20 +10,25 @@ import Glossary from '../../components/NunMaSae/Glossary'
 import { CrossReferenceProvider } from '../../components/NunMaSae/CrossReferenceContext'
 import styles from '../../components/NunMaSae/styles/NunMaSae.module.css'
 
-export default function NunMaSaePage() {
-  const [activeTab, setActiveTab] = useState('timeline')
+export default function NunMaSaeDynamicPage() {
+  const router = useRouter()
+  // router.query.tab is an array in Catch-all routes. e.g., /nun-ma-sae/network -> ['network']
+  // If undefined (/nun-ma-sae), standard fallback is 'timeline'
+  const activeTab = (router.query.tab && router.query.tab[0]) || 'timeline'
+
   const [novelStoryExpanded, setNovelStoryExpanded] = useState(true)
   const [novelWorldExpanded, setNovelWorldExpanded] = useState(true)
-  const [searchTerm, setSearchTerm] = useState('')
 
-  // Handle cross-reference navigation
+  // CrossReference Context에서 호출하는 깊은 네비게이션 함수 (URL Search Parameter 등을 지원하기 위함)
   const handleNavigation = (tab, itemName = null) => {
-    setActiveTab(tab)
-    if (itemName) {
-      setSearchTerm(itemName)
-      // Reset search term after a short delay to allow component to filter
-      setTimeout(() => setSearchTerm(''), 100)
-    }
+    // 탭만 아니라, 검색어가 있다면 URL 쿼리(Search Parameters)로 넘기도록 유연성 확장
+    const url = `/nun-ma-sae/${tab}${itemName ? `?search=${encodeURIComponent(itemName)}` : ''}`
+    router.push(url, undefined, { shallow: true })
+  }
+
+  // 사이드바 전용 빠른 네비게이션
+  const navigateTab = (tab) => {
+    router.push(`/nun-ma-sae/${tab}`, undefined, { shallow: true })
   }
 
   return (
@@ -51,15 +57,15 @@ export default function NunMaSaePage() {
               <div className={styles.submenuContainer}>
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'timeline' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('timeline')}
+                  onClick={() => navigateTab('timeline')}
                 >
                   <span className={styles.label}>발자취 타임라인</span>
                 </button>
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'network' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('network')}
+                  onClick={() => navigateTab('network')}
                 >
-                  <span className={styles.label}>인물 관계도</span>
+                  <span className={styles.label}>인물 도감</span>
                 </button>
               </div>
             )}
@@ -77,25 +83,25 @@ export default function NunMaSaePage() {
               <div className={styles.submenuContainer}>
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'species' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('species')}
+                  onClick={() => navigateTab('species')}
                 >
                   <span className={styles.label}>4대 선민명족</span>
                 </button>
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'map' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('map')}
+                  onClick={() => navigateTab('map')}
                 >
                   <span className={styles.label}>장소 및 지리</span>
                 </button>
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'proverbs' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('proverbs')}
+                  onClick={() => navigateTab('proverbs')}
                 >
                   <span className={styles.label}>명대사 & 속담</span>
                 </button>
                 <button
                   className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'glossary' ? styles.active : ''}`}
-                  onClick={() => setActiveTab('glossary')}
+                  onClick={() => navigateTab('glossary')}
                 >
                   <span className={styles.label}>단어사전 (Index)</span>
                 </button>
