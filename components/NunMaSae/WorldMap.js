@@ -43,7 +43,7 @@ const LOCATIONS = [
     name: '한계선 (Limit Line)',
     subtitle: '북부와 남부를 가르는 결계',
     desc: '키보렌 북쪽 가장자리를 따라 형성된 눈과 얼음의 경계선. 변온동물 체질인 나가는 이 선을 넘으면 체온이 떨어져 활동이 매우 제한되기에, 수백 년 동안 남북간의 자연스러운 군사적 완충지대 역할을 하였다.',
-    images: ['https://picsum.photos/seed/limitline/600/400'],
+    images: ['/images/nun-ma-sae/limit_line.jpg'],
     type: '경계'
   },
   {
