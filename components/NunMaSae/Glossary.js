@@ -423,8 +423,23 @@ const GLOSSARY_CHAPTERS = [
         term: '아라짓 전사 (Arajit Warrior)',
         pronunciation: '[아라-짓 전-사]',
         definition: '전설의 군주 영웅왕(대호왕)을 모시며 검을 휘둘렀던 아라짓 제국의 최정예 기사 집단. 제국이 무너지고 오랜 세월이 지난 지금도 잃어버린 영광과 그 맥을 잇고자 하는 긍지 열렬한 무사들이 암약하고 있다.'
+      },
+      {
+        term: '시모그라쥬 (Shimograju)',
+        pronunciation: '[시모-그-라쥬]',
+        definition: '나가들의 고향인 한계선 이남 수목선 지대에 기둥을 두고 있는 거대하고 유서 깊은 유력 도시 중 한 곳이다.'
+      },
+      {
+        term: '군령자 (Gunryeongja)',
+        pronunciation: '[군령-자]',
+        definition: '죽은 자들의 영을 육신으로 빨아들여 한 육체 안에 수많은 자아와 영혼을 가두고 통제하며, 그들의 기억이나 인격을 꺼내 쓸 수 있는 기이하고 파괴적인 권능의 소유자를 일컫는다.'
       }
     ]
+  },
+  {
+    chapterId: 'chapter_4',
+    chapterTitle: '제4장 왕 잡아먹는 괴물',
+    terms: []
   }
 ];
 
