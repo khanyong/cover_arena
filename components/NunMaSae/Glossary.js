@@ -439,7 +439,73 @@ const GLOSSARY_CHAPTERS = [
   {
     chapterId: 'chapter_4',
     chapterTitle: '제4장 왕 잡아먹는 괴물',
-    terms: []
+    terms: [
+      {
+        term: '파름 평원 (Param Plains)',
+        pronunciation: '[파-름 평-원]',
+        definition: '일행이 거쳐가게 되는 드넓은 평야 지역 중 하나. 과거 고대 아라짓 시대의 무대였으며 광활한 자연이 펼쳐져 있는 장소이다.'
+      },
+      {
+        term: '카시다 사원 (Kashida Temple/City)',
+        pronunciation: '[카시-다 사-원]',
+        definition: '과거 번성했으나 제2차 대확장 전쟁으로 멸망하여 폐허만 남게 된 전설적인 유적지이자 사원. 입구의 암각문이 특히 유명하다.'
+      },
+      {
+        term: '데호라 대사 (Great Master Dehora)',
+        pronunciation: '[데호-라 대-사]',
+        definition: '하인샤 대사원에 소속된 높은 권위의 승려. 아라짓 시대의 잊힌 고어나 고문서 파악에 굉장히 능통한 인물이다.'
+      },
+      {
+        term: '조타 중대사 (Medium Master Jota)',
+        pronunciation: '[조-타 중-대사]',
+        definition: '대사원에 적을 두고 있는 또다른 핵심 승려. 주요 사건의 단서를 제공하거나 일행과 접점을 맺는다.'
+      },
+      {
+        term: '무적왕 토디 시노크 (Todi Shinok, the Invincible King)',
+        pronunciation: '[무-적-왕 토-디 시노-크]',
+        definition: '스스로를 영웅왕의 49대손이자 정의왕의 아들인 자칭 "무적왕"이라 주장하는 제왕병자. 겉보기엔 그럴싸하나 본질은 피혁상 출신의 뼛속 깊은 장사꾼이다.'
+      },
+      {
+        term: '페치렌 (Pechiren)',
+        pronunciation: '[페-치-렌]',
+        definition: '무적왕을 가장한 피혁상 토디 시노크의 고향이자 그가 본업을 하던 상업 지역의 명칭.'
+      },
+      {
+        term: '운수 (Unsu)',
+        pronunciation: '[운-수]',
+        definition: '발자국 없는 여신을 섬기는 끈질긴 수호자. 륜을 뒤쫓거나 서늘한 임무를 수행하는 암살자 중 한 명이다.'
+      },
+      {
+        term: '정의왕 (King of Justice)',
+        pronunciation: '[정의-왕]',
+        definition: '토디 시노크가 황당무계하게도 자신의 아버지라 일컬으며 들먹이는 아라짓 제국 전설상의 위대한 또 다른 왕.'
+      },
+      {
+        term: '사이커 (Saiker)',
+        pronunciation: '[사-이-커]',
+        definition: '나가들이 전통적으로 벼려 사용하는 무시무시한 장검. 형태가 무척 날카로워 타 종족은 암살용 검인 "쉬크톨"과 도무지 구분하지 못한다.'
+      },
+      {
+        term: '쉬크톨 (Shikhtol)',
+        pronunciation: '[쉬-크-톨]',
+        definition: '복수권(쇼자인테쉬크톨)의 발동과 함께 나가가 쥐게 되는 암살과 복수 목적의 전용 검. 검신 자체가 피비린내 나는 권리를 상징한다.'
+      },
+      {
+        term: '디듀스류노 (Didyusuryuno)',
+        pronunciation: '[디-듀-스-류-노]',
+        definition: '륜 페이의 첫째 누나인 "디듀스류노 라르간드 페이"의 이름 윗부분을 떼어 상징적으로 부르거나 쓸 때 쓰이는 호칭.'
+      },
+      {
+        term: '외눈의 예언자 (One-Eyed Prophet)',
+        pronunciation: '[외-눈의 예-언-자]',
+        definition: '세상의 거대한 흐름과 재앙의 단면을 한쪽 눈으로만 꿰뚫고 예언했다는 신비로운 존재 또는 그런 상징적 대명사.'
+      },
+      {
+        term: '현명왕 (Wise King)',
+        pronunciation: '[현명-왕]',
+        definition: '과거 위대했던 아라짓 제국을 다스리며 "현명함"의 상징으로 추앙받던 전설 속의 어진 왕.'
+      }
+    ]
   }
 ];
 
