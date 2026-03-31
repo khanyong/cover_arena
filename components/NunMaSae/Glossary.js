@@ -506,6 +506,11 @@ const GLOSSARY_CHAPTERS = [
         definition: '과거 위대했던 아라짓 제국을 다스리며 "현명함"의 상징으로 추앙받던 전설 속의 어진 왕.'
       }
     ]
+  },
+  {
+    chapterId: 'chapter_5',
+    chapterTitle: '제5장 철혈',
+    terms: []
   }
 ];
 
