@@ -510,7 +510,133 @@ const GLOSSARY_CHAPTERS = [
   {
     chapterId: 'chapter_5',
     chapterTitle: '제5장 철혈',
-    terms: []
+    terms: [
+      {
+        term: '철혈암 (Iron Blood Rock)',
+        pronunciation: '[철-혈-암]',
+        definition: '하인샤 대사원 내에 있는 특이한 바위. 케이건 드라카가 사원에 시주한 것으로 알려져 있으며, 이름처럼 뜨거운 피와 단단한 철을 상징하는 극적인 장소다.'
+      },
+      {
+        term: '파름산 (Mount Param)',
+        pronunciation: '[파-름-산]',
+        definition: '아라짓 대륙 북부에 위치한 거친 산세. 웅장하고 험준한 환경을 배경으로 한 극 중의 여정이나 지리적 거점으로 빈번히 언급된다.'
+      },
+      {
+        term: '철권왕 (Iron Fist King)',
+        pronunciation: '[철-권-왕]',
+        definition: '과거 위대했던 아라짓 제국을 다스리던 왕 중 한 명. 강철 같은 무력과 압도적인 힘으로 대륙을 평정했다고 전해지는 전설 속의 기골 장대한 군주이다.'
+      },
+      {
+        term: '자보로 (Jaboro)',
+        pronunciation: '[자보-로]',
+        definition: '인간의 땅 북부에 널리 퍼져 있는 유력한 씨족이자 세력 거점. 호전적이고 의리가 두터우며, 마립간의 통치 아래 용맹한 전사들을 배출하는 호탕한 곳이다.'
+      },
+      {
+        term: '세도 마립간 (Sedo Maripgan)',
+        pronunciation: '[세-도 마립-간]',
+        definition: '자보로 씨족을 다스렸던 전대 지배자(마립간). 북부 특유의 호쾌함과 무력을 겸비한 인물로 후대에까지 영향을 미친 군주이다.'
+      },
+      {
+        term: '판막음 (Panmageum)',
+        pronunciation: '[판막-음]',
+        definition: '북부의 살벌한 결투 관습. 분쟁이나 시합에서 살아남은 승자가 어설픈 자비를 베풀지 않고 확실하게 피로서 마무리를 짓는 것을 뜻하는 용어다.'
+      },
+      {
+        term: '시구리아트 산맥 (Siguriat Mountains)',
+        pronunciation: '[시구리-아-트 산-맥]',
+        definition: '북부를 횡단하는 광대하고 험난한 대산맥. 일반적인 경로로는 넘기 힘들며, 이곳을 가로지르는 유일하고 안전한 길은 유료도로당이 꽉 잡고 있다.'
+      },
+      {
+        term: '위엄왕 (King of Dignity)',
+        pronunciation: '[위엄-왕]',
+        definition: '아라짓 제국의 역대 왕 중 한 명. 타의 추종을 불허하는 권위와 무게감을 지녔다고 칭송받는 전설 속 제왕이다.'
+      },
+      {
+        term: '지그림 자보로 (Jigrim Jaboro)',
+        pronunciation: '[지그-림 자보-로]',
+        definition: '자보로 가문의 핵심 인물이자 후계자 또는 마립간. 씨족의 성향을 빼닮아 거칠지만 호전적인 북부인의 면모를 훌륭히 보여준다.'
+      },
+      {
+        term: '슈라도스 (Shurados)',
+        pronunciation: '[슈라도-스]',
+        definition: '자보로 지역에서 언급되는 이름. 자보로 병사나 특정 인물 혹은 군견/군마 같은 동물일 가능성이 큰 소소한 등장 개체.'
+      },
+      {
+        term: '메헴 (Mehem)',
+        pronunciation: '[메헴]',
+        definition: '자보로 휘하의 병사이자 부대원 중 한 명으로서 짧게 등장하는 조연급 인물이다.'
+      },
+      {
+        term: '다거트 슈라이트 (Dagert Shright)',
+        pronunciation: '[다거-트 슈라이-트]',
+        definition: '자보로 지역의 신입 풋내기 병사. 마립간의 지시에 의해 씨름 시합에서 터무니없는 패배 연기를 수행하며 익살을 자아내는 감초 역할을 한다.'
+      },
+      {
+        term: '키타타 자보로 - 자보로 대장군 (Kitata Jaboro, General Jaboro)',
+        pronunciation: '[키타-타 자보-로 대-장-군]',
+        definition: '자보로의 맹장. "자보로 대장군"으로 널리 알려져 있으며 엄청나게 괄괄한 성격, 불도저 같은 통솔력, 지칠 줄 모르는 맹렬함으로 유명한 호걸이다.'
+      },
+      {
+        term: '별비 (Byeolbi)',
+        pronunciation: '[별-비]',
+        definition: '북부 전설에 언급되는 신비하고 거대한 호랑이(대호). 역대 사냥꾼들의 궁극적인 목표였으며 별을 쓸어 담는 듯한 자태라는 수려한 별칭이다.'
+      },
+      {
+        term: '무라 마립간 (Mura Maripgan)',
+        pronunciation: '[무-라 마립-간]',
+        definition: '자보로의 역대 권위자 중 한 명. 마립간의 호칭을 물려받아 북부 무사들의 존경과 충성을 한몸에 받았던 인물이다.'
+      },
+      {
+        term: '하크렌 (Hakren)',
+        pronunciation: '[하크-렌]',
+        definition: '자보로의 소속 병사이거나 가문의 수행원으로서 극에 짧게 등장하여 씬을 엮어 가는 조연 중 하나.'
+      },
+      {
+        term: '함수초 (Hamsucho / Mimosa)',
+        pronunciation: '[함수-초]',
+        definition: '미모사와 같이 손을 대면 나뭇잎이 부끄러운 듯 오므라드는 신비한 식물. 자보로 사내들의 파괴적인 행보와 대조되는 은유적 장치로 언급된다.'
+      },
+      {
+        term: '라디올 센 (Radiol Sen)',
+        pronunciation: '[라디-올 센]',
+        definition: '나가 평의회 의장을 지낸 명문 센 가문의 일원. 스스로를 위대한 극작가라 여기지만 예술적 재능이 처참해 주변을 피곤하게 만드는 코믹한 여성이다.'
+      },
+      {
+        term: '수이신 센 (Suisin Sen)',
+        pronunciation: '[수이-신 센]',
+        definition: '센 가문에 소속된 장녀. 라디올 센 등과 함께 나가 측 파트의 서사 조각을 맞추며 가문의 권위로 얽혀들어간다.'
+      },
+      {
+        term: '갈로텍 - 심장탑의 수호자 (Galotek, Guardian of the Heart Tower)',
+        pronunciation: '[갈로-텍]',
+        definition: '하텐그라쥬 심장탑을 지키는 강력한 수호자 중 한 명. 세리스마에 필적할 만큼 위험하고 음험한 계략을 꾸미며 다른 종족에게 막강한 위협이 되는 실력자다.'
+      },
+      {
+        term: '히참마 (Hichamma)',
+        pronunciation: '[히참-마]',
+        definition: '일단 문지르기만 하면 아무리 강도 높은 강철조차 녹슨 과자처럼 바스라지도록 무르게 만드는 무시무시한 북부의 자생 풀.'
+      },
+      {
+        term: '카시다의 나뭇꾼 (Woodcutter of Kashida)',
+        pronunciation: '[카시-다의 나뭇-꾼]',
+        definition: '폐허가 된 옛 도시 카시다 주변부에서 유래된 속담이나 옛이야기 구절로, 고집스럽거나 특정 상황의 은유로 입에 오르내리는 표현 중 하나다.'
+      },
+      {
+        term: '시구리아트 유료 도로 (Siguriat Toll Road)',
+        pronunciation: '[시구리-아-트 유-료 도-로]',
+        definition: '시구리아트 산맥을 뚫고 지나가는 유일무이하고 안전한 통행로. 당주 보르보 삼귀가 이끄는 "유료도로당"이 무력으로 철저하게 점거하고 한 치 오차 없는 통행료를 거두어들인다.'
+      },
+      {
+        term: '산양 연모자 (Goat Lover)',
+        pronunciation: '[산양 연모-자]',
+        definition: '동물(산양)과 교접하는 자라는 뜻으로, 북부의 척박한 땅에서 호전적인 사내들이 상대방을 밑바닥까지 깎아내릴 때 내뱉는 극히 원색적이고 악질적인 욕설이다.'
+      },
+      {
+        term: '마루나래 (Marunarae)',
+        pronunciation: '[마루-나-래]',
+        definition: '과거 영웅왕(대호왕)을 태우고 날아다녔다는 전설 속의 압도적인 용. 퀴도부리타 용이 사랑에 빠진 상대이기도 하며 나중에는 하늘치가 되었다는 흥미로운 전설과 결부된 신물이기도 하다.'
+      }
+    ]
   }
 ];
 
