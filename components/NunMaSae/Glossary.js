@@ -855,6 +855,93 @@ const GLOSSARY_CHAPTERS = [
         definition: '명망 높은 페이 가문의 장녀. 모친 지커엔 페이와 함께 륜, 그리고 사모 페이의 곁에서 때로는 냉엄한 나가 사회의 규칙과 혈육의 정 사이에서 갈등을 보여주는 입체적 인물이다.'
       }
     ]
+  },
+  {
+    chapterId: 'chapter_9',
+    chapterTitle: '제9장 북부의왕',
+    terms: [
+      {
+        term: '맥포리 (Maekpori)',
+        pronunciation: '[맥포-리]',
+        definition: '즈믄누리 성주 바우 머리돌의 명을 받아 구출대를 돕거나 소식을 전하기 위해 파견된 도깨비 사신. 도깨비 특유의 유쾌함과 낙천성을 지니고 있다.'
+      },
+      {
+        term: '종규해석소 (Religious Rule Interpretation Office)',
+        pronunciation: '[종규-해-석-소]',
+        definition: '하인샤 대사원의 종교적 규율과 법도를 엄격하게 해석하고 판결을 내리는 사원 내 핵심 사법 기관.'
+      },
+      {
+        term: '호규원장 듀케리 대사 (Great Master Dukeri, Head of the Guardian Office)',
+        pronunciation: '[호규-원-장 듀케-리 대-사]',
+        definition: '하인샤 대사원을 수호하는 무장 기관인 호규원의 총책임자. 대사원의 방어와 규율 집행을 담당하는 막강한 대덕승이다.'
+      },
+      {
+        term: '롭스 (Lops)',
+        pronunciation: '[롭-스]',
+        definition: '거대한 새의 외형을 한 선민종족 레콘이자 티나한의 동료. 무시무시한 완력과 투쟁 본능을 지닌 전사 중 한 명이다.'
+      },
+      {
+        term: '칼리도 (Kalido)',
+        pronunciation: '[칼리-도]',
+        definition: '북부 쟁룡해 인근에 위치한 영지. 지코마 성주가 다스리고 있으며, 치열한 전란 속에서 전략적 요충지로 빈번히 언급된다.'
+      },
+      {
+        term: '다섯째 딸의 선물 (Gift of the Fifth Daughter)',
+        pronunciation: '[다-섯-째 딸-의 선-물]',
+        definition: '도깨비들의 본거지인 즈믄누리의 성주 바우 머리돌이 일행에게 전한 특별하고 신비로운 아이템. 어려운 상황을 타개할 결정적인 열쇠가 되곤 한다.'
+      },
+      {
+        term: '파카시 족장의 반란 (Rebellion of Chief Pakashi)',
+        pronunciation: '[파카-시 족-장의 반-란]',
+        definition: '과거 북부 지역의 패권을 둘러싸고 벌어졌던 피비린내 나는 군벌들의 세력 다툼과 무장 반란 사건.'
+      },
+      {
+        term: '뿔관 (Horned Crown)',
+        pronunciation: '[뿔-관]',
+        definition: '특정 부족이나 군주의 권위, 위엄을 돋보이게 하기 위해 짐승의 뿔 형태로 만들어 쓴 상징적인 관.'
+      }
+    ]
+  },
+  {
+    chapterId: 'chapter_10',
+    chapterTitle: '제10장 출발하는 수탐자들',
+    terms: [
+      {
+        term: '엔거 (Enger)',
+        pronunciation: '[엔-거]',
+        definition: '아라짓 대륙 북부에 위치한 드넓은 평원인 "엔거 평원"을 주로 지칭하며, 수탐자들의 험난한 여정이 이어지는 거대한 자연 배경이다.'
+      },
+      {
+        term: '자보로 (Jaboro)',
+        pronunciation: '[자보-로]',
+        definition: '북부에서 가장 거칠고 호전적인 사내들이 모여 있는 유서 깊은 씨족이자 영지. 북부 전사들의 용맹함을 대변하는 곳이다.'
+      },
+      {
+        term: '눈물을 마시는 새 (The Bird That Drinks Tears)',
+        pronunciation: '[눈-물을 마-시는 새]',
+        definition: '가장 아름다운 노래를 부르지만 가장 빨리 죽는다는 전설 속의 가상의 새. 백성들의 슬픔과 고통(눈물)을 대속하여 짊어지는 "완벽하고 훌륭한 왕"을 상징하는 세계관 최고의 비유이다.'
+      },
+      {
+        term: '베미온 마립간 (Bemion Maripgan)',
+        pronunciation: '[베미-온 마립-간]',
+        definition: '과거 호전적인 자보로 씨족을 강인하게 통치했던 역대 지배자. 마립간이라는 칭호에 걸맞은 무력과 카리스마를 지닌 군주이다.'
+      },
+      {
+        term: '공회당 기록보관소 (Council Hall Archives)',
+        pronunciation: '[공회-당 기-록-보-관-소]',
+        definition: '방대한 대륙의 역사와 사라진 제국의 진실 등 세상의 수많은 문헌과 고서들이 집대성되어 보관된 곳.'
+      },
+      {
+        term: '콘수마 발텐 (Konsuma Valten)',
+        pronunciation: '[콘수-마 발-텐]',
+        definition: '유력한 가문인 발텐 가문 소속의 인물. 대륙의 얽히고설킨 정치적, 군사적 서사 속에서 한 축을 담당하는 귀족이다.'
+      },
+      {
+        term: '라수 규리하 (Rasu Gyuriha)',
+        pronunciation: '[라-수 규리-하]',
+        definition: '무가(武家)인 규리하 가문에서 이례적으로 등장한 천재적인 두뇌의 소유자. 놀라운 지성과 통찰력, 날카로운 독설로 무장한 북부 제일의 지식인이다.'
+      }
+    ]
   }
 ];
 
