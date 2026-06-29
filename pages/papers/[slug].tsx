@@ -1077,7 +1077,8 @@ export default function AcademicPaperViewer() {
                                 return null;
                               }
 
-                              const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
+                              // 영문 단독 모드(activeLang === 'en')는 1차 리뷰를 위해 암호 없이 모두 볼 수 있게 조치
+                              const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6) && activeLang !== 'en';
 
                               // Pre-check if chapter has paragraphs
                               const hasVisibleParagraphs = ch.paragraphs.some(p => {
