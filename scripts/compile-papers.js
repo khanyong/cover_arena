@@ -532,6 +532,11 @@ function compileAndSync() {
       if (parsedKo && parsedKo.title.ko && parsedKo.title.ko !== 'Title') mergedPaper.title.ko = parsedKo.title.ko;
       if (parsedEn && parsedEn.title.en && parsedEn.title.en !== 'Title') mergedPaper.title.en = parsedEn.title.en;
 
+      if (slug === 'spatial-vibration-1') {
+        mergedPaper.title.ko = '공간의 진동 역학 I: 양자 이중성의 근원과 이중 슬릿 실험의 궤적 재해석';
+        mergedPaper.title.en = 'Mechanics of Spatial Vibration I: Origin of Wave-Particle Duality and Reinterpretation of Trajectories in the Double-Slit Experiment';
+      }
+
       // 1. Merge abstract versions
       if (versionKey === 'v1_v2') {
         if (!mergedPaper.abstract.versions['v1']) mergedPaper.abstract.versions['v1'] = { ko: '', en: '' };

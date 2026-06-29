@@ -79,8 +79,8 @@ export const papersMap: Record<string, PaperDetails> = {
     "id": "spatial-vibration-1",
     "slug": "spatial-vibration-1",
     "title": {
-      "ko": "제1논문 집필실",
-      "en": "제1논문 집필실"
+      "ko": "공간의 진동 역학 I: 양자 이중성의 근원과 이중 슬릿 실험의 궤적 재해석",
+      "en": "Mechanics of Spatial Vibration I: Origin of Wave-Particle Duality and Reinterpretation of Trajectories in the Double-Slit Experiment"
     },
     "authors": {
       "ko": "유광용 (Kwang yong Yoo)",

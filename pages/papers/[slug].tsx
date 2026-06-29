@@ -761,7 +761,8 @@ export default function AcademicPaperViewer() {
               [Submitted on 25 Jun 2026]
             </p>
             <h1 className="text-xl md:text-2.5xl font-extrabold tracking-tight text-zinc-955 font-serif leading-tight">
-              {paperData.title.ko}
+              <span className="block">{paperData.title.ko}</span>
+              <span className="block text-base md:text-lg text-zinc-500 font-normal mt-2 leading-snug font-sans">{paperData.title.en}</span>
             </h1>
             
             {/* Author Line */}
