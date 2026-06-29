@@ -538,7 +538,9 @@ export default function AcademicPaperViewer() {
     const hasMathIndicators = cleanMathText.includes('\\') || cleanMathText.includes('^') || cleanMathText.includes('_');
 
     // Check if it's purely a formula (doesn't contain typical Korean syllables or sentence spacing patterns)
-    const isPureFormula = hasMathIndicators && !/[가-힣]/.test(cleanMathText) && (
+    const isPureFormula = hasMathIndicators && 
+      !/[가-힣]/.test(cleanMathText) && 
+      cleanMathText.split(/\s+/).length < 12 && (
       cleanMathText.includes('\\frac') ||
       cleanMathText.includes('\\hbar') ||
       cleanMathText.includes('\\psi') ||
@@ -693,17 +695,31 @@ export default function AcademicPaperViewer() {
   const renderAbstractText = (rawText: string, lang: 'ko' | 'en') => {
     if (!rawText) return null;
     
-    // Stitch back broken \nu and \nabla inside inline math $...$ BEFORE splitting by newlines
+    // Stitch back potential broken \nu and \nabla before applying placeholders
     let sanitizedText = rawText
       .replace(/(\$[^\$]*)\r?\n\s*u([^\$]*\$)/g, '$1\\nu$2')
       .replace(/(\$[^\$]*)\r?\n\s*a([^\$]*\$)/g, '$1\\na$2')
-      .replace(/\\nu/g, '\\nu')
-      .replace(/\\na/g, '\\na');
+      .replace(/\\n\s*u/g, '\\nu')
+      .replace(/\\n\s*a/g, '\\na');
 
+    // 1. Temporarily replace valid LaTeX patterns to prevent split collision on \\n
+    sanitizedText = sanitizedText
+      .replace(/\\nu/g, '___LATEX_NU_PLACEHOLDER___')
+      .replace(/\\nabla/g, '___LATEX_NABLA_PLACEHOLDER___')
+      .replace(/\\na/g, '___LATEX_NA_PLACEHOLDER___');
+
+    // 2. Split safely by actual or explicit paragraph markers
     const paras = sanitizedText.split(/\n|\\n/);
     return paras.map((para, idx) => {
-      const trimmed = para.trim();
+      let trimmed = para.trim();
       if (!trimmed) return null;
+
+      // 3. Restore LaTeX patterns before compiling KaTeX nodes
+      trimmed = trimmed
+        .replace(/___LATEX_NU_PLACEHOLDER___/g, '\\nu')
+        .replace(/___LATEX_NABLA_PLACEHOLDER___/g, '\\nabla')
+        .replace(/___LATEX_NA_PLACEHOLDER___/g, '\\na');
+
       return (
         <div key={idx} className={idx > 0 ? "mt-3 indent-4" : ""}>
           {parseParagraphText(trimmed, lang)}
