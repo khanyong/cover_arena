@@ -396,15 +396,25 @@ export const SimulationWidget: React.FC = () => {
 
           // Coolwarm gradient based on the uVal parameter (necks vs sides)
           const normU = (poly.uVal + 3.5) / 7.0; // 0.0 ~ 1.0
-          const r = Math.floor(50 + 205 * (1 - normU));
-          const g = Math.floor(65 + 130 * Math.sin(normU * Math.PI));
-          const b = Math.floor(220 * normU);
+          let r = Math.floor(50 + 205 * (1 - normU));
+          let g = Math.floor(65 + 130 * Math.sin(normU * Math.PI));
+          let b = Math.floor(220 * normU);
+          let alpha = 0.55;
+
+          // 거품이 분리될 때(0.8 이상) 상단부(위상 거품)가 차갑게 식으며 투명해짐(Evaporation)
+          if (isDecohering && decohereProgress > 0.8 && Math.abs(poly.uVal) <= 0.5) {
+            const fade = Math.min(1, (decohereProgress - 0.8) * 5); // 0 to 1
+            r = Math.floor(r * (1 - fade) + 100 * fade); // 식어가는 푸른/회색 톤
+            g = Math.floor(g * (1 - fade) + 100 * fade);
+            b = Math.floor(b * (1 - fade) + 200 * fade);
+            alpha = 0.55 * (1 - fade * 0.9); // 0에 가깝게 증발
+          }
           
-          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, 0.55)`;
+          ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
           ctx.fill();
 
-          // Draw Wireframe grid lines
-          ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+          // Draw Wireframe grid lines (투명도 동기화)
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (alpha / 0.55)})`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         });
