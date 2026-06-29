@@ -155,6 +155,9 @@ function parseBilingualFile(filePath) {
 
       if (trimmed.toLowerCase().includes('references') || trimmed.includes('참고문헌')) {
         inAbstract = false;
+        if (currentChapter) flushParaBlocks();
+        currentChapter = null;
+        continue;
       }
 
       if (trimmed.toLowerCase().startsWith('## abstract') || trimmed.startsWith('## 초록')) {
@@ -278,9 +281,11 @@ function parsePaperFile(filePath, versionKey, langKey) {
       continue;
     }
 
-    // Ensure Reference section turns off abstract parsing
+    // Ensure Reference section turns off abstract parsing and stops accumulating chapter paragraphs
     if (line.toLowerCase().includes('references') || line.includes('참고문헌')) {
       inAbstract = false;
+      currentChapter = null; // Stop putting raw references into paragraphs
+      continue;
     }
 
     // 2. Abstract boundary

@@ -55,29 +55,29 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
     ? customVersionMap[p.id]
     : (versionMode === 'diff' ? 'v3' : versionMode);
 
-  // 버전별 상속 체인 Fallback 데이터 해석기
+  // 버전별 상속 체인 Fallback 데이터 해석기 (한영 혼용 방지를 위한 엄격한 언어 분리 상속)
   const getParagraphTextForVersion = (vKey: string, currentLang: 'ko' | 'en') => {
-    const directText = versionsMap[vKey]?.[currentLang]?.trim() || versionsMap[vKey]?.ko?.trim() || '';
+    const directText = versionsMap[vKey]?.[currentLang]?.trim() || '';
     if (directText) return directText;
 
     if (vKey === 'v3') {
-      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || versionsMap['v2']?.ko?.trim() || '';
+      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
       if (v2Text) return v2Text;
-      return versionsMap['v1']?.[currentLang]?.trim() || versionsMap['v1']?.ko?.trim() || '';
+      return versionsMap['v1']?.[currentLang]?.trim() || '';
     }
 
     if (vKey === 'v2') {
-      const v1Text = versionsMap['v1']?.[currentLang]?.trim() || versionsMap['v1']?.ko?.trim() || '';
+      const v1Text = versionsMap['v1']?.[currentLang]?.trim() || '';
       if (v1Text) {
         return v1Text.replace(/~~/g, ''); // v2에 데이터가 없고 v1만 취소선으로 있다면 취소선을 뗀 일반 텍스트가 v2 최종본의 내용임
       }
-      return versionsMap['v3']?.[currentLang]?.trim() || versionsMap['v3']?.ko?.trim() || '';
+      return versionsMap['v3']?.[currentLang]?.trim() || '';
     }
 
     if (vKey === 'v1') {
-      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || versionsMap['v2']?.ko?.trim() || '';
+      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
       if (v2Text) return v2Text;
-      return versionsMap['v3']?.[currentLang]?.trim() || versionsMap['v3']?.ko?.trim() || '';
+      return versionsMap['v3']?.[currentLang]?.trim() || '';
     }
 
     return '';

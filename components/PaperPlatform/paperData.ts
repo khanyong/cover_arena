@@ -5682,91 +5682,6 @@ export const papersMap: Record<string, PaperDetails> = {
             }
           },
           {
-            "id": "p7_17",
-            "versions": {
-              "v1": {
-                "ko": "## 참고문헌 (References)",
-                "en": "[1] Einstein, A., Podolsky, B., & Rosen, N. (1935). Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?. *Physical Review*, 47(10), 777-780."
-              },
-              "v2": {
-                "ko": "## 참고문헌 (References)",
-                "en": "[1] Einstein, A., Podolsky, B., & Rosen, N. (1935). Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?. *Physical Review*, 47(10), 777-780."
-              },
-              "v3": {
-                "ko": "",
-                "en": "[1] Einstein, A., Podolsky, B., & Rosen, N. (1935). Can Quantum-Mechanical Description of Physical Reality Be Considered Complete?. *Physical Review*, 47(10), 777-780."
-              }
-            }
-          },
-          {
-            "id": "p7_18",
-            "versions": {
-              "v1": {
-                "ko": "",
-                "en": "[2] Madelung, E. (1927). Quantentheorie in hydrodynamischer Form. *Zeitschrift für Physik*, 40(3-4), 322-326."
-              },
-              "v2": {
-                "ko": "",
-                "en": "[2] Madelung, E. (1927). Quantentheorie in hydrodynamischer Form. *Zeitschrift für Physik*, 40(3-4), 322-326."
-              },
-              "v3": {
-                "ko": "",
-                "en": "[2] Madelung, E. (1927). Quantentheorie in hydrodynamischer Form. *Zeitschrift für Physik*, 40(3-4), 322-326."
-              }
-            }
-          },
-          {
-            "id": "p7_19",
-            "versions": {
-              "v1": {
-                "ko": "",
-                "en": "[3] Bohm, D. (1952). A Suggested Interpretation of the Quantum Theory in Terms of \"Hidden\" Variables. I. *Physical Review*, 85(2), 166-179."
-              },
-              "v2": {
-                "ko": "",
-                "en": "[3] Bohm, D. (1952). A Suggested Interpretation of the Quantum Theory in Terms of \"Hidden\" Variables. I. *Physical Review*, 85(2), 166-179."
-              },
-              "v3": {
-                "ko": "",
-                "en": "[3] Bohm, D. (1952). A Suggested Interpretation of the Quantum Theory in Terms of \"Hidden\" Variables. I. *Physical Review*, 85(2), 166-179."
-              }
-            }
-          },
-          {
-            "id": "p7_20",
-            "versions": {
-              "v1": {
-                "ko": "",
-                "en": "[4] Couder, Y., & Fort, E. (2006). Single-Particle Diffraction and Interference at a Macroscopic Scale. *Physical Review Letters*, 97(15), 154101."
-              },
-              "v2": {
-                "ko": "",
-                "en": "[4] Couder, Y., & Fort, E. (2006). Single-Particle Diffraction and Interference at a Macroscopic Scale. *Physical Review Letters*, 97(15), 154101."
-              },
-              "v3": {
-                "ko": "",
-                "en": "[4] Couder, Y., & Fort, E. (2006). Single-Particle Diffraction and Interference at a Macroscopic Scale. *Physical Review Letters*, 97(15), 154101."
-              }
-            }
-          },
-          {
-            "id": "p7_21",
-            "versions": {
-              "v1": {
-                "ko": "",
-                "en": "[5] Zurek, W. H. (2003). Decoherence, einselection, and the quantum origins of the classical. *Reviews of Modern Physics*, 75(3), 715-775."
-              },
-              "v2": {
-                "ko": "",
-                "en": "[5] Zurek, W. H. (2003). Decoherence, einselection, and the quantum origins of the classical. *Reviews of Modern Physics*, 75(3), 715-775."
-              },
-              "v3": {
-                "ko": "",
-                "en": "[5] Zurek, W. H. (2003). Decoherence, einselection, and the quantum origins of the classical. *Reviews of Modern Physics*, 75(3), 715-775."
-              }
-            }
-          },
-          {
             "id": "p7_v3_ko_6",
             "versions": {
               "v3": {
@@ -5826,24 +5741,6 @@ export const papersMap: Record<string, PaperDetails> = {
               "v3": {
                 "ko": "~~본 연작 논문의 후속편인 **[공간의 진동 역학 II: 거시 중력장과 미시 공간 진동의 상호작용]** 및 **[III: 우주 공간 판구조론]**에서는, 우주적 스케일로 극대화된 이 거대한 공간 진동이 어떻게 은하들을 휩쓸어 '암흑 물질(Dark matter)'의 잉여 중력으로 창발하는지, 그리고 은하들이 이끌려 만들어진 '우주 거미줄(Cosmic Web)'이 어떻게 우주적 규모의 거대한 양자 간섭 무늬인지 통합적으로 규명해 나갈 것이다.~~",
                 "en": ""
-              }
-            }
-          },
-          {
-            "id": "p7_v3_ko_20",
-            "versions": {
-              "v3": {
-                "ko": "## 참고문헌",
-                "en": ""
-              }
-            }
-          },
-          {
-            "id": "p7_v3_en_1",
-            "versions": {
-              "v3": {
-                "ko": "",
-                "en": "## References"
               }
             }
           }
