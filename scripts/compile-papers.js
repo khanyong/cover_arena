@@ -535,6 +535,9 @@ function compileAndSync() {
       if (slug === 'spatial-vibration-1') {
         mergedPaper.title.ko = '공간의 진동 역학 I: 양자 이중성의 근원과 이중 슬릿 실험의 궤적 재해석';
         mergedPaper.title.en = 'Mechanics of Spatial Vibration I: Origin of Wave-Particle Duality and Reinterpretation of Trajectories in the Double-Slit Experiment';
+      } else if (slug === 'spatial-vibration-2') {
+        mergedPaper.title.ko = '공간의 진동 역학 II: 거시 중력장과 미시 공간 진동의 상호작용 및 암흑 우주 대체 모델';
+        mergedPaper.title.en = 'Mechanics of Spatial Vibration II: Interaction of Macroscopic Gravity with Microscopic Vibration and Alternative Models for the Dark Sector';
       }
 
       // 1. Merge abstract versions

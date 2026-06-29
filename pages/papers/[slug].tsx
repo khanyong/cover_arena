@@ -114,15 +114,15 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
 
   // 1.5. 본문에 포함된 기존 중복 참고문헌 단락 필터링
   const isLegacyRef = activeText.trim().startsWith('[1]') ||
-                      activeText.trim().startsWith('[2]') ||
-                      activeText.trim().startsWith('[3]') ||
-                      activeText.trim().startsWith('[4]') ||
-                      activeText.trim().startsWith('[5]') ||
-                      activeText.trim().startsWith('~~[1]') ||
-                      activeText.trim().startsWith('~~[2]') ||
-                      activeText.trim().startsWith('~~[3]') ||
-                      activeText.trim().startsWith('~~[4]') ||
-                      activeText.trim().startsWith('~~[5]');
+    activeText.trim().startsWith('[2]') ||
+    activeText.trim().startsWith('[3]') ||
+    activeText.trim().startsWith('[4]') ||
+    activeText.trim().startsWith('[5]') ||
+    activeText.trim().startsWith('~~[1]') ||
+    activeText.trim().startsWith('~~[2]') ||
+    activeText.trim().startsWith('~~[3]') ||
+    activeText.trim().startsWith('~~[4]') ||
+    activeText.trim().startsWith('~~[5]');
   if (isLegacyRef) return null;
 
   // 2. 리스트 기호를 제외한 순수 알맹이 텍스트 추출
@@ -147,16 +147,15 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
   const hasHistory = uniqueTexts.size > 1;
 
   return (
-    <div 
-      className={`relative group/para mb-4 text-justify font-serif transition-all duration-200 ${
-        isMosaicMode && customVersionMap[p.id]
+    <div
+      className={`relative group/para mb-4 text-justify font-serif transition-all duration-200 ${isMosaicMode && customVersionMap[p.id]
           ? 'bg-emerald-50/20 border-l-2 border-emerald-400 pl-3.5 py-1.5 pr-2 rounded-r-sm'
-          : hasHistory 
+          : hasHistory
             ? chosenVersion === 'v2'
               ? 'bg-amber-50/30 border-l-2 border-amber-300 pl-3.5 py-1.5 pr-2 rounded-r-sm hover:bg-amber-50/50'
               : 'bg-blue-50/30 border-l-2 border-blue-300 pl-3.5 py-1.5 pr-2 rounded-r-sm hover:bg-blue-50/55'
             : ''
-      }`}
+        }`}
     >
       {/* ✏️ 일반 모드 수정 이력 뱃지 및 호버 툴팁 */}
       {!isMosaicMode && hasHistory && (
@@ -166,11 +165,10 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
               onMouseEnter={() => setShowTooltip(true)}
               onMouseLeave={() => setShowTooltip(false)}
               onClick={() => setShowTooltip(!showTooltip)}
-              className={`px-1.5 py-0.5 rounded-sm font-mono text-[9px] font-bold shadow-xs border transition-colors cursor-help ${
-                chosenVersion === 'v2'
+              className={`px-1.5 py-0.5 rounded-sm font-mono text-[9px] font-bold shadow-xs border transition-colors cursor-help ${chosenVersion === 'v2'
                   ? 'bg-amber-100 text-amber-800 border-amber-300 hover:bg-amber-200'
                   : 'bg-blue-100 text-blue-800 border-blue-300 hover:bg-blue-200'
-              }`}
+                }`}
             >
               ✏️ {chosenVersion === 'v2' ? 'v1.0.0 이력 있음' : `${chosenVersion} 변경안 보기`}
             </button>
@@ -212,11 +210,10 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
               <button
                 key={vKey}
                 onClick={() => onVersionSelect(p.id, vKey)}
-                className={`px-1 py-0.5 text-[8.5px] font-mono font-bold rounded-xs cursor-pointer transition-colors ${
-                  isSel
+                className={`px-1 py-0.5 text-[8.5px] font-mono font-bold rounded-xs cursor-pointer transition-colors ${isSel
                     ? 'bg-emerald-600 text-white'
                     : 'text-zinc-550 hover:bg-zinc-100 hover:text-zinc-950'
-                }`}
+                  }`}
               >
                 {vKey.toUpperCase()}
               </button>
@@ -375,7 +372,7 @@ export default function AcademicPaperViewer() {
       [paragraphId]: ver
     }));
   };
-  
+
   // Auth States
   const [isAuthorized, setIsAuthorized] = useState<boolean>(false);
   const [userEmail, setUserEmail] = useState<string>('');
@@ -518,7 +515,7 @@ export default function AcademicPaperViewer() {
 
     // Replace double backslashes with single backslash globally for all TeX parsing
     let processedText = text.trim().replace(/\\\\/g, '\\');
-    
+
     // 1. Hide raw display math delimiters ($$)
     if (processedText === '$$') {
       return null;
@@ -528,16 +525,16 @@ export default function AcademicPaperViewer() {
 
     // 2. Check if the text is a block display math (wrapped in $$ ... $$ or starting with common LaTeX keywords without Korean/English text)
     const isExplicitBlockMath = processedText.startsWith('$$') && processedText.endsWith('$$');
-    
+
     // Heuristic: If it has math backslashes and LaTeX symbols, and contains no common language words
     const hasMathIndicators = cleanMathText.includes('\\') || cleanMathText.includes('^') || cleanMathText.includes('_');
-    
+
     // Check if it's purely a formula (doesn't contain typical Korean syllables or sentence spacing patterns)
     const isPureFormula = hasMathIndicators && !/[가-힣]/.test(cleanMathText) && (
-      cleanMathText.includes('\\frac') || 
-      cleanMathText.includes('\\hbar') || 
-      cleanMathText.includes('\\psi') || 
-      cleanMathText.includes('\\partial') || 
+      cleanMathText.includes('\\frac') ||
+      cleanMathText.includes('\\hbar') ||
+      cleanMathText.includes('\\psi') ||
+      cleanMathText.includes('\\partial') ||
       cleanMathText.includes('\\nabla') ||
       cleanMathText.includes('\\equiv') ||
       cleanMathText.includes('\\lambda') ||
@@ -555,9 +552,9 @@ export default function AcademicPaperViewer() {
       try {
         const html = katex.renderToString(formula, { displayMode: true, throwOnError: false });
         return (
-          <div 
-            className="my-4 py-2 overflow-x-auto select-all selection:bg-[#8b1a1a]/20 mathjax-latex-content block-formula-container" 
-            dangerouslySetInnerHTML={{ __html: html }} 
+          <div
+            className="my-4 py-2 overflow-x-auto select-all selection:bg-[#8b1a1a]/20 mathjax-latex-content block-formula-container"
+            dangerouslySetInnerHTML={{ __html: html }}
           />
         );
       } catch (err) {
@@ -605,7 +602,7 @@ export default function AcademicPaperViewer() {
     // Parser for inline LaTeX math ($...$)
     const parseInlineMath = (plainText: string) => {
       if (!plainText) return null;
-      
+
       const parts = plainText.split(/(\$[^\$]+\$)/g);
       return parts.map((part, index) => {
         if (!part) return null;
@@ -614,10 +611,10 @@ export default function AcademicPaperViewer() {
           try {
             const html = katex.renderToString(formula, { displayMode: false, throwOnError: false });
             return (
-              <span 
-                key={index} 
-                className="inline-block px-0.5 max-w-full overflow-x-auto overflow-y-hidden align-middle select-all selection:bg-[#8b1a1a]/20" 
-                dangerouslySetInnerHTML={{ __html: html }} 
+              <span
+                key={index}
+                className="inline-block px-0.5 max-w-full overflow-x-auto overflow-y-hidden align-middle select-all selection:bg-[#8b1a1a]/20"
+                dangerouslySetInnerHTML={{ __html: html }}
               />
             );
           } catch (err) {
@@ -713,7 +710,7 @@ export default function AcademicPaperViewer() {
       <Head>
         <title>svW:{paperData.id} - {paperData.title.ko}</title>
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;850&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet" />
-        
+
         {/* Custom Slide-In Animation style for PDF panel */}
         <style dangerouslySetInnerHTML={{
           __html: `
@@ -755,9 +752,9 @@ export default function AcademicPaperViewer() {
         {/* Fake Search & Action */}
         <div className="flex items-center gap-3">
           <div className="flex border border-red-800 rounded-sm overflow-hidden text-xs text-zinc-800">
-            <input 
-              type="text" 
-              placeholder="Search svW Archive..." 
+            <input
+              type="text"
+              placeholder="Search svW Archive..."
               className="px-3 py-1.5 bg-white focus:outline-none w-48"
               disabled
             />
@@ -773,10 +770,10 @@ export default function AcademicPaperViewer() {
 
       {/* ==================== 3. MAIN CORE CONTENT SPLIT ==================== */}
       <div className="max-w-7xl mx-auto px-4 md:px-6 pt-6 flex flex-col lg:flex-row gap-6 items-start">
-        
+
         {/* LEFT AREA: Title, Author, Abstract, History & Main Paper Content */}
         <div className="flex-1 w-full space-y-6">
-          
+
           {/* Category Header */}
           <div className="border-b border-zinc-200 pb-2">
             <span className="text-md font-bold text-zinc-800 font-serif">
@@ -793,10 +790,10 @@ export default function AcademicPaperViewer() {
               <span className="block">{paperData.title.ko}</span>
               <span className="block text-base md:text-lg text-zinc-500 font-normal mt-2 leading-snug font-sans">{paperData.title.en}</span>
             </h1>
-            
+
             {/* Author Line */}
             <div className="text-sm font-serif">
-              <button 
+              <button
                 onClick={() => setShowAuthorModal(true)}
                 className="text-[#b31b1b] font-bold hover:underline"
                 title="저자 상세 프로필 보기"
@@ -831,31 +828,40 @@ export default function AcademicPaperViewer() {
             <div className="text-[11px] font-mono leading-relaxed space-y-1 text-zinc-655">
               {Object.keys(paperData.abstract?.versions || {}).map((vKey) => (
                 <div key={vKey} className="flex flex-wrap items-center gap-2">
-                  <button 
+                  <button
                     onClick={() => setVersionMode(vKey)}
-                    className={`px-1.5 py-0.5 rounded-sm font-bold transition-all ${
-                      versionMode === vKey ? 'bg-[#b31b1b] text-white' : 'text-[#b31b1b] hover:bg-red-50'
-                    }`}
+                    className={`px-1.5 py-0.5 rounded-sm font-bold transition-all ${versionMode === vKey ? 'bg-[#b31b1b] text-white' : 'text-[#b31b1b] hover:bg-red-50'
+                      }`}
                   >
                     [{vKey}]
                   </button>
                   <span>
-                    {vKey === 'v1' && "Thu, 25 Jun 2026 16:34:28 UTC (16,171 KB) — Initial draft with Notion strikethroughs."}
-                    {vKey === 'v2' && "Sun, 28 Jun 2026 11:45:00 UTC (17,250 KB) — Current revised copy with completed rebuttals."}
-                    {vKey !== 'v1' && vKey !== 'v2' && `Revision version ${vKey.slice(1)} compiled from split markdown.`}
+                    {paperData.id === 'spatial-vibration-1' ? (
+                      <>
+                        {vKey === 'v1' && "Thu, 25 Jun 2026 16:34:28 UTC (16,171 KB) — Initial draft with Notion strikethroughs."}
+                        {vKey === 'v2' && "Sun, 28 Jun 2026 11:45:00 UTC (17,250 KB) — Current revised copy with completed rebuttals."}
+                        {vKey !== 'v1' && vKey !== 'v2' && `Revision version ${vKey.slice(1)} compiled from split markdown.`}
+                      </>
+                    ) : (
+                      <>
+                        {vKey === 'v1' && "Initial submission draft containing bilingual baseline."}
+                        {vKey === 'v2' && "Sun, 28 Jun 2026 11:45:00 UTC (17,250 KB) — Baseline copy."}
+                        {vKey === 'v3' && "Revision version 3 compiled from newly revised split markdown."}
+                        {vKey !== 'v1' && vKey !== 'v2' && vKey !== 'v3' && `Revision version ${vKey.slice(1)} compiled from split markdown.`}
+                      </>
+                    )}
                   </span>
                 </div>
               ))}
               <div className="flex flex-wrap items-center gap-4 pt-1.5 border-t border-zinc-100">
                 <div className="flex items-center gap-2">
-                  <button 
+                  <button
                     onClick={() => {
                       setVersionMode('diff');
                       setIsMosaicMode(false);
                     }}
-                    className={`px-2 py-0.5 rounded-sm font-bold text-xs transition-all ${
-                      versionMode === 'diff' && !isMosaicMode ? 'bg-[#b31b1b] text-white' : 'text-blue-600 hover:bg-blue-50'
-                    }`}
+                    className={`px-2 py-0.5 rounded-sm font-bold text-xs transition-all ${versionMode === 'diff' && !isMosaicMode ? 'bg-[#b31b1b] text-white' : 'text-blue-600 hover:bg-blue-50'
+                      }`}
                   >
                     [Compare Versions Diff]
                   </button>
@@ -863,7 +869,7 @@ export default function AcademicPaperViewer() {
                 </div>
 
                 <div className="flex items-center gap-2 border-l border-zinc-200 pl-4">
-                  <button 
+                  <button
                     onClick={() => {
                       setIsMosaicMode(!isMosaicMode);
                       if (versionMode === 'diff') {
@@ -872,11 +878,10 @@ export default function AcademicPaperViewer() {
                         setVersionMode(latestVersion);
                       }
                     }}
-                    className={`px-2.5 py-0.5 rounded-sm font-bold text-xs transition-all flex items-center gap-1 border ${
-                      isMosaicMode 
-                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm' 
+                    className={`px-2.5 py-0.5 rounded-sm font-bold text-xs transition-all flex items-center gap-1 border ${isMosaicMode
+                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm'
                         : 'text-emerald-700 border-emerald-500/30 hover:bg-emerald-50'
-                    }`}
+                      }`}
                   >
                     🎨 {isMosaicMode ? 'Mosaic Mode ON' : 'Mosaic Mode (Custom Assembly)'}
                   </button>
@@ -888,46 +893,42 @@ export default function AcademicPaperViewer() {
 
           {/* ==================== 5. ARXIVLABS INTERACTIVE TAB SELECTOR ==================== */}
           <div className="space-y-4">
-            
+
             {/* Tab Headers with overflow scrolling to prevent wrapping and breaking layout */}
             <div className="flex border-b border-zinc-300 bg-zinc-50 px-2 rounded-t-sm overflow-x-auto whitespace-nowrap scrollbar-none">
               <button
                 onClick={() => setActiveTab('body')}
-                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${
-                  activeTab === 'body' 
-                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm' 
+                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${activeTab === 'body'
+                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm'
                     : 'border-transparent text-zinc-550 hover:text-zinc-900'
-                }`}
+                  }`}
               >
                 Bibliographic Tools (Manuscript)
               </button>
               <button
                 onClick={() => setActiveTab('sandbox')}
-                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${
-                  activeTab === 'sandbox' 
-                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm' 
+                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${activeTab === 'sandbox'
+                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm'
                     : 'border-transparent text-zinc-550 hover:text-zinc-900'
-                }`}
+                  }`}
               >
                 Simulation Sandbox
               </button>
               <button
                 onClick={() => setActiveTab('reviews')}
-                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${
-                  activeTab === 'reviews' 
-                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm' 
+                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${activeTab === 'reviews'
+                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm'
                     : 'border-transparent text-zinc-550 hover:text-zinc-900'
-                }`}
+                  }`}
               >
                 Peer Review Timeline ({Object.keys(paperData.reviews).length})
               </button>
               <button
                 onClick={() => setActiveTab('export')}
-                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${
-                  activeTab === 'export' 
-                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm' 
+                className={`flex-shrink-0 px-4 py-2 text-xs font-bold font-mono transition-all border-b-2 -mb-px ${activeTab === 'export'
+                    ? 'border-[#b31b1b] text-zinc-950 bg-white font-extrabold border-t border-l border-r border-zinc-300 rounded-t-sm'
                     : 'border-transparent text-zinc-550 hover:text-zinc-900'
-                }`}
+                  }`}
               >
                 LaTeX / Word Exporter
               </button>
@@ -935,27 +936,25 @@ export default function AcademicPaperViewer() {
 
             {/* Tab Contents */}
             <div className="p-2">
-              
+
               {/* TAB 1: Document Body Sheet */}
               {activeTab === 'body' && (
                 <div className="space-y-6">
-                  
+
                   {/* Journal Style toolbar inside tab */}
                   <div className="flex justify-between items-center bg-zinc-50 border border-zinc-200 p-2 rounded-sm text-[11px] text-zinc-650">
                     <div className="flex items-center gap-3">
                       <button
                         onClick={() => { setReadMode('single'); setSelectedReference(null); }}
-                        className={`px-2 py-0.5 rounded-sm font-semibold ${
-                          readMode === 'single' ? 'bg-zinc-800 text-white' : 'hover:bg-zinc-200'
-                        }`}
+                        className={`px-2 py-0.5 rounded-sm font-semibold ${readMode === 'single' ? 'bg-zinc-800 text-white' : 'hover:bg-zinc-200'
+                          }`}
                       >
                         단일 언어
                       </button>
                       <button
                         onClick={() => { setReadMode('bilingual'); setSelectedReference(null); }}
-                        className={`px-2 py-0.5 rounded-sm font-semibold ${
-                          readMode === 'bilingual' ? 'bg-zinc-800 text-white' : 'hover:bg-zinc-200'
-                        }`}
+                        className={`px-2 py-0.5 rounded-sm font-semibold ${readMode === 'bilingual' ? 'bg-zinc-800 text-white' : 'hover:bg-zinc-200'
+                          }`}
                       >
                         한/영 대칭
                       </button>
@@ -965,17 +964,15 @@ export default function AcademicPaperViewer() {
                         <div className="flex items-center gap-1.5 ml-3 pl-3 border-l border-zinc-300">
                           <button
                             onClick={() => setActiveLang('ko')}
-                            className={`px-2 py-0.5 rounded-sm font-medium transition-colors ${
-                              activeLang === 'ko' ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20' : 'text-zinc-550 hover:bg-zinc-200 border border-transparent'
-                            }`}
+                            className={`px-2 py-0.5 rounded-sm font-medium transition-colors ${activeLang === 'ko' ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20' : 'text-zinc-550 hover:bg-zinc-200 border border-transparent'
+                              }`}
                           >
                             한국어 (KO)
                           </button>
                           <button
                             onClick={() => setActiveLang('en')}
-                            className={`px-2 py-0.5 rounded-sm font-medium transition-colors ${
-                              activeLang === 'en' ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20' : 'text-zinc-550 hover:bg-zinc-200 border border-transparent'
-                            }`}
+                            className={`px-2 py-0.5 rounded-sm font-medium transition-colors ${activeLang === 'en' ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20' : 'text-zinc-550 hover:bg-zinc-200 border border-transparent'
+                              }`}
                           >
                             English (EN)
                           </button>
@@ -1001,7 +998,7 @@ export default function AcademicPaperViewer() {
                   {/* Document Body container split into Sidebar TOC and Content Sheet */}
                   <div className="bg-white border border-zinc-200 p-4 md:p-6 rounded-sm shadow-xs min-h-[500px]">
                     <div className="flex flex-col md:flex-row gap-6">
-                      
+
                       {/* Left Sidebar Table of Contents */}
                       <aside className="w-full md:w-64 flex-shrink-0 border-b md:border-b-0 md:border-r border-zinc-200 pb-4 md:pb-0 md:pr-4">
                         <h4 className="text-[10px] font-bold text-zinc-400 font-mono uppercase tracking-wider mb-3 pl-2">
@@ -1011,11 +1008,10 @@ export default function AcademicPaperViewer() {
                           {/* Abstract Tab */}
                           <button
                             onClick={() => setSelectedChapterId('abstract')}
-                            className={`w-full text-left px-3 py-2 rounded-xs font-semibold transition-all flex items-center justify-between ${
-                              selectedChapterId === 'abstract'
+                            className={`w-full text-left px-3 py-2 rounded-xs font-semibold transition-all flex items-center justify-between ${selectedChapterId === 'abstract'
                                 ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20 shadow-xs'
                                 : 'text-zinc-650 hover:bg-zinc-50 hover:text-zinc-950'
-                            }`}
+                              }`}
                           >
                             <span>{activeLang === 'ko' ? '초록' : 'Abstract'}</span>
                             <span className="opacity-60 font-mono text-[9px]">INTRO</span>
@@ -1029,11 +1025,10 @@ export default function AcademicPaperViewer() {
                               <button
                                 key={ch.number}
                                 onClick={() => setSelectedChapterId(ch.number.toString())}
-                                className={`w-full text-left px-3 py-2 rounded-xs font-medium transition-all flex items-center justify-between ${
-                                  isSelected
+                                className={`w-full text-left px-3 py-2 rounded-xs font-medium transition-all flex items-center justify-between ${isSelected
                                     ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20 shadow-xs'
                                     : 'text-zinc-650 hover:bg-zinc-50 hover:text-zinc-950'
-                                }`}
+                                  }`}
                               >
                                 <span className="truncate pr-2 select-none">
                                   {activeLang === 'ko' ? ch.title.ko : ch.title.en}
@@ -1048,11 +1043,10 @@ export default function AcademicPaperViewer() {
                           {/* References Sidebar Menu */}
                           <button
                             onClick={() => setSelectedChapterId('references')}
-                            className={`w-full text-left px-3 py-2 rounded-xs font-semibold transition-all flex items-center justify-between ${
-                              selectedChapterId === 'references'
+                            className={`w-full text-left px-3 py-2 rounded-xs font-semibold transition-all flex items-center justify-between ${selectedChapterId === 'references'
                                 ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20 shadow-xs'
                                 : 'text-zinc-650 hover:bg-zinc-50 hover:text-zinc-950'
-                            }`}
+                              }`}
                           >
                             <span>{activeLang === 'ko' ? '참고문헌' : 'References'}</span>
                             <span className="opacity-60 font-mono text-[9px]">BIB</span>
@@ -1062,11 +1056,10 @@ export default function AcademicPaperViewer() {
                           <div className="pt-2 border-t border-zinc-150 mt-2">
                             <button
                               onClick={() => setSelectedChapterId('all')}
-                              className={`w-full text-left px-3 py-2 rounded-xs font-bold transition-all flex items-center justify-between ${
-                                selectedChapterId === 'all'
+                              className={`w-full text-left px-3 py-2 rounded-xs font-bold transition-all flex items-center justify-between ${selectedChapterId === 'all'
                                   ? 'bg-zinc-800 text-white font-bold border border-zinc-950 shadow-xs'
                                   : 'text-zinc-650 hover:bg-zinc-50 hover:text-zinc-950'
-                              }`}
+                                }`}
                             >
                               <span>전체 본문 연속 보기</span>
                               <span className="opacity-60 font-mono text-[9px]">FULL</span>
@@ -1077,7 +1070,7 @@ export default function AcademicPaperViewer() {
 
                       {/* Right Paper Sheet Content View */}
                       <main className="flex-1 min-w-0">
-                        
+
                         {/* 1. Show Abstract if selected */}
                         {selectedChapterId === 'abstract' && (
                           <div className="space-y-6 font-serif">
@@ -1088,9 +1081,9 @@ export default function AcademicPaperViewer() {
                               <p className="text-sm md:text-[14.5px] text-zinc-800 text-justify leading-relaxed indent-4">
                                 {readMode === 'single'
                                   ? (activeLang === 'ko'
-                                      ? (paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '')
-                                      : (paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '')
-                                    )
+                                    ? (paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '')
+                                    : (paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '')
+                                  )
                                   : (paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '')
                                 }
                               </p>
@@ -1159,7 +1152,7 @@ export default function AcademicPaperViewer() {
                                     ) : null
                                   ) : (
                                     ch.paragraphs.map((p) => (
-                                      <InteractiveParagraph 
+                                      <InteractiveParagraph
                                         key={p.id}
                                         p={p}
                                         lang={activeLang}
@@ -1178,11 +1171,11 @@ export default function AcademicPaperViewer() {
                               );
                             })}
                             {selectedChapterId === 'all' || selectedChapterId === 'references' ? (
-                                  <ReferencesSection
-                                    references={paperData.references}
-                                    journalMode={journalMode}
-                                    lang={activeLang}
-                                  />
+                              <ReferencesSection
+                                references={paperData.references}
+                                journalMode={journalMode}
+                                lang={activeLang}
+                              />
                             ) : null}
                           </div>
                         )}
@@ -1354,8 +1347,8 @@ export default function AcademicPaperViewer() {
               {activeTab === 'reviews' && (
                 <div className="bg-white border border-zinc-200 p-4 rounded-sm shadow-xs">
                   {isAuthorized ? (
-                    <ReviewTracker 
-                      onScrollToSection={handleScrollToSection} 
+                    <ReviewTracker
+                      onScrollToSection={handleScrollToSection}
                       onActivateDiff={() => setVersionMode('diff')}
                       lang={activeLang}
                       paperData={paperData}
@@ -1391,12 +1384,12 @@ export default function AcademicPaperViewer() {
 
         {/* ==================== RIGHT SIDEBAR: ACCESS CONTROL & CONTEXT (arXiv Style) ==================== */}
         <aside className="w-full lg:w-[260px] bg-white border border-zinc-250 p-4 rounded-sm shadow-xs space-y-5 lg:sticky lg:top-12">
-          
+
           {/* Access Paper Block */}
           <div className="space-y-2">
             <h4 className="text-xs font-bold text-zinc-955 font-serif border-b border-zinc-200 pb-1">Access Paper:</h4>
             <div className="flex flex-col gap-1.5 font-mono text-[11px] text-blue-700">
-              <button 
+              <button
                 onClick={() => {
                   if (isAuthorized) {
                     const el = document.getElementById('export-pdf-trigger');
@@ -1409,8 +1402,8 @@ export default function AcademicPaperViewer() {
               >
                 View PDF (Manuscript Print)
               </button>
-              
-              <button 
+
+              <button
                 onClick={() => {
                   setActiveTab('body');
                   setReadMode(readMode === 'single' ? 'bilingual' : 'single');
@@ -1420,7 +1413,7 @@ export default function AcademicPaperViewer() {
                 HTML fulltext (Bilingual mode)
               </button>
 
-              <button 
+              <button
                 onClick={() => {
                   if (isAuthorized) {
                     setActiveTab('export');
@@ -1433,7 +1426,7 @@ export default function AcademicPaperViewer() {
                 TeX Source Package (.TEX)
               </button>
 
-              <button 
+              <button
                 onClick={() => {
                   if (isAuthorized) {
                     setActiveTab('export');
@@ -1455,7 +1448,7 @@ export default function AcademicPaperViewer() {
               <p className="font-bold text-zinc-800">
                 {slug?.toString().includes('1') ? 'quant-ph' : 'gr-qc'}
               </p>
-              
+
               {/* Prev / Next routing links */}
               <div className="flex gap-2 text-blue-755 font-semibold">
                 {prevSlug ? (
@@ -1496,7 +1489,7 @@ export default function AcademicPaperViewer() {
 
           {/* Export BibTeX */}
           <div className="space-y-1.5 pt-1">
-            <button 
+            <button
               onClick={() => {
                 if (isAuthorized) {
                   setActiveTab('export');
@@ -1533,14 +1526,14 @@ export default function AcademicPaperViewer() {
       {showAuthorModal && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
           <div className="bg-white border border-zinc-300 w-full max-w-md p-6 shadow-2xl rounded-sm space-y-4">
-            
+
             {/* Modal Header */}
             <div className="flex justify-between items-start border-b border-zinc-200 pb-3">
               <div>
                 <h3 className="text-base font-bold text-zinc-955 font-serif">Author Profile</h3>
                 <p className="text-[10px] text-zinc-450 font-mono">Academic Credentials & Biography</p>
               </div>
-              <button 
+              <button
                 onClick={() => setShowAuthorModal(false)}
                 className="text-zinc-400 hover:text-zinc-700 text-lg leading-none cursor-pointer"
               >
@@ -1563,7 +1556,7 @@ export default function AcademicPaperViewer() {
               {/* Education section */}
               <div className="space-y-3 pt-2">
                 <h5 className="font-bold text-zinc-900 border-b border-zinc-150 pb-1 font-mono uppercase text-[10px]">Education History</h5>
-                
+
                 {/* UCONN LLM */}
                 <div className="space-y-0.5">
                   <div className="flex justify-between font-bold text-zinc-850">
@@ -1613,7 +1606,7 @@ export default function AcademicPaperViewer() {
 
             {/* Modal Footer */}
             <div className="pt-3 border-t border-zinc-200 text-right">
-              <button 
+              <button
                 onClick={() => setShowAuthorModal(false)}
                 className="px-3 py-1.5 bg-zinc-100 hover:bg-zinc-200 border border-zinc-350 text-zinc-800 text-[10.5px] font-bold rounded-sm cursor-pointer"
               >
