@@ -117,8 +117,8 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
     cleanBody = cleanBody.slice(2).trim();
   }
 
-  // 3. V2(최종본) 모드인데 본문 전체가 취소선인 경우 리스트 기호 포함하여 통째로 렌더링 생략 (모자이크 모드에서는 무시하고 출력 가능하게)
-  if (!isMosaicMode && chosenVersion === 'v2' && cleanBody.startsWith('~~') && cleanBody.endsWith('~~')) {
+  // 3. 최종본(v2 또는 v3) 모드인데 본문 전체가 취소선인 경우 리스트 기호 포함하여 통째로 렌더링 생략
+  if ((chosenVersion === 'v2' || chosenVersion === 'v3') && cleanBody.startsWith('~~') && cleanBody.endsWith('~~')) {
     return null;
   }
 
@@ -1142,7 +1142,7 @@ export default function AcademicPaperViewer() {
                                 </div>
                               );
                             })}
-                            {selectedChapterId === 'all' || selectedChapterId === '7' || selectedChapterId === 'references' ? (
+                            {selectedChapterId === 'all' || selectedChapterId === 'references' ? (
                                   <ReferencesSection
                                     references={paperData.references}
                                     journalMode={journalMode}
@@ -1209,7 +1209,7 @@ export default function AcademicPaperViewer() {
                                   </div>
                                 );
                               })}
-                              {selectedChapterId === 'all' || selectedChapterId === '7' || selectedChapterId === 'references' ? (
+                              {selectedChapterId === 'all' || selectedChapterId === 'references' ? (
                                 <ReferencesSection
                                   references={paperData.references}
                                   journalMode={journalMode}
@@ -1272,7 +1272,7 @@ export default function AcademicPaperViewer() {
                                   </div>
                                 );
                               })}
-                              {selectedChapterId === 'all' || selectedChapterId === '7' || selectedChapterId === 'references' ? (
+                              {selectedChapterId === 'all' || selectedChapterId === 'references' ? (
                                 <ReferencesSection
                                   references={paperData.references}
                                   journalMode={journalMode}
