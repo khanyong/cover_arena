@@ -49,12 +49,14 @@ export const SimulationWidget: React.FC = () => {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const particlesRef = useRef<Particle[]>([]);
   const screenHitsRef = useRef<number[]>(new Array(100).fill(0));
+  const deadTrailsRef = useRef<{x: number, y: number}[][]>([]);
   const requestRef = useRef<number | null>(null);
 
   // Restart simulation helper
   const resetSimulation = () => {
     particlesRef.current = [];
     screenHitsRef.current = new Array(100).fill(0);
+    deadTrailsRef.current = [];
     setIsDecohering(false);
     setDecohereProgress(0);
   };
@@ -178,6 +180,17 @@ export const SimulationWidget: React.FC = () => {
           });
         }
 
+        // Draw accumulated dead trails (persist historical trajectories)
+        ctx.save();
+        ctx.lineWidth = 0.5;
+        deadTrailsRef.current.forEach(trail => {
+          ctx.strokeStyle = simMode === 'mass' && mass > 50 ? 'rgba(234, 179, 8, 0.04)' : 'rgba(59, 130, 246, 0.04)';
+          ctx.beginPath();
+          trail.forEach((t, i) => i === 0 ? ctx.moveTo(t.x, t.y) : ctx.lineTo(t.x, t.y));
+          ctx.stroke();
+        });
+        ctx.restore();
+
         const activeMass = simMode === 'mass' ? mass : 1.0;
 
         particlesRef.current.forEach((p) => {
@@ -227,6 +240,8 @@ export const SimulationWidget: React.FC = () => {
 
           if (p.x >= width - 30) {
             p.active = false;
+            deadTrailsRef.current.push([...p.trail, { x: p.x, y: p.y }]); // Save final trajectory
+            if (deadTrailsRef.current.length > 300) deadTrailsRef.current.shift(); // Memory limits
             const binIndex = Math.floor((p.y / height) * 100);
             if (binIndex >= 0 && binIndex < 100) {
               screenHitsRef.current[binIndex]++;
