@@ -87,8 +87,8 @@ export const papersMap: Record<string, PaperDetails> = {
       "en": "Kwang yong Yoo"
     },
     "affiliations": {
-      "ko": "KT 상무, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
-      "en": "Director at KT, Ph.D. Candidate in Business Administration at Yonsei University, LL.M. at University of Connecticut"
+      "ko": "KT 부장, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
+      "en": "General Manager at KT, Ph.D. Candidate in Business Administration at Yonsei University, LL.M. at University of Connecticut"
     },
     "abstract": {
       "versions": {
@@ -5845,8 +5845,8 @@ export const papersMap: Record<string, PaperDetails> = {
       "en": "Kwang yong Yoo"
     },
     "affiliations": {
-      "ko": "KT 상무, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
-      "en": "Director at KT, Ph.D. Candidate in Business Administration at Yonsei University, LL.M. at University of Connecticut"
+      "ko": "KT 부장, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
+      "en": "General Manager at KT, Ph.D. Candidate in Business Administration at Yonsei University, LL.M. at University of Connecticut"
     },
     "abstract": {
       "versions": {
@@ -7251,8 +7251,8 @@ export const papersMap: Record<string, PaperDetails> = {
       "en": "Kwang yong Yoo"
     },
     "affiliations": {
-      "ko": "KT 상무, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
-      "en": "Director at KT, Ph.D. Candidate in Business Administration at Yonsei University, LL.M. at University of Connecticut"
+      "ko": "KT 부장, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
+      "en": "General Manager at KT, Ph.D. Candidate in Business Administration at Yonsei University, LL.M. at University of Connecticut"
     },
     "abstract": {
       "versions": {

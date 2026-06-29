@@ -1602,7 +1602,7 @@ export default function AcademicPaperViewer() {
                 </div>
                 <div>
                   <h4 className="text-sm font-bold text-zinc-900 font-serif">유광용 (Kwang yong Yoo)</h4>
-                  <p className="text-[11px] text-[#b31b1b] font-semibold font-serif">Director at KT (상무)</p>
+                  <p className="text-[11px] text-[#b31b1b] font-semibold font-serif">General Manager at KT (부장)</p>
                 </div>
               </div>
 

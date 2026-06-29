@@ -118,7 +118,7 @@ export default function PapersDashboard() {
             <div className="text-xs">
               <p className="font-bold text-zinc-900 font-serif">유광용 (Kwang yong Yoo)</p>
               <p className="text-[10px] text-zinc-500 leading-tight mt-1">
-                KT 상무 / 연세대학교 박사 수료 / UCONN 법학 석사
+                KT 부장 / 연세대학교 박사 수료 / UCONN 법학 석사
               </p>
             </div>
           </div>
