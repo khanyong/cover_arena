@@ -53,14 +53,24 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
   // 결정론적 단락 버전 선택 (모자이크 모드 우선)
   const chosenVersion = isMosaicMode && customVersionMap[p.id]
     ? customVersionMap[p.id]
-    : (versionMode === 'diff' ? 'v3' : versionMode);
+    : (versionMode === 'diff' ? 'v4' : versionMode);
 
   // 버전별 상속 체인 Fallback 데이터 해석기 (한영 혼용 방지를 위한 엄격한 언어 분리 상속)
   const getParagraphTextForVersion = (vKey: string, currentLang: 'ko' | 'en') => {
     const directText = versionsMap[vKey]?.[currentLang]?.trim() || '';
     if (directText) return directText;
 
+    if (vKey === 'v4') {
+      const v3Text = versionsMap['v3']?.[currentLang]?.trim() || '';
+      if (v3Text) return v3Text;
+      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
+      if (v2Text) return v2Text;
+      return versionsMap['v1']?.[currentLang]?.trim() || '';
+    }
+
     if (vKey === 'v3') {
+      const v4Text = versionsMap['v4']?.[currentLang]?.trim() || '';
+      if (v4Text) return v4Text;
       const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
       if (v2Text) return v2Text;
       return versionsMap['v1']?.[currentLang]?.trim() || '';
@@ -71,13 +81,17 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
       if (v1Text) {
         return v1Text.replace(/~~/g, ''); // v2에 데이터가 없고 v1만 취소선으로 있다면 취소선을 뗀 일반 텍스트가 v2 최종본의 내용임
       }
-      return versionsMap['v3']?.[currentLang]?.trim() || '';
+      const v3Text = versionsMap['v3']?.[currentLang]?.trim() || '';
+      if (v3Text) return v3Text;
+      return versionsMap['v4']?.[currentLang]?.trim() || '';
     }
 
     if (vKey === 'v1') {
       const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
       if (v2Text) return v2Text;
-      return versionsMap['v3']?.[currentLang]?.trim() || '';
+      const v3Text = versionsMap['v3']?.[currentLang]?.trim() || '';
+      if (v3Text) return v3Text;
+      return versionsMap['v4']?.[currentLang]?.trim() || '';
     }
 
     return '';
@@ -117,8 +131,8 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
     cleanBody = cleanBody.slice(2).trim();
   }
 
-  // 3. 최종본(v2 또는 v3) 모드인데 본문 전체가 취소선인 경우 리스트 기호 포함하여 통째로 렌더링 생략
-  if ((chosenVersion === 'v2' || chosenVersion === 'v3') && cleanBody.startsWith('~~') && cleanBody.endsWith('~~')) {
+  // 3. 최종본(v2, v3 또는 v4) 모드인데 본문 전체가 취소선인 경우 리스트 기호 포함하여 통째로 렌더링 생략
+  if ((chosenVersion === 'v2' || chosenVersion === 'v3' || chosenVersion === 'v4') && cleanBody.startsWith('~~') && cleanBody.endsWith('~~')) {
     return null;
   }
 
@@ -190,7 +204,7 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
       {isMosaicMode && onVersionSelect && (
         <div className="absolute right-2 -top-2.5 opacity-60 group-hover/para:opacity-100 transition-opacity z-20 flex items-center space-x-1 bg-white border border-zinc-200 shadow-xs px-1 rounded-sm">
           <span className="text-[7.5px] font-mono text-zinc-400 uppercase tracking-widest mr-1">Assemble:</span>
-          {['v1', 'v2', 'v3'].map((vKey) => {
+          {['v1', 'v2', 'v3', 'v4'].map((vKey) => {
             const hasVerText = getParagraphTextForVersion(vKey, lang);
             if (!hasVerText) return null;
             const isSel = chosenVersion === vKey;
@@ -403,6 +417,21 @@ export default function AcademicPaperViewer() {
       setVersionMode(v as string);
     }
   }, [router.isReady, router.query.tab, router.query.mode, router.query.lang, router.query.v]);
+
+  // Dynamically default the version selection to the latest compiled version if query parameter is empty
+  useEffect(() => {
+    if (!router.isReady) return;
+    if (router.query.v) return; // Preserve manual query selection
+    if (!paperData) return; // Null guard to prevent runtime TypeError during initial loading
+
+    const availableVersions = Object.keys(paperData.abstract?.versions || {});
+    if (availableVersions.length > 0) {
+      const latestVersion = availableVersions[availableVersions.length - 1];
+      if (latestVersion && latestVersion !== versionMode) {
+        setVersionMode(latestVersion);
+      }
+    }
+  }, [paperData, router.isReady, router.query.v]);
 
   // 1-3. 상태 변경 시 URL 쿼리 파라미터 동기화 (Sync status to URL query parameters)
   useEffect(() => {
@@ -837,7 +866,11 @@ export default function AcademicPaperViewer() {
                   <button 
                     onClick={() => {
                       setIsMosaicMode(!isMosaicMode);
-                      if (versionMode === 'diff') setVersionMode('v3');
+                      if (versionMode === 'diff') {
+                        const availableVersions = Object.keys(paperData.abstract?.versions || {});
+                        const latestVersion = availableVersions[availableVersions.length - 1] || 'v3';
+                        setVersionMode(latestVersion);
+                      }
                     }}
                     className={`px-2.5 py-0.5 rounded-sm font-bold text-xs transition-all flex items-center gap-1 border ${
                       isMosaicMode 
