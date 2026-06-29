@@ -547,19 +547,30 @@ export const SimulationWidget: React.FC = () => {
         if (isDecohering && decohereProgress > 0 && decohereProgress < 1) {
           const prog = decohereProgress;
           if (prog < 0.5) {
-            // 0~50%: A 입자에서 상단으로 타고 올라가는 Damping Wave
+            // 0~50%: A 입자에서 상단 접합부로 빛의 속도 이하(v<=c)로 기어 올라가는 파동
             const t = prog * 2; 
             const curX = posA.x * (1 - t);
             const curY = posA.y * (1 - t);
             const curZ = posA.z + (starZ - posA.z) * t;
             drawSphere3D(project(curX, curY, curZ), "Damping Wave (v ≤ c)", "#ef4444");
           } else {
-            // 50~100%: 튜브가 끊어지며 B 입자로 순식간에 내리꽂히는 착시 파동
+            // 50~100%: 내부 거리가 0이므로 시간 지연 없음! B 입자에서 즉각적인 붉은 펄스(착시) 폭발
             const t = (prog - 0.5) * 2;
-            const curX = posB.x * t;
-            const curY = posB.y * t;
-            const curZ = starZ - (starZ - posB.z) * t;
-            drawSphere3D(project(curX, curY, curZ), "Instantaneous Collapse Illusion", "#ef4444");
+            const projB = project(posB.x, posB.y, posB.z);
+            
+            ctx.save();
+            ctx.shadowBlur = 20 + 10 * Math.sin(t * Math.PI); // 번쩍이는 효과
+            ctx.shadowColor = "#ef4444";
+            ctx.fillStyle = `rgba(239, 68, 68, ${1 - t})`; // 폭발 후 서서히 사라짐
+            ctx.beginPath();
+            ctx.arc(projB.px, projB.py, 10 + 10 * t, 0, 2 * Math.PI);
+            ctx.fill();
+            ctx.restore();
+            
+            ctx.font = 'bold 11px font-sans';
+            ctx.fillStyle = '#f87171';
+            ctx.textAlign = 'center';
+            ctx.fillText("Instantaneous Collapse\n(Time Delay = 0)", projB.px, projB.py - 25);
           }
         }
 
