@@ -516,6 +516,14 @@ export default function AcademicPaperViewer() {
     // Replace double backslashes with single backslash globally for all TeX parsing
     let processedText = text.trim().replace(/\\\\/g, '\\');
 
+    // Prevent bundler escaping bugs that split \nu into literal newlines and 'u'
+    processedText = processedText
+      .replace(/\r?\n\s*u/g, '\\nu')
+      .replace(/\r?\n\s*a/g, '\\na')
+      .replace(/\\n\s*u/g, '\\nu')
+      .replace(/\\n\s*a/g, '\\na')
+      .replace(/\r?\n/g, ' ');
+
     // 1. Hide raw display math delimiters ($$)
     if (processedText === '$$') {
       return null;
@@ -680,6 +688,28 @@ export default function AcademicPaperViewer() {
     }
 
     return parsedNodes;
+  };
+
+  const renderAbstractText = (rawText: string, lang: 'ko' | 'en') => {
+    if (!rawText) return null;
+    
+    // Stitch back broken \nu and \nabla inside inline math $...$ BEFORE splitting by newlines
+    let sanitizedText = rawText
+      .replace(/(\$[^\$]*)\r?\n\s*u([^\$]*\$)/g, '$1\\nu$2')
+      .replace(/(\$[^\$]*)\r?\n\s*a([^\$]*\$)/g, '$1\\na$2')
+      .replace(/\\nu/g, '\\nu')
+      .replace(/\\na/g, '\\na');
+
+    const paras = sanitizedText.split(/\n|\\n/);
+    return paras.map((para, idx) => {
+      const trimmed = para.trim();
+      if (!trimmed) return null;
+      return (
+        <div key={idx} className={idx > 0 ? "mt-3 indent-4" : ""}>
+          {parseParagraphText(trimmed, lang)}
+        </div>
+      );
+    });
   };
 
   const getJournalStyleClass = () => {
@@ -1085,19 +1115,19 @@ export default function AcademicPaperViewer() {
                               <h3 className="text-xs font-bold text-[#b31b1b] border-b border-zinc-200 pb-1.5 uppercase tracking-wider mb-4 font-sans">
                                 {activeLang === 'ko' ? '초록' : 'Abstract'}
                               </h3>
-                              <p className="text-sm md:text-[14.5px] text-zinc-800 text-justify leading-relaxed indent-4">
+                              <div className="text-sm md:text-[14.5px] text-zinc-800 text-justify leading-relaxed">
                                 {readMode === 'single'
                                   ? (activeLang === 'ko'
-                                    ? parseParagraphText(paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '', 'ko')
-                                    : parseParagraphText(paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '', 'en')
+                                    ? renderAbstractText(paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '', 'ko')
+                                    : renderAbstractText(paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '', 'en')
                                   )
-                                  : parseParagraphText(paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '', 'ko')
+                                  : renderAbstractText(paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '', 'ko')
                                 }
-                              </p>
+                              </div>
                               {readMode === 'bilingual' && (
-                                <p className="text-xs md:text-[13.5px] text-zinc-500 italic text-justify leading-relaxed mt-4 border-t border-zinc-150 pt-4">
-                                  {parseParagraphText(paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '', 'en')}
-                                </p>
+                                <div className="text-xs md:text-[13.5px] text-zinc-500 italic text-justify leading-relaxed mt-4 border-t border-zinc-150 pt-4">
+                                  {renderAbstractText(paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '', 'en')}
+                                </div>
                               )}
                             </div>
                           </div>

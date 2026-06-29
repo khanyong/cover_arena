@@ -204,12 +204,9 @@ function parseBilingualFile(filePath) {
     }
 
     if (inAbstract) {
-      // Abstract parsing logic
-      if (trimmed.startsWith('<math>') || trimmed.startsWith('$$') || trimmed.startsWith('\\') || trimmed.includes('\\lim') || trimmed.includes('\\gamma')) {
-        continue;
-      }
+      // Abstract parsing logic (Do NOT skip math lines)
       const isKo = hasKorean(trimmed);
-      const cleanText = trimmed.replace(/~~/g, '');
+      const cleanText = trimmed.replace(/~~/g, '').replace(/\\/g, '\\\\');
       const isV1 = trimmed.includes('~~');
 
       if (isKo) {
@@ -321,11 +318,8 @@ function parsePaperFile(filePath, versionKey, langKey) {
       continue;
     }
 
-    // 4. Abstract Content parsing
+    // 4. Abstract Content parsing (Do NOT skip math lines)
     if (inAbstract) {
-      if (line.startsWith('<math>') || line.startsWith('$$') || line.startsWith('\\') || line.includes('\\lim') || line.includes('\\gamma')) {
-        continue;
-      }
       let isStrikethrough = false;
       let cleanText = line;
       
@@ -338,6 +332,9 @@ function parsePaperFile(filePath, versionKey, langKey) {
         isStrikethrough = true;
         cleanText = cleanText.replace(/~~/g, '');
       }
+
+      // Preserve backslashes for LaTeX parsing inside Abstract
+      cleanText = cleanText.replace(/\\/g, '\\\\');
 
       abstractBlocks.push({
         text: cleanText,
