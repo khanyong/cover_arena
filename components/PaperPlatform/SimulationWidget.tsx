@@ -116,9 +116,16 @@ export const SimulationWidget: React.FC = () => {
               const potential = activeAmplitude * Math.cos(0.08 * pathDifference * Math.sqrt(distance));
               
               if (potential > 0) {
-                ctx.fillStyle = `rgba(59, 130, 246, ${potential / 6})`;
+                // mass가 50 이상(뉴턴 극한)이면 채도를 낮춰 무채색 느낌으로 변경
+                const r = simMode === 'mass' && mass > 50 ? 100 : 59;
+                const g = simMode === 'mass' && mass > 50 ? 100 : 130;
+                const b = simMode === 'mass' && mass > 50 ? 100 : 246;
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${potential / 6})`;
               } else {
-                ctx.fillStyle = `rgba(168, 85, 247, ${Math.abs(potential) / 6})`;
+                const r = simMode === 'mass' && mass > 50 ? 80 : 168;
+                const g = simMode === 'mass' && mass > 50 ? 80 : 85;
+                const b = simMode === 'mass' && mass > 50 ? 80 : 247;
+                ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${Math.abs(potential) / 6})`;
               }
               ctx.fillRect(x, y, 4, 4);
             }
@@ -477,15 +484,18 @@ export const SimulationWidget: React.FC = () => {
         ctx.fill();
         ctx.restore();
 
-        // Star 3D Label (Fixed to star location)
+        // Star 3D Label (Fixed to star location with alpha fade for multiverse bubble evaporation)
         ctx.font = 'bold 11px font-sans';
-        ctx.fillStyle = decohereProgress > 0.8 ? '#9ca3af' : '#f87171';
         ctx.textAlign = 'center';
-        ctx.fillText(
-          decohereProgress > 0.8 ? "Junction Decohered\n(Entanglement Lost)" : "Primary Spatial Junction\n(Entanglement Active)",
-          junctionProj.px,
-          junctionProj.py - 20
-        );
+        if (decohereProgress > 0.8) {
+          // 거품이 증발할 때 글씨도 함께 은은하게 사라지도록 처리 (alpha fade)
+          const fadeAlpha = Math.max(0, 1 - (decohereProgress - 0.8) * 5);
+          ctx.fillStyle = `rgba(156, 163, 175, ${fadeAlpha})`; // 옅은 회색
+          ctx.fillText("Topological Bubble Detached\n(Seed of Multiverse)", junctionProj.px, junctionProj.py - 20);
+        } else {
+          ctx.fillStyle = '#f87171';
+          ctx.fillText("Primary Spatial Junction\n(Entanglement Active)", junctionProj.px, junctionProj.py - 20);
+        }
 
         // Particle A and Particle B Setups
         const partU = 2.4;
