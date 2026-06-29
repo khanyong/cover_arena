@@ -541,6 +541,13 @@ export default function AcademicPaperViewer() {
       cleanMathText.includes('\\int') ||
       cleanMathText.includes('\\sum') ||
       cleanMathText.includes('\\cdot') ||
+      cleanMathText.includes('\\mu') ||
+      cleanMathText.includes('\\nu') ||
+      cleanMathText.includes('\\tilde') ||
+      cleanMathText.includes('\\ddot') ||
+      cleanMathText.includes('\\rho') ||
+      cleanMathText.includes('\\Delta') ||
+      cleanMathText.includes('\\Gamma') ||
       cleanMathText.includes('^2')
     );
 
@@ -1081,15 +1088,15 @@ export default function AcademicPaperViewer() {
                               <p className="text-sm md:text-[14.5px] text-zinc-800 text-justify leading-relaxed indent-4">
                                 {readMode === 'single'
                                   ? (activeLang === 'ko'
-                                    ? (paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '')
-                                    : (paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '')
+                                    ? parseParagraphText(paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '', 'ko')
+                                    : parseParagraphText(paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '', 'en')
                                   )
-                                  : (paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '')
+                                  : parseParagraphText(paperData.abstract.versions?.[versionMode]?.ko || paperData.abstract.versions?.['v2']?.ko || '', 'ko')
                                 }
                               </p>
                               {readMode === 'bilingual' && (
                                 <p className="text-xs md:text-[13.5px] text-zinc-500 italic text-justify leading-relaxed mt-4 border-t border-zinc-150 pt-4">
-                                  {paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || ''}
+                                  {parseParagraphText(paperData.abstract.versions?.[versionMode]?.en || paperData.abstract.versions?.['v2']?.en || '', 'en')}
                                 </p>
                               )}
                             </div>
