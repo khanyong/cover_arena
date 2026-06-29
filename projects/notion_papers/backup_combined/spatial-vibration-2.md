@@ -1,0 +1,79 @@
+## 제2부 (거시 세계 편): 일반상대성이론과 중력 렌즈
+
+# 공간의 진동 역학 II: 거시 중력장과 미시 공간 진동의 상호작용 및 암흑 우주 대체 모델 / Mechanics of Spatial Vibration II: Interaction of Macroscopic Gravity with Microscopic Vibration and Alternative Models for the Dark Sector
+
+- ~~1장. 서론: 제1부의 요약 및 소용돌이(거시 중력)와 파도(미시 공간 진동)의 상호작용 개념 도입~~
+- ~~2장. 진동-중력 결합 방정식: 일반상대성이론의 아인슈타인 장 방정식(Field equations)에 '공간 진동 텐서(Tensor)' 확장 도입~~
+- ~~3장. 중력 렌즈 현상의 미세 섭동 예측: 중력장을 지나는 빛 궤적이 공간 진동과 마찰하며 생기는 위상 지연 및 미세 산란 오차 모델링~~
+- ~~4장. 암흑 물질의 재해석: 강한 중력장 내 공간 진동의 보강 간섭에 따른 에너지 응축(질량화) 및 잉여 중력 발생 증명~~
+- ~~5장. 암흑 에너지의 재해석: 텅 빈 진공 공간의 본질적 진동에 의한 거시적 우주 팽창 압력(복사압) 도출~~
+- ~~6장. 결론~~
+
+- ~~제목: 공간의 진동 역학 II: 거시 중력장과 미시 공간 진동의 상호작용 및 암흑 우주 대체 모델 (Mechanics of Spatial Vibration II: Interaction of Macroscopic Gravity with Microscopic Vibration and Alternative Models for the Dark Sector)~~
+
+## 1장. 서론 (Introduction)
+- **스케일 역전 메커니즘 선언:** 조밀한 질량체에 억눌렸던 진동이 광활한 우주 볼륨에서 다시 관성을 압도함.
+- **소용돌이와 파도 비유:** 소용돌이(거시 중력 곡률)와 파도(미시 공간 진동)의 비유를 통한 진동-중력 역학적 상호작용 개념 도입.
+
+## 2장. 진동-중력 결합 방정식: 아인슈타인 장 방정식의 확장 (Coupled Equations of Vibration and Gravity)
+- **공간 진동 텐서 도입:** 물리적 실재를 지닌 공간 진동 텐서($\tilde{V}_{\mu\nu}$)의 확장 도입 및 수학적 환영인 우주 상수($\Lambda$)의 철저한 폐기.
+- **비선형 피드백 루프:** 거대 질량체(중력)가 진동파를 굴절시키고, 역으로 진동 텐서 에너지가 시공간 곡률에 압력을 가하는 비선형적 피드백 루프 수식화.
+
+## 3장. 중력 렌즈 현상의 미세 섭동 예측: 빛 궤적과 공간 진동의 역학적 마찰 (Prediction of Micro-Perturbations in Gravitational Lensing)
+- **요동 측지선 방정식:** 매끄러운 고전적 측지선 방정식을 반박하고, 공간 마찰 오차($\mathbf{f}_{jitter}$)가 중첩된 요동치는 측지선 방정식 도출.
+- **천문학 관측 예측 1:** 중력 렌즈 이미지 테두리의 픽셀 단위 흩뿌려짐(광학적 번짐, Micro-Scattering).
+- **천문학 관측 예측 2:** 공간 진동 텐서 궤적 적분에 비례하여 나타나는 샤피로 지연 외의 잉여 위상 지연($\Delta t_{vibration}$).
+
+## 4장. 암흑 물질의 재해석: 강한 중력장 내 공간 진동의 보강 간섭에 따른 텐서 응축 (Reinterpretation of Dark Matter)
+- **가상 입자 모델 폐기:** 가상의 입자(WIMP 등) 모델 폐기 및 은하 헤일로(Halo)와 같이 희박한 질량 밀도 영역에서의 공간 진동 주도권 부활.
+- **텐서 응축 역학:** 거대 중력 소용돌이로 굴절되어 유입된 공간 진동파들의 극한적 보강 간섭에 따른 '텐서 응축' 역학 규명.
+- **유효 질량화 및 중력 창발:** 질량-에너지 등가원리($E=mc^2$)를 통한 극도로 응축된 진동 에너지의 유효 질량화 및 잉여 중력 창발 증명.
+
+## 5장. 암흑 에너지의 재해석: 텅 빈 진공 공간의 본질적 진동에 의한 거시적 우주 팽창 압력 도출 (Reinterpretation of Dark Energy)
+- **진동 복사압 도출:** 우주 거대 공동(Voids) 등 억압 없는 광활한 빈 공간에서 요동 텐서가 사방으로 뿜어내는 본질적인 기하학적 척력(진동 복사압, $p_{vib} < 0$) 도출.
+- **가속 팽창 루프:** 우주의 팽창으로 빈 공간의 절대적 체적이 늘어날수록 진동 복사압의 총량이 기하급수적으로 폭증하는 '결정론적 가속 팽창 양성 피드백 루프' 수학화.
+
+## 6장. 결론: 암흑 우주의 역학적 해법과 새로운 우주론적 지평 (Conclusion)
+- **대칭 통합:** '공간의 기하학적 진동'이라는 단일 원리에 의한 암흑 물질(인력)과 암흑 에너지(척력)의 완벽한 대칭적 통합 요약.
+- **위상 도메인 예고:** 우주 공간 위상의 비균질성 제안. 서로 다른 위상을 가진 거대한 위상 도메인(Topological Domains)들의 단절과 그 경계면에서 발생할 파동 마찰 예고.
+
+# 초록 (Abstract)
+현대 우주론의 가속 팽창 및 은하 회전 곡선 문제를 해결하기 위해, 가상의 암흑 물질 입자와 우주 상수 대신 배경 진공의 기하학적 요동을 도입하는 가설을 제안한다.
+$$ \lim_{E_{obs} \to \infty} \gamma(E_{obs}) Q_s = 0 $$
+거대한 우주적 공동 및 은하 외곽에서 억제되지 않는 진공 진동 복사압이 척력 장으로 작용하여 가속 팽창을 일으킴을 증명한다.
+
+# 1. 서론 (Introduction)
+앞선 제1논문(공간의 진동 역학 I)에서 본 연구는 미시 세계의 확률적 파동 현상이 대상 입자의 본질이 아니라, 대상을 둘러싼 텅 빈 배경 공간 자체의 '기하학적 요동(Geometrical fluctuation)'임을 수학적으로 입증하였다.
+~~본 논문은 이러한 양자역학과 고전 물리학 사이의 간극을 메우기 위해, 파동-입자 이중성의 근원을 대상 자체가 아닌 대상을 둘러싼 '배경 공간(Background Space)의 역학적 진동'으로 해석하는 새로운 패러다임을 제안한다. 본 연구는 우주 공간을 텅 빈 무(無)가 아니라 끊임없이 요동치는 매질로 보는 '공간의 진동(Spatial Vibration)' 모델을 도입하여, 미시 세계의 확률적 현상과 거시 세계의 결정론적 물리 법칙을 단일한 프레임워크로 통합하고자 한다.~~
+본 논문은 이러한 양자역학과 고전 물리학 사이의 간극을 메우기 위해, 파동-입자 이중성의 근원을 대상 자체가 아닌 대상을 둘러싼 '배경 공간(Background Space)의 역학적 진동'으로 해석하는 새로운 패러다임을 제안한다. 본 연구는 우주 공간을 물질을 담는 수동적이고 텅 빈 무(無)의 그릇이나 특정 매질(Medium)로 채워진 절대 공간으로 전제하던 고전적 관점을 철저히 탈피한다. 대신, 공간 그 자체를 내재적인 요동(Intrinsic fluctuation)과 기하학적 장력(Geometrical tension)을 지닌 '동역학적 실체(Dynamical Entity)'로 재정의한다. 어떠한 물리적 매질 없이도 텅 빈 시공간의 기하학적 위상 자체가 스스로 요동칠 수 있다는 '공간의 진동(Spatial Vibration)' 모델을 도입함으로써, 본 연구는 미시 세계의 확률적 현상과 거시 세계의 결정론적 물리 법칙을 단일한 프레임워크로 통합하고자 한다.
+
+# 2. 진동-중력 결합 방정식: 아인슈타인 장 방정식의 확장 (Coupled Equations of Vibration and Gravity)
+물리적 실재를 지닌 공간 진동 텐서($\tilde{V}_{\mu\nu}$)를 아인슈타인 장 방정식에 도입하여 기하학적 결합을 설명한다:
+$$ G_{\mu\nu} = \frac{8\pi G}{c^4} \left( T_{\mu\nu} + \tilde{V}_{\mu\nu} \right) $$
+중력 우물 내에서 압축된 공간 진동 텐서 에너지의 보강 간섭과 그 역역학이 비선형적 물리 순환 피드백 루프를 어떻게 형성하는지 수식화한다.
+
+# 3. 중력 렌즈 현상의 미세 섭동 예측 (Prediction of Micro-Perturbations in Gravitational Lensing)
+매끄러운 고전적 측지선을 반박하고, 시공간 요동에 따른 빛의 요동치는 측지선 방정식을 제안한다:
+$$ \frac{d^2 x^\mu}{d\lambda^2} + \left( \Gamma^\mu_{\rho\sigma} + \delta \Gamma^\mu_{\rho\sigma}(\tilde{V}) \right) \frac{dx^\rho}{d\lambda} \frac{dx^\sigma}{d\lambda} = \mathbf{f}_{jitter} $$
+이로 인해 발생하는 이미지의 미세 산란(Micro-Scattering)과 샤피로 지연 외의 잉여 위상 지연($\Delta t_{vibration}$) 현상을 천문학적 관측 지표로 정밀 예측한다:
+$$ \Delta t_{total} = \Delta t_{classical} + \int \tilde{V}_{\mu\nu} dl $$
+
+# 4. 암흑 물질의 재해석: 텐서 응축 (Reinterpretation of Dark Matter)
+가상의 암흑 물질 입자 모델을 폐기하고, 은하 헤일로 영역의 희박한 질량 밀도에서 공간 진동이 주도권을 회복하는 스케일 역전을 입증한다. 은하 소용돌이 중력장에 보강 간섭으로 응축된 공간 진동 텐서의 질량화 공식($M_{eff}$)을 도출한다:
+$$ M_{eff}(r) = M_{visible}(r) + \frac{1}{c^2} \int_{0}^{r} \tilde{V}_{00}(r') \, 4\pi r'^2 dr' $$
+
+# 5. 암흑 에너지의 재해석: 진공 공간의 진동 복사압 (Reinterpretation of Dark Energy)
+억제되지 않는 광활한 빈 공간에서 요동치는 공간 진동파가 사방으로 행사하는 음의 압력(척력 복사압, $p_{vib} < 0$)을 유도한다:
+$$ p_{vib} \approx -\rho_{vib} c^2 $$
+우주 팽창 프리드만 방정식에 이 척력 복사압을 반영하여, 팽창할수록 진공 체적이 넓어져 척력 총량이 폭증하는 가속 팽창 피드백 루프를 유도한다:
+$$ \frac{\ddot{a}}{a} = -\frac{4\pi G}{3} \left( \rho_m + \frac{3p_{vib}}{c^2} \right) $$
+
+# 6. 결론: 새로운 우주론적 지평 (Conclusion)
+공간 진동 이론으로 암흑 우주의 난제를 통합하고, 138억 광년 우주의 위상 비균질성에 따른 '위상 도메인(Topological Domains)' 경계 마찰이라는 차기 논문의 핵심 과제를 선언한다.
+
+# 참고문헌 (References)
+[1] Einstein, A. (1916). Die Grundlage der allgemeinen Relativitätstheorie. *Annalen der Physik*, 354(7), 769-822.
+[2] Shapiro, I. I. (1964). Fourth Test of General Relativity. *Physical Review Letters*, 13(26), 789-791.
+[3] Rubin, V. C., Ford, W. K. Jr., & Thonnard, N. (1980). Rotational Properties of 21 SC Galaxies with a Large Range of Luminosities and Radii. *The Astrophysical Journal*, 238, 471-487.
+[4] Verlinde, E. P. (2017). Emergent Gravity and the Dark Universe. *SciPost Physics*, 2(3), 016.
+[5] Riess, A. G., et al. (1998). Observational Evidence from Supernovae for an Accelerating Universe and a Cosmological Constant. *The Astronomical Journal*, 116(3), 1009-1038.

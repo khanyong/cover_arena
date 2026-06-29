@@ -14,3 +14,6 @@ build/
 # IDE
 .vscode/
 .idea/
+
+# Agent Scratch Files
+scratch/

@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
+import 'katex/dist/katex.min.css'
 import '../styles/globals.css'
 import '../styles/UnivExam.css'
 import { useEffect } from 'react'

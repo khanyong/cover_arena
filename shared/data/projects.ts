@@ -31,6 +31,48 @@ export type Project = {
 
 export const PROJECTS: Project[] = [
   {
+    id: 'spatial-vibration-1',
+    slug: 'spatial-vibration-1',
+    title: 'Academic Paper: Spatial Vibration Hypothesis',
+    subtitle: 'Interactive Peer-Review & Simulation Platform',
+    category: 'Theoretical Physics & Web Platform',
+    year: '2026',
+    status: 'active',
+    path: '/papers',
+    executiveSummary: '양자역학의 코펜하겐 해석 한계를 극복하기 위해 제안된 "공간의 진동" 가설 논문과 이를 인터랙티브하게 검증하는 피어 리뷰/시뮬레이션 플랫폼입니다.',
+    metrics: [
+      { label: 'Chapters', value: '7' },
+      { label: 'Sandbox', value: 'Double-Slit' },
+      { label: 'Status', value: 'Rebuttal' },
+    ],
+    overview: '현대 양자학설의 이중성 역설을 "입자의 실재성과 배경 공간의 미세 진동 분리" 가설로 재해석한 이론 물리 논문입니다. 독자가 논문을 직접 읽으며 이중 슬릿 샌드박스로 물리 궤적을 확인하고, 피어 리뷰어들의 지적 사항 및 은닉 변수 버전별 차이를 비교(Mosaic/Diff)할 수 있는 학술 아카이브 형태의 인터랙티브 플랫폼을 제공합니다.',
+    problemStatement: '양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률로 정의하고 대상의 실재성을 배제하는 등, 철학적·물리적으로 직관적 이해가 극히 어렵습니다. 또한 복잡한 은닉 변수 제안이나 피어 리뷰 피드백 수정본들을 일반 정적 논문 파일(PDF)만으로는 직관적으로 대조 학습하고 시각적으로 검증하기가 불가능에 가깝습니다.',
+    solution: '전자의 실재 궤적 진동과 요동하는 배경 공간을 분리하는 "공간 진동 퍼텐셜"을 제안하고, 이중 슬릿 시뮬레이션 샌드박스를 개발하여 독자가 파동성과 입자성의 합치를 브라우저상에서 실시간으로 시각화하고 검증할 수 있도록 연동했습니다. 아울러 문단별 은닉 변수 수정안을 직접 토글해서 조립하는 모자이크(Mosaic) 및 디프(Diff) 분석 모듈을 제공하고, 학술지(arXiv/Nature/PRL/IEEE) 포맷에 맞춘 맞춤형 서체와 인용 레이아웃을 제공합니다.',
+    technicalHighlights: [
+      '인터랙티브 이중 슬릿 샌드박스: HTML5 Canvas 기반 물리 궤적 시각화',
+      '인라인 모자이크 조립(Mosaic Mode): 단락 레벨 양방향 텍스트 스위칭',
+      '버전 디프 비교: PaperDiffViewer 기반 V1 Draft vs V2 Final 대칭 레이아웃',
+      '다이내믹 학술지 포맷팅: arXiv, Nature, PRL, IEEE 스타일 및 References 동적 렌더링',
+      '수식 레이텍 마운트: MathJax 연동을 통한 TeX 수식의 완벽한 폰트 렌더링'
+    ],
+    results: '제1논문(spatial-vibration-1)의 7개 장 및 초록, 참고문헌 컴파일 수집 완료. 샌드박스 연동 및 버전 스위칭, 다국어 뷰 구축 및 빌드 성공.',
+    tech: [
+      'Next.js (Turbopack)',
+      'TypeScript',
+      'MathJax (LaTeX)',
+      'HTML5 Canvas',
+      'Supabase',
+      'PostgreSQL',
+      'Tailwind CSS'
+    ],
+    features: [
+      { title: '물리 샌드박스', desc: '이중 슬릿 실험에서의 공간 요동파($\\Psi$) 및 입자 궤적 시뮬레이터' },
+      { title: '모자이크 조립', desc: '문단별 원하는 버전(V1/V2/V3)을 조립하여 맞춤식으로 읽기' },
+      { title: '학술지 포맷팅', desc: 'arXiv, Nature, PRL, IEEE 양식에 따른 서체, 라벨, 인용구 레이아웃 실시간 교체' },
+      { title: '피어 리뷰 연동', desc: '논문 지점별 리뷰어 질의응답 및 락 해제 인증 시스템' }
+    ]
+  },
+  {
     id: 'bll-pro',
     slug: 'bll-pro',
     title: 'BLL Pro',
