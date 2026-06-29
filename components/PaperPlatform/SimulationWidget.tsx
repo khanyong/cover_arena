@@ -328,8 +328,23 @@ export const SimulationWidget: React.FC = () => {
           points[i] = [];
           
           // Apply extreme neck pinching formulation
-          const xProf = u - activePinch * u * Math.exp(-u * u);
-          const zProf = activeJunction * Math.exp(-u * u);
+          let xProf = u - activePinch * u * Math.exp(-u * u);
+          let zProf = activeJunction * Math.exp(-u * u);
+
+          // 80% 이상 진행 시 기하학적 절단(Pinch-off) 및 거품 분리 연출
+          if (isDecohering && decohereProgress > 0.8) {
+            const severFactor = (decohereProgress - 0.8) * 5; // 0 to 1
+            
+            // 1. 목(Neck) 부위 렌더링 절단 (u가 0.5 ~ 1.5 부근)
+            if (Math.abs(u) > 0.5 && Math.abs(u) < 1.5) {
+              xProf *= Math.max(0, 1 - severFactor * 2); 
+            }
+            
+            // 2. 최상단부(Topological Bubble) 허공으로 부상
+            if (Math.abs(u) <= 0.5) {
+              zProf += severFactor * 3.0; 
+            }
+          }
 
           for (let j = 0; j <= vSteps; j++) {
             const v = vMin + (j / vSteps) * (vMax - vMin);
@@ -417,7 +432,11 @@ export const SimulationWidget: React.FC = () => {
         };
 
         // Primary Spatial Junction Star (u = 0, z = activeJunction)
-        const junctionProj = project(0, 0, activeJunction);
+        let starZ = activeJunction;
+        if (isDecohering && decohereProgress > 0.8) {
+          starZ += (decohereProgress - 0.8) * 5 * 3.0;
+        }
+        const junctionProj = project(0, 0, starZ);
         const starColor = decohereProgress > 0.8 ? '#4b5563' : '#fbbf24'; // Greyed out if decohered
         
         ctx.save();
@@ -522,11 +541,24 @@ export const SimulationWidget: React.FC = () => {
           neckArrowProj.py - 30
         );
 
-        // Quivers: Observation Damping Waves (Red arrows pointing outward from particles to represent perturbation)
-        if (isDecohering) {
-          // Arrows representing the perturbation impact wave
-          drawArrow3D(posA.x, posA.y, posA.z, -posA.x * 0.7 * decohereProgress, -posA.y * 0.7 * decohereProgress, (activeJunction - posA.z) * decohereProgress, '#f87171', 2);
-          drawArrow3D(0, 0, activeJunction, posB.x * 0.7 * decohereProgress, posB.y * 0.7 * decohereProgress, (posB.z - activeJunction) * decohereProgress, '#f87171', 2);
+        // 5. Draw 3D Quivers / Arrows (Replaced with dynamic propagation damping wave)
+        if (isDecohering && decohereProgress > 0 && decohereProgress < 1) {
+          const prog = decohereProgress;
+          if (prog < 0.5) {
+            // 0~50%: A 입자에서 상단으로 타고 올라가는 Damping Wave
+            const t = prog * 2; 
+            const curX = posA.x * (1 - t);
+            const curY = posA.y * (1 - t);
+            const curZ = posA.z + (starZ - posA.z) * t;
+            drawSphere3D(project(curX, curY, curZ), "Damping Wave (v ≤ c)", "#ef4444");
+          } else {
+            // 50~100%: 튜브가 끊어지며 B 입자로 순식간에 내리꽂히는 착시 파동
+            const t = (prog - 0.5) * 2;
+            const curX = posB.x * t;
+            const curY = posB.y * t;
+            const curZ = starZ - (starZ - posB.z) * t;
+            drawSphere3D(project(curX, curY, curZ), "Instantaneous Collapse Illusion", "#ef4444");
+          }
         }
 
         // 3D View Calibration Info overlay
