@@ -24,32 +24,33 @@ interface Polygon {
 
 export const SimulationWidget: React.FC = () => {
   const [simMode, setSimMode] = useState<'slit' | 'decoherence' | 'mass' | 'omega'>('slit');
-  
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
   // Physics Parameters
   const [mass, setMass] = useState<number>(1);
   const [slitDist, setSlitDist] = useState<number>(30);
   const [qsAmplitude, setQsAmplitude] = useState<number>(4);
   const [eObs, setEObs] = useState<number>(0); // Chapter 5 perturbation
-  
+
   // 3D Omega Tube Parameters
   const [pinchStrength, setPinchStrength] = useState<number>(1.8);
   const [junctionHeight, setJunctionHeight] = useState<number>(4.5);
   const [isDecohering, setIsDecohering] = useState<boolean>(false);
   const [decohereProgress, setDecohereProgress] = useState<number>(0);
-  
+
   // 3D View Angles (in Radians)
   const [angleX, setAngleX] = useState<number>(15 * Math.PI / 180); // elev
   const [angleY, setAngleY] = useState<number>(60 * Math.PI / 180); // azim
-  
+
   // Drag rotation helper
   const isDragging = useRef<boolean>(false);
   const prevMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-  
+
   // Animation state
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const particlesRef = useRef<Particle[]>([]);
   const screenHitsRef = useRef<number[]>(new Array(100).fill(0));
-  const deadTrailsRef = useRef<{x: number, y: number}[][]>([]);
+  const deadTrailsRef = useRef<{ x: number, y: number }[][]>([]);
   const requestRef = useRef<number | null>(null);
 
   // Restart simulation helper
@@ -89,8 +90,8 @@ export const SimulationWidget: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let width = canvas.width = 600;
-    let height = canvas.height = 350;
+    let width = canvas.width = isExpanded ? 1000 : 600;
+    let height = canvas.height = isExpanded ? 650 : 420;
 
     const runFrame = () => {
       // 1. Clear background
@@ -103,7 +104,7 @@ export const SimulationWidget: React.FC = () => {
         // ==========================================
         const decoherenceFactor = Math.exp(-eObs * 1.5);
         const activeAmplitude = qsAmplitude * (simMode === 'decoherence' ? decoherenceFactor : 1);
-        
+
         const drawTopography = () => {
           ctx.save();
           ctx.globalAlpha = 0.08;
@@ -114,7 +115,7 @@ export const SimulationWidget: React.FC = () => {
               const angle = Math.atan2(y - height / 2, distance);
               const pathDifference = (slitDist * Math.sin(angle));
               const potential = activeAmplitude * Math.cos(0.08 * pathDifference * Math.sqrt(distance));
-              
+
               if (potential > 0) {
                 // mass가 50 이상(뉴턴 극한)이면 채도를 낮춰 무채색 느낌으로 변경
                 const r = simMode === 'mass' && mass > 50 ? 100 : 59;
@@ -218,7 +219,7 @@ export const SimulationWidget: React.FC = () => {
           p.trail.push({ x: p.x, y: p.y });
 
           p.x += p.vx;
-          
+
           if (p.x < 180) {
             if (p.x > 150) {
               const targetSlitY = p.y < height / 2 ? height / 2 - slitDist / 2 : height / 2 + slitDist / 2;
@@ -228,10 +229,10 @@ export const SimulationWidget: React.FC = () => {
             const distance = p.x - 180;
             const angle = Math.atan2(p.y - height / 2, distance);
             const pathDifference = (slitDist * Math.sin(angle));
-            
+
             const frequency = 0.08 * Math.sqrt(distance || 1);
             const forceGradient = -activeAmplitude * Math.sin(frequency * pathDifference) * Math.cos(angle) * 0.12;
-            
+
             const acceleration = forceGradient / activeMass;
             p.vy += acceleration;
             if (p.vy > 2.5) p.vy = 2.5;
@@ -270,7 +271,7 @@ export const SimulationWidget: React.FC = () => {
           if (hits === 0) return;
           const barWidth = (hits / maxHits) * 26;
           const y = idx * binWidth;
-          
+
           ctx.fillStyle = simMode === 'mass' && mass > 50 ? '#eab308' : '#3b82f6';
           ctx.fillRect(width - 30, y, barWidth, binWidth - 0.5);
         });
@@ -279,7 +280,7 @@ export const SimulationWidget: React.FC = () => {
         ctx.font = '11px monospace';
         ctx.fillStyle = '#a1a1aa';
         ctx.fillText(`Active Mode: ${simMode.toUpperCase()}`, 15, 20);
-        
+
         if (simMode === 'mass') {
           ctx.fillText(`Mass (m): ${mass} a.u.`, 15, 35);
           ctx.fillText(`Decel force: ${(1 / mass).toFixed(3)}x`, 15, 50);
@@ -300,16 +301,17 @@ export const SimulationWidget: React.FC = () => {
         // ==========================================
         const uMin = -3.5, uMax = 3.5, uSteps = 30;
         const vMin = 0, vMax = 2 * Math.PI, vSteps = 36;
-        
+
         const centerX = width / 2;
-        const centerY = height / 2 + 10;
-        const scale = 55; // Screen projection scale
+        // Shift camera center lower so that the top star and the tube stand fully upright without clipping
+        const centerY = height / 2 + (isExpanded ? 110 : 50);
+        const scale = isExpanded ? 78 : 46; // Balanced scale to fit vertically
 
         // Pre-compute current animated parameters for pinch-off decoherence
         // During decoherence, the neck pinchStrength is driven towards maximum collapse, Z height gets slightly distorted
         const activePinch = pinchStrength + (2.5 - pinchStrength) * decohereProgress;
         const activeJunction = junctionHeight * (1 - 0.85 * decohereProgress);
-        
+
         // 3D projection & rotation mapping
         const project = (x: number, y: number, z: number) => {
           // Rotate around Y axis (azimuth / Y-rot)
@@ -325,7 +327,8 @@ export const SimulationWidget: React.FC = () => {
           // Camera distance projection
           const d = 9; // Camera focus distance
           const projX = (x1 * d) / (y2 + d) * scale + centerX;
-          const projY = (z2 * d) / (z2 + d) * scale + centerY;
+          // Invert Z-axis projection (centerY - Y-offset) to make Z axis point upwards (upright orientation)
+          const projY = centerY - (z2 * d) / (z2 + d) * scale;
 
           return { px: projX, py: projY, depth: y2 };
         };
@@ -335,7 +338,7 @@ export const SimulationWidget: React.FC = () => {
         for (let i = 0; i <= uSteps; i++) {
           const u = uMin + (i / uSteps) * (uMax - uMin);
           points[i] = [];
-          
+
           // Apply extreme neck pinching formulation
           let xProf = u - activePinch * u * Math.exp(-u * u);
           let zProf = activeJunction * Math.exp(-u * u);
@@ -343,15 +346,15 @@ export const SimulationWidget: React.FC = () => {
           // 80% 이상 진행 시 기하학적 절단(Pinch-off) 및 거품 분리 연출
           if (isDecohering && decohereProgress > 0.8) {
             const severFactor = (decohereProgress - 0.8) * 5; // 0 to 1
-            
+
             // 1. 목(Neck) 부위 렌더링 절단 (u가 0.5 ~ 1.5 부근)
             if (Math.abs(u) > 0.5 && Math.abs(u) < 1.5) {
-              xProf *= Math.max(0, 1 - severFactor * 2); 
+              xProf *= Math.max(0, 1 - severFactor * 2);
             }
-            
+
             // 2. 최상단부(Topological Bubble) 허공으로 부상
             if (Math.abs(u) <= 0.5) {
-              zProf += severFactor * 3.0; 
+              zProf += severFactor * 3.0;
             }
           }
 
@@ -369,9 +372,9 @@ export const SimulationWidget: React.FC = () => {
         for (let i = 0; i < uSteps; i++) {
           for (let j = 0; j < vSteps; j++) {
             const p1 = points[i][j];
-            const p2 = points[i+1][j];
-            const p3 = points[i+1][j+1];
-            const p4 = points[i][j+1];
+            const p2 = points[i + 1][j];
+            const p3 = points[i + 1][j + 1];
+            const p4 = points[i][j + 1];
 
             // Project 4 vertices
             const pr1 = project(p1.x, p1.y, p1.z);
@@ -416,7 +419,7 @@ export const SimulationWidget: React.FC = () => {
             b = Math.floor(b * (1 - fade) + 200 * fade);
             alpha = 0.55 * (1 - fade * 0.9); // 0에 가깝게 증발
           }
-          
+
           ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`;
           ctx.fill();
 
@@ -457,7 +460,7 @@ export const SimulationWidget: React.FC = () => {
         }
         const junctionProj = project(0, 0, starZ);
         const starColor = decohereProgress > 0.8 ? '#4b5563' : '#fbbf24'; // Greyed out if decohered
-        
+
         ctx.save();
         ctx.shadowBlur = 10;
         ctx.shadowColor = starColor;
@@ -568,7 +571,7 @@ export const SimulationWidget: React.FC = () => {
           const prog = decohereProgress;
           if (prog < 0.5) {
             // 0~50%: A 입자에서 상단 접합부로 빛의 속도 이하(v<=c)로 기어 올라가는 파동
-            const t = prog * 2; 
+            const t = prog * 2;
             const curX = posA.x * (1 - t);
             const curY = posA.y * (1 - t);
             const curZ = posA.z + (starZ - posA.z) * t;
@@ -577,7 +580,7 @@ export const SimulationWidget: React.FC = () => {
             // 50~100%: 내부 거리가 0이므로 시간 지연 없음! B 입자에서 즉각적인 붉은 펄스(착시) 폭발
             const t = (prog - 0.5) * 2;
             const projB = project(posB.x, posB.y, posB.z);
-            
+
             ctx.save();
             ctx.shadowBlur = 20 + 10 * Math.sin(t * Math.PI); // 번쩍이는 효과
             ctx.shadowColor = "#ef4444";
@@ -586,7 +589,7 @@ export const SimulationWidget: React.FC = () => {
             ctx.arc(projB.px, projB.py, 10 + 10 * t, 0, 2 * Math.PI);
             ctx.fill();
             ctx.restore();
-            
+
             ctx.font = 'bold 11px font-sans';
             ctx.fillStyle = '#f87171';
             ctx.textAlign = 'center';
@@ -658,33 +661,29 @@ export const SimulationWidget: React.FC = () => {
         <div className="flex flex-wrap bg-zinc-900 border border-zinc-800 p-1 rounded-lg self-start">
           <button
             onClick={() => setSimMode('slit')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
-              simMode === 'slit' ? 'bg-blue-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
-            }`}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${simMode === 'slit' ? 'bg-blue-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
           >
             4장. 이중 슬릿 궤적
           </button>
           <button
             onClick={() => setSimMode('decoherence')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
-              simMode === 'decoherence' ? 'bg-blue-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
-            }`}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${simMode === 'decoherence' ? 'bg-blue-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
           >
             5장. 관측과 결맞음 붕괴
           </button>
           <button
             onClick={() => setSimMode('mass')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
-              simMode === 'mass' ? 'bg-blue-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
-            }`}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${simMode === 'mass' ? 'bg-blue-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
           >
             6장. 거시 질량 극한 수렴
           </button>
           <button
             onClick={() => setSimMode('omega')}
-            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${
-              simMode === 'omega' ? 'bg-purple-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
-            }`}
+            className={`px-3 py-1.5 text-xs font-semibold rounded-md transition-all ${simMode === 'omega' ? 'bg-purple-600 text-white shadow' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
           >
             🧩 Ω-튜브 얽힘 역학
           </button>
@@ -694,15 +693,14 @@ export const SimulationWidget: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Canvas Area */}
         <div className="lg:col-span-2 bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 p-2 flex items-center justify-center relative">
-          <canvas 
-            ref={canvasRef} 
+          <canvas
+            ref={canvasRef}
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUpOrLeave}
             onMouseLeave={handleMouseUpOrLeave}
-            className={`w-full max-w-[600px] h-auto rounded-lg shadow-inner ${
-              simMode === 'omega' ? 'cursor-grab active:cursor-grabbing' : ''
-            }`} 
+            className={`w-full max-w-[600px] h-auto rounded-lg shadow-inner ${simMode === 'omega' ? 'cursor-grab active:cursor-grabbing' : ''
+              }`}
           />
         </div>
 
@@ -730,7 +728,7 @@ export const SimulationWidget: React.FC = () => {
 
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs text-zinc-400">
-                    <span>공간 진동 강도 ($Q_s$)</span>
+                    <span>공간 진동 강도 (Q<sub>s</sub>)</span>
                     <span className="text-blue-400 font-mono">{qsAmplitude}</span>
                   </div>
                   <input
@@ -749,7 +747,7 @@ export const SimulationWidget: React.FC = () => {
               <>
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs text-zinc-400">
-                    <span>{"관측 타격 에너지 ($E_{obs}$)"}</span>
+                    <span>관측 타격 에너지 (E<sub>obs</sub>)</span>
                     <span className="text-red-400 font-mono">{eObs === 0 ? '0 (무관측)' : `${eObs.toFixed(1)} GeV`}</span>
                   </div>
                   <input
@@ -763,7 +761,7 @@ export const SimulationWidget: React.FC = () => {
                   />
                 </div>
                 <div className="p-3 bg-red-950/20 border border-red-900/35 rounded-lg text-[11px] text-red-300 leading-relaxed font-serif">
-                  <strong>물리적 원리:</strong> {"관측 검출 에너지가 방출될 때 미시 공간의 탄성 복원파가 지수적으로 감쇄합니다 ($e^{-\\gamma(E) t}$). 감쇠에 의해 파동 곡률 등고선이 소멸하고 입자는 직선 관성 궤적으로 수렴하게 됩니다."}
+                  <strong>물리적 원리:</strong> {"관측 검출 에너지가 방출될 때 미시 공간의 탄성 복원파가 지수적으로 감쇄합니다 (e^{-γ(E)t}). 감쇠에 의해 파동 곡률 등고선이 소멸하고 입자는 직선 관성 궤적으로 수렴하게 됩니다."}
                 </div>
               </>
             )}
@@ -772,7 +770,7 @@ export const SimulationWidget: React.FC = () => {
               <>
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs text-zinc-400">
-                    <span>입자 질량 ($m$)</span>
+                    <span>입자 질량 (m)</span>
                     <span className="text-amber-400 font-mono">{mass === 1 ? '1.0 (미시 양자)' : `${mass} (거시 질량)`}</span>
                   </div>
                   <input
@@ -784,10 +782,10 @@ export const SimulationWidget: React.FC = () => {
                     className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
                   />
                 </div>
-                
+
                 <div className="bg-zinc-950 border border-zinc-800 rounded-lg p-3">
                   <div className="text-[10px] text-zinc-400 mb-2 font-mono text-center">
-                    {"공간 유도 가속도 수렴성: $\\lim_{m \\to \\infty} \\frac{\\nabla Q_s}{m} = 0$"}
+                    {"공간 유도 가속도 수렴성: lim (m → ∞) ∇Qs / m = 0"}
                   </div>
                   <div className="h-16 flex items-end justify-center relative">
                     <svg className="w-full h-full text-zinc-700" viewBox="0 0 100 40">
@@ -798,19 +796,19 @@ export const SimulationWidget: React.FC = () => {
                         strokeWidth="1.5"
                         strokeDasharray={mass > 50 ? 'none' : '2'}
                       />
-                      <line 
-                        x1={10 + (mass / 100) * 80} 
-                        y1="5" 
-                        x2={10 + (mass / 100) * 80} 
-                        y2="38" 
-                        stroke="rgba(255,255,255,0.2)" 
+                      <line
+                        x1={10 + (mass / 100) * 80}
+                        y1="5"
+                        x2={10 + (mass / 100) * 80}
+                        y2="38"
+                        stroke="rgba(255,255,255,0.2)"
                         strokeWidth="1"
                       />
-                      <circle 
-                        cx={10 + (mass / 100) * 80} 
-                        cy={35 - (mass / 100) * 30} 
-                        r="3" 
-                        fill="#eab308" 
+                      <circle
+                        cx={10 + (mass / 100) * 80}
+                        cy={35 - (mass / 100) * 30}
+                        r="3"
+                        fill="#eab308"
                       />
                     </svg>
                     <span className="absolute bottom-1 right-2 text-[9px] text-zinc-500">m → ∞</span>
@@ -866,18 +864,17 @@ export const SimulationWidget: React.FC = () => {
                         setIsDecohering(true);
                       }
                     }}
-                    className={`w-full py-2.5 text-xs font-bold rounded-lg transition-all shadow-md active:scale-95 ${
-                      isDecohering 
-                        ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200' 
+                    className={`w-full py-2.5 text-xs font-bold rounded-lg transition-all shadow-md active:scale-95 ${isDecohering
+                        ? 'bg-zinc-800 hover:bg-zinc-700 text-zinc-200'
                         : 'bg-[#b31b1b] hover:bg-red-800 text-white'
-                    }`}
+                      }`}
                   >
                     {isDecohering ? '🔄 시뮬레이션 리셋' : '📡 관측 에너지 투사 (Decoherence)'}
                   </button>
                 </div>
-                
+
                 <div className="p-3 bg-purple-950/20 border border-purple-900/30 rounded-lg text-[11px] text-purple-300 leading-relaxed font-serif">
-                  <strong>수학적 위상 결합:</strong> {"u축 메쉬 단면 프로필 곡선 $X = u - a \\cdot u \\cdot e^{-u^2}$ 상에서, 관측 파동 개입 시 $a$(꼬임 강도)가 최대치로 치솟아 잘록한 목이 끊어져 나가며(Pinch-off), 주 접합점의 얽힘이 동시 상실되는 역학입니다."}
+                  <strong>수학적 위상 결합:</strong> {"u축 메쉬 단면 프로필 곡선 X = u - a · u · e^{-u²} 상에서, 관측 파동 개입 시 a(꼬임 강도)가 최대치로 치솟아 잘록한 목이 끊어져 나가며(Pinch-off), 주 접합점의 얽힘이 동시 상실되는 역학입니다."}
                 </div>
               </>
             )}
