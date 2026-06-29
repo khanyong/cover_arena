@@ -7265,7 +7265,7 @@ export const papersMap: Record<string, PaperDetails> = {
           "en": ""
         },
         "v3": {
-          "ko": "본 논문은 공간 진동 역학 3부작의 최종편으로, 우주 가속 팽창의 인과율적 한계(Causality Limit)로 인해 단일한 파동 동기화를 상실한 138억 광년 우주의 비균질성 문제를 해결한다. 본 연구는 광활한 우주가 고유의 진동 위상(Phase)을 가진 수많은 거대 '위상 도메인(Topological Domains)'들로 파편화되어 있다는 혁명적 가설인 **'우주 공간 판구조론(Cosmological Spatial Plate Tectonics)'**을 최초로 도입한다.\n거대 공간 판들이 맞닿고 마찰하는 공간 단층대(Spatial Fault Lines)에서의 파동 간섭 역학을 통해, 현대 우주론의 미해결 난제인 우주 거대 공동(Voids, 상쇄 간섭)과 은하 거미줄(Cosmic Web, 보강 간섭)의 기하학적 기원을 결정론적으로 규명한다. 나아가 공간 단층대에 누적된 위상 마찰 응력 텐서($S_{\\mu\\nu}$)가 시공간의 탄성 임계점을 초과하며 찢어지는 **'우주 지진(Cosmic Quake)'** 현상을 모델링하여 고속 전파 폭발(FRB)의 메커니즘을 규명한다. 이를 바탕으로 확률론적 배경 중력파(SGWB) 데이터를 역산하여 우주 단층 3D 지도를 그리고, 극한 우주 폭발 현상의 좌표를 선제적으로 예측하는 **POINTING(Predictive Observation of Intersecting Node Topology and Interference in Nominal Gravity)** 프로토콜을 제안하며 관측 천문학의 새로운 패러다임을 선언한다.\n## 1. 서론: 우주 팽창의 비균질성 문제와 위상 도메인의 분리\n본 연작 논문의 제1부와 제2부를 통해, 우리는 양자역학의 미시적 파동성과 거시 중력장의 암흑 우주 현상을 '공간의 기하학적 진동'이라는 단일한 역학으로 통합하였다. 그러나 이 역학 모델을 138억 년 동안 가속 팽창해 온 우주 전체에 적용할 때 심각한 파동 역학적 딜레마(Wave-Mechanical Dilemma)에 직면하게 된다.\n### 1.1. 팽창 우주의 인과율적 한계와 파동 동기화의 상실\n우주의 팽창 속도는 빛의 속도를 초과하여 공간을 기하급수적으로 확장시켜 왔다 [1]. 빛이라는 정보 전달의 절대적 한계를 넘어선 우주의 국소적 영역들은 물리적 상호작용이 단절될 수밖에 없다. 따라서, 광활한 우주 전역이 단 하나의 완벽한 진동 주파수와 균질한 위상 결맞음(Uniform Coherence)을 유지한다는 가정은 열역학적 및 인과율(Causality)적으로 불가능하다.\n### 1.2. 위상 도메인의 분리와 우주 공간 판구조론의 도입\n본 연구는 팽창하는 우주 공간이 내부적으로는 결맞음을 유지하지만, 외부의 다른 영역과는 진동 위상이 단절된 3차원적 거대 덩어리, 즉 **'위상 도메인(Topological Domains)'**들로 파편화되어 분리되었다는 가설을 제안한다. 지구의 지각 판(Tectonic Plates)이 쪼개져 있듯, 우주 진공 역시 거대한 **'공간 판(Spatial Plates)'**들로 나뉘어 마찰하고 상호작용한다는 **'우주 공간 판구조론'**을 최초로 선언한다.\n## 2. 우주 공간 판구조론과 단층대 역학\n현대 우주론은 우주 초기 양자 요동이 굳어져 거대 구조를 형성했다고 설명하지만 역학적 메커니즘은 부재하다. 본 장에서는 서로 다른 위상을 가진 공간 덩어리들의 충돌 역학을 수식화한다.\n### 2.1. 공간 판(Spatial Plates)과 위상 단절\n진동의 위상각($\\theta_i$)이 내부적으로 동기화를 이룬 수억 광년 크기의 독립적 구역을 공간 판 $\\Omega_i$라 정의한다. 우리 은하 주변은 특정한 위상 $\\theta_1$을 공유하는 안정적인 $\\Omega_1$ 판의 심장부에 위치한다.\n### 2.2. 공간 단층대(Fault Lines)와 응력 텐서의 마찰\n문제는 팽창 과정에서 서로 다른 진동 위상($\\theta_1, \\theta_2$)을 가진 판들이 맞닿는 거시적 경계면에서 발생한다. 이 경계에서는 시공간 곡률이 매끄럽게 이어지지 못하고 극심한 위상 마찰(Topological Friction)을 겪게 되며, 이를 **'공간 단층대($\\Sigma_{1,2}$)'**라 명명한다.\n두 판의 위상 불일치($\\Delta\\theta$)에 의해 경계면에 축적되는 기하학적 응력 텐서 $S_{\\mu\\nu}$는 다음과 같다.\n단층의 폭이 좁고 위상 차이가 클수록, 시공간이 견뎌야 하는 역학적 텐서 찌그러짐(마찰 응력)은 한계점을 향해 기하급수적으로 축적된다.\n## 3. 파동 간섭과 우주 거대 구조의 창발\n우주의 물질은 균질하지 않고 텅 빈 거대 공동을 남겨둔 채 은하 거미줄(Cosmic Web) 구조를 따라서만 뭉쳐 있다. 본 연구는 이 기하학적 구조가 거대 공간 판들의 파동 간섭이 조각해 낸 결정론적 지형도(Topology)임을 규명한다.\n### 3.1. 위상 상쇄 간섭: 거대 공동과 절대 고요 지대\n두 판이 정반대 위상($\\Delta\\theta \\approx \\pi$)으로 정면충돌하는 영역에서는 공간 자체의 진동 에너지가 완벽한 **상쇄 간섭(Destructive Interference)**을 일으킨다.\n진동 에너지가 사멸한 이 '절대 고요 지대'에는 암흑 물질(텐서 응축)이 생성되지 않아 물질을 모을 중력 자체가 소거된다. 반대로 주변의 활성 판들은 척력을 뿜어내 가스마저 밀어낸다. 이것이 3억 광년에 달하는 목동자리 거대 공동 [2]이나 텅 빈 콜드 스팟의 진짜 정체이다.\n### 3.2. 위상 보강 간섭: 은하 거미줄 필라멘트의 형성\n두 판의 위상이 거의 일치($\\Delta\\theta \\approx 0$)하며 충돌하는 선형 단층대에서는 극단적인 **보강 간섭(Constructive Interference)**이 발생한다. 폭증한 진동 에너지가 잉여 중력(암흑 물질)으로 창발하여 '초거대 중력의 강'을 형성하며, 은하들은 이 단층 골짜기로 폭포수처럼 쏟아져 내려와 축적된다. 은하 필라멘트 [3]는 보강 간섭 단층대 위에 은하들이 야광 도료처럼 들러붙은 시각화 결과물이다.\n### 3.3. 공간 판 교차점과 거대 인력체의 정체\n세 개 이상의 판이 한 점(Node)에서 맞물려 극한의 다중 보강 간섭 텐서 폭주를 일으킨 곳이 바로 수만 개의 은하를 일제히 끌어당기는 미지의 우주 랜드마크인 '거대 인력체(Great Attractor)'의 역학적 실체이다.\n## 4. 우주 지진학의 태동: 응력 폭발과 고속 전파 폭발(FRB) 메커니즘\n현대 천문학이 직면한 최대 미스터리인 고속 전파 폭발(FRB) [4]은 물질(마그네타 등)의 폭발이 아니다. 그것은 응력이 누적된 텅 빈 공간 단층대가 찢어지는 **'우주 지진(Cosmic Quake)'**이다.\n### 4.1. 위상 록킹(Phase Locking)과 단층대 파열\n단층대가 팽창의 척력에 의해 미끄러질 때 위상의 불연속성이 시공간을 꽉 물고 놔주지 않는 '위상 록킹'이 발생하며 막대한 탄성 포텐셜 응력($S_{\\mu\\nu}$)이 누적된다.\n### 4.2. 우주 지진과 주기적 FRB의 해명\n이 응력이 시공간의 기하학적 한계 임계점($S_{crit}$)을 초과하는 찰나, 억눌려 있던 텐서 에너지가 찢어진 시공간의 틈을 타고 초고주파 전자기파 형태로 격렬하게 발산된다. 기하학적 위상 재배열은 빛의 속도로 찢어지므로 FRB 특유의 단 1밀리초 섬광을 완벽히 설명한다. 또한 단층 파열 후 다시 록킹되어 에너지를 쌓는 지진학적 메커니즘은 항성 모델로는 불가능했던 FRB의 주기적 반복 폭발(Repeating) [5] 현상을 유일하고 완벽하게 해명한다.\n## 5. POINTING 예측 프로토콜: 우주 단층 매핑과 선제적 관측 패러다임\n### 5.1. SGWB를 활용한 우주 공간 단층 3D 지도 작성\n단층 경계면의 텐서 마찰은 우주 전역으로 미세한 파열음을 뿜어낸다. 2023년 NANOGrav가 발견한 '확률론적 배경 중력파(SGWB)' [6]의 비등방성 데이터를 역산(Tomography)하면, 블랙홀 소음이 아닌 거대 공간 단층대들이 비벼지는 마찰음을 찾아내어 인류 최초의 **'우주 공간 단층대 3D 지형도'**를 완성할 수 있다.\n### 5.2. 우주 지진 발생 확률 함수와 POINTING 선언\n지도가 완성되면, 응력이 집중되는 단층 다중 교차점(Nodes)에서 우주 지진이 파열될 확률 함수($P_{quake}$)를 산출한다.\n이 함수가 임계치에 다다른 극한 폭발 임박 좌표를 미리 특정(Pointing)하여, 차세대 전파 망원경을 아직 아무 일도 일어나지 않은 텅 빈 우주 공간에 선제적으로 대기시키는 패러다임의 대역전을 제안한다.\n### 5.3. 기하학적 공간 접합을 통한 항성 간 지름길 우주여행 (위상 항해 시대)\nPOINTING 지도는 단순히 폭발을 피하는 용도를 넘어 인류 우주여행의 패러다임을 바꾼다. 억지스러운 중력 특이점을 요구하는 웜홀을 폐기하고, 자연적으로 맹렬히 진동하여 내부 기하학적 거리가 0으로 단락된 '천연 $\\Omega$(오메가) 공간 접합(Spatial Junction)' 구역을 활용한다. 미래 인류는 이 기하학적 결절점(Node)의 입구로 일반 우주선을 진입시키기만 하면, 빛의 속도를 위배하지 않고도 겉보기 공간의 수백만 광년을 즉시 도약(Time-Leap)하는 진정한 '위상 항해 시대(Topological Navigation)'를 열게 될 것이다.\n## 6. 3부작 총결론: 대통일 모델 선언 (Grand Conclusion)\n본 **[공간의 진동 역학 3부작]** 연작 논문은 양자역학, 중력, 그리고 우주론이라는 분리된 현대 물리학을 '진동하는 공간'이라는 단 하나의 보편 역학으로 대통합하였다.\n미시 세계의 이중 슬릿 스크린에 새겨진 흑백의 물결무늬 패턴과, 138억 광년에 걸친 우주 거미줄 필라멘트는 물리적으로 완벽히 동일한 역학적 현상이다. 두 현상 모두 스케일만 다를 뿐, '진동하는 공간의 파동 간섭'이 물질을 강제로 굴절시키고 배열하여 만들어낸 프랙탈적 기하 지형도의 결과물이다.\n우주는 주사위 놀이를 하지 않으며, 알 수 없는 가상의 입자(암흑 물질)나 억지스러운 상수(암흑 에너지)에 의존하지 않는다. 우주의 모든 입자와 은하는 시공간 텐서가 연주하는 결정론적 교향곡의 굴곡을 따라 역학적으로 항해할 뿐이다. 본 연구의 진동 역학 모델과 POINTING 시스템이 21세기 진정한 의미의 '대통일 이론(Theory of Everything)'을 향한 위대한 이정표가 될 것임을 선언한다.",
+          "ko": "본 논문은 공간 진동 역학 3부작의 최종편으로, 우주 가속 팽창의 인과율적 한계(Causality Limit)로 인해 단일한 파동 동기화를 상실한 138억 광년 우주의 비균질성 문제를 해결한다. 본 연구는 광활한 우주가 고유의 진동 위상(Phase)을 가진 수많은 거대 '위상 도메인(Topological Domains)'들로 파편화되어 있다는 혁명적 가설인 **'우주 공간 판구조론(Cosmological Spatial Plate Tectonics)'**을 최초로 도입한다.\n거대 공간 판들이 맞닿고 마찰하는 공간 단층대(Spatial Fault Lines)에서의 파동 간섭 역학을 통해, 현대 우주론의 미해결 난제인 우주 거대 공동(Voids, 상쇄 간섭)과 은하 거미줄(Cosmic Web, 보강 간섭)의 기하학적 기원을 결정론적으로 규명한다. 나아가 공간 단층대에 누적된 위상 마찰 응력 텐서($S_{\\mu\\nu}$)가 시공간의 탄성 임계점을 초과하며 찢어지는 **'우주 지진(Cosmic Quake)'** 현상을 모델링하여 고속 전파 폭발(FRB)의 메커니즘을 규명한다. 이를 바탕으로 확률론적 배경 중력파(SGWB) 데이터를 역산하여 우주 단층 3D 지도를 그리고, 극한 우주 폭발 현상의 좌표를 선제적으로 예측하는 **POINTING(Predictive Observation of Intersecting Node Topology and Interference in Nominal Gravity)** 프로토콜을 제안하며 관측 천문학의 새로운 패러다임을 선언한다.",
           "en": "As the concluding part of the Spatial Vibration Mechanics Trilogy, this paper resolves the inhomogeneity of the 13.8-billion-year-old universe, which has lost unitary wave synchronization due to the causality limits of its accelerated expansion. This study introduces the revolutionary hypothesis of **'Cosmological Spatial Plate Tectonics'**, proposing that the vast universe is fragmented into numerous colossal 'Topological Domains' possessing distinct intrinsic vibrational phases.\nThrough the wave interference mechanics at the 'Spatial Fault Lines' where these massive spatial plates converge and exert friction, the geometrical origins of modern cosmology's unsolved mysteries—Cosmic Voids (destructive interference) and the Cosmic Web (constructive interference)—are deterministically elucidated. Furthermore, this study models the phenomenon of **'Cosmic Quakes'**, where topological friction stress tensors ($S_{\\mu\\nu}$) accumulated on these fault lines rupture by exceeding the elastic limit of spacetime, thereby deciphering the mechanism of Fast Radio Bursts (FRBs). By inversely calculating Stochastic Gravitational-Wave Background (SGWB) data, this paper maps the 3D topology of cosmic fault lines and proposes the **POINTING (Predictive Observation of Intersecting Node Topology and Interference in Nominal Gravity)** protocol, declaring a preemptive observational paradigm for cosmic extreme events."
         }
       }
@@ -7274,8 +7274,8 @@ export const papersMap: Record<string, PaperDetails> = {
       {
         "number": 1,
         "title": {
-          "ko": "1장. 서론",
-          "en": "Introduction"
+          "ko": "1장. 서론: 우주 팽창의 비균질성 문제와 위상 도메인의 분리",
+          "en": "Chapter 1. Introduction: Inhomogeneity of Cosmic Expansion and Separation of Topological Domains"
         },
         "paragraphs": [
           {
@@ -7329,6 +7329,96 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": ""
               }
             }
+          },
+          {
+            "id": "p1_v3_ko_1",
+            "versions": {
+              "v3": {
+                "ko": "본 연작 논문의 제1부와 제2부를 통해, 우리는 양자역학의 미시적 파동성과 거시 중력장의 암흑 우주 현상을 '공간의 기하학적 진동'이라는 단일한 역학으로 통합하였다. 그러나 이 역학 모델을 138억 년 동안 가속 팽창해 온 우주 전체에 적용할 때 심각한 파동 역학적 딜레마(Wave-Mechanical Dilemma)에 직면하게 된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v3_ko_2",
+            "versions": {
+              "v3": {
+                "ko": "### 1.1. 팽창 우주의 인과율적 한계와 파동 동기화의 상실",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v3_ko_3",
+            "versions": {
+              "v3": {
+                "ko": "우주의 팽창 속도는 빛의 속도를 초과하여 공간을 기하급수적으로 확장시켜 왔다 [1]. 빛이라는 정보 전달의 절대적 한계를 넘어선 우주의 국소적 영역들은 물리적 상호작용이 단절될 수밖에 없다. 따라서, 광활한 우주 전역이 단 하나의 완벽한 진동 주파수와 균질한 위상 결맞음(Uniform Coherence)을 유지한다는 가정은 열역학적 및 인과율(Causality)적으로 불가능하다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v3_ko_4",
+            "versions": {
+              "v3": {
+                "ko": "### 1.2. 위상 도메인의 분리와 우주 공간 판구조론의 도입",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v3_ko_5",
+            "versions": {
+              "v3": {
+                "ko": "본 연구는 팽창하는 우주 공간이 내부적으로는 결맞음을 유지하지만, 외부의 다른 영역과는 진동 위상이 단절된 3차원적 거대 덩어리, 즉 **'위상 도메인(Topological Domains)'**들로 파편화되어 분리되었다는 가설을 제안한다. 지구의 지각 판(Tectonic Plates)이 쪼개져 있듯, 우주 진공 역시 거대한 **'공간 판(Spatial Plates)'**들로 나뉘어 마찰하고 상호작용한다는 **'우주 공간 판구조론'**을 최초로 선언한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v3_en_1",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "Through Parts I and II of this series, we integrated the microscopic wave nature of quantum mechanics and the macroscopic dark phenomena of gravity into the singular mechanics of 'geometrical fluctuation of space'. However, applying this mechanical model to the entire universe, which has been expanding at an accelerating rate for 13.8 billion years, confronts a profound wave-mechanical dilemma."
+              }
+            }
+          },
+          {
+            "id": "p1_v3_en_2",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 1.1. Causality Limit of the Expanding Universe and Loss of Wave Synchronization"
+              }
+            }
+          },
+          {
+            "id": "p1_v3_en_3",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The expansion rate of the universe has exceeded the speed of light, causing space to expand exponentially [1]. Consequently, local regions of the universe separated by distances exceeding the absolute limit of information transfer (the speed of light) are physically disconnected. Therefore, the assumption that the entire vast universe maintains a single perfect vibrational frequency and uniform phase coherence is thermodynamically and causally impossible."
+              }
+            }
+          },
+          {
+            "id": "p1_v3_en_4",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 1.2. Separation of Topological Domains and Introduction of Spatial Plate Tectonics"
+              }
+            }
+          },
+          {
+            "id": "p1_v3_en_5",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "This study postulates that the expanding cosmic space has fragmented into colossal 3D blocks—**'Topological Domains'**—which maintain internal coherence but are vibrationally out of phase with external regions. Analogous to Earth's tectonic plates, the cosmic vacuum is partitioned into massive **'Spatial Plates'** that interact and exert friction, declaring the advent of **'Cosmological Spatial Plate Tectonics'**."
+              }
+            }
           }
         ]
       },
@@ -7336,7 +7426,7 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 2,
         "title": {
           "ko": "2장. 우주 공간 판구조론과 단층대 역학",
-          "en": "Cosmological Spatial Plate Tectonics"
+          "en": "Chapter 2. Cosmological Spatial Plate Tectonics and Mechanics of Fault Lines"
         },
         "paragraphs": [
           {
@@ -7364,6 +7454,150 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": ""
               }
             }
+          },
+          {
+            "id": "p2_v3_ko_1",
+            "versions": {
+              "v3": {
+                "ko": "현대 우주론은 우주 초기 양자 요동이 굳어져 거대 구조를 형성했다고 설명하지만 역학적 메커니즘은 부재하다. 본 장에서는 서로 다른 위상을 가진 공간 덩어리들의 충돌 역학을 수식화한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_2",
+            "versions": {
+              "v3": {
+                "ko": "### 2.1. 공간 판(Spatial Plates)과 위상 단절",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_3",
+            "versions": {
+              "v3": {
+                "ko": "진동의 위상각($\\theta_i$)이 내부적으로 동기화를 이룬 수억 광년 크기의 독립적 구역을 공간 판 $\\Omega_i$라 정의한다. 우리 은하 주변은 특정한 위상 $\\theta_1$을 공유하는 안정적인 $\\Omega_1$ 판의 심장부에 위치한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_4",
+            "versions": {
+              "v3": {
+                "ko": "### 2.2. 공간 단층대(Fault Lines)와 응력 텐서의 마찰",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_5",
+            "versions": {
+              "v3": {
+                "ko": "문제는 팽창 과정에서 서로 다른 진동 위상($\\theta_1, \\theta_2$)을 가진 판들이 맞닿는 거시적 경계면에서 발생한다. 이 경계에서는 시공간 곡률이 매끄럽게 이어지지 못하고 극심한 위상 마찰(Topological Friction)을 겪게 되며, 이를 **'공간 단층대($\\Sigma_{1,2}$)'**라 명명한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_6",
+            "versions": {
+              "v3": {
+                "ko": "두 판의 위상 불일치($\\Delta\\theta$)에 의해 경계면에 축적되는 기하학적 응력 텐서 $S_{\\mu\\nu}$는 다음과 같다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_7",
+            "versions": {
+              "v3": {
+                "ko": "$$ S_{\\mu\\nu} \\propto \\rho_{vib} \\left| \\nabla (\\Delta\\theta) \\right|^2 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_ko_8",
+            "versions": {
+              "v3": {
+                "ko": "단층의 폭이 좁고 위상 차이가 클수록, 시공간이 견뎌야 하는 역학적 텐서 찌그러짐(마찰 응력)은 한계점을 향해 기하급수적으로 축적된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_1",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "While modern cosmology posits that early quantum fluctuations solidified to form large-scale structures, the mechanical mechanisms are lacking. This chapter formulates the collision mechanics of spatial domains with differing phases."
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_2",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 2.1. Spatial Plates and Phase Disconnection"
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_3",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "An independent spatial region spanning hundreds of millions of light-years, where the vibration phase angle ($\\theta_i$) achieves internal synchronization, is defined as a Spatial Plate $\\Omega_i$. Our galaxy resides in the stable core of the $\\Omega_1$ plate, sharing a specific phase $\\theta_1$."
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_4",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 2.2. Spatial Fault Lines and the Stress Tensor"
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_5",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The dilemma emerges at the macroscopic boundaries where plates with different vibrational phases ($\\theta_1, \\theta_2$) converge during cosmic expansion. At these boundaries, spacetime curvature fails to connect smoothly, enduring extreme topological friction. This region is termed the **'Spatial Fault Line ($\\Sigma_{1,2}$)'**."
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_6",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The geometrical stress tensor $S_{\\mu\\nu}$ accumulated at the boundary due to the phase mismatch ($\\Delta\\theta$) is given by:"
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_7",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "$$ S_{\\mu\\nu} \\propto \\rho_{vib} \\left| \\nabla (\\Delta\\theta) \\right|^2 $$"
+              }
+            }
+          },
+          {
+            "id": "p2_v3_en_8",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The narrower the fault and the greater the phase difference, the exponentially higher the mechanical tensor distortion (friction stress) that spacetime must endure toward its critical limit."
+              }
+            }
           }
         ]
       },
@@ -7371,7 +7605,7 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 3,
         "title": {
           "ko": "3장. 파동 간섭과 우주 거대 구조의 창발",
-          "en": "Topology of Wave Interference"
+          "en": "Chapter 3. Topology of Wave Interference and Emergence of Large-Scale Structures"
         },
         "paragraphs": [
           {
@@ -7412,14 +7646,176 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": ""
               }
             }
+          },
+          {
+            "id": "p3_v3_ko_1",
+            "versions": {
+              "v3": {
+                "ko": "우주의 물질은 균질하지 않고 텅 빈 거대 공동을 남겨둔 채 은하 거미줄(Cosmic Web) 구조를 따라서만 뭉쳐 있다. 본 연구는 이 기하학적 구조가 거대 공간 판들의 파동 간섭이 조각해 낸 결정론적 지형도(Topology)임을 규명한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_2",
+            "versions": {
+              "v3": {
+                "ko": "### 3.1. 위상 상쇄 간섭: 거대 공동과 절대 고요 지대",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_3",
+            "versions": {
+              "v3": {
+                "ko": "두 판이 정반대 위상($\\Delta\\theta \\approx \\pi$)으로 정면충돌하는 영역에서는 공간 자체의 진동 에너지가 완벽한 **상쇄 간섭(Destructive Interference)**을 일으킨다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_4",
+            "versions": {
+              "v3": {
+                "ko": "$$ \\lim_{\\Delta\\theta \\to \\pi} \\left( \\tilde{V}_{\\mu\\nu}^{(1)} + \\tilde{V}_{\\mu\\nu}^{(2)} \\right) \\to 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_5",
+            "versions": {
+              "v3": {
+                "ko": "진동 에너지가 사멸한 이 '절대 고요 지대'에는 암흑 물질(텐서 응축)이 생성되지 않아 물질을 모을 중력 자체가 소거된다. 반대로 주변의 활성 판들은 척력을 뿜어내 가스마저 밀어낸다. 이것이 3억 광년에 달하는 목동자리 거대 공동 [2]이나 텅 빈 콜드 스팟의 진짜 정체이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_6",
+            "versions": {
+              "v3": {
+                "ko": "### 3.2. 위상 보강 간섭: 은하 거미줄 필라멘트의 형성",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_7",
+            "versions": {
+              "v3": {
+                "ko": "두 판의 위상이 거의 일치($\\Delta\\theta \\approx 0$)하며 충돌하는 선형 단층대에서는 극단적인 **보강 간섭(Constructive Interference)**이 발생한다. 폭증한 진동 에너지가 잉여 중력(암흑 물질)으로 창발하여 '초거대 중력의 강'을 형성하며, 은하들은 이 단층 골짜기로 폭포수처럼 쏟아져 내려와 축적된다. 은하 필라멘트 [3]는 보강 간섭 단층대 위에 은하들이 야광 도료처럼 들러붙은 시각화 결과물이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_8",
+            "versions": {
+              "v3": {
+                "ko": "### 3.3. 공간 판 교차점과 거대 인력체의 정체",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_ko_9",
+            "versions": {
+              "v3": {
+                "ko": "세 개 이상의 판이 한 점(Node)에서 맞물려 극한의 다중 보강 간섭 텐서 폭주를 일으킨 곳이 바로 수만 개의 은하를 일제히 끌어당기는 미지의 우주 랜드마크인 '거대 인력체(Great Attractor)'의 역학적 실체이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_1",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The distribution of matter in the universe is not homogenous; galaxies cluster exclusively along the scaffolding of the Cosmic Web, leaving vast Cosmic Voids empty. This study elucidates that this geometry is a deterministic topology sculpted by the wave interference of massive spatial plates."
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_2",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 3.1. Destructive Interference: Cosmic Voids and Absolute Dead Zones"
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_3",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "In regions where two plates collide head-on with directly opposing phases ($\\Delta\\theta \\approx \\pi$), the geometrical vibration energy of space perfectly undergoes **Destructive Interference**."
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_4",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "$$ \\lim_{\\Delta\\theta \\to \\pi} \\left( \\tilde{V}_{\\mu\\nu}^{(1)} + \\tilde{V}_{\\mu\\nu}^{(2)} \\right) \\to 0 $$"
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_5",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "In this 'Dead Zone' where vibrational energy perishes, tensor condensation (dark matter) cannot occur, completely eliminating the gravity necessary to aggregate matter. Conversely, the surrounding active plates emit repulsive radiation pressure, fiercely expelling any scarce baryonic gas outward. This is the true identity of the 330-million-light-year Boötes Void [2] and the CMB Cold Spot."
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_6",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 3.2. Constructive Interference: Formation of the Cosmic Web Filaments"
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_7",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "Conversely, along linear fault lines where the phases of two plates nearly match ($\\Delta\\theta \\approx 0$), extreme **Constructive Interference** occurs. The explosively amplified vibration energy emerges as surplus gravity (dark matter), forming 'Rivers of Supermassive Gravity'. Galaxies cascade like waterfalls into these fault valleys. The galactic filaments [3] are merely the visual manifestation of galaxies adhering like luminous paint to these invisible fault lines of constructive interference."
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_8",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 3.3. Spatial Plate Nodes and the Identity of the Great Attractor"
+              }
+            }
+          },
+          {
+            "id": "p3_v3_en_9",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The intersection (Node) where three or more plates converge to trigger an ultimate multi-constructive interference tensor runaway is the true mechanical identity of the 'Great Attractor'—an unknown cosmic landmark pulling tens of thousands of galaxies simultaneously."
+              }
+            }
           }
         ]
       },
       {
         "number": 4,
         "title": {
-          "ko": "4장. 우주 지진학의 태동과 고속 전파 폭발",
-          "en": "FRB"
+          "ko": "4장. 우주 지진학의 태동: 응력 폭발과 고속 전파 폭발(FRB) 메커니즘",
+          "en": "Chapter 4. The Dawn of Cosmic Seismology: Stress Explosion and the Mechanism of FRBs"
         },
         "paragraphs": [
           {
@@ -7447,14 +7843,104 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": ""
               }
             }
+          },
+          {
+            "id": "p4_v3_ko_1",
+            "versions": {
+              "v3": {
+                "ko": "현대 천문학이 직면한 최대 미스터리인 고속 전파 폭발(FRB) [4]은 물질(마그네타 등)의 폭발이 아니다. 그것은 응력이 누적된 텅 빈 공간 단층대가 찢어지는 **'우주 지진(Cosmic Quake)'**이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v3_ko_2",
+            "versions": {
+              "v3": {
+                "ko": "### 4.1. 위상 록킹(Phase Locking)과 단층대 파열",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v3_ko_3",
+            "versions": {
+              "v3": {
+                "ko": "단층대가 팽창의 척력에 의해 미끄러질 때 위상의 불연속성이 시공간을 꽉 물고 놔주지 않는 '위상 록킹'이 발생하며 막대한 탄성 포텐셜 응력($S_{\\mu\\nu}$)이 누적된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v3_ko_4",
+            "versions": {
+              "v3": {
+                "ko": "### 4.2. 우주 지진과 주기적 FRB의 해명",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v3_ko_5",
+            "versions": {
+              "v3": {
+                "ko": "이 응력이 시공간의 기하학적 한계 임계점($S_{crit}$)을 초과하는 찰나, 억눌려 있던 텐서 에너지가 찢어진 시공간의 틈을 타고 초고주파 전자기파 형태로 격렬하게 발산된다. 기하학적 위상 재배열은 빛의 속도로 찢어지므로 FRB 특유의 단 1밀리초 섬광을 완벽히 설명한다. 또한 단층 파열 후 다시 록킹되어 에너지를 쌓는 지진학적 메커니즘은 항성 모델로는 불가능했던 FRB의 주기적 반복 폭발(Repeating) [5] 현상을 유일하고 완벽하게 해명한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v3_en_1",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "Fast Radio Bursts (FRBs) [4], modern astronomy's greatest mystery, are not explosions of baryonic matter (e.g., magnetars). They are **'Cosmic Quakes'** caused by the rupture of empty spatial fault lines saturated with accumulated stress."
+              }
+            }
+          },
+          {
+            "id": "p4_v3_en_2",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 4.1. Phase Locking and Fault Rupture"
+              }
+            }
+          },
+          {
+            "id": "p4_v3_en_3",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "When fault lines slide against each other driven by expansive repulsion, geometric discontinuity locks spacetime tightly—a phenomenon called 'Phase Locking'—accumulating massive elastic potential stress ($S_{\\mu\\nu}$)."
+              }
+            }
+          },
+          {
+            "id": "p4_v3_en_4",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 4.2. Cosmic Quakes and Repeating FRBs"
+              }
+            }
+          },
+          {
+            "id": "p4_v3_en_5",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The instant this stress exceeds spacetime's elastic critical limit ($S_{crit}$), the suppressed tensor energy erupts violently as ultra-high-frequency electromagnetic waves through the torn fabric of spacetime. Because this topological phase realignment ruptures at the speed of light, it perfectly explains the characteristic millisecond flash of FRBs. Moreover, the seismological mechanism of fault rupture followed by re-locking and energy accumulation uniquely and flawlessly explains the phenomenon of Repeating FRBs [5], which stellar models cannot account for."
+              }
+            }
           }
         ]
       },
       {
         "number": 5,
         "title": {
-          "ko": "5장. POINTING 예측 프로토콜",
-          "en": "The POINTING Protocol"
+          "ko": "5장. POINTING 예측 프로토콜: 우주 단층 매핑과 선제적 관측 패러다임",
+          "en": "Chapter 5. The POINTING Predictive Protocol and the Era of Topological Navigation"
         },
         "paragraphs": [
           {
@@ -7482,14 +7968,158 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": ""
               }
             }
+          },
+          {
+            "id": "p5_v3_ko_1",
+            "versions": {
+              "v3": {
+                "ko": "### 5.1. SGWB를 활용한 우주 공간 단층 3D 지도 작성",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_2",
+            "versions": {
+              "v3": {
+                "ko": "단층 경계면의 텐서 마찰은 우주 전역으로 미세한 파열음을 뿜어낸다. 2023년 NANOGrav가 발견한 '확률론적 배경 중력파(SGWB)' [6]의 비등방성 데이터를 역산(Tomography)하면, 블랙홀 소음이 아닌 거대 공간 단층대들이 비벼지는 마찰음을 찾아내어 인류 최초의 **'우주 공간 단층대 3D 지형도'**를 완성할 수 있다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_3",
+            "versions": {
+              "v3": {
+                "ko": "### 5.2. 우주 지진 발생 확률 함수와 POINTING 선언",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_4",
+            "versions": {
+              "v3": {
+                "ko": "지도가 완성되면, 응력이 집중되는 단층 다중 교차점(Nodes)에서 우주 지진이 파열될 확률 함수($P_{quake}$)를 산출한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_5",
+            "versions": {
+              "v3": {
+                "ko": "$$ P_{quake}(x,y,z, t) \\propto \\int_{0}^{t} \\exp\\left( \\frac{S_{\\mu\\nu} - S_{crit}}{\\alpha} \\right) dt' $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_6",
+            "versions": {
+              "v3": {
+                "ko": "이 함수가 임계치에 다다른 극한 폭발 임박 좌표를 미리 특정(Pointing)하여, 차세대 전파 망원경을 아직 아무 일도 일어나지 않은 텅 빈 우주 공간에 선제적으로 대기시키는 패러다임의 대역전을 제안한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_7",
+            "versions": {
+              "v3": {
+                "ko": "### 5.3. 기하학적 공간 접합을 통한 항성 간 지름길 우주여행 (위상 항해 시대)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_ko_8",
+            "versions": {
+              "v3": {
+                "ko": "POINTING 지도는 단순히 폭발을 피하는 용도를 넘어 인류 우주여행의 패러다임을 바꾼다. 억지스러운 중력 특이점을 요구하는 웜홀을 폐기하고, 자연적으로 맹렬히 진동하여 내부 기하학적 거리가 0으로 단락된 '천연 $\\Omega$(오메가) 공간 접합(Spatial Junction)' 구역을 활용한다. 미래 인류는 이 기하학적 결절점(Node)의 입구로 일반 우주선을 진입시키기만 하면, 빛의 속도를 위배하지 않고도 겉보기 공간의 수백만 광년을 즉시 도약(Time-Leap)하는 진정한 '위상 항해 시대(Topological Navigation)'를 열게 될 것이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_1",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 5.1. 3D Spatial Fault Mapping via SGWB"
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_2",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "Tensor friction at fault boundaries emits microscopic tearing noises throughout the universe. By performing tomography on the anisotropic data of the 'Stochastic Gravitational-Wave Background (SGWB)' [6] discovered by NANOGrav in 2023, humanity can reconstruct the first-ever **'3D Topology Map of Cosmic Spatial Fault Lines'**, revealing the friction noise of massive spatial plates rather than supermassive black hole binaries."
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_3",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 5.2. The Cosmic Quake Probability Function and POINTING Declaration"
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_4",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "Once the map is complete, the rupture probability function ($P_{quake}$) at the fault intersecting nodes—where stress concentrates—is calculated."
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_5",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "$$ P_{quake}(x,y,z, t) \\propto \\int_{0}^{t} \\exp\\left( \\frac{S_{\\mu\\nu} - S_{crit}}{\\alpha} \\right) dt' $$"
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_6",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "By pinpointing critical coordinates where this function nears its limit, this protocol proposes a paradigm reversal in observational astronomy: proactively directing next-generation radio telescopes to empty coordinates *before* an imminent extreme explosion (FRB/GRB) occurs."
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_7",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "### 5.3. Interstellar Shortcut Navigation via Spatial Junctions"
+              }
+            }
+          },
+          {
+            "id": "p5_v3_en_8",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The POINTING map revolutionizes interstellar travel. Discarding the ad hoc concept of wormholes, future humanity can utilize natural $\\Omega$-shaped 'Spatial Junctions' where massive wave interference naturally short-circuits the internal geometrical distance to zero. By simply navigating a conventional spacecraft into the entrance of this topological node, humanity can perform an optical time-leap across millions of apparent light-years without violating the speed of light, ushering in the true era of **'Topological Navigation'**."
+              }
+            }
           }
         ]
       },
       {
         "number": 6,
         "title": {
-          "ko": "6장. 3부작 총결론: 모든 것의 이론 선언",
-          "en": "Grand Conclusion of the Trilogy"
+          "ko": "6장. 3부작 총결론: 대통일 모델 선언 (Grand Conclusion)",
+          "en": "Chapter 6. Grand Conclusion of the Trilogy"
         },
         "paragraphs": [
           {
@@ -7749,6 +8379,60 @@ export const papersMap: Record<string, PaperDetails> = {
               "v2": {
                 "ko": "",
                 "en": "[6] Agazie, G., et al. (NANOGrav Collaboration). (2023). The NANOGrav 15 yr Data Set: Evidence for a Gravitational-wave Background. *The Astrophysical Journal Letters*, 951(1), L8."
+              }
+            }
+          },
+          {
+            "id": "p6_v3_ko_1",
+            "versions": {
+              "v3": {
+                "ko": "본 **[공간의 진동 역학 3부작]** 연작 논문은 양자역학, 중력, 그리고 우주론이라는 분리된 현대 물리학을 '진동하는 공간'이라는 단 하나의 보편 역학으로 대통합하였다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v3_ko_2",
+            "versions": {
+              "v3": {
+                "ko": "미시 세계의 이중 슬릿 스크린에 새겨진 흑백의 물결무늬 패턴과, 138억 광년에 걸친 우주 거미줄 필라멘트는 물리적으로 완벽히 동일한 역학적 현상이다. 두 현상 모두 스케일만 다를 뿐, '진동하는 공간의 파동 간섭'이 물질을 강제로 굴절시키고 배열하여 만들어낸 프랙탈적 기하 지형도의 결과물이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v3_ko_3",
+            "versions": {
+              "v3": {
+                "ko": "우주는 주사위 놀이를 하지 않으며, 알 수 없는 가상의 입자(암흑 물질)나 억지스러운 상수(암흑 에너지)에 의존하지 않는다. 우주의 모든 입자와 은하는 시공간 텐서가 연주하는 결정론적 교향곡의 굴곡을 따라 역학적으로 항해할 뿐이다. 본 연구의 진동 역학 모델과 POINTING 시스템이 21세기 진정한 의미의 '대통일 이론(Theory of Everything)'을 향한 위대한 이정표가 될 것임을 선언한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v3_en_1",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The **[Mechanics of Spatial Vibration Trilogy]** has grandly unified the fragmented fields of quantum mechanics, gravity, and cosmology into a single universal mechanics: the 'Vibrating Space'."
+              }
+            }
+          },
+          {
+            "id": "p6_v3_en_2",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The black-and-white interference pattern on the microscopic double-slit screen and the 13.8-billion-light-year cosmic web filaments are physically identical mechanical phenomena. Despite the difference in scale, both are the results of fractal geometrical topologies sculpted by the 'wave interference of vibrating space' forcefully refracting and arranging matter."
+              }
+            }
+          },
+          {
+            "id": "p6_v3_en_3",
+            "versions": {
+              "v3": {
+                "ko": "",
+                "en": "The universe does not play dice, nor does it rely on unknown ghost particles (dark matter) or ad hoc constants (dark energy). All particles and galaxies merely navigate mechanically along the curvatures of a deterministic symphony played by spacetime tensors. This study declares that the vibration mechanics model and the POINTING system represent a monumental milestone toward the true 'Theory of Everything' in the 21st century."
               }
             }
           }

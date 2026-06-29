@@ -538,6 +538,9 @@ function compileAndSync() {
       } else if (slug === 'spatial-vibration-2') {
         mergedPaper.title.ko = '공간의 진동 역학 II: 거시 중력장과 미시 공간 진동의 상호작용 및 암흑 우주 대체 모델';
         mergedPaper.title.en = 'Mechanics of Spatial Vibration II: Interaction of Macroscopic Gravity with Microscopic Vibration and Alternative Models for the Dark Sector';
+      } else if (slug === 'spatial-vibration-3') {
+        mergedPaper.title.ko = '공간의 진동 역학 III: 우주 공간 판구조론의 도입과 파동 간섭 지형도 기반의 우주 극한 현상 예측(POINTING)';
+        mergedPaper.title.en = 'Mechanics of Spatial Vibration III: Introduction of Spatial Plate Tectonics and Cosmic Extreme Event Prediction (POINTING)';
       }
 
       // 1. Merge abstract versions
