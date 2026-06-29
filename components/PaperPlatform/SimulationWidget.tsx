@@ -182,9 +182,11 @@ export const SimulationWidget: React.FC = () => {
 
         // Draw accumulated dead trails (persist historical trajectories)
         ctx.save();
-        ctx.lineWidth = 0.5;
+        ctx.globalCompositeOperation = 'lighter'; // 겹칠수록 밝아지는 가산 혼합(Additive Blending)
+        ctx.lineWidth = 1.0;
         deadTrailsRef.current.forEach(trail => {
-          ctx.strokeStyle = simMode === 'mass' && mass > 50 ? 'rgba(234, 179, 8, 0.04)' : 'rgba(59, 130, 246, 0.04)';
+          // 투명도를 낮추어 은은하게 쌓이고, 겹칠 때 강렬해지도록 설정
+          ctx.strokeStyle = simMode === 'mass' && mass > 50 ? 'rgba(234, 179, 8, 0.06)' : 'rgba(59, 130, 246, 0.06)';
           ctx.beginPath();
           trail.forEach((t, i) => i === 0 ? ctx.moveTo(t.x, t.y) : ctx.lineTo(t.x, t.y));
           ctx.stroke();
