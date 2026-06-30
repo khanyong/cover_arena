@@ -372,12 +372,27 @@ export default function AcademicPaperViewer() {
   const rightScrollRef = useRef<HTMLDivElement>(null);
   const isSyncingRef = useRef(false);
 
-  // 1. Client-side authorization fetch
+  // 1. Client-side authorization fetch with 6-hour expiration TTL validation
   useEffect(() => {
-    const authStatus = localStorage.getItem('academic_invite_authorized') === 'true';
-    const email = localStorage.getItem('academic_user_email') || '';
-    setIsAuthorized(authStatus);
-    setUserEmail(email);
+    try {
+      const raw = localStorage.getItem('academic_invite_authorized_v2');
+      if (raw) {
+        const authObj = JSON.parse(raw);
+        const isExpired = Date.now() > authObj.expireAt;
+        if (authObj.authorized && !isExpired) {
+          setIsAuthorized(true);
+          const email = localStorage.getItem('academic_user_email') || '';
+          setUserEmail(email);
+          return;
+        }
+        // Clear expired credential state
+        localStorage.removeItem('academic_invite_authorized_v2');
+      }
+    } catch (e) {
+      console.error('Auth state parsing failed:', e);
+    }
+    setIsAuthorized(false);
+    setUserEmail('');
   }, []);
 
   // 1-2. URL 쿼리 파라미터 복구 (Restore state from URL parameters)
@@ -459,7 +474,8 @@ export default function AcademicPaperViewer() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('academic_invite_authorized');
+    localStorage.removeItem('academic_invite_authorized_v2');
+    localStorage.removeItem('academic_invite_authorized'); // Legacy clean
     localStorage.removeItem('academic_user_email');
     setIsAuthorized(false);
     setUserEmail('');

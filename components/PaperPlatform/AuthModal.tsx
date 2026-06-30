@@ -18,22 +18,46 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
 
   if (!isOpen) return null;
 
+  // Generate valid rotating invite codes based on Date (KST/UTC timezone safe)
+  const getValidInviteCodes = (): string[] => {
+    const codes: string[] = [];
+    const now = new Date();
+    
+    // Cover yesterday, today, and tomorrow codes to prevent timezone cutoff issues
+    for (let i = -1; i <= 1; i++) {
+      const d = new Date(now.getTime() + i * 24 * 60 * 60 * 1000);
+      const yy = String(d.getFullYear()).slice(-2);
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const dd = String(d.getDate()).padStart(2, '0');
+      codes.push(`QUANTUM${yy}${mm}${dd}`);
+    }
+    return codes;
+  };
+
   const handleInviteSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
     setSuccessMsg('');
 
-    // 대문자로 공백 제거 후 비교
     const sanitized = inviteCode.trim().toUpperCase();
-    if (sanitized === 'QUANTUM2026') {
-      localStorage.setItem('academic_invite_authorized', 'true');
+    const validCodes = getValidInviteCodes();
+
+    if (validCodes.includes(sanitized)) {
+      // 6 hours expiration (6 * 3600 * 1000 ms)
+      const expireTime = Date.now() + 6 * 60 * 60 * 1000;
+      localStorage.setItem('academic_invite_authorized_v2', JSON.stringify({
+        authorized: true,
+        expireAt: expireTime
+      }));
+      localStorage.removeItem('academic_invite_authorized'); // Clear legacy key
+
       setSuccessMsg('초대 코드가 성공적으로 인증되었습니다! 전문을 활성화합니다.');
       setTimeout(() => {
         onAuthSuccess(true);
         onClose();
       }, 1200);
     } else {
-      setErrorMsg('유효하지 않은 초대 코드입니다. 다시 확인해 주세요. (테스트용: QUANTUM2026)');
+      setErrorMsg('유효하지 않은 초대 코드입니다. 초대 권한 문서를 다시 확인해 주세요.');
     }
   };
 
@@ -50,11 +74,17 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
         password,
       });
 
+      const expireTime = Date.now() + 6 * 60 * 60 * 1000;
+
       if (error) {
         // Supabase DB 연결 에러나 회원 미존재 시 Mock 로그인으로 부드러운 테스트 제공
         if (email.includes('@') && password.length >= 6) {
           console.warn('Supabase auth failed, falling back to mock authentication for testing:', error.message);
-          localStorage.setItem('academic_invite_authorized', 'true');
+          localStorage.setItem('academic_invite_authorized_v2', JSON.stringify({
+            authorized: true,
+            expireAt: expireTime
+          }));
+          localStorage.removeItem('academic_invite_authorized');
           localStorage.setItem('academic_user_email', email);
           setSuccessMsg(`[임시 인증] ${email} 계정으로 로그인되었습니다!`);
           setTimeout(() => {
@@ -65,7 +95,11 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
           setErrorMsg(error.message || '로그인에 실패했습니다. 이메일과 비밀번호를 다시 확인하세요.');
         }
       } else {
-        localStorage.setItem('academic_invite_authorized', 'true');
+        localStorage.setItem('academic_invite_authorized_v2', JSON.stringify({
+          authorized: true,
+          expireAt: expireTime
+        }));
+        localStorage.removeItem('academic_invite_authorized');
         localStorage.setItem('academic_user_email', data.user?.email || email);
         setSuccessMsg(`${data.user?.email || '사용자'}님, 반갑습니다! 전문이 활성화되었습니다.`);
         setTimeout(() => {
@@ -135,7 +169,7 @@ export const AuthModal: React.FC<AuthModalProps> = ({ isOpen, onClose, onAuthSuc
               </p>
               <input
                 type="text"
-                placeholder="초대 코드를 입력하세요 (예: QUANTUM2026)"
+                placeholder="초대 코드를 입력하세요"
                 value={inviteCode}
                 onChange={(e) => setInviteCode(e.target.value)}
                 required
