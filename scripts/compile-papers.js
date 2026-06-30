@@ -253,9 +253,9 @@ function parsePaperFile(filePath, versionKey, langKey) {
   let content = fs.readFileSync(filePath, 'utf-8');
   
   // Auto-correct LaTeX math strings
-  content = content.replace(/(?<!\$)(\\lim_\{[^}]+\}\s+[^\$\n]+?\s*=\s*[0-9a-zA-Z]+)(?!\$)/g, '$$$1$$');
-  content = content.replace(/(?<!\$)(\\lim_\{[^}]+\}\s+\\mathbf\{[^}]+\}_\{[^}]+\}\s*=\s*[0-9a-zA-Z]+)(?!\$)/g, '$$$1$$');
-  content = content.replace(/(?<!\$)(\\lim_\{[^}]+\}\s+\\mathbf\{F\}_\{space\}\s*=\s*0)(?!\$)/g, '$$$1$$');
+  content = content.replace(/(?<!\$\s*)(\\lim_\{[^}]+\}\s+[^\$\n]+?\s*=\s*[0-9a-zA-Z]+)(?!\s*\$)/g, '$$$1$$');
+  content = content.replace(/(?<!\$\s*)(\\lim_\{[^}]+\}\s+\\mathbf\{[^}]+\}_\{[^}]+\}\s*=\s*[0-9a-zA-Z]+)(?!\s*\$)/g, '$$$1$$');
+  content = content.replace(/(?<!\$\s*)(\\lim_\{[^}]+\}\s+\\mathbf\{F\}_\{space\}\s*=\s*0)(?!\s*\$)/g, '$$$1$$');
   
   const lines = content.split('\n');
   let title = { ko: '', en: '' };

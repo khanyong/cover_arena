@@ -102,11 +102,11 @@ export const papersMap: Record<string, PaperDetails> = {
         },
         "v3": {
           "ko": "현대 양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률적 파동 함수로 기술하며, 대상의 본질적 실재성(Physical Reality)을 배제하는 철학적 한계를 안고 있다. 본 논문은 파동-입자 이중성의 역설을 해결하기 위해, 입자의 실재성과 파동성을 분리하는 **'공간의 진동(Spatial Vibration)' 가설**을 제안한다.\n본 연구는 전자와 광자 등 모든 양자가 명백한 입자임을 전제하며, 이중 슬릿 실험에서 관측되는 간섭 무늬는 입자 자체가 파동성을 띠어서가 아니라 **입자가 이동하는 배경 공간의 미세한 진동(Quantum spatial fluctuation)이 형성한 궤적**에 기인함을 논증한다. 또한, 관측 행위로 인한 붕괴 현상을 거시적 관측 에너지가 미시 공간 진동에 섭동을 일으켜 파동성을 잃게 만드는 감쇠 효과(Damping effect)로 수학화한다.\n$$\n$$\n본 연구는 공간 진동의 영향력이 거시 스케일에서 상쇄되어 뉴턴 역학으로 수렴하는 과정을 규명함으로써, 미시와 거시를 잇는 새로운 결정론적 프레임워크를 제시한다.",
-          "en": "$$\n$\\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0$\n$$"
+          "en": "$$\n\\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0\n$$"
         },
         "v4": {
-          "ko": "현대 양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률적 파동 함수로 기술하며, 대상의 본질적 실재성(Physical Reality)을 배제하는 철학적 한계를 안고 있다. 본 논문은 파동-입자 이중성의 역설을 해결하기 위해, 입자의 실재성과 파동성을 완벽히 분리하는 **'공간의 기하학적 진동(Geometrical Fluctuation of Space)'** 가설을 제안한다.\n본 연구는 전자와 광자 등 모든 양자가 명백한 입자임을 전제하며, 이중 슬릿 실험에서 관측되는 간섭 무늬는 입자 자체가 파동성을 띠어서가 아니라 **입자가 이동하는 배경 공간의 미세한 기하학적 요동이 형성한 궤적 지형도($Q_s$)**에 기인함을 역학적으로 논증한다. 또한, 관측 행위로 인한 파동 붕괴 현상을 거시적 관측 에너지가 미시 공간 진동에 섭동을 일으켜 기하학적으로 평탄화시키는 감쇠 효과(Damping effect)로 수학화한다.\n$$ $\\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0$ $$\n나아가 본 연구는 양자 얽힘(Quantum Entanglement) 현상을 내부 거리가 0으로 수렴하는 기하학적 $\\\\Omega$(오메가) 접합 튜브의 동시적 붕괴 착시로 해명하며, 공간 진동의 궤적 유도력이 대상의 질량 밀도 증가에 따라 관성적으로 억제되어 고전 뉴턴 역학으로 수렴하는 과정을 규명함으로써 미시와 거시를 잇는 새로운 결정론적 대통일 프레임워크를 제시한다.",
-          "en": "The Copenhagen interpretation of modern quantum mechanics describes the state of a microscopic particle prior to observation via a probabilistic wave function, harboring a philosophical limitation that excludes the intrinsic physical reality of the object. To resolve the paradox of wave-particle duality, this paper proposes the **'Geometrical Fluctuation of Space'** hypothesis, which strictly decouples the particle's physical reality from its wave-like phenomena.\nThis study postulates that all quanta are definitive real particles. It argues that the interference pattern observed in the double-slit experiment is not due to the particle exhibiting wave properties, but rather emerges as an ensemble of trajectories guided by the microscopic geometrical curvature fluctuations of the background space ($Q_s$). Furthermore, the phenomenon of wave function collapse triggered by observation is mathematically formulated as a mechanical damping effect, where macroscopic observational energy perturbs and flattens the microscopic spatial vibration.\n$$ $\\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0$ $$\nMoreover, this study elucidates quantum entanglement geometrically as an illusion of simultaneous collapse caused by a topological $\\\\Omega$-shaped spatial junction where internal distance converges to zero. By demonstrating that the guiding force of spatial vibration is dynamically suppressed by the inertia of increasing mass—thereby converging to Newtonian mechanics—this paper presents a novel deterministic framework unifying the microscopic and macroscopic realms."
+          "ko": "현대 양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률적 파동 함수로 기술하며, 대상의 본질적 실재성(Physical Reality)을 배제하는 철학적 한계를 안고 있다. 본 논문은 파동-입자 이중성의 역설을 해결하기 위해, 입자의 실재성과 파동성을 완벽히 분리하는 **'공간의 기하학적 진동(Geometrical Fluctuation of Space)'** 가설을 제안한다.\n본 연구는 전자와 광자 등 모든 양자가 명백한 입자임을 전제하며, 이중 슬릿 실험에서 관측되는 간섭 무늬는 입자 자체가 파동성을 띠어서가 아니라 **입자가 이동하는 배경 공간의 미세한 기하학적 요동이 형성한 궤적 지형도($Q_s$)**에 기인함을 역학적으로 논증한다. 또한, 관측 행위로 인한 파동 붕괴 현상을 거시적 관측 에너지가 미시 공간 진동에 섭동을 일으켜 기하학적으로 평탄화시키는 감쇠 효과(Damping effect)로 수학화한다.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\n나아가 본 연구는 양자 얽힘(Quantum Entanglement) 현상을 내부 거리가 0으로 수렴하는 기하학적 $\\\\Omega$(오메가) 접합 튜브의 동시적 붕괴 착시로 해명하며, 공간 진동의 궤적 유도력이 대상의 질량 밀도 증가에 따라 관성적으로 억제되어 고전 뉴턴 역학으로 수렴하는 과정을 규명함으로써 미시와 거시를 잇는 새로운 결정론적 대통일 프레임워크를 제시한다.",
+          "en": "The Copenhagen interpretation of modern quantum mechanics describes the state of a microscopic particle prior to observation via a probabilistic wave function, harboring a philosophical limitation that excludes the intrinsic physical reality of the object. To resolve the paradox of wave-particle duality, this paper proposes the **'Geometrical Fluctuation of Space'** hypothesis, which strictly decouples the particle's physical reality from its wave-like phenomena.\nThis study postulates that all quanta are definitive real particles. It argues that the interference pattern observed in the double-slit experiment is not due to the particle exhibiting wave properties, but rather emerges as an ensemble of trajectories guided by the microscopic geometrical curvature fluctuations of the background space ($Q_s$). Furthermore, the phenomenon of wave function collapse triggered by observation is mathematically formulated as a mechanical damping effect, where macroscopic observational energy perturbs and flattens the microscopic spatial vibration.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\nMoreover, this study elucidates quantum entanglement geometrically as an illusion of simultaneous collapse caused by a topological $\\\\Omega$-shaped spatial junction where internal distance converges to zero. By demonstrating that the guiding force of spatial vibration is dynamically suppressed by the inertia of increasing mass—thereby converging to Newtonian mechanics—this paper presents a novel deterministic framework unifying the microscopic and macroscopic realms."
         }
       }
     },
@@ -4110,11 +4110,11 @@ export const papersMap: Record<string, PaperDetails> = {
               },
               "v3": {
                 "ko": "",
-                "en": "$\\lim_{E_{obs} \\to \\infty} \\gamma(E_{obs}) = 0$"
+                "en": "\\lim_{E_{obs} \\to \\infty} \\gamma(E_{obs}) = 0"
               },
               "v4": {
                 "ko": "",
-                "en": "$$ $\\lim_{E_{obs} \\to \\infty} \\gamma(E_{obs}) = 0$ \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$"
+                "en": "$$ \\lim_{E_{obs} \\to \\infty} \\gamma(E_{obs}) = 0 \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$"
               }
             }
           },
@@ -4790,7 +4790,7 @@ export const papersMap: Record<string, PaperDetails> = {
             "id": "p5_v4_ko_7",
             "versions": {
               "v4": {
-                "ko": "$$ $\\lim_{E_{obs} \\to \\infty} \\gamma(E_{obs}) = 0$ \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$",
+                "ko": "$$ \\lim_{E_{obs} \\to \\infty} \\gamma(E_{obs}) = 0 \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$",
                 "en": ""
               }
             }
@@ -5541,7 +5541,7 @@ export const papersMap: Record<string, PaperDetails> = {
               },
               "v3": {
                 "ko": "",
-                "en": "\\lim_{m \\to \\text{Macro}} \\mathbf{F}_{space} = $\\lim_{m \\to \\infty} \\left[ \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) \\right] = 0$"
+                "en": "\\lim_{m \\to \\text{Macro}} \\mathbf{F}_{space} = \\lim_{m \\to \\infty} \\left[ \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) \\right] = 0"
               }
             }
           },
@@ -6453,7 +6453,7 @@ export const papersMap: Record<string, PaperDetails> = {
             "id": "p6_v4_ko_4",
             "versions": {
               "v4": {
-                "ko": "$$ $\\lim_{m \\to \\infty} \\mathbf{F}_{space} = 0$ $$",
+                "ko": "$$ \\lim_{m \\to \\infty} \\mathbf{F}_{space} = 0 $$",
                 "en": ""
               }
             }
@@ -6508,7 +6508,7 @@ export const papersMap: Record<string, PaperDetails> = {
             "versions": {
               "v4": {
                 "ko": "",
-                "en": "$$ $\\lim_{m \\to \\infty} \\mathbf{F}_{space} = 0$ $$"
+                "en": "$$ \\lim_{m \\to \\infty} \\mathbf{F}_{space} = 0 $$"
               }
             }
           },

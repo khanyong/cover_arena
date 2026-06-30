@@ -58,40 +58,25 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
   // 버전별 상속 체인 Fallback 데이터 해석기 (한영 혼용 방지를 위한 엄격한 언어 분리 상속)
   const getParagraphTextForVersion = (vKey: string, currentLang: 'ko' | 'en') => {
     const directText = versionsMap[vKey]?.[currentLang]?.trim() || '';
+    
+    // v3 and v4 are fully complete, independent markdown documents.
+    // They MUST NOT inherit paragraphs from older or baseline versions.
+    if (vKey === 'v3' || vKey === 'v4') {
+      return directText; // Return directText exactly (if missing, it is deleted)
+    }
+
     if (directText) return directText;
-
-    if (vKey === 'v4') {
-      const v3Text = versionsMap['v3']?.[currentLang]?.trim() || '';
-      if (v3Text) return v3Text;
-      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
-      if (v2Text) return v2Text;
-      return versionsMap['v1']?.[currentLang]?.trim() || '';
-    }
-
-    if (vKey === 'v3') {
-      const v4Text = versionsMap['v4']?.[currentLang]?.trim() || '';
-      if (v4Text) return v4Text;
-      const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
-      if (v2Text) return v2Text;
-      return versionsMap['v1']?.[currentLang]?.trim() || '';
-    }
 
     if (vKey === 'v2') {
       const v1Text = versionsMap['v1']?.[currentLang]?.trim() || '';
       if (v1Text) {
         return v1Text.replace(/~~/g, ''); // v2에 데이터가 없고 v1만 취소선으로 있다면 취소선을 뗀 일반 텍스트가 v2 최종본의 내용임
       }
-      const v3Text = versionsMap['v3']?.[currentLang]?.trim() || '';
-      if (v3Text) return v3Text;
-      return versionsMap['v4']?.[currentLang]?.trim() || '';
     }
 
     if (vKey === 'v1') {
       const v2Text = versionsMap['v2']?.[currentLang]?.trim() || '';
       if (v2Text) return v2Text;
-      const v3Text = versionsMap['v3']?.[currentLang]?.trim() || '';
-      if (v3Text) return v3Text;
-      return versionsMap['v4']?.[currentLang]?.trim() || '';
     }
 
     return '';
