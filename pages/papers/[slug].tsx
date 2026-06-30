@@ -1158,8 +1158,8 @@ export default function AcademicPaperViewer() {
                                 return null;
                               }
 
-                              // 영문 단독 모드(activeLang === 'en')는 1차 리뷰를 위해 암호 없이 모두 볼 수 있게 조치
-                              const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6) && activeLang !== 'en';
+                              // 영문 단독 모드도 국문과 동일하게 초대 코드 잠금 정책 적용
+                              const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
 
                               // Pre-check if chapter has paragraphs
                               const hasVisibleParagraphs = ch.paragraphs.some(p => {
@@ -1183,27 +1183,29 @@ export default function AcademicPaperViewer() {
                                   </h3>
 
                                   {isRestrictedChapter ? (
-                                    ch.number === 3 ? (
-                                      <div className="bg-zinc-50 border border-zinc-250 p-6 md:p-10 rounded-sm text-center space-y-4 my-6 shadow-xs">
-                                        <span className="text-3xl block">🔐</span>
-                                        <h4 className="text-sm md:text-base font-bold text-zinc-950 font-serif">
-                                          학술지 투고 심사 전용 세션 잠금 (3장 ~ 6장)
-                                        </h4>
-                                        <p className="text-xs text-zinc-650 max-w-xl mx-auto leading-relaxed font-serif">
-                                          본 논문의 <strong>3장(수학적 정식화)</strong>, <strong>4장(이중 슬릿 시뮬레이션)</strong>, <strong>5장(관측 감쇄 공식)</strong>, <strong>6장(거시 뉴턴 물리 수렴 증명)</strong>은 피어 리뷰어 및 학술 편집위원회 전용 비공개 구간입니다.
-                                          <br />
-                                          전달받으신 고유 심사위원용 초대 코드를 단 1회 입력하시면 모든 챕터와 시뮬레이터 샌드박스가 즉시 잠금 해제됩니다.
-                                        </p>
-                                        <div className="pt-2">
-                                          <button
-                                            onClick={() => setIsAuthModalOpen(true)}
-                                            className="px-6 py-2.5 bg-[#b31b1b] hover:bg-red-800 text-white text-xs font-bold rounded-sm transition-all shadow-md hover:scale-105 active:scale-95 cursor-pointer"
-                                          >
-                                            초대 인증코드 입력
-                                          </button>
-                                        </div>
+                                    <div className="bg-zinc-50 border border-zinc-250 p-6 md:p-10 rounded-sm text-center space-y-4 my-6 shadow-xs">
+                                      <span className="text-3xl block">🔐</span>
+                                      <h4 className="text-sm md:text-base font-bold text-zinc-950 font-serif">
+                                        {activeLang === 'ko' 
+                                          ? `학술지 투고 심사 전용 세션 잠금 (${ch.number}장)`
+                                          : `Restricted Editorial Section Locked (Ch. ${ch.number})`
+                                        }
+                                      </h4>
+                                      <p className="text-xs text-zinc-650 max-w-xl mx-auto leading-relaxed font-serif">
+                                        {activeLang === 'ko'
+                                          ? `본 논문의 ${ch.number}장은 피어 리뷰어 및 학술 편집위원회 전용 비공개 구간입니다. 전달받으신 고유 초대 코드를 입력하시면 모든 챕터와 시뮬레이터 샌드박스가 즉시 잠금 해제됩니다.`
+                                          : `Chapter ${ch.number} of this manuscript is restricted for peer reviewers and editorial board members. Enter the invitation code to unlock all chapters and simulation sandbox.`
+                                        }
+                                      </p>
+                                      <div className="pt-2">
+                                        <button
+                                          onClick={() => setIsAuthModalOpen(true)}
+                                          className="px-6 py-2.5 bg-[#b31b1b] hover:bg-red-800 text-white text-xs font-bold rounded-sm transition-all shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                                        >
+                                          {activeLang === 'ko' ? '초대 인증코드 입력' : 'Enter Code'}
+                                        </button>
                                       </div>
-                                    ) : null
+                                    </div>
                                   ) : (
                                     ch.paragraphs.map((p) => (
                                       <InteractiveParagraph
@@ -1265,12 +1267,10 @@ export default function AcademicPaperViewer() {
                                       {ch.title.ko}
                                     </h3>
                                     {isRestrictedChapter ? (
-                                      ch.number === 3 ? (
-                                        <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
-                                          <p className="text-[11px] text-zinc-600 font-serif">학술지 투고 심사 전용 구간 잠김 (3장~6장)</p>
-                                          <button onClick={() => setIsAuthModalOpen(true)} className="px-3 py-1 bg-[#b31b1b] text-white text-[10px] rounded-sm font-bold">인증코드 입력</button>
-                                        </div>
-                                      ) : null
+                                      <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
+                                        <p className="text-[11px] text-zinc-600 font-serif">학술지 투고 심사 전용 구간 잠김 ({ch.number}장)</p>
+                                        <button onClick={() => setIsAuthModalOpen(true)} className="px-3 py-1 bg-[#b31b1b] text-white text-[10px] rounded-sm font-bold">인증코드 입력</button>
+                                      </div>
                                     ) : (
                                       ch.paragraphs.map((p) => (
                                         <InteractiveParagraph
@@ -1328,12 +1328,10 @@ export default function AcademicPaperViewer() {
                                       {ch.title.en}
                                     </h3>
                                     {isRestrictedChapter ? (
-                                      ch.number === 3 ? (
-                                        <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
-                                          <p className="text-[11px] text-zinc-655 font-serif">Restricted Editorial Section Locked (Ch. 3–6)</p>
-                                          <button onClick={() => setIsAuthModalOpen(true)} className="px-3 py-1 bg-[#b31b1b] text-white text-[10px] rounded-sm font-bold">Enter Code</button>
-                                        </div>
-                                      ) : null
+                                      <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
+                                        <p className="text-[11px] text-zinc-655 font-serif">Restricted Editorial Section Locked (Ch. {ch.number})</p>
+                                        <button onClick={() => setIsAuthModalOpen(true)} className="px-3 py-1 bg-[#b31b1b] text-white text-[10px] rounded-sm font-bold">Enter Code</button>
+                                      </div>
                                     ) : (
                                       ch.paragraphs.map((p) => (
                                         <InteractiveParagraph
