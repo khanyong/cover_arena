@@ -117,8 +117,8 @@ export default function PapersDashboard() {
             <span className="text-[9px] font-bold text-zinc-400 tracking-wider uppercase font-mono block">Principal Author</span>
             <div className="text-xs">
               <p className="font-bold text-zinc-900 font-serif">유광용 (Kwang yong Yoo)</p>
-              <p className="text-[10px] text-zinc-500 leading-tight mt-1">
-                KT 부장 / 연세대학교 박사 수료 / UCONN 법학 석사
+              <p className="text-[10px] text-zinc-500 leading-tight mt-1 font-serif">
+                KT Director / Ph.D. Candidate at Yonsei University / LL.M. at UCONN
               </p>
             </div>
           </div>
