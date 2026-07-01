@@ -810,6 +810,8 @@ export const papersMap: Record<string, PaperDetails> = ${JSON.stringify(compiled
           abstract_v3_en: paper.abstract.versions.v3?.en || '',
           abstract_v4_ko: paper.abstract.versions.v4?.ko || '',
           abstract_v4_en: paper.abstract.versions.v4?.en || '',
+          abstract_v5_ko: paper.abstract.versions.v5?.ko || '',
+          abstract_v5_en: paper.abstract.versions.v5?.en || '',
           chapters: paper.chapters,
           references: paper.references,
           reviews: paper.reviews,

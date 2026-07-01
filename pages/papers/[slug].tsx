@@ -51,17 +51,24 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
   const versionsMap = p.versions || {};
 
   // 결정론적 단락 버전 선택 (모자이크 모드 우선)
-  const chosenVersion = isMosaicMode && customVersionMap[p.id]
-    ? customVersionMap[p.id]
-    : (versionMode === 'diff' ? 'v4' : versionMode);
+  const chosenVersion = (() => {
+    if (isMosaicMode && customVersionMap[p.id]) {
+      return customVersionMap[p.id];
+    }
+    if (versionMode === 'diff') {
+      const versionsList = Object.keys(p.versions).filter(v => v !== 'diff');
+      return versionsList[versionsList.length - 1] || 'v5';
+    }
+    return versionMode;
+  })();
 
   // 버전별 상속 체인 Fallback 데이터 해석기 (한영 혼용 방지를 위한 엄격한 언어 분리 상속)
   const getParagraphTextForVersion = (vKey: string, currentLang: 'ko' | 'en') => {
     const directText = versionsMap[vKey]?.[currentLang]?.trim() || '';
     
-    // v3 and v4 are fully complete, independent markdown documents.
+    // v3, v4, and v5 are fully complete, independent markdown documents.
     // They MUST NOT inherit paragraphs from older or baseline versions.
-    if (vKey === 'v3' || vKey === 'v4') {
+    if (vKey === 'v3' || vKey === 'v4' || vKey === 'v5') {
       return directText; // Return directText exactly (if missing, it is deleted)
     }
 

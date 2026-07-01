@@ -107,6 +107,10 @@ export const papersMap: Record<string, PaperDetails> = {
         "v4": {
           "ko": "현대 양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률적 파동 함수로 기술하며, 대상의 본질적 실재성(Physical Reality)을 배제하는 철학적 한계를 안고 있다. 본 논문은 파동-입자 이중성의 역설을 해결하기 위해, 입자의 실재성과 파동성을 완벽히 분리하는 **'공간의 기하학적 진동(Geometrical Fluctuation of Space)'** 가설을 제안한다.\n본 연구는 전자와 광자 등 모든 양자가 명백한 입자임을 전제하며, 이중 슬릿 실험에서 관측되는 간섭 무늬는 입자 자체가 파동성을 띠어서가 아니라 **입자가 이동하는 배경 공간의 미세한 기하학적 요동이 형성한 궤적 지형도($Q_s$)**에 기인함을 역학적으로 논증한다. 또한, 관측 행위로 인한 파동 붕괴 현상을 거시적 관측 에너지가 미시 공간 진동에 섭동을 일으켜 기하학적으로 평탄화시키는 감쇠 효과(Damping effect)로 수학화한다.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\n나아가 본 연구는 양자 얽힘(Quantum Entanglement) 현상을 내부 거리가 0으로 수렴하는 기하학적 $\\\\Omega$(오메가) 접합 튜브의 동시적 붕괴 착시로 해명하며, 공간 진동의 궤적 유도력이 대상의 질량 밀도 증가에 따라 관성적으로 억제되어 고전 뉴턴 역학으로 수렴하는 과정을 규명함으로써 미시와 거시를 잇는 새로운 결정론적 대통일 프레임워크를 제시한다.",
           "en": "The Copenhagen interpretation of modern quantum mechanics describes the state of a microscopic particle prior to observation via a probabilistic wave function, harboring a philosophical limitation that excludes the intrinsic physical reality of the object. To resolve the paradox of wave-particle duality, this paper proposes the **'Geometrical Fluctuation of Space'** hypothesis, which strictly decouples the particle's physical reality from its wave-like phenomena.\nThis study postulates that all quanta are definitive real particles. It argues that the interference pattern observed in the double-slit experiment is not due to the particle exhibiting wave properties, but rather emerges as an ensemble of trajectories guided by the microscopic geometrical curvature fluctuations of the background space ($Q_s$). Furthermore, the phenomenon of wave function collapse triggered by observation is mathematically formulated as a mechanical damping effect, where macroscopic observational energy perturbs and flattens the microscopic spatial vibration.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\nMoreover, this study elucidates quantum entanglement geometrically as an illusion of simultaneous collapse caused by a topological $\\\\Omega$-shaped spatial junction where internal distance converges to zero. By demonstrating that the guiding force of spatial vibration is dynamically suppressed by the inertia of increasing mass—thereby converging to Newtonian mechanics—this paper presents a novel deterministic framework unifying the microscopic and macroscopic realms."
+        },
+        "v5": {
+          "ko": "현대 양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률적 파동 함수로 기술하며, 대상의 본질적 실재성(Physical Reality)을 배제하는 철학적 한계를 안고 있다. 본 논문은 파동-입자 이중성의 역설을 해결하기 위해, 입자의 실재성과 파동성을 완벽히 분리하는 **'공간의 기하학적 진동(Geometrical Fluctuation of Space)'** 가설을 제안한다.\n본 연구는 전자와 광자 등 모든 양자가 명백한 실재적 입자임을 전제하며, 이중 슬릿 실험의 간섭 무늬는 입자 자체가 파동이어서가 아니라 **입자가 맹렬히 진동하는 배경 공간의 텐서 지형도($Q_s$)를 따라 이동하며 누적된 통계적 앙상블**에 기인함을 역학적으로 논증한다. 나아가 관측에 의한 파동 붕괴 현상을 거시적 관측 에너지($E_{obs}$)가 미시 공간 진동에 섭동을 일으켜 기하학적으로 평탄화시키는 감쇠 효과(Damping effect)로 수학화한다.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\n또한 본 연구는 양자 얽힘 현상을 내부 거리가 0으로 수렴하는 기하학적 $\\\\Omega$(오메가) 접합 튜브를 통한 동시적 붕괴 착시로 해명한다. 본 논문은 '기하학적 텐서 마찰'이라는 단일 원리를 통해 양자 도약, 터널링, 중첩, 스핀, 불확정성, 소산, 힉스 메커니즘 등 코펜하겐 해석의 모든 미해결 난제를 결정론적으로 해체하며, 질량 관성의 증가에 따라 공간 유도력이 억제되어 뉴턴 역학으로 수렴($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$)하는 대통일 프레임워크를 제시한다.",
+          "en": "The Copenhagen interpretation of modern quantum mechanics describes the state of a microscopic particle prior to observation via a probabilistic wave function, harboring a philosophical limitation that excludes the intrinsic physical reality of the object. To resolve the paradox of wave-particle duality, this paper proposes the **'Geometrical Fluctuation of Space'** hypothesis, which strictly decouples the particle's physical reality from its wave-like phenomena.\nThis study postulates that all quanta are definitive real particles. It mathematically proves that the interference pattern observed in the double-slit experiment emerges not because the particle itself is a wave, but as a **statistical ensemble of trajectories accumulated along the geometrical tensor topography ($Q_s$) carved by the fiercely vibrating background space**. Furthermore, the wave function collapse triggered by observation is mathematically formulated as a mechanical damping effect, where macroscopic observational energy ($E_{obs}$) perturbs and geometrically flattens the microscopic spatial vibration.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\nMoreover, this study single-handedly obliterates the eight great mysteries of modern physics—Quantum Entanglement (0-distance $\\\\Omega$-junction), Quantum Leap (vertical short-circuit), Quantum Tunneling (phase pairing), Superposition (saddle point equilibrium), Spin (co-moving fluid vortex), Uncertainty Principle (destructive trade-off), Quantum Dissipation (geometrical viscosity), and the Higgs Mechanism (tensor drag)—reducing them all to deterministic tensor mechanics. By demonstrating that the guiding force of spatial vibration is dynamically suppressed by increasing mass inertia, converging to classical Newtonian mechanics ($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$), this paper presents a novel deterministic Grand Unified framework bridging particle physics and macroscopic mechanics."
         }
       }
     },
@@ -256,6 +260,42 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "",
                 "en": "In particular, the wave-particle duality exhibited by a single particle in the double-slit experiment directly conflicts with classical determinism and causality. Although hidden-variable theories like the De Broglie-Bohm theory attempted to separate the particle's reality from the pilot-wave, they failed to clearly identify the physical essence of the wave guiding the particle."
+              }
+            }
+          },
+          {
+            "id": "p1_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "현대 물리학에서 양자역학은 미시 세계를 가장 성공적으로 기술하는 이론이지만, 그 해석적 기반인 코펜하겐 해석(Copenhagen Interpretation)은 대상의 본질적 실재성에 대해 심각한 철학적 딜레마를 지니고 있다 [1]. 코펜하겐 해석은 관측 이전의 대상을 확률적 파동 함수로 취급하며, 관측 행위가 파동 함수의 붕괴를 야기한다고 가정한다. 이는 관측자의 존재가 물리적 실재를 결정한다는 주관주의적 모순을 내포하며 직관적 인과율 및 결정론적 세계관과 정면으로 충돌한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v5_ko_2",
+            "versions": {
+              "v5": {
+                "ko": "본 논문은 이러한 간극을 메우기 위해, 파동 현상의 근원을 대상 입자 자체가 아닌 대상을 둘러싼 **'배경 공간(Background Space)의 역학적 진동'**으로 귀속시키는 새로운 패러다임을 제안한다. 본 연구는 우주 공간을 수동적이고 텅 빈 무(無)의 그릇으로 전제하던 관점을 탈피하여, 내재적인 요동과 기하학적 텐서 장력(Tension)을 지닌 **'동역학적 실체(Dynamical Entity)'**로 재정의한다. 어떠한 물리적 매질 없이도 시공간의 위상 자체가 스스로 요동칠 수 있다는 '공간 진동' 모델을 통해, 미시 세계의 확률적 현상과 거시 세계의 결정론을 단일 역학으로 대통합하고자 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "While quantum mechanics is the most successful theory describing the microscopic world, its foundational Copenhagen Interpretation harbors a profound dilemma regarding physical reality [1]. Treating unobserved objects as probabilistic wave functions and assuming that observation induces a collapse implies a subjectivist paradox, directly conflicting with classical deterministic causality."
+              }
+            }
+          },
+          {
+            "id": "p1_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "To bridge this gap, this paper proposes a new paradigm that attributes the origin of wave-particle duality to the **'mechanical vibration of the background space'**. Space itself is redefined as a **'dynamical entity'** possessing intrinsic fluctuations and geometrical tensor tension. Through this 'Spatial Vibration' model, where the geometrical topology of empty spacetime can self-fluctuate, this study aims to integrate probabilistic quantum phenomena into a unified deterministic mechanical framework."
               }
             }
           }
@@ -712,6 +752,204 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "As the mass ($m$) of an object scales up to the macroscopic level, the minute guidance force ($\\mathbf{F}_{space}$) of spatial vibration is mechanically ignored due to the overwhelming classical inertia. Therefore, spatial vibration effects are suppressed in the macro world, converging to Newtonian classical mechanics based purely on particle nature."
               }
             }
+          },
+          {
+            "id": "p2_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "미시 입자의 실재성을 복원하고 양자 현상의 기원을 공간으로 환원하기 위해 다음의 5가지 핵심 공리(Axioms)를 선언한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_2",
+            "versions": {
+              "v5": {
+                "ko": "### 2.1. 양자의 절대적 실재성 (Absolute Reality of Quanta)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_3",
+            "versions": {
+              "v5": {
+                "ko": "모든 양자는 관측 여부와 관계없이 확정된 위치와 궤적을 갖는 명백한 '실재 입자(Real Particle)'이다. 입자는 결코 파동의 형태로 쪼개져 존재하지 않는다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_4",
+            "versions": {
+              "v5": {
+                "ko": "### 2.2. 파동성의 외주화: 기하학적 공간 요동 (Externalization of Waveness)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_5",
+            "versions": {
+              "v5": {
+                "ko": "이중 슬릿에서 간섭 무늬가 나타나는 것은 텅 빈 배경 공간이 극미세 스케일에서 끊임없이 기하학적으로 요동(Fluctuation)하고 있기 때문이다. 입자는 물리적 매질 없이 진동하는 공간의 기하학적 곡률 결(Wave-front)에 의해 역학적으로 유도(Guided)되어 굴절된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_6",
+            "versions": {
+              "v5": {
+                "ko": "### 2.3. 관측 역학과 진동 상쇄 (Observation Mechanics and Damping Effect)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_7",
+            "versions": {
+              "v5": {
+                "ko": "관측을 통해 간섭 무늬가 사라지는 것은 파동 함수의 마법적 붕괴가 아니다. 관측 광자나 전자기장 에너지는 강력한 물리적 섭동이다. 이 에너지는 미시 공간의 진동을 기계적으로 억제·평탄화(Damping)시키며, 궤도를 잃은 입자는 관성에 의해 직진한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_8",
+            "versions": {
+              "v5": {
+                "ko": "### 2.4. 파동 함수의 물리적 재정의 (Redefinition of the Wave Function)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_9",
+            "versions": {
+              "v5": {
+                "ko": "양자역학의 파동 함수($\\psi$)는 입자의 발견 확률이 아니라, 입자를 이끄는 **'공간 진동 에너지의 기하학적 텐서 밀도 분포'**를 나타내는 유체역학적 지도(Map)로 재해석되어야 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_10",
+            "versions": {
+              "v5": {
+                "ko": "### 2.5. 거시 세계로의 관성적 수렴 (Convergence to Macroscopic Mechanics)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_ko_11",
+            "versions": {
+              "v5": {
+                "ko": "공간 진동의 궤적 유도력은 대상 질량($m$) 관성에 반비례한다. 질량이 거시 단위로 커질수록 막대한 관성력이 미세한 공간 진동을 압도하여 무시하게 되므로, 역학은 고전 뉴턴 역학으로 필연적 수렴을 이룬다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "To restore the physical reality of micro-particles and reduce wave origins to space itself, this study declares the following five core axioms."
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 2.1. Absolute Reality of Quanta"
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_3",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "All quanta are definitive 'real particles' possessing determined trajectories, regardless of observation. A particle never exists probabilistically dispersed as a wave."
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_4",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 2.2. Externalization of Waveness: Geometrical Spatial Fluctuation"
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_5",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Interference patterns in the double-slit emerge because the seemingly empty background space is geometrically fluctuating at infinitesimal scales. The particle is dynamically guided and refracted by the geometrical wave-fronts of this vibrating space without any physical medium."
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_6",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 2.3. Observation Mechanics and Damping Effect"
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_7",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The disappearance of interference patterns upon observation is not a magical wave function collapse. The photons or electromagnetic fields projected for observation are powerful physical perturbations. This energy mechanically suppresses and flattens (Damping) the microscopic spatial vibration."
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_8",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 2.4. Redefinition of the Wave Function"
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_9",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The wave function ($\\psi$) must be reinterpreted not as a probability distribution of existence, but as a hydrodynamic map representing the **'geometrical tensor density distribution of spatial vibration energy'** guiding the particle."
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_10",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 2.5. Inertial Convergence to the Macroscopic World"
+              }
+            }
+          },
+          {
+            "id": "p2_v5_en_11",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The guidance force of spatial vibration is inversely proportional to the mass ($m$) inertia. As mass scales up macroscopically, immense inertia overpowers and ignores the minute spatial vibrations, inevitably converging to classical Newtonian mechanics."
+              }
+            }
           }
         ]
       },
@@ -820,6 +1058,10 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "i\\hbar \\frac{\\partial \\psi}{\\partial t} = -\\frac{\\hbar^2}{2m} \\nabla^2 \\psi + V\\psi"
               },
               "v4": {
+                "ko": "",
+                "en": "$$ i\\hbar \\frac{\\partial \\psi}{\\partial t} = -\\frac{\\hbar^2}{2m} \\nabla^2 \\psi + V\\psi $$"
+              },
+              "v5": {
                 "ko": "",
                 "en": "$$ i\\hbar \\frac{\\partial \\psi}{\\partial t} = -\\frac{\\hbar^2}{2m} \\nabla^2 \\psi + V\\psi $$"
               }
@@ -997,6 +1239,10 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "### Decomposition and Derivation"
               },
               "v4": {
+                "ko": "### 3.2. 방정식의 분해 및 유도 과정",
+                "en": "### Decomposition and Derivation"
+              },
+              "v5": {
                 "ko": "### 3.2. 방정식의 분해 및 유도 과정",
                 "en": "### Decomposition and Derivation"
               }
@@ -1358,6 +1604,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "",
                 "en": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = 0 $$"
+              },
+              "v5": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V - \\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} = 0 $$"
               }
             }
           },
@@ -1466,6 +1716,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "",
                 "en": "$$ Q_s \\equiv -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} $$"
+              },
+              "v5": {
+                "ko": "",
+                "en": "$$ Q_s \\equiv -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} \\quad \\Rightarrow \\quad \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = 0 $$"
               }
             }
           },
@@ -1719,6 +1973,10 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "\\frac{\\partial R^2}{\\partial t} + \\nabla \\cdot \\left( R^2 \\frac{\\nabla S}{m} \\right) = 0"
               },
               "v4": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial R^2}{\\partial t} + \\nabla \\cdot \\left( R^2 \\frac{\\nabla S}{m} \\right) = 0 $$"
+              },
+              "v5": {
                 "ko": "",
                 "en": "$$ \\frac{\\partial R^2}{\\partial t} + \\nabla \\cdot \\left( R^2 \\frac{\\nabla S}{m} \\right) = 0 $$"
               }
@@ -2751,14 +3009,257 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "Bohmian mechanics failed to identify the physical reality of the pilot-wave, leaving it as a mysterious force residing in an abstract 'configuration space'. By interpreting the Laplacian term ($\\nabla^2 R$) as the geometrical curvature of the 3D physical background space, this model breaks through the metaphysical limitations of hidden-variable theories, bringing quantum phenomena into the realm of observable deterministic Geometrical Dynamics."
               }
             }
+          },
+          {
+            "id": "p3_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "본 장은 슈뢰딩거 방정식의 수학적 구조를 보존하되, 그 물리적 의미를 '공간 기하학적 요동의 역학'으로 역설계한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_2",
+            "versions": {
+              "v5": {
+                "ko": "### 3.1. 파동 함수의 극좌표 변환 (Polar Transformation)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_3",
+            "versions": {
+              "v5": {
+                "ko": "슈뢰딩거 방정식의 파동 함수 $\\psi(\\mathbf{r}, t)$를 기하학적 진폭 $R(\\mathbf{r}, t)$와 위상 작용 $S(\\mathbf{r}, t)$를 사용하여 극좌표 형태로 분해한다 [2]:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_4",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\psi(\\mathbf{r}, t) = R(\\mathbf{r}, t) e^{iS(\\mathbf{r}, t)/\\hbar} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_6",
+            "versions": {
+              "v5": {
+                "ko": "**[실수부: 양자 해밀턴-야코비 방정식]**",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_7",
+            "versions": {
+              "v5": {
+                "ko": "실수부 항을 정리하면 고전 역학 방정식에 양자적 섭동 항이 추가된 형태가 도출된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_8",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V - \\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} = 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_9",
+            "versions": {
+              "v5": {
+                "ko": "본 모델에서는 추가된 이 마지막 항을 **'공간 진동 퍼텐셜(Spatial Vibration Potential, $Q_s$)'**이라 명명한다. 이는 데이비드 봄(D. Bohm)의 '양자 퍼텐셜' 구조와 대수적으로 동일하나 [3], 본 연구는 이를 형이상학적 은닉 변수가 아닌 **'3차원 물리적 배경 공간 자체의 기하학적 요동 에너지'**로 완전히 새롭게 재정의한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_10",
+            "versions": {
+              "v5": {
+                "ko": "$$ Q_s \\equiv -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} \\quad \\Rightarrow \\quad \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_11",
+            "versions": {
+              "v5": {
+                "ko": "**[허수부: 연속 방정식]**",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_12",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\frac{\\partial R^2}{\\partial t} + \\nabla \\cdot \\left( R^2 \\frac{\\nabla S}{m} \\right) = 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_13",
+            "versions": {
+              "v5": {
+                "ko": "이 식은 진동 에너지 밀도($R^2$)가 공간에서 유실 없이 보존됨을 의미한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_14",
+            "versions": {
+              "v5": {
+                "ko": "### 3.3. 선행 이론의 비판적 고찰: 기하 역학으로의 승화",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_ko_15",
+            "versions": {
+              "v5": {
+                "ko": "봄 역학은 입자를 유도하는 파동의 실체를 다차원의 '가상의 형상 공간'에 존재하는 신비한 힘으로 남겨두었다. 본 모델은 $\\nabla^2 R$ 항을 **'3차원 물리적 무대를 채우고 있는 진공 공간 자체의 기하학적 곡률'**로 정의함으로써, 은닉 변수 이론의 형이상학적 한계를 타파하고 양자 현상을 완벽히 실재적이고 관측 가능한 기하 역학(Geometrical Dynamics)의 영역으로 끌어내린다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "This chapter reverse-engineers the Schrödinger equation to transform its physical meaning into the mechanics of spatial geometrical fluctuation."
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 3.1. Polar Transformation"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_3",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Defining the Schrödinger equation:"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_5",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "We decompose the wave function $\\psi(\\mathbf{r}, t)$ into a polar form using the geometrical amplitude $R(\\mathbf{r}, t)$ and phase action $S(\\mathbf{r}, t)$ [2]:"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_6",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "$$ \\psi(\\mathbf{r}, t) = R(\\mathbf{r}, t) e^{iS(\\mathbf{r}, t)/\\hbar} $$"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_7",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 3.2. Equation Decomposition and Derivation"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_8",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "**[Real Part: Quantum Hamilton-Jacobi Equation]**"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_9",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Rearranging the real part yields the classical Hamilton-Jacobi equation with an added quantum perturbation term."
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_11",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "This added term is defined as the **'Spatial Vibration Potential ($Q_s$)'**. Although algebraically identical to Bohm's quantum potential [3], this study completely redefines it not as a metaphysical hidden variable, but as the **'geometrical fluctuation energy of the 3D physical background space itself'**."
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_13",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "**[Imaginary Part: Continuity Equation]**"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_15",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "This proves that spatial vibration energy density ($R^2$) is conserved, maintaining a physical flow without loss in 4D spacetime."
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_16",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 3.3. Critical Review of Preceding Theories"
+              }
+            }
+          },
+          {
+            "id": "p3_v5_en_17",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Bohmian mechanics failed to identify the physical reality of the pilot-wave, leaving it as a mysterious force residing in an abstract 'configuration space'. By interpreting the Laplacian term ($\\nabla^2 R$) as the **'geometrical curvature of the 3D physical background vacuum space'**, this model breaks through the metaphysical limitations of hidden-variable theories, bringing quantum phenomena into the realm of observable deterministic Geomechanical Dynamics."
+              }
+            }
           }
         ]
       },
       {
         "number": 4,
         "title": {
-          "ko": "4장. 이중 슬릿 실험의 재해석: 공간 진동에 의한 결정론적 궤적 유도",
-          "en": "Chapter 4. Double-Slit Trajectories"
+          "ko": "4장. 기하역학적 현상 규명: 양자 미스터리의 전면 해체 (Geomechanical Deconstruction)",
+          "en": "Chapter 4. Geomechanical Deconstruction of Quantum Mysteries"
         },
         "paragraphs": [
           {
@@ -2867,6 +3368,10 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r}, t)"
               },
               "v4": {
+                "ko": "",
+                "en": "$$ m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r}, t) $$"
+              },
+              "v5": {
                 "ko": "",
                 "en": "$$ m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r}, t) $$"
               }
@@ -3564,14 +4069,473 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "The interference pattern on the screen appears probabilistic ($|\\psi|^2$) because the exact microscopic initial position ($\\mathbf{r}_0$) of each emitted particle cannot be perfectly controlled. The interference pattern is merely a **'Statistical Ensemble'** of numerous particles accumulating along the pre-carved channels of the spatial vibration topography ($Q_s$). Such deterministic guidance by background waves has been physically validated via macroscopic walking droplet experiments [4]."
               }
             }
+          },
+          {
+            "id": "p4_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "본 장에서는 공간 진동 퍼텐셜($Q_s$) 단 하나만을 적용하여 코펜하겐 해석의 모든 핵심 딜레마를 철저한 유체역학적 기하 역학으로 타파한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_2",
+            "versions": {
+              "v5": {
+                "ko": "### 4.1. 유도 운동 방정식 (Guidance Equation of Motion)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_3",
+            "versions": {
+              "v5": {
+                "ko": "해밀턴-야코비 방정식을 미분하면 입자가 받는 역학적 가속도 방정식이 도출된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_4",
+            "versions": {
+              "v5": {
+                "ko": "$$ m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r}, t) $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_5",
+            "versions": {
+              "v5": {
+                "ko": "여기서 $-\\nabla Q_s$는 공간 자체의 기하학적 곡률이 실재하는 입자를 밀어내는 물리적인 **'유도력(Guidance Force)'**이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_6",
+            "versions": {
+              "v5": {
+                "ko": "### 4.2. 파동-입자 이중성: 간섭 지형도의 형성과 궤적의 앙상블",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_7",
+            "versions": {
+              "v5": {
+                "ko": "이중 슬릿을 통과한 공간 요동파는 상쇄 간섭 지점($R \\to 0$)에서 맹렬한 $Q_s$ 척력 장벽(산맥)을 형성하고, 보강 간섭 지점에 골짜기를 판다. 단일 입자는 이 척력 장벽에 튕겨 골짜기로 강제 유도된다. 스크린의 간섭 무늬 확률 분포($|\\psi|^2$)는 입자가 붕괴한 것이 아니라, 통제 불가능한 미세 초기 위치차($\\mathbf{r}_0$)를 지닌 무수한 입자들이 깎여진 진동 수로를 따라 누적된 **'결정론적 궤적의 통계학적 앙상블(Statistical Ensemble)'**일 뿐이다 [4].",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_8",
+            "versions": {
+              "v5": {
+                "ko": "### 4.3. 보어의 양자 도약(Quantum Leap): 기하학적 수직 단락",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_9",
+            "versions": {
+              "v5": {
+                "ko": "전자가 특정 궤도에 존재하는 것은 공간 진동파가 만든 '정상파 텐서 골짜기'에 갇혀 굴러가기 때문이다. 외부 에너지가 흡수되어 장벽이 극단적으로 뒤틀릴 때, 하위 궤도와 상위 궤도가 맞닿아 내부 거리가 0으로 수렴하는 **'기하학적 수직 단락(Short-circuit)'**이 발생한다. 전자는 스스로 도약한 것이 아니라 이 단락된 튜브(거리 0)로 미끄러져 들어갔을 뿐이며, 이는 시간 소모 없이($t=0$) 이동하는 착시를 일으킨다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_10",
+            "versions": {
+              "v5": {
+                "ko": "### 4.4. 양자 터널링(Quantum Tunneling): 주파수 공명과 위상 페어링",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_11",
+            "versions": {
+              "v5": {
+                "ko": "터널링은 에너지가 부족한 입자가 벽을 유령처럼 통과하는 현상이 아니다. 입자가 절연체 장벽에 부딪힐 때, 장벽 안팎의 공간 진동 주파수가 우연히 공명(Resonance)하면 양쪽 시공간이 **'위상 페어링(Phase Pairing)'**된다. 이 찰나에 장벽 두께를 무시하고 횡단형 $\\Omega$ 위상 튜브(거리 0)가 뚫려 입자가 기하학적 지름길로 관통하는 철저한 텐서 역학적 현상이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_12",
+            "versions": {
+              "v5": {
+                "ko": "### 4.5. 슈뢰딩거의 고양이(중첩): 안장점(Saddle Point)에서의 평형",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_13",
+            "versions": {
+              "v5": {
+                "ko": "양자 중첩은 대상을 쪼개는 마법이 아니다. 그것은 $\\Omega$ 튜브 꼭짓점이라는 기하학적 안장점(Saddle Point) 위에서, 입자가 A로 구를지 B로 구를지 결정되지 않은 채 완벽한 **기계적 힘의 평형 대기 상태(Hovering)**를 이루고 있는 것이다. 관측은 이 대칭성을 깨뜨려 입자를 한쪽 골짜기로 결정론적으로 굴러떨어지게 만든다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_14",
+            "versions": {
+              "v5": {
+                "ko": "### 4.6. 양자 스핀(Spin): 공간 텐서 유체의 동반 회전 소용돌이",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_15",
+            "versions": {
+              "v5": {
+                "ko": "점 입자는 초광속으로 스스로 자전(Rotation)할 수 없다. 스핀의 정체는 궤적을 맹렬히 이동하는 입자를 축으로 삼아, 질량 없는 배경 시공간 유체가 휘감아 도는 **'동반 회전 텐서 소용돌이(Co-moving Tensor Vortex)'** 현상이다. 위상학적 록킹 조건에 의해 이 소용돌이는 오직 시계(Down)와 반시계(Up) 방향이라는 이산적인 두 기하학적 정렬 상태만을 안정적으로 유지한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_16",
+            "versions": {
+              "v5": {
+                "ko": "### 4.7. 불확정성 원리: 텐서 지형도의 파괴적 트레이드오프",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_17",
+            "versions": {
+              "v5": {
+                "ko": "입자의 점 위치($x$)를 찍기 위해 거시적 관측 에너지($E_{obs}$)를 강타하면, 전자를 유도하던 텐서 궤도($p$) 지형도($\\nabla^2 R$) 자체가 기하학적으로 박살 나 우주에서 영원히 삭제된다. 반대로 파도 궤도($p$)를 유지하려면 해상도를 포기해야 하므로 점 위치($x$)를 특정할 수 없다. 진공은 비선형 카오스 유체이므로, 불확정성은 측정 한계가 아니라 관측 폭력과 진동 텐서 지형 보존 간의 파괴적 **트레이드오프(Destructive Trade-off)**이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_18",
+            "versions": {
+              "v5": {
+                "ko": "### 4.8. 양자 소산(Dissipation): 기하학적 점성과 마찰 감쇠",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_19",
+            "versions": {
+              "v5": {
+                "ko": "텅 빈 공간은 비선형 유체로서 기하학적 점성(Viscosity)을 지닌다. 양자 소산은 입자가 이 유체와 텐서 마찰을 일으키며 에너지를 진공에 흩뿌리고, 가장 깊은 기하학적 안식처(바닥 상태)로 굴러떨어지는 철저한 유체역학적 감쇠(Hydrodynamic Damping) 과정이다. 해밀턴-야코비 방정식 우변에 **점성 마찰 계수($-\\Gamma$)**를 추가함으로써 이 역학이 완성된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_20",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = -\\Gamma(\\mathbf{v}, \\nabla R) $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_21",
+            "versions": {
+              "v5": {
+                "ko": "### 4.9. 힉스 메커니즘(Higgs Mechanism)의 기하역학적 환원",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_22",
+            "versions": {
+              "v5": {
+                "ko": "입자에 질량을 부여한다는 '힉스 장'의 실체는 본 연구의 **'진동하는 공간 텐서 유체'** 그 자체이다. 가속하는 입자가 이 텐서 유체의 끈적임(마찰 $\\Gamma$)을 뚫기 위해 겪어야 하는 **기하학적 텐서 항력(Drag Force)의 총량**이 바로 **'관성 질량($m$)'**으로 창발한다. 입자 가속기 충돌 시 찢겨 나간 이 텐서 소용돌이 껍질의 기하학적 물보라(파편)가 바로 힉스 보손(Higgs Boson)의 정체이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_23",
+            "versions": {
+              "v5": {
+                "ko": "### 4.10. [고찰] 공간 텐서 역학의 범용적 확장성",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_24",
+            "versions": {
+              "v5": {
+                "ko": "*   **카시미르 효과:** 극도로 좁은 판 사이에 긴 진동파($Q_s$)가 진입하지 못해 내부 압력이 떨어지며, 강력한 외부 진동 복사압($p_{vib}$)이 판을 기계적으로 짓누르는 고전적 텐서 압착 현상이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_25",
+            "versions": {
+              "v5": {
+                "ko": "*   **초전도 현상:** 극저온에서 열적 섭동이 멈추면, 텐서 유체 소용돌이들이 마찰 없이 완벽한 '거시적 위상 록킹'을 형성하여 점성 마찰 계수 $\\Gamma=0$인 무저항 초유체 흐름이 창발한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_ko_26",
+            "versions": {
+              "v5": {
+                "ko": "*   **블랙홀 정보 역설 / 시간의 화살:** 블랙홀이 빨아들인 텐서 위상 결(정보)은 증발 시 기하학적 복원력에 의해 풀려나와 보존된다. 비선형 진공 유체에 영구적으로 새겨지는 비가역적 위상 흉터(Topological Scars)의 누적이 바로 시간이 단방향으로 흐르는 엔트로피 증가의 원인이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "This chapter deterministically dismantles all quantum mysteries—from the double-slit to quantum leaps, tunneling, and the Higgs mechanism—through a singular geomechanical mechanism governed by the spatial vibration potential ($Q_s$)."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.1. Guidance Equation of Motion"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_3",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Taking the gradient ($\\nabla$) of the Hamilton-Jacobi equation yields the particle's mechanical equation of motion:"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_5",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Here, $-\\nabla Q_s$ is the **'Guidance Force'** where the geometrical curvature of space itself repels and steers the particle."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_6",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.2. Wave-Particle Duality: Trajectory Refraction and Statistical Ensemble"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_7",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Destructive interference points ($R \\to 0$) form massive $Q_s$ repulsion barriers (mountains), while constructive points become deep valleys. The particle is deterministically guided to slide into the valleys. The interference pattern on the screen ($|\\psi|^2$) is merely a **'Statistical Ensemble'** of numerous particles accumulating along pre-carved channels of the spatial vibration topography, caused by uncontrollable minute differences in initial positions ($\\mathbf{r}_0$) [4]."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_8",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.3. Bohr's Quantum Leap: Vertical Geometrical Short-circuit"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_9",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "An electron resides in a specific orbit because it settles into a 'standing wave valley' geometrically carved by the nucleus's spatial vibration. When external energy strikes the tensor space, the potential barrier separating two orbits distorts extremely, forming a vertical **$\\Omega$-shaped spatial junction** where the distance becomes zero. The electron mechanically slides through this short-circuit in zero time ($t=0$), creating the illusion of teleportation."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_10",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.4. Quantum Tunneling: Horizontal Phase Pairing"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_11",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Tunneling is not ghostly penetration. When the spatial vibration inside the barrier and the external spatial vibration accidentally achieve frequency resonance (**'Phase Pairing'**), an $\\Omega$-phase tube horizontally pierces the barrier. The electron mechanically jumps through this 'zero-distance geometrical wormhole'. If the barrier is too dense, the noise destroys the pairing, mechanically preventing tunneling."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_12",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.5. Quantum Superposition (Schrödinger's Cat): Saddle Point Equilibrium"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_13",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Superposition is not a state of existing in two places simultaneously. The apex of the $\\Omega$-tube where two orbital valleys meet is a perfect **'Geometrical Saddle Point'** where the tensor guidance forces sum to a net zero. Superposition is an unstable state of perfect mechanical force equilibrium, where a single particle is hovering precariously on the razor-edge of a tensor mountain. Observation breaks this delicate symmetry, causing the particle to deterministically roll down into one of the valleys."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_14",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.6. Quantum Spin: Co-moving Tensor Vortex"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_15",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Point particles cannot rotate superluminally. Spin is not the rotation of the particle, but a **'Co-moving Tensor Vortex'** of the massless spatial fluid swirling fiercely ($\\nabla \\times \\mathbf{v} \\neq 0$) around the moving particle. Topological locking dictates that this vortex can only stabilize in two discrete orientations: clockwise (Down) or counter-clockwise (Up)."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_16",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.7. Uncertainty Principle: Destructive Tensor Trade-off"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_17",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "To pinpoint a particle's exact dot position ($x$), immense observational energy ($E_{obs}$) must be injected, which instantly shatters and flattens the guiding spatial topography ($\\nabla^2 R \\to 0$). Gaining position ($x$) permanently erases the 3D geometrical information of the 'wave flow' (momentum $p$). The uncertainty principle is a mechanical inevitability born from the **destructive trade-off between observation energy perturbation and the preservation of vibration tensor topography**."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_18",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.8. Quantum Dissipation: Geometrical Viscosity of Tensor Fluid"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_19",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Vacuum space is a nonlinear chaotic fluid with intrinsic geometrical viscosity ($\\Gamma$). As a particle translates through this sticky tensor fluid, it experiences topological friction. Kinetic energy is dissipated into the vacuum as tensor ripples, causing the particle to hydrodynamically damp and roll down to the lowest stable 'Ground State'."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_20",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = -\\Gamma(\\mathbf{v}, \\nabla R) $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_21",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.9. Geometrical Reduction of the Higgs Mechanism: Dynamical Emergence of Mass"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_22",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The 'Higgs Field' that endows particles with mass is the **'Vibrating Spatial Tensor Fluid'** defined in this study. Mass ($m$) is simply the **'Geometrical Tensor Drag'** experienced by a particle accelerating through this viscous spatial fluid. The Higgs Boson discovered at CERN is merely a **'Tensor Splash'**—fragmented debris of the highly condensed tensor vortex shell violently shattered during proton collisions."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_23",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 4.10. [Discussion] Universal Scalability of Spatial Tensor Mechanics"
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_24",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "*   **Casimir Effect:** A classical tensor compression caused by the difference in macroscopic 'vibrational radiation pressure ($p_{vib}$)' outside versus suppressed waves inside narrowly spaced metal plates."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_25",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "*   **Superconductivity:** At absolute zero, thermal perturbations cease, allowing tensor vortices to form perfect macroscopic topological locking ($\\Gamma=0$), creating a zero-resistance superfluid tensor flow."
+              }
+            }
+          },
+          {
+            "id": "p4_v5_en_26",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "*   **Black Hole Information Paradox & Arrow of Time:** Information (tensor phase) is tightly twisted into the black hole and preserved, later released via geometrical elastic restoration during Hawking radiation. The irreversible accumulation of 'Topological Scars' dictates the unidirectional flow of time."
+              }
+            }
           }
         ]
       },
       {
         "number": 5,
         "title": {
-          "ko": "5장. 관측의 역학: 거시 에너지 섭동에 의한 공간 진동의 감쇠와 결맞음 파괴",
-          "en": "Chapter 5. Damping and Decoherence"
+          "ko": "5장. 관측의 역학: 결맞음 파괴와 양자 얽힘 붕괴 착시",
+          "en": "Chapter 5. Observation Mechanics, Decoherence, and the Entanglement Illusion"
         },
         "paragraphs": [
           {
@@ -3716,6 +4680,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "",
                 "en": "$$ \\gamma(E_{obs}) = \\exp \\left( -\\frac{E_{obs}}{\\epsilon_c} \\right) $$"
+              },
+              "v5": {
+                "ko": "",
+                "en": "$$ \\gamma(E_{obs}) = \\exp \\left( -\\frac{E_{obs}}{\\epsilon_c} \\right) \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla \\left[ \\gamma \\cdot Q_s(\\mathbf{r}, t) \\right] $$"
               }
             }
           },
@@ -5019,6 +5987,321 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "Upon pinch-off, the parent 3D universe undergoes immediate geometrical 'self-healing', preserving macroscopic continuity. Meanwhile, the detached upper junction isolates into a closed 4D 'Topological Bubble'. During cosmic inflation, these topological scars formed the seeds of 'Spatial Plates' and 'Fault Lines'. Furthermore, a massively energetic topological bubble expanding independently forms the seed of a 'Baby Universe', or **Multiverse**."
               }
             }
+          },
+          {
+            "id": "p5_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "### 5.1. 감쇠 인자가 적용된 확장 방정식",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_2",
+            "versions": {
+              "v5": {
+                "ko": "관측 기기가 가하는 거시적 에너지($E_{obs}$)에 반비례하여 공간 진동을 억제하는 **'감쇠 함수(Damping function, $\\gamma$)'**를 도입한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_3",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\gamma(E_{obs}) = \\exp \\left( -\\frac{E_{obs}}{\\epsilon_c} \\right) \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla \\left[ \\gamma(E_{obs}) \\cdot Q_s(\\mathbf{r}, t) \\right] $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_4",
+            "versions": {
+              "v5": {
+                "ko": "### 5.2. 스케일 비대칭성과 입자성의 강요: 거시적 쓰나미 파장에 의한 미시 텐서 지형의 덮어쓰기 (Forced Particle Nature: Overwriting of Micro-Topography by Macroscopic Tsunami Wavelengths)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_5",
+            "versions": {
+              "v5": {
+                "ko": "이중 슬릿의 간섭 무늬는 대상 입자(전자)의 크기 척도에 부합하는 극도로 섬세하고 미시적인(Micro-scale) 공간 진동 파장이 궤적 수로를 형성할 때만 성립한다. 그러나 전자를 관측하기 위해 투사되는 막대한 관측 섭동($E_{obs} \\gg \\epsilon_c$)은 미시적 세계와는 차원이 완전히 다른 스케일의 물리적 개입이다. 관측 에너지는 미시 공간의 잔물결 지형 위에 압도적인 진폭과 거대한 파장을 지닌 **'거시적 쓰나미(Macroscopic Tsunami)'**를 투하하는 것과 같다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_6",
+            "versions": {
+              "v5": {
+                "ko": "이 거대한 섭동 에너지가 덮치는 순간, 전자를 유도하던 미세한 기하학적 잔물결($Q_s$)들은 이 압도적인 거시적 진동의 파면(Wave-front) 아래에 완전히 파묻혀 물리적으로 덮어씌워져(Overwritten) 버린다. 가장 결정적인 역학적 핵심은, 이 관측 파동의 스케일이 양자의 체급에 비해 비정상적으로 거대하다는 점이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_7",
+            "versions": {
+              "v5": {
+                "ko": "지구가 둥글지만 인간의 척도에서는 완벽한 평면으로 인식되듯, 극미세한 전자의 입장에서는 자신을 덮친 이 거대한 단일 관측 파동의 굴곡(파동성)을 전혀 감지할 수 없다. 양자에게 이 덮쳐온 공간은 기하학적 굴절 곡률($\\nabla^2 R \\to 0$)을 상실한 완벽하게 평탄한 텐서 비탈길(직선)로만 인식될 뿐이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_8",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\lim_{E_{obs} \\to \\text{Macro}} \\gamma(E_{obs}) = 0 \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_9",
+            "versions": {
+              "v5": {
+                "ko": "결과적으로 $\\gamma \\to 0$이 되는 실체는 진동 에너지가 단순히 소산되는 것이 아니다. 스케일이 다른 거대 관측 파동이 공간을 덮어버림으로써, 양자는 미세한 파동적 유도력($Q_s$)을 빼앗기고 **오직 무자비한 직선적 관성력만을 따르도록 '입자성(Particle Nature)'을 역학적으로 강요(Forced)받게 된다.** 슬릿을 통과한 전자는 더 이상 굴절되지 않고 당구공처럼 직진하며, 이것이 주류 양자역학이 신비주의로 일관해 온 '환경 유도 결맞음 파괴' [5]의 철저한 척도 기하역학적(Scale-Geomechanical) 실체이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_10",
+            "versions": {
+              "v5": {
+                "ko": "### 5.3. 양자 얽힘의 비국소성 규명: $\\Omega$(오메가)형 공간 접합",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_11",
+            "versions": {
+              "v5": {
+                "ko": "두 입자가 얽힐 때 극단적인 보강 간섭은 시공간을 파도의 아랫부분이 오목하게 말려들어가는 $\\Omega$(오메가) 형태로 뒤튼다. 이 곡률의 극한에서 위상 튜브의 가장 좁은 목 부분이 강제로 맞닿아 융합되는 **'공간 접합(Spatial Junction)'**이 발생하며, 두 입자를 잇는 내부 기하학적 거리는 수학적 극한인 **'0'**으로 단락(Short-circuit)된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_12",
+            "versions": {
+              "v5": {
+                "ko": "### 5.4. 진동 평탄화의 국소적 전달과 붕괴 동시성의 착시 (Illusion of Simultaneity)",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_13",
+            "versions": {
+              "v5": {
+                "ko": "지구의 입자 A를 관측 타격하면 튜브 표면 곡률이 강제로 평탄화($\\nabla_A^2 R \\to 0$)된다. 이 상쇄파(Damping Wave)는 단락된 튜브 축을 타고 명백히 아인슈타인의 인과율을 엄수하는 **빛의 속도 이하($v \\le c$)**로 튜브를 타고 이동하여 반대편 입자 B의 유도력마저 무너뜨린다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_14",
+            "versions": {
+              "v5": {
+                "ko": "그러나 충격파가 통과해야 할 내부 기하학적 거리가 이미 '0'으로 단축되어 있었기 때문에 도달 시간 역시 **$t = 0$ (0초)**이 되어, 외부 3차원 관찰자에게는 빛보다 빠른 동시 붕괴라는 결정론적 착시(Illusion)를 일으킬 뿐이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_15",
+            "versions": {
+              "v5": {
+                "ko": "### 5.5. 양자 얽힘의 자발적 붕괴: 위상 튜브의 핀치-오프(Pinch-off) 메커니즘",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_16",
+            "versions": {
+              "v5": {
+                "ko": "현실의 진공은 끊임없이 진동하므로 $\\Omega$ 튜브의 가장 좁은 중간 목(Neck) 부위 역시 출렁인다. 이 찌그러짐이 시공간 탄성 한계를 초과하면, 목 부위가 서로 충돌하며 기하학적으로 찢어지는 **핀치-오프(Topological Pinch-off)** 현상이 발생한다. 허리가 찢어짐과 동시에 튜브 내부 거리를 0으로 묶던 장력망은 사멸하며 얽힘은 외부 관측 없이도 자발적 붕괴(Spontaneous Decoherence)를 맞이한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_17",
+            "versions": {
+              "v5": {
+                "ko": "### 5.6. 시공간 절단의 역학적 운명과 다중 우주(Multiverse) 창발",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_18",
+            "versions": {
+              "v5": {
+                "ko": "목이 찢어져 분리된 튜브 하단부는 유체 표면장력처럼 자기 치유(Self-healing)를 거쳐 거시적 3차원 연속성을 복원한다. 반면 분리된 최상단부 접합점은 부모 우주와 단절된 닫힌 4차원 **'위상 거품(Topological Bubble)'**이 된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_ko_19",
+            "versions": {
+              "v5": {
+                "ko": "우주 초기의 팽창 속에서 찢어지고 치유되며 남겨진 무수한 위상 흉터들은 우주 공간을 파편화시켜 훗날 제3논문의 '거대 공간 판(Spatial Plates)'과 단층대를 형성하였다. 나아가 막대한 에너지를 품고 찢겨 독립한 거대 위상 거품은 자체적인 복사압으로 무한 팽창하여 새로운 **다중 우주(Multiverse)**의 창발로 이어지는 근원적 텐서 메커니즘을 완성한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 5.1. Extended Equation with Damping Factor"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The observational energy ($E_{obs}$) acts as macroscopic violence that destroys spatial coherence. An exponential **'Damping function ($\\gamma$)'** is introduced:"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_4",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 5.2. Mechanical Erasure of Interference and Forced Particle-Nature: Overwriting of Micro-Topography by Macroscopic Tsunami Wavelengths"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_5",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The interference pattern in the double-slit experiment manifests only when delicate, micro-scale spatial vibration wavelengths—commensurate with the size of the target particle (electron)—carve out trajectory channels. However, the immense observational perturbation ($E_{obs} \\gg \\epsilon_c$) projected to detect the electron constitutes a physical intervention of a completely different dimensional scale. This observational energy is akin to dropping a **'Macroscopic Tsunami'**—with overwhelming amplitude and immense wavelength—onto the microscopic ripples of the spatial terrain."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_6",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The instant this colossal perturbation energy floods the space, the minute geometrical ripples ($Q_s$) guiding the electron are completely submerged and overwritten by the overwhelming amplitude and macroscopic wavelength of the observation wave. The decisive mechanical crux lies in this extreme mismatch of wavelength scales."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_7",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Just as the spherical Earth appears perfectly flat to a human observer, from the perspective of an infinitesimal electron, the curvature (waveness) of this massive, overarching observation wave is entirely imperceptible. To the electron, the engulfed space is perceived merely as a perfectly flat tensor slope devoid of geometrical refractive curvature ($\\nabla^2 R \\to 0$)."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_8",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "$$ \\lim_{E_{obs} \\to \\text{Macro}} \\gamma(E_{obs}) = 0 \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_9",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Consequently, the reality of $\\gamma \\to 0$ is not a mere dissipation of energy. Because an observation wave of a disparate scale overrides the space, the quantum is stripped of its delicate wave-like guidance and is **'mechanically forced' to exhibit only linear inertial motion (Forced Particle-Nature).** The electron passing through the slit is no longer refracted but hurdled in a straight line. This is the thorough scale-geomechanical reality of 'environment-induced decoherence' [5], which mainstream quantum mechanics has long shrouded in mysticism."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_10",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 5.3. Elucidation of Non-locality: The $\\Omega$-Wave and Spatial Junction"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_11",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "When two particles are entangled, violent constructive interference forces the spatial tensor to warp into an **$\\Omega$ (Omega) shape**. At the extreme of this curvature, the narrowest neck regions are forced into contact, short-circuiting the internal geometrical distance penetrating the two particles to a mathematical limit of **'zero' (Spatial Junction)**."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_12",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 5.4. Illusion of Simultaneity"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_13",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "When particle A is observed, the damping shockwave flattens its spatial phase. This damping wave travels along the joined space strictly obeying Einstein's causality at **subluminal speeds ($v \\le c$)** to collapse particle B. However, because the geometrical distance was already short-circuited to '0', the physical transmission time inevitably becomes **$t = 0$ seconds**, creating a deterministic illusion of superluminal simultaneous collapse."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_14",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 5.5. Spontaneous Decoherence: The Pinch-off Mechanism"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_15",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Entanglement spontaneously decoheres due to geometrical instability. Vacuum fluctuations repeatedly distort the narrow neck of the $\\Omega$-tube. When the curvature exceeds the elastic limit of spacetime, the neck collides and undergoes a **'Topological Pinch-off'**, physically severing the spatial junction and naturally destroying the entanglement."
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_16",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "### 5.6. Spacetime Self-healing and Emergence of Multiverses"
+              }
+            }
+          },
+          {
+            "id": "p5_v5_en_17",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "Upon pinch-off, the parent 3D universe undergoes immediate geometrical 'self-healing', preserving macroscopic continuity. The detached upper junction isolates into a closed 4D **'Topological Bubble'**. During cosmic inflation, these torn topological bubbles expanded independently to form the seeds of **Multiverses**, while the remaining topological scars fragmented our universe into 'Spatial Plates', bridging quantum mechanics directly to cosmological plate tectonics."
+              }
+            }
           }
         ]
       },
@@ -5026,7 +6309,7 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 6,
         "title": {
           "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도와 고전 역학의 복원",
-          "en": "Chapter 6. The Macro-Micro Boundary"
+          "en": "Chapter 6. The Macro-Micro Boundary: Inertial Domination"
         },
         "paragraphs": [
           {
@@ -6520,6 +7803,60 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "The spatial fluctuation is not destroyed; rather, the overwhelming **'classical inertia'** of macroscopic objects mechanically ignores and pierces through the local spatial vibrations. Therefore, the trajectory equation naturally converges to Newton's second law of motion ($m \\frac{d\\mathbf{v}}{dt} = -\\nabla V$)."
               }
             }
+          },
+          {
+            "id": "p6_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "공간 진동 유도력($\\mathbf{F}_{space}$) 수식을 분석하면 거시와 미시가 어떻게 통일되는지 명확히 드러난다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5_ko_2",
+            "versions": {
+              "v5": {
+                "ko": "$$ \\lim_{m \\to \\infty} \\mathbf{F}_{space} = \\lim_{m \\to \\infty} \\left[ \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) \\right] = 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5_ko_3",
+            "versions": {
+              "v5": {
+                "ko": "거시 물체는 아보가드로 수($\\approx 10^{23}$)에 달하는 입자들이 조밀하게 결합된 고밀도 복합체로, 어마어마한 '고전적 관성 질량 밀도'를 지닌다. 맹렬히 진동하는 빈 공간의 미세 곡률도 이 압도적인 관성 앞에서는 역학적으로 철저히 '무시(Ignored)'된다. 유도 텐서 항이 0으로 수학적 소멸을 겪으면서, 우주의 모든 거시 운동 방정식은 뉴턴의 고전 역학($m \\frac{d\\mathbf{v}}{dt} = -\\nabla V$)으로 완벽하게 환원된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "The spatial guidance force ($\\mathbf{F}_{space}$) is inversely proportional to the mass ($m$):"
+              }
+            }
+          },
+          {
+            "id": "p6_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "$$ \\lim_{m \\to \\infty} \\mathbf{F}_{space} = \\lim_{m \\to \\infty} \\left[ \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) \\right] = 0 $$"
+              }
+            }
+          },
+          {
+            "id": "p6_v5_en_3",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "A macroscopic object ($10^{23}$ particles) possesses overwhelming 'classical inertia density'. It mercilessly crushes and mechanically 'ignores' the minute curvatures of the vibrating empty space. As the guidance tensor term approaches mathematical zero, all macroscopic equations perfectly reduce to Newton's classical mechanics ($m \\frac{d\\mathbf{v}}{dt} = -\\nabla V$)."
+              }
+            }
           }
         ]
       },
@@ -6711,6 +8048,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "**[향후 연구 과제: 프랙탈적 스케일 대칭성과 우주론적 확장]**",
                 "en": "This first paper has elucidated the mechanism by which the 'geometrical vibration of space' manifests in the quantum realm, and has demonstrated that at the meso-macro scale, the dense mass coupling of matter forms a temporary inertial dominance, rendering Newtonian mechanics dominant."
+              },
+              "v5": {
+                "ko": "**[향후 연구 과제: 프랙탈적 스케일 대칭성과 우주론적 확장]**",
+                "en": "This first paper has elucidated the mechanism by which the 'geometrical vibration of space' manifests in the quantum realm, and has demonstrated that at the meso-macro scale, the dense mass coupling of matter forms a temporary inertial dominance, rendering Newtonian mechanics dominant."
               }
             }
           },
@@ -6896,6 +8237,60 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "",
                 "en": "While mass inertia suppresses spatial vibration at macro-scales, this dynamic relationship undergoes a dramatic **'Fractal Scale Symmetry'** when expanded to cosmological scales. The vast volume of deep space accumulates immense vibrational energy, which once again dominates the inertia of giant galaxies. Subsequent papers in this series will explore how this macroscopic spatial vibration couples with gravity to manifest as Dark Matter (tensor condensation) and Dark Energy (vibrational radiation pressure)."
+              }
+            }
+          },
+          {
+            "id": "p7_v5_ko_1",
+            "versions": {
+              "v5": {
+                "ko": "본 연구는 파동-입자 이중성부터 양자 도약, 터널링, 중첩, 스핀, 얽힘, 힉스 질량 메커니즘에 이르는 양자역학의 모든 8대 난제들을 **'공간 자체의 기하학적 요동과 텐서 마찰'**이라는 단 하나의 결정론적 보편 역학으로 완벽히 통일 및 해체하였다. 얽힘의 초광속 딜레마마저 $\\Omega$형 공간 접합 튜브의 기하학적 단락이 빚어낸 $0$초 동시성 착시 현상으로 완벽히 해명하며 아인슈타인의 인과율을 굳건히 수호해 냈다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5_ko_3",
+            "versions": {
+              "v5": {
+                "ko": "본 논문은 질량 관성에 의해 국소적으로 억제되었던 공간 진동의 텐서 유도력($\\mathbf{F}_{space}$)이, 초거시 우주론적 척도로 확장될 때 극적인 '스케일 역전(Scale Inversion)'을 발현할 것임을 강력히 예측한다. 수억 광년에 달하는 텅 빈 심우주(Deep Space)의 방대한 체적에 누적된 거시적 텐서 에너지는 다시금 거대 은하들의 관성을 압도하게 된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5_ko_4",
+            "versions": {
+              "v5": {
+                "ko": "후속 연작인 **[공간의 진동 역학 II 및 III]**에서는 이 거시적 공간 진동이 아인슈타인의 휜 시공간 중력장과 결합할 때, 어떻게 극한의 텐서 응축을 통한 **암흑 물질(Dark Matter)**을 잉태하고, 억압 없는 진동 복사압 발산을 통해 가속 팽창(**암흑 에너지**)을 유발하며, 우주 공간 판구조 충돌 지형도(Cosmic Web)를 깎아내게 되는지를 역학적으로 추적하여 물리학의 궁극적 대통일 이론을 완성할 것이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5_en_1",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "This study deterministically dismantled the greatest mysteries of modern physics—duality, leaps, tunneling, superposition, spin, entanglement, dissipation, and the Higgs mechanism—via a single geomechanical principle: the **'topology and tensor friction of vibrating space'**. The superluminal dilemma of entanglement is perfectly resolved as an illusion of $0$-second simultaneity birthed by the geometrical short-circuit of the $\\Omega$-shaped spatial junction tube, staunchly defending causality."
+              }
+            }
+          },
+          {
+            "id": "p7_v5_en_2",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "**[Future Outlook: Fractal Scale Symmetry]**"
+              }
+            }
+          },
+          {
+            "id": "p7_v5_en_3",
+            "versions": {
+              "v5": {
+                "ko": "",
+                "en": "While mass inertia suppresses spatial vibration at macro-scales, this dynamic relationship undergoes a dramatic **'Fractal Scale Symmetry'** cosmologically. The immense vibrational energy accumulated within deep space once again dominates the inertia of giant galaxies. Subsequent papers in this series will explore how this macroscopic spatial vibration couples with gravity to manifest as Dark Matter (tensor condensation) and Dark Energy (vibrational radiation pressure)."
               }
             }
           }
