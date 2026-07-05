@@ -8,12 +8,21 @@ interface Star {
   color: string;
 }
 
+interface TimeLeapFlash {
+  startPx: number;
+  startPy: number;
+  endPx: number;
+  endPy: number;
+  alpha: number;
+}
+
 interface Photon {
   x: number;
   y: number;
   vx: number;
   vy: number;
   active: boolean;
+  isTimeLeaped?: boolean;
   trail: { px: number; py: number }[];
 }
 
@@ -32,6 +41,7 @@ export const SimulationWidget_V2: React.FC = () => {
   const requestRef = useRef<number | null>(null);
   const frameCountRef = useRef<number>(0);
   const graphHistoryRef = useRef<{ x: number; y: number }[]>([]);
+  const flashesRef = useRef<TimeLeapFlash[]>([]);
 
   // Drag-to-rotate state for Lensing mode
   const [angleX, setAngleX] = useState<number>(10 * Math.PI / 180);
@@ -42,6 +52,7 @@ export const SimulationWidget_V2: React.FC = () => {
   const resetSimulation = () => {
     starsRef.current = [];
     photonsRef.current = [];
+    flashesRef.current = [];
     graphHistoryRef.current = [];
     frameCountRef.current = 0;
 
@@ -375,6 +386,7 @@ export const SimulationWidget_V2: React.FC = () => {
             vx: 4.5,
             vy: 0,
             active: true,
+            isTimeLeaped: false,
             trail: []
           });
         }
@@ -435,6 +447,32 @@ export const SimulationWidget_V2: React.FC = () => {
         ctx.arc(blackHoleProj.px, blackHoleProj.py, 20, 0, 2 * Math.PI);
         ctx.fill();
 
+        // Render fading time-leap shortcut lines
+        flashesRef.current.forEach((flash) => {
+          ctx.save();
+          ctx.strokeStyle = `rgba(250, 204, 21, ${flash.alpha * 0.75})`;
+          ctx.setLineDash([4, 3]);
+          ctx.lineWidth = 1.8;
+          ctx.beginPath();
+          ctx.moveTo(flash.startPx, flash.startPy);
+          ctx.lineTo(flash.endPx, flash.endPy);
+          ctx.stroke();
+
+          // Flash circle at end
+          ctx.fillStyle = `rgba(250, 204, 21, ${flash.alpha * 0.9})`;
+          ctx.beginPath();
+          ctx.arc(flash.endPx, flash.endPy, 4 + 4 * flash.alpha, 0, 2 * Math.PI);
+          ctx.fill();
+
+          ctx.font = 'bold 8px monospace';
+          ctx.fillStyle = `rgba(253, 224, 71, ${flash.alpha})`;
+          ctx.fillText('Time-Leap!', flash.endPx + 8, flash.endPy - 4);
+          ctx.restore();
+
+          flash.alpha -= 0.025; // fade speed
+        });
+        flashesRef.current = flashesRef.current.filter((f) => f.alpha > 0);
+
         // Update and draw photons
         photonsRef.current.forEach((photon) => {
           if (!photon.active) return;
@@ -465,6 +503,29 @@ export const SimulationWidget_V2: React.FC = () => {
           if (turbulentNoise > 0) {
             const noise = (Math.random() - 0.5) * turbulentNoise * 1.8;
             photon.vy += noise;
+          }
+
+          // Time-Leap Jump Condition:
+          // When approaching the central singularity, trigger a shortcut tunneling jump
+          if (photon.x > -25 && photon.x < 5 && !photon.isTimeLeaped && chameleonCoupling > 1.3 && turbulentNoise > 0.4) {
+            const startX = photon.x;
+            const startY = photon.y;
+
+            photon.isTimeLeaped = true;
+            photon.x += 130; // Jump across the central wormhole region
+            photon.trail = []; // Clear current solid trail
+
+            const startProj = project(startX, startY, 0);
+            const endProj = project(photon.x, photon.y, 0);
+
+            // Register fading time-leap trace
+            flashesRef.current.push({
+              startPx: startProj.px,
+              startPy: startProj.py,
+              endPx: endProj.px,
+              endPy: endProj.py,
+              alpha: 1.0
+            });
           }
 
           // Kinematic update
