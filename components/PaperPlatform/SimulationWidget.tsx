@@ -441,7 +441,13 @@ export const SimulationWidget: React.FC = () => {
         const junctionProj = project(0, 0, starZ);
         ctx.fillStyle = decohereProgress > 0.8 ? '#4b5563' : '#fbbf24'; ctx.beginPath(); ctx.arc(junctionProj.px, junctionProj.py, 10, 0, 2*Math.PI); ctx.fill();
         ctx.font = 'bold 11px font-sans'; ctx.textAlign = 'center'; ctx.fillStyle = decohereProgress > 0.8 ? 'rgba(156, 163, 175, 0.5)' : '#f87171';
-        ctx.fillText(decohereProgress > 0.8 ? "Topological Bubble Detached" : "Multiply-connected Junction (Dist = 0)", junctionProj.px, junctionProj.py - 20);
+        const labelText = decohereProgress > 0.8 
+          ? "Topological Pinch-off\n(Spontaneous Decoherence)" 
+          : "Multiply-Connected Junction\n(Internal Distance ≈ 0)";
+        const lines = labelText.split('\n');
+        lines.forEach((line, index) => {
+          ctx.fillText(line, junctionProj.px, junctionProj.py - 25 + index * 12);
+        });
 
         const partU = 2.4;
         const posA = { x: (partU - activePinch * partU * Math.exp(-partU * partU)) * Math.cos(0), y: (partU - activePinch * partU * Math.exp(-partU * partU)) * Math.sin(0), z: activeJunction * Math.exp(-partU * partU) };
@@ -488,13 +494,13 @@ export const SimulationWidget: React.FC = () => {
       <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-zinc-800 pb-4 mb-6">
         <div>
           <h3 className="text-md font-bold text-zinc-100">공간 역학 동역학적 시뮬레이터 (V8 Final Edition)</h3>
-          <p className="text-xs text-zinc-400">제1부 논문의 정칙화, 게이지 대칭성, 텐서 척도 법칙을 실시간 검증합니다.</p>
+          <p className="text-xs text-zinc-400">제1부 4장~6장 및 다중 연결 위상 튜브(Phase Tube) 모델에 기반한 결정론적 궤적 및 물리적 수렴성을 실시간으로 확인합니다.</p>
         </div>
         <div className="flex bg-zinc-900 p-1 rounded-lg gap-1">
           <button onClick={() => setSimMode('slit')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'slit' ? 'bg-blue-600' : 'text-zinc-400'}`}>4장. 마디점 정칙화</button>
           <button onClick={() => setSimMode('decoherence')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'decoherence' ? 'bg-blue-600' : 'text-zinc-400'}`}>5장. 위상 난류 붕괴</button>
           <button onClick={() => setSimMode('mass')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'mass' ? 'bg-blue-600' : 'text-zinc-400'}`}>6장. 게이지 점성 및 거시 극한</button>
-          <button onClick={() => setSimMode('omega')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'omega' ? 'bg-purple-600' : 'text-zinc-400'}`}>🧩 Ω 얽힘 역학</button>
+          <button onClick={() => setSimMode('omega')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'omega' ? 'bg-purple-600' : 'text-zinc-400'}`}>🧩 다중 연결 위상 얽힘 (Phase Tube)</button>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
