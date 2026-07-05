@@ -7,6 +7,8 @@ import katex from 'katex';
 // Component Imports
 import { papersMap, ParagraphData, ReferenceData, PaperDetails } from '../../components/PaperPlatform/paperData';
 import { SimulationWidget } from '../../components/PaperPlatform/SimulationWidget';
+import { SimulationWidget_V2 } from '../../components/PaperPlatform/SimulationWidget_V2';
+import { SimulationWidget_V3 } from '../../components/PaperPlatform/SimulationWidget_V3';
 import { PaperDiffViewer } from '../../components/PaperPlatform/PaperDiffViewer';
 import { ReferencePdfPanel } from '../../components/PaperPlatform/ReferencePdfPanel';
 import { ReviewTracker } from '../../components/PaperPlatform/ReviewTracker';
@@ -1411,8 +1413,24 @@ export default function AcademicPaperViewer() {
                 <div className="bg-white border border-zinc-200 p-6 rounded-sm shadow-xs space-y-4">
                   {isAuthorized ? (
                     <>
-                      <h4 className="text-xs font-bold text-zinc-900 font-mono text-center">INTERACTIVE QUANTUM SLIT EXPERIMENT SIMULATION</h4>
-                      <SimulationWidget />
+                      {paperData.id === 'spatial-vibration-1' && (
+                        <>
+                          <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">INTERACTIVE GEOMECHANICAL SLIT EXPERIMENT SANDBOX</h4>
+                          <SimulationWidget />
+                        </>
+                      )}
+                      {paperData.id === 'spatial-vibration-2' && (
+                        <>
+                          <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">MACROSCOPIC GRAVITY & DARK UNIVERSE SANDBOX</h4>
+                          <SimulationWidget_V2 />
+                        </>
+                      )}
+                      {paperData.id === 'spatial-vibration-3' && (
+                        <>
+                          <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">COSMIC WEB & FRB QUANTUM GEODESIC SANDBOX</h4>
+                          <SimulationWidget_V3 />
+                        </>
+                      )}
                     </>
                   ) : (
                     <div className="text-center py-10 space-y-3">
