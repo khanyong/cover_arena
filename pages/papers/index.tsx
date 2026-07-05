@@ -173,13 +173,13 @@ export default function PapersDashboard() {
                     </h3>
                     {paper.id === 'spatial-vibration-1' && (
                       <a
-                        href="https://doi.org/10.5281/zenodo.21206295"
+                        href="https://doi.org/10.5281/zenodo.21206211"
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="relative z-20 inline-flex items-center gap-1 bg-[#10b981] hover:bg-[#059669] text-white px-2 py-0.5 rounded font-mono text-[9px] font-bold transition-all shadow-sm"
                       >
-                        doi:10.5281/zenodo.21206295
+                        doi:10.5281/zenodo.21206211
                       </a>
                     )}
                   </div>

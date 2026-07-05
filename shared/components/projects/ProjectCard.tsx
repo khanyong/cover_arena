@@ -62,7 +62,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         </Link>
         {project.id === 'spatial-vibration-1' && (
           <a
-            href="https://doi.org/10.5281/zenodo.21206295"
+            href="https://doi.org/10.5281/zenodo.21206211"
             target="_blank"
             rel="noopener noreferrer"
             className="px-3.5 py-2 bg-[#10b981] hover:bg-[#059669] text-white rounded-lg transition-colors font-mono font-bold text-xs flex items-center justify-center gap-1 shadow-md shadow-emerald-500/10"
