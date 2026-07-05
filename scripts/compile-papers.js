@@ -403,7 +403,7 @@ function compileAndSync() {
   const groups = {};
   files.forEach(file => {
     const parsedName = file.replace(/\.md$/, '');
-    const versionMatch = parsedName.match(/-v(\d+)-(ko|en)$/);
+    const versionMatch = parsedName.match(/-v(\d+(?:\.\d+)?)-(ko|en)$/);
     const langMatch = parsedName.match(/-(ko|en)$/);
     
     if (!langMatch) return; // Skip combined backups inside raw directory if any
@@ -415,7 +415,7 @@ function compileAndSync() {
     let versionKey = 'v1_v2';
     
     if (versionMatch) {
-      baseSlug = withoutLang.replace(/-v\d+$/, '');
+      baseSlug = withoutLang.replace(/-v\d+(?:\.\d+)?$/, '');
       versionKey = 'v' + versionMatch[1];
     }
 
@@ -437,7 +437,9 @@ function compileAndSync() {
     const sortedVersions = Object.keys(versions).sort((a, b) => {
       if (a === 'v1_v2') return -1;
       if (b === 'v1_v2') return 1;
-      return a.localeCompare(b);
+      const numA = parseFloat(a.slice(1));
+      const numB = parseFloat(b.slice(1));
+      return numA - numB;
     });
 
     let mergedPaper = null;
@@ -812,6 +814,14 @@ export const papersMap: Record<string, PaperDetails> = ${JSON.stringify(compiled
           abstract_v4_en: paper.abstract.versions.v4?.en || '',
           abstract_v5_ko: paper.abstract.versions.v5?.ko || '',
           abstract_v5_en: paper.abstract.versions.v5?.en || '',
+          abstract_v5_1_ko: paper.abstract.versions['v5.1']?.ko || '',
+          abstract_v5_1_en: paper.abstract.versions['v5.1']?.en || '',
+          abstract_v6_ko: paper.abstract.versions.v6?.ko || '',
+          abstract_v6_en: paper.abstract.versions.v6?.en || '',
+          abstract_v7_ko: paper.abstract.versions.v7?.ko || '',
+          abstract_v7_en: paper.abstract.versions.v7?.en || '',
+          abstract_v8_ko: paper.abstract.versions.v8?.ko || '',
+          abstract_v8_en: paper.abstract.versions.v8?.en || '',
           chapters: paper.chapters,
           references: paper.references,
           reviews: paper.reviews,

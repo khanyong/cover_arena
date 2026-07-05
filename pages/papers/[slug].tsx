@@ -56,8 +56,14 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
       return customVersionMap[p.id];
     }
     if (versionMode === 'diff') {
-      const versionsList = Object.keys(p.versions).filter(v => v !== 'diff');
-      return versionsList[versionsList.length - 1] || 'v5';
+      const versionsList = Object.keys(p.versions)
+        .filter(v => v !== 'diff' && v !== 'v1_v2')
+        .sort((a, b) => {
+          const numA = parseFloat(a.replace('v', ''));
+          const numB = parseFloat(b.replace('v', ''));
+          return numA - numB;
+        });
+      return versionsList[versionsList.length - 1] || 'v8';
     }
     return versionMode;
   })();
@@ -66,9 +72,9 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
   const getParagraphTextForVersion = (vKey: string, currentLang: 'ko' | 'en') => {
     const directText = versionsMap[vKey]?.[currentLang]?.trim() || '';
     
-    // v3, v4, and v5 are fully complete, independent markdown documents.
+    // v3 and later versions are fully complete, independent markdown documents.
     // They MUST NOT inherit paragraphs from older or baseline versions.
-    if (vKey === 'v3' || vKey === 'v4' || vKey === 'v5') {
+    if (vKey !== 'v1' && vKey !== 'v2') {
       return directText; // Return directText exactly (if missing, it is deleted)
     }
 
@@ -123,8 +129,8 @@ const InteractiveParagraph: React.FC<InteractiveParagraphProps> = ({
     cleanBody = cleanBody.slice(2).trim();
   }
 
-  // 3. 최종본(v2, v3 또는 v4) 모드인데 본문 전체가 취소선인 경우 리스트 기호 포함하여 통째로 렌더링 생략
-  if ((chosenVersion === 'v2' || chosenVersion === 'v3' || chosenVersion === 'v4') && cleanBody.startsWith('~~') && cleanBody.endsWith('~~')) {
+  // 3. 최종본(v2 이상) 모드인데 본문 전체가 취소선인 경우 리스트 기호 포함하여 통째로 렌더링 생략
+  if (chosenVersion !== 'v1' && cleanBody.startsWith('~~') && cleanBody.endsWith('~~')) {
     return null;
   }
 

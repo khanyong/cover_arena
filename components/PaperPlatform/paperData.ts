@@ -111,6 +111,22 @@ export const papersMap: Record<string, PaperDetails> = {
         "v5": {
           "ko": "현대 양자역학의 코펜하겐 해석은 관측 전 미시 입자의 상태를 확률적 파동 함수로 기술하며, 대상의 본질적 실재성(Physical Reality)을 배제하는 철학적 한계를 안고 있다. 본 논문은 파동-입자 이중성의 역설을 해결하기 위해, 입자의 실재성과 파동성을 완벽히 분리하는 **'공간의 기하학적 진동(Geometrical Fluctuation of Space)'** 가설을 제안한다.\n본 연구는 전자와 광자 등 모든 양자가 명백한 실재적 입자임을 전제하며, 이중 슬릿 실험의 간섭 무늬는 입자 자체가 파동이어서가 아니라 **입자가 맹렬히 진동하는 배경 공간의 텐서 지형도($Q_s$)를 따라 이동하며 누적된 통계적 앙상블**에 기인함을 역학적으로 논증한다. 나아가 관측에 의한 파동 붕괴 현상을 거시적 관측 에너지($E_{obs}$)가 미시 공간 진동에 섭동을 일으켜 기하학적으로 평탄화시키는 감쇠 효과(Damping effect)로 수학화한다.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\n또한 본 연구는 양자 얽힘 현상을 내부 거리가 0으로 수렴하는 기하학적 $\\\\Omega$(오메가) 접합 튜브를 통한 동시적 붕괴 착시로 해명한다. 본 논문은 '기하학적 텐서 마찰'이라는 단일 원리를 통해 양자 도약, 터널링, 중첩, 스핀, 불확정성, 소산, 힉스 메커니즘 등 코펜하겐 해석의 모든 미해결 난제를 결정론적으로 해체하며, 질량 관성의 증가에 따라 공간 유도력이 억제되어 뉴턴 역학으로 수렴($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$)하는 대통일 프레임워크를 제시한다.",
           "en": "The Copenhagen interpretation of modern quantum mechanics describes the state of a microscopic particle prior to observation via a probabilistic wave function, harboring a philosophical limitation that excludes the intrinsic physical reality of the object. To resolve the paradox of wave-particle duality, this paper proposes the **'Geometrical Fluctuation of Space'** hypothesis, which strictly decouples the particle's physical reality from its wave-like phenomena.\nThis study postulates that all quanta are definitive real particles. It mathematically proves that the interference pattern observed in the double-slit experiment emerges not because the particle itself is a wave, but as a **statistical ensemble of trajectories accumulated along the geometrical tensor topography ($Q_s$) carved by the fiercely vibrating background space**. Furthermore, the wave function collapse triggered by observation is mathematically formulated as a mechanical damping effect, where macroscopic observational energy ($E_{obs}$) perturbs and geometrically flattens the microscopic spatial vibration.\n$$ \\\\lim_{E_{obs} \\\\to \\\\infty} \\\\gamma(E_{obs}) Q_s = 0 $$\nMoreover, this study single-handedly obliterates the eight great mysteries of modern physics—Quantum Entanglement (0-distance $\\\\Omega$-junction), Quantum Leap (vertical short-circuit), Quantum Tunneling (phase pairing), Superposition (saddle point equilibrium), Spin (co-moving fluid vortex), Uncertainty Principle (destructive trade-off), Quantum Dissipation (geometrical viscosity), and the Higgs Mechanism (tensor drag)—reducing them all to deterministic tensor mechanics. By demonstrating that the guiding force of spatial vibration is dynamically suppressed by increasing mass inertia, converging to classical Newtonian mechanics ($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$), this paper presents a novel deterministic Grand Unified framework bridging particle physics and macroscopic mechanics."
+        },
+        "v5.1": {
+          "ko": "양자역학의 코펜하겐 해석은 측정 전 미시 시스템을 확률적으로 해석되는 파동 함수로 기술하며, 관측 전에 대상에 확정적인 고전적 특성을 부여하는 것을 유보한다. 파동-입자 이중성과 관련된 개념적 긴장을 해소하기 위해, 본 논문은 입자의 물리적 실재와 파동적 현상의 발현을 단일 결정론적 모델의 물리적으로 구별되는 측면으로 취급하는 '공간의 기하학적 요동' 가설을 제안한다.\n본 가설 내에서 미시 입자는 기저의 공간 진동 구조에 의해 유도되는 확정적인 입자적 실체로 취급된다. 본 논문은 극형식 분해를 통해 비상대론적 슈뢰딩거 방정식을 재정식화하고, 봄(Bohm)의 양자 퍼텐셜과 대수적으로 동일한 공간 진동 퍼텐셜 $Q_s$를 식별한다. 그러나 기존의 봄 해석과 달리, $Q_s$는 물리적 공간의 기하학적 요동에 대한 유효 스칼라 척도라는 존재론적 해석을 부여받는다.\n이중 슬릿 간섭 무늬는 초기 입자 분포가 보른 규칙 조건 $\\\\rho(\\\\mathbf{r},0)=|\\\\psi(\\\\mathbf{r},0)|^2$를 만족할 때 $Q_s$에 의해 유도된 궤적들의 통계적 앙상블로 해석된다. 측정에 의해 유발된 간섭의 상실은 측정 상호작용 동안 $Q_s$가 유계(bounded) 상태를 유지한다는 가정 하에, 유효 측정 상호작용 척도 $E_{obs}$가 공간 유도 항을 억제하는 현상론적인 감쇠 과정으로 모델링된다:\n$$ \\\\lim_{E_{obs}/\\\\epsilon_c\\\\to\\\\infty}\\\\gamma(E_{obs})Q_s=0 $$\n본 연구는 더 나아가 신호 전달 금지(no-signaling) 조건을 보존하면서 얽힘 상관관계, 양자 전이, 터널링, 중첩 및 스핀 등 여러 핵심 양자 현상을 결정론적 텐서 역학 프레임워크 내에서 재해석하고자 시도한다. 진폭 기울기가 유계되어 있다는 가정하에 공간 유도력이 질량 관성이 증가함에 따라 무시할 수 있게 됨($\\\\lim_{m\\\\to\\\\infty}F_{space}=0$)을 보임으로써, 본 논문은 사변적인 고차원 가정에 의존하지 않고 4차원 시공간 기술 내에서 입자 척도의 동역학과 유효 거시 뉴턴 역학을 연결하는 결정론적 프레임워크를 제안한다.",
+          "en": "The Copenhagen interpretation of quantum mechanics describes a microscopic system prior to measurement in terms of a probabilistically interpreted wave function, while refraining from assigning definite classical properties before observation. To address the conceptual tension associated with wave-particle duality, this paper proposes the Geometrical Fluctuation of Space hypothesis, which treats the particle-like reality of quanta and the emergence of wave-like phenomena as physically distinct aspects of a single deterministic model.\nWithin this hypothesis, microscopic particles are postulated to behave as definite particle-like entities guided by an underlying spatial-vibration structure. The paper reformulates the nonrelativistic Schrödinger equation through polar decomposition and identifies a spatial-vibration potential, $Q_s$, algebraically identical to Bohm's quantum potential. Unlike the conventional Bohmian interpretation, however, $Q_s$ is assigned an ontological interpretation as an effective scalar measure of geometric fluctuation in physical space.\nThe double-slit interference pattern is interpreted as a statistical ensemble of trajectories guided by $Q_s$, provided that the initial particle distribution satisfies the Born-rule condition $\\\\rho(\\\\mathbf{r},0)=|\\\\psi(\\\\mathbf{r},0)|^2$. Measurement-induced loss of interference is modeled phenomenologically as a damping of the spatial-guidance term:\n$$ \\\\lim_{E_{obs}/\\\\epsilon_c\\\\to\\\\infty}\\\\gamma(E_{obs})Q_s=0, $$\nunder the assumption that $Q_s$ remains bounded during the measurement interaction.\nThe paper further discusses possible interpretive extensions to tunneling, superposition, decoherence, and entanglement correlations, while emphasizing that these extensions require additional mathematical development. In the large-mass limit, the spatial-guidance force becomes negligible under bounded-amplitude-gradient assumptions, suggesting a possible route from particle-scale guidance dynamics to effective macroscopic Newtonian behavior."
+        },
+        "v6": {
+          "ko": "양자역학의 코펜하겐 해석은 측정 전 미시 시스템을 확률적 파동 함수로 기술하며, 관측 이전 객체의 확정적 고전적 특성을 유보한다. 본 논문은 입자의 물리적 실재와 파동적 현상을 단일 결정론적 모델의 물리적으로 구별되는 측면으로 취급하는 **'공간의 기하학적 요동'** 가설을 제안한다.\n본 논문은 비상대론적 슈뢰딩거 방정식을 재정식화하고 공간 진동 퍼텐셜 $Q_s$를 식별하며, 이를 물리적 3차원 공간의 기하학적 요동에 대한 유효 스칼라 척도로 해석한다. 마디점 특이점($R \\\\to 0$) 문제를 해결하기 위해 진공 영점 요동을 활용한 정칙화 메커니즘을 도입하며, $3N$차원 배위 공간 딜레마를 우회하기 위해 다중 연결된 3차원 위상 구조를 제안한다.\n측정에 의해 유발된 간섭 상실은 미시적 공간 곡률을 거시적 감쇠 과정으로 시간 평균화하는 상호작용 해밀토니안($H_{int}$)을 통해 동역학적으로 유도된다. 결정적으로, 표준 확률론적 이론에 대한 반증 가능성을 만족시키기 위해 본 모델은 중간 거시 간섭계에서 마르코프 근사와 대비되는 측정 가능한 **'기하역학적 붕괴 지연(Geomechanical Damping Delay)'**을 예측한다. 큰 질량 극한에서 유도력이 무시할 수 있게 됨($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$)을 입증함으로써, 본 논문은 입자 척도의 동역학과 유효 거시 뉴턴 역학을 연결하는 결정론적 프레임워크를 제안한다.\n## 1. 서론\n양자역학은 미시 현상을 기술하는 가장 성공적인 프레임워크 중 하나이나, 코펜하겐 해석은 측정 이전의 양자 상태에 관해 의문을 남긴다 [1]. 본 논문은 파동적 양자 현상을 기저 공간 배경의 기하학적 요동에 귀속시키는 공간 진동 가설을 제안한다.\n제안된 프레임워크는 마델룽 및 봄의 정식화와 수학적으로 연관되어 있으나 [2, 3], 결과적인 유도 퍼텐셜을 물리적 공간의 기하학적 요동에 대한 유효한 발현으로 취급함으로써 존재론적 해석을 달리한다. 본 모델은 결정론적 모델의 핵심 비판인 존재론적 잉여, 배위 공간의 비국소성, 마디점 특이점, 자의적 붕괴 메커니즘의 한계를 기하역학적으로 돌파한다.\n## 2. 공간 진동 가설\n미시 입자의 거동에 대한 결정론적 해석을 공식화하는 동시에 파동적 현상을 공간 역학에 귀속시키기 위해, 본 연구는 다음의 핵심 공리를 제안한다:\n1. 미시 입자는 관측과 무관하게 잘 정의된 궤적을 갖는 확정적인 입자적 실체이다.\n2. 간섭 무늬는 미시적 규모에서 공간 배경의 기하학적 요동으로부터 발생한다.\n3. 간섭 무늬가 사라지는 것은 측정 장치와의 물리적 섭동과 관련된 감쇠 과정의 결과이다.\n4. 공간 진동 유도에 의해 유발되는 가속도는 질량 척도가 증가함에 따라 감소한다.\n## 3. 수학적 정식화 및 동역학적 정칙화\n비상대론적 슈뢰딩거 방정식에서 파동 함수 $\\\\psi(\\\\mathbf{r}, t)$를 극형식으로 분해한다. 실수부를 분리하면 양자 퍼텐셜 항이 추가된 해밀턴-야코비 형태의 방정식이 도출된다:\n$$ \\\\frac{\\\\partial S}{\\\\partial t} + \\\\frac{(\\\\nabla S)^2}{2m} + V + Q_s = 0, \\\\quad Q_s \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{R} $$\n**노달 특이점의 정칙화:** 상쇄 간섭 노드($R \\\\to 0$)에서 $Q_s$가 발산하는 비물리적 현상을 해결하기 위해 진폭 $R$은 최소 위상 기저값 $R_{min} > 0$으로 유계된다고 가정하여 정칙화된 퍼텐셜을 제안한다:\n$$ Q_s^{reg} \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{\\\\sqrt{R^2 + R_{min}^2}} $$\n**3N차원 배위 공간 딜레마 해소:** 다입자 시스템에 대해 본 모델은 3N차원 공간이 다중 연결된 3차원 물리적 위상을 평탄한 유클리드 공간에 투영하여 생긴 환영이라고 가설을 세운다. 얽힌 입자들은 3차원 공간 내에 국소화되고 극도로 뒤틀린 위상 튜브를 통해 기하학적 거리를 단락시킨다.\n## 4. 선택된 양자 현상의 기하역학적 재해석\n유도 운동 방정식은 $m \\\\frac{d\\\\mathbf{v}}{dt} = -\\\\nabla V(\\\\mathbf{r}) - \\\\nabla Q_s(\\\\mathbf{r}, t)$ 이다. 간섭 무늬 $|\\\\psi|^2$는 다수 입자 궤적들의 통계적 앙상블로 해석된다 [4]. 안정된 상태 간의 양자 전이는 기하학적 유도 구조의 빠른 재구성으로, 터널링은 공명에 의한 위상 매개 투과 과정으로, 중첩은 경쟁하는 유도 채널들의 안장점(Saddle point)에서의 역학적 균형으로 재해석된다.\n## 5. 결맞음 파괴의 동역학적 유도 및 반증 가능한 예측\n### 5.1. 감쇠 인자의 동역학적 유도\n측정 과정에서 상호작용 항($H_{int}$)으로 유입된 에너지는 공간 곡률 항($\\\\nabla^2 R$)에 광대역의 고주파 열역학적 노이즈를 도입한다. 거시적 관측 시간 $\\\\tau$에 대한 시간 평균을 적용하면, 리만-르베그 보조정리에 의해 요동들이 점근적으로 상쇄되어 지형도를 평탄화시킨다:\n$$ \\\\langle \\\\nabla^2 R \\\\rangle_{\\\\tau} \\\\approx 0 $$\n이는 현상론적 감쇠 함수 $\\\\gamma(E_{obs})$를 정당화하며, 결맞음 파괴 [5]에 대한 동역학적 기반을 제공한다.\n### 5.2. 반증 가능한 예측: 기하역학적 붕괴 지연\n본 모델은 결맞음 파괴를 공간 텐서의 유체역학적 평탄화로 취급하므로, 중간 거시(mesoscopic) 간섭계에서 지수함수적 감쇠를 예측하는 주류 이론과 달리, $\\\\mathcal{V}(t) \\\\sim 1 - (t/\\\\tau_{Zeno})^2$ 형태의 측정 가능한 **'기하역학적 붕괴 지연'**이 발생할 것을 예측한다.\n### 5.3. 겉보기 동시성과 인과율\n입자 A가 관측될 때 감쇠 파동은 상대론적 인과율($v \\\\le c$)을 엄수하며 전파된다. 그러나 다중 연결된 위상 튜브를 가로지르는 내부 기하학적 거리가 유효하게 0이므로, 물리적 전송 시간은 $t \\\\approx 0$이 된다. 따라서 상관된 결과의 겉보기 동시성은 결정론적 착시이다.\n## 6. 거시-미시 경계 및 결론\n조건 $\\\\nabla (\\\\nabla^2 R/R) = o(m)$을 만족할 때, 공간 유도력은 큰 질량 극한에서 무시할 수 있게 되어 뉴턴 역학으로 수렴한다($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$). 본 연구는 공간 진동 퍼텐셜 $Q_s$를 통해 양자 현상들을 기하역학적으로 재해석하였으며, 동역학적으로 유도된 감쇠 과정과 기하역학적 붕괴 지연이라는 반증 가능한 예측을 도입하여 본 프레임워크를 실험적으로 검증 가능한 모델로 격상시켰다.\n## 부록: 우주론적 확장 (Part II, III)\nPart II는 공간 진동 텐서를 아인슈타인 장 방정식과 결합하여 거시적 공간 진동이 암흑 물질과 암흑 에너지로 어떻게 발현될 수 있는지 탐구할 것이다. 나아가 Part III에서는 우주 공간 판구조론을 제안함으로써 공간의 거시적 위상 균열이 거대 구조 형성과 고속 전파 폭발(FRBs)에 어떻게 관여할 수 있는지 탐구할 것이다.",
+          "en": "The Copenhagen interpretation of quantum mechanics describes a microscopic system prior to measurement in terms of a probabilistically interpreted wave function. To address the conceptual tension associated with wave-particle duality, this paper proposes the **'Geometrical Fluctuation of Space'** hypothesis, which treats the particle-like reality of quanta and the emergence of wave-like phenomena as physically distinct aspects of a single deterministic model.\nWithin this hypothesis, microscopic particles are postulated to behave as definite particle-like entities guided by an underlying spatial-vibration structure. The paper reformulates the nonrelativistic Schrödinger equation through polar decomposition and identifies a spatial-vibration potential, $Q_s$. To address the unphysical energy divergence at nodal singularities ($R \\\\to 0$), a regularization mechanism utilizing zero-point vacuum fluctuations is introduced. Furthermore, to circumvent the abstract $3N$-dimensional configuration space dilemma of many-particle entanglement, we propose a multiply-connected 3D topological structure.\nThe double-slit interference pattern is interpreted as a statistical ensemble of trajectories guided by $Q_s$. Measurement-induced loss of interference is dynamically derived by integrating a measurement-interaction Hamiltonian ($H_{int}$) that time-averages the microscopic spatial curvature into a macroscopic damping process. Crucially, to satisfy falsifiability against standard probabilistic theories, this model predicts a measurable **'Geomechanical Damping Delay'** in mesoscopic interferometry, diverging from standard Markovian approximations.\n## 1. Introduction\nQuantum mechanics is one of the most successful theoretical frameworks, yet its Copenhagen interpretation leaves unresolved questions concerning the physical status of quantum states prior to measurement [1]. To address this conceptual gap, this paper proposes the Spatial Vibration hypothesis, which attributes wave-like quantum phenomena to geometric fluctuations of the underlying spatial background.\nThe proposed framework is mathematically related to the polar decomposition of the Schrödinger equation used in Madelung-type and Bohmian formulations [2, 3]. However, it assigns a different physical interpretation to the resulting guidance potential by treating it as an effective manifestation of spatial geometric fluctuation.\n## 2. Spatial Vibration Hypothesis\nTo formulate a deterministic interpretation, this study proposes the following core postulates:\n1. **Definite Reality:** Particles possess well-defined trajectories independent of observation.\n2. **Externalization of Waveness:** Interference patterns arise from geometric fluctuations of the apparently empty spatial background.\n3. **Observation Mechanics:** The disappearance of interference patterns is the result of an effective damping process.\n4. **Reinterpretation of $\\\\psi$:** The wave function represents the spatial-vibration structure that guides particle motion.\n5. **Inertial Convergence:** The acceleration induced by spatial-vibration guidance decreases as the relevant mass scale increases.\n## 3. Mathematical Formulation and Dynamic Regularization\n### 3.1. Polar Transformation\nStarting from the time-dependent Schrödinger equation:\n$$ i\\\\hbar \\\\frac{\\\\partial \\\\psi}{\\\\partial t} = -\\\\frac{\\\\hbar^2}{2m} \\\\nabla^2 \\\\psi + V\\\\psi $$\nwe decompose $\\\\psi(\\\\mathbf{r}, t)$ into polar form:\n$$ \\\\psi(\\\\mathbf{r}, t) = R(\\\\mathbf{r}, t) e^{iS(\\\\mathbf{r}, t)/\\\\hbar} $$\n### 3.2. Equation Decomposition and Regularization of Nodal Singularities\nSeparating the real part yields a Hamilton-Jacobi-type equation:\n$$ \\\\frac{\\\\partial S}{\\\\partial t} + \\\\frac{(\\\\nabla S)^2}{2m} + V + Q_s = 0, \\\\quad Q_s \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{R} $$\nA critical mathematical dilemma arises at destructive interference nodes where $R \\\\to 0$. To resolve this, we introduce a regularization mechanism based on zero-point vacuum fluctuations ($R_{min} > 0$).\n$$ Q_s^{reg} \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{\\\\sqrt{R^2 + R_{min}^2}} $$\nConsequently, $Q_s$ reaches a finite geometrical tensor peak at the nodes, acting as a mechanical threshold.\n### 3.3. Resolution of the 3N-Dimensional Dilemma\nFor many-particle systems, traditional hidden-variable models define $Q_s$ in an abstract $3N$-dimensional configuration space. The present model circumvents this by restricting dynamics to physical 3D space via a **multiply-connected topology**. Entangled particles share a geometrical phase guided by localized, highly warped topological phase tubes within 3D space, which effectively short-circuit the internal geometrical metric.\n## 4. Geomechanical Reinterpretation of Quantum Phenomena\nTaking the gradient of the quantum Hamilton-Jacobi equation yields the guidance equation:\n$$ m \\\\frac{d\\\\mathbf{v}}{dt} = -\\\\nabla V(\\\\mathbf{r}) - \\\\nabla Q_s(\\\\mathbf{r}, t) $$\nThe interference pattern $|\\\\psi|^2$ is interpreted as a statistical ensemble of many particle trajectories accumulating along geometrical channels [4]. Transitions are interpreted as rapid reconfigurations of geometry. Quantum tunneling is reinterpreted as a phase-mediated transmission process. Superposition is represented as an unstable mechanical equilibrium at a geometrical saddle point.\n## 5. Dynamical Derivation of Decoherence and Falsifiable Predictions\n### 5.1. Dynamical Derivation of the Damping Factor\nConsider a full Hamiltonian $H = H_{sys} + H_{app} + H_{int}$. During measurement, macroscopic energy from the apparatus flows into the interaction term, introducing broadband, high-frequency thermodynamic noise into the spatial curvature term ($\\\\nabla^2 R$). By applying time-averaging over the observation timescale $\\\\tau$, the Riemann-Lebesgue lemma dictates that these fluctuations cancel out:\n$$ \\\\langle \\\\nabla^2 R \\\\rangle_{\\\\tau} \\\\approx 0 $$\nThis mathematical averaging justifies the phenomenological damping factor $\\\\gamma(E_{obs}) = \\\\exp(-E_{obs}/\\\\epsilon_c)$, providing a geomechanical basis for environment-induced decoherence [5].\n### 5.2. Falsifiable Prediction: Geomechanical Damping Delay\nTo satisfy Occam's razor, this model predicts a measurable **'Geomechanical Damping Delay'** in mesoscopic interferometry: $\\\\mathcal{V}(t) \\\\sim 1 - (t/\\\\tau_{Zeno})^2$. Experimental verification of this specific nonlinear temporal deviation would serve as a critical falsification test.\n### 5.3. Apparent Simultaneity and Causality\nWhen measurement dampens the spatial phase of Particle A, this disturbance propagates strictly obeying relativistic causality ($v \\\\le c$). However, because the internal geometrical distance traversing the multiply-connected spatial junction is effectively zero, the physical transmission time inevitably becomes $t \\\\approx 0$. The apparent simultaneity is thus a deterministic illusion.\n## 6. The Macro-Micro Boundary and Conclusion\nUnder the condition $\\\\nabla (\\\\nabla^2 R/R) = o(m)$, the spatial-guidance force becomes negligible in the large-mass limit:\n$$ \\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0 $$\nIn this limit, the effective equation of motion approaches the Newtonian form. This study proposes a deterministic framework connecting particle-scale dynamics with macroscopic behavior, introducing falsifiable predictions that elevate it to an empirically testable model.\n## Appendix: Cosmological Extensions\nPart II of this series will rigorously couple the spatial vibration tensor to the Einstein field equations. Part III will explore macroscopic topological fractures ('Cosmological Spatial Plate Tectonics'), providing geometric interpretations for Dark Matter and Dark Energy."
+        },
+        "v7": {
+          "ko": "양자역학의 코펜하겐 해석은 미시 시스템을 확률적으로 해석하며 관측 이전의 확정적 실재를 유보한다. 본 논문은 입자의 물리적 실재와 파동적 현상을 분리하는 **'공간의 기하학적 요동'** 가설을 제안한다.\n확률 보존(Unitarity) 파괴를 피하기 위해, 전역적 게이지 불변을 만족하는 실수(Real-valued) 기하 점성 항($+\\\\gamma(S - \\\\langle S \\\\rangle)$)을 포함하는 비선형 슈뢰딩거 방정식을 제안한다. 이를 통해 전역적인 확률 밀도 보존($\\\\partial\\\\rho/\\\\partial t + \\\\nabla\\\\cdot(\\\\rho\\\\mathbf{v})=0$)을 증명한다. 또한 $R \\\\to 0$ 마디점에서의 에너지 발산 문제는 임의의 절단이 아니라, 양자 퍼텐셜 $Q_s$의 무한 인력 우물과 소용돌이 위상의 회전 운동 에너지가 발생시키는 원심 척력이 수학적으로 완벽히 100% 상쇄(Cancellation)되는 메커니즘을 통해 자가 정칙화됨을 입증한다.\n관측 붕괴는 측정 상호작용 해밀토니안이 공간 위상($S$)에 노이즈를 주입하여 궤적을 헝클어뜨리는 **'위상 난류(Phase Turbulence)'** 메커니즘으로 동역학적으로 유도되며, 축소 밀도 행렬의 비대각 성분을 지수적으로 소거한다. 주류 마르코프 근사와 차별화되는 반증 가능성을 위해, 결어긋남 시간이 진공 온도에 종속되는 새로운 척도 법칙($\\\\tau_{dec} \\\\sim \\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3 / (k_B T_{vac})^2$)을 예측한다.\n## 1. 서론\n양자역학의 코펜하겐 해석은 관측 이전의 양자 상태의 실재성에 관해 철학적 의문을 남긴다 [1]. 본 논문은 파동적 양자 현상을 3차원 물리적 공간의 기하학적 요동으로 취급함으로써 엄격한 수학적 정칙성의 통제를 받는 결정론적 역학 프레임워크를 정립하고자 시도한다.\n## 2. 수학적 정식화: 비선형 동역학과 위상학적 정칙화\n### 2.1. 게이지 불변성을 띤 비선형 수정 슈뢰딩거 방정식\n열린 양자계의 코스틴(Kostin) 모델 [4]을 차용하여 공간 텐서 유체의 점성을 나타내는 실수 현상론적 비선형 항을 도입한다. 게이지 대칭성 보존을 위해 공간 기댓값을 뺀 형태로 구성된다:\n$$ i\\\\hbar \\\\frac{\\\\partial \\\\psi}{\\\\partial t} = \\\\left[ -\\\\frac{\\\\hbar^2}{2m} \\\\nabla^2 + V + \\\\gamma (S - \\\\langle S \\\\rangle) \\\\right] \\\\psi $$\n마찰 계수 $\\\\gamma$는 거시 환경과 상호작용할 때만 동역학적으로 발현되는 '유효 환경 파라미터'이다.\n### 2.2. 극형식 변환과 연속 방정식\n$\\\\psi = R e^{iS/\\\\hbar}$로 분해하여 허수부를 분리하면 완벽한 연속 방정식이 도출된다:\n$$ \\\\frac{\\\\partial \\\\rho}{\\\\partial t} + \\\\nabla \\\\cdot (\\\\rho \\\\mathbf{v}) = 0 $$\n점성 항이 실수부에만 작용하므로 전역적인 확률 밀도 $\\\\rho$는 완벽하게 보존된다.\n### 2.3. 마디점(Node)의 기적적 상쇄와 자가 정칙화\n실수부 해밀턴-야코비 방정식에는 공간 진동 퍼텐셜 $Q_s \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{R}$ 가 나타난다.\n마디점($R \\\\to 0$) 근처 2차원 소용돌이 코어에서 라플라시안에 의해 $Q_s$는 강력한 인력 우물($-\\\\frac{\\\\hbar^2}{2m r^2}$)로 발산한다. 그러나 코어 주변의 위상 회전($S = \\\\hbar \\\\theta$)에 의해 위상 운동 에너지 항 $\\\\frac{(\\\\nabla S)^2}{2m}$은 원심력 척력($+\\\\frac{\\\\hbar^2}{2m r^2}$)을 산출한다.\n$$ \\\\frac{(\\\\nabla S)^2}{2m} + Q_s = +\\\\frac{\\\\hbar^2}{2m r^2} - \\\\frac{\\\\hbar^2}{2m r^2} = 0 \\\\quad (\\\\text{as } r \\\\to 0) $$\n두 기하학적 항이 수학적으로 100% 상쇄되어, 입자는 특이점으로 추락하지 않고 우회(Bypassing)하게 되어 동역학적 자가 정칙화를 이룬다.\n## 3. 선택된 양자 현상의 기하역학적 재해석\n해밀턴-야코비 방정식의 기울기를 취하면 유도 운동 방정식이 도출된다.\n$$ m \\\\frac{d\\\\mathbf{v}}{dt} = -\\\\nabla V - \\\\nabla Q_s - \\\\gamma m \\\\mathbf{v} $$\n간섭 무늬 $|\\\\psi|^2$는 보른 규칙 초기 분포를 조건으로 기하학적 계곡을 따라 누적되는 궤적들의 앙상블로 해석된다 [5].\n## 4. 관측 붕괴의 동역학적 유도 및 반증 가능한 예측\n### 4.1. 위상 난류(Phase Turbulence)와 밀도 행렬의 붕괴\n관측 해밀토니안 $H_{int}$은 진폭이 아닌 **위상 $S$**에 열역학적 노이즈를 주입하여 속도장 $\\\\mathbf{v}$에 극심한 **'위상 난류'**를 발생시킨다. 확률 밀도는 보존됨에도 불구하고, 무작위로 헝클어진 위상 요동에 대해 앙상블 평균을 취하면 축소 밀도 행렬의 비대각선 성분들이 지수함수적으로 소거($\\\\langle e^{i(S_A - S_B)/\\\\hbar} \\\\rangle \\\\to 0$)되어 결어긋남 [6]을 동역학적으로 설명한다.\n### 4.2. 반증 가능한 예측: 텐서-열역학적 스케일링 법칙\n결어긋남 붕괴 과정이 공간 유체의 기하학적 점성 마찰에 의존하는 비마르코프적 현상이라고 주장한다. 본 연구는 붕괴 지연 시간 $\\\\tau_{dec}$가 진공 요동 온도 $T_{vac}$의 제곱에 반비례하는 **'텐서-열역학적 스케일링 법칙'**을 독자적으로 예측한다:\n$$ \\\\tau_{dec} \\\\sim \\\\frac{\\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3}{(k_B T_{vac})^2} $$\n### 4.3. 겉보기 동시성과 인과율\n은닉 변수 이론의 3N차원 비국소성을 다중 연결된 3차원 물리적 위상(위상 튜브)으로 해석한다. 붕괴 상쇄파는 상대론적 인과율($v \\\\le c$)을 엄수하며 전파된다. 다중 연결된 튜브 내부 기하학적 거리가 0으로 단락되어 있으므로 물리적 전송 시간은 $t \\\\approx 0$이 된다.\n## 5. 결론\n본 연구는 게이지 불변성을 지키는 점성 항과 위상 결함의 자가 정칙화 메커니즘을 도입하여, 이전 모델들의 확률 보존 파괴 및 특이점 발산 모순을 완전히 해결하였다. 위상 난류를 통한 밀도 행렬 붕괴 유도와 스케일링 법칙의 예측은 본 프레임워크를 실험적으로 검증 가능하며 수학적으로 무결한 동역학 모델로 격상시킨다.",
+          "en": "To address the conceptual tension associated with wave-particle duality, this paper proposes the **Geometrical Fluctuation of Space** hypothesis. This model attributes wave-like phenomena to dynamical fluctuations of the spatial background, treating quanta as definite particle-like entities guided by this geometry.\nTo resolve probability non-conservation inherent in ad-hoc damping models, we introduce a phenomenological, non-linear modification to the Schrödinger equation incorporating a real-valued, gauge-invariant spatial geometric viscosity term ($+\\\\gamma(S - \\\\langle S \\\\rangle)$). We demonstrate that while probability density is strictly conserved ($\\\\partial\\\\rho/\\\\partial t + \\\\nabla\\\\cdot(\\\\rho\\\\mathbf{v})=0$), the mechanical trajectory experiences effective damping. Furthermore, the nodal singularity divergence ($R \\\\to 0$) is mathematically resolved via quantized topological defects; the infinite attractive potential well of $Q_s$ is exactly canceled by the divergent centrifugal phase kinetic energy, preserving geometric regularity without arbitrary cutoffs.\nMeasurement-induced decoherence is dynamically modeled via an interaction Hamiltonian injecting high-frequency thermodynamic noise into the spatial phase ($S$). This generates **'Phase Turbulence'**, exponentially suppressing the off-diagonal elements of the reduced density matrix. To distinguish this model from standard Markovian decoherence, we predict a novel **'Tensor-Thermodynamic Scaling Law'** where the geomechanical decoherence time scales as $\\\\tau_{dec} \\\\sim \\\\hbar (\\\\rho_{fluid} c^2) d^3 / (k_B T_{vac})^2$. By preserving unitarity and bridging particle-scale geodynamics with effective macroscopic Newtonian behavior ($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{space} = 0$), this paper proposes a rigorous deterministic framework.\n## 1. Introduction\nQuantum mechanics is arguably the most successful framework for describing microscopic phenomena, yet its Copenhagen interpretation leaves unresolved questions concerning the physical status of quantum states prior to measurement [1]. To address this conceptual gap, this paper proposes the Spatial Vibration hypothesis, which attributes wave-like quantum phenomena to geometric fluctuations of the underlying spatial background in physical 3D space.\n## 2. Mathematical Formulation: Nonlinear Dynamics and Topological Regularization\n### 2.1. Gauge-Invariant Non-linear Modified Schrödinger Equation\nTo naturally derive quantum dissipation without violating probability conservation, we introduce a phenomenological non-linear, real-valued term representing the geomechanical viscosity of the spatial tensor fluid. To strictly preserve global gauge invariance ($\\\\psi \\\\to \\\\psi e^{i\\\\theta}$), the viscosity term must subtract the spatial expectation value of the phase:\n$$ i\\\\hbar \\\\frac{\\\\partial \\\\psi}{\\\\partial t} = \\\\left( -\\\\frac{\\\\hbar^2}{2m} \\\\nabla^2 + V + \\\\gamma(S - \\\\langle S \\\\rangle) \\\\right) \\\\psi $$\nCrucially, $\\\\gamma$ is an *effective environmental parameter* that emerges dynamically only during macroscopic thermodynamic interactions. For isolated microscopic systems, $\\\\gamma \\\\to 0$.\n### 2.2. Polar Transformation and the Continuity Equation\nUsing polar decomposition $\\\\psi = R e^{iS/\\\\hbar}$, we separate the imaginary part to yield the continuity equation:\n$$ \\\\frac{\\\\partial \\\\rho}{\\\\partial t} + \\\\nabla \\\\cdot (\\\\rho \\\\mathbf{v}) = 0 $$\nBecause the dissipative term is purely real, probability density $\\\\rho$ is strictly conserved globally.\n### 2.3. Quantum Hamilton-Jacobi Equation and the Spatial Vibration Potential ($Q_s$)\nSeparating the real part yields the modified Hamilton-Jacobi equation:\n$$ \\\\frac{\\\\partial S}{\\\\partial t} + \\\\frac{(\\\\nabla S)^2}{2m} + V + Q_s + \\\\gamma(S - \\\\langle S \\\\rangle) = 0 $$\nwhere $Q_s \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{R}$.\n### 2.4. Topological Regularization of Nodal Singularities\nA severe mathematical dilemma occurs at destructive interference nodes where $R \\\\to 0$. Around a 2D vortex core ($R \\\\propto r$), $Q_s$ diverges as $-\\\\frac{\\\\hbar^2}{2m r^2}$, creating an infinite attractive well.\nHowever, nodes are **Quantized Topological Vortices**. Around the core, the phase field circulates as $S = \\\\hbar \\\\theta$, generating a phase gradient $\\\\nabla S = \\\\hbar/r$. When substituted into the phase kinetic energy term of Eq. (3), we obtain exactly $+\\\\frac{\\\\hbar^2}{2m r^2}$.\n$$ \\\\frac{(\\\\nabla S)^2}{2m} + Q_s = +\\\\frac{\\\\hbar^2}{2m r^2} - \\\\frac{\\\\hbar^2}{2m r^2} = 0 \\\\quad (\\\\text{as } r \\\\to 0) $$\nThe centrifugal repulsion perfectly and exactly cancels the infinite attractive well of $Q_s$, achieving intrinsic self-regularization.\n## 3. Geomechanical Reinterpretation of Selected Quantum Phenomena\nTaking the gradient of Eq. (3) yields the guidance equation:\n$$ m \\\\frac{d\\\\mathbf{v}}{dt} = -\\\\nabla (V + Q_s) - \\\\gamma m \\\\mathbf{v} $$\nThe double-slit interference pattern $|\\\\psi|^2$ is interpreted as a statistical ensemble of particle trajectories accumulating along stable valleys of $Q_s$ [4]. Transitions, tunneling, and superposition are reinterpreted as rapid reconfigurations, phase-mediated transmissions, and dynamically balanced saddle points, respectively.\n## 4. Dynamical Derivation of Decoherence and Falsifiable Predictions\n### 4.1. Phase Turbulence and Density Matrix Decoherence\nAn interaction Hamiltonian injects broadband thermodynamic noise directly into the spatial phase ($S$), generating severe **'Phase Turbulence'** within the spatial fluid. While probability density remains strictly conserved, the reduced density matrix undergoes rapid exponential suppression of its off-diagonal interference terms ($\\\\langle e^{i(S_A - S_B)/\\\\hbar} \\\\rangle \\\\to 0$). The ensemble mechanically blurs into a classical mixed state [5].\n### 4.2. Falsifiable Prediction: Tensor-Thermodynamic Scaling Law\nTo distinguish this geomechanical damping from standard Markovian open-system dynamics, we propose a falsifiable prediction. Incorporating the spatial energy density $\\\\rho_{\\\\mathrm{fluid}} c^2$, the decoherence time scale is predicted to follow a **'Tensor-Thermodynamic Scaling Law'**:\n$$ \\\\tau_{dec} \\\\sim \\\\frac{\\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3}{(k_B T_{vac})^2} $$\nObserving this specific quadratic geometric deviation ($\\\\propto T_{vac}^{-2}$) would serve as a crucial experimental verification.\n### 4.3. Apparent Simultaneity and Causality in Entanglement\nEntanglement is interpreted as a nonseparable phase correlation within a multiply-connected 3D topology. Disturbance propagates strictly obeying relativistic causality ($v \\\\le c$). However, because the internal geometrical distance traversing the multiply-connected spatial junction is effectively zero, the physical transmission time inevitably becomes $t \\\\approx 0$.\n## 5. Conclusion\nBy integrating a gauge-invariant geometric viscosity term and utilizing the exact mathematical cancellation between centrifugal phase kinetic energy and the quantum potential well at nodal points, we resolved the unphysical singularities and probability conservation violations inherent in preceding models. Measurement-induced decoherence is dynamically modeled as phase turbulence scrambling the guidance field, rigorously suppressing off-diagonal elements, thereby proposing an empirically testable deterministic physical model."
+        },
+        "v8": {
+          "ko": "양자역학의 코펜하겐 해석은 미시 시스템을 확률적으로 기술하며 관측 이전의 확정적 실재를 유보한다. 본 논문은 입자의 물리적 실재와 파동적 현상을 분리하는 **'공간의 기하학적 요동'** 가설을 제안한다.\n확률 보존 파괴를 피하기 위해, 전역적 게이지 불변을 만족하는 실수 기하 점성 항($+\\\\gamma(S - \\\\langle S \\\\rangle)$)을 포함하는 코스틴(Kostin) 형태의 비선형 슈뢰딩거 방정식을 제안한다. 이를 통해 전역적인 확률 밀도 보존($\\\\partial\\\\rho/\\\\partial t + \\\\nabla\\\\cdot(\\\\rho\\\\mathbf{v})=0$)을 증명한다. 또한 $R \\\\to 0$ 마디점에서의 에너지 발산 문제는 임의의 컷오프가 아니라, 양자 퍼텐셜 $Q_s$의 무한 인력 우물과 소용돌이 위상의 회전 운동 에너지가 발생시키는 원심 척력이 수학적으로 완벽히 100% 상쇄(Exact Cancellation)되는 메커니즘을 통해 자가 정칙화됨을 입증한다.\n관측 붕괴는 공간 위상($S$)에 노이즈를 주입하여 궤적을 헝클어뜨리는 **'위상 난류(Phase Turbulence)'** 메커니즘으로 유도되며, 축소 밀도 행렬의 비대각 성분을 지수적으로 소거한다. 주류 이론의 마르코프 근사와 차별화되는 반증 가능성을 위해, 결어긋남 시간이 진공 온도에 종속되는 비마르코프 척도 법칙($\\\\tau_{dec} \\\\sim \\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3 / (k_B T_{vac})^2$)을 예측하며 차원 분석의 정합성($[T]$)을 증명한다.\n## 1. 서론\n양자역학의 코펜하겐 해석은 관측 이전의 양자 상태의 실재성에 관해 철학적 의문을 남긴다 [1]. 본 논문은 파동적 양자 현상을 3차원 물리적 공간의 기하학적 요동으로 취급함으로써 엄격한 수학적 정칙성의 통제를 받는 결정론적 역학 프레임워크를 정립하고자 시도한다.\n## 2. 수학적 정식화: 비선형 동역학과 위상학적 정칙화\n### 2.1. 게이지 불변성을 띤 비선형 수정 슈뢰딩거 방정식\n열린 양자계의 코스틴(Kostin) 모델 [4]을 차용하여 공간 텐서 유체의 점성을 나타내는 실수 현상론적 비선형 항을 도입한다. 게이지 대칭성 보존을 위해 공간 기댓값을 뺀 형태로 구성된다:\n$$ i\\\\hbar \\\\frac{\\\\partial \\\\psi}{\\\\partial t} = \\\\left[ -\\\\frac{\\\\hbar^2}{2m} \\\\nabla^2 + V(\\\\mathbf{r}) + \\\\gamma (S - \\\\langle S \\\\rangle) \\\\right] \\\\psi $$\n마찰 계수 $\\\\gamma$는 거시 환경과 상호작용할 때만 동역학적으로 발현되는 '유효 환경 파라미터'이다.\n### 2.2. 극형식 변환과 연속 방정식\n$\\\\psi = R e^{iS/\\\\hbar}$로 분해하여 허수부를 분리하면 완벽한 연속 방정식이 도출된다:\n$$ \\\\frac{\\\\partial \\\\rho}{\\\\partial t} + \\\\nabla \\\\cdot (\\\\rho \\\\mathbf{v}) = 0 $$\n점성 항이 실수부에만 작용하므로 전역적인 확률 밀도 $\\\\rho$는 완벽하게 보존된다.\n### 2.3. 마디점(Node)의 기적적 상쇄와 자가 정칙화\n실수부 해밀턴-야코비 방정식에는 공간 진동 퍼텐셜 $Q_s \\\\equiv -\\\\frac{\\\\hbar^2}{2m} \\\\frac{\\\\nabla^2 R}{R}$ 가 나타난다. 마디점 근처 2차원 소용돌이 코어에서 $Q_s$는 강력한 인력 우물($-\\\\frac{\\\\hbar^2}{2m r^2}$)로 발산한다. 그러나 코어 주변의 위상 회전($S = \\\\hbar \\\\theta$)에 의해 위상 운동 에너지 항 $\\\\frac{(\\\\nabla S)^2}{2m}$은 원심력 척력($+\\\\frac{\\\\hbar^2}{2m r^2}$)을 산출한다.\n$$ \\\\frac{(\\\\nabla S)^2}{2m} + Q_s = \\\\frac{\\\\hbar^2}{2m r^2} - \\\\frac{\\\\hbar^2}{2m r^2} = 0 \\\\quad (\\\\text{as } r \\\\to 0) $$\n두 기하학적 항이 수학적으로 100% 상쇄되어 자가 정칙화(Self-regularization)를 이룬다.\n## 3. 선택된 양자 현상의 기하역학적 재해석\n해밀턴-야코비 방정식의 기울기를 취하면 유도 운동 방정식이 도출된다.\n$$ m \\\\frac{d\\\\mathbf{v}}{dt} = -\\\\nabla V(\\\\mathbf{r}) - \\\\nabla Q_s(\\\\mathbf{r}, t) - \\\\gamma m \\\\mathbf{v} $$\n간섭 무늬 $|\\\\psi|^2$는 보른 규칙 초기 분포를 조건으로 기하학적 계곡을 따라 누적되는 궤적들의 앙상블로 해석된다 [5].\n## 4. 관측 붕괴의 동역학적 유도 및 반증 가능한 예측\n### 4.1. 위상 난류(Phase Turbulence)와 밀도 행렬의 붕괴\n관측 상호작용 해밀토니안은 **위상 $S$**에 거시적인 열역학적 노이즈를 주입하여 극심한 **'위상 난류(Phase Turbulence)'**를 발생시킨다. 확률 밀도 $\\\\rho$가 공간상에서 엄격히 보존됨에도 불구하고, 거시적 관측 시간 동안 앙상블 평균을 취하면 축소 밀도 행렬의 비대각선 성분들이 지수함수적으로 소거($\\\\langle e^{i(S_A - S_B)/\\\\hbar} \\\\rangle \\\\to 0$)되어 결어긋남 [6]을 완벽히 동역학적으로 설명한다.\n### 4.2. 반증 가능한 예측: 텐서-열역학적 스케일링 법칙\n공간 유체의 에너지 밀도($\\\\rho_{\\\\mathrm{fluid}} c^2$)를 차원 분석하여, 붕괴 지연 시간 $\\\\tau_{dec}$가 진공 요동 온도 $T_{vac}$의 제곱에 반비례하는 척도 법칙을 예측한다:\n$$ \\\\tau_{dec} \\\\sim \\\\frac{\\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3}{(k_B T_{vac})^2} $$\n차원 분석을 통해 $\\\\frac{[E \\\\cdot T] [E \\\\cdot L^{-3}] [L^3]}{[E]^2} = [T]$(시간) 임이 증명된다.\n### 4.3. 겉보기 동시성과 인과율\n얽힘 붕괴 상쇄파는 상대론적 인과율($v \\\\le c$)을 엄수하며 전파된다. 그러나 다중 연결된 위상 튜브를 가로지르는 내부 기하학적 거리가 사실상 0으로 단락되어 있으므로 물리적 전송 시간은 $t \\\\approx 0$이 된다.\n## 5. 결론\n본 연구는 게이지 불변성을 지키는 코스틴 방정식 형태의 실수 점성 항과 위상 결함의 자가 정칙화(기하학적 상쇄) 메커니즘을 도입하여, 이전 모델들의 확률 보존 파괴 및 특이점 발산 모순을 완전히 해결하였다. 위상 난류를 통한 밀도 행렬의 비대각선 성분 소거 역학과 차원이 완벽히 일치하는 $\\\\tau_{dec}$ 척도 법칙의 예측은, 본 프레임워크를 사변적 철학에서 실험적으로 검증 가능하며 수학적으로 무결한 동역학 모델로 격상시킨다.",
+          "en": "To address the conceptual tension associated with wave-particle duality, this paper proposes the **Geometrical Fluctuation of Space** hypothesis. This model attributes wave-like phenomena to dynamical fluctuations of the spatial background, treating quanta as definite particle-like entities guided by this geometry.\nTo resolve probability non-conservation inherent in ad-hoc damping models, we introduce a phenomenological, non-linear modification to the Schrödinger equation incorporating a real-valued, gauge-invariant spatial geometric viscosity term ($+\\\\gamma(S - \\\\langle S \\\\rangle)$) analogous to the Kostin formulation. We demonstrate that while probability density is strictly conserved ($\\\\partial\\\\rho/\\\\partial t + \\\\nabla\\\\cdot(\\\\rho\\\\mathbf{v})=0$), the mechanical trajectory experiences effective damping. Furthermore, the nodal singularity divergence ($R \\\\to 0$) is mathematically resolved via quantized topological defects; the infinite attractive potential well of $Q_s$ is exactly canceled by the divergent centrifugal phase kinetic energy, bypassing singularities and preserving geometric regularity without arbitrary cutoffs.\nMeasurement-induced decoherence is dynamically modeled via an interaction Hamiltonian injecting high-frequency thermodynamic noise into the spatial phase ($S$). This generates **'Phase Turbulence'**, exponentially suppressing the off-diagonal elements of the reduced density matrix. To distinguish this model from standard Markovian decoherence, we predict a novel **'Tensor-Thermodynamic Scaling Law'** where the geomechanical decoherence time scales non-Markovianly as $\\\\tau_{dec} \\\\sim \\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3 / (k_B T_{vac})^2$. By preserving unitarity and bridging particle-scale geodynamics with effective macroscopic Newtonian behavior ($\\\\lim_{m \\\\to \\\\infty} \\\\mathbf{F}_{\\\\mathrm{space}} = 0$), this paper proposes a rigorous deterministic framework.\n## 1. Introduction\nQuantum mechanics is arguably the most successful framework for describing microscopic phenomena, yet its Copenhagen interpretation leaves unresolved questions concerning the physical status of quantum states prior to measurement [1]. To address this conceptual gap, this paper proposes the Spatial Vibration hypothesis, which attributes wave-like quantum phenomena to geometric fluctuations of the underlying spatial background in physical 3D space.\n## 2. Mathematical Formulation: Nonlinear Dynamics and Topological Regularization\n### 2.1. Gauge-Invariant Non-linear Modified Schrödinger Equation\nTo naturally derive quantum dissipation without violating probability conservation (unitarity), we reject imaginary potentials that lead to unphysical particle loss. Instead, drawing from the Kostin friction model [4], we introduce a phenomenological non-linear, real-valued term representing the geomechanical viscosity of the spatial tensor fluid. To strictly preserve global gauge invariance ($\\\\psi \\\\to \\\\psi e^{i\\\\theta}$), the viscosity term must subtract the spatial expectation value of the phase:\n$$ i\\\\hbar \\\\frac{\\\\partial \\\\psi}{\\\\partial t} = \\\\left[ -\\\\frac{\\\\hbar^2}{2m} \\\\nabla^2 + V(\\\\mathbf{r}) + \\\\gamma(S - \\\\langle S \\\\rangle) \\\\right] \\\\psi $$\nCrucially, $\\\\gamma$ is an *effective environmental parameter* that emerges dynamically only during macroscopic thermodynamic interactions. For isolated microscopic systems, $\\\\gamma \\\\to 0$.\n### 2.2. Polar Transformation and the Continuity Equation\nUsing polar decomposition $\\\\psi(\\\\mathbf{r}, t) = R(\\\\mathbf{r}, t) e^{iS(\\\\mathbf{r}, t)/\\\\hbar}$, we separate the imaginary part to yield the continuity equation:\n$$ \\\\frac{\\\\partial \\\\rho}{\\\\partial t} + \\\\nabla \\\\cdot (\\\\rho \\\\mathbf{v}) = 0 $$\nwhere $\\\\rho = R^2$ and $\\\\mathbf{v} = \\\\nabla S / m$. Because the dissipative term is purely real, probability density $\\\\rho$ is strictly conserved globally.\n### 2.3. Quantum Hamilton-Jacobi Equation and Nodal Cancellation\nSeparating the real part yields the modified Hamilton-Jacobi equation:\n$$ \\\\frac{\\\\partial S}{\\\\partial t} + \\\\frac{(\\\\nabla S)^2}{2m} + V(\\\\mathbf{r}) + Q_s + \\\\gamma(S - \\\\langle S \\\\rangle) = 0 $$\nA severe mathematical dilemma occurs at destructive interference nodes where $R \\\\to 0$. Around a 2D vortex core ($R \\\\propto r$), $Q_s$ diverges as $-\\\\frac{\\\\hbar^2}{2m r^2}$, creating an infinite attractive well.\nHowever, nodes are **Quantized Topological Vortices**. Around the core, the phase field circulates as $S = \\\\hbar \\\\theta$, generating a phase gradient $|\\\\nabla S| = \\\\hbar/r$. When substituted into the phase kinetic energy term, we obtain exactly $+\\\\frac{\\\\hbar^2}{2m r^2}$.\n$$ \\\\frac{(\\\\nabla S)^2}{2m} + Q_s = \\\\frac{\\\\hbar^2}{2m r^2} - \\\\frac{\\\\hbar^2}{2m r^2} = 0 \\\\quad (\\\\text{as } r \\\\to 0) $$\nThe centrifugal repulsion perfectly and exactly cancels the infinite attractive well of $Q_s$, achieving intrinsic self-regularization without arbitrary cutoffs.\n## 3. Geomechanical Reinterpretation of Selected Quantum Phenomena\nTaking the gradient of Eq. (3) yields the guidance equation:\n$$ m \\\\frac{d\\\\mathbf{v}}{dt} = -\\\\nabla V(\\\\mathbf{r}) - \\\\nabla Q_s(\\\\mathbf{r}, t) - \\\\gamma m \\\\mathbf{v} $$\nThe double-slit interference pattern $|\\\\psi|^2$ is interpreted as a statistical ensemble of particle trajectories accumulating along stable valleys of $Q_s$ [5]. Transitions, tunneling, and superposition are reinterpreted as rapid reconfigurations, phase-mediated transmissions, and dynamically balanced saddle points, respectively.\n## 4. Dynamical Derivation of Decoherence and Falsifiable Predictions\n### 4.1. Phase Turbulence and Density Matrix Decoherence\nAn interaction Hamiltonian injects broadband thermodynamic noise directly into the spatial phase ($S$), generating severe **'Phase Turbulence'** within the spatial fluid. While probability density remains strictly conserved, the reduced density matrix undergoes rapid exponential suppression of its off-diagonal interference terms ($\\\\langle e^{i(S_A - S_B)/\\\\hbar} \\\\rangle \\\\to 0$). The ensemble mechanically blurs into a classical mixed state [6].\n### 4.2. Falsifiable Prediction: Tensor-Thermodynamic Scaling Law\nIncorporating the spatial energy density $\\\\rho_{\\\\mathrm{fluid}} c^2$, the decoherence time scale is predicted to follow a **'Tensor-Thermodynamic Scaling Law'**:\n$$ \\\\tau_{dec} \\\\sim \\\\frac{\\\\hbar (\\\\rho_{\\\\mathrm{fluid}} c^2) d^3}{(k_B T_{vac})^2} $$\nObserving this specific quadratic geometric deviation ($\\\\propto T_{vac}^{-2}$) would serve as a crucial experimental verification.\n### 4.3. Apparent Simultaneity and Causality in Entanglement\nEntanglement is interpreted as a nonseparable phase correlation within a multiply-connected 3D topology. Disturbance propagates strictly obeying relativistic causality ($v \\\\le c$). However, because the internal geometrical distance traversing the multiply-connected spatial junction is effectively zero, the physical transmission time inevitably becomes $t \\\\approx 0$.\n## 5. Conclusion\nBy integrating a gauge-invariant geometric viscosity term and utilizing the exact mathematical cancellation between centrifugal phase kinetic energy and the quantum potential well at nodal points, we resolved the unphysical singularities and probability conservation violations inherent in preceding models. Measurement-induced decoherence is dynamically modeled as phase turbulence scrambling the guidance field, rigorously suppressing off-diagonal elements, thereby proposing an empirically testable deterministic physical model."
         }
       }
     },
@@ -118,7 +134,7 @@ export const papersMap: Record<string, PaperDetails> = {
       {
         "number": 1,
         "title": {
-          "ko": "1장. 서론 (Introduction)",
+          "ko": "1장. 서론",
           "en": "Chapter 1. Introduction"
         },
         "paragraphs": [
@@ -298,13 +314,67 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "To bridge this gap, this paper proposes a new paradigm that attributes the origin of wave-particle duality to the **'mechanical vibration of the background space'**. Space itself is redefined as a **'dynamical entity'** possessing intrinsic fluctuations and geometrical tensor tension. Through this 'Spatial Vibration' model, where the geometrical topology of empty spacetime can self-fluctuate, this study aims to integrate probabilistic quantum phenomena into a unified deterministic mechanical framework."
               }
             }
+          },
+          {
+            "id": "p1_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "양자역학은 미시 현상을 기술하는 가장 성공적인 이론적 프레임워크 중 하나이지만, 코펜하겐 해석은 측정 이전의 양자 상태의 물리적 지위에 관해 미해결된 의문을 남긴다 [1]. 특히, 확률적으로 해석되는 파동 함수와 측정에 수반되는 붕괴 공리는 미시 시스템이 관측과 독립적으로 확정적인 특성을 갖는지에 대한 의문을 제기한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "이러한 개념적 간극을 해소하기 위해, 본 논문은 파동적 양자 현상을 기저 공간 배경의 기하학적 요동에 귀속시키는 공간 진동 가설을 제안한다. 이 모델에서 공간은 내재적 미시 요동과 이와 연관된 유효 기하학적 장을 특징으로 하는 동역학적 실체로 취급된다. 본 모델은 텅 빈 공간이 미시적 기하학적 요동을 지원할 수 있다고 가정하며, 확률적 양자 현상을 결정론적 역학 프레임워크 내에서 재해석하고자 시도한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "제안된 프레임워크는 마델룽 및 봄의 정식화에서 사용되는 슈뢰딩거 방정식의 극형식 분해와 수학적으로 연관되어 있다 [2, 3]. 그러나 결과적인 유도 퍼텐셜을 단순한 추상적 유도 항으로 취급하는 대신, 물리적 공간의 기하학적 요동에 대한 유효한 발현으로 취급함으로써 다른 물리적 해석을 부여한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Quantum mechanics is one of the most successful theoretical frameworks for describing microscopic phenomena, yet its Copenhagen interpretation leaves unresolved questions concerning the physical status of quantum states prior to measurement. In particular, the use of a probabilistically interpreted wave function and the collapse postulate associated with measurement raise questions about whether microscopic systems possess definite properties independent of observation \\cite{Einstein1935}."
+              }
+            }
+          },
+          {
+            "id": "p1_v5.1_en_2",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "To address this conceptual gap, this paper proposes the Spatial Vibration hypothesis, which attributes wave-like quantum phenomena to geometric fluctuations of the underlying spatial background. In this model, space is treated as a dynamical entity characterized by intrinsic microscopic fluctuations and an associated effective geometric field. The model assumes that otherwise empty space can support microscopic geometric fluctuations, and it seeks to reinterpret probabilistic quantum phenomena within a deterministic mechanical framework."
+              }
+            }
+          },
+          {
+            "id": "p1_v5.1_en_3",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The proposed framework is mathematically related to the polar decomposition of the Schrödinger equation used in Madelung-type and Bohmian formulations \\cite{Madelung1927, Bohm1952}. However, it assigns a different physical interpretation to the resulting guidance potential by treating it as an effective manifestation of spatial geometric fluctuation rather than as an abstract guiding term alone."
+              }
+            }
           }
         ]
       },
       {
         "number": 2,
         "title": {
-          "ko": "2장. 공간 진동 가설 선언 (Spatial Vibration Hypothesis)",
+          "ko": "2장. 공간 진동 가설",
           "en": "Chapter 2. Spatial Vibration Hypothesis"
         },
         "paragraphs": [
@@ -950,13 +1020,211 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "The guidance force of spatial vibration is inversely proportional to the mass ($m$) inertia. As mass scales up macroscopically, immense inertia overpowers and ignores the minute spatial vibrations, inevitably converging to classical Newtonian mechanics."
               }
             }
+          },
+          {
+            "id": "p2_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "미시 입자의 거동에 대한 결정론적 해석을 공식화하는 동시에 파동적 현상을 공간 역학에 귀속시키기 위해, 본 연구는 다음의 5가지 핵심 공리를 제안한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "### 2.1. 미시 입자의 확정적 실재성",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "본 논문에서 고려되는 비상대론적 시스템에 대하여, 미시 입자는 관측과 무관하게 잘 정의된 궤적을 갖는 확정적인 입자적 실체로 가정된다. 이 프레임워크에서 양자 현상의 확률적 특성은 입자 자체의 존재론적 분산이 아니라, 그 운동을 유도하는 공간 진동 구조에 기인한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_4",
+            "versions": {
+              "v5.1": {
+                "ko": "### 2.2. 파동성의 외주화: 기하학적 공간 요동",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_5",
+            "versions": {
+              "v5.1": {
+                "ko": "이중 슬릿 실험의 간섭 무늬는 미시적 규모에서 겉보기에 텅 빈 공간 배경의 기하학적 요동으로부터 발생하는 것으로 제안된다. 파동적 거동을 입자 자체의 내재적 퍼짐으로 취급하는 대신, 입자는 기저 기하 장의 공간적 변화에 의해 동역학적으로 유도된다고 가정한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_6",
+            "versions": {
+              "v5.1": {
+                "ko": "### 2.3. 관측 역학과 감쇠 효과",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_7",
+            "versions": {
+              "v5.1": {
+                "ko": "측정 하에서 간섭 무늬가 사라지는 것은 측정에 의해 유발된 섭동과 관련된 유효한 감쇠 과정의 결과로 해석된다. 측정 장치와 미시 시스템 간의 상호작용은 미시적 공간 요동의 결맞음을 억제하는 물리적 결합으로 취급된다. 이 모델에서 이러한 결합은 현상론적인 감쇠 메커니즘을 통해 공간 진동 유도 구조를 약화시킨다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_8",
+            "versions": {
+              "v5.1": {
+                "ko": "### 2.4. 파동 함수의 재정의",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_9",
+            "versions": {
+              "v5.1": {
+                "ko": "이 모델에서 파동 함수 $\\psi$는 존재론적 물질파가 아니라, 입자의 운동을 유도하는 공간 진동 구조의 유효한 수학적 재현으로 재해석된다. $\\psi$의 진폭과 위상은 공간 유도 장에 대한 정보를 인코딩하는 것으로 가정되며, 이는 추후 공간 진동 퍼텐셜 $Q_s$를 통해 표현된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_10",
+            "versions": {
+              "v5.1": {
+                "ko": "### 2.5. 거시 세계로의 관성적 수렴",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_ko_11",
+            "versions": {
+              "v5.1": {
+                "ko": "공간 진동 유도에 의해 유발되는 가속도는 관련 질량 척도가 증가함에 따라 감소하는 것으로 가정된다. 진폭 장의 유계된 공간적 변화를 포함한 적절한 거시적 조건 하에서 공간 진동 유도 항은 고전적 힘에 비해 무시할 수 있게 된다. 이는 거시적 극한에서 뉴턴 역학적 거동을 향한 유효한 수렴을 산출한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "To formulate a deterministic interpretation of microscopic particle behavior while attributing wave-like phenomena to spatial dynamics, this study proposes the following core postulates."
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_2",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 2.1. Definite Reality of Microscopic Particles"
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_3",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "For the nonrelativistic systems considered in this paper, microscopic particles are postulated to possess definite particle-like reality and well-defined trajectories independent of observation. In this framework, the probabilistic character of quantum phenomena is not attributed to an ontological dispersion of the particle itself, but to the spatial-vibration structure that guides its motion."
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_4",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 2.2. Externalization of Wave-like Behavior: Geometric Spatial Fluctuation"
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_5",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Interference patterns in the double-slit experiment are proposed to arise from geometric fluctuations of the apparently empty spatial background at microscopic scales. The particle is assumed to be dynamically guided by spatial variations of the underlying geometric field, rather than by treating wave-like behavior as an intrinsic spreading of the particle itself."
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_6",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 2.3. Observation Mechanics and Damping Effect"
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_7",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The disappearance of interference patterns under measurement is interpreted as the result of an effective damping process associated with measurement-induced perturbation. The interaction between the measuring apparatus and the microscopic system is treated as a physical coupling that suppresses the coherence of microscopic spatial fluctuations. In this model, such coupling attenuates the spatial-vibration guidance structure through a phenomenological damping mechanism."
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_8",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 2.4. Reinterpretation of the Wave Function"
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_9",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In this model, the wave function, $\\psi$, is reinterpreted not as an ontological matter wave, but as an effective mathematical representation of the spatial-vibration structure that guides particle motion. The amplitude and phase of $\\psi$ are assumed to encode information about the spatial-guidance field, which is later expressed through the spatial-vibration potential $Q_s$."
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_10",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 2.5. Inertial Convergence to the Macroscopic World"
+              }
+            }
+          },
+          {
+            "id": "p2_v5.1_en_11",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The acceleration induced by spatial-vibration guidance is assumed to decrease as the relevant mass scale increases. Under appropriate macroscopic conditions, including bounded spatial variations of the amplitude field, the spatial-vibration guidance term becomes negligible relative to classical forces. This yields an effective convergence toward Newtonian behavior in the macroscopic limit."
+              }
+            }
           }
         ]
       },
       {
         "number": 3,
         "title": {
-          "ko": "3장. 수학적 정식화: 슈뢰딩거 방정식에서 공간 진동 역학으로의 전환",
+          "ko": "3장. 수학적 정식화",
           "en": "Chapter 3. Mathematical Formulation"
         },
         "paragraphs": [
@@ -1064,6 +1332,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "$$ i\\hbar \\frac{\\partial \\psi}{\\partial t} = -\\frac{\\hbar^2}{2m} \\nabla^2 \\psi + V\\psi $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ i\\hbar\\frac{\\partial \\psi}{\\partial t} = -\\frac{\\hbar^2}{2m}\\nabla^2\\psi + V\\psi $$"
               }
             }
           },
@@ -1243,6 +1515,10 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "### Decomposition and Derivation"
               },
               "v5": {
+                "ko": "### 3.2. 방정식의 분해 및 유도 과정",
+                "en": "### Decomposition and Derivation"
+              },
+              "v5.1": {
                 "ko": "### 3.2. 방정식의 분해 및 유도 과정",
                 "en": "### Decomposition and Derivation"
               }
@@ -1608,6 +1884,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V - \\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} = 0 $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = 0 $$"
               }
             }
           },
@@ -1720,6 +2000,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "$$ Q_s \\equiv -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R} \\quad \\Rightarrow \\quad \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = 0 $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ Q_s \\equiv -\\frac{\\hbar^2}{2m}\\frac{\\nabla^2 R}{R} $$"
               }
             }
           },
@@ -1979,6 +2263,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "$$ \\frac{\\partial R^2}{\\partial t} + \\nabla \\cdot \\left( R^2 \\frac{\\nabla S}{m} \\right) = 0 $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial R^2}{\\partial t} + \\nabla\\cdot \\left( \\frac{R^2\\nabla S}{m} \\right) = 0 $$"
               }
             }
           },
@@ -3252,14 +3540,401 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "Bohmian mechanics failed to identify the physical reality of the pilot-wave, leaving it as a mysterious force residing in an abstract 'configuration space'. By interpreting the Laplacian term ($\\nabla^2 R$) as the **'geometrical curvature of the 3D physical background vacuum space'**, this model breaks through the metaphysical limitations of hidden-variable theories, bringing quantum phenomena into the realm of observable deterministic Geomechanical Dynamics."
               }
             }
+          },
+          {
+            "id": "p3_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "이 절은 공간 기하학적 요동 측면에서 물리적 해석을 재정립하기 위해 슈뢰딩거 방정식을 재정식화한다. 이 절의 분석은 단일 비상대론적 스핀리스(spinless) 입자에 국한된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "### 3.1. 극형식 변환",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "시간에 의존하는 슈뢰딩거 방정식에서 출발하여:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_4",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ i\\hbar\\frac{\\partial \\psi}{\\partial t} = -\\frac{\\hbar^2}{2m}\\nabla^2\\psi + V\\psi \\tag{1} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_5",
+            "versions": {
+              "v5.1": {
+                "ko": "우리는 실수 비음수 진폭 $R(\\mathbf{r},t) \\ge 0$와 실수 작용 함수 $S(\\mathbf{r},t) \\in \\mathbb{R}$를 사용하여 파동 함수 $\\psi(\\mathbf{r},t)$를 극형식으로 분해한다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_6",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\psi(\\mathbf{r},t) = R(\\mathbf{r},t)e^{iS(\\mathbf{r},t)/\\hbar} \\tag{2} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_8",
+            "versions": {
+              "v5.1": {
+                "ko": "**a. 실수부: 양자 해밀턴-야코비 방정식**",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_9",
+            "versions": {
+              "v5.1": {
+                "ko": "실수부를 분리하면 양자 퍼텐셜 항이 추가된 해밀턴-야코비 형태의 방정식이 도출된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_10",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V - \\frac{\\hbar^2}{2m}\\frac{\\nabla^2 R}{R} = 0 \\tag{3} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_11",
+            "versions": {
+              "v5.1": {
+                "ko": "추가적인 항은 여기서 공간 진동 퍼텐셜 $Q_s$로 정의된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_12",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ Q_s \\equiv -\\frac{\\hbar^2}{2m}\\frac{\\nabla^2 R}{R} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_13",
+            "versions": {
+              "v5.1": {
+                "ko": "따라서,",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_14",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = 0 \\tag{4} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_15",
+            "versions": {
+              "v5.1": {
+                "ko": "이 정식화에서 $Q_s$는 스칼라 퍼텐셜이다. 이를 물리적 공간의 기하학적 요동에 대한 척도로 해석하는 것은 극형식 분해의 결과라기보다는 본 모델의 추가적인 물리적 공리로 도입된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_16",
+            "versions": {
+              "v5.1": {
+                "ko": "**b. 허수부: 연속 방정식**",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_17",
+            "versions": {
+              "v5.1": {
+                "ko": "허수부를 분리하면 연속 방정식이 도출된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_18",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\frac{\\partial R^2}{\\partial t} + \\nabla\\cdot \\left( \\frac{R^2\\nabla S}{m} \\right) = 0 \\tag{5} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_19",
+            "versions": {
+              "v5.1": {
+                "ko": "$\\rho=R^2$ 및 $\\mathbf{v}=\\nabla S/m$로 정의하면, 이 방정식은 다음과 같이 다시 쓸 수 있다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_20",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\frac{\\partial \\rho}{\\partial t} + \\nabla\\cdot(\\rho \\mathbf{v}) = 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_21",
+            "versions": {
+              "v5.1": {
+                "ko": "표준 양자역학에서 $\\rho = |\\psi|^2$는 확률 밀도로 해석된다. 본 모델에서 $\\rho$는 공간 진동 구조와 연관된 유효 밀도로서 추가적인 해석을 부여받으며, 이는 별도의 물리적 공리를 요구한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_22",
+            "versions": {
+              "v5.1": {
+                "ko": "### 3.3. 선행 이론들과의 관계",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_23",
+            "versions": {
+              "v5.1": {
+                "ko": "봄 역학은 입자 궤적이 파동 함수에 의해 유도되는 결정론적 해석을 제공한다. 본 정식화는 비상대론적 단일 입자 슈뢰딩거 방정식 수준에서 마델룽/봄 분해와 수학적으로 동일하며, $Q_s$는 대수적으로 봄의 양자 퍼텐셜과 동일하다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_ko_24",
+            "versions": {
+              "v5.1": {
+                "ko": "본 연구에서 제안하는 차이점은 대수적인 것이 아니라 존재론적인 것이다. 양자 퍼텐셜을 형상 공간(configuration space)의 비고전적 유도 항으로 취급하는 대신, 본 모델은 $Q_s$를 물리적 공간 배경의 기하학적 요동에 대한 유효 스칼라 척도로 해석한다. 다입자 시스템에 대한 이러한 확장은 진폭 $R$이 일반적으로 3차원 공간이 아닌 형상 공간에서 정의되기 때문에 추가적인 정식화를 필요로 하며, 이는 얽힘 상관관계를 다루는 데 특히 중요하다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "This section reformulates the Schrödinger equation in order to reinterpret its physical interpretation in terms of spatial geometric fluctuations. The analysis in this section is limited to a single nonrelativistic spinless particle."
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_2",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 3.1. Polar Transformation"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_3",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Starting from the time-dependent Schrödinger equation,"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_5",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "we decompose the wave function $\\psi(\\mathbf{r},t)$ into polar form using a real non-negative amplitude $R(\\mathbf{r},t) \\ge 0$ and a real action function $S(\\mathbf{r},t) \\in \\mathbb{R}$:"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_6",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\psi(\\mathbf{r},t) = R(\\mathbf{r},t)e^{iS(\\mathbf{r},t)/\\hbar} $$"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_7",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 3.2. Equation Decomposition and Derivation"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_8",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "**[Real Part: Quantum Hamilton-Jacobi Equation]**"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_9",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Separating the real part yields a Hamilton-Jacobi-type equation with an additional quantum-potential term:"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_11",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The additional term is defined here as the spatial-vibration potential, $Q_s$:"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_13",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Accordingly,"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_15",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In this formulation, $Q_s$ is a scalar potential. Its interpretation as a measure of spatial geometric fluctuation is introduced as an additional physical postulate of the present model, rather than as a direct consequence of the polar decomposition alone."
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_16",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "**[Imaginary Part: Continuity Equation]**"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_17",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Separating the imaginary part yields the continuity equation:"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_19",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Defining $\\rho=R^2$ and $\\mathbf{v}=\\nabla S/m$, this equation can be written as"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_20",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial \\rho}{\\partial t} + \\nabla\\cdot(\\rho \\mathbf{v}) = 0 $$"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_21",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In standard quantum mechanics, $\\rho = |\\psi|^2$ is interpreted as the probability density. In the present model, $\\rho$ is further assigned an effective physical interpretation as a density associated with the spatial-vibration structure. This additional interpretation requires a separate physical postulate and does not follow from the continuity equation alone."
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_22",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 3.3. Relation to Preceding Theories"
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_23",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Bohmian mechanics provides a deterministic interpretation in which particle trajectories are guided by the wave function. The present formulation is mathematically equivalent to the Madelung/Bohmian decomposition at the level of the nonrelativistic single-particle Schrödinger equation. In particular, $Q_s$ is algebraically identical to Bohm's quantum potential."
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_24",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The distinction proposed in this study is ontological rather than algebraic. Rather than treating the quantum potential solely as a nonclassical guiding term in configuration space, the present model interprets $Q_s$ as an effective scalar measure of geometric fluctuation in the physical spatial background. This identification is introduced as a postulate of the Spatial Vibration hypothesis and must be supported by further physical modeling."
+              }
+            }
+          },
+          {
+            "id": "p3_v5.1_en_25",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The extension of this interpretation to many-particle systems requires additional formulation, since the amplitude $R$ is generally defined on configuration space rather than ordinary three-dimensional space. This issue is particularly important for any treatment of entanglement correlations."
+              }
+            }
           }
         ]
       },
       {
         "number": 4,
         "title": {
-          "ko": "4장. 기하역학적 현상 규명: 양자 미스터리의 전면 해체 (Geomechanical Deconstruction)",
-          "en": "Chapter 4. Geomechanical Deconstruction of Quantum Mysteries"
+          "ko": "4장. 선택된 양자 현상의 기하역학적 재해석",
+          "en": "Chapter 4. Geomechanical Reinterpretation of Selected Quantum Phenomena"
         },
         "paragraphs": [
           {
@@ -3374,6 +4049,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "$$ m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r}, t) $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ m\\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r},t) $$"
               }
             }
           },
@@ -3494,6 +4173,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v3": {
                 "ko": "이중 슬릿 실험에서 실재하는 단일 입자는 두 개의 슬릿 중 반드시 **어느 '하나'의 슬릿만을 통과**한다. 그러나 물질적 실체가 없는 **배경 공간의 기하학적 요동파는 유체처럼 두 슬릿을 모두 통과**하며, 슬릿 너머에서 회절과 간섭을 일으킨다.",
                 "en": "In the double-slit experiment, a real particle physically transits only one slit. However, the geometric waves of the background space propagate through both slits like a fluid, generating diffraction and interference patterns beyond the slits."
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "In the double-slit experiment, regions near destructive-interference nodes, where $R$ approaches zero, can produce sharp variations in $Q_s$, while regions of constructive interference correspond to more stable trajectory channels. The particle is therefore modeled as being guided through a spatial-vibration potential landscape."
               }
             }
           },
@@ -4528,14 +5211,482 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "*   **Black Hole Information Paradox & Arrow of Time:** Information (tensor phase) is tightly twisted into the black hole and preserved, later released via geometrical elastic restoration during Hawking radiation. The irreversible accumulation of 'Topological Scars' dictates the unidirectional flow of time."
               }
             }
+          },
+          {
+            "id": "p4_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "이 절은 결정론적 기하역학 프레임워크 내에서 선택된 양자 현상을 재해석하기 위해 공간 진동 퍼텐셜 $Q_s$를 적용한다. 하위 항목들은 완전한 수학적 유도가 아니라 해석적 확장(interpretive extensions)으로 이해되어야 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.1. 유도 운동 방정식",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "속도장을 $\\mathbf{v}=\\nabla S/m$로 정의하고 궤적을 따라 양자 해밀턴-야코비 방정식의 기울기를 취하면 도출된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_4",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ m\\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla Q_s(\\mathbf{r},t) \\tag{6} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_5",
+            "versions": {
+              "v5.1": {
+                "ko": "여기서 $d/dt = \\partial/\\partial t + \\mathbf{v}\\cdot\\nabla$는 궤적을 따른 전미분을 나타낸다. 이 유도는 노드 또는 특이점을 제외하고 단일값 위상 $S$와 비회전성 속도장을 가정한다. $-\\nabla Q_s$는 $Q_s$의 공간적 변화에 따라 입자의 운동을 수정하는 유도력으로 작용한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_6",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.2. 파동-입자 이중성: 궤적 유도와 통계적 앙상블",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_7",
+            "versions": {
+              "v5.1": {
+                "ko": "이중 슬릿 실험에서 $R$이 0에 접근하는 상쇄 간섭 노드 근처 영역은 $Q_s$에 급격한 변화를 일으키며, 보강 간섭 영역은 안정적인 궤적 채널에 해당한다. 검출 화면에서 관찰된 간섭 무늬 $|\\psi|^2$는 초기 궤적 분포가 $\\rho(\\mathbf{r},0)=|\\psi(\\mathbf{r},0)|^2$를 만족할 경우, 다수의 입자 궤적들의 통계적 앙상블로 해석될 수 있다. 연속 방정식 하에서 이 분포는 등변(equivariant) 상태를 유지한다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_8",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\rho(\\mathbf{r},0)=|\\psi(\\mathbf{r},0)|^2 \\Rightarrow \\rho(\\mathbf{r},t)=|\\psi(\\mathbf{r},t)|^2 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_9",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.3. 양자 전이: 안정된 상태 간의 재구성",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_10",
+            "versions": {
+              "v5.1": {
+                "ko": "이 모델에서 전자는 상응하는 공간 진동 유도 구조가 안정될 때 안정 상태에 존재한다. 외부 에너지가 공급되면 퍼텐셜이 변형되어 전이가 허용된다. 양자 전이의 외견상 불연속성은 즉각적인 입자의 이동이 아니라 유도 기하학의 빠른 재구성으로 해석된다. 완전한 정식화는 $E_f - E_i = \\hbar\\omega$ 조건과 전이 확률을 재현해야 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_11",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.4. 양자 터널링: 위상 매개 투과",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_12",
+            "versions": {
+              "v5.1": {
+                "ko": "양자 터널링은 장벽 내외의 공간 진동 구조가 상관관계를 유지할 때 유효한 투과 채널이 형성되는 위상 매개 과정으로 재해석된다. 터널링 확률은 이 상관관계의 안정성에 좌우되며, 표준 예측과의 동등성을 확립하기 위해 WKB 형태의 의존성을 재현해야 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_13",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.5. 양자 중첩: 결합된 유도 구조",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_14",
+            "versions": {
+              "v5.1": {
+                "ko": "중첩은 입자가 여러 위치로 문자 그대로 분할되는 것이 아니라, 중첩된 상태 $\\psi=c_1\\psi_1+c_2\\psi_2$가 결합된 공간 진동 유도 구조를 생성하는 것으로 해석된다. 유도 장은 경쟁하는 궤적 채널들을 포함하며, 측정은 이 구조를 교란하여 보른 규칙($P_i = |c_i|^2$)과 일치하는 결과를 산출한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_15",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.6. 양자 스핀: 스피너 구조로의 확장 필요성",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_16",
+            "versions": {
+              "v5.1": {
+                "ko": "스핀은 점 입자의 자전이 아니라 국소적인 공간 진동 장과 관련된 내재적인 각운동량 유사 구조로 해석된다. 그러나 현재의 스칼라 정식화는 스핀-1/2 거동을 도출하기에 불충분하며, 파울리 또는 디랙 스피너로의 확장을 필요로 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_17",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.7. 불확정성 원리: 국소화와 위상-기울기 트레이드오프",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_18",
+            "versions": {
+              "v5.1": {
+                "ko": "불확정성 관계는 공간적 국소화와 위상-기울기 정보 보존 사이의 트레이드오프에서 발생하는 구조적 한계로 재해석된다. 측정 상호작용은 필연적으로 운동량 관련 정보를 암호화하는 공간 진동 구성을 교란하며, 이는 표준 연산자 기반 관계와 호환된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_19",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\Delta x \\Delta p \\ge \\frac{\\hbar}{2} \\tag{7} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_20",
+            "versions": {
+              "v5.1": {
+                "ko": "### 4.8. 양자 소산: 현상론적 기하학적 감쇠",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_21",
+            "versions": {
+              "v5.1": {
+                "ko": "소산 거동을 설명하기 위해, 유효 기하학적 감쇠 항 $\\Gamma(\\mathbf{v}, \\nabla R)$을 해밀턴-야코비 형태의 방정식에 현상론적으로 도입한다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_22",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = -\\Gamma(\\mathbf{v}, \\nabla R) \\tag{8} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_ko_23",
+            "versions": {
+              "v5.1": {
+                "ko": "이는 닫힌계의 슈뢰딩거 방정식에서 도출되지 않으므로 개방형 시스템을 위한 제안된 확장으로 이해되어야 한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "This section applies the spatial-vibration potential, $Q_s$, to reinterpret selected quantum phenomena within a deterministic geomechanical framework. The guidance equation and the double-slit trajectory interpretation follow directly from the polar decomposition discussed above. The subsequent subsections should be understood as interpretive extensions of the core framework, rather than as complete derivations from the guidance equation."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_2",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.1. Guidance Equation of Motion"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_3",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Defining the velocity field as $\\mathbf{v}=\\nabla S/m$, and taking the gradient of the quantum Hamilton-Jacobi equation along a particle trajectory yields"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_5",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "where $d/dt = \\partial/\\partial t + \\mathbf{v}\\cdot\\nabla$ denotes the total derivative along the trajectory. This derivation assumes a single-valued phase $S$ and an irrotational velocity field except at nodal or singular points. In this formulation, $-\\nabla Q_s$ acts as a guidance force that modifies the particle's motion according to the spatial variation of $Q_s$."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_6",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.2. Wave-Particle Duality: Trajectory Guidance and Statistical Ensemble"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_8",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The interference pattern observed on the detection screen, represented by $|\\psi|^2$, can be interpreted as a statistical ensemble of many particle trajectories, provided that the initial trajectory distribution satisfies $\\rho(\\mathbf{r},0)=|\\psi(\\mathbf{r},0)|^2$. Under the continuity equation derived above, this distribution remains equivariant:"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_9",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\rho(\\mathbf{r},0)=|\\psi(\\mathbf{r},0)|^2 \\Rightarrow \\rho(\\mathbf{r},t)=|\\psi(\\mathbf{r},t)|^2 $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_10",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "A full treatment of nodal regions, where $R=0$ and $Q_s$ may become singular, requires either regularization or a separate analysis."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_11",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.3. Quantum Transitions: Reconfiguration Between Stable States"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_12",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In this model, an electron is associated with a stable state when the corresponding spatial-vibration guidance structure is dynamically stable. When external energy is supplied, the spatial-vibration potential may be deformed, allowing a transition between two stable configurations. The apparent discontinuity of the quantum transition is therefore interpreted as a rapid reconfiguration of the guiding spatial geometry rather than as literal instantaneous motion. A complete formulation of this process must reproduce the standard energy condition,"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_13",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ E_f - E_i = \\hbar\\omega $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_14",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "as well as transition probabilities and selection rules."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_15",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.4. Quantum Tunneling: Phase-Mediated Transmission"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_16",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Quantum tunneling is reinterpreted here as a phase-mediated transmission process. When the spatial-vibration structure within a potential barrier remains sufficiently correlated with the external spatial-vibration field, an effective transmission channel may form across the barrier. In this framework, the tunneling probability is expected to depend on the stability of this phase correlation, as well as on the barrier height, barrier width, particle mass, and incident energy. To establish equivalence with standard quantum predictions, the model must reproduce the usual tunneling transmission behavior, including the WKB-type dependence:"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_17",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ T \\sim \\exp\\left( -2\\int \\kappa(x) dx \\right), \\quad \\kappa(x)=\\frac{\\sqrt{2m(V(x)-E)}}{\\hbar} $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_18",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.5. Quantum Superposition: Combined Guidance Structure"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_19",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Superposition is not treated in this model as a literal division of a particle into multiple physical locations. Instead, a superposed state,"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_20",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\psi=c_1\\psi_1+c_2\\psi_2 $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_21",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "is interpreted as generating a combined spatial-vibration guidance structure through its full amplitude and phase. The resulting guidance field may contain competing trajectory channels and interference regions. Measurement perturbs this combined structure and produces one of the available outcomes according to probabilities that must remain consistent with the Born rule ($P_i = |c_i|^2$)."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_22",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.6. Quantum Spin: Required Extension to Spinor Structure"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_23",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Spin is not treated as the literal rotation of a point particle. However, the scalar formulation developed so far is based on the nonrelativistic spinless Schrödinger equation and is therefore insufficient to derive spin-1/2 behavior. A complete treatment of spin requires extending the model to Pauli or Dirac spinor wave functions, including the reproduction of discrete spin measurement outcomes, magnetic moment coupling, and the observed $\\pm\\hbar/2$ angular momentum values. The possible interpretation of spin as a local vortical structure of the spatial field is therefore presented only as a speculative direction for future development."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_24",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.7. Uncertainty Principle: Localization and Phase-Gradient Trade-off"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_25",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The uncertainty relation is reinterpreted here as a structural limitation arising from the trade-off between spatial localization and the preservation of phase-gradient information. This interpretation is intended to be compatible with, rather than replace, the standard operator-based uncertainty relation,"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_26",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\Delta x \\Delta p \\ge \\frac{\\hbar}{2} $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_27",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In the present model, a sharply localized spatial distribution requires a correspondingly broad range of phase-gradient or momentum components. Measurement interactions may further disturb the spatial-vibration configuration that encodes momentum-related information."
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_28",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 4.8. Quantum Dissipation: Phenomenological Geometric Damping"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_29",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "To describe dissipative quantum behavior, this model introduces an effective geometric damping term, $\\Gamma(\\mathbf{v}, \\nabla R)$, into the Hamilton-Jacobi-like equation:"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_30",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\frac{\\partial S}{\\partial t} + \\frac{(\\nabla S)^2}{2m} + V + Q_s = -\\Gamma(\\mathbf{v}, \\nabla R) $$"
+              }
+            }
+          },
+          {
+            "id": "p4_v5.1_en_31",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Here, $\\Gamma$ represents a phenomenological coupling between particle motion and unresolved spatial-vibration degrees of freedom. Since this term does not follow from the conservative Schrödinger equation, it should be understood as a proposed extension for open or dissipative systems. A complete formulation must specify the functional form and physical dimension of $\\Gamma$, and must demonstrate consistency with probability conservation, energy balance, and known open-system quantum dynamics."
+              }
+            }
           }
         ]
       },
       {
         "number": 5,
         "title": {
-          "ko": "5장. 관측의 역학: 결맞음 파괴와 양자 얽힘 붕괴 착시",
-          "en": "Chapter 5. Observation Mechanics, Decoherence, and the Entanglement Illusion"
+          "ko": "5장. 관측 역학, 결맞음 파괴, 그리고 얽힘 상관관계",
+          "en": "Chapter 5. Observation Mechanics, Decoherence, and Entanglement Correlations"
         },
         "paragraphs": [
           {
@@ -4684,6 +5835,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "$$ \\gamma(E_{obs}) = \\exp \\left( -\\frac{E_{obs}}{\\epsilon_c} \\right) \\quad \\Rightarrow \\quad m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla \\left[ \\gamma \\cdot Q_s(\\mathbf{r}, t) \\right] $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\gamma(E_{obs}) = \\exp\\left( -\\frac{E_{obs}}{\\epsilon_c} \\right) $$"
               }
             }
           },
@@ -4804,6 +5959,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v4": {
                 "ko": "",
                 "en": "$$ m \\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla \\left[ \\gamma(E_{obs}) \\cdot Q_s(\\mathbf{r}, t) \\right] $$"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ m\\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla\\left[ \\gamma(E_{obs})Q_s(\\mathbf{r},t) \\right] $$"
               }
             }
           },
@@ -5178,6 +6337,10 @@ export const papersMap: Record<string, PaperDetails> = {
               "v3": {
                 "ko": "",
                 "en": "m \\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r})"
+              },
+              "v5.1": {
+                "ko": "",
+                "en": "$$ m\\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) $$"
               }
             }
           },
@@ -6302,14 +7465,365 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "Upon pinch-off, the parent 3D universe undergoes immediate geometrical 'self-healing', preserving macroscopic continuity. The detached upper junction isolates into a closed 4D **'Topological Bubble'**. During cosmic inflation, these torn topological bubbles expanded independently to form the seeds of **Multiverses**, while the remaining topological scars fragmented our universe into 'Spatial Plates', bridging quantum mechanics directly to cosmological plate tectonics."
               }
             }
+          },
+          {
+            "id": "p5_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "### 5.1. 감쇠 인자가 포함된 확장 방정식",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "측정은 미시 시스템과 거시 관측 환경 간의 상호작용으로 취급되며, 이는 공간 진동 구성의 결맞음을 억제한다. 무차원 감쇠 인자 $\\gamma$가 도입된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\gamma(E_{obs}) = \\exp\\left( -\\frac{E_{obs}}{\\epsilon_c} \\right) \\tag{9} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_4",
+            "versions": {
+              "v5.1": {
+                "ko": "여기서 $E_{obs}$는 유효 측정-상호작용 척도를 나타낸다. 해당 유도 방정식은 다음과 같이 작성된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_5",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ m\\frac{d\\mathbf{v}}{dt} = -\\nabla V(\\mathbf{r}) - \\nabla\\left[ \\gamma(E_{obs})Q_s(\\mathbf{r},t) \\right] \\tag{10} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_6",
+            "versions": {
+              "v5.1": {
+                "ko": "### 5.2. 측정 하에서의 파동적 유도 억제",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_7",
+            "versions": {
+              "v5.1": {
+                "ko": "강한 측정 극한($E_{obs} / \\epsilon_c \\gg 1$)에서 감쇠 인자는 0에 접근한다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_8",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\lim_{E_{obs}/\\epsilon_c \\to \\infty} \\gamma(E_{obs}) = 0 $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_9",
+            "versions": {
+              "v5.1": {
+                "ko": "측정 동안 $Q_s$가 유계된 상태로 유지된다는 가정 하에, 유도 방정식에 대한 $Q_s$의 기여는 강하게 억제된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_10",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ m\\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V(\\mathbf{r}) \\tag{11} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_11",
+            "versions": {
+              "v5.1": {
+                "ko": "관측 하에서 간섭이 사라지는 현상은 측정 상호작용에 의한 감쇠 과정으로 해석되며, 이는 환경 유도 결맞음 파괴(decoherence)에 대한 현상론적 유추를 제공한다. 완전한 연결은 밀도 행렬 정식화를 요구한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_12",
+            "versions": {
+              "v5.1": {
+                "ko": "### 5.3. 비분리적 공간 진동 상관관계로서의 얽힘",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_13",
+            "versions": {
+              "v5.1": {
+                "ko": "두 입자 시스템에서 얽힘은 비분리적(nonseparable) 결합 파동 함수에 해당한다. 본 모델에서 이는 결합된 공간 진동 구성 내의 비분리적 위상 상관관계로 해석된다. 얽힘을 일반 공간을 통해 전송되는 신호로 취급하는 대신, 시스템의 결합 구성에 대한 제약으로 해석한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_14",
+            "versions": {
+              "v5.1": {
+                "ko": "### 5.4. 겉보기 동시성과 인과율",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_15",
+            "versions": {
+              "v5.1": {
+                "ko": "상관된 측정 결과의 겉보기 동시성은 본 연구에서 통제 가능한 초광속 통신으로 해석되지 않는다. 대신, 이는 비분리적 구조의 발현으로 취급된다. 국소 측정에 의한 모든 물리적 교란은 상대론적 인과율($v \\le c$)의 지배를 받으며 전파되는 것으로 가정된다. 따라서 본 모델은 신호 전달 금지(no-signaling) 조건과 호환되도록 구성된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_16",
+            "versions": {
+              "v5.1": {
+                "ko": "### 5.5. 환경적 결맞음 파괴로서의 위상 상관관계 상실",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_ko_17",
+            "versions": {
+              "v5.1": {
+                "ko": "결맞음 파괴는 환경적 또는 배경 자유도와의 결합에 의해 발생하는 위상 상관관계의 점진적 상실로 모델링된다. 배경 요동이 얽힘을 지지하는 결합 구성을 불안정하게 만들면, 상태는 고전적으로 상관된 기술로 효과적으로 전이된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 5.1. Extended Equation with a Damping Factor"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_2",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In this model, measurement is treated as an interaction between a microscopic system and a macroscopic observational environment. This interaction is assumed to suppress the coherence of the spatial-vibration configuration. To represent this effect phenomenologically, a dimensionless damping factor, $\\gamma$, is introduced:"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_4",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "where $E_{obs}$ denotes an effective measurement-interaction scale, rather than necessarily the literal injected energy, and $\\epsilon_c$ is a characteristic coherence-suppression scale. The corresponding guidance equation is written as"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_6",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "If $E_{obs}$ is treated as spatially uniform over the microscopic region of interest, this reduces to a multiplicative suppression of the guidance force. If $E_{obs}$ depends on position or time, additional gradient terms such as $-Q_s\\nabla\\gamma$ must be included."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_7",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 5.2. Suppression of Wave-like Guidance Under Measurement"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_8",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In the strong-measurement limit,"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_9",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\frac{E_{obs}}{\\epsilon_c} \\gg 1, $$"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_10",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "the damping factor approaches zero:"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_11",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\lim_{E_{obs}/\\epsilon_c \\to \\infty} \\gamma(E_{obs}) = 0 $$"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_12",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Provided that $Q_s$ remains bounded under the measurement interaction, the contribution of $Q_s$ to the guidance equation is strongly suppressed:"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_14",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The disappearance of interference under observation is interpreted as the damping of the spatial-vibration guidance structure by the measurement interaction. At the phenomenological level, this may be related to the loss of interference visibility, for example through a relation of the form $\\mathcal{V} \\approx \\mathcal{V}_0\\gamma(E_{obs})$, where $\\mathcal{V}$ denotes the observed interference visibility. A full connection with environment-induced decoherence would require a density-matrix formulation showing the suppression of off-diagonal coherence terms."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_15",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 5.3. Entanglement as Nonseparable Spatial-Vibration Correlation"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_16",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "For a two-particle system, entanglement corresponds to a nonfactorizable joint wave function,"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_17",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\psi(\\mathbf{r}_1,\\mathbf{r}_2,t) \\neq \\psi_1(\\mathbf{r}_1,t)\\psi_2(\\mathbf{r}_2,t) $$"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_18",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "In the present model, this nonfactorizability is interpreted as a nonseparable phase correlation in the joint spatial-vibration configuration associated with the two-particle system. Rather than treating entanglement as a signal transmitted through ordinary space, the model interprets it as a constraint on the joint configuration of the system."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_19",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "This interpretation requires additional formulation because the joint amplitude and phase of an entangled state are generally defined on configuration space rather than ordinary three-dimensional space."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_20",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 5.4. Apparent Simultaneity and Causality"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_21",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The apparent simultaneity of correlated measurement outcomes is not interpreted here as controllable superluminal communication. Instead, it is treated as a manifestation of the nonseparable structure of the joint spatial-vibration configuration. Any physical disturbance generated by a local measurement is assumed to propagate subject to relativistic causality, $v \\le c$."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_22",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Therefore, the model is constructed to remain compatible with the no-signaling condition while accounting for the apparent nonlocal character of entanglement. A complete treatment must specify how the model reproduces Bell-type correlations, including Bell-inequality violations, without enabling superluminal signaling."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_23",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "### 5.5. Environmental Decoherence as Loss of Phase Correlation"
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_24",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Decoherence is modeled as the gradual loss of phase correlation caused by coupling to environmental or background degrees of freedom. In this interpretation, fluctuations of the spatial-vibration background destabilize the joint configuration that supports entanglement. Once the phase correlation becomes sufficiently degraded, the entangled state effectively transitions into a classically correlated or separable description."
+              }
+            }
+          },
+          {
+            "id": "p5_v5.1_en_25",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "This process is not assumed to occur in an isolated closed system, but through interaction with environmental or background modes. A complete formulation would require a decoherence rate, a specification of the relevant environmental degrees of freedom, and a density-matrix description of the suppression of coherence."
+              }
+            }
           }
         ]
       },
       {
         "number": 6,
         "title": {
-          "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도와 고전 역학의 복원",
-          "en": "Chapter 6. The Macro-Micro Boundary: Inertial Domination"
+          "ko": "6장. 거시-미시 경계: 관성적 억제 (Inertial Suppression)",
+          "en": "Chapter 6. The Macro-Micro Boundary: Inertial Suppression"
         },
         "paragraphs": [
           {
@@ -6517,6 +8031,10 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "\\mathbf{F}_{space} = -\\nabla Q_s = \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right)"
               },
               "v4": {
+                "ko": "",
+                "en": "$$ \\mathbf{F}_{space} = -\\nabla Q_s = \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) $$"
+              },
+              "v5.1": {
                 "ko": "",
                 "en": "$$ \\mathbf{F}_{space} = -\\nabla Q_s = \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) $$"
               }
@@ -7857,13 +9375,148 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "A macroscopic object ($10^{23}$ particles) possesses overwhelming 'classical inertia density'. It mercilessly crushes and mechanically 'ignores' the minute curvatures of the vibrating empty space. As the guidance tensor term approaches mathematical zero, all macroscopic equations perfectly reduce to Newton's classical mechanics ($m \\frac{d\\mathbf{v}}{dt} = -\\nabla V$)."
               }
             }
+          },
+          {
+            "id": "p6_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "$Q_s$와 관련된 공간 유도력은 다음과 같이 주어진다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\mathbf{F}_{space} = -\\nabla Q_s = \\frac{\\hbar^2}{2m} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) \\tag{12} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "진폭 의존 기하학적 항이 $\\nabla (\\nabla^2 R/R) = o(m)$을 만족하고, 노드 특이점이 적절히 정칙화된다면 공간 유도력은 큰 질량 극한에서 무시할 수 있게 된다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_ko_4",
+            "versions": {
+              "v5.1": {
+                "ko": "$$ \\lim_{m \\to \\infty} \\mathbf{F}_{space} = 0 \\tag{13} $$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_ko_5",
+            "versions": {
+              "v5.1": {
+                "ko": "이 극한에서 미시적 공간 유도 가속도는 관성에 의해 억제되며, 유효 운동 방정식은 뉴턴 형태 $m d\\mathbf{v}/dt \\approx -\\nabla V$에 접근한다. 이는 고전적 거시 역학과 연결되는 유효 거시 극한을 제공한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The spatial-guidance force associated with $Q_s$ is given by"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_3",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The corresponding acceleration contribution is"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_4",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\mathbf{a}_{space} = \\frac{\\mathbf{F}_{space}}{m} = \\frac{\\hbar^2}{2m^2} \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) $$"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_5",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Therefore, if the amplitude-dependent geometric term satisfies"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_6",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\nabla \\left( \\frac{\\nabla^2 R}{R} \\right) = o(m) $$"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_7",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "and if nodal singularities are absent or appropriately regularized, the spatial-guidance force becomes negligible in the large-mass limit:"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_8",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ \\lim_{m \\to \\infty} \\mathbf{F}_{space} = 0 $$"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_9",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Under the same assumptions, the acceleration induced by microscopic spatial-guidance effects is further suppressed by inertia. Consequently, the effective equation of motion approaches the Newtonian form,"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_10",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "$$ m\\frac{d\\mathbf{v}}{dt} \\approx -\\nabla V $$"
+              }
+            }
+          },
+          {
+            "id": "p6_v5.1_en_11",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "This provides a possible route for connecting the proposed microscopic guidance mechanism with classical macroscopic dynamics. However, this convergence should be understood as an effective macroscopic limit, requiring appropriate smoothness, bounded-gradient conditions, and, for composite macroscopic objects, a separate treatment of center-of-mass and environmental decoherence effects."
+              }
+            }
           }
         ]
       },
       {
         "number": 7,
         "title": {
-          "ko": "7장. 결론 (Conclusion)",
+          "ko": "7장. 결론",
           "en": "Chapter 7. Conclusion"
         },
         "paragraphs": [
@@ -8291,6 +9944,195 @@ export const papersMap: Record<string, PaperDetails> = {
               "v5": {
                 "ko": "",
                 "en": "While mass inertia suppresses spatial vibration at macro-scales, this dynamic relationship undergoes a dramatic **'Fractal Scale Symmetry'** cosmologically. The immense vibrational energy accumulated within deep space once again dominates the inertia of giant galaxies. Subsequent papers in this series will explore how this macroscopic spatial vibration couples with gravity to manifest as Dark Matter (tensor condensation) and Dark Energy (vibrational radiation pressure)."
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_1",
+            "versions": {
+              "v5.1": {
+                "ko": "본 연구는 요동치는 공간 배경의 유효 기하학적 구조에 기초하여 선택된 양자 현상들의 결정론적 기하역학적 재해석을 제안하였다. 이 프레임워크 내에서 봄의 양자 퍼텐셜과 대수적으로 동일한 공간 진동 퍼텐셜 $Q_s$는 물리적 공간의 기하학적 요동에 대한 유효 척도로 재해석된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_2",
+            "versions": {
+              "v5.1": {
+                "ko": "본 모델은 파동-입자 이중성, 터널링, 중첩, 결맞음 파괴 및 얽힘 상관관계에 대한 해석적 제안을 제공한다. 측정은 공간 유도 항을 억제하는 감쇠 과정으로 현상학적으로 모델링되며, 얽힘은 초광속 신호가 아니라 신호 전달 금지 조건과 양립하는 비분리적 상관 구조로 해석된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_3",
+            "versions": {
+              "v5.1": {
+                "ko": "본 정식화는 비상대론적 단일 입자 영역에 국한되며 선택된 현상에 대한 현상론적 확장을 수반한다. 다입자 시스템, 벨 유형 얽힘 상관관계, 스피너 동역학, 상대론적 장론 및 실험적으로 검증 가능한 예측으로 모델을 확장하기 위해서는 추가 연구가 필요하다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_4",
+            "versions": {
+              "v5.1": {
+                "ko": "**[끈 이론적 접근법과의 관계]**",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_5",
+            "versions": {
+              "v5.1": {
+                "ko": "다수의 끈 이론적 접근법 역시 진동의 개념을 사용하지만 1차원 연장된 개체를 도입하며 컴팩트화된 차원을 요구한다. 대조적으로 본 모델은 유효한 4차원 시공간 프레임워크 내에 진동 구조를 위치시키려 시도하며, 이는 두 접근법 간의 개념적 차이를 명확히 하기 위함이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_6",
+            "versions": {
+              "v5.1": {
+                "ko": "**[범위 및 사변적 확장]**",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_7",
+            "versions": {
+              "v5.1": {
+                "ko": "시공간 위상, 다중 우주 형성, 또는 우주론적 규모의 암흑 섹터(암흑 물질 및 에너지)와 관련된 주장들은 별도의 상대론적 및 우주론적 정식화를 필요로 하므로, 본 모델의 확립된 결과가 아니라 향후 조사를 위한 사변적 방향으로 남겨둔다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_8",
+            "versions": {
+              "v5.1": {
+                "ko": "\\begin{thebibliography}{99}",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_9",
+            "versions": {
+              "v5.1": {
+                "ko": "\\bibitem{Einstein1935} A. Einstein, B. Podolsky, and N. Rosen, \\textit{Phys. Rev.} \\textbf{47}, 777 (1935).",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_10",
+            "versions": {
+              "v5.1": {
+                "ko": "\\bibitem{Madelung1927} E. Madelung, \\textit{Z. Phys.} \\textbf{40}, 322 (1927).",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_11",
+            "versions": {
+              "v5.1": {
+                "ko": "\\bibitem{Bohm1952} D. Bohm, \\textit{Phys. Rev.} \\textbf{85}, 166 (1952).",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_12",
+            "versions": {
+              "v5.1": {
+                "ko": "\\bibitem{Couder2006} Y. Couder and E. Fort, \\textit{Phys. Rev. Lett.} \\textbf{97}, 154101 (2006).",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_13",
+            "versions": {
+              "v5.1": {
+                "ko": "\\bibitem{Zurek2003} W. H. Zurek, \\textit{Rev. Mod. Phys.} \\textbf{75}, 715 (2003).",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_ko_14",
+            "versions": {
+              "v5.1": {
+                "ko": "\\end{thebibliography}",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_1",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "This study proposed a deterministic geomechanical reinterpretation of selected quantum phenomena based on an effective spatial-vibration structure associated with a fluctuating spatial background. Within this framework, the spatial-vibration potential, $Q_s$, which is algebraically identical to Bohm's quantum potential in the single-particle nonrelativistic formulation, is reinterpreted as an effective measure of geometric fluctuation in physical space."
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_2",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The model offers reinterpretations of wave-particle duality, tunneling, superposition, decoherence, and entanglement correlations through a common guidance mechanism. Measurement is modeled phenomenologically as a damping process that suppresses the spatial-guidance term, while entanglement is interpreted as a nonseparable correlation structure rather than as a controllable superluminal signal. A complete treatment of spin requires an extension of the present scalar formulation to spinor-based dynamics."
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_3",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "The present formulation remains limited to the nonrelativistic single-particle regime, with phenomenological extensions to measurement, decoherence, and selected quantum phenomena. Further work is required to extend the model to many-particle systems, Bell-type entanglement correlations, spinor dynamics, relativistic field theory, and experimentally testable predictions."
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_4",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "**a. Relation to String-Theoretic Approaches**"
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_5",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Many string-theoretic approaches also employ the concept of vibration, but in a different mathematical setting: the fundamental objects are one-dimensional extended entities, and additional compact dimensions are often introduced. In contrast, the present model attempts to locate the relevant vibration-like structure within an effective spatial-geometric framework, without introducing additional compact dimensions at this stage. This comparison is intended only to clarify the conceptual distinction between the two approaches, not to establish equivalence or superiority."
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_6",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "**b. Scope and Speculative Extensions**"
+              }
+            }
+          },
+          {
+            "id": "p7_v5.1_en_7",
+            "versions": {
+              "v5.1": {
+                "ko": "",
+                "en": "Possible connections between spatial-vibration defects and large-scale cosmological structures remain speculative. Claims involving spacetime topology, multiverse formation, or cosmological-scale dark sectors, including dark matter and dark energy, would require a separate relativistic and cosmological formulation. These topics are therefore not treated as established consequences of the present model, but as possible directions for future investigation."
               }
             }
           }
