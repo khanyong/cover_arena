@@ -501,10 +501,154 @@ export const SimulationWidget: React.FC = () => {
         <div className="lg:col-span-2 bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 p-2"><canvas ref={canvasRef} onMouseMove={handleDrag} className="w-full h-auto rounded-lg shadow-inner" /></div>
         <div className="flex flex-col space-y-4 bg-zinc-900/40 p-5 rounded-xl border border-zinc-800">
           <h4 className="text-xs font-bold text-zinc-300">매개변수 조정</h4>
-          {simMode === 'slit' && (<input type="range" min="15" max="60" value={slitDist} onChange={e => setSlitDist(Number(e.target.value))} className="w-full accent-blue-500"/>)}
-          {simMode === 'decoherence' && (<><label className="text-xs text-zinc-400">관측 위상 난류 에너지 (E_obs): {eObs.toFixed(1)} GeV</label><input type="range" min="0" max="3" step="0.1" value={eObs} onChange={e => setEObs(Number(e.target.value))} className="w-full accent-red-500"/><label className="text-xs text-zinc-400 mt-2">진공 열역학적 온도 (T_vac): {tVac.toFixed(1)} K</label><input type="range" min="1.0" max="3.0" step="0.1" value={tVac} onChange={e => setTVac(Number(e.target.value))} className="w-full accent-purple-500"/></>)}
-          {simMode === 'mass' && (<><label className="text-xs text-zinc-400">입자 질량 (m): {mass}</label><input type="range" min="1" max="100" value={mass} onChange={e => setMass(Number(e.target.value))} className="w-full accent-amber-500"/><label className="text-xs text-zinc-400 mt-2">공간 기하 점성 (γ): {gammaViscosity.toFixed(2)}</label><input type="range" min="0" max="2" step="0.1" value={gammaViscosity} onChange={e => setGammaViscosity(Number(e.target.value))} className="w-full accent-emerald-500"/></>)}
-          {simMode === 'omega' && (<button onClick={() => setIsDecohering(!isDecohering)} className="w-full py-2 bg-red-800 text-white rounded-lg text-xs font-bold">{isDecohering ? '리셋' : '위상 붕괴 시뮬레이션'}</button>)}
+          {simMode === 'slit' && (
+            <>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>슬릿 간격 (Slit Spacing)</span>
+                  <span className="text-blue-400 font-mono">{slitDist}px</span>
+                </div>
+                <input
+                  type="range"
+                  min="15"
+                  max="60"
+                  value={slitDist}
+                  onChange={(e) => setSlitDist(Number(e.target.value))}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                />
+              </div>
+
+              <div className="space-y-1 mt-2">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>공간 진동 강도 (Q<sub>s</sub>)</span>
+                  <span className="text-blue-400 font-mono">{qsAmplitude}</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="10"
+                  value={qsAmplitude}
+                  onChange={(e) => setQsAmplitude(Number(e.target.value))}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-blue-500"
+                />
+              </div>
+            </>
+          )}
+          {simMode === 'decoherence' && (
+            <>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>관측 위상 난류 에너지 (E_obs)</span>
+                  <span className="text-red-400 font-mono">{eObs.toFixed(1)} GeV</span>
+                </div>
+                <input
+                  type="range"
+                  min="0"
+                  max="3"
+                  step="0.1"
+                  value={eObs}
+                  onChange={(e) => setEObs(Number(e.target.value))}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-red-500"
+                />
+              </div>
+
+              <div className="space-y-1 mt-2">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>진공 열역학적 온도 (T_vac)</span>
+                  <span className="text-purple-400 font-mono">{tVac.toFixed(1)} K</span>
+                </div>
+                <input
+                  type="range"
+                  min="1.0"
+                  max="3.0"
+                  step="0.1"
+                  value={tVac}
+                  onChange={(e) => setTVac(Number(e.target.value))}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                />
+              </div>
+            </>
+          )}
+          {simMode === 'mass' && (
+            <>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>입자 질량 (m)</span>
+                  <span className="text-amber-400 font-mono">{mass}</span>
+                </div>
+                <input
+                  type="range"
+                  min="1"
+                  max="100"
+                  value={mass}
+                  onChange={(e) => setMass(Number(e.target.value))}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                />
+              </div>
+
+              <div className="space-y-1 mt-2">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>공간 기하 점성 (γ)</span>
+                  <span className="text-emerald-400 font-mono">{gammaViscosity.toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="0.0"
+                  max="2.0"
+                  step="0.1"
+                  value={gammaViscosity}
+                  onChange={(e) => setGammaViscosity(Number(e.target.value))}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                />
+              </div>
+            </>
+          )}
+          {simMode === 'omega' && (
+            <>
+              <div className="space-y-1">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>목 부분 꼬임 강도 (Pinch)</span>
+                  <span className="text-purple-400 font-mono">{pinchStrength.toFixed(2)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="1.0"
+                  max="2.5"
+                  step="0.05"
+                  value={pinchStrength}
+                  onChange={(e) => setPinchStrength(Number(e.target.value))}
+                  disabled={isDecohering}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500 disabled:opacity-40"
+                />
+              </div>
+
+              <div className="space-y-1 mt-2">
+                <div className="flex justify-between text-xs text-zinc-400">
+                  <span>주 접합점 높이 (Tension)</span>
+                  <span className="text-purple-400 font-mono">{junctionHeight.toFixed(1)}</span>
+                </div>
+                <input
+                  type="range"
+                  min="2.0"
+                  max="6.0"
+                  step="0.2"
+                  value={junctionHeight}
+                  onChange={(e) => setJunctionHeight(Number(e.target.value))}
+                  disabled={isDecohering}
+                  className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500 disabled:opacity-40"
+                />
+              </div>
+
+              <div className="pt-2">
+                <button
+                  onClick={() => setIsDecohering(!isDecohering)}
+                  className="w-full py-2 bg-red-800 hover:bg-red-700 text-white rounded-lg text-xs font-bold shadow-md active:scale-95 transition-all"
+                >
+                  {isDecohering ? '리셋' : '위상 붕괴 시뮬레이션'}
+                </button>
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
