@@ -879,6 +879,30 @@ export default function AcademicPaperViewer() {
               <span className="font-bold text-zinc-800">Comments:</span>
               <span className="md:col-span-3 font-serif">Submission status to {workflow.journalTarget}. Rebuttal objections resolves {Object.values(paperData.reviews).filter((r: any) => r.status === 'Resolved').length} / {Object.values(paperData.reviews).length}.</span>
             </div>
+            {paperData.id === 'spatial-vibration-1' && (
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-1 border-b border-zinc-150 pb-2 items-center">
+                <span className="font-bold text-zinc-800 text-[#b31b1b]">Zenodo DOI:</span>
+                <span className="md:col-span-3 flex flex-wrap items-center gap-3">
+                  <a
+                    href="https://doi.org/10.5281/zenodo.21206295"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 bg-[#10b981] hover:bg-[#059669] text-white px-2.5 py-1 rounded font-bold text-[10px] tracking-wide transition-all shadow-sm"
+                  >
+                    <span>doi:10.5281/zenodo.21206295</span>
+                    <span className="bg-white/20 px-1 py-0.2 rounded text-[8px]">Open Access</span>
+                  </a>
+                  <a
+                    href="https://github.com/khanyong/spatial-vibration-series"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-zinc-500 hover:text-zinc-800 text-[11px] underline"
+                  >
+                    Source Code & Data Repo
+                  </a>
+                </span>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-1 border-b border-zinc-150 pb-2">
               <span className="font-bold text-zinc-800">Subjects:</span>
               <span className="md:col-span-3">Quantum Cosmology (gr-qc); Quantum Physics (quant-ph)</span>

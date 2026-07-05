@@ -142,6 +142,36 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             <p className={styles.text}>{project.results}</p>
           </section>
         )}
+        {/* Zenodo DOI Badge for Paper 1 */}
+        {project.id === 'spatial-vibration-1' && (
+          <section className="bg-emerald-500/10 border border-emerald-500/30 p-6 rounded-xl my-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="space-y-1 text-left">
+              <h3 className="text-sm font-bold text-[#10b981]">Zenodo Academic Archiving (DOI Obtained)</h3>
+              <p className="text-xs text-gray-300 leading-relaxed max-w-xl">
+                본 연구는 Zenodo 아카이브에 영구 등록되었습니다. 독립 실행형 HTML5 시뮬레이션 코드 및 실증 데이터셋이 포함된 보충 자료를 공식 DOI를 통해 인용 및 확인하실 수 있습니다.
+              </p>
+            </div>
+            <div className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto font-sans">
+              <a
+                href="https://doi.org/10.5281/zenodo.21206295"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2.5 bg-[#10b981] hover:bg-[#059669] text-white rounded-lg font-mono font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10 transition-colors"
+              >
+                <span>doi:10.5281/zenodo.21206295</span>
+                <span className="bg-white/20 px-1 py-0.2 rounded text-[9px]">Open Access</span>
+              </a>
+              <a
+                href="https://github.com/khanyong/spatial-vibration-series"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-white rounded-lg font-mono font-bold text-xs flex items-center justify-center transition-colors border border-zinc-700"
+              >
+                GitHub Code Repo
+              </a>
+            </div>
+          </section>
+        )}
 
         {/* CTA Section */}
         <section className={styles.ctaSection}>

@@ -167,9 +167,22 @@ export default function PapersDashboard() {
 
                 {/* Title & Description */}
                 <div className="space-y-2">
-                  <h3 className="text-base md:text-lg font-bold text-zinc-950 group-hover:text-[#8b1a1a] transition-colors leading-snug font-serif">
-                    {paper.title}
-                  </h3>
+                  <div className="flex flex-wrap gap-2 items-center">
+                    <h3 className="text-base md:text-lg font-bold text-zinc-950 group-hover:text-[#8b1a1a] transition-colors leading-snug font-serif">
+                      {paper.title}
+                    </h3>
+                    {paper.id === 'spatial-vibration-1' && (
+                      <a
+                        href="https://doi.org/10.5281/zenodo.21206295"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => e.stopPropagation()}
+                        className="relative z-20 inline-flex items-center gap-1 bg-[#10b981] hover:bg-[#059669] text-white px-2 py-0.5 rounded font-mono text-[9px] font-bold transition-all shadow-sm"
+                      >
+                        doi:10.5281/zenodo.21206295
+                      </a>
+                    )}
+                  </div>
                   <p className="text-xs text-zinc-500 italic font-serif leading-tight">
                     {paper.titleEn}
                   </p>
