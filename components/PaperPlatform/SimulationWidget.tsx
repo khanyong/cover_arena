@@ -32,6 +32,12 @@ export const SimulationWidget: React.FC = () => {
   const [qsAmplitude, setQsAmplitude] = useState<number>(4);
   const [eObs, setEObs] = useState<number>(0); // Chapter 5 perturbation
 
+  // V8 Custom Parameters
+  const [tVac, setTVac] = useState<number>(1.5); // Vacuum temperature (1.0 to 3.0)
+  const [gammaViscosity, setGammaViscosity] = useState<number>(0.0); // Regularization viscosity (0.0 to 2.0)
+  const hHistoryRef = useRef<number[]>([]); // Hamiltonian log history
+  const frameCountRef = useRef<number>(0);
+
   // 3D Omega Tube Parameters
   const [pinchStrength, setPinchStrength] = useState<number>(1.8);
   const [junctionHeight, setJunctionHeight] = useState<number>(4.5);
@@ -60,11 +66,13 @@ export const SimulationWidget: React.FC = () => {
     deadTrailsRef.current = [];
     setIsDecohering(false);
     setDecohereProgress(0);
+    hHistoryRef.current = [];
+    frameCountRef.current = 0;
   };
 
   useEffect(() => {
     resetSimulation();
-  }, [simMode, mass, slitDist, qsAmplitude, eObs]);
+  }, [simMode, mass, slitDist, qsAmplitude, eObs, tVac, gammaViscosity]);
 
   // Decoherence animation timer
   useEffect(() => {
@@ -102,8 +110,56 @@ export const SimulationWidget: React.FC = () => {
         // ==========================================
         // 2D Wave Interference Simulation Rendering
         // ==========================================
+        // V8 Hamiltonian calculation
+        frameCountRef.current += 1;
+        const activeGamma = gammaViscosity;
+        const baseEnergy = 20;
+        const decayTime = frameCountRef.current;
+        const energyVal = activeGamma === 0
+          ? 80 + Math.sin(decayTime * 0.15) * 1.5
+          : baseEnergy + (80 - baseEnergy) * Math.exp(-activeGamma * 0.012 * decayTime) + Math.sin(decayTime * 0.25) * 0.5;
+        
+        hHistoryRef.current.push(energyVal);
+        if (hHistoryRef.current.length > 100) hHistoryRef.current.shift();
+
         const decoherenceFactor = Math.exp(-eObs * 1.5);
         const activeAmplitude = qsAmplitude * (simMode === 'decoherence' ? decoherenceFactor : 1);
+
+        // V8 Phase Turbulence Vector Field
+        const drawPhaseTurbulenceField = () => {
+          ctx.save();
+          ctx.strokeStyle = simMode === 'decoherence' && eObs > 0 ? 'rgba(239, 68, 68, 0.07)' : 'rgba(96, 165, 250, 0.07)';
+          ctx.lineWidth = 1;
+          const slitX = 180;
+          
+          for (let x = slitX + 20; x < width - 40; x += 35) {
+            const distance = x - slitX;
+            for (let y = 15; y < height - 15; y += 35) {
+              const angle = Math.atan2(y - height / 2, distance);
+              let flowAngle = angle;
+              if (simMode === 'decoherence' && eObs > 0) {
+                // Phase noise turbulence injection
+                const noise = Math.sin(x * 0.06 + y * 0.06 + frameCountRef.current * 0.12) * eObs * 0.7;
+                flowAngle += noise;
+              }
+              
+              const arrowLength = 10;
+              const ax = x + Math.cos(flowAngle) * arrowLength;
+              const ay = y + Math.sin(flowAngle) * arrowLength;
+              
+              ctx.beginPath();
+              ctx.moveTo(x, y);
+              ctx.lineTo(ax, ay);
+              ctx.stroke();
+              
+              ctx.fillStyle = simMode === 'decoherence' && eObs > 0 ? 'rgba(239, 68, 68, 0.2)' : 'rgba(96, 165, 250, 0.2)';
+              ctx.beginPath();
+              ctx.arc(ax, ay, 1.2, 0, 2 * Math.PI);
+              ctx.fill();
+            }
+          }
+          ctx.restore();
+        };
 
         const drawTopography = () => {
           ctx.save();
@@ -114,7 +170,13 @@ export const SimulationWidget: React.FC = () => {
             for (let y = 10; y < height - 10; y += 8) {
               const angle = Math.atan2(y - height / 2, distance);
               const pathDifference = (slitDist * Math.sin(angle));
-              const potential = activeAmplitude * Math.cos(0.08 * pathDifference * Math.sqrt(distance));
+              let potential = activeAmplitude * Math.cos(0.08 * pathDifference * Math.sqrt(distance));
+              
+              // Apply Phase Turbulence to wave potential amplitude
+              if (simMode === 'decoherence' && eObs > 0) {
+                const turb = Math.sin(x * 0.1 + y * 0.1 + frameCountRef.current * 0.2) * eObs * 0.25;
+                potential += turb;
+              }
 
               if (potential > 0) {
                 // mass가 50 이상(뉴턴 극한)이면 채도를 낮춰 무채색 느낌으로 변경
@@ -134,6 +196,7 @@ export const SimulationWidget: React.FC = () => {
           ctx.restore();
         };
 
+        drawPhaseTurbulenceField();
         drawTopography();
 
         // Draw Slits
@@ -295,6 +358,219 @@ export const SimulationWidget: React.FC = () => {
           ctx.fillText(`Decoherence factor: ${decoherenceFactor.toFixed(3)}`, 15, 35);
         }
 
+        // ==========================================
+        // V8 Scientific Visualization Panels (Overlays)
+        // ==========================================
+        const px = 15;
+        const py = 75;
+        const pw = 155;
+        const ph = 110;
+
+        if (simMode === 'slit') {
+          // A. Nodal Singularity Offset 1D Plot
+          ctx.save();
+          ctx.fillStyle = 'rgba(9, 9, 11, 0.9)';
+          ctx.strokeStyle = '#27272a';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(px, py, pw, ph, 6);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillStyle = '#fbbf24';
+          ctx.fillText("Nodal Singularity Resolution (Eq. 4)", px + 8, py + 15);
+
+          // Axis
+          ctx.strokeStyle = '#3f3f46';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(px + 15, py + 28);
+          ctx.lineTo(px + 15, py + 95);
+          ctx.lineTo(px + 145, py + 95);
+          ctx.stroke();
+
+          // Qs (blue)
+          ctx.strokeStyle = '#3b82f6';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          for (let r = 2; r <= 120; r++) {
+            const rx = px + 15 + r;
+            const ry = py + 95 - (-150 / (r + 4) + 12);
+            if (ry > py + 25 && ry < py + 105) {
+              if (r === 2) ctx.moveTo(rx, ry);
+              else ctx.lineTo(rx, ry);
+            }
+          }
+          ctx.stroke();
+
+          // Vc (red)
+          ctx.strokeStyle = '#ef4444';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          for (let r = 2; r <= 120; r++) {
+            const rx = px + 15 + r;
+            const ry = py + 95 - (150 / (r + 4) - 12);
+            if (ry > py + 25 && ry < py + 105) {
+              if (r === 2) ctx.moveTo(rx, ry);
+              else ctx.lineTo(rx, ry);
+            }
+          }
+          ctx.stroke();
+
+          // E_tot (green)
+          ctx.strokeStyle = '#10b981';
+          ctx.lineWidth = 1.5;
+          ctx.beginPath();
+          for (let r = 2; r <= 120; r++) {
+            const rx = px + 15 + r;
+            const ry = py + 95 - (30 - r * 0.08);
+            if (r === 2) ctx.moveTo(rx, ry);
+            else ctx.lineTo(rx, ry);
+          }
+          ctx.stroke();
+
+          ctx.font = '7.5px monospace';
+          ctx.fillStyle = '#ef4444';
+          ctx.fillText("Vc(r)", px + 25, py + 36);
+          ctx.fillStyle = '#3b82f6';
+          ctx.fillText("Qs(r)", px + 25, py + 86);
+          ctx.fillStyle = '#10b981';
+          ctx.fillText("E_tot (Regularized)", px + 55, py + 62);
+          ctx.restore();
+
+        } else if (simMode === 'mass') {
+          // B. Gauge Invariance & Hamiltonian Dissipation Plot
+          ctx.save();
+          ctx.fillStyle = 'rgba(9, 9, 11, 0.9)';
+          ctx.strokeStyle = '#27272a';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(px, py, pw, ph, 6);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillStyle = '#fbbf24';
+          ctx.fillText("Gauge Dissipation (Eq. 17)", px + 8, py + 15);
+
+          // Axis
+          ctx.strokeStyle = '#3f3f46';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(px + 15, py + 28);
+          ctx.lineTo(px + 15, py + 95);
+          ctx.lineTo(px + 145, py + 95);
+          ctx.stroke();
+
+          if (hHistoryRef.current.length > 1) {
+            ctx.strokeStyle = activeGamma > 0 ? '#f59e0b' : '#10b981';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            hHistoryRef.current.forEach((val, idx) => {
+              const rx = px + 15 + (idx / 100) * 128;
+              const ry = py + 95 - (val / 100) * 60;
+              if (idx === 0) ctx.moveTo(rx, ry);
+              else ctx.lineTo(rx, ry);
+            });
+            ctx.stroke();
+          }
+
+          ctx.font = '7.5px monospace';
+          ctx.fillStyle = '#a1a1aa';
+          ctx.fillText(`H(t): ${energyVal.toFixed(2)} MeV`, px + 20, py + 36);
+          ctx.fillText(`γ_visc: ${activeGamma.toFixed(2)}`, px + 20, py + 46);
+          ctx.restore();
+
+        } else if (simMode === 'decoherence') {
+          // C. Density Matrix & Scaling Law Dashboard
+          const dpw = 160;
+          const dph = 180;
+          ctx.save();
+          ctx.fillStyle = 'rgba(9, 9, 11, 0.9)';
+          ctx.strokeStyle = '#27272a';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.roundRect(px, py, dpw, dph, 6);
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillStyle = '#fbbf24';
+          ctx.fillText("Reduced Density Matrix ρ", px + 8, py + 15);
+
+          const r11 = 0.5;
+          const r22 = 0.5;
+          const r12 = 0.5 * Math.exp(-eObs * 1.5);
+          const r21 = r12;
+
+          const drawMat = (mx, my, label, val, isCoh) => {
+            ctx.fillStyle = isCoh ? `rgba(239, 68, 68, ${val * 1.6})` : `rgba(59, 130, 246, ${val * 1.6})`;
+            ctx.strokeStyle = '#3f3f46';
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.rect(mx, my, 35, 18);
+            ctx.fill();
+            ctx.stroke();
+
+            ctx.fillStyle = val < 0.12 ? '#71717a' : '#f8fafc';
+            ctx.font = '8px monospace';
+            ctx.textAlign = 'center';
+            ctx.fillText(val.toFixed(3), mx + 17.5, my + 12);
+            ctx.font = '6.5px monospace';
+            ctx.fillStyle = '#a1a1aa';
+            ctx.fillText(label, mx + 17.5, my - 3);
+          };
+
+          drawMat(px + 12, py + 32, "ρ11 (Prob)", r11, false);
+          drawMat(px + 82, py + 32, "ρ12 (Coh)", r12, true);
+          drawMat(px + 12, py + 68, "ρ21 (Coh)", r21, true);
+          drawMat(px + 82, py + 68, "ρ22 (Prob)", r22, false);
+
+          ctx.textAlign = 'left';
+          ctx.font = 'bold 8.5px monospace';
+          ctx.fillStyle = '#fbbf24';
+          ctx.fillText("Scaling: τ ~ T_vac^-2", px + 8, py + 104);
+
+          // Scaling Law plot
+          ctx.strokeStyle = '#3f3f46';
+          ctx.lineWidth = 0.5;
+          ctx.beginPath();
+          ctx.moveTo(px + 15, py + 115);
+          ctx.lineTo(px + 15, py + 170);
+          ctx.lineTo(px + 145, py + 170);
+          ctx.stroke();
+
+          // Theoretical line y = 45 / T^2
+          ctx.strokeStyle = '#a855f7';
+          ctx.lineWidth = 1.2;
+          ctx.beginPath();
+          for (let T = 1.0; T <= 3.0; T += 0.1) {
+            const rx = px + 15 + ((T - 1.0) / 2.0) * 125;
+            const tau = 45 / (T * T);
+            const ry = py + 170 - tau;
+            if (T === 1.0) ctx.moveTo(rx, ry);
+            else ctx.lineTo(rx, ry);
+          }
+          ctx.stroke();
+
+          // Current state point
+          const curT = tVac;
+          const curTau = 45 / (curT * curT);
+          const cxPt = px + 15 + ((curT - 1.0) / 2.0) * 125;
+          const cyPt = py + 170 - curTau;
+
+          ctx.fillStyle = '#eab308';
+          ctx.beginPath();
+          ctx.arc(cxPt, cyPt, 3.5, 0, 2 * Math.PI);
+          ctx.fill();
+
+          ctx.font = '7px monospace';
+          ctx.fillStyle = '#fbbf24';
+          ctx.fillText(`T_vac=${curT.toFixed(1)}K  τ=${(curTau/45).toFixed(3)}s`, px + 25, py + 125);
+          ctx.restore();
+        }
+
       } else {
         // ==========================================
         // 3D Omega-Phase Tube Simulation Rendering
@@ -333,14 +609,20 @@ export const SimulationWidget: React.FC = () => {
           return { px: projX, py: projY, depth: y2 };
         };
 
-        // 1. Generate 3D Mesh vertices
+        // 1. Generate 3D Mesh vertices with dynamic wave propagation (V8 Phase Wavefront)
         const points: Point3D[][] = [];
+        const time = Date.now() * 0.005;
         for (let i = 0; i <= uSteps; i++) {
           const u = uMin + (i / uSteps) * (uMax - uMin);
           points[i] = [];
 
           // Apply extreme neck pinching formulation
           let xProf = u - activePinch * u * Math.exp(-u * u);
+          
+          // Phase wave ripple propagation running along the tube
+          const wave = Math.sin(time - u * 2.5) * 0.12 * Math.exp(-u * u * 0.2) * (1 - decohereProgress);
+          xProf += wave;
+
           let zProf = activeJunction * Math.exp(-u * u);
 
           // 80% 이상 진행 시 기하학적 절단(Pinch-off) 및 거품 분리 연출
@@ -615,7 +897,7 @@ export const SimulationWidget: React.FC = () => {
     return () => {
       if (requestRef.current) cancelAnimationFrame(requestRef.current);
     };
-  }, [simMode, mass, slitDist, qsAmplitude, eObs, pinchStrength, junctionHeight, isDecohering, decohereProgress, angleX, angleY]);
+  }, [simMode, mass, slitDist, qsAmplitude, eObs, pinchStrength, junctionHeight, isDecohering, decohereProgress, angleX, angleY, tVac, gammaViscosity]);
 
   // Handle drag-rotation actions on 3D Canvas
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -760,8 +1042,25 @@ export const SimulationWidget: React.FC = () => {
                     className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-red-500"
                   />
                 </div>
+
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs text-zinc-400">
+                    <span>진공요동 온도 (T<sub>vac</sub>)</span>
+                    <span className="text-purple-400 font-mono">{tVac.toFixed(1)} K</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="1.0"
+                    max="3.0"
+                    step="0.1"
+                    value={tVac}
+                    onChange={(e) => setTVac(Number(e.target.value))}
+                    className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
+                  />
+                </div>
+
                 <div className="p-3 bg-red-950/20 border border-red-900/35 rounded-lg text-[11px] text-red-300 leading-relaxed font-serif">
-                  <strong>물리적 원리:</strong> {"관측 검출 에너지가 방출될 때 미시 공간의 탄성 복원파가 지수적으로 감쇄합니다 (e^{-γ(E)t}). 감쇠에 의해 파동 곡률 등고선이 소멸하고 입자는 직선 관성 궤적으로 수렴하게 됩니다."}
+                  <strong>물리적 원리:</strong> {"관측 에너지가 개입하면 위상장(S) 내부에 무작위 위상 난류(Phase Turbulence)가 유도되어 밀도 행렬의 비대각 간섭 항이 소멸합니다. 결어긋남 시간 τ_dec은 진공 요동 온도 T_vac의 제곱에 반비례하여 붕괴합니다."}
                 </div>
               </>
             )}
@@ -780,6 +1079,22 @@ export const SimulationWidget: React.FC = () => {
                     value={mass}
                     onChange={(e) => setMass(Number(e.target.value))}
                     className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-amber-500"
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <div className="flex justify-between text-xs text-zinc-400">
+                    <span>게이지 정칙화 점성 (γ)</span>
+                    <span className="text-emerald-400 font-mono">{gammaViscosity.toFixed(2)}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0.0"
+                    max="2.0"
+                    step="0.1"
+                    value={gammaViscosity}
+                    onChange={(e) => setGammaViscosity(Number(e.target.value))}
+                    className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-550"
                   />
                 </div>
 
