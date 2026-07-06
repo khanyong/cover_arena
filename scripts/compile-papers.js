@@ -394,14 +394,34 @@ function parsePaperFile(filePath, versionKey, langKey) {
   };
 }
 
+// Helper to recursively find all .md files in a directory
+function getFilesRecursively(dir) {
+  let results = [];
+  if (!fs.existsSync(dir)) return results;
+  const list = fs.readdirSync(dir);
+  list.forEach(file => {
+    const fullPath = path.join(dir, file);
+    const stat = fs.statSync(fullPath);
+    if (stat && stat.isDirectory()) {
+      if (file !== 'backup_combined') {
+        results = results.concat(getFilesRecursively(fullPath));
+      }
+    } else if (file.endsWith('.md')) {
+      results.push(fullPath);
+    }
+  });
+  return results;
+}
+
 // Aggregate and build final static mapping structure
 function compileAndSync() {
   console.log("🚀 Starting Notion Markdown Compilation...");
   
-  const files = fs.readdirSync(NOTION_DIR).filter(f => f.endsWith('.md'));
+  const mdPaths = getFilesRecursively(NOTION_DIR);
   
   const groups = {};
-  files.forEach(file => {
+  mdPaths.forEach(filePath => {
+    const file = path.basename(filePath);
     const parsedName = file.replace(/\.md$/, '');
     const versionMatch = parsedName.match(/-v(\d+(?:\.\d+)?)-(ko|en)$/);
     const langMatch = parsedName.match(/-(ko|en)$/);
@@ -425,7 +445,7 @@ function compileAndSync() {
     if (!groups[baseSlug][versionKey]) {
       groups[baseSlug][versionKey] = [];
     }
-    groups[baseSlug][versionKey].push({ file, langKey, filePath: path.join(NOTION_DIR, file) });
+    groups[baseSlug][versionKey].push({ file, langKey, filePath });
   });
 
   const compiledPapers = {};
