@@ -153,12 +153,12 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
             </div>
             <div className="flex flex-col sm:flex-row gap-2.5 w-full md:w-auto font-sans">
               <a
-                href="https://doi.org/10.5281/zenodo.21206211"
+                href="https://doi.org/10.5281/zenodo.21206843"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-4 py-2.5 bg-[#10b981] hover:bg-[#059669] text-white rounded-lg font-mono font-bold text-xs flex items-center justify-center gap-1.5 shadow-md shadow-emerald-500/10 transition-colors"
               >
-                <span>doi:10.5281/zenodo.21206211</span>
+                <span>doi:10.5281/zenodo.21206843</span>
                 <span className="bg-white/20 px-1 py-0.2 rounded text-[9px]">Open Access</span>
               </a>
               <a
