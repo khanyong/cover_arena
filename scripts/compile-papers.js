@@ -293,12 +293,12 @@ function parsePaperFile(filePath, versionKey, langKey) {
 
     // 3. Chapters (Turn off inAbstract if any chapter header Level 2 matches)
     const isChHeader = line.startsWith('## ') && 
-                       (line.match(/(\d+)장/) || line.match(/Chapter\s+(\d+)/i) || line.match(/Ch\.\s+(\d+)/i));
+                       (line.match(/(\d+)장/) || line.match(/Chapter\s+(\d+)/i) || line.match(/Ch\.\s+(\d+)/i) || line.match(/^##\s+(\d+)\./));
     if (isChHeader && !line.toLowerCase().includes('abstract') && !line.includes('초록')) {
       inAbstract = false;
       hasChapterStarted = true;
       
-      const chNumMatch = line.match(/(\d+)장/) || line.match(/Chapter\s+(\d+)/i) || line.match(/Ch\.\s+(\d+)/i);
+      const chNumMatch = line.match(/(\d+)장/) || line.match(/Chapter\s+(\d+)/i) || line.match(/Ch\.\s+(\d+)/i) || line.match(/^##\s+(\d+)\./);
       const chNum = parseInt(chNumMatch[1]);
       
       const cleanHeaderTitle = line.slice(3).trim();
