@@ -11910,6 +11910,10 @@ export const papersMap: Record<string, PaperDetails> = {
         "v7": {
           "ko": "은하 회전 곡선 이상과 우주의 가속 팽창이 야기하는 우주론적 역설을 해결하기 위해, 본 연구는 가상의 입자와 임시방편적 우주 상수를 배제하고 아인슈타인 장 방정식에 현상론적인 **'공간 진동 텐서($\\\\tilde{V}_{\\\\mu\\\\nu}$)'**를 도입하여 통합적인 기하역학 모델을 제안한다.\n본 모델은 아인슈타인의 등가원리와 에너지-운동량 보존 법칙을 엄격히 준수하기 위해 공간 진동을 배경 계량 텐서의 고주파 섭동으로 모델링하고 아이작슨(Isaacson) 한계($\\\\tilde{V}_{\\\\mu\\\\nu} \\\\propto \\\\langle \\\\nabla_\\\\mu h_{\\\\alpha\\\\beta}^{vib} \\\\nabla_\\\\nu h^{\\\\alpha\\\\beta}_{vib} \\\\rangle$)를 통해 거시적으로 평균화한다. 또한 주변 물질 밀도($\\\\rho_m$)에 동역학적으로 결합하는 카멜레온 장(Chameleon Field) 메커니즘을 도입하여 '통합 암흑 유체' 역학을 제시한다.\n국소적 거시 규모에서는 질량 관성에 의해 억제되었던 공간 진동이 희박한 은하 헤일로에서 역학적 타당성을 회복(스케일 역전)하며, 보강 간섭을 통해 거센 진동파가 고도로 결맞은 정재파(Standing waves)를 형성한다. 이 상태에서는 빠른 진동이 시간 평균 역학적 압력을 0으로 소거($\\\\langle p_{vib} \\\\rangle \\\\approx 0$)시키며 잉여 중력(암흑 물질, $w \\\\approx 0$)을 창발하는 **'텐서 응축'**을 일으킨다. 반면, 거대 공동에서는 퍼텐셜 장력이 지배적($w \\\\to -1$)이 되어 방출되는 강력한 진동 복사압($p_{vib} < 0$)이 우주의 가속 팽창(암흑 에너지)을 주도한다. 나아가 고주파 계량 텐서 섭동에 의한 **'확률론적 측지선 편차'** 방정식을 유도하여 가스 산란과 구별되는 반증 가능한 **'파장 무관(Achromatic) 광학적 번짐'**을 예측하며, 음압으로 지탱되는 거시적 공간 접합부를 통한 **'기하학적 경로 단축(Geometrical Path-Shortening)'**이 연대기적 착시를 일으키는 역학적 기제로 제안된다.",
           "en": "To address the cosmological challenges associated with anomalous galactic rotation curves and the accelerating expansion of the universe, this study explores a geomechanical alternative to standard dark matter and dark energy paradigms. Building upon the 'Geometrical Fluctuation of Space' hypothesis introduced in Part I, this paper proposes an effective unified model by incorporating a phenomenological 'Spatial Vibration Tensor' ($\\\\tilde{V}_{\\\\mu\\\\nu}$) into the Einstein Field Equations.\nTo preserve the equivalence principle and local energy-momentum conservation, spatial vibration is modeled as high-frequency perturbations to the background metric, rigorously averaged via the Isaacson limit ($\\\\tilde{V}_{\\\\mu\\\\nu} \\\\propto \\\\langle \\\\nabla_\\\\mu h_{\\\\alpha\\\\beta}^{vib} \\\\nabla_\\\\nu h^{\\\\alpha\\\\beta}_{vib} \\\\rangle$). We propose a 'Unified Dark Fluid' behavior employing a heuristic chameleon-like transition function: in dense galactic halos, fierce vibrational waves form highly coherent standing waves. In this phase-locked state, kinematic pressure time-averages to zero ($w \\\\approx 0$), emerging as an effective mass that generates surplus gravity (phenomenological Dark Matter). Conversely, in vast cosmic voids, the unsuppressed potential tension of the vacuum acts as a repulsive vibrational radiation pressure ($w \\\\to -1$), driving accelerated expansion (Dark Energy). Furthermore, micro-perturbations in gravitational lensing are rigorously modeled as stochastic geodesic deviations, predicting 'Achromatic Optical Blurring'. Optical illusions induced by spatial junctions are proposed as 'Geometrical Path-Shortening' to address chronological discrepancies in early galaxy observations."
+        },
+        "v8": {
+          "ko": "은하 회전 곡선 이상과 우주의 가속 팽창 문제를 해결하기 위해, 본 연구는 아인슈타인 장 방정식에 현상론적인 **'공간 진동 텐서($\\\\tilde{V}_{\\\\mu\\\\nu}$)'**를 도입하여 통합적인 기하역학 모델을 제안한다.\n본 모델은 등가원리와 에너지-운동량 보존을 준수하기 위해 공간 진동을 계량 텐서의 고주파 섭동으로 모델링하고 아이작슨 한계($\\\\tilde{V}_{\\\\mu\\\\nu} \\\\propto \\\\langle \\\\nabla_\\\\mu h_{\\\\alpha\\\\beta}^{vib} \\\\nabla_\\\\nu h^{\\\\alpha\\\\beta}_{vib} \\\\rangle$)를 통해 거시적으로 평균화한다. 주변 물질 밀도($\\\\rho_m$)에 동역학적으로 결합하는 카멜레온 장 메커니즘을 도입하여, 은하 헤일로에서는 운동 에너지 모드가 갇혀 **'텐서 응축'**($w \\\\approx 0$)을 일으키고 잉여 중력(암흑 물질)을 창발한다. 거대 공동에서는 퍼텐셜 모드가 지배적($w \\\\to -1$)이 되어 방출되는 진동 복사압($p_{vib} < 0$)이 가속 팽창(암흑 에너지)을 주도한다.\n나아가 고주파 섭동에 의한 **'확률론적 측지선 편차'** 방정식을 유도하여 반증 가능한 **'파장 무관(Achromatic) 광학적 번짐'**을 예측하며, 음압으로 지탱되는 공간 접합부를 통한 **'기하학적 경로 단축'**이 연대기적 착시를 일으키는 기제로 제안된다.",
+          "en": "To address anomalous galactic rotation curves and the accelerating expansion of the universe, this study explores a geomechanical alternative to standard dark matter and dark energy paradigms. We propose a unified model incorporating a phenomenological 'Spatial Vibration Tensor' ($\\\\tilde{V}_{\\\\mu\\\\nu}$) into the Einstein Field Equations.\nTo preserve local energy-momentum conservation, spatial vibration is rigorously averaged via the Isaacson limit ($\\\\tilde{V}_{\\\\mu\\\\nu} \\\\propto \\\\langle \\\\nabla_\\\\mu h_{\\\\alpha\\\\beta}^{vib} \\\\nabla_\\\\nu h^{\\\\alpha\\\\beta}_{vib} \\\\rangle$). We propose a 'Unified Dark Fluid' employing a chameleon-like transition function: in dense halos, constructive interference traps kinetic modes ($w \\\\approx 0$), generating surplus gravity (Dark Matter). In vast cosmic voids, the unsuppressed potential tension acts as a repulsive vibrational radiation pressure ($w \\\\to -1$), driving accelerated expansion (Dark Energy). Micro-perturbations in lensing are modeled as stochastic geodesic deviations, predicting 'Achromatic Optical Blurring' and optical time-leaps sustained by negative pressure."
         }
       }
     },
@@ -11917,8 +11921,8 @@ export const papersMap: Record<string, PaperDetails> = {
       {
         "number": 1,
         "title": {
-          "ko": "1. 서론",
-          "en": "1. Introduction"
+          "ko": "1. 진동과 중력의 결합 방정식",
+          "en": "1. Coupled Equations of Vibration and Gravity"
         },
         "paragraphs": [
           {
@@ -12225,14 +12229,68 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "From this macroscopic perspective, this paper investigates the mechanical interactions between the macroscopic spacetime curvature described by General Relativity and the microscopic geometrical fluctuation of space. By formulating a feedback loop where spacetime curvature distorts spatial vibrations, which in turn dynamically contribute to the effective energy-momentum tensor, this study attempts to reinterpret the phenomena attributed to dark matter and dark energy as consequences of the mechanical phase transitions of empty space itself."
               }
             }
+          },
+          {
+            "id": "p1_v8_ko_1",
+            "versions": {
+              "v8": {
+                "ko": "아인슈타인 방정식의 추가 소스 항으로 현상론적인 **'공간 진동 텐서'**를 도입한다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v8_ko_2",
+            "versions": {
+              "v8": {
+                "ko": "$$G_{\\mu\\nu} = \\frac{8\\pi G}{c^4} \\left( T_{\\mu\\nu} + \\tilde{V}_{\\mu\\nu} \\right)$$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v8_ko_3",
+            "versions": {
+              "v8": {
+                "ko": "공간 진동 텐서는 아이작슨 고주파 극한과 수학적으로 동일하게 계량 섭동의 도함수 제곱 항에 대한 거시적 공간 평균으로부터 유도되어 공변성을 유지한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p1_v8_en_1",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "The standard Einstein Field Equations typically assume the vacuum state to be a smooth continuum. To describe the kinetic energy and geometrical repulsive radiation pressure inherently emitted by the vibrating empty space, a phenomenological **'Spatial Vibration Tensor' ($\\tilde{V}_{\\mu\\nu}$)** is introduced:"
+              }
+            }
+          },
+          {
+            "id": "p1_v8_en_2",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "$$G_{\\mu\\nu} = \\frac{8\\pi G}{c^4} \\left( T_{\\mu\\nu} + \\tilde{V}_{\\mu\\nu} \\right)$$"
+              }
+            }
+          },
+          {
+            "id": "p1_v8_en_3",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "Spatial vibration is treated as high-frequency metric perturbations ($g_{\\mu\\nu} = \\bar{g}_{\\mu\\nu} + h_{\\mu\\nu}^{vib}$). The effective spatial vibration tensor $\\tilde{V}_{\\mu\\nu}$ is mathematically constructed analogously to the Isaacson high-frequency limit, ensuring strict covariance."
+              }
+            }
           }
         ]
       },
       {
         "number": 2,
         "title": {
-          "ko": "2. 진동과 중력의 결합 방정식",
-          "en": "2. Coupled Equations of Vibration and Gravity"
+          "ko": "2. 중력 렌즈 현상의 미세 섭동 예측",
+          "en": "2. Prediction of Micro-Perturbations in Gravitational Lensing"
         },
         "paragraphs": [
           {
@@ -12998,14 +13056,86 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "The extended equation reveals a nonlinear feedback loop. As a massive object curves the background spacetime ($\\bar{g}_{\\mu\\nu}$), surrounding spatial vibrational waves ($h_{\\mu\\nu}^{vib}$) are drawn into the gravity well, becoming severely compressed and distorted. These compressed waves undergo extreme constructive interference, explosively increasing local tensor energy density, which in turn acts as an effective source to further curve the macroscopic spacetime."
               }
             }
+          },
+          {
+            "id": "p2_v8_ko_1",
+            "versions": {
+              "v8": {
+                "ko": "배경 계량 텐서 자체가 고주파 미세 섭동을 가지므로 크리스토펠 기호의 확률론적 요동이 유발된다. 거시적으로 평균화된 $\\tilde{V}_{\\mu\\nu}$는 시공간의 휨(중력)을 생성하지만, 개별 광자의 궤적을 미세하게 교란하여 산란시키는 것은 국소적인 고주파 미세 요동 $h_{\\mu\\nu}^{vib}$ 그 자체이다. 수정된 측지선 방정식은 다음과 같다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v8_ko_2",
+            "versions": {
+              "v8": {
+                "ko": "$$\\frac{d^2 x^\\mu}{d\\lambda^2} + \\left( \\bar{\\Gamma}^\\mu_{\\rho\\sigma} + \\delta \\Gamma^\\mu_{\\rho\\sigma}(h^{vib}) \\right) \\frac{dx^\\rho}{d\\lambda} \\frac{dx^\\sigma}{d\\lambda} = 0$$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v8_ko_3",
+            "versions": {
+              "v8": {
+                "ko": "가스 산란과 달리, 기하학적 시공간 진동에 의한 산란은 전파부터 감마선까지 **모든 파장 대역에서 완벽하게 동일한 폭의 파장 무관성 번짐(Achromatic Blurring)**을 보여야 하며, 이는 결정적 반증 기준이다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v8_ko_4",
+            "versions": {
+              "v8": {
+                "ko": "별빛이 거시적 **'공간 접합부(Spatial Junction)'**를 관통하게 된다면, 물리적인 수백만 광년 거리를 시간 지연 없이($t \\approx 0$) 순식간에 건너뛰는 **'기하학적 경로 단축'**을 겪게 되며 이는 심각한 연대기적 착시를 일으킨다. 이 구조는 인과율 위배를 피하기 위해 강력한 **음압($p_{vib} < 0$)**에 의해 역학적으로 지탱된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p2_v8_en_1",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "Because the background metric contains high-frequency spatial vibrations, the Christoffel symbols undergo stochastic fluctuations. While the macroscopically averaged $\\tilde{V}_{\\mu\\nu}$ generates spacetime curvature, the microscopic perturbations $h_{\\mu\\nu}^{vib}$ themselves act as the source of stochastic scattering. Light perfectly follows the null geodesic of this perturbed metric, resulting in a **'Stochastic Geodesic Deviation'**:"
+              }
+            }
+          },
+          {
+            "id": "p2_v8_en_2",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "$$\\frac{d^2 x^\\mu}{d\\lambda^2} + \\left( \\bar{\\Gamma}^\\mu_{\\rho\\sigma} + \\delta \\Gamma^\\mu_{\\rho\\sigma}(h^{vib}) \\right) \\frac{dx^\\rho}{d\\lambda} \\frac{dx^\\sigma}{d\\lambda} = 0$$"
+              }
+            }
+          },
+          {
+            "id": "p2_v8_en_3",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "We predict a strictly **'Achromatic Blurring'**—an identical blurring width across all frequency bands, serving as a definitive falsification standard against plasma scattering."
+              }
+            }
+          },
+          {
+            "id": "p2_v8_en_4",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "If starlight penetrates a macroscopic **'Spatial Junction'**, light bypasses physical distances in effectively zero time ($t \\approx 0$). To avoid violating causality, we propose that this junction is dynamically sustained by the extreme **Negative Pressure ($p_{vib} < 0$)**. Consequently, the mature early galaxies discovered by JWST are a profound **Chronological Illusion**."
+              }
+            }
           }
         ]
       },
       {
         "number": 3,
         "title": {
-          "ko": "3. 중력 렌즈 현상의 미세 섭동 예측",
-          "en": "3. Prediction of Micro-Perturbations in Gravitational Lensing"
+          "ko": "3. 통합 암흑 유체: 카멜레온 장 역학",
+          "en": "3. The Unified Dark Fluid: Chameleon Dynamics"
         },
         "paragraphs": [
           {
@@ -13901,14 +14031,140 @@ export const papersMap: Record<string, PaperDetails> = {
                 "en": "To avoid violating causality via traversable wormholes (which require unphysical negative energy), we propose that this junction is dynamically sustained by the extreme **Negative Pressure ($p_{vib} < 0$)** generated via the chameleon mechanism (Section 4.1). Furthermore, this **'Geometrical Path-Shortening'** does not violate the local speed of light $c$. The tensor condensation acts as an extreme 'Geometric Magnifier'. Consequently, the 'impossibly mature early galaxies' recently discovered by JWST are a profound **Chronological Illusion** caused by light traveling through these geometrically shortened paths, arriving earlier than expected while strictly preserving relativistic causality."
               }
             }
+          },
+          {
+            "id": "p3_v8_ko_1",
+            "versions": {
+              "v8": {
+                "ko": "공간 진동 텐서의 유효 상태 방정식 $w = p_{vib} / (\\rho_{vib} c^2)$는 주변 바리온 물질 밀도($\\rho_m$)에 결합하여 연속적으로 전환된다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_ko_2",
+            "versions": {
+              "v8": {
+                "ko": "$$w(\\rho_m) \\approx -1 + \\frac{1}{1 + e^{-(\\rho_m - \\rho_{\\mathrm{crit}})/\\sigma}}$$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_ko_3",
+            "versions": {
+              "v8": {
+                "ko": "은하 헤일로 영역에서는 보강 간섭을 통해 진동파들이 매우 응집력 있는 정재파를 형성한다. 이 상태에서는 빠른 진동이 시간 평균 압력을 0으로 소거($\\langle p_{vib} \\rangle \\approx 0$)시키며 압력 없는 암흑 물질($w \\approx 0$)로 거동하는 **'텐서 응축'**이 발생한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_ko_4",
+            "versions": {
+              "v8": {
+                "ko": "$$M_{\\mathrm{eff}}(r) = M_{\\mathrm{visible}}(r) + \\frac{4\\pi}{c^2} \\int_{0}^{r} \\langle \\tilde{V}_{00} \\rangle \\sqrt{g_{rr}} \\, r'^2 dr'$$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_ko_5",
+            "versions": {
+              "v8": {
+                "ko": "물질이 전무한 거대 공동($w \\to -1$)에서는 바깥으로 강력한 **'진동 복사압'**을 뿜어낸다. 이를 프리드만 가속도 방정식에 대입하면 다음과 같다:",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_ko_6",
+            "versions": {
+              "v8": {
+                "ko": "$$\\frac{\\ddot{a}}{a} = -\\frac{4\\pi G}{3} \\left( \\rho_m + \\rho_{vib} + \\frac{3p_{vib}}{c^2} \\right)$$",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_ko_7",
+            "versions": {
+              "v8": {
+                "ko": "거대 공동에서는 $p_{vib} \\approx -\\rho_{vib} c^2$이므로 괄호 안의 암흑 유체 항은 $(\\rho_{vib} - 3\\rho_{vib}) = -2\\rho_{vib}$가 된다. 이 음의 유효 중력 질량이 강력한 양(+)의 가속도, 즉 우주의 가속 팽창($\\ddot{a}>0$)을 수학적으로 완벽히 주도한다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_1",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "We adopt a dynamic analogous to Chameleon Cosmology. The equation of state parameter $w$ dynamically couples to the ambient baryonic matter density ($\\rho_m$):"
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_2",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "$$w(\\rho_m) \\approx -1 + \\frac{1}{1 + e^{-(\\rho_m - \\rho_{crit})/\\sigma}}$$"
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_3",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "In galactic halos, kinetic modes are trapped, and rapid oscillations time-average the effective kinematic pressure to zero ($\\langle p_{vib} \\rangle \\approx 0$). This **'Tensor Condensation'** assumes an 'Effective Mass':"
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_4",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "$$M_{eff}(r) = M_{visible}(r) + \\frac{4\\pi}{c^2} \\int_{0}^{r} \\langle \\tilde{V}_{00} \\rangle \\sqrt{g_{rr}} \\, r'^2 dr'$$"
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_5",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "In vast Cosmic Voids ($\\rho_m \\ll \\rho_{crit}$), the chameleon coupling shifts to $w \\to -1$. The intrinsic geometrical vibration fiercely radiates a repulsive pressure. Substituting this into the Friedmann acceleration equation yields:"
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_6",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "$$\\frac{\\ddot{a}}{a} = -\\frac{4\\pi G}{3} \\left( \\rho_m + \\rho_{vib} + \\frac{3p_{vib}}{c^2} \\right)$$"
+              }
+            }
+          },
+          {
+            "id": "p3_v8_en_7",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "Where $p_{vib} \\approx -\\rho_{vib} c^2$, the dark fluid term becomes $(\\rho_{vib} - 3\\rho_{vib}) = -2\\rho_{vib}$. This negative effective gravitational mass overwhelmingly drives a deterministic positive feedback loop of accelerated expansion ($\\ddot{a}>0$)."
+              }
+            }
           }
         ]
       },
       {
         "number": 4,
         "title": {
-          "ko": "4. 통합 암흑 유체: 카멜레온 장 역학",
-          "en": "4. The Unified Dark Fluid: Chameleon Dynamics of the Tensor Sector"
+          "ko": "4. 결론",
+          "en": "4. Conclusion"
         },
         "paragraphs": [
           {
@@ -15045,6 +15301,60 @@ export const papersMap: Record<string, PaperDetails> = {
               "v7": {
                 "ko": "",
                 "en": "As the universe expands and matter dilutes, the repulsive pressure emitted by the growing vacuum volume increases exponentially, driving a deterministic positive feedback loop of accelerated expansion ($\\ddot{a}>0$) [7]."
+              }
+            }
+          },
+          {
+            "id": "p4_v8_ko_1",
+            "versions": {
+              "v8": {
+                "ko": "아인슈타인 장 방정식에 아이작슨 평균화된 공간 진동 텐서를 결합하고 상태 방정식 상전이를 도입함으로써, 본 논문은 암흑 물질과 암흑 에너지를 단일 암흑 유체의 동역학적 현상으로 대통합하는 재해석을 제공하였다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v8_ko_2",
+            "versions": {
+              "v8": {
+                "ko": "---",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v8_ko_3",
+            "versions": {
+              "v8": {
+                "ko": "**저자 표기(Note on Authorship):** 본 연구는 유광용(Kwang Yong Yoo)에 의해 작성되었습니다. 저자는 언어 교정 및 시뮬레이션 개발 지원을 위해 AI 보조 도구(Gemini)를 활용하였음을 밝힙니다. 본 연구는 저자의 전적인 학술적 책임 하에 수행된 독립적인 연구 결과물입니다.",
+                "en": ""
+              }
+            }
+          },
+          {
+            "id": "p4_v8_en_1",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "By coupling the Spatial Vibration Tensor with the Einstein field equations via Isaacson averaging and introducing a chameleon-like equation of state, this paper provides a unified phenomenological reinterpretation of Dark Matter and Dark Energy without violating the equivalence principle."
+              }
+            }
+          },
+          {
+            "id": "p4_v8_en_2",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "---"
+              }
+            }
+          },
+          {
+            "id": "p4_v8_en_3",
+            "versions": {
+              "v8": {
+                "ko": "",
+                "en": "**Note on Authorship:** This work was authored by Kwang Yong Yoo. The author acknowledges the use of AI-assisted tools (Gemini) for language refinement and simulation development support. This study is an independent research work conducted under the author's sole academic responsibility."
               }
             }
           }
