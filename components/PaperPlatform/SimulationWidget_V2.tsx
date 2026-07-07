@@ -24,6 +24,8 @@ interface Photon {
   active: boolean;
   isTimeLeaped?: boolean;
   trail: { px: number; py: number }[];
+  color: string;
+  initY: number;
 }
 
 export const SimulationWidget_V2: React.FC = () => {
@@ -32,7 +34,7 @@ export const SimulationWidget_V2: React.FC = () => {
   // V2 Physics Parameters
   const [galaxyMass, setGalaxyMass] = useState<number>(40);
   const [chameleonCoupling, setChameleonCoupling] = useState<number>(1.5); // Flat curve height
-  const [voidTension, setVoidTension] = useState<number>(2.0); // Expansion rate
+  const [matterDensity, setMatterDensity] = useState<number>(2.0); // Local density ρ_m (Chameleon transition parameter)
   const [turbulentNoise, setTurbulentNoise] = useState<number>(0.5); // Lensing scattering
 
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -80,7 +82,7 @@ export const SimulationWidget_V2: React.FC = () => {
 
   useEffect(() => {
     resetSimulation();
-  }, [simMode, galaxyMass, chameleonCoupling, voidTension, turbulentNoise]);
+  }, [simMode, galaxyMass, chameleonCoupling, matterDensity, turbulentNoise]);
 
   // Handle Drag-to-rotate in Lensing (3D view)
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -125,6 +127,18 @@ export const SimulationWidget_V2: React.FC = () => {
         // ==========================================
         const cx = width * 0.65;
         const cy = height / 2;
+
+        // Draw Tensor Condensation Halo (glowing golden cloud in the outer disk)
+        ctx.save();
+        const haloGrad = ctx.createRadialGradient(cx, cy, 70, cx, cy, 185);
+        haloGrad.addColorStop(0, 'rgba(250, 204, 21, 0)');
+        haloGrad.addColorStop(0.5, `rgba(250, 204, 21, ${chameleonCoupling * 0.055})`);
+        haloGrad.addColorStop(1, 'rgba(250, 204, 21, 0)');
+        ctx.fillStyle = haloGrad;
+        ctx.beginPath();
+        ctx.arc(cx, cy, 185, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.restore();
 
         // Draw central core (Galaxy Bulge)
         const bulgeGrad = ctx.createRadialGradient(cx, cy, 2, cx, cy, 25);
@@ -245,6 +259,10 @@ export const SimulationWidget_V2: React.FC = () => {
         ctx.fillText('Observed Rotation (Flat)', gx + 20, gy + 15);
         ctx.fillStyle = '#3b82f6';
         ctx.fillText('Newtonian Gravity Well', gx + 20, gy + 30);
+        ctx.fillStyle = '#fef08a';
+        ctx.fillText('M_eff(r) = M_vis + 4π/c² ∫⟨Ṽ₀₀⟩√g_rr r\'² dr\'', gx + 20, gy + 48);
+        ctx.fillStyle = 'rgba(250, 204, 21, 0.85)';
+        ctx.fillText('Tensor Condensation Halo (φ)', gx + 20, gy + 63);
         ctx.restore();
 
         // Title Info
@@ -256,11 +274,13 @@ export const SimulationWidget_V2: React.FC = () => {
         // ==========================================
         // Mode B: Chameleon Field Expansion (Dark Energy)
         // ==========================================
-        const cx = width / 2;
+        const cx = width * 0.65;
         const cy = height / 2;
 
         // Dynamic scale factor a(t) calculation
-        const aFactor = 1.0 + Math.pow(frameCountRef.current * 0.004 * voidTension, 1.8);
+        const wCoeff = -1.0 + 1.0 / (1.0 + Math.exp(-(matterDensity - 5.0) / 1.2));
+        const effectiveExpansion = Math.abs(wCoeff); // between 0.015 and 0.985
+        const aFactor = 1.0 + Math.pow(frameCountRef.current * 0.004 * (effectiveExpansion * 4.0), 1.8);
         const loopFactor = (aFactor % 180);
 
         // Draw Expanding Void grid cells
@@ -299,7 +319,7 @@ export const SimulationWidget_V2: React.FC = () => {
             if (r < 30 || r > 240) continue;
 
             const angle = Math.atan2(dy, dx);
-            const forceLen = Math.min(18, (r * 0.08) * (voidTension * 0.4));
+            const forceLen = Math.min(18, (r * 0.08) * (effectiveExpansion * 1.5));
             const endX = x + Math.cos(angle) * forceLen;
             const endY = y + Math.sin(angle) * forceLen;
 
@@ -318,12 +338,12 @@ export const SimulationWidget_V2: React.FC = () => {
         ctx.restore();
 
         // ------------------------------------------
-        // Scale Factor a(t) chart (Left bottom)
+        // Scale Factor a(t) chart (Left Top)
         // ------------------------------------------
         const gx = 45;
-        const gy = 260;
-        const gw = 120;
-        const gh = 110;
+        const gy = 80;
+        const gw = 180;
+        const gh = 100;
 
         ctx.save();
         ctx.strokeStyle = '#27272a';
@@ -350,7 +370,7 @@ export const SimulationWidget_V2: React.FC = () => {
         ctx.lineWidth = 1.8;
         ctx.beginPath();
         for (let t = 0; t <= gw; t++) {
-          const val = Math.pow(t * 0.03 * voidTension, 1.8) * 4;
+          const val = Math.pow(t * 0.03 * (effectiveExpansion * 3.5), 1.8) * 3;
           const py = Math.max(gy, gy + gh - val);
           t === 0 ? ctx.moveTo(gx + t, py) : ctx.lineTo(gx + t, py);
         }
@@ -361,6 +381,64 @@ export const SimulationWidget_V2: React.FC = () => {
         ctx.fillText('a(t) ∝ e^(Ht)', gx + 15, gy + 15);
         ctx.fillStyle = '#34d399';
         ctx.fillText('p_vib < 0 (Inflation)', gx + 15, gy + 30);
+        ctx.restore();
+
+        // ------------------------------------------
+        // S-Curve w(ρ_m) chart (Left Bottom)
+        // ------------------------------------------
+        const gx2 = 45;
+        const gy2 = 230;
+        const gw2 = 180;
+        const gh2 = 100;
+
+        ctx.save();
+        ctx.strokeStyle = '#27272a';
+        ctx.beginPath();
+        ctx.roundRect(gx2 - 10, gy2 - 20, gw2 + 20, gh2 + 40, 8);
+        ctx.stroke();
+        ctx.fillStyle = 'rgba(9, 9, 11, 0.7)';
+        ctx.fill();
+
+        ctx.strokeStyle = '#3f3f46';
+        ctx.beginPath();
+        ctx.moveTo(gx2, gy2);
+        ctx.lineTo(gx2, gy2 + gh2);
+        ctx.lineTo(gx2 + gw2, gy2 + gh2);
+        ctx.stroke();
+
+        ctx.fillStyle = '#a1a1aa';
+        ctx.font = '8px monospace';
+        ctx.fillText('w (E.O.S)', gx2 - 5, gy2 - 8);
+        ctx.fillText('ρ_m (Density)', gx2 + gw2 - 50, gy2 + gh2 + 12);
+
+        // Plot Sigmoid chameleon EOS curve
+        ctx.strokeStyle = '#34d399';
+        ctx.lineWidth = 1.8;
+        ctx.beginPath();
+        for (let dx = 0; dx <= gw2; dx++) {
+          const rho = (dx / gw2) * 10;
+          const wVal = -1.0 + 1.0 / (1.0 + Math.exp(-(rho - 5.0) / 1.2));
+          const py = gy2 + gh2 - (wVal + 1.0) * gh2;
+          dx === 0 ? ctx.moveTo(gx2 + dx, py) : ctx.lineTo(gx2 + dx, py);
+        }
+        ctx.stroke();
+
+        // Plot current operating point
+        const currentX = gx2 + (matterDensity / 10) * gw2;
+        const currentY = gy2 + gh2 - (wCoeff + 1.0) * gh2;
+        ctx.fillStyle = '#ffffff';
+        ctx.beginPath();
+        ctx.arc(currentX, currentY, 4, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = '#a855f7';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.font = 'bold 8px monospace';
+        ctx.fillStyle = '#34d399';
+        ctx.fillText(`w = ${wCoeff.toFixed(2)}`, gx2 + 15, gy2 + 15);
+        ctx.fillStyle = '#a1a1aa';
+        ctx.fillText(`ρ_crit=5.0, σ=1.2`, gx2 + 15, gy2 + 28);
         ctx.restore();
 
         // Title Info
@@ -377,17 +455,26 @@ export const SimulationWidget_V2: React.FC = () => {
         const scale = 50;
 
         // Trace Photon paths from left to right
-        if (frameCountRef.current % 12 === 0 && photonsRef.current.length < 35) {
-          // Shoot photon with varying initial Y positions
+        if (frameCountRef.current % 15 === 0 && photonsRef.current.length < 45) {
           const initY = -120 + Math.random() * 240;
-          photonsRef.current.push({
-            x: -240,
-            y: initY,
-            vx: 4.5,
-            vy: 0,
-            active: true,
-            isTimeLeaped: false,
-            trail: []
+          // Spawn RGB triplet with a slight vertical separation (dy = -1, 0, 1) to render parallel lines
+          const offsets = [
+            { dy: -1, color: '#ef4444' }, // Red
+            { dy: 0, color: '#10b981' },  // Green
+            { dy: 1, color: '#3b82f6' }   // Blue
+          ];
+          offsets.forEach(({ dy, color }) => {
+            photonsRef.current.push({
+              x: -240,
+              y: initY + dy,
+              vx: 4.5,
+              vy: 0,
+              active: true,
+              isTimeLeaped: false,
+              trail: [],
+              color,
+              initY
+            });
           });
         }
 
@@ -406,14 +493,21 @@ export const SimulationWidget_V2: React.FC = () => {
           return { px: projX, py: projY, depth: y2 };
         };
 
-        // Renders gravity well depression z = -M / (r + eps)
+        const tWave = frameCountRef.current * 0.15;
+
+        // Renders gravity well depression z = -M / (r + eps) + wave ripples h_vib
         for (let u = -6; u <= 6; u++) {
           const idx = u + 6;
           gridPoints[idx] = [];
           for (let v = -6; v <= 6; v++) {
             const dist = Math.sqrt(u * u + v * v) + 0.1;
-            const zDepth = -chameleonCoupling * 1.8 / dist;
-            gridPoints[idx].push(project(u * 35, v * 35, zDepth * 15));
+            const zGravity = -chameleonCoupling * 1.8 / dist;
+            
+            // Add microscopic high-frequency metric perturbation ripple
+            const ripple = Math.sin(dist * 2.5 - tWave) * 0.12 * turbulentNoise;
+            const zTotal = zGravity + ripple;
+            
+            gridPoints[idx].push(project(u * 35, v * 35, zTotal * 15));
           }
         }
 
@@ -447,9 +541,10 @@ export const SimulationWidget_V2: React.FC = () => {
         ctx.arc(blackHoleProj.px, blackHoleProj.py, 20, 0, 2 * Math.PI);
         ctx.fill();
 
-        // Render fading time-leap shortcut lines
+        // Render fading time-leap shortcut lines and negative pressure vector rings
         flashesRef.current.forEach((flash) => {
           ctx.save();
+          // 1. Geometrical path shortcut dashed line
           ctx.strokeStyle = `rgba(250, 204, 21, ${flash.alpha * 0.75})`;
           ctx.setLineDash([4, 3]);
           ctx.lineWidth = 1.8;
@@ -458,7 +553,29 @@ export const SimulationWidget_V2: React.FC = () => {
           ctx.lineTo(flash.endPx, flash.endPy);
           ctx.stroke();
 
-          // Flash circle at end
+          // 2. Outward pointing negative pressure ring (p_vib < 0) keeping the junction open
+          const blackHoleProj = project(0, 0, 0);
+          ctx.strokeStyle = `rgba(168, 85, 247, ${flash.alpha * 0.8})`;
+          ctx.lineWidth = 1.2;
+          const ringRadius = 25 + (1.0 - flash.alpha) * 35;
+          ctx.beginPath();
+          ctx.arc(blackHoleProj.px, blackHoleProj.py, ringRadius, 0, 2 * Math.PI);
+          ctx.stroke();
+
+          // Outward pointing arrows on the ring
+          for (let a = 0; a < 2 * Math.PI; a += Math.PI / 4) {
+            const ax = blackHoleProj.px + Math.cos(a) * ringRadius;
+            const ay = blackHoleProj.py + Math.sin(a) * ringRadius;
+            const arrowLen = 5;
+            const ex = ax + Math.cos(a) * arrowLen;
+            const ey = ay + Math.sin(a) * arrowLen;
+            ctx.beginPath();
+            ctx.moveTo(ax, ay);
+            ctx.lineTo(ex, ey);
+            ctx.stroke();
+          }
+
+          // 3. Flash circle at end
           ctx.fillStyle = `rgba(250, 204, 21, ${flash.alpha * 0.9})`;
           ctx.beginPath();
           ctx.arc(flash.endPx, flash.endPy, 4 + 4 * flash.alpha, 0, 2 * Math.PI);
@@ -466,20 +583,26 @@ export const SimulationWidget_V2: React.FC = () => {
 
           ctx.font = 'bold 8px monospace';
           ctx.fillStyle = `rgba(253, 224, 71, ${flash.alpha})`;
-          ctx.fillText('Time-Leap!', flash.endPx + 8, flash.endPy - 4);
+          ctx.fillText('Time-Leap (Junction, p_vib < 0)', flash.endPx + 8, flash.endPy - 4);
           ctx.restore();
 
           flash.alpha -= 0.025; // fade speed
         });
         flashesRef.current = flashesRef.current.filter((f) => f.alpha > 0);
 
+        // GLSL-like deterministic hash to ensure R, G, B triplets share identical paths
+        const hash = (x1: number, y1: number) => {
+          const val = Math.sin(x1 * 12.9898 + y1 * 78.233) * 43758.5453;
+          return val - Math.floor(val);
+        };
+
         // Update and draw photons
         photonsRef.current.forEach((photon) => {
           if (!photon.active) return;
 
           // Draw trail
-          ctx.strokeStyle = 'rgba(253, 186, 116, 0.15)';
-          ctx.lineWidth = 1.5;
+          ctx.strokeStyle = photon.color + '26'; // add 15% opacity in hex
+          ctx.lineWidth = 1.2;
           ctx.beginPath();
           photon.trail.forEach((t, idx) => {
             idx === 0 ? ctx.moveTo(t.px, t.py) : ctx.lineTo(t.px, t.py);
@@ -499,14 +622,14 @@ export const SimulationWidget_V2: React.FC = () => {
           photon.vx += Math.cos(angle) * force * 0.01;
           photon.vy += Math.sin(angle) * force * 0.01;
 
-          // V8 Phase Turbulence: Stochastic fluctuation noise
+          // V8 Phase Turbulence: Achromatic stochastic geodesic deviation
           if (turbulentNoise > 0) {
-            const noise = (Math.random() - 0.5) * turbulentNoise * 1.8;
+            // Noise is deterministic based on current photon x coordinate (discretized) and initial Y coordinate of the triplet
+            const noise = (hash(Math.floor(photon.x), photon.initY) - 0.5) * turbulentNoise * 1.5;
             photon.vy += noise;
           }
 
           // Time-Leap Jump Condition:
-          // When approaching the central singularity, trigger a shortcut tunneling jump
           if (photon.x > -25 && photon.x < 5 && !photon.isTimeLeaped && chameleonCoupling > 1.3 && turbulentNoise > 0.4) {
             const startX = photon.x;
             const startY = photon.y;
@@ -533,7 +656,7 @@ export const SimulationWidget_V2: React.FC = () => {
           photon.y += photon.vy;
 
           // Draw photon particle
-          ctx.fillStyle = '#f59e0b';
+          ctx.fillStyle = photon.color;
           ctx.beginPath();
           ctx.arc(currentProj.px, currentProj.py, 2, 0, 2 * Math.PI);
           ctx.fill();
@@ -567,7 +690,7 @@ export const SimulationWidget_V2: React.FC = () => {
     return () => {
       cancelAnimationFrame(animId);
     };
-  }, [simMode, galaxyMass, chameleonCoupling, voidTension, turbulentNoise, angleX, angleY]);
+  }, [simMode, galaxyMass, chameleonCoupling, matterDensity, turbulentNoise, angleX, angleY]);
 
   return (
     <div className="w-full">
@@ -654,27 +777,29 @@ export const SimulationWidget_V2: React.FC = () => {
             <>
               <div className="space-y-1">
                 <div className="flex justify-between text-xs text-zinc-400 font-mono">
-                  <span>Void Tension (p_vib)</span>
-                  <span className="text-purple-400 font-mono">{voidTension.toFixed(1)} N/m²</span>
+                  <span>Local Density (ρ_m)</span>
+                  <span className="text-purple-400 font-mono">{matterDensity.toFixed(1)} GeV</span>
                 </div>
                 <input
                   type="range"
-                  min="1.0"
-                  max="4.0"
+                  min="0.0"
+                  max="10.0"
                   step="0.1"
-                  value={voidTension}
-                  onChange={(e) => setVoidTension(Number(e.target.value))}
+                  value={matterDensity}
+                  onChange={(e) => setMatterDensity(Number(e.target.value))}
                   className="w-full h-1 bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-purple-500"
                 />
               </div>
 
               <div className="space-y-1 mt-2">
                 <div className="flex justify-between text-xs text-zinc-400 font-mono">
-                  <span>Cosmological scale factor</span>
-                  <span className="text-purple-400 font-mono">Exp Mode</span>
+                  <span>E.O.S w(ρ_m) Value</span>
+                  <span className="text-emerald-400 font-mono">w = {(-1.0 + 1.0 / (1.0 + Math.exp(-(matterDensity - 5.0) / 1.2))).toFixed(2)}</span>
                 </div>
-                <div className="p-3 bg-zinc-950 rounded border border-zinc-850 font-mono text-[9px] text-zinc-500">
-                  ds² = -dt² + a(t)²[dr²/(1-kr²) + r²dΩ²]
+                <div className="p-3 bg-zinc-950 rounded border border-zinc-850 font-mono text-[9px] text-zinc-500 space-y-1">
+                  <div>w ≈ -1 + 1 / (1 + e^(-(ρ_m - ρ_crit)/σ))</div>
+                  <div className="text-zinc-600">ρ_m → 0: w → -1 (Dark Energy)</div>
+                  <div className="text-zinc-600">ρ_m → 10: w → 0 (Dark Matter)</div>
                 </div>
               </div>
             </>
