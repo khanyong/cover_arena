@@ -596,10 +596,14 @@ function compileAndSync() {
         if (!targetCh) {
           targetCh = {
             number: parsedCh.number,
-            title: { ko: '', en: '' },
+            title: { ko: '', en: '', versions: {} },
             paragraphs: []
           };
           mergedPaper.chapters.push(targetCh);
+        }
+
+        if (!targetCh.title.versions) {
+          targetCh.title.versions = {};
         }
 
         const parsedKoCh = parsedKo ? parsedKo.chapters.find(c => c.number === parsedCh.number) : null;
@@ -608,9 +612,27 @@ function compileAndSync() {
         // Only overwrite chapter title if it's valid and does NOT contain strikethrough '~~' markers (avoiding deprecated headers)
         if (parsedKoCh && parsedKoCh.title.ko && parsedKoCh.title.ko !== 'Title' && !parsedKoCh.title.ko.includes('~~')) {
           targetCh.title.ko = parsedKoCh.title.ko;
+          if (versionKey === 'v1_v2') {
+            targetCh.title.versions['v1'] = { ko: parsedKoCh.title.ko, en: targetCh.title.versions['v1']?.en || '' };
+            targetCh.title.versions['v2'] = { ko: parsedKoCh.title.ko, en: targetCh.title.versions['v2']?.en || '' };
+          } else {
+            if (!targetCh.title.versions[versionKey]) {
+              targetCh.title.versions[versionKey] = { ko: '', en: '' };
+            }
+            targetCh.title.versions[versionKey].ko = parsedKoCh.title.ko;
+          }
         }
         if (parsedEnCh && parsedEnCh.title.en && parsedEnCh.title.en !== 'Title' && !parsedEnCh.title.en.includes('~~')) {
           targetCh.title.en = parsedEnCh.title.en;
+          if (versionKey === 'v1_v2') {
+            targetCh.title.versions['v1'] = { ko: targetCh.title.versions['v1']?.ko || '', en: parsedEnCh.title.en };
+            targetCh.title.versions['v2'] = { ko: targetCh.title.versions['v2']?.ko || '', en: parsedEnCh.title.en };
+          } else {
+            if (!targetCh.title.versions[versionKey]) {
+              targetCh.title.versions[versionKey] = { ko: '', en: '' };
+            }
+            targetCh.title.versions[versionKey].en = parsedEnCh.title.en;
+          }
         }
 
         if (versionKey === 'v1_v2') {
@@ -748,9 +770,15 @@ export interface PaperParagraph {
   reviewIds?: string[];
 }
 
+export interface ChapterTitle {
+  ko: string;
+  en: string;
+  versions?: Record<string, Translation>;
+}
+
 export interface PaperChapter {
   number: number;
-  title: Translation;
+  title: ChapterTitle;
   paragraphs: PaperParagraph[];
 }
 

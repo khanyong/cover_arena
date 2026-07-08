@@ -28,6 +28,28 @@ const paperDOIs: Record<string, { doi: string; repo: string }> = {
     repo: 'https://github.com/khanyong/spatial-vibration-series-3'
   }
 };
+
+const getChapterTitle = (ch: any, version: string, lang: 'ko' | 'en') => {
+  if (ch.title.versions && ch.title.versions[version] && ch.title.versions[version][lang]) {
+    return ch.title.versions[version][lang];
+  }
+  return ch.title[lang] || '';
+};
+
+const isChapterVisible = (ch: any, version: string) => {
+  if (version === 'diff') return true;
+  return ch.paragraphs.some((p: any) => {
+    const versionsMap = p.versions || {};
+    const txt = versionsMap[version]?.ko || versionsMap[version]?.en || '';
+    if (!txt) return false;
+    let clean = txt.trim();
+    if (clean.startsWith('- ')) clean = clean.slice(2).trim();
+    if (version === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
+      return false;
+    }
+    return true;
+  });
+};
 import { CitationGenerator } from '../../components/PaperPlatform/CitationGenerator';
 import { PaperExport } from '../../components/PaperPlatform/PaperExport';
 import { AuthModal } from '../../components/PaperPlatform/AuthModal';
@@ -1126,27 +1148,29 @@ export default function AcademicPaperViewer() {
                           </button>
 
                           {/* Dynamic Chapters Tabs */}
-                          {paperData.chapters.map((ch) => {
-                            const isSelected = selectedChapterId === ch.number.toString();
-                            const isReferences = ch.title.ko.includes('참고문헌');
-                            return (
-                              <button
-                                key={ch.number}
-                                onClick={() => setSelectedChapterId(ch.number.toString())}
-                                className={`w-full text-left px-3 py-2 rounded-xs font-medium transition-all flex items-center justify-between ${isSelected
-                                    ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20 shadow-xs'
-                                    : 'text-zinc-650 hover:bg-zinc-50 hover:text-zinc-950'
-                                  }`}
-                              >
-                                <span className="truncate pr-2 select-none">
-                                  {activeLang === 'ko' ? ch.title.ko : ch.title.en}
-                                </span>
-                                <span className="opacity-60 font-mono text-[9px] flex-shrink-0">
-                                  {isReferences ? 'REF' : `CH ${ch.number}`}
-                                </span>
-                              </button>
-                            );
-                          })}
+                          {paperData.chapters
+                            .filter((ch) => isChapterVisible(ch, versionMode))
+                            .map((ch) => {
+                              const isSelected = selectedChapterId === ch.number.toString();
+                              const isReferences = getChapterTitle(ch, versionMode, 'ko').includes('참고문헌');
+                              return (
+                                <button
+                                  key={ch.number}
+                                  onClick={() => setSelectedChapterId(ch.number.toString())}
+                                  className={`w-full text-left px-3 py-2 rounded-xs font-medium transition-all flex items-center justify-between ${isSelected
+                                      ? 'bg-[#b31b1b]/10 text-[#b31b1b] font-bold border border-[#b31b1b]/20 shadow-xs'
+                                      : 'text-zinc-650 hover:bg-zinc-50 hover:text-zinc-950'
+                                    }`}
+                                >
+                                  <span className="truncate pr-2 select-none">
+                                    {getChapterTitle(ch, versionMode, activeLang)}
+                                  </span>
+                                  <span className="opacity-60 font-mono text-[9px] flex-shrink-0">
+                                    {isReferences ? 'REF' : `CH ${ch.number}`}
+                                  </span>
+                                </button>
+                              );
+                            })}
 
                           {/* References Sidebar Menu */}
                           <button
@@ -1207,79 +1231,81 @@ export default function AcademicPaperViewer() {
                         {/* 2. Single Language Mode View */}
                         {readMode === 'single' && selectedChapterId !== 'abstract' && (
                           <div className={getJournalStyleClass()}>
-                            {paperData.chapters.map((ch) => {
-                              if (selectedChapterId !== 'all' && selectedChapterId !== ch.number.toString()) {
-                                return null;
-                              }
-
-                              // 영문 단독 모드도 국문과 동일하게 초대 코드 잠금 정책 적용
-                              const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
-
-                              // Pre-check if chapter has paragraphs
-                              const hasVisibleParagraphs = ch.paragraphs.some(p => {
-                                const versionsMap = p.versions || {};
-                                const activeText = versionMode === 'diff' ? '' : (versionsMap[versionMode]?.[activeLang] || versionsMap[versionMode]?.ko || '');
-                                if (!activeText) return false;
-                                let clean = activeText.trim();
-                                if (clean.startsWith('- ')) clean = clean.slice(2).trim();
-                                if (versionMode === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
-                                  return false;
+                            {paperData.chapters
+                              .filter((ch) => isChapterVisible(ch, versionMode))
+                              .map((ch) => {
+                                if (selectedChapterId !== 'all' && selectedChapterId !== ch.number.toString()) {
+                                  return null;
                                 }
-                                return true;
-                              });
 
-                              if (!hasVisibleParagraphs && versionMode !== 'diff') return null;
+                                // 영문 단독 모드도 국문과 동일하게 초대 코드 잠금 정책 적용
+                                const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
 
-                              return (
-                                <div key={ch.number} className="mb-8 break-inside-avoid space-y-4">
-                                  <h3 className="text-xs font-bold text-[#b31b1b] border-b border-zinc-200 pb-1.5 uppercase tracking-wider font-serif">
-                                    {activeLang === 'ko' ? ch.title.ko : ch.title.en}
-                                  </h3>
+                                // Pre-check if chapter has paragraphs
+                                const hasVisibleParagraphs = ch.paragraphs.some(p => {
+                                  const versionsMap = p.versions || {};
+                                  const activeText = versionMode === 'diff' ? '' : (versionsMap[versionMode]?.[activeLang] || versionsMap[versionMode]?.ko || '');
+                                  if (!activeText) return false;
+                                  let clean = activeText.trim();
+                                  if (clean.startsWith('- ')) clean = clean.slice(2).trim();
+                                  if (versionMode === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
+                                    return false;
+                                  }
+                                  return true;
+                                });
 
-                                  {isRestrictedChapter ? (
-                                    <div className="bg-zinc-50 border border-zinc-250 p-6 md:p-10 rounded-sm text-center space-y-4 my-6 shadow-xs">
-                                      <span className="text-3xl block">🔐</span>
-                                      <h4 className="text-sm md:text-base font-bold text-zinc-950 font-serif">
-                                        {activeLang === 'ko' 
-                                          ? `학술지 투고 심사 전용 세션 잠금 (${ch.number}장)`
-                                          : `Restricted Editorial Section Locked (Ch. ${ch.number})`
-                                        }
-                                      </h4>
-                                      <p className="text-xs text-zinc-650 max-w-xl mx-auto leading-relaxed font-serif">
-                                        {activeLang === 'ko'
-                                          ? `본 논문의 ${ch.number}장은 피어 리뷰어 및 학술 편집위원회 전용 비공개 구간입니다. 전달받으신 고유 초대 코드를 입력하시면 모든 챕터와 시뮬레이터 샌드박스가 즉시 잠금 해제됩니다.`
-                                          : `Chapter ${ch.number} of this manuscript is restricted for peer reviewers and editorial board members. Enter the invitation code to unlock all chapters and simulation sandbox.`
-                                        }
-                                      </p>
-                                      <div className="pt-2">
-                                        <button
-                                          onClick={() => setIsAuthModalOpen(true)}
-                                          className="px-6 py-2.5 bg-[#b31b1b] hover:bg-red-800 text-white text-xs font-bold rounded-sm transition-all shadow-md hover:scale-105 active:scale-95 cursor-pointer"
-                                        >
-                                          {activeLang === 'ko' ? '초대 인증코드 입력' : 'Enter Code'}
-                                        </button>
+                                if (!hasVisibleParagraphs && versionMode !== 'diff') return null;
+
+                                return (
+                                  <div key={ch.number} className="mb-8 break-inside-avoid space-y-4">
+                                    <h3 className="text-xs font-bold text-[#b31b1b] border-b border-zinc-200 pb-1.5 uppercase tracking-wider font-serif">
+                                      {getChapterTitle(ch, versionMode, activeLang)}
+                                    </h3>
+
+                                    {isRestrictedChapter ? (
+                                      <div className="bg-zinc-50 border border-zinc-250 p-6 md:p-10 rounded-sm text-center space-y-4 my-6 shadow-xs">
+                                        <span className="text-3xl block">🔐</span>
+                                        <h4 className="text-sm md:text-base font-bold text-zinc-950 font-serif">
+                                          {activeLang === 'ko' 
+                                            ? `학술지 투고 심사 전용 세션 잠금 (${ch.number}장)`
+                                            : `Restricted Editorial Section Locked (Ch. ${ch.number})`
+                                          }
+                                        </h4>
+                                        <p className="text-xs text-zinc-650 max-w-xl mx-auto leading-relaxed font-serif">
+                                          {activeLang === 'ko'
+                                            ? `본 논문의 ${ch.number}장은 피어 리뷰어 및 학술 편집위원회 전용 비공개 구간입니다. 전달받으신 고유 초대 코드를 입력하시면 모든 챕터와 시뮬레이터 샌드박스가 즉시 잠금 해제됩니다.`
+                                            : `Chapter ${ch.number} of this manuscript is restricted for peer reviewers and editorial board members. Enter the invitation code to unlock all chapters and simulation sandbox.`
+                                          }
+                                        </p>
+                                        <div className="pt-2">
+                                          <button
+                                            onClick={() => setIsAuthModalOpen(true)}
+                                            className="px-6 py-2.5 bg-[#b31b1b] hover:bg-red-800 text-white text-xs font-bold rounded-sm transition-all shadow-md hover:scale-105 active:scale-95 cursor-pointer"
+                                          >
+                                            {activeLang === 'ko' ? '초대 인증코드 입력' : 'Enter Code'}
+                                          </button>
+                                        </div>
                                       </div>
-                                    </div>
-                                  ) : (
-                                    ch.paragraphs.map((p) => (
-                                      <InteractiveParagraph
-                                        key={p.id}
-                                        p={p}
-                                        lang={activeLang}
-                                        versionMode={versionMode}
-                                        isAuthorized={isAuthorized}
-                                        chNumber={ch.number}
-                                        setIsAuthModalOpen={setIsAuthModalOpen}
-                                        parseParagraphText={parseParagraphText}
-                                        isMosaicMode={isMosaicMode}
-                                        customVersionMap={customVersionMap}
-                                        onVersionSelect={handleVersionSelect}
-                                      />
-                                    ))
-                                  )}
-                                </div>
-                              );
-                            })}
+                                    ) : (
+                                      ch.paragraphs.map((p) => (
+                                        <InteractiveParagraph
+                                          key={p.id}
+                                          p={p}
+                                          lang={activeLang}
+                                          versionMode={versionMode}
+                                          isAuthorized={isAuthorized}
+                                          chNumber={ch.number}
+                                          setIsAuthModalOpen={setIsAuthModalOpen}
+                                          parseParagraphText={parseParagraphText}
+                                          isMosaicMode={isMosaicMode}
+                                          customVersionMap={customVersionMap}
+                                          onVersionSelect={handleVersionSelect}
+                                        />
+                                      ))
+                                    )}
+                                  </div>
+                                );
+                              })}
                             {selectedChapterId === 'all' || selectedChapterId === 'references' ? (
                               <ReferencesSection
                                 references={paperData.references}
@@ -1296,30 +1322,32 @@ export default function AcademicPaperViewer() {
                             {/* Korean column */}
                             <div ref={leftScrollRef} onScroll={() => handleScrollSync('left')} className="max-h-[70vh] overflow-y-auto pr-2 scrollbar-thin border-r border-zinc-150">
                               <h4 className="text-[9px] font-bold text-zinc-400 font-mono text-right uppercase mb-4">KOREAN ORIGINAL</h4>
-                              {paperData.chapters.map((ch) => {
-                                if (selectedChapterId !== 'all' && selectedChapterId !== ch.number.toString()) {
-                                  return null;
-                                }
-
-                                const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
-                                const hasVisible = ch.paragraphs.some(p => {
-                                  const versionsMap = p.versions || {};
-                                  const txt = versionMode === 'diff' ? '' : (versionsMap[versionMode]?.ko || versionsMap[versionMode]?.en || '');
-                                  if (!txt) return false;
-                                  let clean = txt.trim();
-                                  if (clean.startsWith('- ')) clean = clean.slice(2).trim();
-                                  if (versionMode === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
-                                    return false;
+                              {paperData.chapters
+                                .filter((ch) => isChapterVisible(ch, versionMode))
+                                .map((ch) => {
+                                  if (selectedChapterId !== 'all' && selectedChapterId !== ch.number.toString()) {
+                                    return null;
                                   }
-                                  return true;
-                                });
-                                if (!hasVisible && versionMode !== 'diff') return null;
 
-                                return (
-                                  <div key={ch.number} className="space-y-3 mb-6">
-                                    <h3 className="text-xs font-bold text-[#b31b1b] border-b border-zinc-200 pb-1">
-                                      {ch.title.ko}
-                                    </h3>
+                                  const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
+                                  const hasVisible = ch.paragraphs.some(p => {
+                                    const versionsMap = p.versions || {};
+                                    const txt = versionMode === 'diff' ? '' : (versionsMap[versionMode]?.ko || versionsMap[versionMode]?.en || '');
+                                    if (!txt) return false;
+                                    let clean = txt.trim();
+                                    if (clean.startsWith('- ')) clean = clean.slice(2).trim();
+                                    if (versionMode === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
+                                      return false;
+                                    }
+                                    return true;
+                                  });
+                                  if (!hasVisible && versionMode !== 'diff') return null;
+
+                                  return (
+                                    <div key={ch.number} className="space-y-3 mb-6">
+                                      <h3 className="text-xs font-bold text-[#b31b1b] border-b border-zinc-200 pb-1">
+                                        {getChapterTitle(ch, versionMode, 'ko')}
+                                      </h3>
                                     {isRestrictedChapter ? (
                                       <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
                                         <p className="text-[11px] text-zinc-600 font-serif">학술지 투고 심사 전용 구간 잠김 ({ch.number}장)</p>
@@ -1357,55 +1385,57 @@ export default function AcademicPaperViewer() {
                             {/* English column */}
                             <div ref={rightScrollRef} onScroll={() => handleScrollSync('right')} className="max-h-[70vh] overflow-y-auto pr-2 scrollbar-thin">
                               <h4 className="text-[9px] font-bold text-zinc-400 font-mono text-left uppercase mb-4">ENGLISH MANUSCRIPT</h4>
-                              {paperData.chapters.map((ch) => {
-                                if (selectedChapterId !== 'all' && selectedChapterId !== ch.number.toString()) {
-                                  return null;
-                                }
-
-                                const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
-                                const hasVisible = ch.paragraphs.some(p => {
-                                  const versionsMap = p.versions || {};
-                                  const txt = versionMode === 'diff' ? '' : (versionsMap[versionMode]?.en || versionsMap[versionMode]?.ko || '');
-                                  if (!txt) return false;
-                                  let clean = txt.trim();
-                                  if (clean.startsWith('- ')) clean = clean.slice(2).trim();
-                                  if (versionMode === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
-                                    return false;
+                              {paperData.chapters
+                                .filter((ch) => isChapterVisible(ch, versionMode))
+                                .map((ch) => {
+                                  if (selectedChapterId !== 'all' && selectedChapterId !== ch.number.toString()) {
+                                    return null;
                                   }
-                                  return true;
-                                });
-                                if (!hasVisible && versionMode !== 'diff') return null;
 
-                                return (
-                                  <div key={ch.number} className="space-y-3 mb-6">
-                                    <h3 className="text-xs font-bold text-zinc-700 border-b border-zinc-200 pb-1 font-serif">
-                                      {ch.title.en}
-                                    </h3>
-                                    {isRestrictedChapter ? (
-                                      <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
-                                        <p className="text-[11px] text-zinc-655 font-serif">Restricted Editorial Section Locked (Ch. {ch.number})</p>
-                                        <button onClick={() => setIsAuthModalOpen(true)} className="px-3 py-1 bg-[#b31b1b] text-white text-[10px] rounded-sm font-bold">Enter Code</button>
-                                      </div>
-                                    ) : (
-                                      ch.paragraphs.map((p) => (
-                                        <InteractiveParagraph
-                                          key={p.id}
-                                          p={p}
-                                          lang="en"
-                                          versionMode={versionMode}
-                                          isAuthorized={isAuthorized}
-                                          chNumber={ch.number}
-                                          setIsAuthModalOpen={setIsAuthModalOpen}
-                                          parseParagraphText={parseParagraphText}
-                                          isMosaicMode={isMosaicMode}
-                                          customVersionMap={customVersionMap}
-                                          onVersionSelect={handleVersionSelect}
-                                        />
-                                      ))
-                                    )}
-                                  </div>
-                                );
-                              })}
+                                  const isRestrictedChapter = !isAuthorized && (ch.number >= 3 && ch.number <= 6);
+                                  const hasVisible = ch.paragraphs.some(p => {
+                                    const versionsMap = p.versions || {};
+                                    const txt = versionMode === 'diff' ? '' : (versionsMap[versionMode]?.en || versionsMap[versionMode]?.ko || '');
+                                    if (!txt) return false;
+                                    let clean = txt.trim();
+                                    if (clean.startsWith('- ')) clean = clean.slice(2).trim();
+                                    if (versionMode === 'v2' && clean.startsWith('~~') && clean.endsWith('~~')) {
+                                      return false;
+                                    }
+                                    return true;
+                                  });
+                                  if (!hasVisible && versionMode !== 'diff') return null;
+
+                                  return (
+                                    <div key={ch.number} className="space-y-3 mb-6">
+                                      <h3 className="text-xs font-bold text-zinc-700 border-b border-zinc-200 pb-1 font-serif">
+                                        {getChapterTitle(ch, versionMode, 'en')}
+                                      </h3>
+                                      {isRestrictedChapter ? (
+                                        <div className="bg-zinc-50 border border-zinc-250 p-4 rounded-sm text-center space-y-2">
+                                          <p className="text-[11px] text-zinc-655 font-serif">Restricted Editorial Section Locked (Ch. {ch.number})</p>
+                                          <button onClick={() => setIsAuthModalOpen(true)} className="px-3 py-1 bg-[#b31b1b] text-white text-[10px] rounded-sm font-bold">Enter Code</button>
+                                        </div>
+                                      ) : (
+                                        ch.paragraphs.map((p) => (
+                                          <InteractiveParagraph
+                                            key={p.id}
+                                            p={p}
+                                            lang="en"
+                                            versionMode={versionMode}
+                                            isAuthorized={isAuthorized}
+                                            chNumber={ch.number}
+                                            setIsAuthModalOpen={setIsAuthModalOpen}
+                                            parseParagraphText={parseParagraphText}
+                                            isMosaicMode={isMosaicMode}
+                                            customVersionMap={customVersionMap}
+                                            onVersionSelect={handleVersionSelect}
+                                          />
+                                        ))
+                                      )}
+                                    </div>
+                                  );
+                                })}
                               {selectedChapterId === 'all' || selectedChapterId === 'references' ? (
                                 <ReferencesSection
                                   references={paperData.references}

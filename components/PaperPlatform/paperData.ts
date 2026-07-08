@@ -24,9 +24,15 @@ export interface PaperParagraph {
   reviewIds?: string[];
 }
 
+export interface ChapterTitle {
+  ko: string;
+  en: string;
+  versions?: Record<string, Translation>;
+}
+
 export interface PaperChapter {
   number: number;
-  title: Translation;
+  title: ChapterTitle;
   paragraphs: PaperParagraph[];
 }
 
@@ -139,7 +145,49 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 1,
         "title": {
           "ko": "1. 서론",
-          "en": "1. Introduction"
+          "en": "1. Introduction",
+          "versions": {
+            "v1": {
+              "ko": "1장. 서론",
+              "en": "Introduction"
+            },
+            "v2": {
+              "ko": "1장. 서론",
+              "en": "Introduction"
+            },
+            "v3": {
+              "ko": "1장. 서론",
+              "en": "Chapter 1. Introduction"
+            },
+            "v4": {
+              "ko": "1장. 서론 (Introduction)",
+              "en": "Chapter 1. Introduction"
+            },
+            "v5": {
+              "ko": "1장. 서론 (Introduction)",
+              "en": "Chapter 1. Introduction"
+            },
+            "v5.1": {
+              "ko": "1장. 서론",
+              "en": "Chapter 1. Introduction"
+            },
+            "v6": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            },
+            "v7": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            },
+            "v8": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            },
+            "v8.1": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -469,7 +517,49 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 2,
         "title": {
           "ko": "2. 수학적 정식화",
-          "en": "2. Mathematical Formulation"
+          "en": "2. Mathematical Formulation",
+          "versions": {
+            "v1": {
+              "ko": "2장. 공간 진동 가설 선언",
+              "en": "Spatial Vibration Hypothesis"
+            },
+            "v2": {
+              "ko": "2장. 공간 진동 가설 선언",
+              "en": "Spatial Vibration Hypothesis"
+            },
+            "v3": {
+              "ko": "2장. 공간 진동 가설",
+              "en": "Chapter 2. Spatial Vibration Hypothesis"
+            },
+            "v4": {
+              "ko": "2장. 공간 진동 가설 선언 (Spatial Vibration Hypothesis)",
+              "en": "Chapter 2. Spatial Vibration Hypothesis"
+            },
+            "v5": {
+              "ko": "2장. 공간 진동 가설 선언 (Spatial Vibration Hypothesis)",
+              "en": "Chapter 2. Spatial Vibration Hypothesis"
+            },
+            "v5.1": {
+              "ko": "2장. 공간 진동 가설",
+              "en": "Chapter 2. Spatial Vibration Hypothesis"
+            },
+            "v6": {
+              "ko": "2. 공간 진동 가설",
+              "en": "2. Spatial Vibration Hypothesis"
+            },
+            "v7": {
+              "ko": "2. 수학적 정식화: 비선형 동역학과 위상학적 정칙화",
+              "en": "2. Mathematical Formulation: Nonlinear Dynamics and Topological Regularization"
+            },
+            "v8": {
+              "ko": "2. 수학적 정식화: 비선형 동역학과 위상학적 정칙화",
+              "en": "2. Mathematical Formulation: Nonlinear Dynamics and Topological Regularization"
+            },
+            "v8.1": {
+              "ko": "2. 수학적 정식화",
+              "en": "2. Mathematical Formulation"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -2012,7 +2102,45 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 3,
         "title": {
           "ko": "3. 관측 붕괴와 결어긋남",
-          "en": "3. Decoherence and Scaling Law"
+          "en": "3. Decoherence and Scaling Law",
+          "versions": {
+            "v1": {
+              "ko": "3장. 수학적 정식화: 슈뢰딩거 방정식에서 공간 진동 역학으로의 전환",
+              "en": "Mathematical Formulation"
+            },
+            "v2": {
+              "ko": "3장. 수학적 정식화: 슈뢰딩거 방정식에서 공간 진동 역학으로의 전환",
+              "en": "Mathematical Formulation"
+            },
+            "v4": {
+              "ko": "3장. 수학적 정식화: 슈뢰딩거 방정식에서 공간 진동 역학으로의 전환",
+              "en": "Chapter 3. Mathematical Formulation"
+            },
+            "v5": {
+              "ko": "3장. 수학적 정식화: 슈뢰딩거 방정식에서 공간 진동 역학으로의 전환",
+              "en": "Chapter 3. Mathematical Formulation"
+            },
+            "v5.1": {
+              "ko": "3장. 수학적 정식화",
+              "en": "Chapter 3. Mathematical Formulation"
+            },
+            "v6": {
+              "ko": "3. 수학적 정식화 및 동역학적 정칙화",
+              "en": "3. Mathematical Formulation and Dynamic Regularization"
+            },
+            "v7": {
+              "ko": "3. 선택된 양자 현상의 기하역학적 재해석",
+              "en": "3. Geomechanical Reinterpretation of Selected Quantum Phenomena"
+            },
+            "v8": {
+              "ko": "3. 선택된 양자 현상의 기하역학적 재해석",
+              "en": "3. Geomechanical Reinterpretation of Selected Quantum Phenomena"
+            },
+            "v8.1": {
+              "ko": "3. 관측 붕괴와 결어긋남",
+              "en": "3. Decoherence and Scaling Law"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -4999,7 +5127,49 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 4,
         "title": {
           "ko": "4. 결론",
-          "en": "4. Conclusion"
+          "en": "4. Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "4장. 이중 슬릿 실험의 재해석: 공간 진동에 의한 결정론적 궤적 유도",
+              "en": "Double-Slit Trajectories"
+            },
+            "v2": {
+              "ko": "4장. 이중 슬릿 실험의 재해석: 공간 진동에 의한 결정론적 궤적 유도",
+              "en": "Double-Slit Trajectories"
+            },
+            "v3": {
+              "ko": "4장. 이중 슬릿 실험의 재해석: 공간 진동에 의한 결정론적 궤적 유도",
+              "en": "Chapter 4. Double-Slit Trajectories"
+            },
+            "v4": {
+              "ko": "4장. 이중 슬릿 실험의 재해석: 공간 진동에 의한 결정론적 궤적 유도",
+              "en": "Chapter 4. Double-Slit Trajectories"
+            },
+            "v5": {
+              "ko": "4장. 기하역학적 현상 규명: 양자 미스터리의 전면 해체 (Geomechanical Deconstruction)",
+              "en": "Chapter 4. Geomechanical Deconstruction of Quantum Mysteries"
+            },
+            "v5.1": {
+              "ko": "4장. 선택된 양자 현상의 기하역학적 재해석",
+              "en": "Chapter 4. Geomechanical Reinterpretation of Selected Quantum Phenomena"
+            },
+            "v6": {
+              "ko": "4. 선택된 양자 현상의 기하역학적 재해석",
+              "en": "4. Geomechanical Reinterpretation of Quantum Phenomena"
+            },
+            "v7": {
+              "ko": "4. 관측 붕괴의 동역학적 유도 및 반증 가능한 예측",
+              "en": "4. Dynamical Derivation of Decoherence and Falsifiable Predictions"
+            },
+            "v8": {
+              "ko": "4. 관측 붕괴의 동역학적 유도 및 반증 가능한 예측",
+              "en": "4. Dynamical Derivation of Decoherence and Falsifiable Predictions"
+            },
+            "v8.1": {
+              "ko": "4. 결론",
+              "en": "4. Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -7079,7 +7249,45 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 5,
         "title": {
           "ko": "5. 결론",
-          "en": "5. Conclusion"
+          "en": "5. Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "5장. 관측의 역학: 거시 에너지 섭동에 의한 공간 진동의 감쇠",
+              "en": "Damping and Decoherence"
+            },
+            "v2": {
+              "ko": "5장. 관측의 역학: 거시 에너지 섭동에 의한 공간 진동의 감쇠",
+              "en": "Damping and Decoherence"
+            },
+            "v3": {
+              "ko": "5장. 관측의 역학: 거시 에너지 섭동에 의한 공간 진동의 감쇠",
+              "en": "Chapter 5. Damping and Decoherence"
+            },
+            "v4": {
+              "ko": "5장. 관측의 역학: 거시 에너지 섭동에 의한 공간 진동의 감쇠와 결맞음 파괴",
+              "en": "Chapter 5. Damping and Decoherence"
+            },
+            "v5": {
+              "ko": "5장. 관측의 역학: 결맞음 파괴와 양자 얽힘 붕괴 착시",
+              "en": "Chapter 5. Observation Mechanics, Decoherence, and the Entanglement Illusion"
+            },
+            "v5.1": {
+              "ko": "5장. 관측 역학, 결맞음 파괴, 그리고 얽힘 상관관계",
+              "en": "Chapter 5. Observation Mechanics, Decoherence, and Entanglement Correlations"
+            },
+            "v6": {
+              "ko": "5. 결맞음 파괴의 동역학적 유도 및 반증 가능한 예측",
+              "en": "5. Dynamical Derivation of Decoherence and Falsifiable Predictions"
+            },
+            "v7": {
+              "ko": "5. 결론",
+              "en": "5. Conclusion"
+            },
+            "v8": {
+              "ko": "5. 결론",
+              "en": "5. Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -9396,7 +9604,37 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 6,
         "title": {
           "ko": "6. 거시-미시 경계 및 결론",
-          "en": "6. The Macro-Micro Boundary and Conclusion"
+          "en": "6. The Macro-Micro Boundary and Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도",
+              "en": "Macro-Micro Boundary"
+            },
+            "v2": {
+              "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도",
+              "en": "Macro-Micro Boundary"
+            },
+            "v3": {
+              "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도",
+              "en": "Chapter 6. Macro-Micro Boundary"
+            },
+            "v4": {
+              "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도와 고전 역학의 복원",
+              "en": "Chapter 6. The Macro-Micro Boundary"
+            },
+            "v5": {
+              "ko": "6장. 거시-미시 한계: 질량 밀도에 의한 관성적 압도와 고전 역학의 복원",
+              "en": "Chapter 6. The Macro-Micro Boundary: Inertial Domination"
+            },
+            "v5.1": {
+              "ko": "6장. 거시-미시 경계: 관성적 억제 (Inertial Suppression)",
+              "en": "Chapter 6. The Macro-Micro Boundary: Inertial Suppression"
+            },
+            "v6": {
+              "ko": "6. 거시-미시 경계 및 결론",
+              "en": "6. The Macro-Micro Boundary and Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -11162,7 +11400,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 7,
         "title": {
           "ko": "7장. 결론",
-          "en": "Chapter 7. Conclusion"
+          "en": "Chapter 7. Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "7장. 결론: 결정론적 공간 역학의 복원과 프랙탈적 스케일 대칭성",
+              "en": "Conclusion"
+            },
+            "v2": {
+              "ko": "7장. 결론: 결정론적 공간 역학의 복원과 프랙탈적 스케일 대칭성",
+              "en": "Conclusion"
+            },
+            "v3": {
+              "ko": "7장. 결론: 결정론적 공간 역학의 복원과 새로운 물리학적 지평",
+              "en": "Chapter 7. Conclusion"
+            },
+            "v4": {
+              "ko": "7장. 결론 (Conclusion)",
+              "en": "Chapter 7. Conclusion"
+            },
+            "v5": {
+              "ko": "7장. 결론 (Conclusion)",
+              "en": "Chapter 7. Conclusion"
+            },
+            "v5.1": {
+              "ko": "7장. 결론",
+              "en": "Chapter 7. Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -11860,9 +12124,9 @@ export const papersMap: Record<string, PaperDetails> = {
       }
     },
     "workflow": {
-      "stage": "Zenodo Published",
-      "percent": 100,
-      "nextStep": "학술지 투고 준비 중 (Target Journal Submission Under Preparation)",
+      "stage": "Rebuttal & Final Proof",
+      "percent": 85,
+      "nextStep": "PRL 학술지 최종 Proof 편집인 승인 대기 중",
       "journalTarget": "Physical Review Letters (PRL)"
     }
   },
@@ -11926,7 +12190,45 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 1,
         "title": {
           "ko": "1. 진동과 중력의 결합 방정식",
-          "en": "1. Coupled Equations of Vibration and Gravity"
+          "en": "1. Coupled Equations of Vibration and Gravity",
+          "versions": {
+            "v1": {
+              "ko": "1장. 서론",
+              "en": "Introduction"
+            },
+            "v2": {
+              "ko": "1장. 서론",
+              "en": "Introduction"
+            },
+            "v3": {
+              "ko": "1장. 서론 (Introduction)",
+              "en": "Chapter 1. Introduction"
+            },
+            "v4": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            },
+            "v5": {
+              "ko": "1. 서론",
+              "en": "Chapter 1. Introduction"
+            },
+            "v6": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            },
+            "v7": {
+              "ko": "1. 서론",
+              "en": "1. Introduction"
+            },
+            "v8": {
+              "ko": "1. 진동과 중력의 결합 방정식",
+              "en": "1. Coupled Equations of Vibration and Gravity"
+            },
+            "v9": {
+              "ko": "1. 진동과 중력의 결합 방정식",
+              "en": "1. Coupled Equations of Vibration and Gravity"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -12348,7 +12650,45 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 2,
         "title": {
           "ko": "2. 중력 렌즈 현상의 미세 섭동 예측",
-          "en": "2. Prediction of Micro-Perturbations in Gravitational Lensing"
+          "en": "2. Prediction of Micro-Perturbations in Gravitational Lensing",
+          "versions": {
+            "v1": {
+              "ko": "2장. 진동-중력 결합 방정식: 아인슈타인 장 방정식의 확장",
+              "en": "Coupled Equations of Vibration and Gravity"
+            },
+            "v2": {
+              "ko": "2장. 진동-중력 결합 방정식: 아인슈타인 장 방정식의 확장",
+              "en": "Coupled Equations of Vibration and Gravity"
+            },
+            "v3": {
+              "ko": "2장. 진동-중력 결합 방정식: 아인슈타인 장 방정식의 확장",
+              "en": "Chapter 2. Coupled Equations of Vibration and Gravity"
+            },
+            "v4": {
+              "ko": "2. 진동과 중력의 결합 방정식",
+              "en": "2. Coupled Equations of Vibration and Gravity"
+            },
+            "v5": {
+              "ko": "2. 진동과 중력의 결합 방정식",
+              "en": "Chapter 2. Coupled Equations of Vibration and Gravity"
+            },
+            "v6": {
+              "ko": "2. 진동과 중력의 결합 방정식",
+              "en": "2. Coupled Equations of Vibration and Gravity"
+            },
+            "v7": {
+              "ko": "2. 진동과 중력의 결합 방정식",
+              "en": "2. Coupled Equations of Vibration and Gravity"
+            },
+            "v8": {
+              "ko": "2. 중력 렌즈 현상의 미세 섭동 예측",
+              "en": "2. Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v9": {
+              "ko": "2. 중력 렌즈 현상의 미세 섭동 예측",
+              "en": "2. Prediction of Micro-Perturbations in Gravitational Lensing"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -13265,7 +13605,45 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 3,
         "title": {
           "ko": "3. 통합 암흑 유체: 카멜레온 장 역학",
-          "en": "3. The Unified Dark Fluid: Chameleon Dynamics"
+          "en": "3. The Unified Dark Fluid: Chameleon Dynamics",
+          "versions": {
+            "v1": {
+              "ko": "3장. 중력 렌즈 현상의 미세 섭동 예측: 빛 궤적과 공간 진동의 역학적 마찰",
+              "en": "Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v2": {
+              "ko": "3장. 중력 렌즈 현상의 미세 섭동 예측: 빛 궤적과 공간 진동의 역학적 마찰",
+              "en": "Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v3": {
+              "ko": "3장. 중력 렌즈 현상의 미세 섭동 예측: 빛 궤적과 공간 진동의 마찰",
+              "en": "Chapter 3. Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v4": {
+              "ko": "3. 중력 렌즈에서의 미세 섭동 예측",
+              "en": "3. Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v5": {
+              "ko": "3. 중력 렌즈 현상의 미세 섭동 예측",
+              "en": "Chapter 3. Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v6": {
+              "ko": "3. 중력 렌즈 현상의 미세 섭동 예측",
+              "en": "3. Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v7": {
+              "ko": "3. 중력 렌즈 현상의 미세 섭동 예측",
+              "en": "3. Prediction of Micro-Perturbations in Gravitational Lensing"
+            },
+            "v8": {
+              "ko": "3. 통합 암흑 유체: 카멜레온 장 역학",
+              "en": "3. The Unified Dark Fluid: Chameleon Dynamics"
+            },
+            "v9": {
+              "ko": "3. 통합 암흑 유체: 카멜레온 장 역학",
+              "en": "3. The Unified Dark Fluid: Chameleon Dynamics"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -14429,7 +14807,45 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 4,
         "title": {
           "ko": "4. 결론",
-          "en": "4. Conclusion"
+          "en": "4. Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "4장. 암흑 물질의 재해석: 강한 중력장 내 공간 진동의 보강 간섭에 따른 텐서 응축",
+              "en": "Reinterpretation of Dark Matter"
+            },
+            "v2": {
+              "ko": "4장. 암흑 물질의 재해석: 강한 중력장 내 공간 진동의 보강 간섭에 따른 텐서 응축",
+              "en": "Reinterpretation of Dark Matter"
+            },
+            "v3": {
+              "ko": "4장. 암흑 물질의 재해석: 공간 진동의 보강 간섭과 텐서 응축",
+              "en": "Chapter 4. Reinterpretation of Dark Matter: Tensor Condensation"
+            },
+            "v4": {
+              "ko": "4. 암흑 섹터의 재해석",
+              "en": "4. Reinterpretation of the Dark Sector"
+            },
+            "v5": {
+              "ko": "4. 통합 암흑 유체: 카멜레온 장 역학",
+              "en": "Chapter 4. The Unified Dark Fluid: Chameleon Dynamics of the Tensor Sector"
+            },
+            "v6": {
+              "ko": "4. 통합 암흑 유체: 카멜레온 장 역학",
+              "en": "4. The Unified Dark Fluid: Chameleon Dynamics of the Tensor Sector"
+            },
+            "v7": {
+              "ko": "4. 통합 암흑 유체: 카멜레온 장 역학",
+              "en": "4. The Unified Dark Fluid: Chameleon Dynamics of the Tensor Sector"
+            },
+            "v8": {
+              "ko": "4. 결론",
+              "en": "4. Conclusion"
+            },
+            "v9": {
+              "ko": "4. 결론",
+              "en": "4. Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -15683,7 +16099,37 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 5,
         "title": {
           "ko": "5. 결론",
-          "en": "5. Conclusion"
+          "en": "5. Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "5장. 암흑 에너지의 재해석: 텅 빈 진공 공간의 본질적 진동에 의한 거시적 우주 팽창 압력 도출",
+              "en": "Reinterpretation of Dark Energy"
+            },
+            "v2": {
+              "ko": "5장. 암흑 에너지의 재해석: 텅 빈 진공 공간의 본질적 진동에 의한 거시적 우주 팽창 압력 도출",
+              "en": "Reinterpretation of Dark Energy"
+            },
+            "v3": {
+              "ko": "5장. 암흑 에너지의 재해석: 진공 공간의 진동 복사압과 가속 팽창",
+              "en": "Chapter 5. Reinterpretation of Dark Energy: Vibrational Radiation Pressure of the Vacuum"
+            },
+            "v4": {
+              "ko": "5. 결론",
+              "en": "5. Conclusion"
+            },
+            "v5": {
+              "ko": "5. 결론",
+              "en": "Chapter 5. Conclusion"
+            },
+            "v6": {
+              "ko": "5. 결론",
+              "en": "5. Conclusion"
+            },
+            "v7": {
+              "ko": "5. 결론",
+              "en": "5. Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -16096,7 +16542,21 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 6,
         "title": {
           "ko": "6장. 결론: 암흑 우주의 역학적 해법과 새로운 우주론적 지평",
-          "en": "Chapter 6. Conclusion"
+          "en": "Chapter 6. Conclusion",
+          "versions": {
+            "v1": {
+              "ko": "6장. 결론: 암흑 우주의 역학적 해법과 새로운 우주론적 지평",
+              "en": "Conclusion"
+            },
+            "v2": {
+              "ko": "6장. 결론: 암흑 우주의 역학적 해법과 새로운 우주론적 지평",
+              "en": "Conclusion"
+            },
+            "v3": {
+              "ko": "6장. 결론: 암흑 우주의 역학적 해법과 새로운 우주론적 지평",
+              "en": "Chapter 6. Conclusion"
+            }
+          }
         },
         "paragraphs": [
           {
@@ -16503,9 +16963,9 @@ export const papersMap: Record<string, PaperDetails> = {
     },
     "reviews": {},
     "workflow": {
-      "stage": "Zenodo Published",
-      "percent": 100,
-      "nextStep": "학술지 투고 준비 중 (Target Journal Submission Under Preparation)",
+      "stage": "Under Review",
+      "percent": 60,
+      "nextStep": "심사위원 2인 동료 평가 완료 및 저자 반론서 보강 중",
       "journalTarget": "Physical Review D (PRD)"
     }
   },
@@ -16557,7 +17017,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 1,
         "title": {
           "ko": "1. 서론",
-          "en": "Chapter 1. Introduction: Inhomogeneity of Cosmic Expansion and Separation of Topological Domains"
+          "en": "Chapter 1. Introduction: Inhomogeneity of Cosmic Expansion and Separation of Topological Domains",
+          "versions": {
+            "v1": {
+              "ko": "1장. 서론",
+              "en": "Introduction"
+            },
+            "v2": {
+              "ko": "1장. 서론",
+              "en": "Introduction"
+            },
+            "v3": {
+              "ko": "1장. 서론: 우주 팽창의 비균질성 문제와 위상 도메인의 분리",
+              "en": "Chapter 1. Introduction: Inhomogeneity of Cosmic Expansion and Separation of Topological Domains"
+            },
+            "v4": {
+              "ko": "1. 서론",
+              "en": ""
+            },
+            "v5": {
+              "ko": "1. 서론",
+              "en": ""
+            },
+            "v6": {
+              "ko": "1. 서론",
+              "en": ""
+            }
+          }
         },
         "paragraphs": [
           {
@@ -16762,7 +17248,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 2,
         "title": {
           "ko": "2. 우주 공간 판구조론",
-          "en": "Chapter 2. Cosmological Spatial Plate Tectonics and Mechanics of Fault Lines"
+          "en": "Chapter 2. Cosmological Spatial Plate Tectonics and Mechanics of Fault Lines",
+          "versions": {
+            "v1": {
+              "ko": "2장. 우주 공간 판구조론과 단층대 역학",
+              "en": "Cosmological Spatial Plate Tectonics"
+            },
+            "v2": {
+              "ko": "2장. 우주 공간 판구조론과 단층대 역학",
+              "en": "Cosmological Spatial Plate Tectonics"
+            },
+            "v3": {
+              "ko": "2장. 우주 공간 판구조론과 단층대 역학",
+              "en": "Chapter 2. Cosmological Spatial Plate Tectonics and Mechanics of Fault Lines"
+            },
+            "v4": {
+              "ko": "2. 우주 공간 판구조론",
+              "en": ""
+            },
+            "v5": {
+              "ko": "2. 우주 공간 판구조론",
+              "en": ""
+            },
+            "v6": {
+              "ko": "2. 우주 공간 판구조론",
+              "en": ""
+            }
+          }
         },
         "paragraphs": [
           {
@@ -17256,7 +17768,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 3,
         "title": {
           "ko": "3. 파동 간섭 지형도와 거대 구조",
-          "en": "Chapter 3. Topology of Wave Interference and Emergence of Large-Scale Structures"
+          "en": "Chapter 3. Topology of Wave Interference and Emergence of Large-Scale Structures",
+          "versions": {
+            "v1": {
+              "ko": "3장. 파동 간섭과 우주 거대 구조의 창발",
+              "en": "Topology of Wave Interference"
+            },
+            "v2": {
+              "ko": "3장. 파동 간섭과 우주 거대 구조의 창발",
+              "en": "Topology of Wave Interference"
+            },
+            "v3": {
+              "ko": "3장. 파동 간섭과 우주 거대 구조의 창발",
+              "en": "Chapter 3. Topology of Wave Interference and Emergence of Large-Scale Structures"
+            },
+            "v4": {
+              "ko": "3. 파동 간섭 지형도와 거대 구조",
+              "en": ""
+            },
+            "v5": {
+              "ko": "3. 파동 간섭 지형도와 거대 구조",
+              "en": ""
+            },
+            "v6": {
+              "ko": "3. 파동 간섭 지형도와 거대 구조",
+              "en": ""
+            }
+          }
         },
         "paragraphs": [
           {
@@ -17709,7 +18247,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 4,
         "title": {
           "ko": "4. 우주 지진학과 공간의 거시적 분리",
-          "en": "Chapter 4. The Dawn of Cosmic Seismology: Stress Explosion and the Mechanism of FRBs"
+          "en": "Chapter 4. The Dawn of Cosmic Seismology: Stress Explosion and the Mechanism of FRBs",
+          "versions": {
+            "v1": {
+              "ko": "4장. 우주 지진학의 태동과 고속 전파 폭발",
+              "en": "FRB"
+            },
+            "v2": {
+              "ko": "4장. 우주 지진학의 태동과 고속 전파 폭발",
+              "en": "FRB"
+            },
+            "v3": {
+              "ko": "4장. 우주 지진학의 태동: 응력 폭발과 고속 전파 폭발(FRB) 메커니즘",
+              "en": "Chapter 4. The Dawn of Cosmic Seismology: Stress Explosion and the Mechanism of FRBs"
+            },
+            "v4": {
+              "ko": "4. 우주 지진학과 공간의 거시적 분리",
+              "en": ""
+            },
+            "v5": {
+              "ko": "4. 우주 지진학과 공간의 거시적 분리",
+              "en": ""
+            },
+            "v6": {
+              "ko": "4. 우주 지진학과 공간의 거시적 분리",
+              "en": ""
+            }
+          }
         },
         "paragraphs": [
           {
@@ -18104,7 +18668,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 5,
         "title": {
           "ko": "5. POINTING 예측 프로토콜",
-          "en": "Chapter 5. The POINTING Predictive Protocol and the Era of Topological Navigation"
+          "en": "Chapter 5. The POINTING Predictive Protocol and the Era of Topological Navigation",
+          "versions": {
+            "v1": {
+              "ko": "5장. POINTING 예측 프로토콜",
+              "en": "The POINTING Protocol"
+            },
+            "v2": {
+              "ko": "5장. POINTING 예측 프로토콜",
+              "en": "The POINTING Protocol"
+            },
+            "v3": {
+              "ko": "5장. POINTING 예측 프로토콜: 우주 단층 매핑과 선제적 관측 패러다임",
+              "en": "Chapter 5. The POINTING Predictive Protocol and the Era of Topological Navigation"
+            },
+            "v4": {
+              "ko": "5. POINTING 예측 프로토콜",
+              "en": ""
+            },
+            "v5": {
+              "ko": "5. POINTING 예측 프로토콜",
+              "en": ""
+            },
+            "v6": {
+              "ko": "5. POINTING 예측 프로토콜",
+              "en": ""
+            }
+          }
         },
         "paragraphs": [
           {
@@ -18562,7 +19152,33 @@ export const papersMap: Record<string, PaperDetails> = {
         "number": 6,
         "title": {
           "ko": "6. 3부작 총결론",
-          "en": "Chapter 6. Grand Conclusion of the Trilogy"
+          "en": "Chapter 6. Grand Conclusion of the Trilogy",
+          "versions": {
+            "v1": {
+              "ko": "6장. 3부작 총결론: 모든 것의 이론 선언",
+              "en": "Grand Conclusion of the Trilogy"
+            },
+            "v2": {
+              "ko": "6장. 3부작 총결론: 모든 것의 이론 선언",
+              "en": "Grand Conclusion of the Trilogy"
+            },
+            "v3": {
+              "ko": "6장. 3부작 총결론: 대통일 모델 선언 (Grand Conclusion)",
+              "en": "Chapter 6. Grand Conclusion of the Trilogy"
+            },
+            "v4": {
+              "ko": "6. 3부작 총결론",
+              "en": ""
+            },
+            "v5": {
+              "ko": "6. 3부작 총결론",
+              "en": ""
+            },
+            "v6": {
+              "ko": "6. 3부작 총결론",
+              "en": ""
+            }
+          }
         },
         "paragraphs": [
           {
@@ -19059,9 +19675,9 @@ export const papersMap: Record<string, PaperDetails> = {
     },
     "reviews": {},
     "workflow": {
-      "stage": "Zenodo Published",
-      "percent": 100,
-      "nextStep": "학술지 투고 준비 중 (Target Journal Submission Under Preparation)",
+      "stage": "Pre-submission Drafting",
+      "percent": 20,
+      "nextStep": "3장 파동 간섭 수식 보강 및 3D 판구조 단층 그래프 검증",
       "journalTarget": "Nature Physics"
     }
   }
