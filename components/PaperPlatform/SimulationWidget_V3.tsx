@@ -68,8 +68,8 @@ export const SimulationWidget_V3: React.FC = () => {
   const pointingProgressRef = useRef<number>(0); // 0 to 100
 
   // 3D View angle tracking for Mode B/C
-  const [angleX, setAngleX] = useState<number>(15 * Math.PI / 180);
-  const [angleY, setAngleY] = useState<number>(30 * Math.PI / 180);
+  const angleXRef = useRef<number>(15 * Math.PI / 180);
+  const angleYRef = useRef<number>(30 * Math.PI / 180);
   const isDragging = useRef<boolean>(false);
   const prevMousePos = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
 
@@ -138,8 +138,8 @@ export const SimulationWidget_V3: React.FC = () => {
     if (!isDragging.current || simMode === 'web') return;
     const dx = e.clientX - prevMousePos.current.x;
     const dy = e.clientY - prevMousePos.current.y;
-    setAngleY((prev) => prev + dx * 0.007);
-    setAngleX((prev) => Math.max(-Math.PI / 3, Math.min(Math.PI / 3, prev - dy * 0.007)));
+    angleYRef.current += dx * 0.007;
+    angleXRef.current = Math.max(-Math.PI / 3, Math.min(Math.PI / 3, angleXRef.current - dy * 0.007));
     prevMousePos.current = { x: e.clientX, y: e.clientY };
   };
 
@@ -153,16 +153,28 @@ export const SimulationWidget_V3: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
+    // ① Retina display DPI scaling
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = 600 * dpr;
+    canvas.height = 420 * dpr;
+    canvas.style.width = '100%';
+    canvas.style.maxWidth = '600px';
+    canvas.style.height = 'auto';
+    ctx.scale(dpr, dpr);
+
     let animId: number;
 
     const render = () => {
       frameCountRef.current += 1;
-      const width = canvas.width;
-      const height = canvas.height;
+      const width = 600;
+      const height = 420;
 
       // Dark Cosmic background
       ctx.fillStyle = '#09090b';
       ctx.fillRect(0, 0, width, height);
+
+      // ③ Glow effect via Screen Blend Mode
+      ctx.globalCompositeOperation = 'screen';
 
       if (simMode === 'web') {
         // ==========================================
@@ -264,6 +276,9 @@ export const SimulationWidget_V3: React.FC = () => {
         ctx.stroke();
         ctx.restore();
 
+        // Reset composite operation for UI drawing
+        ctx.globalCompositeOperation = 'source-over';
+
         // Left Side Panel: Density Profile Graph
         const gx = 45;
         const gy = 80;
@@ -335,10 +350,10 @@ export const SimulationWidget_V3: React.FC = () => {
 
         // 3D projection helper
         const project = (x: number, y: number, z: number) => {
-          const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+          const cosY = Math.cos(angleYRef.current), sinY = Math.sin(angleYRef.current);
           const x1 = x * cosY - y * sinY;
           const y1 = x * sinY + y * cosY;
-          const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+          const cosX = Math.cos(angleXRef.current), sinX = Math.sin(angleXRef.current);
           const z2 = z * cosX - y1 * sinX;
           const y2 = z * sinX + y1 * cosX;
           const projX = (x1 * 8) / (y2 + 8) * scale + centerX;
@@ -517,6 +532,9 @@ export const SimulationWidget_V3: React.FC = () => {
           gertsenshteinFlashRef.current -= 0.035;
         }
 
+        // Reset composite operation for UI drawing
+        ctx.globalCompositeOperation = 'source-over';
+
         // Left Side Panel: Seismograph Graph
         const gx = 45;
         const gy = 80;
@@ -625,10 +643,10 @@ export const SimulationWidget_V3: React.FC = () => {
         const scale = 50;
 
         const project = (x: number, y: number, z: number) => {
-          const cosY = Math.cos(angleY), sinY = Math.sin(angleY);
+          const cosY = Math.cos(angleYRef.current), sinY = Math.sin(angleYRef.current);
           const x1 = x * cosY - y * sinY;
           const y1 = x * sinY + y * cosY;
-          const cosX = Math.cos(angleX), sinX = Math.sin(angleX);
+          const cosX = Math.cos(angleXRef.current), sinX = Math.sin(angleXRef.current);
           const z2 = z * cosX - y1 * sinX;
           const y2 = z * sinX + y1 * cosX;
           const projX = (x1 * 8) / (y2 + 8) * scale + centerX;
@@ -780,6 +798,9 @@ export const SimulationWidget_V3: React.FC = () => {
           ctx.restore();
         });
         gwWavesRef.current = gwWavesRef.current.filter((w) => w.alpha > 0);
+
+        // Reset composite operation for UI drawing
+        ctx.globalCompositeOperation = 'source-over';
 
         // Left Side Panel: Neural Network Analyzer
         const gx = 45;
@@ -938,7 +959,7 @@ export const SimulationWidget_V3: React.FC = () => {
     return () => {
       cancelAnimationFrame(animId);
     };
-  }, [simMode, phaseMismatch, baryonPressure, slipVelocity, ruptureThreshold, angleX, angleY]);
+  }, [simMode, phaseMismatch, baryonPressure, slipVelocity, ruptureThreshold]);
 
   return (
     <div className="w-full">
