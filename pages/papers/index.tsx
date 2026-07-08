@@ -2,6 +2,7 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { papersMap } from '../../components/PaperPlatform/paperData';
+import { TrilogyOverview } from '../../components/PaperPlatform/TrilogyOverview';
 
 export default function PapersDashboard() {
   const publishedPapers = Object.values(papersMap).map((paper: any) => {
@@ -123,6 +124,11 @@ export default function PapersDashboard() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* Trilogy Overview Section */}
+      <section className="max-w-6xl mx-auto px-6 mt-10">
+        <TrilogyOverview />
       </section>
 
       {/* Main Publication Grid */}

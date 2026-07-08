@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공간 진동 역학 3연작 (The Trilogy)</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap');
+        
+        body { font-family: 'Noto Sans KR', sans-serif; background-color: #09090b; color: #e4e4e7; margin: 0; padding: 0; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 60px 20px; }
+        
+        header { text-align: center; margin-bottom: 50px; }
+        h1 { font-size: 2.8rem; font-weight: 900; margin-bottom: 10px; background: linear-gradient(90deg, #fff, #a1a1aa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { font-size: 1.2rem; color: #a1a1aa; font-weight: 300; }
+        
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+        
+        .card { background: #18181b; border: 1px solid #27272a; border-radius: 16px; padding: 30px; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .card::before { content: ''; position: absolute; top: 0; left: 0; width: 5px; height: 100%; }
+        .card-1::before { background: #3b82f6; }
+        .card-2::before { background: #10b981; }
+        .card-3::before { background: #a855f7; }
+        
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 6px; font-size: 0.8rem; font-weight: bold; margin-bottom: 15px; }
+        .badge-1 { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+        .badge-2 { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+        .badge-3 { background: rgba(168, 85, 247, 0.2); color: #c084fc; }
+        
+        h2 { font-size: 1.4rem; color: #fff; margin-top: 0; border-bottom: 1px solid #27272a; padding-bottom: 15px; }
+        .desc { font-size: 0.95rem; color: #a1a1aa; min-height: 80px; margin-bottom: 20px; line-height: 1.6; }
+        
+        .equation { background: #000; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 1rem; color: #fbbf24; text-align: center; border: 1px solid #3f3f46; margin-bottom: 20px; }
+        
+        .canvas-container { width: 100%; height: 220px; background: #000; border-radius: 12px; border: 1px solid #27272a; overflow: hidden; position: relative; }
+        canvas { display: block; width: 100%; height: 100%; }
+        .canvas-label { position: absolute; bottom: 8px; left: 0; width: 100%; text-align: center; font-size: 0.75rem; color: #71717a; font-family: monospace; }
+        
+        .footer { text-align: center; margin-top: 60px; padding: 40px; background: linear-gradient(135deg, #18181b 0%, #27272a 100%); border-radius: 16px; border: 1px solid #3f3f46; }
+        .footer p { font-size: 1.2rem; font-weight: 300; font-style: italic; color: #e4e4e7; max-width: 800px; margin: 0 auto; line-height: 1.8; }
+        .highlight { color: #fbbf24; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>공간 진동 역학 3연작</h1>
+        <div class="subtitle">프랙탈 척도 대칭성으로 꿰어낸 대통일 기하역학 모델</div>
+    </header>
+
+    <div class="grid">
+        <!-- Part 1 -->
+        <div class="card card-1">
+            <span class="badge badge-1">Part I: 미시 양자 세계</span>
+            <h2>파동-입자 이중성의 기하학</h2>
+            <div class="desc">입자는 확률 구름이 아니라 물리적으로 요동치는 공간의 파도를 타고 이동하는 실체입니다. 관측 장비의 노이즈가 공간 유체에 위상 난류를 일으켜 궤도를 교란시킵니다.</div>
+            <div class="equation">iℏ(∂ψ/∂t) = [H₀ + γ(S - ⟨S⟩)]ψ</div>
+            <div class="canvas-container">
+                <canvas id="c1"></canvas>
+                <div class="canvas-label">Simulation: 공간 파도를 타는 입자</div>
+            </div>
+        </div>
+
+        <!-- Part 2 -->
+        <div class="card card-2">
+            <span class="badge badge-2">Part II: 거시 은하 세계</span>
+            <h2>통합 암흑 유체 상전이</h2>
+            <div class="desc">미지의 입자는 없습니다. 은하 내부에서는 진동이 갇혀 '암흑 물질(응축)'이 되고, 텅 빈 공동에서는 폭발적인 '암흑 에너지(복사압)'로 변신하는 카멜레온 텐서 유체입니다.</div>
+            <div class="equation">G_μν = (8πG/c⁴)(T_μν + Ṽ_μν)</div>
+            <div class="canvas-container">
+                <canvas id="c2"></canvas>
+                <div class="canvas-label">Simulation: 텐서 응축(녹색)과 척력 발산(적색)</div>
+            </div>
+        </div>
+
+        <!-- Part 3 -->
+        <div class="card card-3">
+            <span class="badge badge-3">Part III: 초거시 우주 구조</span>
+            <h2>우주 공간 판구조론과 FRB</h2>
+            <div class="desc">우주는 파편화된 공간 판들의 지형도입니다. 파동 간섭이 거미줄과 거대 공동을 조각하며, 판이 엇갈리다 파열되는 '우주 지진'이 고속 전파 폭발(FRB)로 분출됩니다.</div>
+            <div class="equation">P_quake ∝ ∫ exp((||S_μν|| - S_c)/α)</div>
+            <div class="canvas-container">
+                <canvas id="c3"></canvas>
+                <div class="canvas-label">Simulation: 우주 지진 발생 및 FRB 방출</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>"대자연은 입자의 크기에 따라 물리 법칙을 바꾸지 않습니다. 실험실의 미시적 <span class="highlight">이중 슬릿 무늬</span>부터 억 광년 척도의 <span class="highlight">우주 거대 구조</span>까지, 우주는 단 하나의 기하학적 원리에 지배받는 결정론적 교향곡입니다."</p>
+    </div>
+</div>
+
+<script>
+    // Canvas 크기 동적 조절
+    function resizeCanvas(canvas) {
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+    }
+
+    // --- Part I: Quantum Wave Surfing ---
+    const c1 = document.getElementById('c1');
+    const ctx1 = c1.getContext('2d');
+    let t1 = 0;
+    function drawPart1() {
+        resizeCanvas(c1);
+        ctx1.clearRect(0, 0, c1.width, c1.height);
+        const w = c1.width, h = c1.height, cy = h / 2 - 10;
+
+        ctx1.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+        ctx1.lineWidth = 3;
+        ctx1.beginPath();
+        for(let x = 0; x <= w; x += 2) {
+            let env = Math.exp(-Math.pow((x - w/2) / (w/3), 2));
+            let y = cy + Math.sin(x * 0.06 - t1) * 40 * env;
+            x === 0 ? ctx1.moveTo(x, y) : ctx1.lineTo(x, y);
+        }
+        ctx1.stroke();
+
+        let px = w/2 + Math.sin(t1 * 0.7) * 100;
+        let pEnv = Math.exp(-Math.pow((px - w/2) / (w/3), 2));
+        let py = cy + Math.sin(px * 0.06 - t1) * 40 * pEnv;
+
+        ctx1.shadowBlur = 15; ctx1.shadowColor = '#60a5fa'; ctx1.fillStyle = '#fff';
+        ctx1.beginPath(); ctx1.arc(px, py - 6, 6, 0, Math.PI*2); ctx1.fill(); ctx1.shadowBlur = 0;
+
+        t1 += 0.05;
+        requestAnimationFrame(drawPart1);
+    }
+
+    // --- Part II: Dark Fluid Chameleon ---
+    const c2 = document.getElementById('c2');
+    const ctx2 = c2.getContext('2d');
+    let t2 = 0;
+    function drawPart2() {
+        resizeCanvas(c2);
+        ctx2.clearRect(0, 0, c2.width, c2.height);
+        const cx = c2.width / 2, cy = c2.height / 2 - 10;
+
+        // Dark Matter (응축)
+        const rad = 40 + Math.sin(t2 * 4) * 4;
+        const grad = ctx2.createRadialGradient(cx, cy, 0, cx, cy, rad);
+        grad.addColorStop(0, 'rgba(16, 185, 129, 0.7)');
+        grad.addColorStop(1, 'rgba(16, 185, 129, 0)');
+        ctx2.fillStyle = grad;
+        ctx2.beginPath(); ctx2.arc(cx, cy, rad, 0, Math.PI*2); ctx2.fill();
+
+        ctx2.shadowBlur = 10; ctx2.shadowColor = '#10b981'; ctx2.fillStyle = '#fff';
+        ctx2.beginPath(); ctx2.arc(cx, cy, 5, 0, Math.PI*2); ctx2.fill(); ctx2.shadowBlur = 0;
+
+        // Dark Energy (팽창)
+        for(let i=0; i<3; i++) {
+            let offset = (t2 * 0.4 + i/3) % 1;
+            ctx2.strokeStyle = `rgba(239, 68, 68, ${1 - offset})`;
+            ctx2.lineWidth = 2;
+            ctx2.beginPath(); ctx2.arc(cx, cy, rad + offset * 120, 0, Math.PI*2); ctx2.stroke();
+        }
+
+        t2 += 0.02;
+        requestAnimationFrame(drawPart2);
+    }
+
+    // --- Part III: Cosmic Quake & FRB ---
+    const c3 = document.getElementById('c3');
+    const ctx3 = c3.getContext('2d');
+    let t3 = 0, photons = [];
+    function drawPart3() {
+        resizeCanvas(c3);
+        ctx3.clearRect(0, 0, c3.width, c3.height);
+        const cx = c3.width / 2, cy = c3.height / 2 - 10;
+
+        let stress = (t3 % Math.PI);
+        let isSnap = stress > 3.0;
+        let offset = isSnap ? 0 : Math.sin(stress) * 10;
+
+        // 단층선
+        ctx3.strokeStyle = 'rgba(168, 85, 247, 0.6)';
+        ctx3.lineWidth = 4;
+        ctx3.beginPath(); ctx3.moveTo(cx - 2, 0); ctx3.lineTo(cx - 2 + offset, c3.height); ctx3.stroke();
+        ctx3.beginPath(); ctx3.moveTo(cx + 2, 0); ctx3.lineTo(cx + 2 - offset, c3.height); ctx3.stroke();
+
+        // 파열 시 FRB 광자 생성
+        if(isSnap && photons.length === 0) {
+            ctx3.strokeStyle = 'rgba(168, 85, 247, 0.9)';
+            ctx3.beginPath(); ctx3.arc(cx, cy, 30, 0, Math.PI*2); ctx3.stroke();
+            for(let i=0; i<12; i++) {
+                photons.push({ x: cx, y: cy, vx: Math.cos(i*Math.PI/6)*8, vy: Math.sin(i*Math.PI/6)*8, alpha: 1 });
+            }
+        }
+
+        // 광자 이동
+        for(let i = photons.length - 1; i >= 0; i--) {
+            let p = photons[i];
+            p.x += p.vx; p.y += p.vy; p.alpha -= 0.03;
+            
+            ctx3.shadowBlur = 10; ctx3.shadowColor = '#fbbf24'; ctx3.fillStyle = `rgba(251, 191, 36, ${p.alpha})`;
+            ctx3.beginPath(); ctx3.arc(p.x, p.y, 4, 0, Math.PI*2); ctx3.fill(); ctx3.shadowBlur = 0;
+
+            if(p.alpha <= 0) photons.splice(i, 1);
+        }
+
+        t3 += 0.03;
+        requestAnimationFrame(drawPart3);
+    }
+
+    drawPart1();
+    drawPart2();
+    drawPart3();
+</script>
+
+</body>
+</html>
