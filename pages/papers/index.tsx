@@ -4,6 +4,12 @@ import Link from 'next/link';
 import { papersMap } from '../../components/PaperPlatform/paperData';
 import { TrilogyOverview } from '../../components/PaperPlatform/TrilogyOverview';
 
+const paperDOIs: Record<string, string> = {
+  'spatial-vibration-1': '10.5281/zenodo.21206211',
+  'spatial-vibration-2': '10.5281/zenodo.21233252',
+  'spatial-vibration-3': '10.5281/zenodo.21258029'
+};
+
 export default function PapersDashboard() {
   const publishedPapers = Object.values(papersMap).map((paper: any) => {
     const reviewsList = Object.values(paper.reviews || {});
@@ -177,15 +183,15 @@ export default function PapersDashboard() {
                     <h3 className="text-base md:text-lg font-bold text-zinc-950 group-hover:text-[#8b1a1a] transition-colors leading-snug font-serif">
                       {paper.title}
                     </h3>
-                    {paper.id === 'spatial-vibration-1' && (
+                    {paperDOIs[paper.id] && (
                       <a
-                        href="https://doi.org/10.5281/zenodo.21206843"
+                        href={`https://doi.org/${paperDOIs[paper.id]}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="relative z-20 inline-flex items-center gap-1 bg-[#10b981] hover:bg-[#059669] text-white px-2 py-0.5 rounded font-mono text-[9px] font-bold transition-all shadow-sm"
                       >
-                        doi:10.5281/zenodo.21206843
+                        doi:{paperDOIs[paper.id]}
                       </a>
                     )}
                   </div>
