@@ -167,7 +167,7 @@ export default function PapersDashboard() {
                   
                   {/* Workflow Status badge */}
                   <span className={`px-2 py-0.5 rounded-sm font-bold text-[9px] border ${
-                    paper.workflow.stage.includes('Proof') 
+                    paper.workflow.stage.includes('Published') || paper.workflow.stage.includes('Proof')
                       ? 'bg-emerald-50 text-emerald-800 border-emerald-250'
                       : paper.workflow.stage.includes('Review')
                       ? 'bg-amber-50 text-amber-800 border-amber-250 animate-pulse'
