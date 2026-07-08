@@ -102,12 +102,12 @@ export const SimulationWidget: React.FC = () => {
 
       if (simMode !== 'omega') {
         frameCountRef.current += 1;
-        
+
         // V8 Hamiltonian calculation (Exponential decay via Gamma)
         const activeGamma = gammaViscosity;
         const decayTime = frameCountRef.current;
         const energyVal = 20 + 60 * Math.exp(-activeGamma * 0.012 * decayTime) + Math.sin(decayTime * 0.1) * 1.5;
-        
+
         hHistoryRef.current.push(energyVal);
         if (hHistoryRef.current.length > 100) hHistoryRef.current.shift();
 
@@ -120,7 +120,7 @@ export const SimulationWidget: React.FC = () => {
           ctx.strokeStyle = simMode === 'decoherence' && eObs > 0 ? 'rgba(239, 68, 68, 0.07)' : 'rgba(96, 165, 250, 0.07)';
           ctx.lineWidth = 1;
           const slitX = 180;
-          
+
           for (let x = slitX + 20; x < width - 40; x += 35) {
             const distance = x - slitX;
             for (let y = 15; y < height - 15; y += 35) {
@@ -152,9 +152,9 @@ export const SimulationWidget: React.FC = () => {
               const angle = Math.atan2(y - height / 2, distance);
               const pathDifference = (slitDist * Math.sin(angle));
               let potential = activeAmplitude * Math.cos(0.08 * pathDifference * Math.sqrt(distance));
-              
+
               // [V8 보완] 진폭(R) 평탄화 로직 삭제: 관측이 진폭을 뭉개는 물리적 모순 해결
-              
+
               if (potential > 0) {
                 const r = simMode === 'mass' && mass > 50 ? 100 : 59;
                 const g = simMode === 'mass' && mass > 50 ? 100 : 130;
@@ -216,7 +216,7 @@ export const SimulationWidget: React.FC = () => {
           if (p.trail.length > 25) p.trail.shift(); p.trail.push({ x: p.x, y: p.y });
 
           p.x += p.vx;
-          
+
           if (p.x < 180) {
             if (p.x > 150) {
               const targetSlitY = p.y < height / 2 ? height / 2 - slitDist / 2 : height / 2 + slitDist / 2;
@@ -226,10 +226,10 @@ export const SimulationWidget: React.FC = () => {
             const distance = p.x - 180;
             const angle = Math.atan2(p.y - height / 2, distance);
             const pathDifference = (slitDist * Math.sin(angle));
-            
+
             const frequency = 0.08 * Math.sqrt(distance || 1);
             let forceGradient = -activeAmplitude * Math.sin(frequency * pathDifference) * Math.cos(angle) * 0.12;
-            
+
             // [V8 보강] 위상(속도장)에 직접 난류 노이즈 주입 (진폭은 그대로 둠)
             if (simMode === 'decoherence' && eObs > 0) {
               const noiseFreq = tVac * 0.2;
@@ -238,7 +238,7 @@ export const SimulationWidget: React.FC = () => {
             }
 
             let acceleration = forceGradient / activeMass;
-            
+
             // [V8 보강] 코스틴(Kostin) 게이지 점성에 의한 실제 물리적 항력 (-gamma * m * v) 적용
             if (simMode === 'mass' && gammaViscosity > 0) {
               acceleration -= (gammaViscosity * 0.08) * p.vy;
@@ -253,8 +253,8 @@ export const SimulationWidget: React.FC = () => {
           ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill(); ctx.shadowBlur = 0;
 
           if (p.x >= width - 30) {
-            p.active = false; deadTrailsRef.current.push([...p.trail, { x: p.x, y: p.y }]); 
-            if (deadTrailsRef.current.length > 300) deadTrailsRef.current.shift(); 
+            p.active = false; deadTrailsRef.current.push([...p.trail, { x: p.x, y: p.y }]);
+            if (deadTrailsRef.current.length > 300) deadTrailsRef.current.shift();
             const binIndex = Math.floor((p.y / height) * 100);
             if (binIndex >= 0 && binIndex < 100) screenHitsRef.current[binIndex]++;
           }
@@ -293,7 +293,7 @@ export const SimulationWidget: React.FC = () => {
           ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 1.2; ctx.beginPath();
           for (let r = 1; r <= 120; r++) {
             const rx = px + 15 + r; const rScaled = r * 0.05 + 0.2;
-            const qsVal = -2.5 / (rScaled * rScaled); 
+            const qsVal = -2.5 / (rScaled * rScaled);
             const ry = Math.max(py + 25, Math.min(midY - qsVal, py + 105));
             r === 1 ? ctx.moveTo(rx, ry) : ctx.lineTo(rx, ry);
           } ctx.stroke();
@@ -302,7 +302,7 @@ export const SimulationWidget: React.FC = () => {
           ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 1.2; ctx.beginPath();
           for (let r = 1; r <= 120; r++) {
             const rx = px + 15 + r; const rScaled = r * 0.05 + 0.2;
-            const vcVal = 2.5 / (rScaled * rScaled); 
+            const vcVal = 2.5 / (rScaled * rScaled);
             const ry = Math.max(py + 25, Math.min(midY - vcVal, py + 105));
             r === 1 ? ctx.moveTo(rx, ry) : ctx.lineTo(rx, ry);
           } ctx.stroke();
@@ -324,7 +324,7 @@ export const SimulationWidget: React.FC = () => {
           ctx.font = 'bold 8.5px monospace'; ctx.fillStyle = '#fbbf24'; ctx.fillText("Gauge Dissipation (Eq. 3 & 5)", px + 8, py + 15);
 
           // 확률 밀도 보존 바 (Unitarity Preserved)
-          ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 1.5; ctx.setLineDash([2,2]);
+          ctx.strokeStyle = '#3b82f6'; ctx.lineWidth = 1.5; ctx.setLineDash([2, 2]);
           ctx.beginPath(); ctx.moveTo(px + 15, py + 40); ctx.lineTo(px + 145, py + 40); ctx.stroke(); ctx.setLineDash([]);
           ctx.font = '7.5px monospace'; ctx.fillStyle = '#3b82f6'; ctx.fillText(`∫ρ dv = 1 (Unitarity Preserved)`, px + 15, py + 35);
 
@@ -351,7 +351,7 @@ export const SimulationWidget: React.FC = () => {
           const coherenceDecay = eObs > 0 ? Math.exp(-eObs * (tVac * tVac * 0.3)) : 1.0;
           const r12 = 0.5 * coherenceDecay; const r21 = r12;
 
-          const drawMat = (mx:number, my:number, label:string, val:number, isCoh:boolean) => {
+          const drawMat = (mx: number, my: number, label: string, val: number, isCoh: boolean) => {
             ctx.fillStyle = isCoh ? `rgba(239, 68, 68, ${val * 1.6})` : `rgba(59, 130, 246, 0.8)`;
             ctx.beginPath(); ctx.rect(mx, my, 35, 18); ctx.fill(); ctx.stroke();
             ctx.fillStyle = val < 0.1 ? '#71717a' : '#f8fafc';
@@ -370,7 +370,7 @@ export const SimulationWidget: React.FC = () => {
           } ctx.stroke();
           const curTau = 45 / (tVac * tVac); const cxPt = px + 15 + ((tVac - 1.0) / 2.0) * 125;
           ctx.fillStyle = '#eab308'; ctx.beginPath(); ctx.arc(cxPt, py + 170 - curTau, 3.5, 0, 2 * Math.PI); ctx.fill();
-          ctx.font = '7px monospace'; ctx.fillStyle = '#fbbf24'; ctx.fillText(`T_vac=${tVac.toFixed(1)}K  τ=${(curTau/45).toFixed(3)}s`, px + 25, py + 125);
+          ctx.font = '7px monospace'; ctx.fillStyle = '#fbbf24'; ctx.fillText(`T_vac=${tVac.toFixed(1)}K  τ=${(curTau / 45).toFixed(3)}s`, px + 25, py + 125);
           ctx.restore();
         }
 
@@ -398,14 +398,14 @@ export const SimulationWidget: React.FC = () => {
         for (let i = 0; i <= uSteps; i++) {
           const u = uMin + (i / uSteps) * (uMax - uMin); points[i] = [];
           let xProf = u - activePinch * u * Math.exp(-u * u);
-          
+
           // Phase wave ripple propagation running along the tube
           const wave = Math.sin(time - u * 2.5) * 0.12 * Math.exp(-u * u * 0.2) * (1 - decohereProgress);
           xProf += wave;
           let zProf = activeJunction * Math.exp(-u * u);
 
           if (isDecohering && decohereProgress > 0.8) {
-            const sf = (decohereProgress - 0.8) * 5; 
+            const sf = (decohereProgress - 0.8) * 5;
             if (Math.abs(u) > 0.5 && Math.abs(u) < 1.5) xProf *= Math.max(0, 1 - sf * 2);
             if (Math.abs(u) <= 0.5) zProf += sf * 3.0;
           }
@@ -418,9 +418,9 @@ export const SimulationWidget: React.FC = () => {
         const polygons: Polygon[] = [];
         for (let i = 0; i < uSteps; i++) {
           for (let j = 0; j < vSteps; j++) {
-            const pr1 = project(points[i][j].x, points[i][j].y, points[i][j].z), pr2 = project(points[i+1][j].x, points[i+1][j].y, points[i+1][j].z);
-            const pr3 = project(points[i+1][j+1].x, points[i+1][j+1].y, points[i+1][j+1].z), pr4 = project(points[i][j+1].x, points[i][j+1].y, points[i][j+1].z);
-            polygons.push({ pts: [pr1, pr2, pr3, pr4], avgZ: (pr1.depth + pr2.depth + pr3.depth + pr4.depth) / 4, uVal: (points[i][j].u + points[i+1][j].u) / 2 });
+            const pr1 = project(points[i][j].x, points[i][j].y, points[i][j].z), pr2 = project(points[i + 1][j].x, points[i + 1][j].y, points[i + 1][j].z);
+            const pr3 = project(points[i + 1][j + 1].x, points[i + 1][j + 1].y, points[i + 1][j + 1].z), pr4 = project(points[i][j + 1].x, points[i][j + 1].y, points[i][j + 1].z);
+            polygons.push({ pts: [pr1, pr2, pr3, pr4], avgZ: (pr1.depth + pr2.depth + pr3.depth + pr4.depth) / 4, uVal: (points[i][j].u + points[i + 1][j].u) / 2 });
           }
         }
 
@@ -428,10 +428,10 @@ export const SimulationWidget: React.FC = () => {
         polygons.forEach(poly => {
           ctx.beginPath(); ctx.moveTo(poly.pts[0].px, poly.pts[0].py); ctx.lineTo(poly.pts[1].px, poly.pts[1].py);
           ctx.lineTo(poly.pts[2].px, poly.pts[2].py); ctx.lineTo(poly.pts[3].px, poly.pts[3].py); ctx.closePath();
-          const normU = (poly.uVal + 3.5) / 7.0; 
+          const normU = (poly.uVal + 3.5) / 7.0;
           let r = Math.floor(50 + 205 * (1 - normU)), g = Math.floor(65 + 130 * Math.sin(normU * Math.PI)), b = Math.floor(220 * normU), alpha = 0.55;
           if (isDecohering && decohereProgress > 0.8 && Math.abs(poly.uVal) <= 0.5) {
-            const fd = Math.min(1, (decohereProgress - 0.8) * 5); 
+            const fd = Math.min(1, (decohereProgress - 0.8) * 5);
             r = Math.floor(r * (1 - fd) + 100 * fd); g = Math.floor(g * (1 - fd) + 100 * fd); b = Math.floor(b * (1 - fd) + 200 * fd); alpha = 0.55 * (1 - fd * 0.9);
           }
           ctx.fillStyle = `rgba(${r}, ${g}, ${b}, ${alpha})`; ctx.fill(); ctx.strokeStyle = `rgba(255, 255, 255, ${0.05 * (alpha / 0.55)})`; ctx.lineWidth = 0.5; ctx.stroke();
@@ -439,10 +439,10 @@ export const SimulationWidget: React.FC = () => {
 
         let starZ = activeJunction; if (isDecohering && decohereProgress > 0.8) starZ += (decohereProgress - 0.8) * 5 * 3.0;
         const junctionProj = project(0, 0, starZ);
-        ctx.fillStyle = decohereProgress > 0.8 ? '#4b5563' : '#fbbf24'; ctx.beginPath(); ctx.arc(junctionProj.px, junctionProj.py, 10, 0, 2*Math.PI); ctx.fill();
+        ctx.fillStyle = decohereProgress > 0.8 ? '#4b5563' : '#fbbf24'; ctx.beginPath(); ctx.arc(junctionProj.px, junctionProj.py, 10, 0, 2 * Math.PI); ctx.fill();
         ctx.font = 'bold 11px font-sans'; ctx.textAlign = 'center'; ctx.fillStyle = decohereProgress > 0.8 ? 'rgba(156, 163, 175, 0.5)' : '#f87171';
-        const labelText = decohereProgress > 0.8 
-          ? "Topological Pinch-off\n(Spontaneous Decoherence)" 
+        const labelText = decohereProgress > 0.8
+          ? "Topological Pinch-off\n(Spontaneous Decoherence)"
           : "Multiply-Connected Junction\n(Internal Distance ≈ 0)";
         const lines = labelText.split('\n');
         lines.forEach((line, index) => {
@@ -468,7 +468,7 @@ export const SimulationWidget: React.FC = () => {
         if (isDecohering && decohereProgress > 0 && decohereProgress < 1) {
           if (decohereProgress < 0.5) {
             const t = decohereProgress * 2;
-            drawSphere3D(project(posA.x * (1-t), posA.y * (1-t), posA.z + (starZ - posA.z) * t), "Damping Wave (v ≤ c)", "#ef4444");
+            drawSphere3D(project(posA.x * (1 - t), posA.y * (1 - t), posA.z + (starZ - posA.z) * t), "Damping Wave (v ≤ c)", "#ef4444");
           } else {
             const t = (decohereProgress - 0.5) * 2;
             ctx.save(); ctx.shadowBlur = 20 + 10 * Math.sin(t * Math.PI); ctx.shadowColor = "#ef4444"; ctx.fillStyle = `rgba(239, 68, 68, ${1 - t})`;
