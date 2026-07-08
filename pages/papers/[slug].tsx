@@ -574,18 +574,23 @@ export default function AcademicPaperViewer() {
       .replace(/\r?\n\s*u/g, '\\nu')
       .replace(/\r?\n\s*a/g, '\\na')
       .replace(/\\n\s*u/g, '\\nu')
-      .replace(/\\n\s*a/g, '\\na')
-      .replace(/\r?\n/g, ' ');
+      .replace(/\\n\s*a/g, '\\na');
 
     // 1. Hide raw display math delimiters ($$)
     if (processedText === '$$') {
       return null;
     }
 
+    const isExplicitBlockMath = processedText.startsWith('$$') && processedText.endsWith('$$');
+
+    // Only replace internal newlines with space if this is NOT a block math formula
+    if (!isExplicitBlockMath) {
+      processedText = processedText.replace(/\r?\n/g, ' ');
+    }
+
     const cleanMathText = processedText;
 
     // 2. Check if the text is a block display math (wrapped in $$ ... $$ or starting with common LaTeX keywords without Korean/English text)
-    const isExplicitBlockMath = processedText.startsWith('$$') && processedText.endsWith('$$');
 
     // Heuristic: If it has math backslashes and LaTeX symbols, and contains no common language words
     const hasMathIndicators = cleanMathText.includes('\\') || cleanMathText.includes('^') || cleanMathText.includes('_');

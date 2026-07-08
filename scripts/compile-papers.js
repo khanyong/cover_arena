@@ -56,6 +56,39 @@ function splitBilingual(text) {
   return { ko: clean, en: clean };
 }
 
+function romanToInt(roman) {
+  const map = { I: 1, V: 5, X: 10, L: 50, C: 100, D: 500, M: 1000 };
+  let num = 0;
+  for (let i = 0; i < roman.length; i++) {
+    const curr = map[roman[i].toUpperCase()];
+    const next = map[roman[i+1]?.toUpperCase()];
+    if (next && curr < next) {
+      num -= curr;
+    } else {
+      num += curr;
+    }
+  }
+  return num;
+}
+
+function extractChapterNumber(line) {
+  const trimmed = line.trim();
+  const match = trimmed.match(/^(?:##\s+)?(?:(\d+)장|Chapter\s+(\d+)|Ch\.\s+(\d+)|(\d+)\.|Chapter\s+([IVXLCDM]+)|Ch\.\s+([IVXLCDM]+)|([IVXLCDM]+)\.)/i);
+  if (!match) return null;
+  
+  const digitVal = match[1] || match[2] || match[3] || match[4];
+  if (digitVal) {
+    return parseInt(digitVal);
+  }
+  
+  const romanVal = match[5] || match[6] || match[7];
+  if (romanVal) {
+    return romanToInt(romanVal);
+  }
+  
+  return null;
+}
+
 // Parse the combined bilingual markdown file directly to establish the baseline v1_v2 dataset
 function parseBilingualFile(filePath) {
   const content = fs.readFileSync(filePath, 'utf-8');
@@ -165,15 +198,12 @@ function parseBilingualFile(filePath) {
         continue;
       }
 
-      const isChHeader = trimmed.startsWith('## ') && 
-                         (trimmed.match(/(\d+)장/) || trimmed.match(/Chapter\s+(\d+)/i) || trimmed.match(/Ch\.\s+(\d+)/i));
-      if (isChHeader && !trimmed.toLowerCase().includes('abstract') && !trimmed.includes('초록')) {
+      const chNum = trimmed.startsWith('## ') && !trimmed.toLowerCase().includes('abstract') && !trimmed.includes('초록') ? extractChapterNumber(trimmed) : null;
+      if (chNum !== null) {
         inAbstract = false;
         hasChapterStarted = true;
         if (currentChapter) flushParaBlocks();
 
-        const chNumMatch = trimmed.match(/(\d+)장/) || trimmed.match(/Chapter\s+(\d+)/i) || trimmed.match(/Ch\.\s+(\d+)/i);
-        const chNum = parseInt(chNumMatch[1]);
         const splitHeader = splitBilingual(trimmed);
 
         currentChapter = {
@@ -261,47 +291,121 @@ function parsePaperFile(filePath, versionKey, langKey) {
   let title = { ko: '', en: '' };
   title[langKey] = 'Title';
   
-  // Abstract parsed lines
   let abstractBlocks = [];
   const chapters = [];
   let currentChapter = null;
   let inAbstract = false;
   let hasChapterStarted = false;
-
+  
+  let currentBlock = [];
+  let inMathBlock = false;
+  
+  const flushCurrentBlock = () => {
+    if (currentBlock.length === 0) return;
+    const rawText = currentBlock.join('\n').trim();
+    currentBlock = [];
+    if (!rawText) return;
+    
+    if (inAbstract) {
+      let isStrikethrough = false;
+      let cleanText = rawText;
+      let isList = false;
+      if (cleanText.startsWith('- ')) {
+        isList = true;
+        cleanText = cleanText.slice(2).trim();
+      }
+      if (cleanText.includes('~~')) {
+        isStrikethrough = true;
+        cleanText = cleanText.replace(/~~/g, '');
+      }
+      cleanText = cleanText.replace(/\\/g, '\\\\');
+      
+      abstractBlocks.push({
+        text: cleanText,
+        isList,
+        isStrikethrough
+      });
+    } else if (currentChapter) {
+      let isStrikethrough = false;
+      let cleanText = rawText;
+      if (cleanText.includes('~~')) {
+        isStrikethrough = true;
+        cleanText = cleanText.replace(/~~/g, '');
+      }
+      
+      const pair = { ko: '', en: '' };
+      pair[langKey] = cleanText;
+      
+      currentChapter.paragraphs.push({
+        pair,
+        isStrikethrough
+      });
+    }
+  };
+  
   for (let i = 0; i < lines.length; i++) {
-    const line = lines[i].trim();
-    if (!line) continue;
-
-    // 1. Main Title
-    if (line.startsWith('# ')) {
-      title[langKey] = line.slice(2).trim();
+    const line = lines[i];
+    const trimmed = line.trim();
+    
+    if (inMathBlock) {
+      currentBlock.push(line);
+      if (trimmed === '$$') {
+        inMathBlock = false;
+        flushCurrentBlock();
+      }
       continue;
     }
-
+    
+    if (trimmed === '$$') {
+      flushCurrentBlock();
+      inMathBlock = true;
+      currentBlock.push(line);
+      continue;
+    }
+    
+    // Handle list item
+    if (trimmed.startsWith('- ')) {
+      flushCurrentBlock();
+      currentBlock.push(line);
+      flushCurrentBlock();
+      continue;
+    }
+    
+    if (!trimmed) {
+      flushCurrentBlock();
+      continue;
+    }
+    
+    // 1. Main Title
+    if (trimmed.startsWith('# ')) {
+      flushCurrentBlock();
+      title[langKey] = trimmed.slice(2).trim();
+      continue;
+    }
+    
     // Ensure Reference section turns off abstract parsing and stops accumulating chapter paragraphs
-    if (line.toLowerCase().includes('references') || line.includes('참고문헌')) {
+    if (trimmed.toLowerCase().includes('references') || trimmed.includes('참고문헌')) {
+      flushCurrentBlock();
       inAbstract = false;
       currentChapter = null; // Stop putting raw references into paragraphs
       continue;
     }
-
+    
     // 2. Abstract boundary
-    if (line.toLowerCase().startsWith('## abstract') || line.startsWith('## 초록')) {
+    if (trimmed.toLowerCase().startsWith('## abstract') || trimmed.startsWith('## 초록')) {
+      flushCurrentBlock();
       inAbstract = true;
       continue;
     }
-
+    
     // 3. Chapters (Turn off inAbstract if any chapter header Level 2 matches)
-    const isChHeader = line.startsWith('## ') && 
-                       (line.match(/(\d+)장/) || line.match(/Chapter\s+(\d+)/i) || line.match(/Ch\.\s+(\d+)/i) || line.match(/^##\s+(\d+)\./));
-    if (isChHeader && !line.toLowerCase().includes('abstract') && !line.includes('초록')) {
+    const chNum = trimmed.startsWith('## ') && !trimmed.toLowerCase().includes('abstract') && !trimmed.includes('초록') ? extractChapterNumber(trimmed) : null;
+    if (chNum !== null) {
+      flushCurrentBlock();
       inAbstract = false;
       hasChapterStarted = true;
       
-      const chNumMatch = line.match(/(\d+)장/) || line.match(/Chapter\s+(\d+)/i) || line.match(/Ch\.\s+(\d+)/i) || line.match(/^##\s+(\d+)\./);
-      const chNum = parseInt(chNumMatch[1]);
-      
-      const cleanHeaderTitle = line.slice(3).trim();
+      const cleanHeaderTitle = trimmed.slice(3).trim();
       const chTitle = { ko: '', en: '' };
       chTitle[langKey] = cleanHeaderTitle;
 
@@ -314,59 +418,28 @@ function parsePaperFile(filePath, versionKey, langKey) {
       continue;
     }
 
+    // 4. Sub-headers (### Level 3 headers)
+    if (trimmed.startsWith('### ')) {
+      flushCurrentBlock();
+      if (currentChapter && hasChapterStarted) {
+        const pair = { ko: '', en: '' };
+        pair[langKey] = trimmed;
+        currentChapter.paragraphs.push({
+          pair,
+          isStrikethrough: trimmed.includes('~~')
+        });
+      }
+      continue;
+    }
+    
     if (!hasChapterStarted && !inAbstract) {
       continue;
     }
-
-    // 4. Abstract Content parsing (Do NOT skip math lines)
-    if (inAbstract) {
-      let isStrikethrough = false;
-      let cleanText = line;
-      
-      let isList = false;
-      if (cleanText.startsWith('- ')) {
-        isList = true;
-        cleanText = cleanText.slice(2).trim();
-      }
-      if (cleanText.includes('~~')) {
-        isStrikethrough = true;
-        cleanText = cleanText.replace(/~~/g, '');
-      }
-
-      // Preserve backslashes for LaTeX parsing inside Abstract
-      cleanText = cleanText.replace(/\\/g, '\\\\');
-
-      abstractBlocks.push({
-        text: cleanText,
-        isList,
-        isStrikethrough
-      });
-      continue;
-    }
-
-    // 5. Chapter Paragraph parsing
-    if (currentChapter) {
-      let isStrikethrough = false;
-      let cleanText = line;
-      let isList = false;
-      if (cleanText.startsWith('- ')) {
-        isList = true;
-        cleanText = cleanText.slice(2).trim();
-      }
-      if (cleanText.includes('~~')) {
-        isStrikethrough = true;
-        cleanText = cleanText.replace(/~~/g, '');
-      }
-
-      const pair = { ko: '', en: '' };
-      pair[langKey] = line;
-
-      currentChapter.paragraphs.push({
-        pair,
-        isStrikethrough
-      });
-    }
+    
+    currentBlock.push(line);
   }
+  
+  flushCurrentBlock();
 
   // Build aggregate abstract text
   let v1Text = '';
