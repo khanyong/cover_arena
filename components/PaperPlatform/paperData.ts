@@ -9775,9 +9775,9 @@ export const papersMap: Record<string, PaperDetails> = {
       }
     },
     "workflow": {
-      "stage": "Rebuttal & Final Proof",
-      "percent": 85,
-      "nextStep": "PRL 학술지 최종 Proof 편집인 승인 대기 중",
+      "stage": "Zenodo Published",
+      "percent": 100,
+      "nextStep": "학술지 게재 검토 3단계",
       "journalTarget": "Physical Review Letters (PRL)"
     }
   },
@@ -12949,9 +12949,9 @@ export const papersMap: Record<string, PaperDetails> = {
     },
     "reviews": {},
     "workflow": {
-      "stage": "Under Review",
-      "percent": 60,
-      "nextStep": "심사위원 2인 동료 평가 완료 및 저자 반론서 보강 중",
+      "stage": "Zenodo Published",
+      "percent": 100,
+      "nextStep": "학술지 게재 검토 3단계",
       "journalTarget": "Physical Review D (PRD)"
     }
   },
@@ -16084,9 +16084,9 @@ export const papersMap: Record<string, PaperDetails> = {
     },
     "reviews": {},
     "workflow": {
-      "stage": "Pre-submission Drafting",
-      "percent": 20,
-      "nextStep": "3장 파동 간섭 수식 보강 및 3D 판구조 단층 그래프 검증",
+      "stage": "Zenodo Published",
+      "percent": 100,
+      "nextStep": "학술지 게재 검토 3단계",
       "journalTarget": "Nature Physics"
     }
   }

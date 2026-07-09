@@ -78,7 +78,7 @@ export const EquationTooltip: React.FC<EquationTooltipProps> = ({ symbol, lang, 
   if (!detail) return <span className="font-mono">{children}</span>;
 
   return (
-    <span 
+    <span
       className="relative inline-block cursor-help group"
       onMouseEnter={() => setVisible(true)}
       onMouseLeave={() => setVisible(false)}
