@@ -237,8 +237,8 @@ export default function SpatialVibration2Lecture() {
         { type: 'bullet', ko: '가속 팽창을 끼워 맞추기 위해 인위적으로 도출된 불변 상수. 본 물리 모델에서는 물리적 정합성을 위해 $\\Lambda = 0$으로 완전히 배제(Discarded)함.', en: 'An arbitrary constant introduced to fit accelerated expansion. In this model, we discard $\\Lambda$ entirely for physical consistency.' }
       ],
       script: {
-        ko: '아인슈타인의 위대한 방정식입니다. 좌변은 우주의 굽어짐을, 우변은 우주에 들어있는 물질을 뜻합니다. 우리는 우변에 미지의 입자나 임의의 우주상수를 넣는 대신, \'공간의 진동\'이라는 물리적 에너지를 추가할 것입니다.',
-        en: "This is Einstein's field equation. The left side represents geometry; the right side represents energy. Instead of injecting hypothetical dark matter particles or an arbitrary cosmological constant, we will inject the physical energy of spatial fluctuations directly into the right-hand side."
+        ko: "아인슈타인의 위대한 방정식 $G_{\\mu\\nu} = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}$ 입니다. 좌변 $G_{\\mu\\nu}$은 우주의 굽어짐을, 우변 $T_{\\mu\\nu}$은 우주에 들어있는 물질을 뜻합니다. 우리는 우변에 미지의 입자나 임의의 우주상수 $\\Lambda$를 넣는 대신, '공간의 진동'이라는 물리적 에너지 $\\mathbf{\\tilde{V}_{\\mu\\nu}}$를 추가할 것입니다.",
+        en: "This is Einstein's field equation $G_{\\mu\\nu} = \\frac{8\\pi G}{c^4} T_{\\mu\\nu}$. The left side $G_{\\mu\\nu}$ represents geometry; the right side $T_{\\mu\\nu}$ represents energy. Instead of injecting hypothetical dark matter particles or an arbitrary cosmological constant $\\Lambda$, we will inject the physical energy of spatial fluctuations $\\mathbf{\\tilde{V}_{\\mu\\nu}}$ directly into the right-hand side."
       },
       simMode: null
     },
@@ -256,8 +256,8 @@ export default function SpatialVibration2Lecture() {
         { type: 'bullet', ko: '$$ \\tilde{V}_{\\mu\\nu} \\propto \\frac{c^4}{G} \\langle \\nabla_mu h_{\\alpha\\beta}^{vib} \\nabla_nu h^{\\alpha\\beta}_{vib} \\rangle $$', en: '$$ \\tilde{V}_{\\mu\\nu} \\propto \\frac{c^4}{G} \\langle \\nabla_mu h_{\\alpha\\beta}^{vib} \\nabla_nu h^{\\alpha\\beta}_{vib} \\rangle $$' }
       ],
       script: {
-        ko: '미세한 파도의 높이 평균은 0이지만, 파도가 가진 파괴력(에너지)은 0이 아닙니다. 아이작슨 평균화는 이 미세한 공간 요동의 에너지를 거시적인 중력 텐서로 변환하는 수학적 마법입니다.',
-        en: 'The average height of micro-waves is zero, but the energy of those waves is not. The Isaacson limit is a mathematical framework that converts micro-metric fluctuations into a macroscopic energy-momentum tensor.'
+        ko: "미세한 파도 $h_{\\alpha\\beta}^{vib}$의 높이 평균은 0이지만, 파도가 가진 파괴력(에너지)은 0이 아닙니다. 아이작슨 평균화는 이 미세한 공간 요동의 에너지 $h_{\\alpha\\beta}^{vib}$를 거시적인 중력 텐서 $\\tilde{V}_{\\mu\\nu}$로 변환하는 수학적 마법입니다.",
+        en: "The average height of micro-waves $h_{\\alpha\\beta}^{vib}$ is zero, but the energy of those waves is not. The Isaacson limit is a mathematical framework that converts micro-metric fluctuations $h_{\\alpha\\beta}^{vib}$ into a macroscopic energy-momentum tensor $\\tilde{V}_{\\mu\\nu}$."
       },
       simMode: 'expansion'
     },
@@ -275,8 +275,8 @@ export default function SpatialVibration2Lecture() {
         { type: 'bullet', ko: '은하 외부 공동 (저밀도 $\\rho_m \\ll \\rho_{crit}$): 상태방정식 인수 $w \\to -1$. 음의 압력을 가진 진공 에너지(Dark Energy)처럼 작용.', en: 'Cosmic voids (Low density): Equation of state parameter $w \\to -1$. Acts like repulsive dark energy.' }
       ],
       script: {
-        ko: '공간 진동은 마치 환경에 따라 색을 바꾸는 카멜레온과 같습니다. 은하 내부처럼 밀도가 높은 곳과 텅 빈 우주 공동에서 이 유체는 전혀 다른 물리적 특성을 드러냅니다.',
-        en: 'Spatial vibration acts like a chameleon, changing its colors based on the environment. In high-density galactic centers vs. empty cosmic voids, the same spatial fluid displays completely different physical properties.'
+        ko: "공간 진동은 마치 환경에 따라 색을 바꾸는 카멜레온과 같습니다. 은하 내부처럼 밀도가 높은 곳($w \\approx 0$)과 텅 빈 우주 공동($w \\to -1$)에서 이 유체는 전혀 다른 물리적 특성을 드러냅니다.",
+        en: "Spatial vibration acts like a chameleon, changing its colors based on the environment. In high-density galactic centers ($w \\approx 0$) vs. empty cosmic voids ($w \\to -1$), the same spatial fluid displays completely different physical properties."
       },
       simMode: 'expansion'
     },
@@ -294,8 +294,8 @@ export default function SpatialVibration2Lecture() {
         { type: 'bullet', ko: '은하 외곽에 가상의 질량 효과(잉여 중력)를 유도하여 은하 회전 속도를 평탄하게 유지하는 **암흑 물질**의 정체.', en: 'Creates surplus gravity at galactic outskirts, keeping rotation curves flat without needing phantom particles.' }
       ],
       script: {
-        ko: '은하 외곽의 회전 곡선이 평탄한 이유는 입자가 더 있어서가 아닙니다. 은하 중력에 갇힌 공간 요동파가 정상파로 굳어지며(텐서 응축) 추가 중력을 유도해 내기 때문입니다.',
-        en: 'The outer galactic stars rotate fast not because of hypothetical particles, but because trapped spatial fluctuations form standing waves (Tensor Condensation), generating effective mass and surplus gravity.'
+        ko: "은하 외곽의 회전 곡선이 평탄한 이유는 입자가 더 있어서가 아닙니다. 은하 중력에 갇힌 공간 요동파가 정상파로 굳어지며(텐서 응축 $\\tilde{V}_{00}$) 추가 유효 질량 $M_{eff}(r)$을 유도해 내기 때문입니다.",
+        en: "The outer galactic stars rotate fast not because of hypothetical particles, but because trapped spatial fluctuations form standing waves (Tensor Condensation $\\tilde{V}_{00}$), generating effective mass $M_{eff}(r)$ and surplus gravity."
       },
       simMode: 'rotation'
     },
@@ -313,8 +313,8 @@ export default function SpatialVibration2Lecture() {
         { type: 'bullet', ko: '수식 괄호 안의 결합 에너지가 음수($\\rho_{vib} + 3p_{vib}/c^2 = -2\\rho_{vib}$)로 전환되며 우주를 척력으로 밀어내 가속 팽창($\\ddot{a} > 0$)시키는 **암흑 에너지**의 실체.', en: 'The effective pressure term in Friedmann equation becomes strongly negative ($-2\\rho_{vib}$), driving the cosmic acceleration.' }
       ],
       script: {
-        ko: '물질이 없는 텅 빈 거대 공동에서는 공간의 텐션이 풀리면서 막강한 척력 복사압이 방출됩니다. 이것이 프리드만 가속 팽창식에 따라 우주 전체를 가속 팽창시키는 실제 원인입니다.',
-        en: 'In empty cosmic voids, the release of spatial tension generates a repulsive radiation pressure. Under the Friedmann acceleration equation, this negative pressure acts as the physical source of Dark Energy.'
+        ko: "물질이 없는 텅 빈 거대 공동(Cosmic Voids)에서는 공간의 텐션이 풀리면서 막강한 척력 복사압 $p_{vib} \\approx -\\rho_{vib} c^2$이 방출됩니다. 이것이 프리드만 가속 팽창식($\\ddot{a} > 0$)에 따라 우주 전체를 가속 팽창시키는 실제 원인입니다.",
+        en: "In empty cosmic voids, the release of spatial tension generates a repulsive radiation pressure $p_{vib} \\approx -\\rho_{vib} c^2$. Under the Friedmann acceleration equation ($\\ddot{a} > 0$), this negative pressure acts as the physical source of Dark Energy."
       },
       simMode: 'expansion'
     },
