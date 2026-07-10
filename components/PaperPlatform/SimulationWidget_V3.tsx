@@ -38,8 +38,14 @@ interface Pulsar {
   color: string;
 }
 
-export const SimulationWidget_V3: React.FC = () => {
+export const SimulationWidget_V3: React.FC<{ initialMode?: 'web' | 'quake' | 'pointing', compact?: boolean }> = ({ initialMode, compact = false }) => {
   const [simMode, setSimMode] = useState<'web' | 'quake' | 'pointing'>('web');
+
+  useEffect(() => {
+    if (initialMode) {
+      setSimMode(initialMode);
+    }
+  }, [initialMode]);
 
   // Mode A Parameters
   const [phaseMismatch, setPhaseMismatch] = useState<number>(1.8); // 0 (constructive) to PI (destructive)
@@ -962,34 +968,36 @@ export const SimulationWidget_V3: React.FC = () => {
   }, [simMode, phaseMismatch, baryonPressure, slipVelocity, ruptureThreshold]);
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col lg:flex-row gap-4 items-start">
+    <div className={`w-full ${compact ? 'p-0 my-0' : 'p-2 my-4'}`}>
+      <div className={`flex flex-col ${compact ? 'lg:grid lg:grid-cols-12 gap-3' : 'lg:flex-row gap-4'} items-start`}>
         {/* Simulator Area */}
-        <div className="flex-1 w-full space-y-4">
+        <div className={`${compact ? 'lg:col-span-8 w-full space-y-2' : 'flex-1 w-full space-y-4'}`}>
           {/* Tab Selector */}
-          <div className="flex bg-zinc-950 p-1 rounded-lg border border-zinc-800 gap-1 w-full max-w-lg">
-            <button
-              onClick={() => setSimMode('web')}
-              className={`flex-1 py-1.5 px-3 rounded-md text-[10px] md:text-xs font-mono font-bold transition-all ${simMode === 'web' ? 'bg-[#10b981] text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
-            >
-              Mode A: Cosmic Web
-            </button>
-            <button
-              onClick={() => setSimMode('quake')}
-              className={`flex-1 py-1.5 px-3 rounded-md text-[10px] md:text-xs font-mono font-bold transition-all ${simMode === 'quake' ? 'bg-[#a855f7] text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
-            >
-              Mode B: Cosmic Quake
-            </button>
-            <button
-              onClick={() => setSimMode('pointing')}
-              className={`flex-1 py-1.5 px-3 rounded-md text-[10px] md:text-xs font-mono font-bold transition-all ${simMode === 'pointing' ? 'bg-[#fbbf24] text-black shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
-            >
-              Mode C: POINTING
-            </button>
-          </div>
+          {!compact && (
+            <div className="flex bg-zinc-950 p-1 rounded-lg border border-zinc-800 gap-1 w-full max-w-lg">
+              <button
+                onClick={() => setSimMode('web')}
+                className={`flex-1 py-1.5 px-3 rounded-md text-[10px] md:text-xs font-mono font-bold transition-all ${simMode === 'web' ? 'bg-[#10b981] text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
+              >
+                Mode A: Cosmic Web
+              </button>
+              <button
+                onClick={() => setSimMode('quake')}
+                className={`flex-1 py-1.5 px-3 rounded-md text-[10px] md:text-xs font-mono font-bold transition-all ${simMode === 'quake' ? 'bg-[#a855f7] text-white shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
+              >
+                Mode B: Cosmic Quake
+              </button>
+              <button
+                onClick={() => setSimMode('pointing')}
+                className={`flex-1 py-1.5 px-3 rounded-md text-[10px] md:text-xs font-mono font-bold transition-all ${simMode === 'pointing' ? 'bg-[#fbbf24] text-black shadow-sm' : 'text-zinc-400 hover:text-zinc-200'}`}
+              >
+                Mode C: POINTING
+              </button>
+            </div>
+          )}
 
           {/* Canvas block */}
-          <div className="bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 p-2">
+          <div className="bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 p-1">
             <canvas
               ref={canvasRef}
               width={600}
@@ -1004,7 +1012,7 @@ export const SimulationWidget_V3: React.FC = () => {
         </div>
 
         {/* Controllers Panel */}
-        <div className="w-full lg:w-72 flex flex-col space-y-4 bg-zinc-900/40 p-5 rounded-xl border border-zinc-800">
+        <div className={`flex flex-col space-y-3 bg-zinc-900/40 rounded-xl border border-zinc-800 ${compact ? 'lg:col-span-4 w-full p-3' : 'w-full lg:w-72 p-5'}`}>
           <h4 className="text-xs font-bold text-zinc-300 uppercase tracking-wider font-mono">Parameters Control</h4>
 
           {simMode === 'web' && (

@@ -194,6 +194,15 @@ export default function PapersDashboard() {
                         doi:{paperDOIs[paper.id]}
                       </a>
                     )}
+                    {(paper.id === 'spatial-vibration-1' || paper.id === 'spatial-vibration-2' || paper.id === 'spatial-vibration-3') && (
+                      <Link
+                        href={`/papers/${paper.id}/lecture`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="relative z-20 inline-flex items-center gap-1 bg-[#8b1a1a] hover:bg-[#a61f1f] text-white px-2 py-0.5 rounded font-mono text-[9px] font-bold transition-all shadow-sm"
+                      >
+                        🎓 Lecture Slides (강의안)
+                      </Link>
+                    )}
                   </div>
                   <p className="text-xs text-zinc-500 italic font-serif leading-tight">
                     {paper.titleEn}

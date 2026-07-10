@@ -22,9 +22,15 @@ interface Polygon {
   uVal: number;
 }
 
-export const SimulationWidget: React.FC = () => {
+export const SimulationWidget: React.FC<{ initialMode?: 'slit' | 'decoherence' | 'mass' | 'omega', compact?: boolean }> = ({ initialMode, compact = false }) => {
   const [simMode, setSimMode] = useState<'slit' | 'decoherence' | 'mass' | 'omega'>('slit');
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (initialMode) {
+      setSimMode(initialMode);
+    }
+  }, [initialMode]);
 
   // Physics Parameters
   const [mass, setMass] = useState<number>(1);
@@ -490,22 +496,24 @@ export const SimulationWidget: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden p-6 my-6 shadow-xl selection:bg-none">
-      <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-zinc-800 pb-4 mb-6">
-        <div>
-          <h3 className="text-md font-bold text-zinc-100">공간 역학 동역학적 시뮬레이터 (V8 Final Edition)</h3>
-          <p className="text-xs text-zinc-400">제1부 4장~6장 및 다중 연결 위상 튜브(Phase Tube) 모델에 기반한 결정론적 궤적 및 물리적 수렴성을 실시간으로 확인합니다.</p>
+    <div className={`flex flex-col bg-zinc-950 border border-zinc-800 rounded-2xl overflow-hidden shadow-xl selection:bg-none ${compact ? 'p-3 my-0 w-full' : 'p-6 my-6'}`}>
+      {!compact && (
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-zinc-800 pb-4 mb-6">
+          <div>
+            <h3 className="text-md font-bold text-zinc-100">공간 역학 동역학적 시뮬레이터 (V8 Final Edition)</h3>
+            <p className="text-xs text-zinc-400">제1부 4장~6장 및 다중 연결 위상 튜브(Phase Tube) 모델에 기반한 결정론적 궤적 및 물리적 수렴성을 실시간으로 확인합니다.</p>
+          </div>
+          <div className="flex bg-zinc-900 p-1 rounded-lg gap-1">
+            <button onClick={() => setSimMode('slit')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'slit' ? 'bg-blue-600' : 'text-zinc-400'}`}>4장. 마디점 정칙화</button>
+            <button onClick={() => setSimMode('decoherence')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'decoherence' ? 'bg-blue-600' : 'text-zinc-400'}`}>5장. 위상 난류 붕괴</button>
+            <button onClick={() => setSimMode('mass')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'mass' ? 'bg-blue-600' : 'text-zinc-400'}`}>6장. 게이지 점성 및 거시 극한</button>
+            <button onClick={() => setSimMode('omega')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'omega' ? 'bg-purple-600' : 'text-zinc-400'}`}>🧩 다중 연결 위상 얽힘 (Phase Tube)</button>
+          </div>
         </div>
-        <div className="flex bg-zinc-900 p-1 rounded-lg gap-1">
-          <button onClick={() => setSimMode('slit')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'slit' ? 'bg-blue-600' : 'text-zinc-400'}`}>4장. 마디점 정칙화</button>
-          <button onClick={() => setSimMode('decoherence')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'decoherence' ? 'bg-blue-600' : 'text-zinc-400'}`}>5장. 위상 난류 붕괴</button>
-          <button onClick={() => setSimMode('mass')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'mass' ? 'bg-blue-600' : 'text-zinc-400'}`}>6장. 게이지 점성 및 거시 극한</button>
-          <button onClick={() => setSimMode('omega')} className={`px-3 py-1.5 text-xs rounded-md ${simMode === 'omega' ? 'bg-purple-600' : 'text-zinc-400'}`}>🧩 다중 연결 위상 얽힘 (Phase Tube)</button>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 p-2"><canvas ref={canvasRef} onMouseMove={handleDrag} className="w-full h-auto rounded-lg shadow-inner" /></div>
-        <div className="flex flex-col space-y-4 bg-zinc-900/40 p-5 rounded-xl border border-zinc-800">
+      )}
+      <div className={`grid grid-cols-1 ${compact ? 'lg:grid-cols-12 gap-3' : 'lg:grid-cols-3 gap-6'}`}>
+        <div className={`${compact ? 'lg:col-span-8' : 'lg:col-span-2'} bg-zinc-900/50 rounded-xl overflow-hidden border border-zinc-800 p-1`}><canvas ref={canvasRef} onMouseMove={handleDrag} className="w-full h-auto rounded-lg shadow-inner animate-fade-in" /></div>
+        <div className={`flex flex-col space-y-3 bg-zinc-900/40 rounded-xl border border-zinc-800 ${compact ? 'lg:col-span-4 p-3' : 'p-5'}`}>
           <h4 className="text-xs font-bold text-zinc-300">매개변수 조정</h4>
           {simMode === 'slit' && (
             <>

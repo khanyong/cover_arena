@@ -873,6 +873,11 @@ export default function AcademicPaperViewer() {
               Search
             </button>
           </div>
+          {(slug === 'spatial-vibration-1' || slug === 'spatial-vibration-2' || slug === 'spatial-vibration-3') && (
+            <Link href={`/papers/${slug}/lecture`} className="text-xs bg-amber-500 hover:bg-amber-600 text-zinc-950 px-3 py-1.5 rounded-sm font-bold transition-colors">
+              🎓 Lecture Slides
+            </Link>
+          )}
           <Link href="/papers" className="text-xs bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-sm font-semibold transition-colors">
             ← Main List
           </Link>
