@@ -107,14 +107,14 @@ export default function SpatialVibrationLecture() {
       time: '120~170분', 
       titleKo: '위상학적 정칙화 및 결어긋남', 
       titleEn: 'Topological Regularization & Decoherence', 
-      slides: [10, 14] 
+      slides: [10, 17] 
     },
     { 
       id: '마무리', 
       time: '170~180분', 
       titleKo: '질의응답 및 시뮬레이션 시연', 
       titleEn: 'Q&A and Interactive Sandbox', 
-      slides: [15, 16] 
+      slides: [18, 19] 
     },
   ];
 
@@ -179,11 +179,12 @@ export default function SpatialVibrationLecture() {
         { type: 'bullet', ko: '4. **수학적 정식화:** 비선형 동역학 마찰항', en: '4. **Mathematical Formulation:** Non-linear Dynamics' },
         { type: 'bullet', ko: '5. **특이점 해결:** 위상학적 정칙화 소용돌이', en: '5. **Resolving Singularities:** Topological Regularization' },
         { type: 'bullet', ko: '6. **양자 결어긋남:** 위상 난류에 의한 파동 붕괴', en: '6. **Quantum Decoherence:** Phase Turbulence' },
-        { type: 'bullet', ko: '7. **거시-미시 경계:** 질량에 따른 관성 억제', en: '7. **The Macro-Micro Boundary:** Inertial Suppression' }
+        { type: 'bullet', ko: '7. **거시-미시 경계:** 질량에 따른 관성 억제', en: '7. **The Macro-Micro Boundary:** Inertial Suppression' },
+        { type: 'bullet', ko: '8. **대안 비교:** 드 브로이-봄 이론(파일럿파)과의 공통점과 결정적 차이', en: '8. **Theory Comparison:** Commonalities & Differences with de Broglie-Bohm Theory' }
       ],
       script: {
-        ko: '오늘의 전체적인 흐름입니다. 먼저 고전 물리학과 양자역학의 충돌 지점인 배경지식부터 시작하여, 슈뢰딩거 방정식의 극좌표 변환이라는 수학적 무기를 장착하고, 본 논문의 핵심인 공간 진동 가설로 넘어가겠습니다. 그 후 특이점 해결과 데코히어런스(결어긋남)를 거쳐 거시 세계로의 회귀까지, 차근차근 짚어보겠습니다.',
-        en: "Here is the overall flow of today's lecture. We'll start with the background where classical and quantum mechanics collide, equip ourselves with the mathematical tool of polar transformation of the Schrödinger equation, and move on to the core spatial vibration hypothesis of this paper. Then, through resolving singularities and decoherence, we will close with the return to the macroscopic classical limit."
+        ko: '오늘의 전체적인 흐름입니다. 먼저 고전 물리학과 양자역학의 충돌 지점인 배경지식부터 시작하여, 슈뢰딩거 방정식의 극좌표 변환이라는 수학적 무기를 장착하고, 본 논문의 핵심인 공간 진동 가설로 넘어가겠습니다. 그 후 특이점 해결과 데코히어런스(결어긋남) 및 거시 세계로의 회귀를 거쳐, 기존 파일럿파 이론인 드 브로이-봄 이론과의 깊이 있는 비교를 통해 우리 모델의 우월성을 확인하고 결론을 맺겠습니다.',
+        en: "Here is the overall flow of today's lecture. We'll start with the background where classical and quantum mechanics collide, equip ourselves with the mathematical tool of polar transformation of the Schrödinger equation, and move on to the core spatial vibration hypothesis of this paper. Then, through resolving singularities and decoherence, and after analyzing the return to the macroscopic classical limit, we will comprehensively compare our model to the de Broglie-Bohm pilot-wave theory to highlight its resolution of historic Bohmian limitations."
       },
       simMode: null
     },
@@ -415,6 +416,65 @@ export default function SpatialVibrationLecture() {
     },
     {
       id: 16,
+      period: '3교시',
+      periodTitle: { ko: '위상학적 정칙화 및 결어긋남', en: 'Topological Regularization & Decoherence' },
+      title: { ko: 'de Broglie-Bohm Theory vs. MSV I (공통점 및 파동의 실체)', en: 'de Broglie-Bohm Theory vs. MSV I (Common Ground & Ontology)' },
+      bullets: [
+        { type: 'header', ko: '공통점: 결정론적 실재론 (Deterministic Realism)', en: 'Common Ground: Deterministic Realism' },
+        { type: 'bullet', ko: '입자는 관측 전부터 명확한 위치와 궤적(Definite trajectory)을 갖고 있다고 전제합니다.', en: 'Both assume that particles possess definite trajectories regardless of measurement.' },
+        { type: 'bullet', ko: '확률(Born rule, $|\\psi|^2$)은 자연의 무작위성이 아닌 우리의 \'무지\'에 의한 통계적 결과물입니다.', en: 'Probability ($|\\psi|^2$) represents statistical ensembles stemming from ignorance, not intrinsic randomness.' },
+        { type: 'header', ko: '공통점: 보이지 않는 유도체 (Guidance Mechanism)', en: 'Common Ground: Guidance Mechanism' },
+        { type: 'bullet', ko: '극좌표 분해($\\psi = R e^{iS/\\hbar}$)를 통해 동일한 양자 퍼텐셜($Q_s = -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R}$)을 유도하고, 이것이 입자의 궤적을 꺾고 이끈다고 봅니다.', en: 'Both derive the quantum potential $Q_s = -\\frac{\\hbar^2}{2m} \\frac{\\nabla^2 R}{R}$ via polar decomposition to guide particle trajectories.' },
+        { type: 'header', ko: '결정적 차이: 파동의 물리적 실체 (Ontology)', en: 'Decisive Difference: Ontology of the Wave' },
+        { type: 'bullet', ko: '**드 브로이-봄**: 파동은 질량도 에너지도 없는 가상의 수학적 정보의 장(Information field)이며, 입자에 일방적으로 작용하는 "형이상학적 유령"이라는 한계가 있습니다.', en: '**de Broglie-Bohm**: The pilot wave is an energy-less, mathematical information field acting one-way on particles (often criticized as a metaphysical ghost).' },
+        { type: 'bullet', ko: '**제1논문 (공간 진동)**: 파동은 3차원 빈 공간 자체의 기하학적 요동(Geometrical Fluctuation)이자 곡률 압력을 지닌 실제 **물리적 텐서 유체(Tensor Fluid)**이며, 입자는 이 파도를 타고 서핑합니다.', en: '**MSV I**: The wave is a physical geometrical fluctuation of 3D space itself—a real tensor fluid carrying curvature pressure, on which the particle literally surfs.' }
+      ],
+      script: {
+        ko: "드 브로이-봄 이론과 제1논문은 '입자는 항상 명확한 궤적을 갖는다'는 결정론적 실재론과 수학적 출발점을 공유합니다. 하지만 파동의 실체에 대해 봄 이론이 에너지가 없는 가상의 '정보기하학적 유령'을 상정하여 비판받은 반면, 제1논문은 이를 3차원 빈 공간 자체의 물리적인 '기하학적 요동'이자 곡률 압력을 가진 '텐서 유체'로 명확히 정의합니다.",
+        en: "Both the de Broglie-Bohm theory and our model share a deterministic realist foundation and a polar decomposition starting point. However, while Bohmian mechanics postulates an energy-less, metaphysical 'pilot wave,' our theory defines the guiding wave as a physical, dynamical fluctuation of 3D space itself—a tensor fluid carrying geometric curvature pressure."
+      },
+      simMode: null
+    },
+    {
+      id: 17,
+      period: '3교시',
+      periodTitle: { ko: '위상학적 정칙화 및 결어긋남', en: 'Topological Regularization & Decoherence' },
+      title: { ko: 'de Broglie-Bohm Theory vs. MSV I (얽힘과 마디점 특이점)', en: 'de Broglie-Bohm Theory vs. MSV I (Entanglement & Nodal Singularity)' },
+      bullets: [
+        { type: 'header', ko: '결정적 차이: 얽힘과 공간의 차원 (Dimensionality) ⭐️', en: 'Decisive Difference: Entanglement & Dimensionality' },
+        { type: 'bullet', ko: '**드 브로이-봄**: $N$개의 얽힌 입자를 기술하기 위해 3차원 물리 공간을 벗어나 $3N$-차원의 형태 공간(Configuration Space)을 도입해야 하므로 물리적 실재성이 약화됩니다.', en: '**de Broglie-Bohm**: Requires a $3N$-dimensional metaphysical configuration space to describe $N$ entangled particles, abandoning intuitive 3D physical reality.' },
+        { type: 'bullet', ko: '**제1논문**: 3차원 물리 공간을 고수합니다. 얽힘을 두 입자 사이의 텅 빈 공간에 형성된 **다중 연결 위상 튜브(Topological Phase Tubes)**를 통한 국소적 위상 공유로 우아하게 해명합니다.', en: '**MSV I**: Stays strictly in 3D physical space. Explains entanglement via multi-connected topological phase tubes that link particle coordinates directly in 3D space.' },
+        { type: 'header', ko: '결정적 차이: 마디점 특이점 해결 (Regularization) ⭐️', en: 'Decisive Difference: Resolving Node Singularities' },
+        { type: 'bullet', ko: '**드 브로이-봄**: 진폭이 0이 되는 마디점($R \\to 0$)에서 양자 퍼텐셜($Q_s \\to -\\infty$)이 무한대로 발산하여 수학적으로 붕괴하는 문제를 해결하지 못하고 임의로 회피(Ad-hoc)했습니다.', en: '**de Broglie-Bohm**: Fails to resolve the mathematical collapse of $Q_s \to -\infty$ at nodal points ($R \to 0$), resorting to ad-hoc cutoffs or avoiding it because the particle arrival probability is zero.' },
+        { type: 'bullet', ko: '**제1논문**: 마디점을 회전하는 **위상학적 소용돌이(Topological Vortex)**로 정칙화하고, 소용돌이의 원심 에너지($+\\hbar^2/2mr^2$)가 퍼텐셜의 무한대 인력을 완벽히 상쇄($=0$)함을 증명했습니다.', en: '**MSV I**: Resolves this by defining nodes as quantized topological vortices. The vortex centrifugal energy ($+\\hbar^2/2mr^2$) cancels out the potential divergence ($-\\hbar^2/2mr^2$) exactly to zero.' }
+      ],
+      script: {
+        ko: "봄 역학이 물리학계에서 외면받은 가장 큰 이유는 얽힌 입자들을 설명하기 위해 존재하지 않는 $3N$차원의 추상 공간을 도입했다는 점과 마디점($R=0$)에서 수식이 무한대로 발산하는 특이점 붕괴 문제를 풀지 못했기 때문입니다. 제1논문은 $3D$ 물리 공간에서 다중 연결 위상 튜브를 통해 얽힘을 국소적으로 설명하며, 마디점 특이점을 위상 소용돌이의 원심력으로 소수점 끝자리까지 정확하게 상쇄(=0)하여 정칙화하는 데 성공했습니다.",
+        en: "Bohmian mechanics struggled because it required a $3N$-dimensional configuration space to describe entanglement and failed to resolve the infinite divergence of the quantum potential at nodes ($R \to 0$). Our model resolves these by remaining strictly in 3D space via multi-connected topological phase tubes and mathematically canceling node singularities using the centrifugal energy of phase vortices."
+      },
+      simMode: null
+    },
+    {
+      id: 18,
+      period: '3교시',
+      periodTitle: { ko: '위상학적 정칙화 및 결어긋남', en: 'Topological Regularization & Decoherence' },
+      title: { ko: 'de Broglie-Bohm Theory vs. MSV I (비교 및 총평)', en: 'de Broglie-Bohm Theory vs. MSV I (Comparison & Synthesis)' },
+      bullets: [
+        { type: 'header', ko: '결정적 차이: 방정식의 선형성과 동역학 구조', en: 'Decisive Difference: Linearity & Dynamics' },
+        { type: 'bullet', ko: '**드 브로이-봄**: 표준 선형 슈뢰딩거 방정식을 고수하므로 마찰이나 에너지 감쇠를 근본적으로 서술할 수 없습니다.', en: '**de Broglie-Bohm**: Retains standard linear equations, rendering it unable to describe friction or dissipation.' },
+        { type: 'bullet', ko: '**제1논문**: 실수 기하학적 점성항 $\\gamma(S - \\langle S \\rangle)$을 도입한 **비선형(Non-linear) 게이지 불변 수정 방정식**을 구축하여 마찰을 엄밀하게 서술합니다.', en: '**MSV I**: Introduces a real-valued non-linear viscosity term $\\gamma(S - \\langle S \\rangle)$ that preserves total probability while mathematically capturing spatial dissipation.' },
+        { type: 'header', ko: '결정적 차이: 결어긋남 (Decoherence) 메커니즘', en: 'Decisive Difference: Decoherence Mechanism' },
+        { type: 'bullet', ko: '**드 브로이-봄**: 파동 다발의 분할만을 논하며, 측정 장비가 파동을 깨뜨리는 물리적인 동역학적 설명이 결여되어 있습니다.', en: '**de Broglie-Bohm**: Relies on branch separation without explaining how measuring devices physically disrupt waves.' },
+        { type: 'bullet', ko: '**제1논문**: 외부 측정 장비가 공간 유체에 열역학적 노이즈를 주입하여 **위상 난류(Phase Turbulence)**를 유발해 간섭을 강제로 파괴함을 증명했습니다.', en: '**MSV I**: Proves that measuring devices inject thermodynamic noise into the space fluid, inducing phase turbulence that destroys wave interference.' }
+      ],
+      script: {
+        ko: "마지막으로 방정식의 형태와 결어긋남을 설명하는 물리적 동역학에서도 차이가 큽니다. 봄 역학은 선형 슈뢰딩거 방정식을 그대로 사용한 반면, 제1논문은 비선형 점성항을 추가하여 공간의 마찰을 기술합니다. 관측 또한 가상의 파동 붕괴가 아니라 관측 장비가 일으키는 물리적 위상 난류로 규명합니다. 요약하자면, 봄 이론이 내놓은 철학적 뼈대를 3차원 물리 공간의 유체역학과 기하학으로 치료해 낸 완성형 모델이 바로 공간 진동 역학입니다.",
+        en: "Lastly, in terms of dynamics, Bohmian mechanics relies on the standard linear equation and lacks a physical decoherence model. Our theory introduces a non-linear viscosity term to describe spatial friction and maps decoherence to phase turbulence induced by measurement noise. In short, while Bohm's theory laid the philosophical groundwork, our geomechanical model completes it through 3D topology and fluid dynamics."
+      },
+      simMode: null
+    },
+    {
+      id: 19,
       period: '마무리',
       periodTitle: { ko: '질의응답 및 시뮬레이션 시연', en: 'Q&A and Interactive Sandbox' },
       title: { ko: 'Conclusion (결론)', en: 'Conclusion' },
@@ -435,7 +495,7 @@ export default function SpatialVibrationLecture() {
       simMode: 'slit'
     },
     {
-      id: 17,
+      id: 20,
       period: '마무리',
       periodTitle: { ko: '질의응답 및 시뮬레이션 시연', en: 'Q&A and Interactive Sandbox' },
       title: { ko: 'Q&A and Interactive Sandbox (질의응답)', en: 'Q&A and Interactive Sandbox' },
