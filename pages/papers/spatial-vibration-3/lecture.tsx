@@ -793,7 +793,7 @@ export default function SpatialVibration3Lecture() {
               </h3>
               
               <div className="flex-1 bg-zinc-900/40 border border-zinc-850 rounded p-3.5 font-serif text-[13px] text-zinc-200 leading-relaxed text-justify overflow-y-auto shadow-inner border-t-2 border-t-[#8b1a1a]">
-                {currentSlide.script[lang]}
+                {renderTextWithMath(currentSlide.script[lang])}
               </div>
             </div>
 
