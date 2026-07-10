@@ -31,6 +31,8 @@ export default function SpatialVibration2Lecture() {
   const [viewMode, setViewMode] = useState<'split' | 'presentation'>('split'); // presenter view vs presentation only
   const [timerActive, setTimerActive] = useState(false);
   const [timeLeft, setTimeLeft] = useState(180 * 60); // 180 minutes in seconds
+  const [passcode, setPasscode] = useState('');
+  const [isUnlocked, setIsUnlocked] = useState(false);
 
   // Timer Ref
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -790,8 +792,44 @@ export default function SpatialVibration2Lecture() {
                 🗣️ {lang === 'ko' ? '강사 스크립트' : 'Presenter Script'}
               </h3>
               
-              <div className="flex-1 bg-zinc-900/40 border border-zinc-850 rounded p-3.5 font-serif text-[13px] text-zinc-200 leading-relaxed text-justify overflow-y-auto shadow-inner border-t-2 border-t-[#8b1a1a]">
-                {renderTextWithMath(currentSlide.script[lang])}
+              <div className="flex-1 bg-zinc-900/40 border border-zinc-850 rounded p-3.5 font-serif text-[13px] text-zinc-200 leading-relaxed text-justify overflow-y-auto shadow-inner border-t-2 border-t-[#8b1a1a] flex flex-col justify-center items-center min-h-0">
+                {isUnlocked ? (
+                  <div className="w-full h-full text-zinc-200">
+                    {renderTextWithMath(currentSlide.script[lang])}
+                  </div>
+                ) : (
+                  <div className="text-center space-y-3 p-4 select-none my-auto">
+                    <div className="text-zinc-600 text-2xl">🔒</div>
+                    <p className="text-[10px] text-zinc-500 font-mono">
+                      {lang === 'ko' ? '스크립트를 보려면 비밀번호를 입력하세요.' : 'Enter passcode to view script.'}
+                    </p>
+                    <div className="flex gap-1.5 justify-center">
+                      <input
+                        type="password"
+                        value={passcode}
+                        onChange={(e) => setPasscode(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && (passcode === 'spatial' || passcode === '1030')) {
+                            setIsUnlocked(true);
+                          }
+                        }}
+                        placeholder="Passcode..."
+                        className="bg-zinc-950 border border-zinc-800 text-zinc-300 focus:border-zinc-700 text-xs rounded px-2.5 py-1 outline-none font-mono text-center w-28"
+                      />
+                      <button
+                        onClick={() => {
+                          if (passcode === 'spatial' || passcode === '1030') {
+                            setIsUnlocked(true);
+                          }
+                        }}
+                        className="bg-zinc-800 hover:bg-zinc-700 active:bg-zinc-900 text-zinc-300 text-[10px] font-bold font-mono px-3 py-1 rounded border border-zinc-700 transition-colors"
+                      >
+                        Unlock
+                      </button>
+                    </div>
+                    <p className="text-[8px] text-zinc-600 font-mono">Hint: spatial</p>
+                  </div>
+                )}
               </div>
             </div>
 
