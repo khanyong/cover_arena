@@ -20,7 +20,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '하텐그라쥬 (Hatengraju)',
         pronunciation: '[하텐-그라쥬]',
-        definition: '나가들의 고향이자 정신적, 군사적 중심이 되는 거대 도시. 수많은 층으로 이루어진 입체적 도시망을 구축하고 있으며, 성인식을 치르고 적출된 심장을 안전하게 보관하는 절대 성역 "심장탑"이 존재한다.'
+        definition: '나가들의 도시 중 가장 번성한 도시로서 나가들 자신에 의해 냉혹의 도시로 불린다. 그리고 인간들은 목소리를 사용하지 않는 나가들의 특징에 빗대어 이를 침묵의 도시라고 부른다. 륜 페이와 사모 페이의 고향. 이곳에도 다른 나가의 도시들처럼 심장탑이 있지만 하인샤 대사원처럼 발자국 없는 여신을 모시는 사원의 총본산인 것은 아니다. 나가들의 도시는 독립적이다.'
       },
       {
         term: '륜 페이 (Ryun Pei)',
@@ -45,12 +45,12 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '키보렌 (Kiboren)',
         pronunciation: '[키보렌]',
-        definition: '하텐그라쥬를 품광 세계의 절반을 뒤덮은 남부의 거대 열대 우림. 나무 꼭대기가 숲 바닥에 햇빛조차 허락하지 않아 "대지를 떠난 숲"이라고 불린다. 독사, 식인 식물, 표범 등 온갖 치명적인 생태계로 이루어져 있어 타 종족에게는 마경 그 자체다.'
+        definition: '한계선 이남의 숲. 나가들의 땅. 그 경계를 찾기도 힘들 만큼 계속 이어지는 숲이며 세계의 절반을 덮고 있다 한다. 화재나 병 충해 등에 의한 피해는 나가 정찰대의 세심한 관리에 의해 복구된다.'
       },
       {
         term: '레콘 (Recon)',
         pronunciation: '[레콘]',
-        definition: '4대 선민종족 중 하나. 거대한 수탉, 독수리 형태를 한 반인반조 거인족. 모든 물질 중 가장 가볍고 단단한 "별철"을 제련한 평생 무기를 다루며, 군대조차 혈혈단신으로 격파하는 무력을 지녔다. 단, 생리적으로 "물"을 극도로 공포하는 약점이 있다.'
+        definition: '모든 이보다 낮은 여신의 선민 종족. 숙원의 추구자들.\n선민 종족들 중 가장 거대한 체구를 가지고 있다. 그리고 속도와 크기가 반비례한다는 통속적인 믿음에는 별로 신경쓰지 않는다. 이들은 거대하면서도 빠르다. 그리고 강하다. 이들의 가공할 육체 능력은 흔히들 바위를 깨고 하늘을 난다고 표현한다. 레콘에게 비행 능력은 없지만 보통의 나무는 가볍게 뛰어넘는 도약력과 인간이 힘껏 던진 물체는 모두 따라잡아 움켜쥘 수 있는 속력을 가지고 있으므로 비행 능력을 별로 부러워할 필요가 없다. 그리고 목소리만으로 천둥을 일으키는 능력을 가지고 있다. 이들의 거대한 외침인 계명성은 어떤 물리력으로도 제압할 수 없는 도깨비의 어르신마저 추방하는 능력을 가지고 있다.\n설득과 협박 중 하나를 선택해야 할 경우 보통 협박 쪽에 매력을 느끼는 난폭한 성격을 가지고 있다. 그리고 그런 협박에 필요한 도구로서 자신들의 강력한 육체 능력과 계명성 이외에도 좋은 도구를 가지고 있다. 모든 레콘들은 일생에 한 번 최후의 대장간을 방문하여 그 자신만을 위해 제작되는 한 자루의 무기를 받는다. 레콘에게 맞춰지는 이 무기들은 대부분 거대하고 육중하며 운반자를 화나게 하는 끔찍한 화물일 뿐이지만 레콘의 힘과 결합했을 경우엔 가공할 무기이다. 다행히 레콘은 타인에게 자신의 무기를 만지도록 허락하지 않으므로 이런 난처한 화물 때문에 불행해진 운반자는 없다.\n이토록 강력하면서 난폭한 존재들이 세계가 움직이는 방식에 관심을 가졌다면 세계는 오래 전에 레콘이 적절하다고 생각하는 방식으로 움직이고 있었을 것이다. 하지만 레콘은 세계에 별 관심이 없으며 그들의 가장 큰 관심 대상은 언제나 자기 자신이다. 이들은 흔히 숙원이라 불리는 하나의 목표를 자신에게 부여하며 모든 생을 통해 그 목표를 추구한다. 레콘이 숙원을 선택하는 데 특별한 기준은 없지만 굳이 찾아본다면 보통 평생 동안 할 만한 일을 선택한다. 그 외에는 별 기준이 없으며, 따라서 한 수레에 담긴 모래가 모두 몇 알인지 세고 말겠다는 숙원도 가능할 것이다. 충분히 평생 동안 할 만한 일이니까. 하지만 레콘의 성격을 놓고 볼 때 이런 숙원을 선택할 가능성은 매우 낮을 것이다.\n이 무서운 종족을 분노하게 할 만큼 어리석은 자는 아마 없을 테지만, 불가피한 사정에 의해 그런 다리를 건넜다면 잔명을 보존하기 위한 최선의 수단은 뱃사람이 되는 것이다. 모든 선민 종족 중 물보다 무거운 몸을 가진 유일한 종족인 레콘은 물을 끔찍하게 두려워 하며 그 단어를 입에, 아니, 부리에 올리는 것조차 싫어한다.'
       },
       {
         term: '케이건 드라카 (Kaygan Draka)',
@@ -60,7 +60,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '바라기 (Baragi)',
         pronunciation: '[바라-기]',
-        definition: '케이건 드라카가 등에 짊어지고 다니는 거대한 고대의 검. 검신이 붉고 거대하며, 칼날에 묻은 피가 마르기 전까지는 사람의 얼굴을 비추지 않는 기괴한 특성을 지녔다. 케이건의 몸에서 뿜어지는 살기와 결합되어 나가들에게는 끔찍한 죽음의 상징으로 여겨진다.'
+        definition: '케이건 드라카의 검. 두 개의 칼날이 하나의 칼자루 위에 결합되어 있는 기이한 형태를 가지고 있다. 케이건 드라카는 그 검이 영웅왕의 검이라고 말했다.'
       },
       {
         term: '키탈저의 호랑이 사냥꾼 (Tiger Hunters of Kitaljeo)',
@@ -70,7 +70,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '푼텐 사막 (Punten Desert)',
         pronunciation: '[푼텐 사막]',
-        definition: '대륙의 지형 중 극도로 메마르고 뜨거운 거대 사막지대. 생명체가 버티기 힘든 기후로 인해 종족들의 물리적 교류나 진군을 차단하는 자연적인 장벽 역할을 한다.'
+        definition: '키보렌의 한계선과 접해 있는 북부의 사막. 횡단이 불가능할 만큼 거대한 사막은 아니지만 체온을 조절할 수 없는 나가는 절대로 넘을 수 없다. 그 외의 종족들은 그럭저럭 오갈 수 있으며 그런 여행자들을 상대로 영업하는 마지막 주막이 있다.'
       },
       {
         term: '카라보라 (Karabora)',
@@ -85,7 +85,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '심장탑 (Heart Tower)',
         pronunciation: '[심장탑]',
-        definition: '나가들이 일정 연령에 다다르면 심장 적출식(성인식)을 치르고 얻은 수만 개의 적출된 심장을 모종의 약물과 함께 영구히 보관하는 철옹성. 심장탑이 파괴되지 않는 한 적출된 나가는 물리적으로 거의 불사에 가까운 재생력을 지닌다.'
+        definition: '나가들의 심장을 보관하는 탑. 또한 발자국 없는 여신의 사원이며 수호자들의 주된 생활 공간이기도 하다. 나가들의 모든 도시에는 그 중심부에 심장탑이 서 있다.'
       },
       {
         term: '니름 (Neam)',
@@ -110,7 +110,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '하늘치 (Haneulchi / Sky Fish)',
         pronunciation: '[하늘-치]',
-        definition: '성 하나를 통째로 짊어질 만큼 거대하며, 평생 구름 위를 느릿느릿 유영하는 신비로운 공중 생명체. 그 넓고 평평한 등 위에는 고대의 식물과 폐허가 자리 잡고 있어, 티나한을 비롯한 레콘 종족들에게는 평생에 한 번 오르고 싶은 불굴의 탐험 숙원이자 성지로 여겨진다.'
+        definition: '하늘을 아무런 목적지 없이 그저 유유히 날고 있는 거대한 생물체. 수천 개의 눈을 갖고 있고 한 번 분개하면 어마어마한 공포를 몰고 온다. 그 등에는 정체가 알려지지 않은 신비한 유적이 있다.'
       },
       {
         term: '롭스 (Lops)',
@@ -130,12 +130,12 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '하인샤 대사원 (Hainsya Temple)',
         pronunciation: '[하인-샤 대-사-원]',
-        definition: '인간의 땅 북부에서 가장 거대하고 성스러운 신앙의 중심 권역. 륜 페이를 모셔오라는 구출대의 임무가 최초로 결의되고 선포된 곳으로, 아라짓 세계관의 주요 정보가 모이는 지식과 권능의 성소이다.'
+        definition: '어디에도 없는 신을 모시는 사원들의 총본산. 파름 산에 위치한다. 건립 시점은 영웅왕 이전 시대까지 소급되지만 종단의 총본산으로 체제를 뚜렷이 한 것은 역시 아라짓의 건국 이후부터이다. 그리고 아라짓보다 오래 살아남았다.'
       },
       {
         term: '킴 (Kim)',
         pronunciation: '[킴]',
-        definition: '군령자 "롭스"의 몸 안에 담겨 있는 영혼들 중 하나로, 도깨비의 영혼이다. 롭스가 유들유들하게 상황을 무마하거나 예를 갖춰야 할 때 주로 바깥으로 꺼내 쓰는 인격이기도 하다.'
+        definition: '도깨비들이 인간을 부르는 이름. 도깨비들에게 곡물을 선물한 전설적인 인간의 이름이기도 하다.'
       },
       {
         term: '군령자 (Gunryeongja - Lord of Spirits)',
@@ -196,7 +196,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '발자국 없는 여신 (The Goddess Without Footprints)',
         pronunciation: '[발자-국 없는 여-신]',
-        definition: '대륙의 네 선민종족 중 하나인 \'인간\'을 굽어살피는 자애로운 신. 바람을 관장한다고도 일컬어지며, 과거 하인샤 대사원의 승려들을 비롯한 인간들의 영적 기원이 되는 존재이다.'
+        definition: '나가를 가호하는 신. 그녀의 사원은 심장탑이다. 그리고 수호자라 불리는 남성 나가들이 그녀의 사제다.'
       },
       {
         term: '비스그라쥬 (Visgraju)',
@@ -216,7 +216,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '소드락 (Soderak)',
         pronunciation: '[소드-락]',
-        definition: '신체에 극도의 과부하를 주는 대신 육체 능력을 초인적으로 폭주시키는 강력한 약물. 나가들이 복용할 경우 반사신경, 사고 속도, 재생력이 한계 이상으로 끓어올라 잠시나마 레콘에 필적하는 공포스러운 기동성을 손에 넣게 된다.'
+        definition: '나가들이 사용하는 비약으로 17분 정도 생체를 극도로 활성화시킬 수 있다. 체온을 조절할 수 없는 나가가 한계선 근처의 추운 땅에서 정상적인 활동을 취할 수 있게 해주는 유일한 수단이다. (흑사자 모피 또한 같은 효과를 부여하지만 현재 흑사자는 멸종했다.) 소드락을 복용한 나가는 한계선 근처의 가장 추운 땅에서도 키보렌의 가장 더운 땅에서와 같은 정도의 활동 능력을 가지게 된다. 더운 지방에서 사용할 경우엔 놀랍도록 항진된 활동 능력을 가지게 된다.'
       },
       {
         term: '도깨비 감투 (Dokkaebi Gamtu)',
@@ -251,7 +251,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '무룬 강 (Murun River)',
         pronunciation: '[무룬 강]',
-        definition: '대륙을 가로지르는 주요 수맥 중 하나. 거대한 물줄기로 인해, 물을 극도로 공포스러워하는 레콘 종족에게는 통과하기 몹시 까다롭고 위험한 자연적 장벽으로 작용한다.'
+        definition: '키보렌의 한계선 근처에서부터 남부까지 흘러가는 거대한 강.'
       },
       {
         term: '펠도리 강 (Peldori River)',
@@ -281,7 +281,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '두억시니 (Dueoksini)',
         pronunciation: '[두억-시-니]',
-        definition: '고대 선민종족 중 하나였으나 어느 시점부터 자아와 지성을 잃고 미치광이 종족으로 전락한 신비로운 존재. 자신들의 수호신을 상실한 탓에, 빛과 따스함을 병적으로 무서워하며 짐승처럼 흉폭하게 날뛴다.'
+        definition: '신을 잃어버린 선민 종족.\n네 선민 종족 중 가장 비참하고 혼란스러운 존재들. 이들은 한때 다른 선민 종족들과 마찬가지로 신의 가호를 받는 고귀한 종족이었으나, 그들의 신이 자신을 죽임으로써 신을 잃은 종족이 되었다.\n신을 잃은 충격으로 두억시니들은 정신적인 질서와 규칙을 상실했다. 이들은 통일된 언어를 가지지 못하며, 규칙적인 사고방식을 가질 수도 없다. 이들의 정신은 언제나 혼란스럽게 요동치며, 타인에 대한 극도의 적대감과 광기를 표출한다.\n두억시니들은 스스로 문명을 이룩하지 못하고 다른 종족들의 문명을 약탈하거나 모방하며 살아간다. 이들은 흔히 기괴한 형태의 석탑이나 피라미드를 쌓아 자신들의 흔적을 남기는데, 그 목적과 의미는 오직 두억시니 자신들만이 알 수 있다.'
       },
       {
         term: '쏘바 (Ssoba / Sova)',
@@ -397,7 +397,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '대확장 전쟁 (Great Expansion War)',
         pronunciation: '[대-확-장 전-쟁]',
-        definition: '과거 북부의 인간 등 선민종족들과 남부의 나가들이 벌였던 참혹하고 거대한 영토 분쟁. 이 끔찍한 대전쟁의 여파로 남북을 가르는 현재의 한계선이 획정되었다.'
+        definition: '천사백여 년 전, 남부의 나가들이 한계선을 넘어 북부의 삼국(아라짓, 규리하, 주퀘도)을 침공하면서 시작된 거대한 전쟁.\n당시 나가들은 심장 적출이라는 비술을 통해 거의 불사에 가까운 군대를 조직하여 북부로 진격했다. 북부의 선민 종족들(인간, 레콘, 도깨비)은 연합군을 결성하여 나가의 침략에 맞섰으나, 나가들의 압도적인 전력과 불사의 육체 앞에 연전연패했다.\n전쟁은 수십 년 동안 지속되었으며, 북부 대륙의 절반 이상이 나가들의 수중에 떨어졌다. 하지만 북부 연합군은 영웅왕의 활약과 도깨비들의 도깨비불, 그리고 레콘의 무시무시한 전투력에 힘입어 끝내 나가들을 남부의 키보렌 숲 속으로 격퇴하는 데 성공했다.\n이 전쟁의 결과로 나가들은 한계선 이남에 갇히게 되었으며, 북부인들은 나가들에 대한 뿌리 깊은 공포와 적개심을 가지게 되었다. 그리고 전쟁의 상흔으로 고대 아라짓 왕국을 비롯한 북부의 왕국들은 점차 멸망의 길을 걷게 되었다.'
       },
       {
         term: '아스화리탈 (Aswarital) - 용근',
@@ -422,7 +422,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '아라짓 전사 (Arajit Warrior)',
         pronunciation: '[아라-짓 전-사]',
-        definition: '전설의 군주 영웅왕(대호왕)을 모시며 검을 휘둘렀던 아라짓 제국의 최정예 기사 집단. 제국이 무너지고 오랜 세월이 지난 지금도 잃어버린 영광과 그 맥을 잇고자 하는 긍지 열렬한 무사들이 암약하고 있다.'
+        definition: '고대 왕국 아라짓의 전사들. 영웅왕의 검에 충성을 하고 왕에게 절대 복종한다. 이들의 역사는 곧 나가들과의 투쟁사라 할 만하다. 왕의 허락 없이는 자손을 가질 수 없다는 독특한 규칙을 가지고 있다.'
       },
       {
         term: '시모그라쥬 (Shimograju)',
@@ -483,12 +483,12 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '사이커 (Saiker)',
         pronunciation: '[사-이-커]',
-        definition: '나가들이 전통적으로 벼려 사용하는 무시무시한 장검. 형태가 무척 날카로워 타 종족은 암살용 검인 "쉬크톨"과 도무지 구분하지 못한다.'
+        definition: '나가들의 전통 도검. 만곡한 형태를 가지고 있는 베기 칼이지만 찌르기에도 별 무리가 없다. 놀랍도록 예리하다.'
       },
       {
         term: '쉬크톨 (Shikhtol)',
         pronunciation: '[쉬-크-톨]',
-        definition: '복수권(쇼자인테쉬크톨)의 발동과 함께 나가가 쥐게 되는 암살과 복수 목적의 전용 검. 검신 자체가 피비린내 나는 권리를 상징한다.'
+        definition: '쇼자인테쉬크톨의 암살자에게 지급되는 검. 사이커와 거의 같은 모습을 가지고 있지만 그보다 강하고 부러지지 않는다. 오로지 히참마의 잎으로만 부러뜨릴 수 있다. 한계선 이북, 그러니까 나가 이외의 자들에겐 한 자루도 넘어간 적이 없다. 그리고 두 번 사용되는 일도 없다. 암살자는 암살이 끝난 후 히참마의 잎을 이용하여 쉬크톨을 부러뜨리게 되어 있다.'
       },
       {
         term: '디듀스류노 (Didyusuryuno)',
@@ -529,7 +529,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '자보로 (Jaboro)',
         pronunciation: '[자보-로]',
-        definition: '인간의 땅 북부에 널리 퍼져 있는 유력한 씨족이자 세력 거점. 호전적이고 의리가 두터우며, 마립간의 통치 아래 용맹한 전사들을 배출하는 호탕한 곳이다.'
+        definition: '자보로 씨족이 지배하는 도시. 성벽이 높고 강건하기로 유명하다.'
       },
       {
         term: '세도 마립간 (Sedo Maripgan)',
@@ -624,7 +624,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '시구리아트 유료 도로 (Siguriat Toll Road)',
         pronunciation: '[시구리-아-트 유-료 도-로]',
-        definition: '시구리아트 산맥을 뚫고 지나가는 유일무이하고 안전한 통행로. 당주 보르보 삼귀가 이끄는 "유료도로당"이 무력으로 철저하게 점거하고 한 치 오차 없는 통행료를 거두어들인다.'
+        definition: '유료 도로당에 의해 가꾸어지는 도로. 이 도로를 이용하기 위해서는 유료 도로당이 책정한 통행료를 지불해야 한다. 천사백여 년 전 대확장 전쟁이 막 시작되었을 무렵 생겨났다. 통행료를 징수하고 도로를 관리하기 위해 시구리아트 관문요새라 불리는 요새가 건설되어 있다. 유료 도로당의 거점인 이 요새는 과거 300명의 당원으로 수만 명의 주퀘도 군대와 싸워 이긴 전력이 있을 만큼 막강한 지형적 우위를 자랑한다.'
       },
       {
         term: '산양 연모자 (Goat Lover)',
@@ -645,7 +645,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '라호친 (Lahochin)',
         pronunciation: '[라호-친]',
-        definition: '아라짓 제국 건국 이전 혹은 초창기에 존재했다고 전해지는 고대 인간 부족. 전설 속 처녀 하야로비의 출신지로 알려져 있다.'
+        definition: '북부의 가장 북쪽에 위치한 가혹하고 추운 지방. 척박한 환경 때문에 농경이 불가능하며, 주민들은 주로 목축이나 사냥, 혹은 썰매개를 이용한 사역에 종사한다.\n라호친은 문명 세계의 손길이 잘 닿지 않는 변방이며, 이곳의 주민들은 거칠고 강인한 성정을 지니고 있다. 레콘들의 고향이자 최후의 대장간으로 가는 길목이기도.'
       },
       {
         term: '주퀘도 (Juquedo)',
@@ -665,7 +665,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '유료 도로당 (Toll Road Party)',
         pronunciation: '[유료 도-로-당]',
-        definition: '천연의 험지 시구리아트 산맥을 관통하는 유일한 안전 도로를 무력으로 점거하고 관리하는 막강한 무장 단체. 철저하고 융통성 없는 통행료 징수로 악명이 높으나, 요금만 내면 대륙 최고의 안전을 보장한다.'
+        definition: '유료 도로를 지키고 가꾸는 집단. 과거에는 교통의 오지마다 여러 유료 도로당이 존재했던 듯하지만 도로왕의 시대 이후에는 시구리아트 유료 도로만이 남게 되었다. 따라서 현재 유료 도로당이라고 하면 보통 시구리아트 유료 도로당을 가리키는 말이 된다.'
       },
       {
         term: '주케도 사마르크 (Jukedo Samark)',
@@ -675,7 +675,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '아르히 (Arhi)',
         pronunciation: '[아르-히]',
-        definition: '대륙 북부나 유료도로당 인근 등에서 찾아볼 수 있는 지독하게 독한 증류주. 얼어붙을 듯한 추위 속에서 몸을 덥히기 위해 마시는 강렬한 술이다.'
+        definition: '염소젖이나 양젖으로 만드는 부드러운 맛의 술.'
       },
       {
         term: '보늬 - 나늬의 언니 (Boneui)',
@@ -782,7 +782,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '지러쿼터 산맥 (Jirugweoteo Mountains)',
         pronunciation: '[지-러-쿼-터 산-맥]',
-        definition: '규리하 변경백령 동부 등에 웅장하게 뻗어 있는 북부의 거대한 산맥 지대. 북부 무사들의 험난한 여정과 야성을 대변하는 광대한 자연경관이다.'
+        definition: '규리하와 왕국을 분리하는 산맥. 변경백의 땅 규리하는 산맥 서편에 존재한다.'
       },
       {
         term: '발케네 (Valkene)',
@@ -868,7 +868,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '종규해석소 (Religious Rule Interpretation Office)',
         pronunciation: '[종규-해-석-소]',
-        definition: '하인샤 대사원의 종교적 규율과 법도를 엄격하게 해석하고 판결을 내리는 사원 내 핵심 사법 기관.'
+        definition: '대사원의 의결기구. 재판정의 성격이 강하다. 해당 사건에 대한 종단의 대응이 결정될 때까지 참가자는 퇴장할 수 없다.'
       },
       {
         term: '호규원장 듀케리 대사 (Great Master Dukeri, Head of the Guardian Office)',
@@ -914,12 +914,12 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '자보로 (Jaboro)',
         pronunciation: '[자보-로]',
-        definition: '북부에서 가장 거칠고 호전적인 사내들이 모여 있는 유서 깊은 씨족이자 영지. 북부 전사들의 용맹함을 대변하는 곳이다.'
+        definition: '자보로 씨족이 지배하는 도시. 성벽이 높고 강건하기로 유명하다.'
       },
       {
         term: '눈물을 마시는 새 (The Bird That Drinks Tears)',
         pronunciation: '[눈-물을 마-시는 새]',
-        definition: '가장 아름다운 노래를 부르지만 가장 빨리 죽는다는 전설 속의 가상의 새. 백성들의 슬픔과 고통(눈물)을 대속하여 짊어지는 "완벽하고 훌륭한 왕"을 상징하는 세계관 최고의 비유이다.'
+        definition: '네 마리 형제새 중 하나. 가장 빨리 죽는다고 한다. 남의 눈물을 마시니까.'
       },
       {
         term: '베미온 마립간 (Bemion Maripgan)',
@@ -1085,7 +1085,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '페로그라쥬 (Perograju)',
         pronunciation: '[페로-그라-쥬]',
-        definition: '남부 키보렌 밀림 지역에 건설된 나가 사회의 중요 중심지이자 성벽 도시 중 하나.'
+        definition: '나가의 도시. 좋은 나무가 많아 고급 서판을 생산한다.'
       },
       {
         term: '악타그라쥬 (Aktagraju)',
@@ -1105,7 +1105,7 @@ const GLOSSARY_CHAPTERS = [
       {
         term: '지도그라쥬 (Jidograju)',
         pronunciation: '[지도-그라-쥬]',
-        definition: '나가가 거주하는 한계선 이남의 유력 성벽 도시 중 하나로, 복잡한 사회적 이권과 정무적 활동이 이루어지는 중심지다.'
+        definition: '나가의 강대한 도시. 하텐그라쥬와 능히 경쟁할 만한 힘을 가지고 있다.'
       },
       {
         term: '키베인 대수호자 (Grand Guardian Keybane)',
@@ -1138,6 +1138,411 @@ const GLOSSARY_CHAPTERS = [
         definition: '보라크 가문 출신의 뛰어난 나가 무장이자 대나무 군단의 군단장. 차갑고 침착한 군사적 판단력과 철저한 지휘로 북부군을 강력하게 위협했던 명장이다.'
       }
     ]
+  },
+  {
+    chapterId: 'chapter_12',
+    chapterTitle: '제12장 땅의 울음',
+    terms: [
+      {
+        term: '다스도 (Dasdo)',
+        pronunciation: '[다스-도]',
+        definition: '작중 용의 지성 또는 키탈저 사냥꾼들의 역사와 얽힌 고대의 신비로운 흔적이나 용과 관련된 독특한 개념.'
+      },
+      {
+        term: '피고트 (Pigot)',
+        pronunciation: '[피-고트]',
+        definition: '북부의 지명 또는 가문 이름. 즈라더 등 레콘의 전설적인 여정이나 발케네 쿠스의 탐험 역사와 관련된 지리적 유산이다.'
+      },
+      {
+        term: '헤치카 (Hechika)',
+        pronunciation: '[헤-치-카]',
+        definition: '소설 속에서 간혹 거론되는 고대 아라짓 왕국의 인물명 또는 지명 중 하나.'
+      },
+      {
+        term: '시루 (Siru) - 단도장',
+        pronunciation: '[시-루]',
+        definition: '칼을 다듬고 제련하는 데 뛰어난 기술을 지닌 단도장(칼 제작 장인). 즈믄누리 및 발케네 등 북부 대장장이들 사이에서 널리 회자되는 인물이다.'
+      },
+      {
+        term: '라호친가히 (Rahochingahi)',
+        pronunciation: '[라-호-친-가-히]',
+        definition: '라호친 지방의 고유 견종. 주로 썰매를 끄는 데 이용되므로 사역견이라 할 수 있지만 강력한 힘과 공격 능력 때문에 번견이나 경비견으로도 무리 없이 이용된다. 하지만 수렵견으로는 좀 무리가 있는데, 이들이 물고 있는 사냥감을 포기하게 할 점잖은 방법이 별로 없기 때문이다. 그리고 애완견으로는 상당히 무리가 있을 것이다. 어느 정도의 극한 상황에서는 주인을 잡아먹는 난처한 버릇이 있기 때문이다. 라호친의 가혹한 환경에 적합한 개라 할 수 있다.'
+      },
+      {
+        term: '아젤키버 (Ajelkibeo)',
+        pronunciation: '[아-젤-키-버]',
+        definition: '고대 아라짓 역사 혹은 하늘치 연구 분야에서 언급되는 비밀스러운 인물 또는 고대의 신비로운 유산.'
+      },
+      {
+        term: '쥬어 센 (Jyua Sen)',
+        pronunciation: '[쥬-어 센]',
+        definition: '센 가문의 최연장자 수이신 센의 아들. 남자로서 센 가문을 굳건히 계승하려는 뜻을 지닌 인물이다.'
+      },
+      {
+        term: '페니나 (Penina)',
+        pronunciation: '[페-니-나]',
+        definition: '세계관 내에 등장하는 유서 깊은 여성 인물 이름.'
+      },
+      {
+        term: '도로왕 (King Doro)',
+        pronunciation: '[도-로-왕]',
+        definition: '고대 아라짓 왕국의 전설적인 통치자 중 한 명.'
+      },
+      {
+        term: '오라기 (Oragi)',
+        pronunciation: '[오-라-기]',
+        definition: '고대 문헌이나 도깨비들의 구전 역사 속에서 언급되는 고유 지명 또는 독특한 개념.'
+      },
+      {
+        term: '모루 (Moru)',
+        pronunciation: '[모-루]',
+        definition: '대장간에서 뜨겁게 달군 쇠붙이를 올려놓고 망치로 두드릴 때 받침대로 쓰는 쇠 블록. 레콘들의 최후의 대장간 등 쇠를 다루는 명장들의 장소와 깊은 연관을 지닌 도구다.'
+      }
+    ]
+  },
+  {
+    chapterId: 'chapter_13',
+    chapterTitle: '제13장 파국으로의 수렴',
+    terms: [
+      {
+        term: '무핀토 장군 (General Mupinto)',
+        pronunciation: '[무핀-토 장-군]',
+        definition: '규리하 또는 발케네 지역을 수호하는 북부군의 용감한 인간 장군.'
+      },
+      {
+        term: '세미쿼 장군 (General Semiquo)',
+        pronunciation: '[세미-쿼 장-군]',
+        definition: '북부군 소속의 유능하고 침착한 장군.'
+      },
+      {
+        term: '악타그라쥬 공방전 (Siege of Aktagraju)',
+        pronunciation: '[악타-그라-쥬 공방-전]',
+        definition: '제2차 대확장 전쟁 당시 남부 나가의 성벽 도시 악타그라쥬를 둘러싸고 북부군과 남부 나가군이 벌인 격렬한 공방전.'
+      },
+      {
+        term: '순다리 (Sundari)',
+        pronunciation: '[순-다-리]',
+        definition: '남부 나가의 대도시이자, 키보렌 외곽에 위치한 요충지 지명.'
+      },
+      {
+        term: '그룸 빌파 (Grum Bilpa)',
+        pronunciation: '[그룸 빌-파]',
+        definition: '빌파 가문 출신의 뛰어난 나가 전사이자 지휘관.'
+      },
+      {
+        term: '소시아 교위 (Gyowi Sosia)',
+        pronunciation: '[소시-아 교-위]',
+        definition: '하인샤 대사원 또는 북부 연합군 소속의 지휘관(교위)으로, 임무를 충직하게 수행하는 여성 무관.'
+      },
+      {
+        term: '나세 교위 (Gyowi Nase)',
+        pronunciation: '[나세 교-위]',
+        definition: '북부군에 소속된 실력 있는 지휘관(교위) 중 한 명.'
+      },
+      {
+        term: '코네도 빌파 (Konedo Bilpa)',
+        pronunciation: '[코네-도 빌-파]',
+        definition: '나가 종족의 유력한 장군 중 한 명으로, 제2차 대확장 전쟁 중 대나무 군단 등에서 맹활약한 유능한 전술가.'
+      },
+      {
+        term: '조우하 (Jouha)',
+        pronunciation: '[조-우-하]',
+        definition: '규리하 가문을 지키거나 도깨비들과 교류하는 지식인 또는 인물.'
+      },
+      {
+        term: '카시다 (Kashida)',
+        pronunciation: '[카-시-다]',
+        definition: '과거 아름다웠던 고대 도시이자 요새. 대확장 전쟁의 포화 속에서 비극적으로 파괴된 역사의 아픔을 지닌 곳이다.'
+      },
+      {
+        term: '카시다 암각문 (Kashida Rock Inscriptions)',
+        pronunciation: '[카-시-다 암각-문]',
+        definition: '고대 도시 카시다의 유적 바위에 새겨진 신비로운 고대 명문. 고대의 신화와 봉인된 역사의 비밀을 해독하는 결정적인 지서 역할을 한다.'
+      },
+      {
+        term: '스보트리널 레졸디 이세리도 (Seubotrinal Resolki Iserido)',
+        pronunciation: '[스보-트리-널 레-졸-디 이-세-리-도]',
+        definition: '이세리도 가문의 일원이며, 북부 침공 또는 나가 수호 장교로서 삼엄한 책임을 다한 중요 나가 인물.'
+      },
+      {
+        term: '샤나가 (Shanaga)',
+        pronunciation: '[샤-나-가]',
+        definition: '공중에 떠다니는 거대한 하늘치 등 위에 건설된 고대 성채 혹은 지상에 존재하는 굳건한 요새.'
+      },
+      {
+        term: '세페린 (Seperin)',
+        pronunciation: '[세-페-린]',
+        definition: '눈마새 세계관에 나오는 유서 깊은 고대 지명 또는 독특한 개념.'
+      },
+      {
+        term: '드리고 이세리도 (Deurigo Iserido)',
+        pronunciation: '[드리고 이-세-리-도]',
+        definition: '이세리도 가문의 뛰어난 전사 혹은 주요 행정관.'
+      }
+    ]
+  },
+  {
+    chapterId: 'chapter_14',
+    chapterTitle: '제14장 혈루',
+    terms: [
+      {
+        term: '키준 산맥의 바이소 계곡 (Baiso Valley of Kijun Mountains)',
+        pronunciation: '[키준 산맥-의 바이소 계곡]',
+        definition: '험준한 키준 산맥 속에 숨겨져 있는 화산대 계곡. 활화산 바이소 산의 열기가 닿는 험지로, 전설적인 최후의 대장간이 인근에 위치하며 레콘들의 주요 통로 역할을 한다.'
+      },
+      {
+        term: '갈바마리 (Galbamari)',
+        pronunciation: '[갈-바-마-리]',
+        definition: '눈마새 세계관에 등장하는 영리하고 강인한 레콘 전사 중 한 명. 자신의 숙원을 이루기 위해 독자적인 여정을 걷는 인물이다.'
+      },
+      {
+        term: '킬소 펜 (Kilso Pen)',
+        pronunciation: '[킬소 펜]',
+        definition: '펜 가문 출신의 인물로, 북부의 혼란스러운 군웅할거와 전쟁 속에서 자신만의 입지를 지키려 했던 인물.'
+      },
+      {
+        term: '막타드 신뷰레 (Maktad Sinbyure)',
+        pronunciation: '[막-타드 신뷰-레]',
+        definition: '슈라도스 출신의 신뷰레 가문 무관. 북부군에 합류하여 나가 침공을 저지하기 위해 최전선에서 군대를 지휘한 인물이다. (슈라도스 출신)'
+      },
+      {
+        term: '주키 네미 (Juki Nemi)',
+        pronunciation: '[주키 네미]',
+        definition: '발케네 출신의 군인 또는 행정관. 발케네 영지를 수호하고 나가들과의 격렬한 영토 분쟁 속에서 가문의 안위를 지키기 위해 성실히 복무했다. (발케네 출신)'
+      }
+    ]
+  },
+  {
+    chapterId: 'chapter_15',
+    chapterTitle: '제15장 기타 (미분류)',
+    terms: [
+      {
+        term: '나스뎨',
+        pronunciation: '[나스뎨]',
+        definition: '나가들의 유일한 탈것. 두 마리의 거대한 도마뱀이며 나가들은 이 동물들의 가슴 부위에 묶인 두 개의 침대에 걸터앉는 형태로 탑승한다.'
+      },
+      {
+        term: '나가',
+        pronunciation: '[나가]',
+        definition: '모든 이보다 낮은 여신의 선민 종족. 심장을 적출하는 자들.'
+      },
+      {
+        term: '낙타',
+        pronunciation: '[낙타]',
+        definition: '북부인들의 주요 가축이자 사역마. 짐을 지거나 끄는 데 유용하게 사용된다. 낙타의 우유와 고기는 훌륭한 단백질 공급원이며 그 털은 양모 이상으로 유용한 섬유 재료다.'
+      },
+      {
+        term: '날개달린 이',
+        pronunciation: '[날개달린 이]',
+        definition: '하늘치의 등 위 유적에 사는 존재들. 인간과 비슷한 모습을 가지고 있지만 등에 날개가 달려 있다. 케이건 드라카의 말에 의하면, 이들은 한때 세상을 지배하는 위대한 종족이었던 듯하다.'
+      },
+      {
+        term: '남부',
+        pronunciation: '[남부]',
+        definition: '한계선 이남의 세계. 나가들의 세상이며 키보렌으로 채워져 있다.'
+      },
+      {
+        term: '네 마리 형제새',
+        pronunciation: '[네 마리 형제새]',
+        definition: '눈물을 마시는 새, 피를 마시는 새, 독약을 마시는 새, 물을 마시는 새를 가리킨다.'
+      },
+      {
+        term: '노래',
+        pronunciation: '[노래]',
+        definition: '나가들이 사어를 사용하지 않고 목소리를 내어 대화하는 행위를 가리킨다. 나가에게 있어 목소리는 성적 매혹을 위한 기관이므로, 노래란 지극히 외설적인 행동이다.'
+      },
+      {
+        term: '독약을 마시는 새',
+        pronunciation: '[독약을 마시는 새]',
+        definition: '네 마리 형제새 중 하나. 가장 오래 산다고 한다. 아무도 몸 안에 들여놓지 않을 지독한 독약을 마시니까.'
+      },
+      {
+        term: '도깨비',
+        pronunciation: '[도깨비]',
+        definition: '자신을 죽이는 신의 선민 종족. 불을 다루는 자들.\n네 선민 종족 중 가장 낙천적이고 유쾌한 종족. 이들은 피를 보면 기절할 정도로 온순하고 싸움을 극도로 혐오한다. 하지만 이들의 물리적 힘이 약한 것은 결코 아니며, 무기를 든 레콘에 견줄 수 있는 것은 도깨비가 일으키는 도깨비불뿐이다.\n도깨비불은 도깨비들의 위대한 장난감이며 동시에 무기이기도 하다. 도깨비들은 이 불을 이용하여 온갖 기이한 장난을 치거나 심지어는 거대한 성을 통째로 불태워버릴 수도 있다. 하지만 도깨비들은 좀처럼 그 불을 파괴적인 목적으로 사용하지 않는다.\n도깨비들에게는 죽음이 존재하지 않는다. 육체가 수명을 다하면 이들은 어르신이라 불리는 영적 존재가 된다. 어르신들은 물질세계에 직접적인 물리력을 행사할 수 없지만, 도깨비들은 어르신들의 지혜를 전수받으며 그들과 함께 살아간다.\n도깨비들의 거성인 즈믄누리는 즈믄(천) 명의 도깨비가 사는 성이라는 뜻을 가지고 있으며, 밤의 다섯 딸의 도움으로 건설되어 항상 어둠에 싸여 있다. 즈믄누리의 내부는 상식적인 기하학이 통하지 않는 기묘한 미로이다.'
+      },
+      {
+        term: '두 마리 도마뱀',
+        pronunciation: '[두 마리 도마뱀]',
+        definition: '나스뎨의 명칭.'
+      },
+      {
+        term: '드라카',
+        pronunciation: '[드라카]',
+        definition: '케이건 드라카의 성. 대확장 전쟁 당시 나가들이 케이건 드라카를 가리켜 부르던 공포에 가득 찬 이름 \'살육자(Draka)\'에서 유래했다.'
+      },
+      {
+        term: '대호(大虎)',
+        pronunciation: '[대호(大虎)]',
+        definition: '키보렌에 서식하는 전설적인 거대 호랑이. 일반적인 호랑이와는 궤를 달리하는 거대한 체구와 영리함을 지니고 있다. 대호의 털은 무시무시한 방호력을 지니고 있어 어떤 무기로도 뚫기 힘들다.\n대호는 나가들에게 공포의 대상이며, 동시에 그들의 정찰대를 위협하는 가장 위험한 맹수다. 대호 중에서도 가장 유명한 것은 \'별비\'라 불리는 존재로, 키탈저 사냥꾼들의 집요한 추적 끝에 결국 사냥당했다는 전설이 전해진다.'
+      },
+      {
+        term: '모든 이보다 낮은 여신',
+        pronunciation: '[모든 이보다 낮은 여신]',
+        definition: '레콘을 가호하는 신. 그리고 그 사원의 소재와 사제의 정체가 알려져 있지 않은 신이다.'
+      },
+      {
+        term: '밤의 따님',
+        pronunciation: '[밤의 따님]',
+        definition: '밤의 다섯 딸인 혼란, 매혹, 감금, 은닉, 꿈을 가리키는 말이다. 때로는 꿈만을 가리키는 말로 쓰이기도 한다.'
+      },
+      {
+        term: '사어',
+        pronunciation: '[사어]',
+        definition: '나가들이 사용하는 통신 수단. 뱀단지라 불리는 단지에 가득 담긴 뱀들을 이용한다. 사어를 통해 의사를 전달하기 위해서는 서로 공명하도록 조작된 두 개의 뱀단지와 두 명의 정신 억압자가 있어야 한다. 정신 억압자는 뱀들을 정신 억압하여 특정한 형태를 이루게 하며 이 뱀들이 그리는 형태는 다른 쪽의 뱀들에게 공명된다. 그리고 그런 공명은 어떤 거리에서도 가능하다. 뱀단지 사이의 거리가 수천 킬로미터라도 상관없는 것이다. 수신만 한다면 정신 억압자가 없어도 되겠지만 송수신을 모두 취급하기 위해서는 역시 정신 억압자가 필요하다.'
+      },
+      {
+        term: '쇼자인테쉬크톨',
+        pronunciation: '[쇼자인테쉬크톨]',
+        definition: '암살자 지명권, 복수권. 나가들의 처벌 수단 중 하나다. 피해 가문이 가해 가문의 일원을 암살자로 지명하여 범죄자의 체포와 처형을 일임하는 형태를 가진다. 암살자가 지명된 이후에는 절대로 중단되지 않으며 암살자, 혹은 범죄자 중 한 명이 사망했을 때만 종료된다. 암살자의 추적과 처형을 돕기 위해 쉬크톨이라는 검이 지급된다.'
+      },
+      {
+        term: '신체(神體)',
+        pronunciation: '[신체(神體)]',
+        definition: '네 선민 종족은 각자 특별한 신들의 가호를 받는다. 신들은 자신이 가호하는 종족과의 특별한 연결을 위해 무작위로 선별된 한 개인에게 깃든다. 신이 깃든 이 개인을 신체라고 부른다. 신체를 통해 신들은 자신이 가호하는 종족이 무엇을 원하는지, 무엇을 원하지 않는지, 무엇이 부족하고 무엇이 과한지를 느끼게 된다. 하지만 신체는 자신의 내부에 신이 깃들어 있음을 느끼지 못한다. 신체가 사망하면 신들은 다른 신체로 옮겨간다.'
+      },
+      {
+        term: '심장 적출',
+        pronunciation: '[심장 적출]',
+        definition: '스물두 살이 되었을 때 모든 나가들은 심장탑에서 자신의 가슴을 열고 심장을 적출한다. 이 무서운 의식을 통해 나가들은 불사에 가까운 몸을 가지게 된다. 적출된 심장은 병에 담겨 심장탑에 보관된다. 나가가 사망할 경우 심장병에 담긴 심장 또한 죽게 된다.'
+      },
+      {
+        term: '어디에도 없는 신',
+        pronunciation: '[어디에도 없는 신]',
+        definition: '인간을 가호하는 신. 인간들의 도시에는 대개 그의 사원이 있다. 그리고 그 사원들의 총본산은 파름 산에 있는 하인샤 대사원이다.'
+      },
+      {
+        term: '어르신',
+        pronunciation: '[어르신]',
+        definition: '도깨비가 육체적 사망을 겪은 후 변하게 되는 존재. 불에 대한 도깨비들의 지배력은 어르신이 된 이후 독특하게 변하는데 어르신들은 자기 자신을 도깨비불처럼 마음대로 변화시킨다. 어르신들은 영적 존재이며 물리력으로 이들을 강제하는 것은 불가능하다. 이 상황은 거꾸로도 작용하는데, 어르신들 또한 다른 존재에게 물리력을 가하는 것은 불가능하다. 따라서 육체 노동은 불가능하며 어르신들은 대개 저술이나 사유 등 정신 활동을 즐기는 편이다. (물론 장난을 즐기는 것은 살아 있는 도깨비와 똑같다.) 물리적 영향을 끼칠 수 없는 어르신은 당연히 붓을 쥐는 것이 불가하다. 어르신의 저술 활동은 어린 도깨비들이 어르신의 구술을 받아 적는 형태로 이루어진다. 이것은 도깨비의 교육 수단이라 할 수 있다.'
+      },
+      {
+        term: '엔거 평원',
+        pronunciation: '[엔거 평원]',
+        definition: '고대 아라짓의 복수왕이 반역자 기로인을 처단한 곳. 복수왕의 명령에 따라 아라짓 전사들은 기로인을 처단한 후 그가 거점으로 삼았던 도시 엔거를 초토화시켜 평원으로 만들어버렸다.'
+      },
+      {
+        term: '왕독수리',
+        pronunciation: '[왕독수리]',
+        definition: '남부에 서식하는 초대형 맹금. 악어를 낚아채는 사냥 실력을 가지고 있다.'
+      },
+      {
+        term: '용',
+        pronunciation: '[용]',
+        definition: '최강의 생명체. 식물이며 동시에 동물이다. 포자를 이용하는 재생산이나 포식하지 않는 모습 등은 분명 식물에 가깝지만 그 활동성은 지극히 동물적이다. 적대적인 환경이 없을 경우포자—발아—용화의 성장 단계를 거친 다음 용이 된다. 만약 주위의 환경이 적대적이라면 포자는 발아하지 않은 채 땅속에서 기다린다. 용으로 성장하면 적절한 연령에 이르러 포자를 뿌린다. 성장하는 방식에 따라 온갖 모습으로 바뀔 수 있으며, 완전히 성장한 후 용들은 불을 토하고 포자를 뿌린다는 점 외엔 공통점을 찾기 힘들 지경이다. 용의 화염은 알려진 어떤 불보다 강력하며 이에 견줄 수 있는 것은 도깨비불 정도가 고작이다.'
+      },
+      {
+        term: '용근',
+        pronunciation: '[용근]',
+        definition: '용화의 뿌리. 용화가 시든 후 이 뿌리 부분은 땅을 헤치고 나와 용이 된다. 지상으로 올라온 이후 용은 어떤 모습으로도 성장할 수 있다. 한편 용근에는 대단히 특별한 성질이 하나 있다. 용으로 눈뜨기 전의 용근을 사람이 섭취하면 그는 용인이라 불리는 존재가 된다.'
+      },
+      {
+        term: '용인',
+        pronunciation: '[용인]',
+        definition: '용근을 먹은 사람. 용인은 보통 사람이 상상하기도 힘들 만큼 예민하다. 일반인에겐 무의미한 작은 눈짓이나 입매의 떨림 같은 것들을 보며 용인은 상대방의 일대기를 읽어낸다.'
+      },
+      {
+        term: '유해의 폭포',
+        pronunciation: '[유해의 폭포]',
+        definition: '구출대가 두억시니들의 피라미드에서 목격하게 된 괴이한 존재. 그것은 벽을 타고 흐르는 유해의 흐름이었고 놀랍게도 사고할 수 있는 능력을 가지고 있었다.'
+      },
+      {
+        term: '인간',
+        pronunciation: '[인간]',
+        definition: '어디에도 없는 신의 선민 종족. 왕을 찾는 자들.'
+      },
+      {
+        term: '자신을 죽이는 신',
+        pronunciation: '[자신을 죽이는 신]',
+        definition: '도깨비들을 가호하는 신. 그 사원은 즈믄누리의 마지막 방으로 알려져 있는 곳이다. 해괴하기 짝이 없는 즈믄누리의 내부는 몇 걸음의 간단한 여정을 환상적인 모험으로 바꾼다. 그리고 즈믄누리의 마지막 방은 즈믄누리 내에서도 가장 도달하기 어려운 곳에 존재한다. 즈믄누리의 모든 구조를 알고 있는 성주를 제외하면 살아 있는 도깨비는——물론 살아 있는 인간이나 레콘, 나가도 마찬가지일 것이다.——절대로 마지막 방에 도달할 수 없다. 물리적으로 아무런 제한을 받지 않는 어르신들은 마지막 방에 출입할 수 있으며 그곳에서 자신을 죽이는 신에게 제를 올린다.'
+      },
+      {
+        term: '작살검',
+        pronunciation: '[작살검]',
+        definition: '불사체에 가까운 나가들을 상대하기 위해 북부군이 고안한 검. 보통 북부군의 보병들은 세 자루의 작살검을 휴대한다. 한 번 몸에 박히면 잘 빠지지 않고 지속적으로 고통을 주어 나가들의 움직임을 방해한다.'
+      },
+      {
+        term: '정신 억압',
+        pronunciation: '[정신 억압]',
+        definition: '일부의 나가들이 보여주는 독특한 정신 능력. 이 능력을 가지고 있는 나가를 정신 억압자라고 부른다. 정신 억압자는 저능한 동물들의 정신 구조를 지배할 수 있고 그 능력을 통해 해당 동물을 자유자재로 부린다. 고등 생물일수록 정신 억압은 힘들다. ——용을 정신 억압하는 것은 아마도 절대 불가능할 것이다. ——정신 억압에는 여러 가지 활용이 있고 그중 널리 알려진 것에는 뱀단지를 이용한 사어 통신이 있다.'
+      },
+      {
+        term: '즈믄누리',
+        pronunciation: '[즈믄누리]',
+        definition: '도깨비들의 거성. 밤의 다섯 딸인 혼란, 매혹, 감금, 은닉, 꿈의 도움으로 건설되었다고 한다. 그 때문인지 모르지만 즈믄누리의 주변은 항상 어둡다. 상식적으로 가능하지 않은 환상적인 구조를 가지고 있으며 이 내부를 이동하기 위해서는 일반 건축물에 적용되는 상식을 모두 포기해야 한다. 즈믄누리에는 마지막 방이라 불리는, 성주를 제외하고서 살아 있는 도깨비는 절대로 도달할 수 없는 방이 있다. 이 방에서 성주와 어르신들은 자신을 죽이는 신께 제를 올린다.'
+      },
+      {
+        term: '최후의 대장간',
+        pronunciation: '[최후의 대장간]',
+        definition: '알려진 세계의 최북단에 위치한 라호친에서도 다시 북쪽으로 한참 올라간 곳에 존재한다. 이곳에서 최후의 대장장이라 불리는 대장장이가 별빛을 이용하여 철을 제련한다. 이 철은 레콘의 무기를 제작하는 데만 사용된다.'
+      },
+      {
+        term: '코끼리 부대',
+        pronunciation: '[코끼리 부대]',
+        definition: '북부군의 기마대에 대항하기 위해 나가들이 정신 억압자들을 동원해 만든 코끼리 부대.'
+      },
+      {
+        term: '키탈저 사냥꾼',
+        pronunciation: '[키탈저 사냥꾼]',
+        definition: '자신들을 용의 자손이라 믿었던 고대의 전설적인 사냥 집단. 하늘치와 용을 제외한 모든 생물을 사냥할 수 있다고 주장했다. 그리고 용의 경우조차 존경 때문에 사냥하지 않는 것일 뿐 사냥이 불가능한 것은 아니라는 태도를 보여준 듯하다. 어처구니 없을 정도의 자부심을 가진 사냥꾼들이다. 확실히 이들은 남다른 사냥 기술을 가졌던 듯하다. 하지만 설명하기 힘든 초인적인 능력을 가지고 있는 것은 아니었으며, 이들의 정녕 놀라운 점은 끈기인 듯하다. 대호 별비와 관련된 전설에서 그들의 집요함을 엿볼 수 있다. 키탈저 사냥꾼들은 자보로의 무라 마립간의 요청을 받아 별비 사냥에 착수했으며, 3대에 걸친 자기 파멸적인 도전 끝에 별비를 붙잡아 자보로에 가져왔다. 아마도 숙원에 도전하는 레콘의 끈기 정도만이 키탈저 사냥꾼의 집요함에 비교될 수 있을 것이다.'
+      },
+      {
+        term: '흑사자',
+        pronunciation: '[흑사자]',
+        definition: '나가에 의해 멸종한 생물. 그 모피는 스스로 열을 낼 수 있다. 고대 아라짓의 왕가는 흑사자를 자신의 상징으로 삼았다.'
+      }
+    ]
+  },
+  {
+    chapterId: 'chapter_16',
+    chapterTitle: '제16장 핵심 용어에 대한 색다른 설명',
+    terms: [
+      {
+        term: '심장탑',
+        pronunciation: '[심장탑]',
+        definition: '심장은 생명의 중심이고, 사랑의 중심이지요. 물론 매혹적인 이성을 만났을 때 왼발 새끼발가락이 경련하는 사람이 없으라는 법은 없겠지만 보통은 심장이 뛰겠지요. 사랑이 뇌의 활동이라는 똑똑한 주장을 할 사람이 있다면, 박수 쳐드릴 테니 만족하시고 물러나 주시길.\n나가는 심장을 적출합니다. 그리고 그 심장들은 대형 창고나 지하실, 혹은 금고가 아닌 탑에 보관됩니다. 탑은 하늘과 땅을 잇는 건물입니다.'
+      },
+      {
+        term: '하늘치',
+        pronunciation: '[하늘치]',
+        definition: '그 엄청난 크기나 특이한 생김새, 혹은 등에 있는 유명한 유적 등의 가시적인 특징들 또한 하늘치의 신비를 구성하는 강렬한 요소들이지만, 하늘치의 가장 놀라운 특징은 유념하지 않으면 알아차리기 힘든 부분에 있습니다. 하늘치는 땅에 발을 딛지 않는 생물입니다. 가장 높은 바람을 타는 새들조차 때가 되면 둥지에 몸을 누이고 그 날개를 쉬게 합니다만 하늘치는 그러지 않습니다. 물고기가 휴식하기 위해 강바닥을 찾을 필요가 없듯 하늘치는 땅에 그 거처를 의탁하지 않습니다. 하늘치들은 언제나 하늘과 땅에 가운데에 깃들며 그들이 고집하는 그 위치는 그들의 등에 있는 운명적인 건물과 관련되어 있는 듯합니다.'
+      },
+      {
+        term: '눈물을 마시는 새',
+        pronunciation: '[눈물을 마시는 새]',
+        definition: '눈물은 아래로 떨어집니다. 하지만 새가 마신 눈물은 새와 더불어 상승할 수 있을 겁니다. 나가 살육자 케이건 드라카에 의하면 왕은 눈물을 마시는 새입니다.'
+      },
+      {
+        term: '용',
+        pronunciation: '[용]',
+        definition: '용은 기이한 존재입니다. 그들 안에는 식물과 동물이 공존합니다. 땅 속에서 태어나 하늘을 나는 용의 모습에는 땅과 하늘이 결합되어 있습니다. 그리고 씨앗이라는 \'삶을 내포한 죽음\'과 화염이라는 \'죽음을 부르는 삶\'이 그들 속에 결합되어 있습니다. 또한 이들은 아무렇게나 성장합니다. 배를 끌며 이동하고 성질이 고약한 것으로, 혹은 땅을 파헤치며 이동하고 유쾌한 것으로, 그렇지 않으면 번개를 몸에 두른 채 하늘을 날며 치명적인 화염을 내뿜는 것으로 성장할 수도 있습니다. 그리고 이들 모두는 용이라는 하나의 존재입니다. 모든 것을 내포하고 있기 때문에 무엇으로도 가변할 수 있는 하나의 존재가 용입니다.\n무엇으로도 변할 수 있는 하나인 그들은, 대확장 전쟁 이후로 참으로 긴 시간 동안 지상에 모습을 드러내지 않았습니다.'
+      },
+      {
+        term: '바라기',
+        pronunciation: '[바라기]',
+        definition: '바라기는 영웅왕의 검들이었던 해바라기와 달바라기가 합쳐져 만들어진 검입니다. 상당히 뻔뻔한 이름이라고 생각합니다. 해를 바라는 것이 무엇인지, 혹은 달을 바라는 것이 무엇인지 짐작하는 것은 그다지 어려울 것 같지 않습니다. 문제는 그 둘이 하나로 합쳐져 있다는 것에 있습니다. 바라기의 형태는 두 검의 합일을 의미하는 것처럼 보일 수도 있습니다만, 다시 생각해 보면 반드시 그렇지는 않다는 것을 알 수 있습니다. 돌멩이는 부딪쳐야 불꽃이 일고 칼날도 서로 부딪쳐야 싸움이 되겠지요. 칼날이 서로 부딪치는 검투를 통해 바라기는 모든 칼날을 만날 수 있습니다. 하지만 바로 옆에 있는, 자신과 평행하게 서 있는 칼날은 만날 수 없습니다. 평행선은 서로 만나지 않지요. 두 칼날이 나란히 서 있는 바라기의 형태는 오히려 절대적인 별리라고 말할 수 있습니다. 영웅왕 이후로 바라기는 오랜 시간 동안 자신의 짝을 만날 수 없었던 셈이지요.\n케이건 드라카는 그런 검을 가지고 다녔습니다.'
+      },
+      {
+        term: '술',
+        pronunciation: '[술]',
+        definition: '스라블에서 태어난 도깨비 비형의 증언을 따르자면 술은 달을 담아 마시는 차가운 불입니다. 매일 아침 동쪽에서는 불덩이 하나가 올라오지요.'
+      },
+      {
+        term: '판사이의 육형제 탑과 하텐그라쥬의 심장탑',
+        pronunciation: '[판사이의 육형제 탑과 하텐그라쥬의 심장탑]',
+        definition: '불은 항상 위로 치솟습니다. 무거워서 아래로 쳐지는 불은 없습니다. 거대해질수록 불은 오히려 힘차게 하늘로 수렴합니다. 어쩌면 불의 고향은 하늘인가 봅니다.\n탑은 하늘과 땅을 잇는 건물입니다. 판사이의 육형제 탑은 물 속에 잠깁니다. 그리고 하텐그라쥬의 심장탑은 바람에 둘러싸입니다.'
+      },
+      {
+        term: '씨름',
+        pronunciation: '[씨름]',
+        definition: '씨름은 서로를 붙잡은 채 우열을 겨루는 놀이입니다. 두 맞수가 맞선 채 서로를 붙잡고 시작하며, 둘 중 한쪽이 땅에 발 이외의 다른 신체 부위가 닿는 것으로 끝나게 됩니다. 그렇지 않으면 씨름이 아니겠지요.\n서로 만날 수 없는 바라기의 두 칼날과 달리 씨름은 서로를 만난 상태에서만 성립될 수 있습니다. 그리고 우열이 구분될 때까지, 즉 서로의 위치가 결정될 때까지 계속됩니다. 지는 쪽은 땅을 향한 쪽이고, 이기는 쪽은 하늘을 향한 쪽이겠지요. 두 씨름꾼은 그 위치를 결정하기 위해 모래밭 위에서 힘과 기예를 다해 춤을 춥니다.\n케이건 드라카는 판막음 장사였습니다. 판막음이란 연속하여 이겨 더 이상 상대가 없는 상태가 되는 것을 말합니다.'
+      },
+      {
+        term: '남매',
+        pronunciation: '[남매]',
+        definition: '사모와 륜, 세페린과 갈로텍, 극연왕과 케이건 드라카 등 \'눈물을 마시는 새\'에는 많은 남매들이 등장합니다. 형제라고는 괄하이드 규리하와 라수 규리하가 사촌 형제로 나오는 것 정도가 유일한 상황에서 상당히 많은 편입니다. 물론, 자매 관계도 적은 편입니다.\n다른 사람들도 마찬가지지만 나가들의 사회에서도 근친 상관은 강력하게 터부시되는 악습입니다. 모든 사람을 통틀어 남매는 서로 결합될 수 없는 남녀입니다. 가족 관계가 극히 희박한 레콘조차도 남매끼리는 결합하지 않습니다. 륜은 심장 적출 이후 자신이 사모의 남동생도 아니고, 그렇다고 해서 그녀의 침실에 들 수도 없는, 아무 것도 아닌 존재가 되리라 생각합니다.\n마케로우 남매들에 이르러 이 관계는 좀더 복잡해집니다. 비아스와 화리트는 살해자와 피해자의 관계를 맺게 됩니다. 그리고 카린돌과 화리트는 하나의 육 안에 공존하게 됩니다. 하지만 결합은 존재하지 않습니다. 한편 사모 페이와 륜 페이의 경우엔 그 관계가 계속 변합니다. 추적, 도피, 재회, 희생, 희생에 기반한 재도피, 추적, 그리고 최후에 륜이 사모를 구하기 위해 작살검 앞에 뛰어드는 것으로 이들은 완전히 평행선에 도달하게 됩니다.\n하지만 타자는 그것이 정말 평행선이라고 생각하지는 않습니다.'
+      }
+    ]
   }
 ];
 
@@ -1149,6 +1554,24 @@ const ALL_TERMS_WITH_CHAPTERS = GLOSSARY_CHAPTERS.flatMap(chapter =>
     chapterTitle: chapter.chapterTitle 
   }))
 ).sort((a, b) => a.term.localeCompare(b.term, 'ko'));
+
+// 종족 판별 함수 (단어 및 설명을 분석하여 소속 선민종족 도출)
+function getRace(term, definition) {
+  const text = ((term || '') + ' ' + (definition || '')).toLowerCase();
+  if (text.includes('레콘') || text.includes('계명성') || text.includes('최후의 대장간') || text.includes('도끼') || text.includes('티나한') || text.includes('즈라더') || text.includes('롭스')) {
+    return 'recon';
+  }
+  if (text.includes('도깨비') || text.includes('비형') || text.includes('즈믄누리') || text.includes('어르신') || text.includes('불꽃') || text.includes('시우쇠')) {
+    return 'dokkaebi';
+  }
+  if (text.includes('나가') || text.includes('니름') || text.includes('심장 적출') || text.includes('키보렌') || text.includes('륜 페이') || text.includes('사모 페이') || text.includes('갈로텍') || text.includes('화리트')) {
+    return 'naga';
+  }
+  if (text.includes('인간') || text.includes('케이건') || text.includes('영웅왕') || text.includes('규리하') || text.includes('왕국') || text.includes('하인샤')) {
+    return 'human';
+  }
+  return 'neutral';
+}
 
 export default function Glossary() {
   const router = useRouter();
@@ -1181,18 +1604,15 @@ export default function Glossary() {
     }
   }, [searchParam]);
 
-  // 장(Chapter), 검색어, 초성을 모두 적용한 필터링 엔진
-  const filteredTerms = useMemo(() => {
+  // [버그 수정 핵심]: 검색어와 초성만 먼저 1차 필터링한 리스트 구축 (챕터별 카운트 산정용)
+  const termsFilteredBySearchAndChosung = useMemo(() => {
     return ALL_TERMS_WITH_CHAPTERS.filter(item => {
-      // 1. 챕터 분류 필터링
-      if (activeChapterFilter !== 'ALL' && item.chapterId !== activeChapterFilter) return false;
-
-      // 2. 텍스트 검색 
+      // 1. 텍스트 검색 
       const keyword = searchQuery.toLowerCase();
       const matchSearch = item.term.toLowerCase().includes(keyword) || item.definition.toLowerCase().includes(keyword);
       if (!matchSearch) return false;
 
-      // 3. 초성 카테고리
+      // 2. 초성 카테고리
       if (activeChosung !== '전체') {
         const firstConsonant = getChosung(item.term);
         const isKoreanConsonant = /^[ㄱ-ㅎ]$/.test(firstConsonant);
@@ -1205,179 +1625,377 @@ export default function Glossary() {
       
       return true;
     });
-  }, [searchQuery, activeChosung, activeChapterFilter]);
+  }, [searchQuery, activeChosung]);
+
+  // 챕터별 필터링까지 마친 최종 단어 리스트
+  const filteredTerms = useMemo(() => {
+    if (activeChapterFilter === 'ALL') return termsFilteredBySearchAndChosung;
+    return termsFilteredBySearchAndChosung.filter(item => item.chapterId === activeChapterFilter);
+  }, [termsFilteredBySearchAndChosung, activeChapterFilter]);
 
   const displayTermName = selectedTerm?.term.split('(')[0].trim() || '';
   const displayEngName = selectedTerm?.term.includes('(') ? selectedTerm.term.split('(')[1].replace(')', '') : '';
+  const activeRace = selectedTerm ? getRace(selectedTerm.term, selectedTerm.definition) : 'neutral';
+
+  // 종족별 테마 데코레이션 스타일 매칭 (다크 모드 기준에 맞게 깊이감 조율)
+  const getRaceThematicStyles = (race) => {
+    switch (race) {
+      case 'human':
+        return {
+          border: 'border-[#b91c1c]',
+          bgGradient: 'bg-gradient-to-br from-[#121620] via-[#24171a] to-[#3f191b]',
+          badgeBg: 'bg-[#b91c1c] text-white',
+          titleColor: 'text-[#ef4444]',
+          accentGlow: 'shadow-[0_0_25px_rgba(185,28,28,0.25)]',
+          effectClass: 'after:content-[""] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_center,rgba(185,28,28,0.06)_0%,transparent_70%)] after:pointer-events-none',
+          label: '인간 (어디에도 없는 신의 선민)'
+        };
+      case 'recon':
+        return {
+          border: 'border-[#64748b]',
+          bgGradient: 'bg-gradient-to-br from-[#121620] via-[#1b2230] to-[#252f41]',
+          badgeBg: 'bg-[#64748b] text-white',
+          titleColor: 'text-[#94a3b8]',
+          accentGlow: 'shadow-[0_0_25px_rgba(100,116,139,0.25)]',
+          effectClass: 'after:content-[""] after:absolute after:inset-0 after:bg-[linear-gradient(135deg,rgba(100,116,139,0.05)_25%,transparent_25%,transparent_50%,rgba(100,116,139,0.05)_50%,rgba(100,116,139,0.05)_75%,transparent_75%,transparent)] after:bg-[length:20px_20px] after:pointer-events-none',
+          label: '레콘 (모든 이보다 낮은 여신의 선민)'
+        };
+      case 'dokkaebi':
+        return {
+          border: 'border-[#ea580c]',
+          bgGradient: 'bg-gradient-to-br from-[#121620] via-[#261d18] to-[#452715]',
+          badgeBg: 'bg-[#ea580c] text-white',
+          titleColor: 'text-[#f97316]',
+          accentGlow: 'shadow-[0_0_25px_rgba(234,88,12,0.3)]',
+          effectClass: 'after:content-[""] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_top_right,rgba(234,88,12,0.08)_0%,transparent_60%)] after:pointer-events-none before:content-[""] before:absolute before:inset-0 before:bg-[url("https://www.transparenttextures.com/patterns/dust.png")] before:opacity-20 before:pointer-events-none',
+          label: '도깨비 (자신을 죽이는 신의 선민)'
+        };
+      case 'naga':
+        return {
+          border: 'border-[#047857]',
+          bgGradient: 'bg-gradient-to-br from-[#121620] via-[#16251b] to-[#143e24]',
+          badgeBg: 'bg-[#047857] text-white',
+          titleColor: 'text-[#10b981]',
+          accentGlow: 'shadow-[0_0_25px_rgba(4,120,87,0.25)] animate-pulse-slow',
+          effectClass: 'after:content-[""] after:absolute after:inset-0 after:bg-[radial-gradient(circle_at_bottom_left,rgba(4,120,87,0.06)_0%,transparent_70%)] after:pointer-events-none',
+          label: '나가 (발자국 없는 여신의 선민)'
+        };
+      default:
+        return {
+          border: 'border-[#475569]',
+          bgGradient: 'bg-[#121620]',
+          badgeBg: 'bg-[#475569] text-[#e2e8f0]',
+          titleColor: 'text-[#f1f5f9]',
+          accentGlow: 'shadow-none',
+          effectClass: '',
+          label: '아라짓 연대기 기록물'
+        };
+    }
+  };
+
+  const themeStyles = getRaceThematicStyles(activeRace);
 
   return (
-    <div className="p-4 md:p-6 font-serif h-full">
+    <div className="p-4 md:p-6 font-serif h-full bg-[#0a0f18] min-h-screen text-[#e2e8f0]">
+      
+      {/* 고풍스러운 인라인 스타일 모션 정의 */}
+      <style dangerouslySetInnerHTML={{__html: `
+        @keyframes pulseSlow {
+          0%, 100% { box-shadow: 0 0 15px rgba(16, 185, 129, 0.1); }
+          50% { box-shadow: 0 0 25px rgba(16, 185, 129, 0.3); }
+        }
+        .animate-pulse-slow {
+          animation: pulseSlow 4s infinite ease-in-out;
+        }
+        .writing-mode-vertical {
+          writing-mode: vertical-rl;
+          text-orientation: upright;
+        }
+      `}} />
+
       <div className="mb-6 text-center">
-        <h2 className="text-3xl lg:text-4xl font-extrabold mb-3" style={{ color: '#5d1c1c' }}>고대어 대사전 (Encyclopedia)</h2>
-        <p className="text-sm lg:text-md text-[#5c4a3d] max-w-2xl mx-auto leading-relaxed">
-          수십 권의 장(Chapter)에 기록된 방대한 단어장입니다. 왼쪽 색인에서 챕터나 초성으로 단어를 찾아 상세 문헌을 열람하십시오.
+        <h2 className="text-3xl lg:text-5xl font-black mb-3 tracking-wider" style={{ color: '#cbd5e1', textShadow: '1px 1px 3px rgba(0,0,0,0.6)' }}>
+          하인샤 대사원 고서각 (Library of Hainsha)
+        </h2>
+        <p className="text-xs lg:text-sm text-[#94a3b8] max-w-2xl mx-auto font-bold leading-relaxed">
+          대사원의 거대한 책장에 보관된 비밀스러운 단어장입니다. 왼쪽 고서 책장(Bookcase)에서 원하시는 장의 책을 열어 낱말 색인을 열람하십시오.
         </p>
       </div>
 
-      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[75vh] min-h-[650px] max-w-[1400px] mx-auto">
+      <div className="flex flex-col lg:flex-row gap-6 h-auto lg:h-[78vh] min-h-[700px] max-w-[1440px] mx-auto">
         
-        {/* ======================= 왼쪽 색인 & 분류 영역 ======================= */}
-        <div className="w-full lg:w-1/3 flex flex-col bg-[#fcf8e8] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] overflow-hidden relative h-[55vh] lg:h-full">
+        {/* ======================= 왼쪽 색인 영역: 하인샤 대사원 서고 (책장 - 다크 메탈/우드 톤) ======================= */}
+        <div className="w-full lg:w-2/5 flex flex-col bg-[#111622] border-[6px] border-[#1e293b] rounded-md shadow-[0_20px_40px_rgba(0,0,0,0.8)] overflow-hidden relative h-[65vh] lg:h-full">
           
-          <div className="p-0 bg-[#eaddc5] border-b-[3px] border-[#8c7456] z-10 shadow-sm flex flex-col">
+          {/* 책장 조명 및 스틸/가죽 느낌 탑 프레임 */}
+          <div className="bg-[#1e293b] p-4 border-b-4 border-[#0f172a] flex flex-col gap-3 shadow-md z-20">
             
-            {/* 챕터 필터 드롭다운 탭 */}
-            <div className="flex items-center gap-0 w-full overflow-x-auto scrollbar-hide">
-              <button 
-                onClick={() => setActiveChapterFilter('ALL')}
-                className={`py-3 px-4 flex-1 text-xs font-black tracking-widest uppercase border-r border-[#cbbca9] ${activeChapterFilter === 'ALL' ? 'bg-[#5d1c1c] text-[#fbf5e9]' : 'bg-[#eaddc5] text-[#7a5230] hover:bg-[#d4c3b3]'}`}
-              >
-                전체 서고
-              </button>
-              {GLOSSARY_CHAPTERS.map(chapter => (
+            {/* 고풍스러운 가죽느낌 검색창 */}
+            <div className="relative">
+              <input 
+                type="text" 
+                placeholder="서고 낱말 검색 (ex. 도망자)" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full py-2.5 px-4 pr-10 bg-[#0f172a] border-[3px] border-[#334155] rounded-sm text-[#f1f5f9] font-black focus:outline-none focus:border-[#ef4444] focus:ring-1 focus:ring-[#ef4444] transition-colors shadow-inner"
+              />
+              {searchQuery && (
                 <button 
-                  key={chapter.chapterId}
-                  onClick={() => setActiveChapterFilter(chapter.chapterId)}
-                  className={`py-3 px-3 min-w-[100px] flex-none text-xs font-bold tracking-widest border-r border-[#cbbca9] ${activeChapterFilter === chapter.chapterId ? 'bg-[#5d1c1c] text-[#fbf5e9] shadow-inner' : 'bg-[#eaddc5] text-[#7a5230] hover:bg-[#d4c3b3]'}`}
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#64748b] hover:text-[#ef4444] font-black"
                 >
-                  {chapter.chapterTitle.replace('제', '').trim()} {/* "1장 구출대" 등 축약 형태로 표시 */}
+                  ✕
+                </button>
+              )}
+            </div>
+
+            {/* 고가구 서랍장 손잡이 느낌의 초성 필터 */}
+            <div className="flex flex-wrap gap-1 justify-center bg-[#0f172a] p-2 rounded border border-[#334155]">
+              {CONSONANTS.map(cho => (
+                <button
+                  key={cho}
+                  onClick={() => setActiveChosung(cho)}
+                  className={`px-1.5 py-0.5 text-[0.62rem] font-bold rounded-sm border transition-colors ${
+                    activeChosung === cho 
+                      ? 'bg-[#ef4444] text-white border-[#ef4444] shadow' 
+                      : 'bg-[#1e293b] text-[#94a3b8] border-[#334155] hover:bg-[#475569] hover:text-white'
+                  }`}
+                >
+                  {cho}
                 </button>
               ))}
             </div>
+          </div>
 
-            {/* 검색바 및 초성 패널 */}
-            <div className="p-4 bg-[#fbf4eb] border-t border-[#cbbca9]">
-              <div className="relative mb-3">
-                <input 
-                  type="text" 
-                  placeholder="단어 검색 (ex. 도망자)" 
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full py-2.5 px-4 pr-10 bg-[#fdfaf3] border-2 border-[#bba382] rounded-sm text-[#4a3627] font-bold focus:outline-none focus:border-[#8b0000] focus:ring-1 focus:ring-[#8b0000] transition-colors"
-                />
-                {searchQuery && (
-                  <button 
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#bba382] hover:text-[#8b0000] font-bold"
-                  >
-                    ✕
-                  </button>
+          {/* 중앙 책장 서고 내부 (책장 보관실 - 다크 우드패턴 수장고) */}
+          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#0f172a] scrollbar-track-[#1e293b] p-4 bg-[#090d16] bg-[url('https://www.transparenttextures.com/patterns/dark-wood.png')] flex flex-col gap-3.5 shadow-[inset_0_0_20px_rgba(0,0,0,0.9)]">
+            
+            {/* 전체 서고 책 */}
+            <div className="flex flex-col">
+              <button 
+                onClick={() => {
+                  setActiveChapterFilter(activeChapterFilter === 'ALL' ? '' : 'ALL');
+                }}
+                className={`w-full text-left flex items-center justify-between py-3 px-5 border-y-2 border-r-8 rounded-l-md transition-all duration-300 transform group ${
+                  activeChapterFilter === 'ALL' 
+                    ? 'bg-[#ef4444] text-white border-[#991b1b] border-r-[#fca5a5] translate-x-3 shadow-[0_5px_15px_rgba(0,0,0,0.6)] font-black' 
+                    : 'bg-[#1e293b] text-[#94a3b8] border-[#0f172a] border-r-[#475569] hover:translate-x-1.5 shadow'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-xl">📜</span>
+                  <span className="font-extrabold tracking-widest text-sm lg:text-base">대사원 고서각 총람 (전체 서고)</span>
+                </div>
+                <span className={`text-xs font-bold transition-transform duration-300 ${activeChapterFilter === 'ALL' ? 'rotate-90 text-white' : 'text-[#64748b]'}`}>▶</span>
+              </button>
+
+              {/* 전체 서고 아코디언 단어 목록 */}
+              <div 
+                className={`overflow-hidden transition-all duration-300 ease-in-out bg-[#0f172a]/70 border-x border-[#1e293b] ${
+                  activeChapterFilter === 'ALL' ? 'max-h-[350px] overflow-y-auto border-b border-[#1e293b] p-2 mt-1' : 'max-h-0'
+                }`}
+              >
+                {activeChapterFilter === 'ALL' && (
+                  <ul className="flex flex-col gap-1">
+                    {filteredTerms.map((item, idx) => {
+                      const isSelected = selectedTerm?.term === item.term;
+                      return (
+                        <li key={idx}>
+                          <button
+                            onClick={() => setSelectedTerm(item)}
+                            className={`w-full text-left py-2 px-4 rounded-sm text-xs transition-colors flex items-center justify-between ${
+                              isSelected
+                                ? 'bg-[#ef4444] text-white font-extrabold shadow-sm'
+                                : 'text-[#cbd5e1] hover:bg-[#1e293b]/80 hover:text-white font-semibold'
+                            }`}
+                          >
+                            <span className="truncate">{item.term}</span>
+                            <span className="opacity-40 text-[9px]">{item.chapterTitle.replace('제', '').replace('장', '장 ')}</span>
+                          </button>
+                        </li>
+                      );
+                    })}
+                    {filteredTerms.length === 0 && (
+                      <div className="p-4 text-center text-[#64748b] italic text-xs">서고에서 일치하는 단어가 없습니다.</div>
+                    )}
+                  </ul>
                 )}
               </div>
+            </div>
 
-              <div className="flex flex-wrap gap-1 justify-center">
-                {CONSONANTS.map(cho => (
-                  <button
-                    key={cho}
-                    onClick={() => setActiveChosung(cho)}
-                    className={`px-2 py-1 text-[0.65rem] font-black border rounded-sm transition-colors ${
-                      activeChosung === cho 
-                        ? 'bg-[#8b0000] text-[#fbf5e9] border-[#5d1c1c]' 
-                        : 'bg-[#fbf5e9] text-[#7a5230] border-[#cbbca9] hover:bg-[#8c7456] hover:text-white'
+            {/* 개별 챕터 고서들 (Bookcase Shelf Items) */}
+            {GLOSSARY_CHAPTERS.map(chapter => {
+              const isOpen = activeChapterFilter === chapter.chapterId;
+              
+              // [버그 수정 완료]: 챕터 필터가 씌워지지 않은 1차 필터링 전체 데이터(`termsFilteredBySearchAndChosung`)에서 개수와 하위 단어 추출
+              const chapterTerms = termsFilteredBySearchAndChosung.filter(t => t.chapterId === chapter.chapterId);
+              
+              // 챕터별 고유 책등(Spine) 색상 선정 (다크 테마에 어울리는 색감)
+              let spineBg = 'bg-[#334155]';
+              let spineBorder = 'border-r-[#64748b] border-y-[#1e293b]';
+              if (chapter.chapterId === 'chapter_15') {
+                spineBg = 'bg-[#14532d]'; // Jade Green
+                spineBorder = 'border-r-[#22c55e] border-y-[#064e3b]';
+              } else if (chapter.chapterId === 'chapter_16') {
+                spineBg = 'bg-[#78350f]'; // Amber Orange
+                spineBorder = 'border-r-[#f97316] border-y-[#451a03]';
+              } else if (parseInt(chapter.chapterId.split('_')[1]) % 3 === 0) {
+                spineBg = 'bg-[#7f1d1d]'; // Crimson
+                spineBorder = 'border-r-[#ef4444] border-y-[#450a0a]';
+              } else if (parseInt(chapter.chapterId.split('_')[1]) % 3 === 1) {
+                spineBg = 'bg-[#1e3a8a]'; // Deep blue
+                spineBorder = 'border-r-[#3b82f6] border-y-[#172554]';
+              }
+
+              return (
+                <div key={chapter.chapterId} className="flex flex-col">
+                  {/* 동양식 서책 등표지 디자인 */}
+                  <button 
+                    onClick={() => {
+                      setActiveChapterFilter(isOpen ? '' : chapter.chapterId);
+                    }}
+                    className={`w-full text-left flex items-center justify-between py-3.5 px-5 border-y-2 border-r-8 rounded-l-md transition-all duration-300 transform group ${spineBg} ${spineBorder} ${
+                      isOpen 
+                        ? 'translate-x-3.5 shadow-[0_5px_15px_rgba(0,0,0,0.8)] font-black ring-1 ring-amber-500/20' 
+                        : 'hover:translate-x-1.5 shadow'
                     }`}
                   >
-                    {cho}
+                    <div className="flex items-center gap-3">
+                      <span className="text-amber-100/60 font-black text-xs font-serif bg-black/40 w-5 h-5 flex items-center justify-center rounded-full">
+                        {chapter.chapterId.replace('chapter_', '')}
+                      </span>
+                      <span className="text-amber-50 font-bold tracking-wider text-xs lg:text-sm">
+                        {chapter.chapterTitle}
+                      </span>
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <span className="bg-black/35 text-amber-200/90 px-1.5 py-0.5 rounded-[3px] text-[0.65rem] font-bold">
+                        {chapterTerms.length}권
+                      </span>
+                      <span className={`text-[10px] text-amber-200/50 transition-transform duration-300 ${isOpen ? 'rotate-90 text-amber-200' : ''}`}>▶</span>
+                    </div>
                   </button>
-                ))}
-              </div>
-            </div>
+
+                  {/* 아코디언 드롭다운 단어 목록 */}
+                  <div 
+                    className={`overflow-hidden transition-all duration-300 ease-in-out bg-[#070b12]/80 border-x border-[#1e293b] ${
+                      isOpen ? 'max-h-[300px] overflow-y-auto border-b border-[#1e293b] p-2 mt-1' : 'max-h-0'
+                    }`}
+                  >
+                    {isOpen && (
+                      <ul className="flex flex-col gap-1">
+                        {chapterTerms.map((item, idx) => {
+                          const isSelected = selectedTerm?.term === item.term;
+                          return (
+                            <li key={idx}>
+                              <button
+                                onClick={() => setSelectedTerm(item)}
+                                className={`w-full text-left py-2 px-4 rounded-sm text-xs transition-colors flex items-center justify-between ${
+                                  isSelected
+                                    ? 'bg-[#ef4444] text-white font-extrabold shadow-sm'
+                                    : 'text-[#cbd5e1] hover:bg-[#1e293b]/70 hover:text-white font-medium'
+                                }`}
+                              >
+                                <span className="truncate">{item.term}</span>
+                                {isSelected && <span className="text-amber-300 font-bold text-[9px] animate-pulse">●</span>}
+                              </button>
+                            </li>
+                          );
+                        })}
+                        {chapterTerms.length === 0 && (
+                          <div className="p-4 text-center text-[#64748b] italic text-xs">해당 장에 검색 조건에 맞는 단어가 없습니다.</div>
+                        )}
+                      </ul>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
 
-          {/* 중앙 목록 리스트부 */}
-          <div className="flex-1 overflow-y-auto scrollbar-thin scrollbar-thumb-[#8c7456] scrollbar-track-[#fcf8e8] bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]">
-            {filteredTerms.length === 0 ? (
-              <div className="p-10 text-center text-[#8d6e63] font-bold italic">
-                {activeChapterFilter === 'chapter_2' ? "아직 은루의 서고에 쌓인 문서가 없습니다." : "검색된 문서가 서고에 없습니다."}
-              </div>
-            ) : (
-              <ul className="flex flex-col">
-                {filteredTerms.map((item, idx) => {
-                  const isSelected = selectedTerm?.term === item.term;
-                  return (
-                    <li key={idx} className="border-b border-[#dfcfbd]">
-                      <button 
-                        onClick={() => setSelectedTerm(item)}
-                        className={`w-full text-left px-5 py-4 transition-all duration-200 group flex items-center justify-between ${
-                          isSelected 
-                            ? 'bg-[#8c7456] text-white shadow-inner font-extrabold cursor-default' 
-                            : 'bg-transparent text-[#5d4037] hover:bg-[#efe0c8] font-semibold'
-                        }`}
-                      >
-                        <span className="truncate">{item.term}</span>
-                        {!isSelected && <span className="text-[#cbbca9] group-hover:text-[#a37222] font-black opacity-50">▶</span>}
-                        {isSelected && <span className="text-[#eaddc5] font-black animate-pulse">●</span>}
-                      </button>
-                    </li>
-                  )
-                })}
-              </ul>
-            )}
-          </div>
-          
-          <div className="bg-[#eaddc5] border-t-[3px] border-[#8c7456] p-2 flex justify-between px-4 text-xs font-bold text-[#8c7456]">
-            <span>{activeChapterFilter === 'ALL' ? '전체 서고 열람중' : `${GLOSSARY_CHAPTERS.find(c => c.chapterId === activeChapterFilter)?.chapterTitle} 내부`}</span>
+          <div className="bg-[#0f172a] border-t-2 border-[#1e293b] p-2.5 flex justify-between px-4 text-[0.68rem] font-bold text-[#64748b] z-10">
+            <span>{activeChapterFilter === 'ALL' ? '총람(전체 서고) 열람중' : `${GLOSSARY_CHAPTERS.find(c => c.chapterId === activeChapterFilter)?.chapterTitle || '책장을 선택하십시오'} 여는 중`}</span>
             <span>총 {filteredTerms.length} 권 검색됨</span>
           </div>
         </div>
 
-        {/* ======================= 오른쪽 매머드급 상세 정보 영역 ======================= */}
-        <div ref={detailPanelRef} className="w-full lg:w-2/3 relative group overflow-hidden bg-[#fdfaf3] border-[3px] border-[#8c7456] rounded-sm shadow-[0_15px_30px_rgba(93,64,55,0.2)] flex flex-col min-h-[60vh] lg:min-h-auto">
+        {/* ======================= 오른쪽 영역: 펼쳐진 동양 족자 (두루마리 상세 뷰 - 어두운 한지 질감) ======================= */}
+        <div ref={detailPanelRef} className={`w-full lg:w-3/5 relative group overflow-hidden border-[4px] rounded-md shadow-[0_20px_40px_rgba(0,0,0,0.5)] flex flex-col min-h-[60vh] lg:min-h-auto transition-all duration-500 bg-[#121620] ${themeStyles.border} ${themeStyles.bgGradient} ${themeStyles.accentGlow} ${themeStyles.effectClass}`}>
           
-          {/* 그윽한 양피지 질감 오버레이 */}
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] pointer-events-none opacity-80 mix-blend-multiply"></div>
+          {/* 양피지 족자 질감 오버레이 (다크 모드에 어울리도록 강도 및 불투명도 세팅) */}
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')] pointer-events-none opacity-[0.08] mix-blend-screen z-0"></div>
           
           {selectedTerm ? (
-            <div className="flex-1 overflow-y-auto p-6 md:p-14 z-10 animate-fade-in-up">
+            <div className="flex-1 overflow-y-auto p-6 md:p-12 lg:p-16 z-10 animate-fade-in-up flex flex-col justify-between">
               
-              {/* 타이틀 및 발음, 출처부 */}
-              <div className="border-b-4 border-double border-[#bba382] pb-6 mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4">
-                <div>
-                  <div className="flex flex-col lg:flex-row lg:items-end gap-2 lg:gap-4 mb-3">
-                    <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-[#5d1c1c] tracking-tight text-shadow-sm">
+              <div>
+                {/* 족자 상단 낙관 데코레이션 및 종족 표기 */}
+                <div className="flex items-center justify-between border-b border-dashed border-[#334155] pb-4 mb-8">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs bg-[#1e293b] text-[#f1f5f9] px-2.5 py-1 rounded font-bold tracking-widest uppercase border border-[#334155]">
+                      선민종족
+                    </span>
+                    <span className="text-xs font-bold text-[#94a3b8]">
+                      {themeStyles.label}
+                    </span>
+                  </div>
+                  
+                  {/* 동양식 서명 도장/낙관 그래픽 (다크모드에 맞춰 채도 조율) */}
+                  <div className="w-9 h-9 border-2 border-red-500/80 rounded-md flex items-center justify-center text-[10px] font-black text-red-500/80 font-serif leading-none tracking-tighter rotate-6 bg-red-950/20 shadow-inner select-none">
+                    아라
+                    <br />
+                    짓인
+                  </div>
+                </div>
+
+                {/* 타이틀 및 발음기호 */}
+                <div className="mb-8">
+                  <div className="flex flex-col md:flex-row md:items-end gap-3 mb-4">
+                    <h1 className={`text-4xl md:text-5xl lg:text-6xl font-black tracking-tight ${themeStyles.titleColor}`} style={{ textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
                       {displayTermName}
                     </h1>
                     {displayEngName && (
-                      <span className="text-2xl font-bold text-[#8c7456] tracking-widest uppercase mb-1">
-                        {displayEngName}
+                      <span className="text-xl md:text-2xl font-bold text-[#64748b] tracking-wider uppercase mb-1 font-sans">
+                        ({displayEngName})
                       </span>
                     )}
                   </div>
                   
                   {selectedTerm.pronunciation && (
-                    <div className="inline-block bg-[#efe0c8] border border-[#d4c3b3] text-[#5d4037] px-4 py-1.5 rounded-full font-bold shadow-sm">
-                      🔊 발음기호: {selectedTerm.pronunciation}
+                    <div className="inline-flex items-center gap-2 bg-[#1e293b] border border-[#334155] text-[#cbd5e1] px-4 py-1.5 rounded-full font-bold shadow-md text-xs hover:bg-[#334155] transition-colors cursor-pointer group/audio">
+                      <span className="text-[#94a3b8]">🔊 니름(발음기호):</span>
+                      <span className="text-[#ef4444]">{selectedTerm.pronunciation}</span>
                     </div>
                   )}
                 </div>
 
-                {/* 우측 상단 챕터 출처 뱃지 */}
-                <div className="mt-4 md:mt-0 text-right">
-                   <div className="inline-block px-3 py-1 bg-[#8b0000] text-amber-50 text-xs font-black tracking-widest border border-amber-900 shadow-md transform rotate-1">
-                     📚 {selectedTerm.chapterTitle}
-                   </div>
+                {/* 서책 상세 본문 (수묵 폰트 & 첫 글자 낙관 효과) */}
+                <div className="prose prose-lg max-w-none text-[#cbd5e1] font-medium leading-[2.1] text-justify">
+                  <p className="text-[1.12rem] whitespace-pre-wrap first-letter:text-6xl first-letter:font-black first-letter:text-[#ef4444] first-letter:mr-3 first-letter:float-left first-letter:leading-[1] first-letter:border-4 first-letter:border-[#ef4444]/20 first-letter:p-1.5 first-letter:bg-red-950/30 first-letter:rounded-sm">
+                    {selectedTerm.definition}
+                  </p>
                 </div>
               </div>
 
-              {/* 본문 디테일 */}
-              <div className="prose prose-lg max-w-none text-[#3e2723]">
-                <p className="text-[1.15rem] leading-[2] font-medium whitespace-pre-wrap first-letter:text-6xl first-letter:font-black first-letter:text-[#8b0000] first-letter:mr-3 first-letter:float-left first-letter:leading-[1.1]">
-                  {selectedTerm.definition}
-                </p>
-              </div>
-
-              <div className="mt-16 pt-8 border-t border-dashed border-[#d4c3b3] flex justify-end opacity-50">
+              {/* 족자 하단 수묵화 마무리 실루엣 장식 */}
+              <div className="mt-16 pt-6 border-t border-dashed border-[#334155] flex flex-col md:flex-row justify-between items-center gap-4 opacity-75">
+                <span className="text-xs font-black text-[#64748b] tracking-widest">
+                  📚 출처: {selectedTerm.chapterTitle}
+                </span>
+                
                 <div className="text-right">
-                  <p className="text-[#8b0000] font-black text-xl tracking-[0.3em] uppercase">아라짓 공인 기록</p>
-                  <p className="text-[#5d4037] text-sm font-bold">인증 번호: #{Math.floor(Math.random() * 90000) + 10000}</p>
+                  <p className="text-[#ef4444] font-black text-lg tracking-[0.25em] uppercase font-serif">하인샤 대사원 공인</p>
+                  <p className="text-[#64748b] text-[0.65rem] font-bold">기록관 고서 열람번호: #HNS-{Math.floor(Math.random() * 90000) + 10000}</p>
                 </div>
               </div>
               
             </div>
           ) : (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-10 z-10 opacity-70">
-              <div className="text-[100px] mb-6">📖</div>
-              <h3 className="text-3xl font-black text-[#8c7456] mb-3">양피지가 덮여 있습니다.</h3>
-              <p className="text-[#5d4037] font-bold">왼쪽 목록에서 열람하실 단어를 선택해주십시오.</p>
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-12 z-10 opacity-70">
+              <div className="text-[90px] mb-6 animate-bounce">📖</div>
+              <h3 className="text-2xl font-black text-[#94a3b8] mb-3">고서가 덮여 있습니다.</h3>
+              <p className="text-[#64748b] font-bold text-sm">왼쪽 서고 책장에서 등표지를 눌러 단어의 세부 기록을 낭독하십시오.</p>
             </div>
           )}
 
@@ -1386,3 +2004,4 @@ export default function Glossary() {
     </div>
   );
 }
+

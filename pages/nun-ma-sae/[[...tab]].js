@@ -7,6 +7,7 @@ import Species from '../../components/NunMaSae/Species'
 import Proverbs from '../../components/NunMaSae/Proverbs'
 import WorldMap from '../../components/NunMaSae/WorldMap'
 import Glossary from '../../components/NunMaSae/Glossary'
+import RoyalLineage from '../../components/NunMaSae/RoyalLineage'
 import { CrossReferenceProvider } from '../../components/NunMaSae/CrossReferenceContext'
 import styles from '../../components/NunMaSae/styles/NunMaSae.module.css'
 
@@ -131,6 +132,12 @@ export default function NunMaSaeDynamicPage() {
                 >
                   <span className={styles.label}>단어사전 (Index)</span>
                 </button>
+                <button
+                  className={`${styles.sidebarButton} ${styles.submenu} ${activeTab === 'lineage' ? styles.active : ''}`}
+                  onClick={() => navigateTab('lineage')}
+                >
+                  <span className={styles.label}>고대 아라짓 왕국의 계보</span>
+                </button>
               </div>
             )}
           </nav>
@@ -144,6 +151,7 @@ export default function NunMaSaeDynamicPage() {
             {activeTab === 'map' && <WorldMap />}
             {activeTab === 'proverbs' && <Proverbs />}
             {activeTab === 'glossary' && <Glossary />}
+            {activeTab === 'lineage' && <RoyalLineage />}
           </div>
         </main>
       </div>

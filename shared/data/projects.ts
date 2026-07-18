@@ -141,7 +141,7 @@ export const PROJECTS: Project[] = [
     category: 'FinTech & Trading Systems',
     year: '2024',
     status: 'active',
-    path: 'https://kyyquant-ai-solution.vercel.app/',
+    path: 'https://kyyquant.com/',
 
     executiveSummary: 'AI 기반 퀀트 트레이딩 플랫폼으로 드래그 앤 드롭 전략 빌더, 멀티 종목 백테스팅, 키움 OpenAPI 연동 자동매매를 제공합니다. React 18 + TypeScript + Supabase로 구축되었으며, 81% 개발 완료(22/28 tasks)입니다.',
 

@@ -1,32 +1,32 @@
-/* 마법 도서관 / 고서적 테마 (Magical Library & Parchment) */
+/* 마법 도서관 / 고서적 테마 (Steel & Blood Dark Fantasy) */
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;700;900&display=swap');
 
 .pageLayout {
   display: flex;
   min-height: 100vh;
-  background-color: #f7eed7; 
+  background-color: #0a0f18; 
   background-image: 
-    linear-gradient(rgba(247, 238, 215, 0.95), rgba(247, 238, 215, 0.95)),
+    linear-gradient(rgba(10, 15, 24, 0.98), rgba(10, 15, 24, 0.98)),
     url('https://www.transparenttextures.com/patterns/aged-paper.png');
-  color: #3e2723;
+  color: #e2e8f0;
   font-family: 'Noto Serif KR', 'Georgia', serif;
 }
 
 .sidebar {
   width: 280px;
-  background-color: #eaddc5;
-  border-right: 2px solid #bba382;
-  color: #4a3627;
+  background-color: #111622;
+  border-right: 2px solid #1e293b;
+  color: #94a3b8;
   display: flex;
   flex-direction: column;
   position: relative;
   z-index: 100;
-  box-shadow: 4px 0 15px rgba(62, 39, 35, 0.1);
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .sidebarHeader {
   padding: 2rem 1.5rem 1.5rem;
-  border-bottom: 1px dashed #bba382;
+  border-bottom: 1px dashed #1e293b;
   text-align: center;
 }
 
@@ -34,8 +34,8 @@
   font-size: 1.8rem;
   font-weight: 900;
   letter-spacing: -0.5px;
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
-  background: linear-gradient(135deg, #7c1a1a, #bd4b24, #a37222);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(135deg, #ef4444, #bd4b24, #cbd5e1);
   -webkit-background-clip: text;
   color: transparent;
   display: inline-block;
@@ -56,7 +56,7 @@
   padding: 1rem 1.5rem;
   background: transparent;
   border: none;
-  color: #5d4037;
+  color: #94a3b8;
   font-family: 'Noto Serif KR', serif;
   font-size: 1rem;
   font-weight: 600;
@@ -66,8 +66,8 @@
 }
 
 .sidebarButton:hover {
-  background-color: #dfd0b6;
-  color: #7c1a1a;
+  background-color: #1e293b;
+  color: #f3f4f6;
 }
 
 .parentMenu {
@@ -75,19 +75,19 @@
 }
 
 .parentMenu:hover {
-  border-left-color: #a37222;
+  border-left-color: #ef4444;
 }
 
 .expandIcon {
   font-size: 0.8rem;
-  color: #8d6e63;
+  color: #64748b;
   transition: transform 0.3s ease;
 }
 
 .submenuContainer {
-  background-color: rgba(215, 204, 200, 0.3);
-  border-top: 1px solid rgba(187, 163, 130, 0.3);
-  border-bottom: 1px solid rgba(187, 163, 130, 0.3);
+  background-color: rgba(30, 41, 59, 0.4);
+  border-top: 1px solid rgba(30, 41, 59, 0.5);
+  border-bottom: 1px solid rgba(30, 41, 59, 0.5);
 }
 
 .submenu {
@@ -100,15 +100,15 @@
 .submenu:hover {
   opacity: 1;
   background-color: transparent;
-  color: #7c1a1a;
+  color: #ef4444;
 }
 
 .submenu.active {
-  color: #8b0000;
+  color: #fca5a5;
   font-weight: 700;
   opacity: 1;
-  background-color: #d6bda4;
-  box-shadow: inset 0 2px 5px rgba(93, 64, 55, 0.1);
+  background-color: #1e293b;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .submenu.active::before {
@@ -156,9 +156,9 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 1.2rem;
-    background-color: #eaddc5;
-    border-bottom: 2px solid #bba382;
-    box-shadow: 0 4px 15px rgba(62, 39, 35, 0.1);
+    background-color: #111622;
+    border-bottom: 2px solid #1e293b;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     position: sticky;
     top: 0;
     z-index: 50;
@@ -172,7 +172,7 @@
     width: 280px;
     height: 100vh;
     transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.3);
+    box-shadow: 10px 0 25px rgba(0, 0, 0, 0.6);
   }
 
   /* .open 클래스가 붙었을 때 스르륵 등장 */
@@ -187,7 +187,7 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(30, 20, 15, 0.75); /* 어두운 밤색 반투명 */
+    background-color: rgba(10, 15, 24, 0.85); /* 어두운 남색 반투명 */
     backdrop-filter: blur(3px); /* 유리질 효과 */
     z-index: 90;
     opacity: 0;
@@ -210,3 +210,4 @@
     display: none; /* PC에서는 오버레이 필요 없음 */
   }
 }
+
