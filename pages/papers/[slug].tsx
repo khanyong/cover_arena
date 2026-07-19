@@ -9,6 +9,7 @@ import { papersMap, ParagraphData, ReferenceData, PaperDetails } from '../../com
 import { SimulationWidget } from '../../components/PaperPlatform/SimulationWidget';
 import { SimulationWidget_V2 } from '../../components/PaperPlatform/SimulationWidget_V2';
 import { SimulationWidget_V3 } from '../../components/PaperPlatform/SimulationWidget_V3';
+import { SimulationWidget_V4 } from '../../components/PaperPlatform/SimulationWidget_V4';
 import { PaperDiffViewer } from '../../components/PaperPlatform/PaperDiffViewer';
 import { ReferencePdfPanel } from '../../components/PaperPlatform/ReferencePdfPanel';
 import { ReviewTracker } from '../../components/PaperPlatform/ReviewTracker';
@@ -26,6 +27,10 @@ const paperDOIs: Record<string, { doi: string; repo: string }> = {
   'spatial-vibration-3': {
     doi: '10.5281/zenodo.21258029',
     repo: 'https://github.com/khanyong/spatial-vibration-series-3'
+  },
+  'spatial-vibration-4': {
+    doi: '10.5281/zenodo.21438016',
+    repo: 'https://github.com/khanyong/spatial-vibration-series-4'
   }
 };
 
@@ -1484,6 +1489,12 @@ export default function AcademicPaperViewer() {
                         <>
                           <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">COSMIC WEB & FRB QUANTUM GEODESIC SANDBOX</h4>
                           <SimulationWidget_V3 />
+                        </>
+                      )}
+                      {paperData.id === 'spatial-vibration-4' && (
+                        <>
+                          <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">TOPOLOGICAL TENSOR KNOTS & HADRONIC RESIDUES SANDBOX</h4>
+                          <SimulationWidget_V4 />
                         </>
                       )}
                     </>

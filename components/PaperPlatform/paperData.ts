@@ -16089,5 +16089,298 @@ export const papersMap: Record<string, PaperDetails> = {
       "nextStep": "학술지 게재 검토 3단계",
       "journalTarget": "Nature Physics"
     }
+  },
+  "spatial-vibration-4": {
+    "id": "spatial-vibration-4",
+    "slug": "spatial-vibration-4",
+    "title": {
+      "ko": "공간의 진동 역학 IV: 위상 기하학적 텐서 매듭과 SU(3) 강입자 대칭성의 기하역학적 실현",
+      "en": "Mechanics of Spatial Vibration IV: Topological Tensor Knots and the Geomechanical Realization of SU(3) Hadronic Symmetry"
+    },
+    "authors": {
+      "ko": "유광용 (Kwang Yong Yoo)",
+      "en": "Kwang Yong Yoo"
+    },
+    "affiliations": {
+      "ko": "독립 연구원",
+      "en": "Independent Researcher"
+    },
+    "abstract": {
+      "versions": {
+        "v1": {
+          "ko": "현대 입자물리학의 표준 모델은 점입자가 수학적인 내부 공간에 존재한다고 가정하며 SU(3) 추상 대수학을 사용하여 강입자를 성공적으로 분류한다. 그러나 이러한 정식화는 본질적으로 물리적인 3차원 존재론을 포기한다. 본 논문은 '공간의 기하학적 요동' 가설(Part I)과 현상론적인 '공간 진동 텐서' (V_μν) 프레임워크(Part II)를 바탕으로, 입자물리학에 대한 엄밀한 기하역학적 유도를 제안한다. 강입자는 근본적인 점입자의 결합체가 아니라, 3차원 공간 텐서 유체 내의 비가환 와류들에 의해 형성된 고도로 안정적인 '위상 기하학적 텐서 매듭'이다. 이 미시적 형성은 Part III에서 기술된 '거시적 위상 기하학적 핀치오프(Pinch-off)'의 직접적인 아날로그를 나타낸다. 현재의 현상론적 포텐셜 모델이 지닌 경험적 한계를 극복하기 위해, 우리는 공간 배경 내의 유체 헬리시티(Fluid helicity)의 위상적 보존을 통해 색 가둠(Color Confinement)을 수학적으로 유도한다. '스케일 반전'(Part II)에 의해 구동되는 '텐서 응축' 메커니즘을 통합함으로써, 우리는 공간 매듭을 늘리는 것이 기하학적 장력을 선형적으로 증가시킴을 증명한다. 이는 미시적 '공간 단층선'(Part III)에서 생성된 '기하학적 응력 텐서'(S_μν)의 공변 동역학으로부터 QCD 스트링 장력(σ)을 직접 유도한다. 나아가, 홉프 파이버링(Hopf fibration)을 사용하여, 3차원 공간 진공이 극도로 압축될 때 SU(3) 옥텟 및 데쿠플렛 대칭성이 허용 가능한 최대 공명 정상파 고유 마디와 수학적으로 동형(Isomorphic)임을 증명한다. 이는 '양자 위상 와류'(Part I)를 통한 마디 특이점의 '위상적 정칙화'에 사용된 정밀한 수학적 상쇄와 완벽하게 대칭을 이룬다. 마지막으로, 우리는 '기묘도(Strangeness)'라는 임의의 양자수를 위상 매듭의 비틀림 권선 장력(W)으로 정식화한다. 강한 상호작용 보존은 이상 유체에 대한 켈빈의 순환 정리로부터 유도되는 반면, 약한 상호작용 붕괴는 위상 결어긋남(위상 풀림)으로 수학적으로 모델링된다. 이 풀림 과정은 '위상 난류'(Part I)를 구동하는 것과 동일한 실수(Real-valued) 비선형 '공간 기하 점성'(+γ(S - <S>))에 의해 엄밀하게 제안된다. 추상적인 군론과 결정론적 공간 기하역학을 연결함으로써, 본 연구는 '공간의 주기율표'의 완벽한 수학적 실현을 제공하며, '프랙탈 스케일 대칭성'(Part III)의 보편적 원리 하에 미시적 입자 동물원과 연속적인 공간 텐서 동역학을 완벽하게 통합한다.",
+          "en": "The Standard Model of particle physics successfully categorizes hadrons using SU(3) abstract algebra, attributing these symmetries to point-like quarks residing within a mathematical internal space. However, this formalization fundamentally abandons a physical, 3-dimensional ontology. Based on the `Geometrical Fluctuation of Space` hypothesis (Part I) and the phenomenological `Spatial Vibration Tensor` (V_μν) framework (Part II), this paper proposes a rigorous geomechanical derivation of particle physics: hadrons are not composites of fundamental point particles, but rather highly stable `Topological Tensor Knots` formed by non-abelian vortices within the 3D spatial tensor fluid. This microscopic formation represents a direct analog to the `Macroscopic Topological Pinch-off` described in Part III. To overcome the heuristic limitations of current phenomenological potential models, we mathematically derive Color Confinement via the topological conservation of fluid helicity within the spatial background. Integrating the `Tensor Condensation` mechanism driven by `Scale Inversion` (Part II), we prove that extending a spatial knot strictly mandates a linearly increasing geometric tension. This directly derives the QCD string tension (σ) from the covariant dynamics of the `geometrical stress tensor` (S_μν) generated at microscopic `Spatial Fault Lines` (Part III). Furthermore, utilizing the Hopf fibration, we prove that the SU(3) octet and decuplet symmetries are mathematically isomorphic to the maximum allowable resonant standing-wave eigen-nodes when the 3D spatial vacuum is subjected to extreme compression. This completely mirrors the exact mathematical cancellation used for the `Topological Regularization` of nodal singularities via `Quantized Topological Vortices` (Part I). Finally, we formalize the arbitrary quantum number of \"Strangeness\" as the torsional winding tension (W) of the topological knot. Strong interaction conservation is derived via Kelvin's circulation theorem for an ideal fluid, whereas weak interaction decay is mathematically modeled as topological decoherence (unknotting). This unwinding process is strictly governed by the same real-valued, non-linear `spatial geometric viscosity` (+γ(S - <S>)) that drives `Phase Turbulence` (Part I). By bridging abstract group theory with deterministic spatial geomechanics, this study offers a complete mathematical realization of a `Periodic Table of Space,' seamlessly unifying the microscopic particle zoo with continuous spatial tensor dynamics under the universal principle of `Fractal Scale Symmetry` (Part III)."
+        }
+      }
+    },
+    "chapters": [
+      {
+        "number": 1,
+        "title": {
+          "ko": "1. 서론 (Introduction)",
+          "en": "1. Introduction"
+        },
+        "paragraphs": [
+          {
+            "id": "p4_1_1",
+            "versions": {
+              "v1": {
+                "ko": "현대 입자물리학의 표준 모델은 Gell-Mann에 의해 제안된 SU(3) 추상 대수학을 사용하여 강입자를 성공적으로 분류하지만[1], 이러한 대칭성을 수학적 내부 공간에만 존재하는 보이지 않는 점입자 형태의 쿼크 탓으로 돌린다. 그러나 이러한 정식화는 본질적으로 공간 진동 삼부작에서 확립된 물리적 3차원 기하학적 존재론을 포기한 것이다[2,3,4]. 양자 크로모동역학(QCD)은 실험 결과를 높은 정밀도로 예측하지만, '색 가둠'을 강제하기 위해 현상론적 포텐셜에 의존하고[5] 질량 생성을 위해 추상적인 힉스 메커니즘에 의존할 뿐[6], 물리적 공간 진공 내의 근저에 있는 기하학적 메커니즘을 밝히지 못한다.",
+                "en": "The Standard Model of particle physics successfully categorizes hadrons using SU(3) abstract algebra [1], attributing these symmetries to unobservable point-like quarks residing within a mathematical internal space. However, this formalization fundamentally abandons the physical, 3-dimensional geometric ontology established in the Mechanics of Spatial Vibration trilogy [2,3,4]. While Quantum Chromodynamics (QCD) predicts experimental outcomes with high precision, it relies on phenomenological potentials to enforce 'Color Confinement' [5] and abstract Higgs mechanisms for mass generation [6], without elucidating the underlying geometric mechanisms within the physical spatial vacuum."
+              }
+            }
+          },
+          {
+            "id": "p4_1_2",
+            "versions": {
+              "v1": {
+                "ko": "오직 '공간의 기하학적 요동' 가설(Part I)과 현상론적인 '공간 진동 텐서' ($V_{\\mu\\nu}$) 프레임워크(Part II)에만 엄밀히 기초하여, 본 논문은 강입자 대칭성에 대한 엄밀한 기하역학적 유도를 제안한다. 우리는 강입자가 근본적인 점입자의 결합체가 아니라, 극한 에너지 충결이 3차원 공간 텐서 유체를 균열시킬 때 형성되는 고도로 안정적인 '위상 기하학적 텐서 매듭'임을 입증한다. 이는 Part III에서 기술된 '거시적 위상 기하학적 핀치오프(Pinch-off)'의 미시적 아날로그를 나타낸다. 추상적 군론과 결정론적 공간 기하역학을 연결함으로써, 본 연구는 '공간의 주기율표'의 완벽한 수학적 실현을 제안한다.",
+                "en": "Based strictly on the 'Geometrical Fluctuation of Space' hypothesis (Part I) and the phenomenological 'Spatial Vibration Tensor' ($V_{\\mu\\nu}$) framework (Part II), this paper proposes a rigorous geomechanical derivation of hadronic symmetries. We demonstrate that hadrons are not composites of fundamental point particles, but rather highly stable 'Topological Tensor Knots' formed when extreme-energy collisions fracture the 3D spatial tensor fluid, representing a microscopic analog to the 'Macroscopic Topological Pinch-off' described in Part III. By bridging abstract group theory with deterministic spatial geomechanics, this study offers a complete mathematical realization of a 'Periodic Table of Space.'"
+              }
+            }
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "title": {
+          "ko": "2. 점입자를 넘어선 위상 기하학적 텐서 매듭과 색 가둠 (Beyond Point Particles: Topological Tensor Knots and Confinement)",
+          "en": "2. Beyond Point Particles: Topological Tensor Knots and Confinement"
+        },
+        "paragraphs": [
+          {
+            "id": "p4_2_1",
+            "versions": {
+              "v1": {
+                "ko": "QCD는 색 가둠을 강제하기 위해 현상론적인 선형 포텐셜($V(r) \\sim \\sigma r$)을 도입하고 단거리에서 점근적 자유를 관찰하지만[7], 물리적 공간 진공 내에서 이들 현상에 대한 기하학적 메커니즘이 결여되어 있다. 우리는 색 가둠과 점근적 자유 모두를 위상 유체 동역학의 제일원리로부터 엄밀하게 유도한다.",
+                "en": "QCD introduces a phenomenological linear potential ($V(r) \\sim \\sigma r$) to enforce Color Confinement and observes Asymptotic Freedom at short distances [7], yet lacks a geometric mechanism for these phenomena within the physical spatial vacuum. We derive both confinement and asymptotic freedom strictly from the first principles of topological fluid dynamics."
+              }
+            }
+          },
+          {
+            "id": "p4_2_2",
+            "versions": {
+              "v1": {
+                "ko": "입자 가속기가 진공에 극한의 에너지를 주입할 때, 그것은 숨겨진 '구성원'(쿼크)을 방출하는 것이 아니다. 대신, 충격파가 공간 텐서 유체를 자기유지적인 정상파로 맹렬하게 뒤튼다. 우리는 이 공간 유체의 속도장을 $\\mathbf{v}$로 정의하고, 그 와도(Vorticity)를 $\\boldsymbol{\\omega} = \\nabla \\times \\mathbf{v}$로 정의한다. 안정적인 강입자는 유체가 비자명한 위상학적 연결성을 보이는 경계 영역으로 공식화된다.",
+                "en": "When a particle accelerator injects extreme energy into the vacuum, it does not release hidden 'components' (quarks). Instead, the shockwave violently twists the spatial tensor fluid into self-sustaining standing waves. We define the velocity field of this spatial fluid as $\\mathbf{v}$ and its vorticity as $\\boldsymbol{\\omega} = \\nabla \\times \\mathbf{v}$. A stable hadron is formally defined as a bounded region where the fluid exhibits non-trivial topological linking."
+              }
+            }
+          },
+          {
+            "id": "p4_2_3",
+            "versions": {
+              "v1": {
+                "ko": "이 매듭들의 불가분성을 증명하기 위해, 우리는 위상학적 유체 헬리시티(Fluid helicity)를 나타내는 홉프 불변량(Hopf invariant, $\\mathcal{H}$)을 도입한다[8,9]:\n$$ \\mathcal{H} = \\int \\mathbf{v} \\cdot \\boldsymbol{\\omega} \\, d^3x = n \\cdot h_0 \\quad (n \\in \\mathbb{Z}) $$\n여기서 $h_0$는 공간 유체 헬리시티의 기본 양자로서 차원 스케일을 결정한다. 위상 권선수(Winding number) $n$은 반드시 정수여야 하므로, 위상 하부구조(단일 교차 마디)를 분리하기 위해 매듭을 끊으려 시도하면 필연적으로 유체가 새로운 위상 경계를 형성하게 되며, 이는 수학적으로 색 가둠을 보장한다.",
+                "en": "To prove the indivisibility of these knots, we introduce the Hopf invariant (\\mathcal{H}) [8,9], representing the topological fluid helicity:\n$$ \\mathcal{H} = \\int \\mathbf{v} \\cdot \\boldsymbol{\\omega} \\, d^3x = n \\cdot h_0 \\quad (n \\in \\mathbb{Z}) $$\nwhere $h_0$ is the fundamental quantum of spatial fluid helicity, setting the dimensional scale. Because the topological winding $n$ must remain an integer, attempting to sever the knot to isolate a topological substructure (a single crossing node) inevitably forces the fluid to form new topological boundaries, mathematically guaranteeing Color Confinement."
+              }
+            }
+          },
+          {
+            "id": "p4_2_4",
+            "versions": {
+              "v1": {
+                "ko": "위상 매듭이 물리적으로 연장될 때 심각한 기하학적 역설이 발생한다. 고전 유체 역학은 플럭스 튜브의 단면적($A$)이 얇아져서($A \\propto 1/r$) 선형 장력을 유지하지 못할 것임을 시사한다. 우리는 Part II에서 유도된 '텐서 응축(Tensor Condensation)' 메커니즘을 사용하여 이를 해결한다. 매듭이 길어질 때, 플럭스 튜브를 따라 생성되는 강렬한 공간 진동은 주변 진공에 강력한 횡방향 기하 압력(Transverse Geometric Pressure)을 가한다. 위상학적 플럭스 양자화(Topological Flux Quantization)에 묶여, 페이즈 튜브의 단면적 $A$는 수축하지 못하고 상수로 엄격하게 고정된다.",
+                "en": "A profound geometric paradox arises when a topological knot is physically stretched: classical fluid dynamics suggests the cross-sectional area ($A$) of the flux tube should thin out ($A \\propto 1/r$), failing to maintain a linear tension. We resolve this utilizing the 'Tensor Condensation' mechanism derived in Part II. When the knot is elongated, the intense spatial vibration generated along the flux tube exerts a powerful Transverse Geometric Pressure on the surrounding vacuum. Bound by Topological Flux Quantization, the cross-sectional area $A$ of the phase tube cannot contract and is strictly locked as a constant."
+              }
+            }
+          },
+          {
+            "id": "p4_2_5",
+            "versions": {
+              "v1": {
+                "ko": "미시적 '공간 단층선'(Part III)에서 생성된 공변적 '기하학적 응력 텐서'($S_{\\mu\\nu}$)를 통합하면 엄격하게 선형인 포텐셜 에너지 $V(r)$을 얻는다:\n$$ V(r) = \\int_{0}^{r} \\mathcal{T}(x) \\, dx = \\left( \\int_A S_{zz} \\, dA \\right) r \\equiv \\sigma r $$\n따라서, QCD 스트링 장력($\\sigma$)은 위상학적 풀림에 저항하는 3차원 공간 텐서 유체의 기하학적 탄성이 거시적으로 발현된 것으로 직접 유도된다.",
+                "en": "Integrating the covariant 'geometrical stress tensor' ($S_{\\mu\\nu}$) generated at microscopic 'Spatial Fault Lines' (Part III) yields a strictly linear potential energy $V(r)$:\n$$ V(r) = \\int_{0}^{r} \\mathcal{T}(x) \\, dx = \\left( \\int_A S_{zz} \\, dA \\right) r \\equiv \\sigma r $$\nThus, the QCD string tension (\\sigma) is directly derived as the macroscopic manifestation of the 3D spatial tensor fluid's geometric elasticity resisting topological unwinding."
+              }
+            }
+          },
+          {
+            "id": "p4_2_6",
+            "versions": {
+              "v1": {
+                "ko": "나아가, 이 기하역학적 모델은 자연스럽게 점근적 자유(Asymptotic Freedom)를 회복한다. 극도로 짧은 거리($r \\to 0$), 즉 위상 매듭 코어 내부 깊숙한 곳에서는 기하학적 응력 텐서가 이상 유체 극한에 도달한다. Part I에서 '위상학적 정칙화(Topological Regularization)'를 통해 엄밀히 입증했듯이, 발산하는 원심 페이즈 운동 에너지는 기하학적 포텐셜 웰($Q_s$)을 정확하게 상쇄한다. 결과적으로, 매듭 코어 내부 깊숙이 들어갈수록 유효 기하학적 장력은 점근적으로 0으로 떨어진다($\\mathcal{T} \\to 0$). 이 절대적인 수학적 상쇄는 위상학적 하부구조들이 오직 코어 경계 내부에서만 점근적으로 자유롭고 상호작용하지 않는 파동 모드로 행동하도록 허용한다.",
+                "en": "Furthermore, this geomechanical model naturally recovers Asymptotic Freedom. At extremely short distances ($r \\to 0$), deep inside the core of the topological knot, the geometric stress tensor approaches the ideal fluid limit. As rigorously demonstrated in Part I via 'Topological Regularization', the divergent centrifugal phase kinetic energy exactly cancels the geometric potential well ($Q_s$). Consequently, deep inside the knot core, the effective geometric tension drops asymptotically to zero (\\mathcal{T} \\to 0). This absolute mathematical cancellation allows the topological substructures to behave as asymptotically free, non-interacting wave-modes exclusively within the core boundary."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "title": {
+          "ko": "3. SU(3) 대칭성과 페르미온 통계의 기하역학적 실현 (Geomechanical Realization of SU(3) Symmetry and Fermion Statistics)",
+          "en": "3. Geomechanical Realization of SU(3) Symmetry and Fermion Statistics"
+        },
+        "paragraphs": [
+          {
+            "id": "p4_3_1",
+            "versions": {
+              "v1": {
+                "ko": "주류 물리학은 SU(3) 대칭성을 내부 공간 내의 추상적인 색전하 때문으로 돌린다. 우리는 SU(3)와 페르미온 통계가 3차원 공간 진공의 기하학적 공명 한계의 수학적 투영임을 보여준다. 3차원 공간 진동은 고유하게 정확히 3개의 독립적인 기본 공명 축($x, y, z$)을 갖는다. 기하학적으로, 이들은 역사적으로 내부 차원에 상주하는 세 개의 추상적인 '쿼크 맛(Flavor)'으로 개념화된 SU(3) 기본 표현($\\mathbf{3}$)에 직접 대응한다. 바리온 매듭은 이 3개의 축이 위상학적으로 얽힌 상태를 나타낸다. 공명 마디는 기하학적 텐서곱을 통해 수학적으로 확장된다:\n$$ \\mathbf{3} \\otimes \\mathbf{3} \\otimes \\mathbf{3} = \\mathbf{10} \\oplus \\mathbf{8} \\oplus \\mathbf{8} \\oplus \\mathbf{1} $$\n따라서 Gell-Mann의 옥텟(Octet) 및 데쿠플렛(Decuplet) 대칭성은 물리적 3차원 텐서 공간에서 허용 가능한 결정론적이며 기하학적인 얽힘 패턴이다.",
+                "en": "Mainstream physics attributes SU(3) symmetry to abstract color charges in internal spaces. We demonstrate that SU(3) and fermion statistics are the mathematical shadows of the geometric resonance limits of the 3D spatial vacuum. A 3D spatial vibration inherently possesses exactly three independent fundamental resonance axes ($x, y, z$). Geometrically, these correspond directly to the SU(3) fundamental representation (\\mathbf{3}), historically conceptualized as three abstract 'quark flavors' residing in an internal dimension. A baryon knot represents the topological entanglement of these three axes. The resonance nodes expand mathematically via the geometric tensor product:\n$$ \\mathbf{3} \\otimes \\mathbf{3} \\otimes \\mathbf{3} = \\mathbf{10} \\oplus \\mathbf{8} \\oplus \\mathbf{8} \\oplus \\mathbf{1} $$\nGell-Mann's Octet and Decuplet symmetries are thus deterministic, geometric entanglement patterns allowable in physical 3D tensor space."
+              }
+            }
+          },
+          {
+            "id": "p4_3_2",
+            "versions": {
+              "v1": {
+                "ko": "다양한 매듭 에너지에 대한 완전한 수치 시뮬레이션은 본 기초 논문의 범위를 벗어나지만, 우리는 강입자에 대한 기하학적 질량 공식을 상정한다. 위상 매듭의 정지 질량($M$)은 총 제곱 곡률과 위상학적 교차 횟수($c_K$)에 의해 지배되는 매듭 복잡도에 엄격하게 비례한다:\n$$ M c^2 = \\int \\kappa (\\nabla \\times \\mathbf{v})^2 \\, d^3x + \\beta \\cdot c_K $$\n(여기서 기하학적 강성 $\\kappa$는 에너지 등가를 만족하기 위해 $[\\text{질량}/\\text{길이}]$의 물리적 차원을 가지며, 교차 페널티 $\\beta$는 에너지의 차원을 가진다). SU(3) 다중항 내에서의 질량 분열은 기본 매듭에 비틀림 비틀림(기묘도, $\\mathcal{W}$)을 추가하는 데 필요한 불연속적인 기하학적 에너지 임계값으로부터 자연스럽게 발생한다.",
+                "en": "While a full numerical simulation of diverse knot energies is beyond the scope of this foundational paper, we postulate the geometric mass formula for hadrons. The rest mass ($M$) of a topological knot is strictly proportional to its knot complexity, governed by the total squared curvature and topological crossing number ($c_K$):\n$$ M c^2 = \\int \\kappa (\\nabla \\times \\mathbf{v})^2 \\, d^3x + \\beta \\cdot c_K $$\n(where the geometric rigidity \\kappa has physical dimensions of [\\mathrm{Mass}/\\mathrm{Length}] to satisfy energy equivalence, and the crossing penalty \\beta has dimensions of Energy). The mass splitting within the SU(3) multiplets naturally emerges from the discrete geometric energy thresholds required to add additional torsional twists (Strangeness, \\mathcal{W}) to the base knot."
+              }
+            }
+          },
+          {
+            "id": "p4_3_3",
+            "versions": {
+              "v1": {
+                "ko": "SU(3)의 복소 행렬들을 SO(3)의 실제 기하학적 공간에 매핑하기 위해 우리는 홉프 파이버링($S^3 \\to S^2$)을 활용한다. 공간 와류가 회전함에 따라 위상학적 베리 페이즈(Berry phase)를 축적한다. SU(3) '색'은 물리적으로 이 위상학적 비틀림의 페이즈 각도로 실현된다. 결정적으로, 이 복소-실수 매핑은 매듭에 엄격한 스피너 위상(Spinor topology)을 부여한다. 완전한 위상학적 풀림은 페이즈 평면의 $4\\pi$ ($720^\\circ$) 회전을 요구한다. 이 기저의 스피너 기하학은 파울리 배타 원리(Pauli Exclusion Principle)에 대한 깊이 있는 결정론적 설명을 제공한다[10]. 만약 두 개의 동일한 위상 매듭(페르미온)이 동일한 공간 좌표로 강제 진입하면, 그들의 $4\\pi$-비틀림 공명 위상각은 불가피하게 파괴적 간섭을 겪는다. Part III(식 2)의 거시 보이드 형성에서 엄밀하게 유도되었듯이, 이 완전한 파동 상쇄는 발산하는 무한한 기하학적 척력 압력($\\nabla_\\lambda (\\rho_{\\mathrm{vib}} u^\\lambda_{\\mathrm{drift}}) \\to \\infty$)을 생성한다. 이 절대적인 기하역학적 위상 배타는 왜 동일한 두 페르미온이 결코 같은 양자 상태를 점유할 수 없는지에 대한 결정론적인 3차원 물리적 원인이다.",
+                "en": "To map the complex matrices of SU(3) onto the real geometric space of SO(3), we utilize the Hopf fibration ($S^3 \\to S^2$). As a spatial vortex rotates, it accumulates a topological Berry phase. SU(3) 'color' is physically realized as the phase angle of this topological twist. Crucially, this complex-to-real mapping imparts a strict Spinor topology to the knot. A complete topological unwinding requires a $4\\pi$ ($720^\\circ$) rotation of the phase plane. This underlying spinor geometry provides a profound deterministic explanation for the Pauli Exclusion Principle [10]. If two identical topological knots (fermions) are forced into the exact same spatial coordinates, their $4\\pi$-twisted resonant phase angles inevitably undergo destructive interference. As rigorously derived in Part III (Eq. 2) for Cosmic Void formation, this total wave cancellation generates an infinite, divergent geometrical repulsive pressure (\\nabla_\\lambda (\\rho_{\\mathrm{vib}} u^\\lambda_{\\mathrm{drift}}) \\to \\infty$). This absolute geomechanical phase-exclusion is the deterministic, 3D physical origin of why two identical fermions can never occupy the same quantum state."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": {
+          "ko": "4. 기묘도 역학, 패리티 보존 위배 및 상호작용 붕괴 (Dynamics of Strangeness, Parity Violation, and Interaction Decay)",
+          "en": "4. Dynamics of Strangeness, Parity Violation, and Interaction Decay"
+        },
+        "paragraphs": [
+          {
+            "id": "p4_4_1",
+            "versions": {
+              "v1": {
+                "ko": "위상 페이즈 $\\theta_{\\mathrm{twist}}$가 매듭 코어에서 불연속성을 갖는 다가 함수(multi-valued function)임을 인정하면서, 우리는 '기묘도'($S$)를 위상학적 결함 주변의 1-폼 폐루프 선적분을 통해 평가되는 이산적이고 양자화된 비틀림 권선수(torsional winding number, $\\mathcal{W}$)로 엄밀하게 정식화한다:\n$$ S \\equiv \\mathcal{W} = \\frac{1}{2\\pi} \\oint_C \\nabla \\theta_{\\mathrm{twist}} \\cdot d\\mathbf{l} = n \\quad (n \\in \\mathbb{Z}) $$\n이는 기묘도가 위상학적 권선 장력을 반영하는 양자화된 정수로 존재해야 함을 수학적으로 증명한다.",
+                "en": "Acknowledging that the topological phase \\theta_{\\mathrm{twist}} is a multi-valued function with discontinuities at the knot core, we rigorously formalize 'Strangeness' ($S$) as the discrete, quantized torsional winding number (\\mathcal{W}) evaluated via a 1-form closed-loop line integral around the topological defect:\n$$ S \\equiv \\mathcal{W} = \\frac{1}{2\\pi} \\oint_C \\nabla \\theta_{\\mathrm{twist}} \\cdot d\\mathbf{l} = n \\quad (n \\in \\mathbb{Z}) $$\nThis mathematically proves that Strangeness must exist as quantized integers reflecting topological winding tension."
+              }
+            }
+          },
+          {
+            "id": "p4_4_2",
+            "versions": {
+              "v1": {
+                "ko": "극대로 짧은 시간 척도에서 공간 유체는 이상 유체로 행동한다. 켈빈의 순환 정리에 의해 권선수는 엄격하게 보존되며($d\\mathcal{W}/dt = 0$), 이는 강한 상호작용을 탄성 기하역학적 바운스로 정의한다. 더 긴 시간 척도에서 매듭의 풀림은 Part I에서 위상 결어긋남을 구동하는 비선형 실수 '공간 기하 점성'($+\\gamma(S - \\langle S \\rangle)$)에 의해 지배된다. 결정적으로, 공간 진공은 고유한 카이랄성(Chirality)을 가지고 있다. 이 기하 점성은 카이랄 점성($\\gamma_{\\mathrm{chiral}}$)으로 발현되어 특정(좌합) 위상 비틀림만을 선택적으로 표적하여 풀어낸다:\n$$ \\frac{d\\mathcal{W}}{dt} = -\\gamma_{\\mathrm{chiral}} \\mathcal{W} \\quad (\\text{패리티 위배 약한 붕괴}) $$\n이는 약한 상호작용에서의 패리티 대칭성 위배(좌우 비대칭)[11]를 카이랄 공간 유체의 엄밀한 기하역학적 선택 규칙으로 밝혀낸다.",
+                "en": "On ultra-short timescales, the spatial fluid behaves as an ideal fluid. By Kelvin's circulation theorem, the winding number is strictly conserved ($d\\mathcal{W}/dt = 0$), defining Strong Interactions as elastic geomechanical bounces. On longer timescales, the unwinding of the knot is governed by the real-valued, non-linear 'spatial geometric viscosity' ($+\\gamma(S - \\langle S \\rangle)$) that drives 'Phase Turbulence' (Part I). Crucially, the spatial vacuum possesses an intrinsic Chirality. This geometric viscosity manifests as a 'Chiral Viscosity' (\\gamma_{\\mathrm{chiral}}), selectively targeting and unwinding only specific (left-handed) topological twists:\n$$ \\frac{d\\mathcal{W}}{dt} = -\\gamma_{\\mathrm{chiral}} \\mathcal{W} \\quad (\\text{Parity-Violating Weak Decay}) $$\nThis mathematically elucidates Parity Violation (left-right asymmetry) [11] in weak interactions as a strictly geomechanical selection rule of the chiral spatial fluid."
+              }
+            }
+          },
+          {
+            "id": "p4_4_3",
+            "versions": {
+              "v1": {
+                "ko": "카이랄 점성 하에서 강하게 팽팽해진 위상학적 플럭스 튜브가 절단(풀림)될 때, 비틀림 장력의 갑작스러운 방출은 격렬한 '국소 텐서 충격파'를 촉발한다. Part III의 단층 Rupture 로직을 재사용하면, W 및 Z 보손의 거대한 정지 에너지는 공간 텐서 유체의 위상 플럭스 튜브를 기하학적으로 절단하는 데 요구되는 '임계 항복 에너지'($S_{\\mathrm{crit}}$)에 수학적으로 상응한다. 따라서 힉스 메커니즘의 질량 생성은 위상학적 골절에 저항하는 공간 매질의 극심한 기하학적 관성(Geometric Inertia)으로 우아하게 대체된다.",
+                "en": "When a highly tense topological flux tube is severed (unknotted) under chiral viscosity, the sudden release of torsional tension triggers a violent 'local tensor shockwave'. Reusing the logic of fault rupture from Part III, the massive rest energy of the W and Z bosons mathematically corresponds to the 'Threshold yield energy' ($S_{\\mathrm{crit}}$) required to geometrically sever the topological flux tube of the spatial tensor fluid. The Higgs mechanism's mass generation is thus elegantly replaced by the extreme Geometric Inertia of the spatial medium resisting topological fracture."
+              }
+            }
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": {
+          "ko": "5. 결론 (Conclusion)",
+          "en": "5. Conclusion"
+        },
+        "paragraphs": [
+          {
+            "id": "p4_5_1",
+            "versions": {
+              "v1": {
+                "ko": "공간 진동 역학 4부작은 우주를 확률론적인 유령과 차원 없는 점입자들의 혼란스러운 극장이 아니라, 3차원 공간 텐서 유체의 기하학적 요동에 의해 연주되는 결정론적이고 연속적인 심포니로 재정의하는 깊이 있는 패러다임 전환을 제안한다. 이 결론부인 Part IV에서 우리는 표준 모델의 추상적 '내부 공간'에 대한 인식론적 필요성을 체계적으로 해체하고, 위상 유체 동역학의 원리를 도입하여 강입자가 고도로 안정적인 위상학적 텐서 매듭임을 입증하였다. 기하학적 텐서곱($\\mathbf{3} \\otimes \\mathbf{3} \\otimes \\mathbf{3}$)을 통해 Gell-Mann의 SU(3) 대칭성이 고도로 압축된 3차원 공간 진공의 필연적인 공명 고유 마디 한계임이 증명되었으며, 이로써 우리는 '공간의 주기율표'의 물리적 실현을 성공적으로 제시하였다. 미시적 이중 슬릿 간섭 무늬(Part I)와 서브아토믹 위상 매듭(Part IV)에서부터 거시 암흑물질 응축(Part II)과 초거시 우주 필라멘트(Part III)에 이르기까지, 자연은 스케일을 가로질러 그 법칙을 바꾸지 않는다. 보편적인 '프랙탈 스케일 대칭성'의 지배하에 우주는 추상적인 숨겨진 차원이나 비물리적 ad-hoc 매개변수, 주사위 놀이에 의존하지 않는다. 입자, 은하, 다중우주는 단지 하나의 통일된 공간 진동의 결정론적 곡률과 위상 기하학적 역학을 항해하고 있을 뿐이다.",
+                "en": "The Mechanics of Spatial Vibration tetralogy proposes a profound paradigm shift, redefining the universe not as a chaotic theater of probabilistic ghosts and dimensionless point particles, but as a deterministic, continuous symphony played by the geometric fluctuations of the 3D spatial tensor fluid. In this concluding Part IV, we have systematically dismantled the epistemological necessity of abstract 'internal spaces' in the Standard Model. By employing the principles of topological fluid dynamics, we demonstrated that hadrons are highly stable Topological Tensor Knots. Through the geometric tensor product ($3 \\otimes 3 \\otimes 3$), Gell-Mann's SU(3) symmetries are proven to be the inevitable resonant eigen-node limits of a highly compressed 3D spatial vacuum. Thus, we successfully present the physical reality of a 'Periodic Table of Space.' From the microscopic double-slit interference pattern (Part I) and the subatomic topological knots (Part IV), to the macroscopic condensation of dark matter (Part II) and the ultra-macroscopic filaments of the cosmic web (Part III), nature does not change its laws across scales. Governed by a universal 'Fractal Scale Symmetry', particles, galaxies, and multiverses are merely navigating the deterministic curvatures and topological mechanics of a single, unified spatial vibration."
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "references": {
+      "ref1": {
+        "id": "ref1",
+        "title": "A Schematic Model of Baryons and Mesons",
+        "authors": "Gell-Mann, M.",
+        "journal": "Physics Letters",
+        "year": 1964,
+        "pdfUrl": "",
+        "citedPage": 214,
+        "citedContext": {
+          "ko": "강입자의 쿼크 모형 기틀이 되는 SU(3) 군론 표현 제시",
+          "en": "Foundational quark model classification utilizing SU(3) representation."
+        }
+      },
+      "ref2": {
+        "id": "ref2",
+        "title": "Mechanics of Spatial Vibration I: A Geomechanical Reinterpretation of Wave-Particle Duality and Phase Turbulence",
+        "authors": "Yoo, Kwang Yong",
+        "journal": "Zenodo Academic Archive",
+        "year": 2026,
+        "pdfUrl": "",
+        "citedPage": 1,
+        "citedContext": {
+          "ko": "공간의 기하학적 요동 가설 및 양자 퍼텐셜 Q_s 정의",
+          "en": "Introduction of the spatial fluctuation hypothesis and scalar potential Q_s."
+        }
+      },
+      "ref3": {
+        "id": "ref3",
+        "title": "Mechanics of Spatial Vibration II: Interaction of Macroscopic Gravity and a Unified Dark Fluid Model",
+        "authors": "Yoo, Kwang Yong",
+        "journal": "Zenodo Academic Archive",
+        "year": 2026,
+        "pdfUrl": "",
+        "citedPage": 1,
+        "citedContext": {
+          "ko": "암흑 물질과 암흑 에너지를 통합하는 텐서 응축 메커니즘",
+          "en": "Tensor condensation mechanism unifying dark matter and dark energy."
+        }
+      },
+      "ref4": {
+        "id": "ref4",
+        "title": "Mechanics of Spatial Vibration III: Cosmological Spatial Plate Tectonics and Wave Interference Topology",
+        "authors": "Yoo, Kwang Yong",
+        "journal": "Zenodo Academic Archive",
+        "year": 2026,
+        "pdfUrl": "",
+        "citedPage": 1,
+        "citedContext": {
+          "ko": "거시 공간 판구조론과 우주 균열에 따른 FRB 유도",
+          "en": "Cosmological plate tectonics model deriving cosmic web and FRB."
+        }
+      },
+      "ref5": {
+        "id": "ref5",
+        "title": "Confinement of Quarks",
+        "authors": "Wilson, Kenneth G.",
+        "journal": "Physical Review D",
+        "year": 1974,
+        "pdfUrl": "",
+        "citedPage": 2445,
+        "citedContext": {
+          "ko": "선형 포텐셜 강제를 통한 격자 게이지 이론에서의 색 가둠 수학화",
+          "en": "Formulation of quark confinement via loop calculations in lattice QCD."
+        }
+      },
+      "ref6": {
+        "id": "ref6",
+        "title": "Broken Symmetries and the Masses of Gauge Bosons",
+        "authors": "Higgs, Peter W.",
+        "journal": "Physical Review Letters",
+        "year": 1964,
+        "pdfUrl": "",
+        "citedPage": 508,
+        "citedContext": {
+          "ko": "자발적 대칭성 깨짐에 의한 게이지 보손 질량 부여 메커니즘",
+          "en": "Mechanism of mass generation through gauge symmetry breaking."
+        }
+      }
+    },
+    "reviews": {},
+    "workflow": {
+      "stage": "Drafting Manuscript",
+      "percent": 80,
+      "nextStep": "시뮬레이션 검증 및 1차 논문 교정",
+      "journalTarget": "Physical Review Letters"
+    }
   }
 };

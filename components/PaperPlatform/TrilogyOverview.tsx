@@ -12,6 +12,7 @@ export const TrilogyOverview: React.FC = () => {
   const canvas1Ref = useRef<HTMLCanvasElement | null>(null);
   const canvas2Ref = useRef<HTMLCanvasElement | null>(null);
   const canvas3Ref = useRef<HTMLCanvasElement | null>(null);
+  const canvas4Ref = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
     // ----------------------------------------
@@ -246,11 +247,102 @@ export const TrilogyOverview: React.FC = () => {
     };
     drawPart3();
 
+    // ----------------------------------------
+    // Part IV Canvas: Topological Tensor Knot
+    // ----------------------------------------
+    const c4 = canvas4Ref.current;
+    if (!c4) return;
+    const ctx4 = c4.getContext('2d');
+    if (!ctx4) return;
+
+    let animId4: number;
+    let t4 = 0;
+
+    const resizeC4 = () => {
+      const dpr = window.devicePixelRatio || 1;
+      const rect = c4.parentElement?.getBoundingClientRect();
+      const w = rect?.width || 320;
+      const h = 200;
+      c4.width = w * dpr;
+      c4.height = h * dpr;
+      c4.style.width = `${w}px`;
+      c4.style.height = `${h}px`;
+      ctx4.scale(dpr, dpr);
+    };
+    resizeC4();
+
+    const drawPart4 = () => {
+      t4 += 0.025;
+      const w = c4.width / (window.devicePixelRatio || 1);
+      const h = c4.height / (window.devicePixelRatio || 1);
+      const cx = w / 2;
+      const cy = h / 2;
+
+      ctx4.clearRect(0, 0, w, h);
+      ctx4.fillStyle = '#000000';
+      ctx4.fillRect(0, 0, w, h);
+
+      // Draw rotating 3D Trefoil Knot
+      const numPoints = 80;
+      const kScale = 16;
+      const knotPoints: {x: number, y: number, z: number}[] = [];
+
+      for (let i = 0; i <= numPoints; i++) {
+        const theta = (i / numPoints) * Math.PI * 2 * 3;
+        let kx = Math.sin(theta) + 2 * Math.sin(2 * theta);
+        let ky = Math.cos(theta) - 2 * Math.cos(2 * theta);
+        let kz = -Math.sin(3 * theta);
+        knotPoints.push({ x: kx, y: ky, z: kz });
+      }
+
+      // Rotate around Y and X axis
+      const angY = t4;
+      const angX = 20 * Math.PI / 180;
+
+      const projected = knotPoints.map(p => {
+        const cosY = Math.cos(angY);
+        const sinY = Math.sin(angY);
+        let x1 = p.x * cosY - p.z * sinY;
+        let z1 = p.x * sinY + p.z * cosY;
+
+        const cosX = Math.cos(angX);
+        const sinX = Math.sin(angX);
+        let y2 = p.y * cosX - z1 * sinX;
+        let z2 = p.y * sinX + z1 * cosX;
+
+        const fov = 150;
+        const projScale = fov / (fov + z2);
+        return {
+          x: cx + x1 * projScale * kScale,
+          y: cy + y2 * projScale * kScale
+        };
+      });
+
+      ctx4.globalCompositeOperation = 'screen';
+      ctx4.beginPath();
+      projected.forEach((p, idx) => {
+        if (idx === 0) ctx4.moveTo(p.x, p.y);
+        else ctx4.lineTo(p.x, p.y);
+      });
+      ctx4.closePath();
+      ctx4.lineWidth = 6;
+      ctx4.strokeStyle = 'rgba(168, 85, 247, 0.4)';
+      ctx4.stroke();
+
+      ctx4.lineWidth = 1.5;
+      ctx4.strokeStyle = '#c084fc';
+      ctx4.stroke();
+
+      animId4 = requestAnimationFrame(drawPart4);
+    };
+    drawPart4();
+
     // Handle Window Resize
     const handleResize = () => {
       resizeC1();
       resizeC2();
       resizeC3();
+      resizeC4();
     };
     window.addEventListener('resize', handleResize);
 
@@ -258,6 +350,7 @@ export const TrilogyOverview: React.FC = () => {
       cancelAnimationFrame(animId1);
       cancelAnimationFrame(animId2);
       cancelAnimationFrame(animId3);
+      cancelAnimationFrame(animId4);
       window.removeEventListener('resize', handleResize);
     };
   }, []);
@@ -266,14 +359,14 @@ export const TrilogyOverview: React.FC = () => {
     <div className="bg-white border border-zinc-250 p-6 rounded-sm shadow-sm space-y-6">
       <div className="text-center space-y-1 pb-4 border-b border-zinc-200">
         <h3 className="text-xs font-bold text-zinc-900 font-mono tracking-widest uppercase">
-          🌌 공간 진동 역학 3연작 (The Spatial Vibration Trilogy)
+          🌌 공간 진동 역학 4연작 (The Spatial Vibration Tetralogy)
         </h3>
         <p className="text-[11px] text-zinc-500 font-serif">
           프랙탈 척도 대칭성으로 관통하는 미시 양자 세계와 거시 우주의 통합 기하역학
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Part 1 */}
         <div className="border border-zinc-200 p-4 rounded-sm flex flex-col justify-between space-y-4 hover:shadow transition-shadow relative overflow-hidden bg-zinc-50/50">
           <div className="space-y-2">
@@ -345,12 +438,36 @@ export const TrilogyOverview: React.FC = () => {
             </div>
           </div>
         </div>
+
+        {/* Part 4 */}
+        <div className="border border-zinc-200 p-4 rounded-sm flex flex-col justify-between space-y-4 hover:shadow transition-shadow relative overflow-hidden bg-zinc-50/50">
+          <div className="space-y-2">
+            <span className="inline-block px-2 py-0.5 rounded text-[9px] font-bold bg-fuchsia-50 text-fuchsia-800 border border-fuchsia-200 font-mono">
+              Part IV: 서브아토믹 강입자
+            </span>
+            <h4 className="text-sm font-bold text-zinc-950 font-serif leading-tight">
+              위상 텐서 매듭과 SU(3)
+            </h4>
+            <p className="text-[11px] text-zinc-650 leading-relaxed text-justify font-serif">
+              강입자는 3차원 공간 텐서 유체의 와류가 꼬여 생성된 <strong>위상 기하 매듭</strong>입니다. 색 가둠, 점근적 자유, 파울리 배타 원리를 공간 정상파 공명 노드의 위상학적 특성으로 유도합니다.
+            </p>
+          </div>
+          <div className="bg-zinc-950 text-amber-400 p-2.5 rounded border border-zinc-800 font-mono text-[10px] text-center font-bold">
+            {"\u210b = \u222b v \u22c5 \u03c9 d\u00b3x = n \u22c5 h\u2080"}
+          </div>
+          <div className="relative rounded overflow-hidden border border-zinc-200 aspect-[8/5]">
+            <canvas ref={canvas4Ref} className="w-full h-full block bg-black" />
+            <div className="absolute bottom-1.5 left-0 w-full text-center text-[8px] text-zinc-500 font-mono">
+              Simulation: 회전하는 위상 텐서 매듭
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Quote Footer banner */}
       <div className="bg-zinc-900 border border-zinc-850 p-4 rounded-sm text-center">
         <p className="text-xs md:text-sm font-serif italic text-zinc-300 leading-relaxed">
-          "본 연구 연작은 미시 세계의 <span className="text-[#fbbf24] font-bold">이중 슬릿 간섭 무늬</span>부터 초거시 척도의 <span className="text-[#fbbf24] font-bold">우주 거미줄 필라멘트</span>에 이르기까지 관통하는 프랙탈적 척도 대칭성을 제안합니다. 이는 우주의 다양한 현상들이 단 하나의 기하학적 파동 원리에 의해 설명될 수 있음을 시사하는 일관된 역학적 모델입니다."
+          "본 연구 연작은 미시 세계의 <span className="text-[#fbbf24] font-bold">이중 슬릿 간섭 무늬</span>와 서브아토믹 <span className="text-[#fbbf24] font-bold">위상 텐서 매듭</span>부터 초거시 척도의 <span className="text-[#fbbf24] font-bold">우주 거미줄 필라멘트</span>에 이르기까지 관통하는 프랙탈적 척도 대칭성을 제안합니다. 이는 우주의 다양한 현상들이 단 하나의 기하학적 파동 원리에 의해 설명될 수 있음을 시사하는 일관된 역학적 모델입니다."
         </p>
       </div>
     </div>

@@ -7,7 +7,8 @@ import { TrilogyOverview } from '../../components/PaperPlatform/TrilogyOverview'
 const paperDOIs: Record<string, string> = {
   'spatial-vibration-1': '10.5281/zenodo.21206211',
   'spatial-vibration-2': '10.5281/zenodo.21233252',
-  'spatial-vibration-3': '10.5281/zenodo.21258029'
+  'spatial-vibration-3': '10.5281/zenodo.21258029',
+  'spatial-vibration-4': '10.5281/zenodo.21438016'
 };
 
 export default function PapersDashboard() {
@@ -88,7 +89,7 @@ export default function PapersDashboard() {
                 <span className="w-2.5 h-2.5 bg-amber-500 rounded-full border border-white animate-pulse" title="Spatial-Vibration-2: Peer Review" />
                 <span className="w-2.5 h-2.5 bg-blue-500 rounded-full border border-white" title="Spatial-Vibration-3: Drafting" />
               </div>
-              <span className="text-[11px] text-zinc-500 font-semibold font-mono">3 Active Tracks</span>
+              <span className="text-[11px] text-zinc-500 font-semibold font-mono">4 Active Tracks</span>
             </div>
           </div>
 
@@ -115,7 +116,7 @@ export default function PapersDashboard() {
               KYY 공간 진동 역학 연구소 및 편집 워크벤치
             </h1>
             <p className="text-xs md:text-sm text-zinc-650 leading-relaxed text-justify">
-              본 플랫폼은 저자(Kwang yong Yoo)가 노션(Notion)에 집필한 3개 연작 논문을 통합 빌드하여 버전(v1 vs v2)을 자동 관리하고, 학술지 투고(Nature, Physical Review Letters 등) 전 피어 리뷰 의견에 실시간 대응하며 완성도를 조율하기 위해 특별 설계된 <strong>지능형 에디토리얼 워크플로우 시스템</strong>입니다.
+              본 플랫폼은 저자(Kwang yong Yoo)가 노션(Notion)에 집필한 4개 연작 논문을 통합 빌드하여 버전(v1 vs v2)을 자동 관리하고, 학술지 투고(Nature, Physical Review Letters 등) 전 피어 리뷰 의견에 실시간 대응하며 완성도를 조율하기 위해 특별 설계된 <strong>지능형 에디토리얼 워크플로우 시스템</strong>입니다.
             </p>
           </div>
           
