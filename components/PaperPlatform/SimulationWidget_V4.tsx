@@ -656,7 +656,7 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
           ctx.fillText("PHASE CANCELATION WARNING!", cx - 80, cy + 90);
           ctx.font = '9px monospace';
           ctx.fillStyle = 'rgba(255,255,255,0.5)';
-          ctx.fillText(`Exclusion Pressure: \u2207_\u03bb(\u03c1 u^\u03bb) \u2192 \u221e`, cx - 80, cy + 105);
+          ctx.fillText(`Exclusion Pressure: |\u2207p_vib| \u2192 \u221e`, cx - 80, cy + 105);
 
           // Spawn exclusion spark particles
           if (frameCountRef.current % 3 === 0) {
