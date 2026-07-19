@@ -437,7 +437,7 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
 
               col.push({
                 x: gx * axisWeight.x,
-                y: (gy + wave) * axisWeight.y,
+                y: gy * axisWeight.y,
                 z: gz * axisWeight.z,
                 ox, oy, oz
               });
