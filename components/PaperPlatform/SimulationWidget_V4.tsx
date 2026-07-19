@@ -549,7 +549,7 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
         ctx.fillStyle = 'rgba(255,255,255,0.4)';
         ctx.fillText(`Vacuum Compression: ${(compressionRatio * 100).toFixed(0)}%`, 20, 45);
         ctx.fillText(`Standing-Wave Eigen-Nodes: ${nodeComplexity.toFixed(0)} major axes`, 20, 60);
-        ctx.fillText(`Tensor algebra isomorphism: SU(3) product`, 20, 75);
+        ctx.fillText("Emergent SU(3) from collective 3D topological defects", 20, 75);
 
       } else if (simMode === 'exclusion') {
         // ==========================================
@@ -869,10 +869,10 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
             <div className="text-[10px] text-zinc-500 font-mono leading-relaxed pt-2 border-t border-zinc-800/60">
               {nodeDistance < 130 && Math.abs((berryPhaseDiff % (2 * Math.PI)) - Math.PI) < 0.8 ? (
                 <span className="text-red-400 font-bold">
-                  ⚠️ Destructive phase interference detected. Spinor coordinates repel violently due to infinite wave pressure.
+                  ⚠️ Destructive phase interference detected. Orthogonal spinor phases demand infinite topological deformation energy.
                 </span>
               ) : (
-                <span>Cores occupy independent spatial coordinates under constructive or separated phases.</span>
+                <span>Cores occupy independent spatial metrics unless phase interference demands a deformation barrier.</span>
               )}
             </div>
           </div>
