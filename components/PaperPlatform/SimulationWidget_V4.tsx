@@ -308,7 +308,7 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
           ctx.font = '9px monospace';
           ctx.fillStyle = 'rgba(255,255,255,0.4)';
           ctx.fillText(`Topology Severed: Color Confinement Restored`, 20, 30);
-          ctx.fillText(`Yield Energy (S_crit) Released as W/Z Boson Tensor Shockwave`, 20, 45);
+          ctx.fillText(`Yield Energy (E_crit) Released as W/Z Boson Tensor Shockwave`, 20, 45);
           ctx.fillText(`New boundaries formed: H1 = 1, H2 = 1`, 20, 60);
         }
 
@@ -656,7 +656,7 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
           ctx.fillText("PHASE CANCELATION WARNING!", cx - 80, cy + 90);
           ctx.font = '9px monospace';
           ctx.fillStyle = 'rgba(255,255,255,0.5)';
-          ctx.fillText(`Exclusion Pressure: |\u2207p_vib| \u2192 \u221e`, cx - 80, cy + 105);
+          ctx.fillText(`Topological Energy Barrier: Chiral Phase Exclusion`, cx - 80, cy + 105);
 
           // Spawn exclusion spark particles
           if (frameCountRef.current % 3 === 0) {
