@@ -2,6 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
 import pptxgen from 'pptxgenjs';
 
+interface EditableText {
+  slideIndex: number;
+  elementIndex: number;
+  originalText: string;
+  currentText: string;
+  tagName: string;
+}
+
 export default function PptConverter() {
   const [file, setFile] = useState<File | null>(null);
   const [htmlContent, setHtmlContent] = useState<string | null>(null);
@@ -13,6 +21,12 @@ export default function PptConverter() {
   const [slideWidth, setSlideWidth] = useState<number>(1123);
   const [slideHeight, setSlideHeight] = useState<number>(794);
   const [slideCount, setSlideCount] = useState<number>(0);
+  
+  // Current active slide index in viewer
+  const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
+  
+  // List of all editable text nodes collected from slides
+  const [editableTexts, setEditableTexts] = useState<EditableText[]>([]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -40,11 +54,11 @@ export default function PptConverter() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
     if (e.target.files && e.target.files.length > 0) {
-      validateAndSetFile(e.target.files[0]);
+      validateAndLoadFile(e.target.files[0]);
     }
   };
 
-  const validateAndSetFile = (selectedFile: File) => {
+  const validateAndLoadFile = (selectedFile: File) => {
     const isHtml = selectedFile.name.endsWith('.html') || selectedFile.name.endsWith('.htm');
     if (!isHtml) {
       setError('Only HTML files (.html, .htm) are supported.');
@@ -54,10 +68,6 @@ export default function PptConverter() {
     }
     setFile(selectedFile);
     parseAndPrepareEditor(selectedFile);
-  };
-
-  const validateAndLoadFile = (selectedFile: File) => {
-    validateAndSetFile(selectedFile);
   };
 
   // Measure and store dimensions, set the initial source HTML in state
@@ -91,6 +101,7 @@ export default function PptConverter() {
         setSlideWidth(width);
         setSlideHeight(height);
         setSlideCount(count);
+        setActiveSlideIndex(0);
 
         if (tempIframe.parentNode) {
           tempIframe.parentNode.removeChild(tempIframe);
@@ -108,90 +119,78 @@ export default function PptConverter() {
   };
 
   // ====================================================
-  // LIVE DOM POLLING INJECTOR WATCHER (정밀 타겟팅 수정본)
+  // LIVE DOM SIDE PANEL WATCHER (100% Layout-safe)
   // ====================================================
+  // We keep the Iframe 100% READ-ONLY to completely avoid event-listener conflicts,
+  // Tailwind compiling failures, or absolute layout breakages. Instead, we scan texts
+  // and expose them cleanly in the Right-hand Edit Panel for real-time 2-way binding.
   useEffect(() => {
     if (!htmlContent) return;
 
-    console.log('[DEBUG Editor] HTML content changed. Initializing DOM Watcher Polling...');
+    console.log('[DEBUG Editor] Setting up read-only view and collecting slide text nodes...');
 
     const timer = setInterval(() => {
       if (iframeRef.current && iframeRef.current.contentWindow) {
         const iframeWin = iframeRef.current.contentWindow as any;
         const iframeDoc = iframeWin.document;
 
-        // 슬라이드가 Iframe 내에 렌더링 되었는지 확인
         const slides = iframeDoc.querySelectorAll('.slide');
         if (slides.length > 0) {
-          console.log('[DEBUG Editor] Watcher captured live DOM. Injecting contentEditable tags...');
+          const collectedTexts: EditableText[] = [];
 
-          const textElements = iframeDoc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
-          
-          textElements.forEach((el: Element) => {
-            const htmlEl = el as HTMLElement;
+          slides.forEach((slideEl: Element, slideIdx: number) => {
+            // Scan for headings, paragraphs, and list blocks inside each slide
+            const textNodes = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, b, strong, td, th');
+            
+            let elementIdx = 0;
+            textNodes.forEach((node: Element) => {
+              const htmlEl = node as HTMLElement;
+              
+              // Skip empty spaces
+              if (!htmlEl.textContent || htmlEl.textContent.trim() === '') return;
 
-            // 1. 텍스트가 비어있는 요소는 제외
-            if (!htmlEl.textContent || htmlEl.textContent.trim() === '') return;
+              // Filter out layout containers (only target leaf nodes with actual text content)
+              const blockTags = ['DIV', 'P', 'UL', 'OL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SECTION', 'ARTICLE', 'TABLE'];
+              const hasBlockChildren = Array.from(htmlEl.children).some(child => 
+                blockTags.includes(child.tagName.toUpperCase())
+              );
+              if (hasBlockChildren) return;
 
-            // 2. 🌟 핵심 필터링 1: 내부에 레이아웃 박스(div, p, ul 등)를 품고 있다면 껍데기(컨테이너)이므로 제외!
-            const blockTags = ['DIV', 'P', 'UL', 'OL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SECTION', 'ARTICLE', 'TABLE'];
-            const hasBlockChildren = Array.from(htmlEl.children).some(child => 
-              blockTags.includes(child.tagName.toUpperCase())
-            );
-            if (hasBlockChildren) return;
+              // Extract tag type to display friendly labels in the panel
+              const tagName = htmlEl.tagName.toLowerCase();
 
-            // 3. 🌟 핵심 필터링 2: 부모 요소가 이미 에디터로 변환되었다면 자식에게는 중복 지정하지 않음 (이중 호버 테두리 방지)
-            if (htmlEl.parentElement && htmlEl.parentElement.closest('.wysiwyg-editable-node')) return;
+              // Add special marker index and store in state
+              htmlEl.setAttribute('data-ppt-editable-id', `${slideIdx}-${elementIdx}`);
 
-            // 4. 안전하게 걸러진 '가장 안쪽의 순수 텍스트 노드'에만 편집 속성 부여
-            htmlEl.contentEditable = 'true';
-            htmlEl.setAttribute('spellcheck', 'false');
-            htmlEl.classList.add('wysiwyg-editable-node');
-
-            // 링크(a) 태그인 경우 클릭 시 페이지 이동(튕김) 방지
-            if (htmlEl.tagName.toUpperCase() === 'A') {
-              htmlEl.addEventListener('click', (e) => e.preventDefault());
-            }
+              collectedTexts.push({
+                slideIndex: slideIdx,
+                elementIndex: elementIdx,
+                originalText: htmlEl.textContent.trim(),
+                currentText: htmlEl.textContent.trim(),
+                tagName
+              });
+              
+              elementIdx++;
+            });
           });
 
-          // 에디터 호버 가이드 스타일 주입
-          const styleId = 'wysiwyg-editor-styles';
+          setEditableTexts(collectedTexts);
+
+          // Force hide system scroll bars and print banners inside iframe
+          const styleId = 'iframe-visual-fixes';
           if (!iframeDoc.getElementById(styleId)) {
             const style = iframeDoc.createElement('style');
             style.id = styleId;
             style.innerHTML = `
-              .wysiwyg-editable-node {
-                transition: outline 0.15s ease-in-out, background-color 0.15s ease-in-out;
-                border-radius: 4px;
-                /* 🌟 핵심 3: 텍스트를 최상단으로 끌어올려 투명 배경(오버레이)에 마우스가 막히는 현상 방지 */
-                position: relative; 
-                z-index: 50; 
-              }
-              /* 호버 시 점선 가이드 */
-              .wysiwyg-editable-node:hover {
-                outline: 2px dashed #8b5cf6 !important;
-                outline-offset: 4px;
-                cursor: text !important;
-                background-color: rgba(139, 92, 246, 0.08) !important;
-              }
-              /* 텍스트 편집(클릭) 중일 때 실선 및 배경 강조 */
-              .wysiwyg-editable-node:focus {
-                outline: 2px solid #a78bfa !important;
-                outline-offset: 4px;
-                background-color: rgba(255, 255, 255, 0.95) !important;
-                color: #000 !important; /* 밝은 배경에서 가독성을 높이기 위해 임시로 글자를 어둡게 */
-              }
-              /* 텍스트 블록 드래그 시 예쁜 파란색으로 변경 */
-              .wysiwyg-editable-node::selection {
-                background: #bfdbfe;
-                color: #1e3a8a;
-              }
               #print-guide, .print-banner { display: none !important; }
+              /* Force hide iframe scrollbars to keep design completely clean */
+              body::-webkit-scrollbar { display: none !important; }
+              body { -ms-overflow-style: none; scrollbar-width: none; }
             `;
             iframeDoc.head.appendChild(style);
           }
 
-          // 이미지 캡처 모듈 주입
+          // Load html-to-image script internally inside loaded DOM if missing
           const scriptId = 'html-to-image-helper';
           if (!iframeDoc.getElementById(scriptId)) {
             const script = iframeDoc.createElement('script');
@@ -200,7 +199,6 @@ export default function PptConverter() {
             iframeDoc.head.appendChild(script);
           }
 
-          // 모든 처리가 끝났으므로 Polling 루프를 종료합니다.
           clearInterval(timer);
         }
       }
@@ -208,6 +206,26 @@ export default function PptConverter() {
 
     return () => clearInterval(timer);
   }, [htmlContent]);
+
+  // Update the live DOM text inside the Iframe when user types in the panel
+  const handleTextChange = (slideIdx: number, elIdx: number, newValue: string) => {
+    // 1. Update React state
+    setEditableTexts(prev => prev.map(item => {
+      if (item.slideIndex === slideIdx && item.elementIndex === elIdx) {
+        return { ...item, currentText: newValue };
+      }
+      return item;
+    }));
+
+    // 2. Update Live Iframe DOM node immediately
+    if (iframeRef.current && iframeRef.current.contentWindow) {
+      const iframeDoc = iframeRef.current.contentWindow.document;
+      const targetNode = iframeDoc.querySelector(`[data-ppt-editable-id="${slideIdx}-${elIdx}"]`);
+      if (targetNode) {
+        targetNode.textContent = newValue;
+      }
+    }
+  };
 
   // ====================================================
   // Capture Current Workspace DOM and Export to PPTX
@@ -220,14 +238,6 @@ export default function PptConverter() {
     try {
       const iframeWin = iframeRef.current.contentWindow as any;
       const iframeDoc = iframeWin.document;
-
-      // Blur any active edit element to remove cursor/borders from final capture
-      if (iframeDoc.activeElement) {
-        (iframeDoc.activeElement as HTMLElement).blur();
-      }
-
-      // Brief pause to clear outlines
-      await new Promise((resolve) => setTimeout(resolve, 300));
 
       if (!iframeWin.htmlToImage) {
         throw new Error('html-to-image capture module is not loaded inside workspace.');
@@ -283,6 +293,8 @@ export default function PptConverter() {
     setHtmlContent(null);
     setError(null);
     setSlideCount(0);
+    setEditableTexts([]);
+    setActiveSlideIndex(0);
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -292,14 +304,27 @@ export default function PptConverter() {
     fileInputRef.current?.click();
   };
 
-  // Sidebar anchor scrolling helper
+  // Sidebar anchor scrolling and active slide sync helper
   const scrollToSlide = (index: number) => {
+    setActiveSlideIndex(index);
     if (!iframeRef.current || !iframeRef.current.contentWindow) return;
     const iframeDoc = iframeRef.current.contentWindow.document;
     const slideElements = iframeDoc.querySelectorAll('.slide');
     if (slideElements[index]) {
       slideElements[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+  };
+
+  // Filter text nodes for currently active slide
+  const activeSlideTexts = editableTexts.filter(item => item.slideIndex === activeSlideIndex);
+
+  // Friendly name generator for label nodes
+  const getFriendlyTagName = (tag: string) => {
+    if (tag.startsWith('h')) return `Heading ${tag.replace('h', '')}`;
+    if (tag === 'p') return 'Paragraph';
+    if (tag === 'li') return 'List Item';
+    if (tag === 'td' || tag === 'th') return 'Table Cell';
+    return 'Text Box';
   };
 
   return (
@@ -318,7 +343,7 @@ export default function PptConverter() {
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-wider font-mono">VISUAL PPT MAKER</h1>
-            <p className="text-[10px] text-zinc-500 font-mono">WYSIWYG Workspace v2.0</p>
+            <p className="text-[10px] text-zinc-500 font-mono">WYSIWYG Workspace v3.0</p>
           </div>
         </div>
 
@@ -379,7 +404,7 @@ export default function PptConverter() {
 
       {/* Main Workspace Frame */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Slide Thumbnail Navigation (Visible only when HTML slides are active) */}
+        {/* Left Slide Thumbnail Navigation */}
         {htmlContent && (
           <aside className="w-64 border-r border-zinc-800/80 bg-zinc-950/70 p-4 flex flex-col gap-3 overflow-y-auto hidden md:flex select-none">
             <h2 className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono mb-2 uppercase">
@@ -390,12 +415,20 @@ export default function PptConverter() {
                 <button
                   key={i}
                   onClick={() => scrollToSlide(i)}
-                  className="w-full p-3 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800/60 rounded-xl text-left text-xs transition-all flex items-center gap-3 hover:border-purple-900/60 group"
+                  className={`w-full p-3 border rounded-xl text-left text-xs transition-all flex items-center gap-3 group ${
+                    activeSlideIndex === i
+                      ? 'bg-purple-950/20 border-purple-800/80 text-purple-400'
+                      : 'bg-zinc-900 hover:bg-zinc-850 border-zinc-800/60 text-zinc-400 hover:border-purple-900/40'
+                  }`}
                 >
-                  <div className="w-6 h-6 rounded bg-zinc-850 group-hover:bg-purple-950/40 flex items-center justify-center text-[10px] font-bold font-mono text-zinc-400 group-hover:text-purple-400 border border-zinc-800">
+                  <div className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold font-mono border ${
+                    activeSlideIndex === i
+                      ? 'bg-purple-900/20 border-purple-800 text-purple-400'
+                      : 'bg-zinc-850 border-zinc-800 text-zinc-400'
+                  }`}>
                     {i + 1}
                   </div>
-                  <span className="font-mono text-zinc-400 group-hover:text-zinc-200">Slide {i + 1}</span>
+                  <span className="font-mono">Slide {i + 1}</span>
                 </button>
               ))}
             </div>
@@ -434,9 +467,9 @@ export default function PptConverter() {
               </div>
             </div>
           ) : (
-            <div className="flex flex-col items-center w-full max-w-6xl">
-              <div className="mb-6 bg-purple-950/20 text-purple-400 px-6 py-2.5 rounded-full text-xs font-bold border border-purple-900/60 shadow-md flex items-center gap-2 select-none animate-pulse">
-                <span>💡</span> Click and edit any text directly on the slides below!
+            <div className="flex flex-col items-center w-full">
+              <div className="mb-6 bg-purple-950/20 text-purple-400 px-6 py-2.5 rounded-full text-xs font-bold border border-purple-900/60 shadow-md flex items-center gap-2 select-none">
+                <span>💡</span> Use the Right-hand Panel to edit slide text in real-time.
               </div>
 
               {/* Visual Presentation Workspace Wrapper */}
@@ -456,6 +489,59 @@ export default function PptConverter() {
             </div>
           )}
         </main>
+
+        {/* Right Sidebar: Real-time Text Editing Panel */}
+        {htmlContent && (
+          <aside className="w-80 border-l border-zinc-800/80 bg-zinc-950/80 p-5 flex flex-col gap-4 overflow-y-auto select-none">
+            <div>
+              <h2 className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono uppercase mb-1">
+                Slide Edit Panel
+              </h2>
+              <p className="text-xs text-zinc-400">
+                Editing Slide {activeSlideIndex + 1}
+              </p>
+            </div>
+            
+            <div className="border-t border-zinc-800 my-1"></div>
+
+            <div className="flex-1 flex flex-col gap-4">
+              {activeSlideTexts.length === 0 ? (
+                <p className="text-xs text-zinc-600 italic text-center mt-20">
+                  No editable text elements found on this slide.
+                </p>
+              ) : (
+                activeSlideTexts.map((item, idx) => (
+                  <div key={idx} className="space-y-1.5">
+                    <div className="flex justify-between items-center px-1">
+                      <span className="text-[10px] font-bold text-purple-400 font-mono uppercase">
+                        {getFriendlyTagName(item.tagName)}
+                      </span>
+                      <span className="text-[9px] text-zinc-600 font-mono">
+                        #{item.elementIndex + 1}
+                      </span>
+                    </div>
+                    
+                    {item.tagName.startsWith('h') ? (
+                      <input
+                        type="text"
+                        value={item.currentText}
+                        onChange={(e) => handleTextChange(item.slideIndex, item.elementIndex, e.target.value)}
+                        className="w-full bg-zinc-900 hover:bg-zinc-850 focus:bg-zinc-900 border border-zinc-800 focus:border-purple-600 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-200 transition-colors outline-none"
+                      />
+                    ) : (
+                      <textarea
+                        rows={3}
+                        value={item.currentText}
+                        onChange={(e) => handleTextChange(item.slideIndex, item.elementIndex, e.target.value)}
+                        className="w-full bg-zinc-900 hover:bg-zinc-850 focus:bg-zinc-900 border border-zinc-800 focus:border-purple-600 rounded-lg px-3 py-2 text-xs text-zinc-300 transition-colors outline-none resize-none"
+                      />
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </aside>
+        )}
       </div>
     </div>
   );
