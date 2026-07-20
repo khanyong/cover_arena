@@ -55,7 +55,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
 
       <div className="flex gap-2">
         <Link
-          href={`/projects/${project.slug}`}
+          href={project.slug === 'ppt-converter' ? (project.path || '/tools/ppt-converter') : `/projects/${project.slug}`}
           className="flex-1 text-center px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors text-white font-medium"
         >
           자세히 보기 →

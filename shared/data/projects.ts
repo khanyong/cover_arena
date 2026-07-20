@@ -373,5 +373,47 @@ export const PROJECTS: Project[] = [
       { title: '4대 선민종족', desc: '인간, 레콘, 도깨비, 바디를 공유하는 나가의 특성 서술' },
       { title: '키보렌과 세계 지도', desc: '한계선, 북부, 하텐그라쥬 등 주요 지명 시각화' }
     ]
+  },
+  {
+    id: 'ppt-converter',
+    slug: 'ppt-converter',
+    title: 'HTML-to-PPTX Converter',
+    subtitle: 'Editable Presentation Generator',
+    category: 'Productivity Tool & Document Automation',
+    year: '2026',
+    status: 'active',
+    path: '/tools/ppt-converter',
+    executiveSummary: '구조화된 HTML 슬라이드를 PowerPoint의 편집 가능한 네이티브 텍스트, 표, 엑셀 차트 객체로 변환해 주는 자동화 도구입니다.',
+    metrics: [
+      { label: 'Conversion', value: 'Instant' },
+      { label: 'Formats', value: 'Text/Table/Chart' },
+      { label: 'PPTX Engine', value: 'python-pptx' }
+    ],
+    overview: '정해진 HTML 마크업 양식을 바탕으로 슬라이드를 디자인하면, 이를 스크린샷 이미지로 복사하는 대신 파워포인트 내에서 더블클릭하여 편집할 수 있는 벡터 셰이프(Shapes) 및 네이티브 컴포넌트로 자동 파싱하여 다운로드하게 돕는 유틸리티 웹 서비스입니다.',
+    problemStatement: '기존의 웹 프리젠테이션 툴은 HTML을 단순히 PDF나 이미지로 익스포트하여 글자 수정 및 개별 도형 편집이 불가능했습니다. 개발자와 기획자가 웹에서 시각화한 결과물을 보고용 파워포인트로 재가공하기 위해서는 수작업으로 글자와 차트를 다시 입력해야 하는 막대한 중복 노동이 발생했습니다.',
+    solution: 'FastAPI 및 Python-PPTX를 Next.js API와 융합한 이중 엔진 시스템을 구축했습니다. HTML의 inline style과 data-속성을 파싱하여 슬라이드의 좌표별로 실제 텍스트 박스, 동적 데이터 표, 그리고 파워포인트의 네이티브 category 엑셀 차트를 온전히 재생성하여 하나의 ZIP/PPTX 형태로 즉시 스트리밍 다운로드하게 지원합니다.',
+    technicalHighlights: [
+      'Editable Native Shapes: 이미지 캡처 방식 대신 글자 및 데이터가 살아있는 백터 컴포넌트 재생성',
+      '차트 엑셀 데이터 동기화: categories 및 series 데이터를 PPTX 차트 데이터셋으로 정밀 매핑',
+      'Next.js API & Child Process: Node.js 서버 내부에서 백그라운드 파이썬 엔진을 안정적으로 스폰(Spawn)하여 변환',
+      '임시 자원 클리닝: 변환 작업 후 메모리와 로컬 디스크 상의 업로드 임시 파일 자동 수거 및 소거',
+      '프리미엄 드롭존 UI: 유려한 마이크로 인터랙션과 실시간 로딩 가이드 툴킷 제공'
+    ],
+    results: 'HTML-to-PPTX 변환 유틸 탑재 완료. 템플릿(sample.html)을 업로드하여 텍스트 상자 및 차트의 온전한 파워포인트 편집 기능 동작 확인 및 빌드 성공.',
+    tech: [
+      'Next.js',
+      'React',
+      'TypeScript',
+      'Python',
+      'python-pptx',
+      'BeautifulSoup4',
+      'Tailwind CSS'
+    ],
+    features: [
+      { title: '텍스트 상자 생성', desc: 'data-font-size, color, bold 속성에 기초한 편집가능 텍스트 박스 배치' },
+      { title: 'Excel 연동 차트', desc: 'column, bar, line, pie 타입의 파워포인트 자체 엑셀 차트 생성' },
+      { title: '동적 데이터 표', desc: '컬럼 넓이 및 셀 배경색 지정을 포함한 네이티브 표 오브젝트 변환' },
+      { title: '프리미엄 가이드', desc: 'HTML 템플릿 마크업 설명과 실시간 아코디언 가이드 제공' }
+    ]
   }
 ]
