@@ -139,12 +139,14 @@ export default function PptConverter() {
         console.log('[DEBUG Hybrid Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
+        // We set a very tall height (12000px) to force all multi-page slides onto the screen
+        // and prevent html2canvas from capturing empty whitespace due to off-screen viewport clipping.
         iframe = document.createElement('iframe');
         iframe.style.position = 'absolute';
         iframe.style.top = '-9999px';
         iframe.style.left = '-9999px';
-        iframe.style.width = '1123px'; // Standard A4 Landscape width
-        iframe.style.height = '794px';  // Standard A4 Landscape height
+        iframe.style.width = '1123px';   // Standard A4 Landscape width
+        iframe.style.height = '12000px'; // Massive height to cover all scrolled slides
         document.body.appendChild(iframe);
 
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
@@ -227,21 +229,14 @@ export default function PptConverter() {
 
           let bgBase64 = '';
           try {
-            // Apply strict coordinate, scroll, and viewport boundary overrides to html2canvas
-            // to bypass the viewport offset displacement bug on multiple scrolled nodes
+            // Since the entire document is fully expanded and visible in our massive iframe height,
+            // we call html2canvas directly on the slide element to generate a perfect design capture.
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
               scale: 2, // 2x scale for crisp high-res backgrounds
-              scrollX: 0,
-              scrollY: 0,
-              x: slideRect.left + iframeWin.scrollX,
-              y: slideRect.top + iframeWin.scrollY,
-              width: slideRect.width,
-              height: slideRect.height,
-              windowWidth: iframeDoc.documentElement.offsetWidth,
-              windowHeight: iframeDoc.documentElement.offsetHeight,
-              backgroundColor: '#FFFFFF'
+              backgroundColor: '#FFFFFF',
+              logging: false
             });
             bgBase64 = canvas.toDataURL('image/png');
           } catch (snapErr) {
