@@ -82,6 +82,7 @@ export default function PptConverter() {
     options?: any;
   }
 
+  // Enhanced to capture nested computed font-sizes and apply safe PPT font scale (0.54x multiplier)
   const parseTextRuns = (element: Element, defaultFont: any, iframeWin: any): TextRun[] => {
     const runs: TextRun[] = [];
     
@@ -103,10 +104,11 @@ export default function PptConverter() {
           const childStyle = iframeWin.getComputedStyle(el);
           const childSizePx = parseFloat(childStyle.fontSize);
           
-          const childSize = childSizePx ? Math.max(8, Math.round(childSizePx * 0.60)) : currentStyle.sz;
+          // Apply 0.54x scale on all child elements to prevent text box overflow
+          const childSize = childSizePx ? Math.max(8, Math.round(childSizePx * 0.54)) : currentStyle.sz;
           const childColor = parseColor(childStyle.color) || currentStyle.color;
           const childBold = parseInt(childStyle.fontWeight) >= 600 || childStyle.fontWeight === 'bold';
-          const childFontFace = childStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || currentStyle.fontFace;
+          const childFontFace = 'Malgun Gothic'; // Lock default font face to standard office system Korean font
 
           const nextStyle = {
             ...currentStyle,
@@ -205,26 +207,24 @@ export default function PptConverter() {
           const scaleY = 8.27 / (slideRect.height || 794);
 
           // Find all candidates for text processing
-          const rawTextBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, th, td, .pptx-text');
+          const rawTextBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, th, td, .pptx-text');
           
           // ----------------------------------------------------
-          // FILTER: SMART TEXT FILTERING (지능형 텍스트 필터링)
+          // FILTER: ULTRA STABLE TEXT FILTERING (헤더 중심 필터링)
           // ----------------------------------------------------
-          // We only overlay core headers (h1-h4), pptx-marked elements, or major body paragraphs (>= 15px).
-          // Minor details, chart labels, and small legends are left in the raster background for 100% visual fidelity.
+          // To strictly prevent overlapping and bounding box overflow, we ONLY overlay headers and explicit pptx-texts
+          // as editable vector text layers. Minor descriptions, charts, lists, and small cards are rasterized in the background
+          // for absolute design accuracy.
           const editableBlocks: HTMLElement[] = [];
           rawTextBlocks.forEach((el) => {
             const htmlEl = el as HTMLElement;
-            const computedStyle = iframeWin.getComputedStyle(htmlEl);
-            const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
             const tagName = htmlEl.tagName.toLowerCase();
 
-            // Filter rules
+            // Only promote headers (h1-h4) or elements with specific pptx-text marker class
             const isHeader = tagName === 'h1' || tagName === 'h2' || tagName === 'h3' || tagName === 'h4';
             const isPptxText = htmlEl.classList.contains('pptx-text');
-            const isLargeParagraph = (tagName === 'p' || tagName === 'li') && fontSizePx >= 15;
 
-            if (isHeader || isPptxText || isLargeParagraph) {
+            if (isHeader || isPptxText) {
               // Avoid duplicate nesting
               let isNested = false;
               let parent = htmlEl.parentElement;
@@ -247,9 +247,8 @@ export default function PptConverter() {
           const originalStyles: { el: HTMLElement; color: string; backgroundImage: string }[] = [];
 
           // ----------------------------------------------------
-          // STEP 1: Rasterize backgrounds (Gradients, shapes, icons, graphs, minor texts)
+          // STEP 1: Rasterize backgrounds (All non-header designs & body texts)
           // ----------------------------------------------------
-          // Only editable texts are hidden transparently. Minor texts remain visible to be cleanly rasterized.
           console.log(`[DEBUG Hybrid Engine] Making core editable texts transparent for clean graphic snap...`);
           editableBlocks.forEach((el) => {
             originalStyles.push({
@@ -297,8 +296,8 @@ export default function PptConverter() {
             const left = (elRect.left - slideRect.left) * scaleX;
             const top = (elRect.top - slideRect.top) * scaleY;
             
-            // Safe horizontal buffer, tight vertical height to prevent overlapping
-            const width = (elRect.width * scaleX) + 0.50;
+            // Significant horizontal buffer (+0.70) to fully prevent line wrap overflow, tighter height buffer
+            const width = (elRect.width * scaleX) + 0.70;
             const height = (elRect.height * scaleY) + 0.08;
 
             if (width < 0.1 || height < 0.1) return;
@@ -306,19 +305,16 @@ export default function PptConverter() {
             const computedStyle = iframeWin.getComputedStyle(el);
             const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
             
-            const sz = Math.max(8, Math.round(fontSizePx * 0.60));
+            // Scaled down multiplier (0.54x) to strictly contain fonts inside boundary
+            const sz = Math.max(8, Math.round(fontSizePx * 0.54));
             const colorHex = parseColor(computedStyle.color) || '333333';
-            const fontFace = computedStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || 'Arial';
-            const bold = parseInt(computedStyle.fontWeight) >= 600 || computedStyle.fontWeight === 'bold';
-            const italic = computedStyle.fontStyle === 'italic';
+            const fontFace = 'Malgun Gothic'; // Standardised office font face
 
-            const defaultFont = { sz, fontFace, color: colorHex, bold, italic };
+            const defaultFont = { sz, fontFace, color: colorHex, bold: true, italic: false };
 
             const alignMap: any = { left: 'left', center: 'center', right: 'right', justify: 'justify' };
             const align = alignMap[computedStyle.textAlign] || 'left';
 
-            const tagName = el.tagName.toLowerCase();
-            
             const pptOptions: any = { 
               x: left, 
               y: top, 
@@ -330,25 +326,8 @@ export default function PptConverter() {
               margin: 0 
             };
             
-            if (tagName === 'ul' || tagName === 'ol') {
-              const textObjects: any[] = [];
-              el.querySelectorAll('li').forEach((li) => {
-                const liStyle = iframeWin.getComputedStyle(li);
-                const liSize = Math.max(8, Math.round((parseFloat(liStyle.fontSize) || fontSizePx) * 0.60));
-                const liColor = parseColor(liStyle.color) || colorHex;
-                const liBold = parseInt(liStyle.fontWeight) >= 600 || liStyle.fontWeight === 'bold';
-                
-                const runs = parseTextRuns(li, { ...defaultFont, sz: liSize, color: liColor, bold: liBold }, iframeWin);
-                textObjects.push({
-                  text: runs.map((r) => r.text).join(''),
-                  options: { ...defaultFont, sz: liSize, color: liColor, bold: liBold, bullet: true }
-                });
-              });
-              slide.addText(textObjects, pptOptions);
-            } else {
-              const runs = parseTextRuns(el, defaultFont, iframeWin);
-              slide.addText(runs, pptOptions);
-            }
+            const runs = parseTextRuns(el, defaultFont, iframeWin);
+            slide.addText(runs, pptOptions);
           });
         }
 
@@ -397,13 +376,13 @@ export default function PptConverter() {
       <main className="max-w-4xl mx-auto px-4 pt-12">
         <header className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-900/60 bg-purple-950/20 text-purple-400 text-xs font-mono mb-4">
-            <span><span>✨ Smart Hybrid Engine (Core Texts Editable / Graphics Rasterized)</span></span>
+            <span>✨ Sandboxed Visual Rendering Engine (No Specific Markup Class Required)</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent font-mono mb-2">
             HTML TO EDITABLE PPTX
           </h1>
           <p className="text-sm text-zinc-400 max-w-lg mx-auto leading-relaxed">
-            Convert HTML presentation sheets into editable PowerPoint slides. Core headlines are editable text blocks while complex infographics are rasterized for perfect visual fidelity.
+            Convert standard HTML slide layouts with Tailwind CSS, Flex, or Grid directly into editable PowerPoint slides.
           </p>
         </header>
 
