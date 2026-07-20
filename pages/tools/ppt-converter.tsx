@@ -196,34 +196,32 @@ export default function PptConverter() {
           const scaleX = 13.33 / (slideRect.width || 1123);
           const scaleY = 7.5 / (slideRect.height || 794);
 
-          // Find semantic text and table nodes to parse
-          const textBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, ul, ol, .pptx-text');
-          const tables = slideEl.querySelectorAll('table, .pptx-table');
+          // Find all text elements to hide and parse
+          const textElements = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, th, td, a, i, .pptx-text');
+          
+          // Store original colors to restore them after screenshot
+          const originalStyles: { el: HTMLElement; color: string; backgroundImage: string }[] = [];
 
-          // Filter out nested nodes to avoid rendering duplicates
-          const activeTextBlocks: HTMLElement[] = [];
-          textBlocks.forEach((el) => {
-            let isNested = false;
-            let parent = el.parentElement;
-            while (parent && parent !== slideEl) {
-              if (parent.matches('h1, h2, h3, h4, h5, h6, p, ul, ol, .pptx-text')) {
-                isNested = true;
-                break;
-              }
-              parent = parent.parentElement;
-            }
-            if (!isNested) {
-              activeTextBlocks.push(el as HTMLElement);
+          // ----------------------------------------------------
+          // STEP 1: Rasterize backgrounds (Gradients, shapes, icons, graphs)
+          // ----------------------------------------------------
+          // To get a clean background with shapes, icons, and graphs, we hide TEXT by making it transparent.
+          // This keeps the layout spacing intact and prevents double-text overlay artifacts.
+          console.log(`[DEBUG Hybrid Engine] Making text transparent for clean background snapshot...`);
+          textElements.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            originalStyles.push({
+              el: htmlEl,
+              color: htmlEl.style.color,
+              backgroundImage: htmlEl.style.backgroundImage
+            });
+            htmlEl.style.setProperty('color', 'transparent', 'important');
+            
+            // If it is a text-only element, we also hide background-images on text nodes to avoid background rendering
+            if (htmlEl.tagName.toLowerCase() === 'span') {
+              htmlEl.style.setProperty('background-image', 'none', 'important');
             }
           });
-
-          // ----------------------------------------------------
-          // STEP 1: Rasterize backgrounds (Gradients, shapes, etc.)
-          // ----------------------------------------------------
-          // To get a clean background ONLY, we temporarily hide all editable texts and tables
-          console.log(`[DEBUG Hybrid Engine] Temporarily hiding text and tables for background snap...`);
-          activeTextBlocks.forEach(el => { el.style.visibility = 'hidden'; });
-          tables.forEach(el => { (el as HTMLElement).style.visibility = 'hidden'; });
 
           let bgBase64 = '';
           try {
@@ -238,19 +236,40 @@ export default function PptConverter() {
             console.error('[DEBUG Hybrid Engine] Background snapshot failed:', snapErr);
           }
 
-          // Restore visibility of texts and tables for standard user editing
-          activeTextBlocks.forEach(el => { el.style.visibility = 'visible'; });
-          tables.forEach(el => { (el as HTMLElement).style.visibility = 'visible'; });
+          // Restore original styles immediately
+          originalStyles.forEach((item) => {
+            item.el.style.color = item.color;
+            item.el.style.backgroundImage = item.backgroundImage;
+          });
 
           // Apply rasterized background to slide
           if (bgBase64) {
             slide.background = { data: bgBase64 };
-            console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: High-res design background applied.`);
+            console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: High-res design background (with graphs & icons) applied.`);
           }
 
           // ----------------------------------------------------
-          // STEP 2: Overlay Vector Editable Texts
+          // STEP 2: Overlay Vector Editable Texts (Clean overlays)
           // ----------------------------------------------------
+          // Filter to avoid double-parsing nested nodes
+          const activeTextBlocks: HTMLElement[] = [];
+          const rawTextBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, th, td');
+          
+          rawTextBlocks.forEach((el) => {
+            let isNested = false;
+            let parent = el.parentElement;
+            while (parent && parent !== slideEl) {
+              if (parent.matches('h1, h2, h3, h4, h5, h6, p, li, th, td')) {
+                isNested = true;
+                break;
+              }
+              parent = parent.parentElement;
+            }
+            if (!isNested) {
+              activeTextBlocks.push(el as HTMLElement);
+            }
+          });
+
           activeTextBlocks.forEach((el) => {
             const elRect = el.getBoundingClientRect();
             const left = (elRect.left - slideRect.left) * scaleX;
@@ -258,7 +277,7 @@ export default function PptConverter() {
             
             // Add safety buffer to width to prevent text wrap errors
             const width = (elRect.width * scaleX) + 0.45;
-            const height = (elRect.height * scaleY) + 0.2;
+            const height = (elRect.height * scaleY) + 0.15;
 
             if (width < 0.15 || height < 0.15) return;
 
@@ -296,133 +315,6 @@ export default function PptConverter() {
             } else {
               const runs = parseTextRuns(el, defaultFont);
               slide.addText(runs, { x: left, y: top, w: width, h: height, align, wrap: true });
-            }
-          });
-
-          // ----------------------------------------------------
-          // STEP 3: Overlay Vector Editable Tables
-          // ----------------------------------------------------
-          const activeTables: Element[] = [];
-          tables.forEach((tbl) => {
-            let isNested = false;
-            let parent = tbl.parentElement;
-            while (parent && parent !== slideEl) {
-              if (parent.tagName.toLowerCase() === 'table') {
-                isNested = true;
-                break;
-              }
-              parent = parent.parentElement;
-            }
-            if (!isNested) {
-              activeTables.push(tbl);
-            }
-          });
-
-          activeTables.forEach((tbl) => {
-            const tblRect = tbl.getBoundingClientRect();
-            const left = (tblRect.left - slideRect.left) * scaleX;
-            const top = (tblRect.top - slideRect.top) * scaleY;
-            const width = tblRect.width * scaleX;
-            const height = tblRect.height * scaleY;
-
-            const rowElements = tbl.querySelectorAll('tr');
-            const pptxRows: any[] = [];
-
-            rowElements.forEach((rowEl) => {
-              const rowStyle = iframeWin.getComputedStyle(rowEl);
-              const rowBgColor = parseColor(rowStyle.backgroundColor);
-              
-              const cellElements = rowEl.querySelectorAll('td, th');
-              const pptxCells: any[] = [];
-              
-              cellElements.forEach((cellEl) => {
-                const cellStyle = iframeWin.getComputedStyle(cellEl);
-                const cellBgColor = parseColor(cellStyle.backgroundColor) || rowBgColor;
-                const cellTextColor = parseColor(cellStyle.color) || '000000';
-                
-                const isHeader = cellEl.tagName.toLowerCase() === 'th';
-                const cellFontSize = Math.round((parseFloat(cellStyle.fontSize) || 16) * 0.75);
-                const cellFontFace = cellStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || 'Arial';
-                const cellBold = parseInt(cellStyle.fontWeight) >= 600 || cellStyle.fontWeight === 'bold';
-
-                pptxCells.push({
-                  text: cellEl.textContent || '',
-                  options: {
-                    // Render cells with transparent/clean overlay style
-                    fill: cellBgColor && cellBgColor !== '000000' && cellBgColor !== 'FFFFFF' && cellBgColor !== 'TRANSPARENT' ? { color: cellBgColor } : undefined,
-                    color: cellTextColor,
-                    bold: cellBold || isHeader,
-                    sz: cellFontSize,
-                    fontFace: cellFontFace,
-                    align: 'left',
-                    valign: 'middle'
-                  }
-                });
-              });
-              if (pptxCells.length > 0) pptxRows.push(pptxCells);
-            });
-
-            if (pptxRows.length > 0) {
-              slide.addTable(pptxRows, { x: left, y: top, w: width, h: height });
-            }
-          });
-
-          // ----------------------------------------------------
-          // STEP 4: Overlay Vector Charts
-          // ----------------------------------------------------
-          const charts = slideEl.querySelectorAll('.pptx-chart');
-          charts.forEach((crt) => {
-            const crtRect = crt.getBoundingClientRect();
-            const left = (crtRect.left - slideRect.left) * scaleX;
-            const top = (crtRect.top - slideRect.top) * scaleY;
-            const width = crtRect.width * scaleX;
-            const height = crtRect.height * scaleY;
-            
-            const chartTypeStr = (crt.getAttribute('data-chart-type') || 'column').toLowerCase();
-            const categoriesStr = crt.getAttribute('data-chart-categories');
-            const seriesStr = crt.getAttribute('data-chart-series');
-            const titleStr = crt.getAttribute('data-chart-title');
-            
-            if (!categoriesStr || !seriesStr) return;
-            
-            try {
-              const categories = JSON.parse(categoriesStr);
-              const seriesData = JSON.parse(seriesStr);
-              
-              const pptxChartData = seriesData.map((s: any) => ({
-                name: s.name || 'Series',
-                labels: categories,
-                values: s.values || []
-              }));
-              
-              const chartTypeMap: any = {
-                column: pptx.ChartType.bar,
-                bar: pptx.ChartType.bar,
-                line: pptx.ChartType.line,
-                pie: pptx.ChartType.pie,
-                area: pptx.ChartType.area
-              };
-              
-              const chartType = chartTypeMap[chartTypeStr] || pptx.ChartType.bar;
-              const options: any = {
-                x: left,
-                y: top,
-                w: width,
-                h: height,
-                showLegend: true,
-                showTitle: !!titleStr,
-                title: titleStr || undefined
-              };
-              
-              if (chartTypeStr === 'bar') {
-                options.barDir = 'bar';
-              } else if (chartTypeStr === 'column') {
-                options.barDir = 'col';
-              }
-              
-              slide.addChart(chartType, pptxChartData, options);
-            } catch (e) {
-              console.error('[DEBUG Hybrid Engine] Chart parse failed:', e);
             }
           });
         }
