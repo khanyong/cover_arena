@@ -80,19 +80,20 @@ export default function PptConverter() {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
-        // Inject HTML and load html2canvas CDN
+        // PREVENT DOUBLE-NESTED HTML TAGS BUG:
+        // Inject html2canvas CDN script dynamically into the existing <head> of the uploaded htmlText
+        // instead of wrapping the entire document in another redundant html/body tag structure.
+        // This ensures Web Fonts, Tailwind CSS, and custom stylesheets compile and align baseline elements perfectly.
+        const cdnScript = '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>';
+        let updatedHtml = htmlText;
+        if (htmlText.includes('</head>')) {
+          updatedHtml = htmlText.replace('</head>', `${cdnScript}</head>`);
+        } else {
+          updatedHtml = cdnScript + htmlText;
+        }
+
         iframeDoc.open();
-        iframeDoc.write(`
-          <!DOCTYPE html>
-          <html>
-            <head>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-            </head>
-            <body style="margin: 0; padding: 0;">
-              ${htmlText}
-            </body>
-          </html>
-        `);
+        iframeDoc.write(updatedHtml);
         iframeDoc.close();
 
         // 2. Wait for Tailwind and CSS fonts to settle (3.5 seconds)
@@ -207,7 +208,7 @@ export default function PptConverter() {
             HTML TO PPTX SLIDE CONVERTER
           </h1>
           <p className="text-sm text-zinc-400 max-w-lg mx-auto leading-relaxed">
-            Convert standard HTML slide layouts with Tailwind CSS, Flex, or Grid into high-definition PowerPoint slides, preserving 100% of fonts, charts, gradients, and pixel-perfect alignments.
+            Convert HTML presentation sheets into editable PowerPoint slides, preserving 100% of fonts, charts, gradients, and pixel-perfect alignments.
           </p>
         </header>
 
@@ -323,7 +324,7 @@ export default function PptConverter() {
             <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
               <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">2. Perfect Resolution</h3>
               <p className="text-[11px] text-zinc-400 mb-2">
-                All fonts, complex CSS flexbox, grids, inline images, backgrounds, vector icons (e.g. FontAwesome), and CSS gradients are preserved with 200% resolution scaling to guarantee high-definition display on slides.
+                All fonts, complex CSS flexbox, grids, inline images, backgrounds, vector icons, and CSS gradients are preserved with 200% resolution scaling to guarantee high-definition display on slides.
               </p>
             </div>
           </div>
