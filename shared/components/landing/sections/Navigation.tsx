@@ -15,6 +15,7 @@ export default function Navigation() {
             </div>
           </div>
           <div className={styles.navLinks}>
+            <a href="/tools/ppt-converter" className={styles.navLink}>PPT Converter</a>
             <a href="#projects" className={styles.navLink}>Projects</a>
             <a href="#about" className={styles.navLink}>About</a>
             <a
