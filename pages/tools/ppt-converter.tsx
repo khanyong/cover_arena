@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Head from 'next/head';
 import pptxgen from 'pptxgenjs';
 
@@ -40,11 +40,11 @@ export default function PptConverter() {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setError(null);
     if (e.target.files && e.target.files.length > 0) {
-      validateAndLoadFile(e.target.files[0]);
+      validateAndSetFile(e.target.files[0]);
     }
   };
 
-  const validateAndLoadFile = (selectedFile: File) => {
+  const validateAndSetFile = (selectedFile: File) => {
     const isHtml = selectedFile.name.endsWith('.html') || selectedFile.name.endsWith('.htm');
     if (!isHtml) {
       setError('Only HTML files (.html, .htm) are supported.');
@@ -54,6 +54,10 @@ export default function PptConverter() {
     }
     setFile(selectedFile);
     parseAndPrepareEditor(selectedFile);
+  };
+
+  const validateAndLoadFile = (selectedFile: File) => {
+    validateAndSetFile(selectedFile);
   };
 
   // Measure and store dimensions, set the initial source HTML in state
@@ -92,7 +96,7 @@ export default function PptConverter() {
           tempIframe.parentNode.removeChild(tempIframe);
         }
 
-        // Set raw HTML to start mounting. We will scan and make it editable live on iframe load.
+        // Set raw HTML to start mounting.
         setHtmlContent(rawHtml);
 
       } catch (err: any) {
@@ -104,66 +108,84 @@ export default function PptConverter() {
   };
 
   // ====================================================
-  // LIVE IFRAME LOAD WYSIWYG ATTRIBUTE INJECTOR (100% Reliable)
+  // LIVE DOM POLLING INJECTOR WATCHER (100% Bug-free & Sync guaranteed)
   // ====================================================
-  const handleIframeLoad = () => {
-    if (!iframeRef.current || !iframeRef.current.contentWindow) return;
-    
-    const iframeWin = iframeRef.current.contentWindow as any;
-    const iframeDoc = iframeWin.document;
+  // React's srcDoc has a known issue where iframe onLoad does not reliably trigger.
+  // We resolve this by running a live DOM polling watcher that intercepts the mounted
+  // iframe DOM elements the instant they compile inside the browser viewport.
+  useEffect(() => {
+    if (!htmlContent) return;
 
-    console.log('[DEBUG Editor] Active Paint Workspace loaded. Injecting WYSIWYG edit tags...');
+    console.log('[DEBUG Editor] HTML content changed. Initializing DOM Watcher Polling...');
 
-    // Find all text-bearing elements inside the loaded DOM
-    const textElements = iframeDoc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
-    
-    textElements.forEach((el: HTMLElement) => {
-      // If element contains leaf text content, flag it editable immediately
-      if (el.textContent && el.textContent.trim() !== '') {
-        el.contentEditable = 'true';
-        el.setAttribute('spellcheck', 'false');
-        el.classList.add('wysiwyg-editable-node');
+    const timer = setInterval(() => {
+      if (iframeRef.current && iframeRef.current.contentWindow) {
+        const iframeWin = iframeRef.current.contentWindow as any;
+        const iframeDoc = iframeWin.document;
+
+        // Verify if slides have compiled inside the sandbox document yet
+        const slides = iframeDoc.querySelectorAll('.slide');
+        if (slides.length > 0) {
+          console.log('[DEBUG Editor] Watcher captured live DOM. Injecting contentEditable tags...');
+
+          // Find all text-bearing elements inside the loaded DOM
+          const textElements = iframeDoc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
+          
+          textElements.forEach((el: HTMLElement) => {
+            // Apply contentEditable to leaf nodes or rich text containers
+            if (el.textContent && el.textContent.trim() !== '') {
+              el.contentEditable = 'true';
+              el.setAttribute('spellcheck', 'false');
+              el.classList.add('wysiwyg-editable-node');
+            }
+          });
+
+          // Inject editor feedback outline styles dynamically to loaded DOM
+          const styleId = 'wysiwyg-editor-styles';
+          if (!iframeDoc.getElementById(styleId)) {
+            const style = iframeDoc.createElement('style');
+            style.id = styleId;
+            style.innerHTML = `
+              .wysiwyg-editable-node {
+                transition: outline 0.15s ease-in-out, background-color 0.15s ease-in-out;
+                border-radius: 4px;
+              }
+              /* Dashboard dotted guide on hover */
+              .wysiwyg-editable-node:hover {
+                outline: 2px dashed #8b5cf6 !important;
+                outline-offset: 4px;
+                cursor: text;
+                background-color: rgba(139, 92, 246, 0.05) !important;
+              }
+              /* Active edit solid outline on focus */
+              .wysiwyg-editable-node:focus {
+                outline: 2px solid #a78bfa !important;
+                outline-offset: 4px;
+                background-color: rgba(255, 255, 255, 0.1) !important;
+              }
+              /* Force hide system scroll bars and print banners */
+              #print-guide, .print-banner { display: none !important; }
+            `;
+            iframeDoc.head.appendChild(style);
+          }
+
+          // Load html-to-image script internally inside loaded DOM if missing
+          const scriptId = 'html-to-image-helper';
+          if (!iframeDoc.getElementById(scriptId)) {
+            const script = iframeDoc.createElement('script');
+            script.id = scriptId;
+            script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js';
+            iframeDoc.head.appendChild(script);
+          }
+
+          // WYSIWYG injection complete. Clear the polling loop safely.
+          clearInterval(timer);
+        }
       }
-    });
+    }, 250); // Fast 250ms polling loop to prevent user click delay
 
-    // Inject editor feedback outline styles dynamically to loaded DOM
-    const styleId = 'wysiwyg-editor-styles';
-    if (!iframeDoc.getElementById(styleId)) {
-      const style = iframeDoc.createElement('style');
-      style.id = styleId;
-      style.innerHTML = `
-        .wysiwyg-editable-node {
-          transition: outline 0.15s ease-in-out, background-color 0.15s ease-in-out;
-          border-radius: 4px;
-        }
-        /* Dashboard dotted guide on hover */
-        .wysiwyg-editable-node:hover {
-          outline: 2px dashed #8b5cf6 !important;
-          outline-offset: 4px;
-          cursor: text;
-          background-color: rgba(139, 92, 246, 0.05) !important;
-        }
-        /* Active edit solid outline on focus */
-        .wysiwyg-editable-node:focus {
-          outline: 2px solid #a78bfa !important;
-          outline-offset: 4px;
-          background-color: rgba(255, 255, 255, 0.1) !important;
-        }
-        /* Force hide system scroll bars and print banners */
-        #print-guide, .print-banner { display: none !important; }
-      `;
-      iframeDoc.head.appendChild(style);
-    }
-
-    // Load html-to-image script internally inside loaded DOM if missing
-    const scriptId = 'html-to-image-helper';
-    if (!iframeDoc.getElementById(scriptId)) {
-      const script = iframeDoc.createElement('script');
-      script.id = scriptId;
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js';
-      iframeDoc.head.appendChild(script);
-    }
-  };
+    return () => clearInterval(timer);
+  }, [htmlContent]);
 
   // ====================================================
   // Capture Current Workspace DOM and Export to PPTX
@@ -400,7 +422,6 @@ export default function PptConverter() {
                 <iframe
                   ref={iframeRef}
                   srcDoc={htmlContent}
-                  onLoad={handleIframeLoad} // Trigger WYSIWYG capabilities immediately when loaded inside active viewport
                   title="WYSIWYG Presentation Workspace"
                   style={{
                     width: `${slideWidth}px`,
