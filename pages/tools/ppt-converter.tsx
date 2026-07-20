@@ -82,22 +82,11 @@ export default function PptConverter() {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
-        // Inject HTML and load html2canvas CDN
-        // CORE RENDER CORRECTION: html2canvas completely ignores "position: relative; top: -X" on inline elements.
-        // However, it perfectly parses "margin-top: -X" offsets. By injecting a target margin-top negative offset
-        // strictly on text nodes, we physically shift the font rendering baseline upwards inside the canvas
-        // without altering display blocks or disrupting the flow of the layout.
-        const cdnScript = `
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-          <style>
-            /* Globally normalise line-height and apply negative margin-top to lift the baseline on canvas rendering */
-            h1, h2, h3, h4, h5, h6, p, span, a, li, td, th {
-              line-height: 1.15 !important;
-              vertical-align: middle !important;
-              margin-top: -0.06em !important; /* Physically pulls text baseline upwards in html2canvas */
-            }
-          </style>
-        `;
+        // PREVENT FONT COLLAPSE & BASELINE DROPS:
+        // Instead of using html2canvas (which rebuilds elements inside canvas causing font baseline drop bugs),
+        // we integrate html-to-image. It extracts the browser's exact SVG painting context 1:1,
+        // preserving Noto Sans KR vertical alignments, loose/relaxed line-heights, and font scale perfectly.
+        const cdnScript = '<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>';
         
         let updatedHtml = htmlText;
         if (htmlText.includes('</head>')) {
@@ -126,8 +115,8 @@ export default function PptConverter() {
         // Additional buffer for layout settlement
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
-        if (!iframeWin.html2canvas) {
-          throw new Error('html2canvas screenshot library failed to load in sandbox context.');
+        if (!iframeWin.htmlToImage) {
+          throw new Error('html-to-image raster library failed to load inside sandbox.');
         }
 
         const pptx = new pptxgen();
@@ -152,17 +141,15 @@ export default function PptConverter() {
           
           let slideBase64 = '';
           try {
-            // Capture the entire slide DOM exactly as rendered
-            const canvas = await iframeWin.html2canvas(slideEl, {
-              useCORS: true,
-              allowTaint: true,
-              scale: 2, 
-              backgroundColor: '#FFFFFF',
-              logging: false,
-              scrollX: 0,
-              scrollY: 0
+            // Render the slide DOM to PNG using standard browser painting context.
+            // pixelRatio: 2 guarantees ultra-sharp high-definition equivalent texts.
+            slideBase64 = await iframeWin.htmlToImage.toPng(slideEl, {
+              pixelRatio: 2,
+              style: {
+                transform: 'none',
+                transformOrigin: 'top left'
+              }
             });
-            slideBase64 = canvas.toDataURL('image/png');
           } catch (snapErr) {
             console.error('[DEBUG Image Engine] Slide snapshot failed:', snapErr);
           }
