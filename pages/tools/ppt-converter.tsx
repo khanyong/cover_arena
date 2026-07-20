@@ -83,17 +83,18 @@ export default function PptConverter() {
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
         // Inject HTML and load html2canvas CDN
-        // CRITICAL FIX: To prevent layout collapse (like the 4th slide inline-span line-breaking),
-        // we DO NOT override any display properties (no inline-block conversions).
-        // Instead, we use "position: relative; top: -0.06em" which shifts the text baseline upward
-        // across all tags (inline, block, flex) natively without affecting container sizes or structure.
+        // CORE RENDER CORRECTION: html2canvas completely ignores "position: relative; top: -X" on inline elements.
+        // However, it perfectly parses "margin-top: -X" offsets. By injecting a target margin-top negative offset
+        // strictly on text nodes, we physically shift the font rendering baseline upwards inside the canvas
+        // without altering display blocks or disrupting the flow of the layout.
         const cdnScript = `
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
           <style>
-            /* Globally apply relative positioning offset to lift text baselines upwards safely */
+            /* Globally normalise line-height and apply negative margin-top to lift the baseline on canvas rendering */
             h1, h2, h3, h4, h5, h6, p, span, a, li, td, th {
-              position: relative !important;
-              top: -0.06em !important; /* Perfectly counters html2canvas baseline descent shift */
+              line-height: 1.15 !important;
+              vertical-align: middle !important;
+              margin-top: -0.06em !important; /* Physically pulls text baseline upwards in html2canvas */
             }
           </style>
         `;
@@ -217,10 +218,11 @@ export default function PptConverter() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] font-sans pb-16">
+    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] font-sans pb-16" style={{ fontFamily: "'Noto Sans KR', sans-serif" }}>
       <Head>
         <title>HTML to Editable PPTX Converter</title>
         <meta name="description" content="Convert structured HTML presentation sheets into fully editable PowerPoint PPTX files natively." />
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
       </Head>
 
       <main className="max-w-4xl mx-auto px-4 pt-12">
