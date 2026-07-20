@@ -82,7 +82,6 @@ export default function PptConverter() {
     options?: any;
   }
 
-  // Enhanced to capture nested computed font-sizes and apply safe PPT font scale (0.60x multiplier)
   const parseTextRuns = (element: Element, defaultFont: any, iframeWin: any): TextRun[] => {
     const runs: TextRun[] = [];
     
@@ -104,7 +103,6 @@ export default function PptConverter() {
           const childStyle = iframeWin.getComputedStyle(el);
           const childSizePx = parseFloat(childStyle.fontSize);
           
-          // Apply 0.60x scale on all child elements to prevent text box overflow
           const childSize = childSizePx ? Math.max(8, Math.round(childSizePx * 0.60)) : currentStyle.sz;
           const childColor = parseColor(childStyle.color) || currentStyle.color;
           const childBold = parseInt(childStyle.fontWeight) >= 600 || childStyle.fontWeight === 'bold';
@@ -206,27 +204,62 @@ export default function PptConverter() {
           const scaleX = 11.69 / (slideRect.width || 1123);
           const scaleY = 8.27 / (slideRect.height || 794);
 
-          // Find all text elements to hide and parse
-          const textElements = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, th, td, a, i, .pptx-text');
+          // Find all candidates for text processing
+          const rawTextBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, th, td, .pptx-text');
           
-          // Store original colors to restore them after screenshot
+          // ----------------------------------------------------
+          // FILTER: SMART TEXT FILTERING (지능형 텍스트 필터링)
+          // ----------------------------------------------------
+          // We only overlay core headers (h1-h4), pptx-marked elements, or major body paragraphs (>= 15px).
+          // Minor details, chart labels, and small legends are left in the raster background for 100% visual fidelity.
+          const editableBlocks: HTMLElement[] = [];
+          rawTextBlocks.forEach((el) => {
+            const htmlEl = el as HTMLElement;
+            const computedStyle = iframeWin.getComputedStyle(htmlEl);
+            const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
+            const tagName = htmlEl.tagName.toLowerCase();
+
+            // Filter rules
+            const isHeader = tagName === 'h1' || tagName === 'h2' || tagName === 'h3' || tagName === 'h4';
+            const isPptxText = htmlEl.classList.contains('pptx-text');
+            const isLargeParagraph = (tagName === 'p' || tagName === 'li') && fontSizePx >= 15;
+
+            if (isHeader || isPptxText || isLargeParagraph) {
+              // Avoid duplicate nesting
+              let isNested = false;
+              let parent = htmlEl.parentElement;
+              while (parent && parent !== slideEl) {
+                if (parent.matches('h1, h2, h3, h4, h5, h6, p, li, th, td')) {
+                  isNested = true;
+                  break;
+                }
+                parent = parent.parentElement;
+              }
+              if (!isNested) {
+                editableBlocks.push(htmlEl);
+              }
+            }
+          });
+
+          console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: Registered ${editableBlocks.length} core editable text shapes.`);
+
+          // Store original colors of EDITABLE elements only
           const originalStyles: { el: HTMLElement; color: string; backgroundImage: string }[] = [];
 
           // ----------------------------------------------------
-          // STEP 1: Rasterize backgrounds (Gradients, shapes, icons, graphs)
+          // STEP 1: Rasterize backgrounds (Gradients, shapes, icons, graphs, minor texts)
           // ----------------------------------------------------
-          console.log(`[DEBUG Hybrid Engine] Making text transparent for clean background snapshot...`);
-          textElements.forEach((el) => {
-            const htmlEl = el as HTMLElement;
+          // Only editable texts are hidden transparently. Minor texts remain visible to be cleanly rasterized.
+          console.log(`[DEBUG Hybrid Engine] Making core editable texts transparent for clean graphic snap...`);
+          editableBlocks.forEach((el) => {
             originalStyles.push({
-              el: htmlEl,
-              color: htmlEl.style.color,
-              backgroundImage: htmlEl.style.backgroundImage
+              el: el,
+              color: el.style.color,
+              backgroundImage: el.style.backgroundImage
             });
-            htmlEl.style.setProperty('color', 'transparent', 'important');
-            
-            if (htmlEl.tagName.toLowerCase() === 'span') {
-              htmlEl.style.setProperty('background-image', 'none', 'important');
+            el.style.setProperty('color', 'transparent', 'important');
+            if (el.tagName.toLowerCase() === 'span') {
+              el.style.setProperty('background-image', 'none', 'important');
             }
           });
 
@@ -257,43 +290,22 @@ export default function PptConverter() {
           }
 
           // ----------------------------------------------------
-          // STEP 2: Overlay Vector Editable Texts (A4 aligned)
+          // STEP 2: Overlay Vector Editable Texts (A4 aligned, zero margin, valign top)
           // ----------------------------------------------------
-          // Filter to avoid double-parsing nested nodes
-          const activeTextBlocks: HTMLElement[] = [];
-          const rawTextBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, th, td');
-          
-          rawTextBlocks.forEach((el) => {
-            let isNested = false;
-            let parent = el.parentElement;
-            while (parent && parent !== slideEl) {
-              if (parent.matches('h1, h2, h3, h4, h5, h6, p, li, th, td')) {
-                isNested = true;
-                break;
-              }
-              parent = parent.parentElement;
-            }
-            if (!isNested) {
-              activeTextBlocks.push(el as HTMLElement);
-            }
-          });
-
-          activeTextBlocks.forEach((el) => {
+          editableBlocks.forEach((el) => {
             const elRect = el.getBoundingClientRect();
             const left = (elRect.left - slideRect.left) * scaleX;
             const top = (elRect.top - slideRect.top) * scaleY;
             
-            // Increased width buffer (+0.50) to prevent line breaks, height buffer minimized to prevent overlap
+            // Safe horizontal buffer, tight vertical height to prevent overlapping
             const width = (elRect.width * scaleX) + 0.50;
             const height = (elRect.height * scaleY) + 0.08;
 
             if (width < 0.1 || height < 0.1) return;
 
             const computedStyle = iframeWin.getComputedStyle(el);
-            
             const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
             
-            // Standardize 0.60x scale factor on parent font sizing to prevent box overflows in PPTX
             const sz = Math.max(8, Math.round(fontSizePx * 0.60));
             const colorHex = parseColor(computedStyle.color) || '333333';
             const fontFace = computedStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || 'Arial';
@@ -307,7 +319,6 @@ export default function PptConverter() {
 
             const tagName = el.tagName.toLowerCase();
             
-            // PPT Options config: Force 0 margin & vertical align 'top' to prevent overlapping text baselines
             const pptOptions: any = { 
               x: left, 
               y: top, 
@@ -386,13 +397,13 @@ export default function PptConverter() {
       <main className="max-w-4xl mx-auto px-4 pt-12">
         <header className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-900/60 bg-purple-950/20 text-purple-400 text-xs font-mono mb-4">
-            <span>✨ Sandboxed Visual Rendering Engine (No Specific Markup Class Required)</span>
+            <span><span>✨ Smart Hybrid Engine (Core Texts Editable / Graphics Rasterized)</span></span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent font-mono mb-2">
             HTML TO EDITABLE PPTX
           </h1>
           <p className="text-sm text-zinc-400 max-w-lg mx-auto leading-relaxed">
-            Convert standard HTML slide layouts with Tailwind CSS, Flex, or Grid directly into editable PowerPoint slides.
+            Convert HTML presentation sheets into editable PowerPoint slides. Core headlines are editable text blocks while complex infographics are rasterized for perfect visual fidelity.
           </p>
         </header>
 
