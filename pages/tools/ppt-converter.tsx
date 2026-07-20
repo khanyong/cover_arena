@@ -50,7 +50,11 @@ export default function PptConverter() {
     fileInputRef.current?.click();
   };
 
+  // ==========================================
+  // Browser-Side HTML to PPTX Parser & Generator
+  // ==========================================
   const parseDimension = (styleStr: string, propName: string): number | undefined => {
+    // Add flexibility for spacing and matching dimensions
     const pattern = new RegExp(`(?:^|;\\s*)${propName}\\s*:\\s*([\\d.]+)\\s*(in|cm|pt|px)?`, 'i');
     const match = styleStr.match(pattern);
     if (!match) return undefined;
@@ -140,10 +144,16 @@ export default function PptConverter() {
     const width = parseDimension(styleStr, 'width') || 5.0;
     const height = parseDimension(styleStr, 'height') || 1.0;
     
-    if (left === undefined || top === undefined) return;
+    console.log('[DEBUG Parser] Processing text box style:', styleStr, 'Parsed coordinates:', { left, top, width, height });
     
+    if (left === undefined || top === undefined) {
+      console.warn('[DEBUG Parser] Textbox skipped due to missing coordinates.');
+      return;
+    }
+    
+    // PptxGenJS uses 'sz' instead of 'fontSize' in TextProps options
     const defaultFont = {
-      fontSize: el.getAttribute('data-font-size') ? parseInt(el.getAttribute('data-font-size')!) : 14,
+      sz: el.getAttribute('data-font-size') ? parseInt(el.getAttribute('data-font-size')!) : 14,
       fontFace: el.getAttribute('data-font-family') || el.getAttribute('data-font-name') || 'Arial',
       color: parseColor(el.getAttribute('data-font-color') || '') || '000000',
       bold: el.getAttribute('data-bold') === 'true',
@@ -161,6 +171,7 @@ export default function PptConverter() {
     const blocks = el.querySelectorAll('ul, ol, p, div');
     if (blocks.length === 0) {
       const runs = parseTextRuns(el, defaultFont);
+      console.log('[DEBUG Parser] Textbox runs (no blocks):', runs);
       slide.addText(runs, { x: left, y: top, w: width, h: height, align, wrap: true });
     } else {
       const textObjects: any[] = [];
@@ -191,6 +202,7 @@ export default function PptConverter() {
           }
         }
       });
+      console.log('[DEBUG Parser] Textbox runs (with blocks):', textObjects);
       slide.addText(textObjects, { x: left, y: top, w: width, h: height, align, wrap: true });
     }
   };
@@ -202,7 +214,12 @@ export default function PptConverter() {
     const width = parseDimension(styleStr, 'width') || 8.0;
     const height = parseDimension(styleStr, 'height') || 2.0;
     
-    if (left === undefined || top === undefined) return;
+    console.log('[DEBUG Parser] Processing table style:', styleStr, 'Parsed coordinates:', { left, top, width, height });
+    
+    if (left === undefined || top === undefined) {
+      console.warn('[DEBUG Parser] Table skipped due to missing coordinates.');
+      return;
+    }
     
     const rowElements = el.querySelectorAll('tr');
     const pptxRows: any[] = [];
@@ -243,7 +260,7 @@ export default function PptConverter() {
             fill: cellBgColor ? { color: cellBgColor } : undefined,
             color: cellTextColor || (isHeader ? 'FFFFFF' : '000000'),
             bold: isHeader,
-            fontSize: defaultFontSize,
+            sz: defaultFontSize, // PptxGenJS uses 'sz' for table cell fonts
             align: 'left',
             valign: 'middle'
           }
@@ -268,15 +285,22 @@ export default function PptConverter() {
     const width = parseDimension(styleStr, 'width') || 5.0;
     const height = parseDimension(styleStr, 'height') || 4.0;
     
-    if (left === undefined || top === undefined) return;
+    console.log('[DEBUG Parser] Processing chart style:', styleStr, 'Parsed coordinates:', { left, top, width, height });
+    
+    if (left === undefined || top === undefined) {
+      console.warn('[DEBUG Parser] Chart skipped due to missing coordinates.');
+      return;
+    }
     
     const chartTypeStr = (el.getAttribute('data-chart-type') || 'column').toLowerCase();
-    
     const categoriesStr = el.getAttribute('data-chart-categories');
     const seriesStr = el.getAttribute('data-chart-series');
     const titleStr = el.getAttribute('data-chart-title');
     
-    if (!categoriesStr || !seriesStr) return;
+    if (!categoriesStr || !seriesStr) {
+      console.warn('[DEBUG Parser] Chart skipped due to missing category or series data attributes.');
+      return;
+    }
     
     try {
       const categories = JSON.parse(categoriesStr);
@@ -330,6 +354,8 @@ export default function PptConverter() {
         const htmlText = e.target?.result as string;
         if (!htmlText) throw new Error('File is empty.');
 
+        console.log('[DEBUG Parser] Starting conversion of HTML content. Length:', htmlText.length);
+
         const pptx = new pptxgen();
         pptx.layout = 'LAYOUT_16x9';
 
@@ -337,26 +363,36 @@ export default function PptConverter() {
         const doc = parser.parseFromString(htmlText, 'text/html');
         
         const slideElements = doc.querySelectorAll('.slide');
+        console.log('[DEBUG Parser] Found slides in HTML DOM:', slideElements.length);
+        
         if (slideElements.length === 0) {
           throw new Error('No elements with class "slide" found in the uploaded HTML.');
         }
 
-        slideElements.forEach((slideEl) => {
+        slideElements.forEach((slideEl, index) => {
+          console.log(`[DEBUG Parser] Converting slide ${index + 1}/${slideElements.length}...`);
           const slide = pptx.addSlide();
 
+          // 1. Process Textboxes
           const textBoxes = slideEl.querySelectorAll('.pptx-text');
+          console.log(`[DEBUG Parser] Slide ${index + 1}: Found ${textBoxes.length} text boxes.`);
           textBoxes.forEach((tb) => processTextBox(slide, tb));
 
+          // 2. Process Tables
           const tables = slideEl.querySelectorAll('.pptx-table');
           const standardTables = slideEl.querySelectorAll('table');
           const allTables = Array.from(new Set([...Array.from(tables), ...Array.from(standardTables)]));
+          console.log(`[DEBUG Parser] Slide ${index + 1}: Found ${allTables.length} tables.`);
           allTables.forEach((tbl) => processTable(slide, tbl));
 
+          // 3. Process Charts
           const charts = slideEl.querySelectorAll('.pptx-chart');
+          console.log(`[DEBUG Parser] Slide ${index + 1}: Found ${charts.length} charts.`);
           charts.forEach((crt) => processChart(slide, crt, pptx));
         });
 
         const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '.pptx';
+        console.log('[DEBUG Parser] Saving PPTX presentation as:', newFilename);
         await pptx.writeFile({ fileName: newFilename });
 
       } catch (err: any) {
