@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import Head from 'next/head';
+import pptxgen from 'pptxgenjs';
 
 export default function PptConverter() {
   const [file, setFile] = useState<File | null>(null);
@@ -49,43 +50,329 @@ export default function PptConverter() {
     fileInputRef.current?.click();
   };
 
-  const handleConvert = async () => {
+  const parseDimension = (styleStr: string, propName: string): number | undefined => {
+    const pattern = new RegExp(`(?:^|;\\s*)${propName}\\s*:\\s*([\\d.]+)\\s*(in|cm|pt|px)?`, 'i');
+    const match = styleStr.match(pattern);
+    if (!match) return undefined;
+    
+    const val = parseFloat(match[1]);
+    const unit = (match[2] || 'in').toLowerCase();
+    
+    if (unit === 'in') return val;
+    if (unit === 'cm') return val * 0.3937;
+    if (unit === 'pt') return val / 72.0;
+    if (unit === 'px') return val / 96.0;
+    return val;
+  };
+
+  const parseColor = (colorStr: string): string | undefined => {
+    if (!colorStr) return undefined;
+    colorStr = colorStr.trim();
+    if (colorStr.startsWith('#')) {
+      let hex = colorStr.replace('#', '');
+      if (hex.length === 3) {
+        hex = hex.split('').map(c => c + c).join('');
+      }
+      return hex.toUpperCase();
+    } else if (colorStr.startsWith('rgb')) {
+      const nums = colorStr.match(/\d+/g);
+      if (nums && nums.length >= 3) {
+        const r = parseInt(nums[0]).toString(16).padStart(2, '0');
+        const g = parseInt(nums[1]).toString(16).padStart(2, '0');
+        const b = parseInt(nums[2]).toString(16).padStart(2, '0');
+        return (r + g + b).toUpperCase();
+      }
+    }
+    return undefined;
+  };
+
+  interface TextRun {
+    text: string;
+    options?: any;
+  }
+
+  const parseTextRuns = (element: Element, defaultFont: any): TextRun[] => {
+    const runs: TextRun[] = [];
+    
+    const recurse = (node: Node, currentStyle: any) => {
+      for (let i = 0; i < node.childNodes.length; i++) {
+        const child = node.childNodes[i];
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = child.textContent || '';
+          if (text.trim() || text === ' ') {
+            runs.push({
+              text,
+              options: { ...currentStyle }
+            });
+          }
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          const el = child as Element;
+          const tagName = el.tagName.toLowerCase();
+          const nextStyle = { ...currentStyle };
+          
+          if (tagName === 'strong' || tagName === 'b') {
+            nextStyle.bold = true;
+          } else if (tagName === 'em' || tagName === 'i') {
+            nextStyle.italic = true;
+          } else if (tagName === 'code') {
+            nextStyle.fontFace = 'Courier New';
+          } else if (tagName === 'span') {
+            const styleAttr = el.getAttribute('style') || '';
+            const colorMatch = styleAttr.match(/color\s*:\s*([^;]+)/i);
+            if (colorMatch) {
+              const parsedC = parseColor(colorMatch[1]);
+              if (parsedC) nextStyle.color = parsedC;
+            }
+          }
+          recurse(child, nextStyle);
+        }
+      }
+    };
+    
+    recurse(element, defaultFont);
+    return runs;
+  };
+
+  const processTextBox = (slide: any, el: Element) => {
+    const styleStr = el.getAttribute('style') || '';
+    const left = parseDimension(styleStr, 'left');
+    const top = parseDimension(styleStr, 'top');
+    const width = parseDimension(styleStr, 'width') || 5.0;
+    const height = parseDimension(styleStr, 'height') || 1.0;
+    
+    if (left === undefined || top === undefined) return;
+    
+    const defaultFont = {
+      fontSize: el.getAttribute('data-font-size') ? parseInt(el.getAttribute('data-font-size')!) : 14,
+      fontFace: el.getAttribute('data-font-family') || el.getAttribute('data-font-name') || 'Arial',
+      color: parseColor(el.getAttribute('data-font-color') || '') || '000000',
+      bold: el.getAttribute('data-bold') === 'true',
+      italic: el.getAttribute('data-italic') === 'true'
+    };
+    
+    const alignMap: any = {
+      left: 'left',
+      center: 'center',
+      right: 'right',
+      justify: 'justify'
+    };
+    const align = alignMap[el.getAttribute('data-align')?.toLowerCase() || ''] || 'left';
+    
+    const blocks = el.querySelectorAll('ul, ol, p, div');
+    if (blocks.length === 0) {
+      const runs = parseTextRuns(el, defaultFont);
+      slide.addText(runs, { x: left, y: top, w: width, h: height, align, wrap: true });
+    } else {
+      const textObjects: any[] = [];
+      el.childNodes.forEach(child => {
+        if (child.nodeType === Node.TEXT_NODE) {
+          const text = child.textContent?.trim();
+          if (text) {
+            textObjects.push({ text, options: { ...defaultFont } });
+          }
+        } else if (child.nodeType === Node.ELEMENT_NODE) {
+          const blockEl = child as Element;
+          const blockName = blockEl.tagName.toLowerCase();
+          
+          if (blockName === 'ul' || blockName === 'ol') {
+            blockEl.querySelectorAll('li').forEach(li => {
+              const runs = parseTextRuns(li, defaultFont);
+              textObjects.push({
+                text: runs.map(r => r.text).join(''),
+                options: { ...defaultFont, bullet: true }
+              });
+            });
+          } else if (blockName === 'p' || blockName === 'div') {
+            const runs = parseTextRuns(blockEl, defaultFont);
+            textObjects.push({
+              text: runs.map(r => r.text).join(''),
+              options: { ...defaultFont, breakLine: true }
+            });
+          }
+        }
+      });
+      slide.addText(textObjects, { x: left, y: top, w: width, h: height, align, wrap: true });
+    }
+  };
+
+  const processTable = (slide: any, el: Element) => {
+    const styleStr = el.getAttribute('style') || '';
+    const left = parseDimension(styleStr, 'left');
+    const top = parseDimension(styleStr, 'top');
+    const width = parseDimension(styleStr, 'width') || 8.0;
+    const height = parseDimension(styleStr, 'height') || 2.0;
+    
+    if (left === undefined || top === undefined) return;
+    
+    const rowElements = el.querySelectorAll('tr');
+    const pptxRows: any[] = [];
+    
+    let colWidths: number[] = [];
+    const colWidthsStr = el.getAttribute('data-col-widths');
+    if (colWidthsStr) {
+      try {
+        colWidths = JSON.parse(colWidthsStr);
+      } catch (e) {
+        console.error(e);
+      }
+    }
+    
+    const defaultFontSize = el.getAttribute('data-font-size') ? parseInt(el.getAttribute('data-font-size')!) : 12;
+    
+    rowElements.forEach(rowEl => {
+      const rowStyle = rowEl.getAttribute('style') || '';
+      const bgMatch = rowStyle.match(/background-color\s*:\s*([^;]+)/i);
+      const rowBgColor = bgMatch ? parseColor(bgMatch[1]) : undefined;
+      
+      const cellElements = rowEl.querySelectorAll('td, th');
+      const pptxCells: any[] = [];
+      
+      cellElements.forEach(cellEl => {
+        const cellStyle = cellEl.getAttribute('style') || '';
+        const cellBgMatch = cellStyle.match(/background-color\s*:\s*([^;]+)/i);
+        const cellBgColor = cellBgMatch ? parseColor(cellBgMatch[1]) : rowBgColor;
+        
+        const colorMatch = (cellStyle + ';' + rowStyle).match(/color\s*:\s*([^;]+)/i);
+        const cellTextColor = colorMatch ? parseColor(colorMatch[1]) : undefined;
+        
+        const isHeader = cellEl.tagName.toLowerCase() === 'th';
+        
+        pptxCells.push({
+          text: cellEl.textContent || '',
+          options: {
+            fill: cellBgColor ? { color: cellBgColor } : undefined,
+            color: cellTextColor || (isHeader ? 'FFFFFF' : '000000'),
+            bold: isHeader,
+            fontSize: defaultFontSize,
+            align: 'left',
+            valign: 'middle'
+          }
+        });
+      });
+      pptxRows.push(pptxCells);
+    });
+    
+    slide.addTable(pptxRows, {
+      x: left,
+      y: top,
+      w: width,
+      h: height,
+      colWidths: colWidths.length > 0 ? colWidths : undefined
+    });
+  };
+
+  const processChart = (slide: any, el: Element, pptxInstance: any) => {
+    const styleStr = el.getAttribute('style') || '';
+    const left = parseDimension(styleStr, 'left');
+    const top = parseDimension(styleStr, 'top');
+    const width = parseDimension(styleStr, 'width') || 5.0;
+    const height = parseDimension(styleStr, 'height') || 4.0;
+    
+    if (left === undefined || top === undefined) return;
+    
+    const chartTypeStr = (el.getAttribute('data-chart-type') || 'column').toLowerCase();
+    
+    const categoriesStr = el.getAttribute('data-chart-categories');
+    const seriesStr = el.getAttribute('data-chart-series');
+    const titleStr = el.getAttribute('data-chart-title');
+    
+    if (!categoriesStr || !seriesStr) return;
+    
+    try {
+      const categories = JSON.parse(categoriesStr);
+      const seriesData = JSON.parse(seriesStr);
+      
+      const pptxChartData = seriesData.map((s: any) => ({
+        name: s.name || 'Series',
+        labels: categories,
+        values: s.values || []
+      }));
+      
+      const chartTypeMap: any = {
+        column: pptxInstance.ChartType.bar, 
+        bar: pptxInstance.ChartType.bar,
+        line: pptxInstance.ChartType.line,
+        pie: pptxInstance.ChartType.pie,
+        area: pptxInstance.ChartType.area
+      };
+      
+      const chartType = chartTypeMap[chartTypeStr] || pptxInstance.ChartType.bar;
+      const options: any = {
+        x: left,
+        y: top,
+        w: width,
+        h: height,
+        showLegend: true,
+        showTitle: !!titleStr,
+        title: titleStr || undefined
+      };
+      
+      if (chartTypeStr === 'bar') {
+        options.barDir = 'bar';
+      } else if (chartTypeStr === 'column') {
+        options.barDir = 'col';
+      }
+      
+      slide.addChart(chartType, pptxChartData, options);
+    } catch (e) {
+      console.error('Error parsing chart data inside browser:', e);
+    }
+  };
+
+  const handleConvert = () => {
     if (!file) return;
     setConverting(true);
     setError(null);
 
-    const formData = new FormData();
-    formData.append('file', file);
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      try {
+        const htmlText = e.target?.result as string;
+        if (!htmlText) throw new Error('File is empty.');
 
-    try {
-      const response = await fetch('/api/convert-ppt', {
-        method: 'POST',
-        body: formData,
-      });
+        const pptx = new pptxgen();
+        pptx.layout = 'LAYOUT_16x9';
 
-      if (!response.ok) {
-        const errJson = await response.json().catch(() => ({}));
-        throw new Error(errJson.error || 'Failed to convert presentation.');
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+        
+        const slideElements = doc.querySelectorAll('.slide');
+        if (slideElements.length === 0) {
+          throw new Error('No elements with class "slide" found in the uploaded HTML.');
+        }
+
+        slideElements.forEach((slideEl) => {
+          const slide = pptx.addSlide();
+
+          const textBoxes = slideEl.querySelectorAll('.pptx-text');
+          textBoxes.forEach((tb) => processTextBox(slide, tb));
+
+          const tables = slideEl.querySelectorAll('.pptx-table');
+          const standardTables = slideEl.querySelectorAll('table');
+          const allTables = Array.from(new Set([...Array.from(tables), ...Array.from(standardTables)]));
+          allTables.forEach((tbl) => processTable(slide, tbl));
+
+          const charts = slideEl.querySelectorAll('.pptx-chart');
+          charts.forEach((crt) => processChart(slide, crt, pptx));
+        });
+
+        const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '.pptx';
+        await pptx.writeFile({ fileName: newFilename });
+
+      } catch (err: any) {
+        console.error(err);
+        setError(err.message || 'An unexpected error occurred during client-side conversion.');
+      } finally {
+        setConverting(false);
       }
+    };
 
-      const blob = await response.blob();
-      const downloadUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      
-      const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '.pptx';
-      link.setAttribute('download', newFilename);
-      document.body.appendChild(link);
-      link.click();
-      
-      link.parentNode?.removeChild(link);
-      window.URL.revokeObjectURL(downloadUrl);
-    } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'An unexpected error occurred during conversion.');
-    } finally {
+    reader.onerror = () => {
+      setError('Failed to read the HTML file from disk.');
       setConverting(false);
-    }
+    };
+
+    reader.readAsText(file, 'utf-8');
   };
 
   const resetConverter = () => {
@@ -106,7 +393,7 @@ export default function PptConverter() {
       <main className="max-w-4xl mx-auto px-4 pt-12">
         <header className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-900/60 bg-purple-950/20 text-purple-400 text-xs font-mono mb-4">
-            <span>✨ Emergent Geomechanical Toolkit</span>
+            <span>✨ Pure Client-Side Conversion Engine (No External Servers)</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent font-mono mb-2">
             HTML TO EDITABLE PPTX
