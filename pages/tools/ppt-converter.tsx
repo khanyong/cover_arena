@@ -51,7 +51,7 @@ export default function PptConverter() {
   };
 
   // ==========================================
-  // Color Converter Helper
+  // Color Converter Helper (RGB/RGBA to HEX)
   // ==========================================
   const parseColor = (colorStr: string): string | undefined => {
     if (!colorStr) return undefined;
@@ -154,8 +154,9 @@ export default function PptConverter() {
         iframeDoc.write(htmlText);
         iframeDoc.close();
 
-        // 2. Wait for Tailwind CDN and font sheets to finish layout and loading
-        await new Promise((resolve) => setTimeout(resolve, 1500));
+        // 2. Wait extra time for Tailwind CDN to finish compiling classes and layouting elements
+        console.log('[DEBUG Layout Engine] Waiting for Tailwind CSS compiling engine...');
+        await new Promise((resolve) => setTimeout(resolve, 3000)); // Increased wait time to 3 seconds for safe layout completion
 
         const pptx = new pptxgen();
         pptx.layout = 'LAYOUT_16x9';
@@ -176,6 +177,48 @@ export default function PptConverter() {
           const scaleX = 13.33 / (slideRect.width || 1123);
           const scaleY = 7.5 / (slideRect.height || 794);
 
+          // ----------------------------------------------------
+          // PART A: Render Background Elements and Color Blocks
+          // ----------------------------------------------------
+          // Detect container divs that act as backgrounds (e.g. background-colors, borders)
+          const containers = slideEl.querySelectorAll('div');
+          containers.forEach((div) => {
+            // Do not render parent slide container itself
+            if (div === slideEl) return;
+
+            const divStyle = window.getComputedStyle(div);
+            const bgColor = parseColor(divStyle.backgroundColor);
+            const borderW = parseFloat(divStyle.borderWidth) || 0;
+            const borderColor = parseColor(divStyle.borderColor);
+
+            // Check if this container has visual background/borders worth drawing in PPT
+            const hasBg = bgColor && bgColor !== '000000' && bgColor !== 'FFFFFF' && divStyle.backgroundColor !== 'transparent';
+            const hasBorder = borderW > 0 && borderColor;
+
+            if (hasBg || hasBorder) {
+              const r = div.getBoundingClientRect();
+              const left = (r.left - slideRect.left) * scaleX;
+              const top = (r.top - slideRect.top) * scaleY;
+              const width = r.width * scaleX;
+              const height = r.height * scaleY;
+
+              if (width < 0.1 || height < 0.1) return;
+
+              // Draw container rectangle block as PPT Shape
+              slide.addShape(pptx.ShapeType.rect, {
+                x: left,
+                y: top,
+                w: width,
+                h: height,
+                fill: hasBg ? { color: bgColor } : undefined,
+                line: hasBorder ? { color: borderColor, width: borderW } : undefined
+              });
+            }
+          });
+
+          // ----------------------------------------------------
+          // PART B: Render Texts (With visual font alignments)
+          // ----------------------------------------------------
           // Find semantic text nodes: h1-h6, p, ul, ol, explicit textboxes
           const textBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, ul, ol, .pptx-text');
           
@@ -196,17 +239,16 @@ export default function PptConverter() {
             }
           });
 
-          console.log(`[DEBUG Layout Engine] Slide ${index + 1}: Found ${activeTextBlocks.length} active text blocks.`);
-
-          // 1. Process Textboxes visually via computed styles
           activeTextBlocks.forEach((el) => {
             const elRect = el.getBoundingClientRect();
             const left = (elRect.left - slideRect.left) * scaleX;
             const top = (elRect.top - slideRect.top) * scaleY;
-            const width = elRect.width * scaleX;
-            const height = elRect.height * scaleY;
+            
+            // Add a small width safety buffer (+0.4) to prevent word wrapping/truncation in PPTX
+            const width = (elRect.width * scaleX) + 0.4;
+            const height = (elRect.height * scaleY) + 0.15;
 
-            if (width < 0.1 || height < 0.1) return;
+            if (width < 0.15 || height < 0.15) return;
 
             const computedStyle = window.getComputedStyle(el);
             
@@ -239,14 +281,16 @@ export default function PptConverter() {
                   options: { ...defaultFont, sz: liSize, color: liColor, bold: liBold, bullet: true }
                 });
               });
-              slide.addText(textObjects, { x: left, y: top, w: width, h: height + 0.3, align, wrap: true });
+              slide.addText(textObjects, { x: left, y: top, w: width, h: height, align, wrap: true });
             } else {
               const runs = parseTextRuns(el, defaultFont);
-              slide.addText(runs, { x: left, y: top, w: width, h: height + 0.15, align, wrap: true });
+              slide.addText(runs, { x: left, y: top, w: width, h: height, align, wrap: true });
             }
           });
 
-          // 2. Process Tables visually
+          // ----------------------------------------------------
+          // PART C: Render Tables Visually
+          // ----------------------------------------------------
           const tables = slideEl.querySelectorAll('table, .pptx-table');
           const activeTables: Element[] = [];
           tables.forEach((tbl) => {
@@ -263,8 +307,6 @@ export default function PptConverter() {
               activeTables.push(tbl);
             }
           });
-
-          console.log(`[DEBUG Layout Engine] Slide ${index + 1}: Found ${activeTables.length} active tables.`);
 
           activeTables.forEach((tbl) => {
             const tblRect = tbl.getBoundingClientRect();
@@ -314,10 +356,10 @@ export default function PptConverter() {
             }
           });
 
-          // 3. Process Charts
+          // ----------------------------------------------------
+          // PART D: Render Charts
+          // ----------------------------------------------------
           const charts = slideEl.querySelectorAll('.pptx-chart');
-          console.log(`[DEBUG Layout Engine] Slide ${index + 1}: Found ${charts.length} charts.`);
-
           charts.forEach((crt) => {
             const crtRect = crt.getBoundingClientRect();
             const left = (crtRect.left - slideRect.left) * scaleX;
