@@ -22,7 +22,7 @@ export default function PptConverter() {
   const [slideHeight, setSlideHeight] = useState<number>(794);
   const [slideCount, setSlideCount] = useState<number>(0);
   
-  // Current active slide index in viewer
+  // Current active slide index in viewer (0-indexed)
   const [activeSlideIndex, setActiveSlideIndex] = useState<number>(0);
   
   // List of all editable text nodes collected from slides
@@ -119,15 +119,15 @@ export default function PptConverter() {
   };
 
   // ====================================================
-  // LIVE DOM SIDE PANEL WATCHER & DYNAMIC SYNC TRIGGER
+  // COMPREHENSIVE TEXT SCANNER & LAYOUT CONTROLLER
   // ====================================================
-  // We keep the Iframe 100% READ-ONLY to completely avoid event-listener conflicts,
-  // Tailwind compiling failures, or absolute layout breakages. Instead, we scan texts
-  // and expose them cleanly in the Right-hand Edit Panel for real-time 2-way binding.
+  // Extracts ALL meaningful leaf text nodes from the uploaded slides and binds them.
+  // We inject CSS to only display the CURRENT ACTIVE SLIDE inside the iframe, preventing
+  // massive scroll heights and boosting rendering performance to 0ms latency.
   useEffect(() => {
     if (!htmlContent) return;
 
-    console.log('[DEBUG Editor] Setting up read-only view and collecting slide text nodes...');
+    console.log('[DEBUG Editor] Analyzing DOM and injecting layout performance rules...');
 
     const timer = setInterval(() => {
       if (iframeRef.current && iframeRef.current.contentWindow) {
@@ -139,27 +139,26 @@ export default function PptConverter() {
           const collectedTexts: EditableText[] = [];
 
           slides.forEach((slideEl: Element, slideIdx: number) => {
-            // Scan for headings, paragraphs, and list blocks inside each slide
-            const textNodes = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, b, strong, td, th');
+            // Find all potential text elements
+            const textNodes = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
             
             let elementIdx = 0;
             textNodes.forEach((node: Element) => {
               const htmlEl = node as HTMLElement;
               
-              // Skip empty spaces
+              // Skip empty text blocks
               if (!htmlEl.textContent || htmlEl.textContent.trim() === '') return;
 
-              // Filter out layout containers (only target leaf nodes with actual text content)
+              // Filter out layout wrapper nodes
               const blockTags = ['DIV', 'P', 'UL', 'OL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SECTION', 'ARTICLE', 'TABLE'];
               const hasBlockChildren = Array.from(htmlEl.children).some(child => 
                 blockTags.includes(child.tagName.toUpperCase())
               );
               if (hasBlockChildren) return;
 
-              // Extract tag type to display friendly labels in the panel
               const tagName = htmlEl.tagName.toLowerCase();
 
-              // Add special marker index and store in state
+              // Inject unique tracking IDs
               htmlEl.setAttribute('data-ppt-editable-id', `${slideIdx}-${elementIdx}`);
 
               collectedTexts.push({
@@ -172,43 +171,28 @@ export default function PptConverter() {
               
               elementIdx++;
             });
-
-            // 🌟 [Feature] Live Click Sync: Bind click event to each slide container.
-            // If the user clicks anywhere on a slide inside the iframe, the editor instantly
-            // switches the Right edit panel to that slide's editable text fields.
-            const htmlSlide = slideEl as HTMLElement;
-            htmlSlide.style.cursor = 'pointer';
-            htmlSlide.style.transition = 'box-shadow 0.2s ease-in-out';
-            
-            // Remove old listeners to prevent duplicates
-            const newSlide = htmlSlide.cloneNode(true) as HTMLElement;
-            htmlSlide.parentNode?.replaceChild(newSlide, htmlSlide);
-            
-            newSlide.addEventListener('click', () => {
-              console.log(`[DEBUG Editor] User clicked slide ${slideIdx + 1}. Syncing active index.`);
-              // We pass message or trigger state directly since iframe is same-origin (srcDoc)
-              setActiveSlideIndex(slideIdx);
-            });
           });
 
           setEditableTexts(collectedTexts);
 
-          // Force hide system scroll bars and print banners inside iframe
-          const styleId = 'iframe-visual-fixes';
+          // Force hide system scroll bars, print banners, and all non-active slides
+          const styleId = 'iframe-performance-fixes';
           if (!iframeDoc.getElementById(styleId)) {
             const style = iframeDoc.createElement('style');
             style.id = styleId;
             style.innerHTML = `
               #print-guide, .print-banner { display: none !important; }
-              /* Force hide iframe scrollbars to keep design completely clean */
               body::-webkit-scrollbar { display: none !important; }
-              body { -ms-overflow-style: none; scrollbar-width: none; }
-              /* Hover feedback to show slide is clickable for editing */
+              body { -ms-overflow-style: none; scrollbar-width: none; background: #ffffff !important; overflow: hidden !important; }
+              
+              /* performance single-page view engine */
               .slide {
-                position: relative;
+                display: none !important;
+                margin: 0 !important;
+                box-shadow: none !important;
               }
-              .slide:hover {
-                box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4) !important;
+              .slide.active-slide-view {
+                display: block !important;
               }
             `;
             iframeDoc.head.appendChild(style);
@@ -226,58 +210,26 @@ export default function PptConverter() {
           clearInterval(timer);
         }
       }
-    }, 250);
+    }, 200);
 
     return () => clearInterval(timer);
   }, [htmlContent]);
 
-  // ====================================================
-  // INTERSECTION OBSERVER FOR DYNAMIC SCROLL SYNC
-  // ====================================================
-  // Automatically detects which slide is in viewport when user scrolls,
-  // and dynamically updates activeSlideIndex.
+  // Sync active slide index toggle directly to Iframe slide element displays
   useEffect(() => {
-    if (!htmlContent || !iframeRef.current) return;
-
-    const timer = setTimeout(() => {
-      try {
-        const iframeWin = iframeRef.current?.contentWindow as any;
-        const iframeDoc = iframeWin?.document;
-        if (!iframeDoc) return;
-
-        const slides = iframeDoc.querySelectorAll('.slide');
-        
-        // Define observer options (trigger when slide is 50% visible)
-        const observerOptions = {
-          root: null, // Viewport
-          threshold: 0.5
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const slideIdx = Array.from(slides).indexOf(entry.target);
-              if (slideIdx !== -1) {
-                console.log(`[DEBUG Scroll observer] Current visible slide: Slide ${slideIdx + 1}`);
-                setActiveSlideIndex(slideIdx);
-              }
-            }
-          });
-        }, observerOptions);
-
-        slides.forEach((slide: Element) => observer.observe(slide));
-
-        return () => {
-          slides.forEach((slide: Element) => observer.unobserve(slide));
-          observer.disconnect();
-        };
-      } catch (e) {
-        console.warn('Scroll Sync Observer could not start:', e);
+    if (!htmlContent || !iframeRef.current || !iframeRef.current.contentWindow) return;
+    
+    const iframeDoc = iframeRef.current.contentWindow.document;
+    const slides = iframeDoc.querySelectorAll('.slide');
+    
+    slides.forEach((slide: Element, idx: number) => {
+      if (idx === activeSlideIndex) {
+        slide.classList.add('active-slide-view');
+      } else {
+        slide.classList.remove('active-slide-view');
       }
-    }, 1500); // Wait briefly for DOM to fully settle before observing
-
-    return () => clearTimeout(timer);
-  }, [htmlContent]);
+    });
+  }, [activeSlideIndex, htmlContent]);
 
   // Update the live DOM text inside the Iframe when user types in the panel
   const handleTextChange = (slideIdx: number, elIdx: number, newValue: string) => {
@@ -307,6 +259,9 @@ export default function PptConverter() {
     setConverting(true);
     setError(null);
 
+    // Save previous active slide view state to restore later
+    const originalActiveIdx = activeSlideIndex;
+
     try {
       const iframeWin = iframeRef.current.contentWindow as any;
       const iframeDoc = iframeWin.document;
@@ -327,11 +282,21 @@ export default function PptConverter() {
 
       const slideElements = iframeDoc.querySelectorAll('.slide');
       
+      // Capture each slide by dynamically showing and snapshotting one by one
       for (let i = 0; i < slideElements.length; i++) {
         const slideEl = slideElements[i] as HTMLElement;
         const slide = pptx.addSlide();
 
-        // Capture exactly what is visible in workspace at 2x resolution
+        // Force show slide temporarily for capture
+        slideElements.forEach((el, idx) => {
+          if (idx === i) el.classList.add('active-slide-view');
+          else el.classList.remove('active-slide-view');
+        });
+
+        // Let layout settle
+        await new Promise((resolve) => setTimeout(resolve, 150));
+
+        // Capture slide PNG at high-res
         const slideBase64 = await iframeWin.htmlToImage.toPng(slideEl, {
           pixelRatio: 2,
           style: {
@@ -348,6 +313,12 @@ export default function PptConverter() {
           h: pptHeight
         });
       }
+
+      // Restore user's viewing slide state
+      slideElements.forEach((el, idx) => {
+        if (idx === originalActiveIdx) el.classList.add('active-slide-view');
+        else el.classList.remove('active-slide-view');
+      });
 
       const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '_edited.pptx';
       await pptx.writeFile({ fileName: newFilename });
@@ -376,14 +347,15 @@ export default function PptConverter() {
     fileInputRef.current?.click();
   };
 
-  // Sidebar anchor scrolling and active slide sync helper
-  const scrollToSlide = (index: number) => {
-    setActiveSlideIndex(index);
-    if (!iframeRef.current || !iframeRef.current.contentWindow) return;
-    const iframeDoc = iframeRef.current.contentWindow.document;
-    const slideElements = iframeDoc.querySelectorAll('.slide');
-    if (slideElements[index]) {
-      slideElements[index].scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const handleNextPage = () => {
+    if (activeSlideIndex < slideCount - 1) {
+      setActiveSlideIndex(prev => prev + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (activeSlideIndex > 0) {
+      setActiveSlideIndex(prev => prev - 1);
     }
   };
 
@@ -415,7 +387,7 @@ export default function PptConverter() {
           </div>
           <div>
             <h1 className="text-sm font-bold tracking-wider font-mono">VISUAL PPT MAKER</h1>
-            <p className="text-[10px] text-zinc-500 font-mono">WYSIWYG Workspace v3.0</p>
+            <p className="text-[10px] text-zinc-500 font-mono">WYSIWYG Workspace v4.0</p>
           </div>
         </div>
 
@@ -431,7 +403,7 @@ export default function PptConverter() {
           {!htmlContent ? (
             <button
               onClick={triggerFileSelect}
-              className="px-4 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-md flex items-center gap-2"
+              className="px-4 py-2 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-md flex items-center gap-2"
             >
               🚀 Load HTML Slide File
             </button>
@@ -486,7 +458,7 @@ export default function PptConverter() {
               {Array.from({ length: slideCount }).map((_, i) => (
                 <button
                   key={i}
-                  onClick={() => scrollToSlide(i)}
+                  onClick={() => setActiveSlideIndex(i)}
                   className={`w-full p-3 border rounded-xl text-left text-xs transition-all flex items-center gap-3 group cursor-pointer ${
                     activeSlideIndex === i
                       ? 'bg-purple-950/20 border-purple-800/80 text-purple-400'
@@ -540,11 +512,28 @@ export default function PptConverter() {
             </div>
           ) : (
             <div className="flex flex-col items-center w-full">
-              <div className="mb-6 bg-purple-950/20 text-purple-400 px-6 py-2.5 rounded-full text-xs font-bold border border-purple-900/60 shadow-md flex items-center gap-2 select-none">
-                <span>💡</span> Click on any slide or scroll to select which page to edit.
+              {/* Pagination Controls */}
+              <div className="mb-6 flex items-center gap-4 bg-zinc-950 px-5 py-2.5 rounded-full border border-zinc-800 shadow-lg select-none">
+                <button
+                  onClick={handlePrevPage}
+                  disabled={activeSlideIndex === 0}
+                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold"
+                >
+                  ◀
+                </button>
+                <span className="text-xs font-mono text-zinc-400 font-bold px-2">
+                  PAGE {activeSlideIndex + 1} / {slideCount}
+                </span>
+                <button
+                  onClick={handleNextPage}
+                  disabled={activeSlideIndex === slideCount - 1}
+                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold"
+                >
+                  ▶
+                </button>
               </div>
 
-              {/* Visual Presentation Workspace Wrapper */}
+              {/* Visual Presentation Workspace Wrapper - Single slide displayed strictly */}
               <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-zinc-200">
                 <iframe
                   ref={iframeRef}
@@ -552,7 +541,7 @@ export default function PptConverter() {
                   title="WYSIWYG Presentation Workspace"
                   style={{
                     width: `${slideWidth}px`,
-                    height: '10000px', // Large height to display multiple stacked slides comfortably
+                    height: `${slideHeight}px`, // Strictly size to match the exact height of one slide
                     border: 'none',
                     backgroundColor: '#ffffff'
                   }}
