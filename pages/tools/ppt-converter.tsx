@@ -80,14 +80,28 @@ export default function PptConverter() {
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
         // Inject HTML and load html2canvas CDN
-        // Add globally overriding CSS rule inside head to force Noto Sans KR vertical baseline correction (line-height normalisation)
+        // Add globally overriding CSS rules inside head to force Noto Sans KR vertical baseline correction
+        // Specifying line-height controls and physical padding offsets to lift text from the bottom border.
         const cdnScript = `
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
           <style>
-            /* Globally override text vertical baseline alignments to resolve bottom shifting bugs in html2canvas */
-            body, body * {
-              line-height: 1.35 !important;
+            /* 1. Normalise line-height on all text nodes to prevent html2canvas baseline descent */
+            h1, h2, h3, h4, h5, h6, p, span, a, li, td, th {
+              line-height: 1.25 !important;
               vertical-align: middle !important;
+            }
+            
+            /* 2. Counter-act html2canvas bottom alignment bias by lifting badge text from the bottom border */
+            .rounded-full, .rounded-md, .rounded, [class*="rounded"] {
+              display: inline-flex !important;
+              align-items: center !important;
+              justify-content: center !important;
+              padding-bottom: 0.12em !important; /* Lifts the text vertically to achieve true optical center */
+            }
+
+            /* 3. Force flex container vertical alignment normalisation */
+            .flex, [class*="flex"] {
+              align-items: center !important;
             }
           </style>
         `;
@@ -145,14 +159,18 @@ export default function PptConverter() {
           
           let slideBase64 = '';
           try {
-            // Capture the entire slide DOM exactly as rendered (including all texts, icons, graphs, gradients)
+            // Capture the entire slide DOM exactly as rendered
             // scale: 2 guarantees ultra-sharp high-definition vector-equivalent text display in PPTX
+            // letterRendering: true forces word-by-word layout tracing, preventing vertical baseline offset drops
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
               scale: 2, 
               backgroundColor: '#FFFFFF',
-              logging: false
+              logging: false,
+              letterRendering: true,
+              scrollX: 0,
+              scrollY: 0
             });
             slideBase64 = canvas.toDataURL('image/png');
           } catch (snapErr) {
