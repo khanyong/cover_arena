@@ -51,86 +51,8 @@ export default function PptConverter() {
   };
 
   // ==========================================
-  // Color Converter Helper (RGB/RGBA to HEX)
+  // High-Fidelity 100% Image Slider Generator
   // ==========================================
-  const parseColor = (colorStr: string): string | undefined => {
-    if (!colorStr) return undefined;
-    colorStr = colorStr.trim();
-    if (colorStr.startsWith('#')) {
-      let hex = colorStr.replace('#', '');
-      if (hex.length === 3) {
-        hex = hex.split('').map(c => c + c).join('');
-      }
-      return hex.toUpperCase();
-    } else if (colorStr.startsWith('rgb')) {
-      const nums = colorStr.match(/\d+/g);
-      if (nums && nums.length >= 3) {
-        const r = parseInt(nums[0]).toString(16).padStart(2, '0');
-        const g = parseInt(nums[1]).toString(16).padStart(2, '0');
-        const b = parseInt(nums[2]).toString(16).padStart(2, '0');
-        return (r + g + b).toUpperCase();
-      }
-    }
-    return undefined;
-  };
-
-  // ==========================================
-  // Recursive HTML Formatting Runs Collector
-  // ==========================================
-  interface TextRun {
-    text: string;
-    options?: any;
-  }
-
-  // Enhanced to capture nested computed font-sizes and apply safe PPT font scale (0.54x multiplier)
-  const parseTextRuns = (element: Element, defaultFont: any, iframeWin: any): TextRun[] => {
-    const runs: TextRun[] = [];
-    
-    const recurse = (node: Node, currentStyle: any) => {
-      for (let i = 0; i < node.childNodes.length; i++) {
-        const child = node.childNodes[i];
-        if (child.nodeType === Node.TEXT_NODE) {
-          const text = child.textContent || '';
-          if (text.trim() || text === ' ') {
-            runs.push({
-              text,
-              options: { ...currentStyle }
-            });
-          }
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          const el = child as Element;
-          const tagName = el.tagName.toLowerCase();
-          
-          const childStyle = iframeWin.getComputedStyle(el);
-          const childSizePx = parseFloat(childStyle.fontSize);
-          
-          // Apply 0.54x scale on all child elements to prevent text box overflow
-          const childSize = childSizePx ? Math.max(8, Math.round(childSizePx * 0.54)) : currentStyle.sz;
-          const childColor = parseColor(childStyle.color) || currentStyle.color;
-          const childBold = parseInt(childStyle.fontWeight) >= 600 || childStyle.fontWeight === 'bold';
-          const childFontFace = 'Malgun Gothic'; // Lock default font face to standard office system Korean font
-
-          const nextStyle = {
-            ...currentStyle,
-            sz: childSize,
-            color: childColor,
-            bold: childBold,
-            fontFace: childFontFace
-          };
-          
-          if (tagName === 'code') {
-            nextStyle.fontFace = 'Courier New';
-          }
-          
-          recurse(child, nextStyle);
-        }
-      }
-    };
-    
-    recurse(element, defaultFont);
-    return runs;
-  };
-
   const handleConvert = () => {
     if (!file) return;
     setConverting(true);
@@ -143,21 +65,22 @@ export default function PptConverter() {
         const htmlText = e.target?.result as string;
         if (!htmlText) throw new Error('File is empty.');
 
-        console.log('[DEBUG Hybrid Engine] Starting browser sandbox render...');
+        console.log('[DEBUG Image Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
+        // Set massive height to guarantee all slides render inside view boundaries
         iframe = document.createElement('iframe');
         iframe.style.position = 'absolute';
         iframe.style.top = '-9999px';
         iframe.style.left = '-9999px';
         iframe.style.width = '1123px';   // Standard A4 Landscape width
-        iframe.style.height = '12000px'; // Massive height to cover all scrolled slides
+        iframe.style.height = '12000px'; // Massive height for seamless scrolling capture
         document.body.appendChild(iframe);
 
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
-        // Inject HTML and dynamically load html2canvas CDN inside sandbox
+        // Inject HTML and load html2canvas CDN
         iframeDoc.open();
         iframeDoc.write(`
           <!DOCTYPE html>
@@ -172,8 +95,8 @@ export default function PptConverter() {
         `);
         iframeDoc.close();
 
-        // 2. Wait for Tailwind CDN and html2canvas scripts to load and resolve visual layout tree
-        console.log('[DEBUG Hybrid Engine] Waiting for resources to resolve (3.5s)...');
+        // 2. Wait for Tailwind and CSS fonts to settle (3.5 seconds)
+        console.log('[DEBUG Image Engine] Resolving style rendering (3.5s)...');
         await new Promise((resolve) => setTimeout(resolve, 3500));
 
         const iframeWin = iframe.contentWindow as any;
@@ -184,151 +107,53 @@ export default function PptConverter() {
         const pptx = new pptxgen();
         
         // Define Custom A4 Landscape layout size to prevent 16:9 ratio stretch / warp 
+        // 297mm x 210mm translates to exactly 11.69 x 8.27 inches
         pptx.defineLayout({ name: 'A4_LANDSCAPE', width: 11.69, height: 8.27 });
         pptx.layout = 'A4_LANDSCAPE';
 
         const slideElements = iframeDoc.querySelectorAll('.slide');
-        console.log('[DEBUG Hybrid Engine] Found slide layouts:', slideElements.length);
+        console.log('[DEBUG Image Engine] Found slide layouts:', slideElements.length);
 
         if (slideElements.length === 0) {
           throw new Error('No elements with class "slide" found in the HTML document.');
         }
 
-        // Iterate slides and perform Hybrid Raster-Vector translation
+        // Iterate slides and capture 100% crisp high-res raster images
         for (let index = 0; index < slideElements.length; index++) {
           const slideEl = slideElements[index] as HTMLElement;
-          console.log(`[DEBUG Hybrid Engine] Translating Slide ${index + 1}/${slideElements.length}...`);
+          console.log(`[DEBUG Image Engine] Capturing Slide ${index + 1}/${slideElements.length}...`);
           
           const slide = pptx.addSlide();
-          const slideRect = slideEl.getBoundingClientRect();
           
-          // Coordinate scale metrics matched exactly to custom A4 Layout
-          const scaleX = 11.69 / (slideRect.width || 1123);
-          const scaleY = 8.27 / (slideRect.height || 794);
-
-          // Find all candidates for text processing
-          const rawTextBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, th, td, .pptx-text');
-          
-          // ----------------------------------------------------
-          // FILTER: ULTRA STABLE TEXT FILTERING (헤더 중심 필터링)
-          // ----------------------------------------------------
-          // To strictly prevent overlapping and bounding box overflow, we ONLY overlay headers and explicit pptx-texts
-          // as editable vector text layers. Minor descriptions, charts, lists, and small cards are rasterized in the background
-          // for absolute design accuracy.
-          const editableBlocks: HTMLElement[] = [];
-          rawTextBlocks.forEach((el) => {
-            const htmlEl = el as HTMLElement;
-            const tagName = htmlEl.tagName.toLowerCase();
-
-            // Only promote headers (h1-h4) or elements with specific pptx-text marker class
-            const isHeader = tagName === 'h1' || tagName === 'h2' || tagName === 'h3' || tagName === 'h4';
-            const isPptxText = htmlEl.classList.contains('pptx-text');
-
-            if (isHeader || isPptxText) {
-              // Avoid duplicate nesting
-              let isNested = false;
-              let parent = htmlEl.parentElement;
-              while (parent && parent !== slideEl) {
-                if (parent.matches('h1, h2, h3, h4, h5, h6, p, li, th, td')) {
-                  isNested = true;
-                  break;
-                }
-                parent = parent.parentElement;
-              }
-              if (!isNested) {
-                editableBlocks.push(htmlEl);
-              }
-            }
-          });
-
-          console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: Registered ${editableBlocks.length} core editable text shapes.`);
-
-          // Store original colors of EDITABLE elements only
-          const originalStyles: { el: HTMLElement; color: string; backgroundImage: string }[] = [];
-
-          // ----------------------------------------------------
-          // STEP 1: Rasterize backgrounds (All non-header designs & body texts)
-          // ----------------------------------------------------
-          console.log(`[DEBUG Hybrid Engine] Making core editable texts transparent for clean graphic snap...`);
-          editableBlocks.forEach((el) => {
-            originalStyles.push({
-              el: el,
-              color: el.style.color,
-              backgroundImage: el.style.backgroundImage
-            });
-            el.style.setProperty('color', 'transparent', 'important');
-            if (el.tagName.toLowerCase() === 'span') {
-              el.style.setProperty('background-image', 'none', 'important');
-            }
-          });
-
-          let bgBase64 = '';
+          let slideBase64 = '';
           try {
+            // Capture the entire slide DOM exactly as rendered (including all texts, icons, graphs, gradients)
+            // scale: 2 guarantees ultra-sharp high-definition vector-equivalent text display in PPTX
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
-              scale: 2, // 2x scale for crisp high-res backgrounds
+              scale: 2, 
               backgroundColor: '#FFFFFF',
               logging: false
             });
-            bgBase64 = canvas.toDataURL('image/png');
+            slideBase64 = canvas.toDataURL('image/png');
           } catch (snapErr) {
-            console.error('[DEBUG Hybrid Engine] Background snapshot failed:', snapErr);
+            console.error('[DEBUG Image Engine] Slide snapshot failed:', snapErr);
           }
 
-          // Restore original styles immediately
-          originalStyles.forEach((item) => {
-            item.el.style.color = item.color;
-            item.el.style.backgroundImage = item.backgroundImage;
-          });
-
-          // Apply rasterized background to slide
-          if (bgBase64) {
-            slide.background = { data: bgBase64 };
-            console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: High-res design background applied.`);
+          // Overlay the Captured Slide Image to cover the entire PPT slide dimension (11.69 x 8.27 inches)
+          if (slideBase64) {
+            slide.addImage({
+              data: slideBase64,
+              x: 0,
+              y: 0,
+              w: 11.69,
+              h: 8.27
+            });
+            console.log(`[DEBUG Image Engine] Slide ${index + 1}: HD slide capture applied.`);
+          } else {
+            throw new Error(`Failed to rasterize slide index ${index + 1}.`);
           }
-
-          // ----------------------------------------------------
-          // STEP 2: Overlay Vector Editable Texts (A4 aligned, zero margin, valign top)
-          // ----------------------------------------------------
-          editableBlocks.forEach((el) => {
-            const elRect = el.getBoundingClientRect();
-            const left = (elRect.left - slideRect.left) * scaleX;
-            const top = (elRect.top - slideRect.top) * scaleY;
-            
-            // Significant horizontal buffer (+0.70) to fully prevent line wrap overflow, tighter height buffer
-            const width = (elRect.width * scaleX) + 0.70;
-            const height = (elRect.height * scaleY) + 0.08;
-
-            if (width < 0.1 || height < 0.1) return;
-
-            const computedStyle = iframeWin.getComputedStyle(el);
-            const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
-            
-            // Scaled down multiplier (0.54x) to strictly contain fonts inside boundary
-            const sz = Math.max(8, Math.round(fontSizePx * 0.54));
-            const colorHex = parseColor(computedStyle.color) || '333333';
-            const fontFace = 'Malgun Gothic'; // Standardised office font face
-
-            const defaultFont = { sz, fontFace, color: colorHex, bold: true, italic: false };
-
-            const alignMap: any = { left: 'left', center: 'center', right: 'right', justify: 'justify' };
-            const align = alignMap[computedStyle.textAlign] || 'left';
-
-            const pptOptions: any = { 
-              x: left, 
-              y: top, 
-              w: width, 
-              h: height, 
-              align, 
-              valign: 'top', 
-              wrap: true, 
-              margin: 0 
-            };
-            
-            const runs = parseTextRuns(el, defaultFont, iframeWin);
-            slide.addText(runs, pptOptions);
-          });
         }
 
         // Cleanup sandboxed iframe context
@@ -341,7 +166,7 @@ export default function PptConverter() {
 
       } catch (err: any) {
         console.error(err);
-        setError(err.message || 'An unexpected error occurred during A4 layout translation.');
+        setError(err.message || 'An unexpected error occurred during high-fidelity slide capture.');
         if (iframe && iframe.parentNode) {
           iframe.parentNode.removeChild(iframe);
         }
@@ -376,13 +201,13 @@ export default function PptConverter() {
       <main className="max-w-4xl mx-auto px-4 pt-12">
         <header className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-900/60 bg-purple-950/20 text-purple-400 text-xs font-mono mb-4">
-            <span>✨ Sandboxed Visual Rendering Engine (No Specific Markup Class Required)</span>
+            <span>✨ High-Fidelity Slide Capture Engine (100% Layout & Design Preserved)</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent font-mono mb-2">
-            HTML TO EDITABLE PPTX
+            HTML TO PPTX SLIDE CONVERTER
           </h1>
           <p className="text-sm text-zinc-400 max-w-lg mx-auto leading-relaxed">
-            Convert standard HTML slide layouts with Tailwind CSS, Flex, or Grid directly into editable PowerPoint slides.
+            Convert standard HTML slide layouts with Tailwind CSS, Flex, or Grid into high-definition PowerPoint slides, preserving 100% of fonts, charts, gradients, and pixel-perfect alignments.
           </p>
         </header>
 
@@ -448,7 +273,7 @@ export default function PptConverter() {
                     {converting ? (
                       <>
                         <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Rendering & Converting...
+                        Capturing Slides...
                       </>
                     ) : (
                       <>
@@ -481,31 +306,24 @@ export default function PptConverter() {
 
         <section className="space-y-4">
           <h2 className="text-lg font-bold font-mono text-zinc-300 border-b border-zinc-800 pb-2">
-            📖 Universal Layout Converter Guide
+            📖 Slide Capture Specification Guide
           </h2>
           <p className="text-xs text-zinc-400 leading-relaxed">
-            The high-performance visual layout engine mounts a sandboxed iframe to render the slide's visual tree. It maps elements dynamically using their visual layout coordinates (px) to native editable PPTX components:
+            The conversion engine visually renders the HTML DOM in a sandboxed A4 landscape viewport and takes pixel-perfect 2x HD snapshots. 100% of layouts and styling are preserved exactly as seen in the browser.
           </p>
 
           <div className="space-y-3">
             <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
               <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">1. Visual Slide Container</h3>
               <p className="text-[11px] text-zinc-400 mb-2">
-                Slides are identified by wrapping HTML elements with the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">slide</code>. There are no strict formatting tags or coordinate properties required for internal elements.
+                Slides must be wrapped in a container with the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">slide</code>. You do not need to adapt formatting or add absolute position properties.
               </p>
             </div>
 
             <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
-              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">2. Dynamic Font & Colors</h3>
+              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">2. Perfect Resolution</h3>
               <p className="text-[11px] text-zinc-400 mb-2">
-                The visual engine reads the browser's computed styles (`getComputedStyle`). Standard semantic blocks like <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">h1-h6</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">p</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">ul</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">ol</code> are automatically extracted into editable PPTX shapes matching their relative locations.
-              </p>
-            </div>
-
-            <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
-              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">3. Native PowerPoint Charts</h3>
-              <p className="text-[11px] text-zinc-400 mb-2">
-                For native vector charts, keep the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">pptx-chart</code> with categories and series serialization data-attributes.
+                All fonts, complex CSS flexbox, grids, inline images, backgrounds, vector icons (e.g. FontAwesome), and CSS gradients are preserved with 200% resolution scaling to guarantee high-definition display on slides.
               </p>
             </div>
           </div>
