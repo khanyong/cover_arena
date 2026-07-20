@@ -136,94 +136,72 @@ export default function PptConverter() {
         const htmlText = e.target?.result as string;
         if (!htmlText) throw new Error('File is empty.');
 
-        console.log('[DEBUG Layout Engine] Starting browser sandbox render...');
+        console.log('[DEBUG Hybrid Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
         iframe = document.createElement('iframe');
         iframe.style.position = 'absolute';
         iframe.style.top = '-9999px';
         iframe.style.left = '-9999px';
-        iframe.style.width = '1123px'; // Standard slide layout A4 width
-        iframe.style.height = '794px';  // Standard slide layout A4 height
+        iframe.style.width = '1123px'; // Standard A4 Landscape width
+        iframe.style.height = '794px';  // Standard A4 Landscape height
         document.body.appendChild(iframe);
 
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
+        // Inject HTML and dynamically load html2canvas CDN inside sandbox
         iframeDoc.open();
-        iframeDoc.write(htmlText);
+        iframeDoc.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+            </head>
+            <body>
+              ${htmlText}
+            </body>
+          </html>
+        `);
         iframeDoc.close();
 
-        // 2. Wait extra time for Tailwind CDN to finish compiling classes and layouting elements
-        console.log('[DEBUG Layout Engine] Waiting for Tailwind CSS compiling engine...');
-        await new Promise((resolve) => setTimeout(resolve, 3000)); // Increased wait time to 3 seconds for safe layout completion
+        // 2. Wait for Tailwind CDN and html2canvas scripts to load and resolve visual layout tree
+        console.log('[DEBUG Hybrid Engine] Waiting for resources to resolve (3s)...');
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+
+        const iframeWin = iframe.contentWindow as any;
+        if (!iframeWin.html2canvas) {
+          throw new Error('html2canvas screenshot library failed to load in sandbox context.');
+        }
 
         const pptx = new pptxgen();
         pptx.layout = 'LAYOUT_16x9';
 
         const slideElements = iframeDoc.querySelectorAll('.slide');
-        console.log('[DEBUG Layout Engine] Found slide layouts:', slideElements.length);
+        console.log('[DEBUG Hybrid Engine] Found slide layouts:', slideElements.length);
 
         if (slideElements.length === 0) {
           throw new Error('No elements with class "slide" found in the HTML document.');
         }
 
-        slideElements.forEach((slideEl, index) => {
-          console.log(`[DEBUG Layout Engine] Parsing Slide ${index + 1}...`);
+        // Iterate slides and perform Hybrid Raster-Vector translation
+        for (let index = 0; index < slideElements.length; index++) {
+          const slideEl = slideElements[index] as HTMLElement;
+          console.log(`[DEBUG Hybrid Engine] Translating Slide ${index + 1}/${slideElements.length}...`);
+          
           const slide = pptx.addSlide();
           const slideRect = slideEl.getBoundingClientRect();
           
-          // Target 13.33 x 7.5 inches for widescreen slide
+          // Coordinate scale metrics (13.33 x 7.5 inches standard layout)
           const scaleX = 13.33 / (slideRect.width || 1123);
           const scaleY = 7.5 / (slideRect.height || 794);
 
-          // ----------------------------------------------------
-          // PART A: Render Background Elements and Color Blocks
-          // ----------------------------------------------------
-          // Detect container divs that act as backgrounds (e.g. background-colors, borders)
-          const containers = slideEl.querySelectorAll('div');
-          containers.forEach((div) => {
-            // Do not render parent slide container itself
-            if (div === slideEl) return;
-
-            const divStyle = window.getComputedStyle(div);
-            const bgColor = parseColor(divStyle.backgroundColor);
-            const borderW = parseFloat(divStyle.borderWidth) || 0;
-            const borderColor = parseColor(divStyle.borderColor);
-
-            // Check if this container has visual background/borders worth drawing in PPT
-            const hasBg = bgColor && bgColor !== '000000' && bgColor !== 'FFFFFF' && divStyle.backgroundColor !== 'transparent';
-            const hasBorder = borderW > 0 && borderColor;
-
-            if (hasBg || hasBorder) {
-              const r = div.getBoundingClientRect();
-              const left = (r.left - slideRect.left) * scaleX;
-              const top = (r.top - slideRect.top) * scaleY;
-              const width = r.width * scaleX;
-              const height = r.height * scaleY;
-
-              if (width < 0.1 || height < 0.1) return;
-
-              // Draw container rectangle block as PPT Shape
-              slide.addShape(pptx.ShapeType.rect, {
-                x: left,
-                y: top,
-                w: width,
-                h: height,
-                fill: hasBg ? { color: bgColor } : undefined,
-                line: hasBorder ? { color: borderColor, width: borderW } : undefined
-              });
-            }
-          });
-
-          // ----------------------------------------------------
-          // PART B: Render Texts (With visual font alignments)
-          // ----------------------------------------------------
-          // Find semantic text nodes: h1-h6, p, ul, ol, explicit textboxes
+          // Find semantic text and table nodes to parse
           const textBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, ul, ol, .pptx-text');
-          
-          // Filter to avoid double-parsing child nodes (e.g. rendering both <ul> and internal <li> separately)
-          const activeTextBlocks: Element[] = [];
+          const tables = slideEl.querySelectorAll('table, .pptx-table');
+
+          // Filter out nested nodes to avoid rendering duplicates
+          const activeTextBlocks: HTMLElement[] = [];
           textBlocks.forEach((el) => {
             let isNested = false;
             let parent = el.parentElement;
@@ -235,24 +213,57 @@ export default function PptConverter() {
               parent = parent.parentElement;
             }
             if (!isNested) {
-              activeTextBlocks.push(el);
+              activeTextBlocks.push(el as HTMLElement);
             }
           });
 
+          // ----------------------------------------------------
+          // STEP 1: Rasterize backgrounds (Gradients, shapes, etc.)
+          // ----------------------------------------------------
+          // To get a clean background ONLY, we temporarily hide all editable texts and tables
+          console.log(`[DEBUG Hybrid Engine] Temporarily hiding text and tables for background snap...`);
+          activeTextBlocks.forEach(el => { el.style.visibility = 'hidden'; });
+          tables.forEach(el => { (el as HTMLElement).style.visibility = 'hidden'; });
+
+          let bgBase64 = '';
+          try {
+            const canvas = await iframeWin.html2canvas(slideEl, {
+              useCORS: true,
+              allowTaint: true,
+              scale: 2, // 2x scale for crisp high-res backgrounds
+              backgroundColor: '#FFFFFF'
+            });
+            bgBase64 = canvas.toDataURL('image/png');
+          } catch (snapErr) {
+            console.error('[DEBUG Hybrid Engine] Background snapshot failed:', snapErr);
+          }
+
+          // Restore visibility of texts and tables for standard user editing
+          activeTextBlocks.forEach(el => { el.style.visibility = 'visible'; });
+          tables.forEach(el => { (el as HTMLElement).style.visibility = 'visible'; });
+
+          // Apply rasterized background to slide
+          if (bgBase64) {
+            slide.background = { data: bgBase64 };
+            console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: High-res design background applied.`);
+          }
+
+          // ----------------------------------------------------
+          // STEP 2: Overlay Vector Editable Texts
+          // ----------------------------------------------------
           activeTextBlocks.forEach((el) => {
             const elRect = el.getBoundingClientRect();
             const left = (elRect.left - slideRect.left) * scaleX;
             const top = (elRect.top - slideRect.top) * scaleY;
             
-            // Add a small width safety buffer (+0.4) to prevent word wrapping/truncation in PPTX
-            const width = (elRect.width * scaleX) + 0.4;
-            const height = (elRect.height * scaleY) + 0.15;
+            // Add safety buffer to width to prevent text wrap errors
+            const width = (elRect.width * scaleX) + 0.45;
+            const height = (elRect.height * scaleY) + 0.2;
 
             if (width < 0.15 || height < 0.15) return;
 
-            const computedStyle = window.getComputedStyle(el);
+            const computedStyle = iframeWin.getComputedStyle(el);
             
-            // Extract visual font attributes
             const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
             const sz = Math.round(fontSizePx * 0.75); // Convert px to pt
             const colorHex = parseColor(computedStyle.color) || '333333';
@@ -270,7 +281,7 @@ export default function PptConverter() {
             if (tagName === 'ul' || tagName === 'ol') {
               const textObjects: any[] = [];
               el.querySelectorAll('li').forEach((li) => {
-                const liStyle = window.getComputedStyle(li);
+                const liStyle = iframeWin.getComputedStyle(li);
                 const liSize = Math.round((parseFloat(liStyle.fontSize) || fontSizePx) * 0.75);
                 const liColor = parseColor(liStyle.color) || colorHex;
                 const liBold = parseInt(liStyle.fontWeight) >= 600 || liStyle.fontWeight === 'bold';
@@ -289,9 +300,8 @@ export default function PptConverter() {
           });
 
           // ----------------------------------------------------
-          // PART C: Render Tables Visually
+          // STEP 3: Overlay Vector Editable Tables
           // ----------------------------------------------------
-          const tables = slideEl.querySelectorAll('table, .pptx-table');
           const activeTables: Element[] = [];
           tables.forEach((tbl) => {
             let isNested = false;
@@ -319,14 +329,14 @@ export default function PptConverter() {
             const pptxRows: any[] = [];
 
             rowElements.forEach((rowEl) => {
-              const rowStyle = window.getComputedStyle(rowEl);
+              const rowStyle = iframeWin.getComputedStyle(rowEl);
               const rowBgColor = parseColor(rowStyle.backgroundColor);
               
               const cellElements = rowEl.querySelectorAll('td, th');
               const pptxCells: any[] = [];
               
               cellElements.forEach((cellEl) => {
-                const cellStyle = window.getComputedStyle(cellEl);
+                const cellStyle = iframeWin.getComputedStyle(cellEl);
                 const cellBgColor = parseColor(cellStyle.backgroundColor) || rowBgColor;
                 const cellTextColor = parseColor(cellStyle.color) || '000000';
                 
@@ -338,6 +348,7 @@ export default function PptConverter() {
                 pptxCells.push({
                   text: cellEl.textContent || '',
                   options: {
+                    // Render cells with transparent/clean overlay style
                     fill: cellBgColor && cellBgColor !== '000000' && cellBgColor !== 'FFFFFF' && cellBgColor !== 'TRANSPARENT' ? { color: cellBgColor } : undefined,
                     color: cellTextColor,
                     bold: cellBold || isHeader,
@@ -357,7 +368,7 @@ export default function PptConverter() {
           });
 
           // ----------------------------------------------------
-          // PART D: Render Charts
+          // STEP 4: Overlay Vector Charts
           // ----------------------------------------------------
           const charts = slideEl.querySelectorAll('.pptx-chart');
           charts.forEach((crt) => {
@@ -411,12 +422,12 @@ export default function PptConverter() {
               
               slide.addChart(chartType, pptxChartData, options);
             } catch (e) {
-              console.error('[DEBUG Layout Engine] Chart parse failed:', e);
+              console.error('[DEBUG Hybrid Engine] Chart parse failed:', e);
             }
           });
-        });
+        }
 
-        // Cleanup temporary iframe sandbox
+        // Cleanup sandboxed iframe context
         if (iframe && iframe.parentNode) {
           iframe.parentNode.removeChild(iframe);
         }
@@ -426,7 +437,7 @@ export default function PptConverter() {
 
       } catch (err: any) {
         console.error(err);
-        setError(err.message || 'An unexpected error occurred during visual parsing.');
+        setError(err.message || 'An unexpected error occurred during hybrid rendering.');
         if (iframe && iframe.parentNode) {
           iframe.parentNode.removeChild(iframe);
         }
