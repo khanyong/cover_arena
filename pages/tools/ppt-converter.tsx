@@ -119,7 +119,7 @@ export default function PptConverter() {
   };
 
   // ====================================================
-  // LIVE DOM SIDE PANEL WATCHER (100% Layout-safe)
+  // LIVE DOM SIDE PANEL WATCHER & DYNAMIC SYNC TRIGGER
   // ====================================================
   // We keep the Iframe 100% READ-ONLY to completely avoid event-listener conflicts,
   // Tailwind compiling failures, or absolute layout breakages. Instead, we scan texts
@@ -172,6 +172,23 @@ export default function PptConverter() {
               
               elementIdx++;
             });
+
+            // 🌟 [Feature] Live Click Sync: Bind click event to each slide container.
+            // If the user clicks anywhere on a slide inside the iframe, the editor instantly
+            // switches the Right edit panel to that slide's editable text fields.
+            const htmlSlide = slideEl as HTMLElement;
+            htmlSlide.style.cursor = 'pointer';
+            htmlSlide.style.transition = 'box-shadow 0.2s ease-in-out';
+            
+            // Remove old listeners to prevent duplicates
+            const newSlide = htmlSlide.cloneNode(true) as HTMLElement;
+            htmlSlide.parentNode?.replaceChild(newSlide, htmlSlide);
+            
+            newSlide.addEventListener('click', () => {
+              console.log(`[DEBUG Editor] User clicked slide ${slideIdx + 1}. Syncing active index.`);
+              // We pass message or trigger state directly since iframe is same-origin (srcDoc)
+              setActiveSlideIndex(slideIdx);
+            });
           });
 
           setEditableTexts(collectedTexts);
@@ -186,6 +203,13 @@ export default function PptConverter() {
               /* Force hide iframe scrollbars to keep design completely clean */
               body::-webkit-scrollbar { display: none !important; }
               body { -ms-overflow-style: none; scrollbar-width: none; }
+              /* Hover feedback to show slide is clickable for editing */
+              .slide {
+                position: relative;
+              }
+              .slide:hover {
+                box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.4) !important;
+              }
             `;
             iframeDoc.head.appendChild(style);
           }
@@ -205,6 +229,54 @@ export default function PptConverter() {
     }, 250);
 
     return () => clearInterval(timer);
+  }, [htmlContent]);
+
+  // ====================================================
+  // INTERSECTION OBSERVER FOR DYNAMIC SCROLL SYNC
+  // ====================================================
+  // Automatically detects which slide is in viewport when user scrolls,
+  // and dynamically updates activeSlideIndex.
+  useEffect(() => {
+    if (!htmlContent || !iframeRef.current) return;
+
+    const timer = setTimeout(() => {
+      try {
+        const iframeWin = iframeRef.current?.contentWindow as any;
+        const iframeDoc = iframeWin?.document;
+        if (!iframeDoc) return;
+
+        const slides = iframeDoc.querySelectorAll('.slide');
+        
+        // Define observer options (trigger when slide is 50% visible)
+        const observerOptions = {
+          root: null, // Viewport
+          threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const slideIdx = Array.from(slides).indexOf(entry.target);
+              if (slideIdx !== -1) {
+                console.log(`[DEBUG Scroll observer] Current visible slide: Slide ${slideIdx + 1}`);
+                setActiveSlideIndex(slideIdx);
+              }
+            }
+          });
+        }, observerOptions);
+
+        slides.forEach((slide: Element) => observer.observe(slide));
+
+        return () => {
+          slides.forEach((slide: Element) => observer.unobserve(slide));
+          observer.disconnect();
+        };
+      } catch (e) {
+        console.warn('Scroll Sync Observer could not start:', e);
+      }
+    }, 1500); // Wait briefly for DOM to fully settle before observing
+
+    return () => clearTimeout(timer);
   }, [htmlContent]);
 
   // Update the live DOM text inside the Iframe when user types in the panel
@@ -415,7 +487,7 @@ export default function PptConverter() {
                 <button
                   key={i}
                   onClick={() => scrollToSlide(i)}
-                  className={`w-full p-3 border rounded-xl text-left text-xs transition-all flex items-center gap-3 group ${
+                  className={`w-full p-3 border rounded-xl text-left text-xs transition-all flex items-center gap-3 group cursor-pointer ${
                     activeSlideIndex === i
                       ? 'bg-purple-950/20 border-purple-800/80 text-purple-400'
                       : 'bg-zinc-900 hover:bg-zinc-850 border-zinc-800/60 text-zinc-400 hover:border-purple-900/40'
@@ -469,7 +541,7 @@ export default function PptConverter() {
           ) : (
             <div className="flex flex-col items-center w-full">
               <div className="mb-6 bg-purple-950/20 text-purple-400 px-6 py-2.5 rounded-full text-xs font-bold border border-purple-900/60 shadow-md flex items-center gap-2 select-none">
-                <span>💡</span> Use the Right-hand Panel to edit slide text in real-time.
+                <span>💡</span> Click on any slide or scroll to select which page to edit.
               </div>
 
               {/* Visual Presentation Workspace Wrapper */}
