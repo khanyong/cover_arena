@@ -68,44 +68,28 @@ export default function PptConverter() {
         console.log('[DEBUG Image Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
+        // IMPORTANT: Mount the iframe inside the active viewport at (0,0) with opacity 0.001
+        // and pointer-events none. This forces the browser to run full "Active Painting"
+        // for Noto Sans Web Font baselines and Tailwind CSS flex calculations instead of
+        // lazy-rendering them off-screen, which previously caused bottom-alignment text displacement.
         iframe = document.createElement('iframe');
-        iframe.style.position = 'absolute';
-        iframe.style.top = '-9999px';
-        iframe.style.left = '-9999px';
+        iframe.style.position = 'fixed';
+        iframe.style.top = '0px';
+        iframe.style.left = '0px';
         iframe.style.width = '1123px';   // Standard A4 Landscape width
         iframe.style.height = '12000px'; // Massive height for seamless scrolling capture
+        iframe.style.opacity = '0.001';
+        iframe.style.pointerEvents = 'none';
+        iframe.style.zIndex = '-9999';
         document.body.appendChild(iframe);
 
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
         // Inject HTML and load html2canvas CDN
-        // Add globally overriding CSS rules inside head to force Noto Sans KR vertical baseline correction
-        // Specifying line-height controls and physical padding offsets to lift text from the bottom border.
-        const cdnScript = `
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-          <style>
-            /* 1. Normalise line-height on all text nodes to prevent html2canvas baseline descent */
-            h1, h2, h3, h4, h5, h6, p, span, a, li, td, th {
-              line-height: 1.25 !important;
-              vertical-align: middle !important;
-            }
-            
-            /* 2. Counter-act html2canvas bottom alignment bias by lifting badge text from the bottom border */
-            .rounded-full, .rounded-md, .rounded, [class*="rounded"] {
-              display: inline-flex !important;
-              align-items: center !important;
-              justify-content: center !important;
-              padding-bottom: 0.12em !important; /* Lifts the text vertically to achieve true optical center */
-            }
-
-            /* 3. Force flex container vertical alignment normalisation */
-            .flex, [class*="flex"] {
-              align-items: center !important;
-            }
-          </style>
-        `;
-        
+        // All hacky display: inline-flex / padding-bottom properties have been removed
+        // to strictly preserve the original document layout structure without breaking spans or vertical spacing.
+        const cdnScript = '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>';
         let updatedHtml = htmlText;
         if (htmlText.includes('</head>')) {
           updatedHtml = htmlText.replace('</head>', `${cdnScript}</head>`);
@@ -130,8 +114,8 @@ export default function PptConverter() {
           console.warn('[DEBUG Image Engine] Font loading detection warning:', fontErr);
         }
 
-        // Additional buffer for layout settlement
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        // Expanded buffer (5 seconds) to guarantee the browser's painting cycle finishes Noto Sans rendering
+        await new Promise((resolve) => setTimeout(resolve, 5000));
 
         if (!iframeWin.html2canvas) {
           throw new Error('html2canvas screenshot library failed to load in sandbox context.');
@@ -161,14 +145,12 @@ export default function PptConverter() {
           try {
             // Capture the entire slide DOM exactly as rendered
             // scale: 2 guarantees ultra-sharp high-definition vector-equivalent text display in PPTX
-            // letterRendering: true forces word-by-word layout tracing, preventing vertical baseline offset drops
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
               scale: 2, 
               backgroundColor: '#FFFFFF',
               logging: false,
-              letterRendering: true,
               scrollX: 0,
               scrollY: 0
             });
