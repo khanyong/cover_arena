@@ -51,24 +51,8 @@ export default function PptConverter() {
   };
 
   // ==========================================
-  // Browser-Side HTML to PPTX Parser & Generator
+  // Color Converter Helper
   // ==========================================
-  const parseDimension = (styleStr: string, propName: string): number | undefined => {
-    // Add flexibility for spacing and matching dimensions
-    const pattern = new RegExp(`(?:^|;\\s*)${propName}\\s*:\\s*([\\d.]+)\\s*(in|cm|pt|px)?`, 'i');
-    const match = styleStr.match(pattern);
-    if (!match) return undefined;
-    
-    const val = parseFloat(match[1]);
-    const unit = (match[2] || 'in').toLowerCase();
-    
-    if (unit === 'in') return val;
-    if (unit === 'cm') return val * 0.3937;
-    if (unit === 'pt') return val / 72.0;
-    if (unit === 'px') return val / 96.0;
-    return val;
-  };
-
   const parseColor = (colorStr: string): string | undefined => {
     if (!colorStr) return undefined;
     colorStr = colorStr.trim();
@@ -90,6 +74,9 @@ export default function PptConverter() {
     return undefined;
   };
 
+  // ==========================================
+  // Recursive HTML Formatting Runs Collector
+  // ==========================================
   interface TextRun {
     text: string;
     options?: any;
@@ -137,212 +124,6 @@ export default function PptConverter() {
     return runs;
   };
 
-  const processTextBox = (slide: any, el: Element) => {
-    const styleStr = el.getAttribute('style') || '';
-    const left = parseDimension(styleStr, 'left');
-    const top = parseDimension(styleStr, 'top');
-    const width = parseDimension(styleStr, 'width') || 5.0;
-    const height = parseDimension(styleStr, 'height') || 1.0;
-    
-    console.log('[DEBUG Parser] Processing text box style:', styleStr, 'Parsed coordinates:', { left, top, width, height });
-    
-    if (left === undefined || top === undefined) {
-      console.warn('[DEBUG Parser] Textbox skipped due to missing coordinates.');
-      return;
-    }
-    
-    // PptxGenJS uses 'sz' instead of 'fontSize' in TextProps options
-    const defaultFont = {
-      sz: el.getAttribute('data-font-size') ? parseInt(el.getAttribute('data-font-size')!) : 14,
-      fontFace: el.getAttribute('data-font-family') || el.getAttribute('data-font-name') || 'Arial',
-      color: parseColor(el.getAttribute('data-font-color') || '') || '000000',
-      bold: el.getAttribute('data-bold') === 'true',
-      italic: el.getAttribute('data-italic') === 'true'
-    };
-    
-    const alignMap: any = {
-      left: 'left',
-      center: 'center',
-      right: 'right',
-      justify: 'justify'
-    };
-    const align = alignMap[el.getAttribute('data-align')?.toLowerCase() || ''] || 'left';
-    
-    const blocks = el.querySelectorAll('ul, ol, p, div');
-    if (blocks.length === 0) {
-      const runs = parseTextRuns(el, defaultFont);
-      console.log('[DEBUG Parser] Textbox runs (no blocks):', runs);
-      slide.addText(runs, { x: left, y: top, w: width, h: height, align, wrap: true });
-    } else {
-      const textObjects: any[] = [];
-      el.childNodes.forEach(child => {
-        if (child.nodeType === Node.TEXT_NODE) {
-          const text = child.textContent?.trim();
-          if (text) {
-            textObjects.push({ text, options: { ...defaultFont } });
-          }
-        } else if (child.nodeType === Node.ELEMENT_NODE) {
-          const blockEl = child as Element;
-          const blockName = blockEl.tagName.toLowerCase();
-          
-          if (blockName === 'ul' || blockName === 'ol') {
-            blockEl.querySelectorAll('li').forEach(li => {
-              const runs = parseTextRuns(li, defaultFont);
-              textObjects.push({
-                text: runs.map(r => r.text).join(''),
-                options: { ...defaultFont, bullet: true }
-              });
-            });
-          } else if (blockName === 'p' || blockName === 'div') {
-            const runs = parseTextRuns(blockEl, defaultFont);
-            textObjects.push({
-              text: runs.map(r => r.text).join(''),
-              options: { ...defaultFont, breakLine: true }
-            });
-          }
-        }
-      });
-      console.log('[DEBUG Parser] Textbox runs (with blocks):', textObjects);
-      slide.addText(textObjects, { x: left, y: top, w: width, h: height, align, wrap: true });
-    }
-  };
-
-  const processTable = (slide: any, el: Element) => {
-    const styleStr = el.getAttribute('style') || '';
-    const left = parseDimension(styleStr, 'left');
-    const top = parseDimension(styleStr, 'top');
-    const width = parseDimension(styleStr, 'width') || 8.0;
-    const height = parseDimension(styleStr, 'height') || 2.0;
-    
-    console.log('[DEBUG Parser] Processing table style:', styleStr, 'Parsed coordinates:', { left, top, width, height });
-    
-    if (left === undefined || top === undefined) {
-      console.warn('[DEBUG Parser] Table skipped due to missing coordinates.');
-      return;
-    }
-    
-    const rowElements = el.querySelectorAll('tr');
-    const pptxRows: any[] = [];
-    
-    let colWidths: number[] = [];
-    const colWidthsStr = el.getAttribute('data-col-widths');
-    if (colWidthsStr) {
-      try {
-        colWidths = JSON.parse(colWidthsStr);
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    
-    const defaultFontSize = el.getAttribute('data-font-size') ? parseInt(el.getAttribute('data-font-size')!) : 12;
-    
-    rowElements.forEach(rowEl => {
-      const rowStyle = rowEl.getAttribute('style') || '';
-      const bgMatch = rowStyle.match(/background-color\s*:\s*([^;]+)/i);
-      const rowBgColor = bgMatch ? parseColor(bgMatch[1]) : undefined;
-      
-      const cellElements = rowEl.querySelectorAll('td, th');
-      const pptxCells: any[] = [];
-      
-      cellElements.forEach(cellEl => {
-        const cellStyle = cellEl.getAttribute('style') || '';
-        const cellBgMatch = cellStyle.match(/background-color\s*:\s*([^;]+)/i);
-        const cellBgColor = cellBgMatch ? parseColor(cellBgMatch[1]) : rowBgColor;
-        
-        const colorMatch = (cellStyle + ';' + rowStyle).match(/color\s*:\s*([^;]+)/i);
-        const cellTextColor = colorMatch ? parseColor(colorMatch[1]) : undefined;
-        
-        const isHeader = cellEl.tagName.toLowerCase() === 'th';
-        
-        pptxCells.push({
-          text: cellEl.textContent || '',
-          options: {
-            fill: cellBgColor ? { color: cellBgColor } : undefined,
-            color: cellTextColor || (isHeader ? 'FFFFFF' : '000000'),
-            bold: isHeader,
-            sz: defaultFontSize, // PptxGenJS uses 'sz' for table cell fonts
-            align: 'left',
-            valign: 'middle'
-          }
-        });
-      });
-      pptxRows.push(pptxCells);
-    });
-    
-    slide.addTable(pptxRows, {
-      x: left,
-      y: top,
-      w: width,
-      h: height,
-      colWidths: colWidths.length > 0 ? colWidths : undefined
-    });
-  };
-
-  const processChart = (slide: any, el: Element, pptxInstance: any) => {
-    const styleStr = el.getAttribute('style') || '';
-    const left = parseDimension(styleStr, 'left');
-    const top = parseDimension(styleStr, 'top');
-    const width = parseDimension(styleStr, 'width') || 5.0;
-    const height = parseDimension(styleStr, 'height') || 4.0;
-    
-    console.log('[DEBUG Parser] Processing chart style:', styleStr, 'Parsed coordinates:', { left, top, width, height });
-    
-    if (left === undefined || top === undefined) {
-      console.warn('[DEBUG Parser] Chart skipped due to missing coordinates.');
-      return;
-    }
-    
-    const chartTypeStr = (el.getAttribute('data-chart-type') || 'column').toLowerCase();
-    const categoriesStr = el.getAttribute('data-chart-categories');
-    const seriesStr = el.getAttribute('data-chart-series');
-    const titleStr = el.getAttribute('data-chart-title');
-    
-    if (!categoriesStr || !seriesStr) {
-      console.warn('[DEBUG Parser] Chart skipped due to missing category or series data attributes.');
-      return;
-    }
-    
-    try {
-      const categories = JSON.parse(categoriesStr);
-      const seriesData = JSON.parse(seriesStr);
-      
-      const pptxChartData = seriesData.map((s: any) => ({
-        name: s.name || 'Series',
-        labels: categories,
-        values: s.values || []
-      }));
-      
-      const chartTypeMap: any = {
-        column: pptxInstance.ChartType.bar, 
-        bar: pptxInstance.ChartType.bar,
-        line: pptxInstance.ChartType.line,
-        pie: pptxInstance.ChartType.pie,
-        area: pptxInstance.ChartType.area
-      };
-      
-      const chartType = chartTypeMap[chartTypeStr] || pptxInstance.ChartType.bar;
-      const options: any = {
-        x: left,
-        y: top,
-        w: width,
-        h: height,
-        showLegend: true,
-        showTitle: !!titleStr,
-        title: titleStr || undefined
-      };
-      
-      if (chartTypeStr === 'bar') {
-        options.barDir = 'bar';
-      } else if (chartTypeStr === 'column') {
-        options.barDir = 'col';
-      }
-      
-      slide.addChart(chartType, pptxChartData, options);
-    } catch (e) {
-      console.error('Error parsing chart data inside browser:', e);
-    }
-  };
-
   const handleConvert = () => {
     if (!file) return;
     setConverting(true);
@@ -350,54 +131,263 @@ export default function PptConverter() {
 
     const reader = new FileReader();
     reader.onload = async (e) => {
+      let iframe: HTMLIFrameElement | null = null;
       try {
         const htmlText = e.target?.result as string;
         if (!htmlText) throw new Error('File is empty.');
 
-        console.log('[DEBUG Parser] Starting conversion of HTML content. Length:', htmlText.length);
+        console.log('[DEBUG Layout Engine] Starting browser sandbox render...');
+
+        // 1. Create a sandboxed iframe to visually render the HTML layout
+        iframe = document.createElement('iframe');
+        iframe.style.position = 'absolute';
+        iframe.style.top = '-9999px';
+        iframe.style.left = '-9999px';
+        iframe.style.width = '1123px'; // Standard slide layout A4 width
+        iframe.style.height = '794px';  // Standard slide layout A4 height
+        document.body.appendChild(iframe);
+
+        const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
+
+        iframeDoc.open();
+        iframeDoc.write(htmlText);
+        iframeDoc.close();
+
+        // 2. Wait for Tailwind CDN and font sheets to finish layout and loading
+        await new Promise((resolve) => setTimeout(resolve, 1500));
 
         const pptx = new pptxgen();
         pptx.layout = 'LAYOUT_16x9';
 
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(htmlText, 'text/html');
-        
-        const slideElements = doc.querySelectorAll('.slide');
-        console.log('[DEBUG Parser] Found slides in HTML DOM:', slideElements.length);
-        
+        const slideElements = iframeDoc.querySelectorAll('.slide');
+        console.log('[DEBUG Layout Engine] Found slide layouts:', slideElements.length);
+
         if (slideElements.length === 0) {
-          throw new Error('No elements with class "slide" found in the uploaded HTML.');
+          throw new Error('No elements with class "slide" found in the HTML document.');
         }
 
         slideElements.forEach((slideEl, index) => {
-          console.log(`[DEBUG Parser] Converting slide ${index + 1}/${slideElements.length}...`);
+          console.log(`[DEBUG Layout Engine] Parsing Slide ${index + 1}...`);
           const slide = pptx.addSlide();
+          const slideRect = slideEl.getBoundingClientRect();
+          
+          // Target 13.33 x 7.5 inches for widescreen slide
+          const scaleX = 13.33 / (slideRect.width || 1123);
+          const scaleY = 7.5 / (slideRect.height || 794);
 
-          // 1. Process Textboxes
-          const textBoxes = slideEl.querySelectorAll('.pptx-text');
-          console.log(`[DEBUG Parser] Slide ${index + 1}: Found ${textBoxes.length} text boxes.`);
-          textBoxes.forEach((tb) => processTextBox(slide, tb));
+          // Find semantic text nodes: h1-h6, p, ul, ol, explicit textboxes
+          const textBlocks = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, ul, ol, .pptx-text');
+          
+          // Filter to avoid double-parsing child nodes (e.g. rendering both <ul> and internal <li> separately)
+          const activeTextBlocks: Element[] = [];
+          textBlocks.forEach((el) => {
+            let isNested = false;
+            let parent = el.parentElement;
+            while (parent && parent !== slideEl) {
+              if (parent.matches('h1, h2, h3, h4, h5, h6, p, ul, ol, .pptx-text')) {
+                isNested = true;
+                break;
+              }
+              parent = parent.parentElement;
+            }
+            if (!isNested) {
+              activeTextBlocks.push(el);
+            }
+          });
 
-          // 2. Process Tables
-          const tables = slideEl.querySelectorAll('.pptx-table');
-          const standardTables = slideEl.querySelectorAll('table');
-          const allTables = Array.from(new Set([...Array.from(tables), ...Array.from(standardTables)]));
-          console.log(`[DEBUG Parser] Slide ${index + 1}: Found ${allTables.length} tables.`);
-          allTables.forEach((tbl) => processTable(slide, tbl));
+          console.log(`[DEBUG Layout Engine] Slide ${index + 1}: Found ${activeTextBlocks.length} active text blocks.`);
+
+          // 1. Process Textboxes visually via computed styles
+          activeTextBlocks.forEach((el) => {
+            const elRect = el.getBoundingClientRect();
+            const left = (elRect.left - slideRect.left) * scaleX;
+            const top = (elRect.top - slideRect.top) * scaleY;
+            const width = elRect.width * scaleX;
+            const height = elRect.height * scaleY;
+
+            if (width < 0.1 || height < 0.1) return;
+
+            const computedStyle = window.getComputedStyle(el);
+            
+            // Extract visual font attributes
+            const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
+            const sz = Math.round(fontSizePx * 0.75); // Convert px to pt
+            const colorHex = parseColor(computedStyle.color) || '333333';
+            const fontFace = computedStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || 'Arial';
+            const bold = parseInt(computedStyle.fontWeight) >= 600 || computedStyle.fontWeight === 'bold';
+            const italic = computedStyle.fontStyle === 'italic';
+
+            const defaultFont = { sz, fontFace, color: colorHex, bold, italic };
+
+            const alignMap: any = { left: 'left', center: 'center', right: 'right', justify: 'justify' };
+            const align = alignMap[computedStyle.textAlign] || 'left';
+
+            const tagName = el.tagName.toLowerCase();
+            
+            if (tagName === 'ul' || tagName === 'ol') {
+              const textObjects: any[] = [];
+              el.querySelectorAll('li').forEach((li) => {
+                const liStyle = window.getComputedStyle(li);
+                const liSize = Math.round((parseFloat(liStyle.fontSize) || fontSizePx) * 0.75);
+                const liColor = parseColor(liStyle.color) || colorHex;
+                const liBold = parseInt(liStyle.fontWeight) >= 600 || liStyle.fontWeight === 'bold';
+                
+                const runs = parseTextRuns(li, { ...defaultFont, sz: liSize, color: liColor, bold: liBold });
+                textObjects.push({
+                  text: runs.map((r) => r.text).join(''),
+                  options: { ...defaultFont, sz: liSize, color: liColor, bold: liBold, bullet: true }
+                });
+              });
+              slide.addText(textObjects, { x: left, y: top, w: width, h: height + 0.3, align, wrap: true });
+            } else {
+              const runs = parseTextRuns(el, defaultFont);
+              slide.addText(runs, { x: left, y: top, w: width, h: height + 0.15, align, wrap: true });
+            }
+          });
+
+          // 2. Process Tables visually
+          const tables = slideEl.querySelectorAll('table, .pptx-table');
+          const activeTables: Element[] = [];
+          tables.forEach((tbl) => {
+            let isNested = false;
+            let parent = tbl.parentElement;
+            while (parent && parent !== slideEl) {
+              if (parent.tagName.toLowerCase() === 'table') {
+                isNested = true;
+                break;
+              }
+              parent = parent.parentElement;
+            }
+            if (!isNested) {
+              activeTables.push(tbl);
+            }
+          });
+
+          console.log(`[DEBUG Layout Engine] Slide ${index + 1}: Found ${activeTables.length} active tables.`);
+
+          activeTables.forEach((tbl) => {
+            const tblRect = tbl.getBoundingClientRect();
+            const left = (tblRect.left - slideRect.left) * scaleX;
+            const top = (tblRect.top - slideRect.top) * scaleY;
+            const width = tblRect.width * scaleX;
+            const height = tblRect.height * scaleY;
+
+            const rowElements = tbl.querySelectorAll('tr');
+            const pptxRows: any[] = [];
+
+            rowElements.forEach((rowEl) => {
+              const rowStyle = window.getComputedStyle(rowEl);
+              const rowBgColor = parseColor(rowStyle.backgroundColor);
+              
+              const cellElements = rowEl.querySelectorAll('td, th');
+              const pptxCells: any[] = [];
+              
+              cellElements.forEach((cellEl) => {
+                const cellStyle = window.getComputedStyle(cellEl);
+                const cellBgColor = parseColor(cellStyle.backgroundColor) || rowBgColor;
+                const cellTextColor = parseColor(cellStyle.color) || '000000';
+                
+                const isHeader = cellEl.tagName.toLowerCase() === 'th';
+                const cellFontSize = Math.round((parseFloat(cellStyle.fontSize) || 16) * 0.75);
+                const cellFontFace = cellStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || 'Arial';
+                const cellBold = parseInt(cellStyle.fontWeight) >= 600 || cellStyle.fontWeight === 'bold';
+
+                pptxCells.push({
+                  text: cellEl.textContent || '',
+                  options: {
+                    fill: cellBgColor && cellBgColor !== '000000' && cellBgColor !== 'FFFFFF' && cellBgColor !== 'TRANSPARENT' ? { color: cellBgColor } : undefined,
+                    color: cellTextColor,
+                    bold: cellBold || isHeader,
+                    sz: cellFontSize,
+                    fontFace: cellFontFace,
+                    align: 'left',
+                    valign: 'middle'
+                  }
+                });
+              });
+              if (pptxCells.length > 0) pptxRows.push(pptxCells);
+            });
+
+            if (pptxRows.length > 0) {
+              slide.addTable(pptxRows, { x: left, y: top, w: width, h: height });
+            }
+          });
 
           // 3. Process Charts
           const charts = slideEl.querySelectorAll('.pptx-chart');
-          console.log(`[DEBUG Parser] Slide ${index + 1}: Found ${charts.length} charts.`);
-          charts.forEach((crt) => processChart(slide, crt, pptx));
+          console.log(`[DEBUG Layout Engine] Slide ${index + 1}: Found ${charts.length} charts.`);
+
+          charts.forEach((crt) => {
+            const crtRect = crt.getBoundingClientRect();
+            const left = (crtRect.left - slideRect.left) * scaleX;
+            const top = (crtRect.top - slideRect.top) * scaleY;
+            const width = crtRect.width * scaleX;
+            const height = crtRect.height * scaleY;
+            
+            const chartTypeStr = (crt.getAttribute('data-chart-type') || 'column').toLowerCase();
+            const categoriesStr = crt.getAttribute('data-chart-categories');
+            const seriesStr = crt.getAttribute('data-chart-series');
+            const titleStr = crt.getAttribute('data-chart-title');
+            
+            if (!categoriesStr || !seriesStr) return;
+            
+            try {
+              const categories = JSON.parse(categoriesStr);
+              const seriesData = JSON.parse(seriesStr);
+              
+              const pptxChartData = seriesData.map((s: any) => ({
+                name: s.name || 'Series',
+                labels: categories,
+                values: s.values || []
+              }));
+              
+              const chartTypeMap: any = {
+                column: pptx.ChartType.bar,
+                bar: pptx.ChartType.bar,
+                line: pptx.ChartType.line,
+                pie: pptx.ChartType.pie,
+                area: pptx.ChartType.area
+              };
+              
+              const chartType = chartTypeMap[chartTypeStr] || pptx.ChartType.bar;
+              const options: any = {
+                x: left,
+                y: top,
+                w: width,
+                h: height,
+                showLegend: true,
+                showTitle: !!titleStr,
+                title: titleStr || undefined
+              };
+              
+              if (chartTypeStr === 'bar') {
+                options.barDir = 'bar';
+              } else if (chartTypeStr === 'column') {
+                options.barDir = 'col';
+              }
+              
+              slide.addChart(chartType, pptxChartData, options);
+            } catch (e) {
+              console.error('[DEBUG Layout Engine] Chart parse failed:', e);
+            }
+          });
         });
 
+        // Cleanup temporary iframe sandbox
+        if (iframe && iframe.parentNode) {
+          iframe.parentNode.removeChild(iframe);
+        }
+
         const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '.pptx';
-        console.log('[DEBUG Parser] Saving PPTX presentation as:', newFilename);
         await pptx.writeFile({ fileName: newFilename });
 
       } catch (err: any) {
         console.error(err);
-        setError(err.message || 'An unexpected error occurred during client-side conversion.');
+        setError(err.message || 'An unexpected error occurred during visual parsing.');
+        if (iframe && iframe.parentNode) {
+          iframe.parentNode.removeChild(iframe);
+        }
       } finally {
         setConverting(false);
       }
@@ -429,13 +419,13 @@ export default function PptConverter() {
       <main className="max-w-4xl mx-auto px-4 pt-12">
         <header className="mb-10 text-center">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-purple-900/60 bg-purple-950/20 text-purple-400 text-xs font-mono mb-4">
-            <span>✨ Pure Client-Side Conversion Engine (No External Servers)</span>
+            <span>✨ Sandboxed Visual Rendering Engine (No Specific Markup Class Required)</span>
           </div>
           <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent font-mono mb-2">
             HTML TO EDITABLE PPTX
           </h1>
           <p className="text-sm text-zinc-400 max-w-lg mx-auto leading-relaxed">
-            Convert custom structured HTML slide components into fully editable, native vector PowerPoint presentations.
+            Convert standard HTML slide layouts with Tailwind CSS, Flex, or Grid directly into editable PowerPoint slides.
           </p>
         </header>
 
@@ -501,7 +491,7 @@ export default function PptConverter() {
                     {converting ? (
                       <>
                         <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                        Converting...
+                        Rendering & Converting...
                       </>
                     ) : (
                       <>
@@ -534,86 +524,33 @@ export default function PptConverter() {
 
         <section className="space-y-4">
           <h2 className="text-lg font-bold font-mono text-zinc-300 border-b border-zinc-800 pb-2">
-            📖 Slide HTML Markup Specification Guide
+            📖 Universal Layout Converter Guide
           </h2>
           <p className="text-xs text-zinc-400 leading-relaxed">
-            The conversion engine parses the HTML file by looking for specific classes and mapping them directly to editable PowerPoint objects. Use the template structures below:
+            The high-performance visual layout engine mounts a sandboxed iframe to render the slide's visual tree. It maps elements dynamically using their visual layout coordinates (px) to native editable PPTX components:
           </p>
 
           <div className="space-y-3">
             <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
-              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">1. Slide Layout Container</h3>
+              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">1. Visual Slide Container</h3>
               <p className="text-[11px] text-zinc-400 mb-2">
-                Every slide must be wrapped in a container with the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">slide</code>. Default widescreen dimension is 13.33 x 7.5 inches.
+                Slides are identified by wrapping HTML elements with the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">slide</code>. There are no strict formatting tags or coordinate properties required for internal elements.
               </p>
-              <pre className="bg-zinc-950 p-2.5 rounded-lg border border-zinc-900 text-[10px] text-emerald-500 overflow-x-auto font-mono">
-{`<div class="slide">
-  <!-- Slide elements go here -->
-</div>`}
-              </pre>
             </div>
 
             <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
-              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">2. Editable Text Boxes</h3>
+              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">2. Dynamic Font & Colors</h3>
               <p className="text-[11px] text-zinc-400 mb-2">
-                Use the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">pptx-text</code>. Coordinates and sizes must be defined as inline CSS styles (in, cm, pt, px). Use <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">data-</code> attributes for text configuration.
+                The visual engine reads the browser's computed styles (`getComputedStyle`). Standard semantic blocks like <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">h1-h6</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">p</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">ul</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">ol</code> are automatically extracted into editable PPTX shapes matching their relative locations.
               </p>
-              <pre className="bg-zinc-950 p-2.5 rounded-lg border border-zinc-900 text-[10px] text-emerald-500 overflow-x-auto font-mono">
-{`<div class="pptx-text" 
-     style="top: 1.0in; left: 1.5in; width: 10.33in; height: 1.5in;"
-     data-font-size="28" 
-     data-font-family="Arial" 
-     data-font-color="#2F5597" 
-     data-bold="true" 
-     data-align="center">
-  <h2>Slide Title Header</h2>
-  <p>Standard text with <strong>bold</strong> and <em>italic</em> inline tags.</p>
-</div>`}
-              </pre>
             </div>
 
             <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
-              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">3. Editable Tables</h3>
+              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">3. Native PowerPoint Charts</h3>
               <p className="text-[11px] text-zinc-400 mb-2">
-                Use the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">pptx-table</code> or standard table tags. Supports explicit column widths.
+                For native vector charts, keep the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">pptx-chart</code> with categories and series serialization data-attributes.
               </p>
-              <pre className="bg-zinc-950 p-2.5 rounded-lg border border-zinc-900 text-[10px] text-emerald-500 overflow-x-auto font-mono">
-{`<table class="pptx-table" 
-       style="top: 3.0in; left: 2.0in; width: 9.33in; height: 2.0in;"
-       data-col-widths="[3.0, 3.0, 3.33]"
-       data-font-size="12">
-  <tr style="background-color: #2F5597; color: #FFFFFF;">
-    <th>Item Name</th>
-    <th>Quantity</th>
-    <th>Price</th>
-  </tr>
-  <tr>
-    <td>Hadron Model A</td>
-    <td>5</td>
-    <td>$1,200</td>
-  </tr>
-</table>`}
-              </pre>
             </div>
-
-            <div className="bg-zinc-900/50 border border-zinc-800/60 rounded-xl p-4">
-              <h3 className="text-xs font-bold font-mono text-purple-400 mb-2">4. Native Excel-backed Charts</h3>
-              <p className="text-[11px] text-zinc-400 mb-2">
-                Use the class <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">pptx-chart</code>. Renders a native editable chart inside PowerPoint. Supported types: <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">column</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">bar</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">line</code>, <code className="text-zinc-300 bg-zinc-950 px-1 py-0.5 rounded">pie</code>.
-              </p>
-              <pre className="bg-zinc-950 p-2.5 rounded-lg border border-zinc-900 text-[10px] text-emerald-500 overflow-x-auto font-mono">
-{`<div class="pptx-chart" 
-     style="top: 2.5in; left: 3.5in; width: 6.33in; height: 4.0in;"
-     data-chart-type="column"
-     data-chart-title="Topological Mass Splitting"
-     data-chart-categories="[\\"Proton\\", \\"Neutron\\", \\"Pion\\", \\"Omega\\"]"
-     data-chart-series="[
-       {\"name\\": \\"Mass (MeV)\\", \\"values\\": [938.2, 939.6, 139.5, 1672.4]}
-     ]">
-</div>`}
-              </pre>
-            </div>
-
           </div>
         </section>
       </main>
