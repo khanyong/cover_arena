@@ -158,7 +158,7 @@ export default function PptConverter() {
             <head>
               <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
             </head>
-            <body>
+            <body style="margin: 0; padding: 0;">
               ${htmlText}
             </body>
           </html>
@@ -166,8 +166,8 @@ export default function PptConverter() {
         iframeDoc.close();
 
         // 2. Wait for Tailwind CDN and html2canvas scripts to load and resolve visual layout tree
-        console.log('[DEBUG Hybrid Engine] Waiting for resources to resolve (3s)...');
-        await new Promise((resolve) => setTimeout(resolve, 3000));
+        console.log('[DEBUG Hybrid Engine] Waiting for resources to resolve (3.5s)...');
+        await new Promise((resolve) => setTimeout(resolve, 3500));
 
         const iframeWin = iframe.contentWindow as any;
         if (!iframeWin.html2canvas) {
@@ -175,7 +175,11 @@ export default function PptConverter() {
         }
 
         const pptx = new pptxgen();
-        pptx.layout = 'LAYOUT_16x9';
+        
+        // Define Custom A4 Landscape layout size to prevent 16:9 ratio stretch / warp 
+        // 297mm x 210mm translates to exactly 11.69 x 8.27 inches
+        pptx.defineLayout({ name: 'A4_LANDSCAPE', width: 11.69, height: 8.27 });
+        pptx.layout = 'A4_LANDSCAPE';
 
         const slideElements = iframeDoc.querySelectorAll('.slide');
         console.log('[DEBUG Hybrid Engine] Found slide layouts:', slideElements.length);
@@ -192,9 +196,9 @@ export default function PptConverter() {
           const slide = pptx.addSlide();
           const slideRect = slideEl.getBoundingClientRect();
           
-          // Coordinate scale metrics (13.33 x 7.5 inches standard layout)
-          const scaleX = 13.33 / (slideRect.width || 1123);
-          const scaleY = 7.5 / (slideRect.height || 794);
+          // Coordinate scale metrics matched exactly to custom A4 Layout
+          const scaleX = 11.69 / (slideRect.width || 1123);
+          const scaleY = 8.27 / (slideRect.height || 794);
 
           // Find all text elements to hide and parse
           const textElements = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, li, span, th, td, a, i, .pptx-text');
@@ -206,7 +210,6 @@ export default function PptConverter() {
           // STEP 1: Rasterize backgrounds (Gradients, shapes, icons, graphs)
           // ----------------------------------------------------
           // To get a clean background with shapes, icons, and graphs, we hide TEXT by making it transparent.
-          // This keeps the layout spacing intact and prevents double-text overlay artifacts.
           console.log(`[DEBUG Hybrid Engine] Making text transparent for clean background snapshot...`);
           textElements.forEach((el) => {
             const htmlEl = el as HTMLElement;
@@ -217,7 +220,6 @@ export default function PptConverter() {
             });
             htmlEl.style.setProperty('color', 'transparent', 'important');
             
-            // If it is a text-only element, we also hide background-images on text nodes to avoid background rendering
             if (htmlEl.tagName.toLowerCase() === 'span') {
               htmlEl.style.setProperty('background-image', 'none', 'important');
             }
@@ -225,10 +227,20 @@ export default function PptConverter() {
 
           let bgBase64 = '';
           try {
+            // Apply strict coordinate, scroll, and viewport boundary overrides to html2canvas
+            // to bypass the viewport offset displacement bug on multiple scrolled nodes
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
               scale: 2, // 2x scale for crisp high-res backgrounds
+              scrollX: 0,
+              scrollY: 0,
+              x: slideRect.left + iframeWin.scrollX,
+              y: slideRect.top + iframeWin.scrollY,
+              width: slideRect.width,
+              height: slideRect.height,
+              windowWidth: iframeDoc.documentElement.offsetWidth,
+              windowHeight: iframeDoc.documentElement.offsetHeight,
               backgroundColor: '#FFFFFF'
             });
             bgBase64 = canvas.toDataURL('image/png');
@@ -245,11 +257,11 @@ export default function PptConverter() {
           // Apply rasterized background to slide
           if (bgBase64) {
             slide.background = { data: bgBase64 };
-            console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: High-res design background (with graphs & icons) applied.`);
+            console.log(`[DEBUG Hybrid Engine] Slide ${index + 1}: High-res design background applied.`);
           }
 
           // ----------------------------------------------------
-          // STEP 2: Overlay Vector Editable Texts (Clean overlays)
+          // STEP 2: Overlay Vector Editable Texts (A4 aligned)
           // ----------------------------------------------------
           // Filter to avoid double-parsing nested nodes
           const activeTextBlocks: HTMLElement[] = [];
@@ -276,10 +288,10 @@ export default function PptConverter() {
             const top = (elRect.top - slideRect.top) * scaleY;
             
             // Add safety buffer to width to prevent text wrap errors
-            const width = (elRect.width * scaleX) + 0.45;
-            const height = (elRect.height * scaleY) + 0.15;
+            const width = (elRect.width * scaleX) + 0.35;
+            const height = (elRect.height * scaleY) + 0.12;
 
-            if (width < 0.15 || height < 0.15) return;
+            if (width < 0.1 || height < 0.1) return;
 
             const computedStyle = iframeWin.getComputedStyle(el);
             
@@ -329,7 +341,7 @@ export default function PptConverter() {
 
       } catch (err: any) {
         console.error(err);
-        setError(err.message || 'An unexpected error occurred during hybrid rendering.');
+        setError(err.message || 'An unexpected error occurred during A4 layout translation.');
         if (iframe && iframe.parentNode) {
           iframe.parentNode.removeChild(iframe);
         }
