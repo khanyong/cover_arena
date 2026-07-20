@@ -82,7 +82,8 @@ export default function PptConverter() {
     options?: any;
   }
 
-  const parseTextRuns = (element: Element, defaultFont: any): TextRun[] => {
+  // Enhanced to capture nested computed font-sizes and child attributes dynamically
+  const parseTextRuns = (element: Element, defaultFont: any, iframeWin: any): TextRun[] => {
     const runs: TextRun[] = [];
     
     const recurse = (node: Node, currentStyle: any) => {
@@ -99,22 +100,27 @@ export default function PptConverter() {
         } else if (child.nodeType === Node.ELEMENT_NODE) {
           const el = child as Element;
           const tagName = el.tagName.toLowerCase();
-          const nextStyle = { ...currentStyle };
           
-          if (tagName === 'strong' || tagName === 'b') {
-            nextStyle.bold = true;
-          } else if (tagName === 'em' || tagName === 'i') {
-            nextStyle.italic = true;
-          } else if (tagName === 'code') {
+          // Read child computed style to override inherited properties (like font-size, bold, color)
+          const childStyle = iframeWin.getComputedStyle(el);
+          const childSizePx = parseFloat(childStyle.fontSize);
+          const childSize = childSizePx ? Math.round(childSizePx * 0.75) : currentStyle.sz;
+          const childColor = parseColor(childStyle.color) || currentStyle.color;
+          const childBold = parseInt(childStyle.fontWeight) >= 600 || childStyle.fontWeight === 'bold';
+          const childFontFace = childStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || currentStyle.fontFace;
+
+          const nextStyle = {
+            ...currentStyle,
+            sz: childSize,
+            color: childColor,
+            bold: childBold,
+            fontFace: childFontFace
+          };
+          
+          if (tagName === 'code') {
             nextStyle.fontFace = 'Courier New';
-          } else if (tagName === 'span') {
-            const styleAttr = el.getAttribute('style') || '';
-            const colorMatch = styleAttr.match(/color\s*:\s*([^;]+)/i);
-            if (colorMatch) {
-              const parsedC = parseColor(colorMatch[1]);
-              if (parsedC) nextStyle.color = parsedC;
-            }
           }
+          
           recurse(child, nextStyle);
         }
       }
@@ -139,8 +145,6 @@ export default function PptConverter() {
         console.log('[DEBUG Hybrid Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
-        // We set a very tall height (12000px) to force all multi-page slides onto the screen
-        // and prevent html2canvas from capturing empty whitespace due to off-screen viewport clipping.
         iframe = document.createElement('iframe');
         iframe.style.position = 'absolute';
         iframe.style.top = '-9999px';
@@ -179,7 +183,6 @@ export default function PptConverter() {
         const pptx = new pptxgen();
         
         // Define Custom A4 Landscape layout size to prevent 16:9 ratio stretch / warp 
-        // 297mm x 210mm translates to exactly 11.69 x 8.27 inches
         pptx.defineLayout({ name: 'A4_LANDSCAPE', width: 11.69, height: 8.27 });
         pptx.layout = 'A4_LANDSCAPE';
 
@@ -211,7 +214,6 @@ export default function PptConverter() {
           // ----------------------------------------------------
           // STEP 1: Rasterize backgrounds (Gradients, shapes, icons, graphs)
           // ----------------------------------------------------
-          // To get a clean background with shapes, icons, and graphs, we hide TEXT by making it transparent.
           console.log(`[DEBUG Hybrid Engine] Making text transparent for clean background snapshot...`);
           textElements.forEach((el) => {
             const htmlEl = el as HTMLElement;
@@ -229,8 +231,6 @@ export default function PptConverter() {
 
           let bgBase64 = '';
           try {
-            // Since the entire document is fully expanded and visible in our massive iframe height,
-            // we call html2canvas directly on the slide element to generate a perfect design capture.
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
@@ -282,9 +282,9 @@ export default function PptConverter() {
             const left = (elRect.left - slideRect.left) * scaleX;
             const top = (elRect.top - slideRect.top) * scaleY;
             
-            // Add safety buffer to width to prevent text wrap errors
+            // Adjust safety width buffer to ensure clean container flow in PPTX
             const width = (elRect.width * scaleX) + 0.35;
-            const height = (elRect.height * scaleY) + 0.12;
+            const height = (elRect.height * scaleY) + 0.15;
 
             if (width < 0.1 || height < 0.1) return;
 
@@ -304,6 +304,9 @@ export default function PptConverter() {
 
             const tagName = el.tagName.toLowerCase();
             
+            // PPT Options config: Force 0 margin to prevent element block offsets from overlapping
+            const pptOptions = { x: left, y: top, w: width, h: height, align, wrap: true, margin: 0 };
+            
             if (tagName === 'ul' || tagName === 'ol') {
               const textObjects: any[] = [];
               el.querySelectorAll('li').forEach((li) => {
@@ -312,16 +315,16 @@ export default function PptConverter() {
                 const liColor = parseColor(liStyle.color) || colorHex;
                 const liBold = parseInt(liStyle.fontWeight) >= 600 || liStyle.fontWeight === 'bold';
                 
-                const runs = parseTextRuns(li, { ...defaultFont, sz: liSize, color: liColor, bold: liBold });
+                const runs = parseTextRuns(li, { ...defaultFont, sz: liSize, color: liColor, bold: liBold }, iframeWin);
                 textObjects.push({
                   text: runs.map((r) => r.text).join(''),
                   options: { ...defaultFont, sz: liSize, color: liColor, bold: liBold, bullet: true }
                 });
               });
-              slide.addText(textObjects, { x: left, y: top, w: width, h: height, align, wrap: true });
+              slide.addText(textObjects, pptOptions);
             } else {
-              const runs = parseTextRuns(el, defaultFont);
-              slide.addText(runs, { x: left, y: top, w: width, h: height, align, wrap: true });
+              const runs = parseTextRuns(el, defaultFont, iframeWin);
+              slide.addText(runs, pptOptions);
             }
           });
         }
