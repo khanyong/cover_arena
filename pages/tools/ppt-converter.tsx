@@ -83,29 +83,17 @@ export default function PptConverter() {
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
         // Inject HTML and load html2canvas CDN
-        // Add targeted vertical baseline-shifting offsets to lift font rendering from the bottom borders.
-        // We elevate spans (badges) to inline-block and lift them slightly using translateY,
-        // while preserving blocks (headings, paragraphs) to secure original grid / flex layouts.
+        // CRITICAL FIX: To prevent layout collapse (like the 4th slide inline-span line-breaking),
+        // we DO NOT override any display properties (no inline-block conversions).
+        // Instead, we use "position: relative; top: -0.06em" which shifts the text baseline upward
+        // across all tags (inline, block, flex) natively without affecting container sizes or structure.
         const cdnScript = `
           <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
           <style>
-            /* 1. Lift inline elements (badges, labels) using translateY and line-height normalisation */
-            span, a {
-              display: inline-block !important;
-              line-height: 1.0 !important;
-              transform: translateY(-8%) !important; /* Lifts inline texts strictly from the bottom */
-            }
-
-            /* 2. Lift block paragraphs and headings slightly while maintaining block nature */
-            p, h1, h2, h3, h4, h5, h6, li, td, th {
-              display: block !important;
-              line-height: 1.25 !important;
-              transform: translateY(-4%) !important; /* Lifts block texts moderately */
-            }
-
-            /* 3. Re-assert flex layouts to prevent structure breaking */
-            .flex, [class*="flex"] {
-              display: flex !important;
+            /* Globally apply relative positioning offset to lift text baselines upwards safely */
+            h1, h2, h3, h4, h5, h6, p, span, a, li, td, th {
+              position: relative !important;
+              top: -0.06em !important; /* Perfectly counters html2canvas baseline descent shift */
             }
           </style>
         `;
