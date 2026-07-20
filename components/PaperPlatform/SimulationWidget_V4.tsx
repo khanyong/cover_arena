@@ -656,7 +656,7 @@ export const SimulationWidget_V4: React.FC<{ initialMode?: 'knot' | 'su3' | 'exc
           ctx.fillText("PHASE CANCELATION WARNING!", cx - 80, cy + 90);
           ctx.font = '9px monospace';
           ctx.fillStyle = 'rgba(255,255,255,0.5)';
-          ctx.fillText(`Topological Energy Barrier: Chiral Phase Exclusion`, cx - 80, cy + 105);
+          ctx.fillText(`Topological Energy Barrier: \u0394E_topo \u2192 \u221e`, cx - 80, cy + 105);
 
           // Spawn exclusion spark particles
           if (frameCountRef.current % 3 === 0) {
