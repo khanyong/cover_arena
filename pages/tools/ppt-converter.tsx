@@ -96,11 +96,9 @@ export default function PptConverter() {
         const measuredSlide = tempDoc?.querySelector('.slide') as HTMLElement;
         const width = measuredSlide ? measuredSlide.offsetWidth : 1123;
         const height = measuredSlide ? measuredSlide.offsetHeight : 794;
-        const count = tempDoc?.querySelectorAll('.slide').length || 0;
 
         setSlideWidth(width);
         setSlideHeight(height);
-        setSlideCount(count);
         setActiveSlideIndex(0);
 
         if (tempIframe.parentNode) {
@@ -122,8 +120,8 @@ export default function PptConverter() {
   // COMPREHENSIVE TEXT SCANNER & LAYOUT CONTROLLER
   // ====================================================
   // Extracts ALL meaningful leaf text nodes from the uploaded slides and binds them.
-  // We inject CSS to only display the CURRENT ACTIVE SLIDE inside the iframe, preventing
-  // massive scroll heights and boosting rendering performance to 0ms latency.
+  // We use dynamic CSS selector queries instead of buggy live element list additions
+  // to toggle slide visibilities, completely preventing black screen artifacts.
   useEffect(() => {
     if (!htmlContent) return;
 
@@ -136,6 +134,9 @@ export default function PptConverter() {
 
         const slides = iframeDoc.querySelectorAll('.slide');
         if (slides.length > 0) {
+          // Set accurate slide count resolved from live mounted Iframe DOM
+          setSlideCount(slides.length);
+
           const collectedTexts: EditableText[] = [];
 
           slides.forEach((slideEl: Element, slideIdx: number) => {
@@ -176,27 +177,41 @@ export default function PptConverter() {
           setEditableTexts(collectedTexts);
 
           // Force hide system scroll bars, print banners, and all non-active slides
+          // We generate a dynamic CSS style map pointing to the body data attribute.
           const styleId = 'iframe-performance-fixes';
           if (!iframeDoc.getElementById(styleId)) {
             const style = iframeDoc.createElement('style');
             style.id = styleId;
+            
+            let slideVisibilityRules = '';
+            for (let idx = 0; idx < slides.length; idx++) {
+              slideVisibilityRules += `
+                body[data-active-slide-idx="${idx}"] .slide:nth-of-type(${idx + 1}) {
+                  display: block !important;
+                }
+              `;
+            }
+
             style.innerHTML = `
               #print-guide, .print-banner { display: none !important; }
               body::-webkit-scrollbar { display: none !important; }
-              body { -ms-overflow-style: none; scrollbar-width: none; background: #ffffff !important; overflow: hidden !important; }
+              body { -ms-overflow-style: none; scrollbar-width: none; background: #ffffff !important; overflow: hidden !important; margin: 0 !important; }
               
-              /* performance single-page view engine */
+              /* Hide all slides by default */
               .slide {
                 display: none !important;
                 margin: 0 !important;
                 box-shadow: none !important;
               }
-              .slide.active-slide-view {
-                display: block !important;
-              }
+              
+              /* Show slide matching body's active data-attribute */
+              ${slideVisibilityRules}
             `;
             iframeDoc.head.appendChild(style);
           }
+
+          // Initialize the starting active slide index state on body
+          iframeDoc.body.setAttribute('data-active-slide-idx', '0');
 
           // Load html-to-image script internally inside loaded DOM if missing
           const scriptId = 'html-to-image-helper';
@@ -215,20 +230,15 @@ export default function PptConverter() {
     return () => clearInterval(timer);
   }, [htmlContent]);
 
-  // Sync active slide index toggle directly to Iframe slide element displays
+  // Sync active slide index toggle directly to Iframe body data attribute
   useEffect(() => {
     if (!htmlContent || !iframeRef.current || !iframeRef.current.contentWindow) return;
     
     const iframeDoc = iframeRef.current.contentWindow.document;
-    const slides = iframeDoc.querySelectorAll('.slide');
-    
-    slides.forEach((slide: Element, idx: number) => {
-      if (idx === activeSlideIndex) {
-        slide.classList.add('active-slide-view');
-      } else {
-        slide.classList.remove('active-slide-view');
-      }
-    });
+    if (iframeDoc && iframeDoc.body) {
+      iframeDoc.body.setAttribute('data-active-slide-idx', String(activeSlideIndex));
+      console.log(`[DEBUG Editor] Switched Iframe active slide index to: ${activeSlideIndex}`);
+    }
   }, [activeSlideIndex, htmlContent]);
 
   // Update the live DOM text inside the Iframe when user types in the panel
@@ -287,11 +297,8 @@ export default function PptConverter() {
         const slideEl = slideElements[i] as HTMLElement;
         const slide = pptx.addSlide();
 
-        // Force show slide temporarily for capture
-        slideElements.forEach((el, idx) => {
-          if (idx === i) el.classList.add('active-slide-view');
-          else el.classList.remove('active-slide-view');
-        });
+        // Force show slide temporarily for capture using body attribute mock
+        iframeDoc.body.setAttribute('data-active-slide-idx', String(i));
 
         // Let layout settle
         await new Promise((resolve) => setTimeout(resolve, 150));
@@ -315,10 +322,7 @@ export default function PptConverter() {
       }
 
       // Restore user's viewing slide state
-      slideElements.forEach((el, idx) => {
-        if (idx === originalActiveIdx) el.classList.add('active-slide-view');
-        else el.classList.remove('active-slide-view');
-      });
+      iframeDoc.body.setAttribute('data-active-slide-idx', String(originalActiveIdx));
 
       const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '_edited.pptx';
       await pptx.writeFile({ fileName: newFilename });
@@ -418,9 +422,9 @@ export default function PptConverter() {
               
               <button
                 onClick={handleExportToPptx}
-                disabled={converting}
+                disabled={converting || slideCount === 0}
                 className={`px-5 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white rounded-lg text-xs font-bold font-mono transition-all shadow-md flex items-center gap-2 ${
-                  converting ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'
+                  (converting || slideCount === 0) ? 'opacity-50 cursor-not-allowed' : 'active:scale-95'
                 }`}
               >
                 {converting ? (
@@ -449,7 +453,7 @@ export default function PptConverter() {
       {/* Main Workspace Frame */}
       <div className="flex-1 flex overflow-hidden">
         {/* Left Slide Thumbnail Navigation */}
-        {htmlContent && (
+        {htmlContent && slideCount > 0 && (
           <aside className="w-64 border-r border-zinc-800/80 bg-zinc-950/70 p-4 flex flex-col gap-3 overflow-y-auto hidden md:flex select-none">
             <h2 className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono mb-2 uppercase">
               Slide Navigator
@@ -513,25 +517,27 @@ export default function PptConverter() {
           ) : (
             <div className="flex flex-col items-center w-full">
               {/* Pagination Controls */}
-              <div className="mb-6 flex items-center gap-4 bg-zinc-950 px-5 py-2.5 rounded-full border border-zinc-800 shadow-lg select-none">
-                <button
-                  onClick={handlePrevPage}
-                  disabled={activeSlideIndex === 0}
-                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold"
-                >
-                  ◀
-                </button>
-                <span className="text-xs font-mono text-zinc-400 font-bold px-2">
-                  PAGE {activeSlideIndex + 1} / {slideCount}
-                </span>
-                <button
-                  onClick={handleNextPage}
-                  disabled={activeSlideIndex === slideCount - 1}
-                  className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold"
-                >
-                  ▶
-                </button>
-              </div>
+              {slideCount > 0 && (
+                <div className="mb-6 flex items-center gap-4 bg-zinc-950 px-5 py-2.5 rounded-full border border-zinc-800 shadow-lg select-none">
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={activeSlideIndex === 0}
+                    className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold cursor-pointer"
+                  >
+                    ◀
+                  </button>
+                  <span className="text-xs font-mono text-zinc-400 font-bold px-2">
+                    PAGE {activeSlideIndex + 1} / {slideCount}
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={activeSlideIndex === slideCount - 1}
+                    className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold cursor-pointer"
+                  >
+                    ▶
+                  </button>
+                </div>
+              )}
 
               {/* Visual Presentation Workspace Wrapper - Single slide displayed strictly */}
               <div className="bg-white rounded-2xl shadow-2xl overflow-hidden border border-zinc-200">
@@ -552,7 +558,7 @@ export default function PptConverter() {
         </main>
 
         {/* Right Sidebar: Real-time Text Editing Panel */}
-        {htmlContent && (
+        {htmlContent && slideCount > 0 && (
           <aside className="w-80 border-l border-zinc-800/80 bg-zinc-950/80 p-5 flex flex-col gap-4 overflow-y-auto select-none">
             <div>
               <h2 className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono uppercase mb-1">
