@@ -68,7 +68,6 @@ export default function PptConverter() {
         console.log('[DEBUG Image Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
-        // Set massive height to guarantee all slides render inside view boundaries
         iframe = document.createElement('iframe');
         iframe.style.position = 'absolute';
         iframe.style.top = '-9999px';
@@ -80,11 +79,19 @@ export default function PptConverter() {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
-        // PREVENT DOUBLE-NESTED HTML TAGS BUG:
-        // Inject html2canvas CDN script dynamically into the existing <head> of the uploaded htmlText
-        // instead of wrapping the entire document in another redundant html/body tag structure.
-        // This ensures Web Fonts, Tailwind CSS, and custom stylesheets compile and align baseline elements perfectly.
-        const cdnScript = '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>';
+        // Inject HTML and load html2canvas CDN
+        // Add globally overriding CSS rule inside head to force Noto Sans KR vertical baseline correction (line-height normalisation)
+        const cdnScript = `
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+          <style>
+            /* Globally override text vertical baseline alignments to resolve bottom shifting bugs in html2canvas */
+            body, body * {
+              line-height: 1.35 !important;
+              vertical-align: middle !important;
+            }
+          </style>
+        `;
+        
         let updatedHtml = htmlText;
         if (htmlText.includes('</head>')) {
           updatedHtml = htmlText.replace('</head>', `${cdnScript}</head>`);
@@ -96,11 +103,22 @@ export default function PptConverter() {
         iframeDoc.write(updatedHtml);
         iframeDoc.close();
 
-        // 2. Wait for Tailwind and CSS fonts to settle (3.5 seconds)
-        console.log('[DEBUG Image Engine] Resolving style rendering (3.5s)...');
-        await new Promise((resolve) => setTimeout(resolve, 3500));
-
+        // 2. Wait explicitly for both Tailwind engine compiles and 구글 웹 폰트(Noto Sans) to finish loading
+        console.log('[DEBUG Image Engine] Waiting for web fonts (document.fonts.ready) and Tailwind engine to resolve...');
         const iframeWin = iframe.contentWindow as any;
+        
+        try {
+          if (iframeWin.document && iframeWin.document.fonts) {
+            await iframeWin.document.fonts.ready;
+            console.log('[DEBUG Image Engine] Web fonts fully loaded and active.');
+          }
+        } catch (fontErr) {
+          console.warn('[DEBUG Image Engine] Font loading detection warning:', fontErr);
+        }
+
+        // Additional buffer for layout settlement
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+
         if (!iframeWin.html2canvas) {
           throw new Error('html2canvas screenshot library failed to load in sandbox context.');
         }
@@ -108,7 +126,6 @@ export default function PptConverter() {
         const pptx = new pptxgen();
         
         // Define Custom A4 Landscape layout size to prevent 16:9 ratio stretch / warp 
-        // 297mm x 210mm translates to exactly 11.69 x 8.27 inches
         pptx.defineLayout({ name: 'A4_LANDSCAPE', width: 11.69, height: 8.27 });
         pptx.layout = 'A4_LANDSCAPE';
 
