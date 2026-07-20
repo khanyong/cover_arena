@@ -67,13 +67,42 @@ export default function PptConverter() {
 
         console.log('[DEBUG Image Engine] Starting browser sandbox render...');
 
-        // 1. Create a sandboxed iframe to visually render the HTML layout
+        // 1. First Pass: Create a temporary hidden iframe to measure the actual size of the uploaded slide
+        const tempIframe = document.createElement('iframe');
+        tempIframe.style.position = 'absolute';
+        tempIframe.style.top = '-9999px';
+        tempIframe.style.left = '-9999px';
+        tempIframe.style.width = '1920px'; // Set temporary large width to read layout
+        document.body.appendChild(tempIframe);
+        
+        const tempDoc = tempIframe.contentDocument || tempIframe.contentWindow?.document;
+        if (tempDoc) {
+          tempDoc.open();
+          tempDoc.write(htmlText);
+          tempDoc.close();
+        }
+        
+        // Measure first slide layout dimensions to dynamically determine aspect ratio
+        const measuredSlide = tempDoc?.querySelector('.slide') as HTMLElement;
+        const slideWidthPx = measuredSlide ? measuredSlide.offsetWidth : 1123;
+        const slideHeightPx = measuredSlide ? measuredSlide.offsetHeight : 794;
+        
+        // Clean up temporary sizing iframe
+        if (tempIframe.parentNode) {
+          tempIframe.parentNode.removeChild(tempIframe);
+        }
+
+        console.log(`[DEBUG Image Engine] Detected Uploaded Slide Size: ${slideWidthPx}px x ${slideHeightPx}px`);
+
+        // 2. Create the actual sandbox rendering iframe scaled to match measured width exactly
+        // Mount the iframe inside the active viewport at (0,0) with opacity 0.001
+        // to trigger full browser "Active Painting" for perfect web fonts/CSS baselines.
         iframe = document.createElement('iframe');
         iframe.style.position = 'fixed';
         iframe.style.top = '0px';
         iframe.style.left = '0px';
-        iframe.style.width = '1123px';   // Standard A4 Landscape width
-        iframe.style.height = '12000px'; // Massive height for seamless scrolling capture
+        iframe.style.width = `${slideWidthPx}px`; // Dynamically adjust width to prevent layout wrapping bugs
+        iframe.style.height = '12000px';          // Massive height for seamless scrolling capture
         iframe.style.opacity = '0.001';
         iframe.style.pointerEvents = 'none';
         iframe.style.zIndex = '-9999';
@@ -82,12 +111,8 @@ export default function PptConverter() {
         const iframeDoc = iframe.contentDocument || iframe.contentWindow?.document;
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
-        // PREVENT FONT COLLAPSE & BASELINE DROPS:
-        // Instead of using html2canvas (which rebuilds elements inside canvas causing font baseline drop bugs),
-        // we integrate html-to-image. It extracts the browser's exact SVG painting context 1:1,
-        // preserving Noto Sans KR vertical alignments, loose/relaxed line-heights, and font scale perfectly.
+        // Inject HTML and load html-to-image CDN
         const cdnScript = '<script src="https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js"></script>';
-        
         let updatedHtml = htmlText;
         if (htmlText.includes('</head>')) {
           updatedHtml = htmlText.replace('</head>', `${cdnScript}</head>`);
@@ -99,7 +124,7 @@ export default function PptConverter() {
         iframeDoc.write(updatedHtml);
         iframeDoc.close();
 
-        // 2. Wait explicitly for both Tailwind engine compiles and 구글 웹 폰트(Noto Sans) to finish loading
+        // 3. Wait explicitly for both Tailwind engine compiles and 구글 웹 폰트(Noto Sans) to finish loading
         console.log('[DEBUG Image Engine] Waiting for web fonts (document.fonts.ready) and Tailwind engine to resolve...');
         const iframeWin = iframe.contentWindow as any;
         
@@ -119,11 +144,17 @@ export default function PptConverter() {
           throw new Error('html-to-image raster library failed to load inside sandbox.');
         }
 
-        const pptx = new pptxgen();
+        // 4. Calculate dynamic PowerPoint layout sizes based on actual aspect ratio
+        // Maintain base width of 11.69 inches (A4 Landscape) and scale height accordingly
+        const aspectRatio = slideHeightPx / slideWidthPx;
+        const pptWidth = 11.69;
+        const pptHeight = Number((pptWidth * aspectRatio).toFixed(2));
         
-        // Define Custom A4 Landscape layout size to prevent 16:9 ratio stretch / warp 
-        pptx.defineLayout({ name: 'A4_LANDSCAPE', width: 11.69, height: 8.27 });
-        pptx.layout = 'A4_LANDSCAPE';
+        console.log(`[DEBUG Image Engine] Dynamically generated PPT Slide Size: ${pptWidth} x ${pptHeight} inches`);
+
+        const pptx = new pptxgen();
+        pptx.defineLayout({ name: 'DYNAMIC_SLIDE_LAYOUT', width: pptWidth, height: pptHeight });
+        pptx.layout = 'DYNAMIC_SLIDE_LAYOUT';
 
         const slideElements = iframeDoc.querySelectorAll('.slide');
         console.log('[DEBUG Image Engine] Found slide layouts:', slideElements.length);
@@ -141,8 +172,7 @@ export default function PptConverter() {
           
           let slideBase64 = '';
           try {
-            // Render the slide DOM to PNG using standard browser painting context.
-            // pixelRatio: 2 guarantees ultra-sharp high-definition equivalent texts.
+            // Capture the entire slide DOM exactly as rendered
             slideBase64 = await iframeWin.htmlToImage.toPng(slideEl, {
               pixelRatio: 2,
               style: {
@@ -154,14 +184,14 @@ export default function PptConverter() {
             console.error('[DEBUG Image Engine] Slide snapshot failed:', snapErr);
           }
 
-          // Overlay the Captured Slide Image to cover the entire PPT slide dimension (11.69 x 8.27 inches)
+          // Overlay the Captured Slide Image to cover the dynamic slide dimensions exactly without stretch
           if (slideBase64) {
             slide.addImage({
               data: slideBase64,
               x: 0,
               y: 0,
-              w: 11.69,
-              h: 8.27
+              w: pptWidth,
+              h: pptHeight
             });
             console.log(`[DEBUG Image Engine] Slide ${index + 1}: HD slide capture applied.`);
           } else {
