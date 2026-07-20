@@ -48,7 +48,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const pptxFilePath = path.join(uploadDir, pptxFilename);
 
       const pythonScriptPath = path.join(process.cwd(), 'scripts', 'html_to_pptx.py');
-      const cmd = `python3 "${pythonScriptPath}" "${htmlFilePath}" "${pptxFilePath}"`;
+      const cmd = `/opt/anaconda3/bin/python3 "${pythonScriptPath}" "${htmlFilePath}" "${pptxFilePath}"`;
 
       exec(cmd, (execErr, stdout, stderr) => {
         if (stdout) console.log('[Python STDOUT]:', stdout);
