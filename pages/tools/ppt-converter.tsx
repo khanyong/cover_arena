@@ -354,22 +354,22 @@ export default function PptConverter() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-[#f4f4f5] font-sans flex flex-col">
+    <div className="min-h-screen bg-[#0a0b10] text-[#f4f4f5] font-sans flex flex-col transition-colors duration-300">
       <Head>
         <title>Visual WYSIWYG HTML to PPTX Editor</title>
         <meta name="description" content="Click and edit HTML slides visually in real-time, then export to pixel-perfect PowerPoint slides." />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
       </Head>
 
-      {/* Top Navigation Control Bar */}
-      <header className="h-16 border-b border-zinc-800/80 bg-zinc-950 px-6 flex justify-between items-center z-10 shadow-lg select-none">
+      {/* Top Navigation Control Bar - Layered Slate Navy */}
+      <header className="h-16 border-b border-zinc-800/60 bg-[#11131c] px-6 flex justify-between items-center z-10 shadow-lg select-none">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-black text-sm shadow-md">
             ✨
           </div>
           <div>
-            <h1 className="text-sm font-bold tracking-wider font-mono">VISUAL PPT MAKER</h1>
-            <p className="text-[10px] text-zinc-500 font-mono">WYSIWYG Workspace v4.0</p>
+            <h1 className="text-sm font-bold tracking-wider font-mono text-zinc-100">VISUAL PPT MAKER</h1>
+            <p className="text-[10px] text-purple-400/80 font-mono">WYSIWYG Workspace v4.0</p>
           </div>
         </div>
 
@@ -392,7 +392,7 @@ export default function PptConverter() {
           ) : (
             <div className="flex items-center gap-3">
               <div className="text-right hidden sm:block">
-                <p className="text-xs text-zinc-400 font-semibold truncate max-w-[200px]">{file?.name}</p>
+                <p className="text-xs text-zinc-300 font-semibold truncate max-w-[200px]">{file?.name}</p>
                 <p className="text-[10px] text-zinc-500 font-mono">
                   {slideCount} slides detected • {slideWidth}x{slideHeight}px
                 </p>
@@ -419,7 +419,7 @@ export default function PptConverter() {
 
               <button
                 onClick={resetEditor}
-                className="px-3.5 py-2 bg-zinc-900 hover:bg-zinc-800 border border-zinc-800 text-zinc-400 rounded-lg text-xs transition-colors font-mono"
+                className="px-3.5 py-2 bg-[#1c1e2d] hover:bg-zinc-800 border border-zinc-700/60 text-zinc-300 rounded-lg text-xs transition-colors font-mono"
               >
                 Reset
               </button>
@@ -430,10 +430,11 @@ export default function PptConverter() {
 
       {/* Main Workspace Frame */}
       <div className="flex-1 flex overflow-hidden">
-        {/* Left Slide Thumbnail Navigation */}
+        
+        {/* Left Slide Thumbnail Navigation - Dark Slate Navy */}
         {htmlContent && slideCount > 0 && (
-          <aside className="w-64 border-r border-zinc-800/80 bg-zinc-950/70 p-4 flex flex-col gap-3 overflow-y-auto hidden md:flex select-none">
-            <h2 className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono mb-2 uppercase">
+          <aside className="w-64 border-r border-zinc-800/60 bg-[#11131c]/90 p-4 flex flex-col gap-3 overflow-y-auto hidden md:flex select-none">
+            <h2 className="text-[10px] font-bold text-zinc-400 tracking-wider font-mono mb-2 uppercase">
               Slide Navigator
             </h2>
             <div className="space-y-2">
@@ -443,14 +444,14 @@ export default function PptConverter() {
                   onClick={() => setActiveSlideIndex(i)}
                   className={`w-full p-3 border rounded-xl text-left text-xs transition-all flex items-center gap-3 group cursor-pointer ${
                     activeSlideIndex === i
-                      ? 'bg-purple-950/20 border-purple-800/80 text-purple-400'
-                      : 'bg-zinc-900 hover:bg-zinc-850 border-zinc-800/60 text-zinc-400 hover:border-purple-900/40'
+                      ? 'bg-purple-950/20 border-purple-500/60 text-purple-300 shadow-[0_0_15px_rgba(139,92,246,0.1)]'
+                      : 'bg-[#1c1e2d]/50 hover:bg-[#1c1e2d] border-zinc-800/60 text-zinc-400 hover:border-purple-950/40'
                   }`}
                 >
                   <div className={`w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold font-mono border ${
                     activeSlideIndex === i
-                      ? 'bg-purple-900/20 border-purple-800 text-purple-400'
-                      : 'bg-zinc-850 border-zinc-800 text-zinc-400'
+                      ? 'bg-purple-900/20 border-purple-500/60 text-purple-300'
+                      : 'bg-zinc-900/80 border-zinc-800 text-zinc-500'
                   }`}>
                     {i + 1}
                   </div>
@@ -461,10 +462,10 @@ export default function PptConverter() {
           </aside>
         )}
 
-        {/* Central Workspace Board */}
-        <main className="flex-1 bg-zinc-900 overflow-y-auto p-8 flex flex-col items-center justify-start">
+        {/* Central Workspace Board - Medium Midnight Slate */}
+        <main className="flex-1 bg-[#151722] overflow-y-auto p-8 flex flex-col items-center justify-start">
           {error && (
-            <div className="w-full max-w-4xl mb-6 p-4 bg-red-950/20 border border-red-900/60 rounded-xl flex items-start gap-2.5 shadow-md animate-shake">
+            <div className="w-full max-w-4xl mb-6 p-4 bg-red-950/30 border border-red-900/50 rounded-xl flex items-start gap-2.5 shadow-md">
               <span className="text-red-400 text-sm mt-0.5">⚠️</span>
               <p className="text-xs text-red-300 font-mono leading-relaxed">{error}</p>
             </div>
@@ -475,10 +476,10 @@ export default function PptConverter() {
               
               {/* Premium Hero Title & Neon Flare Badge */}
               <div className="text-center space-y-4">
-                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/30 bg-purple-950/15 text-purple-300 text-[10px] font-bold tracking-wider font-mono uppercase shadow-[0_0_15px_rgba(139,92,246,0.1)]">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/30 bg-purple-950/30 text-purple-300 text-[10px] font-bold tracking-wider font-mono uppercase shadow-[0_0_15px_rgba(139,92,246,0.15)]">
                   ⚡ WYSIWYG Visual Editor v4.0
                 </div>
-                <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none">
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none text-zinc-100">
                   Convert HTML to Premium
                   <span className="block mt-2 bg-gradient-to-r from-purple-400 via-violet-200 to-indigo-400 bg-clip-text text-transparent font-extrabold">
                     PowerPoint Presentations
@@ -489,17 +490,17 @@ export default function PptConverter() {
                 </p>
               </div>
 
-              {/* Steps Flow Guide */}
+              {/* Steps Flow Guide - Brightened Dark Metal Cards */}
               <div className="w-full max-w-3xl grid grid-cols-3 gap-4 text-center">
                 {[
                   { step: '01', title: 'Upload HTML', desc: 'Drag-and-drop raw presentation sheets' },
                   { step: '02', title: 'Edit Text', desc: 'Change titles or data on the sidebar' },
                   { step: '03', title: 'Get PPTX', desc: 'Download HD 1:1 formatted powerpoints' }
                 ].map((s, idx) => (
-                  <div key={idx} className="relative bg-zinc-950/40 border border-zinc-800/40 rounded-xl p-4 flex flex-col items-center gap-1">
-                    <span className="text-[10px] font-bold font-mono text-purple-500">{s.step}</span>
+                  <div key={idx} className="relative bg-[#1c1e2d] border border-zinc-800/80 rounded-xl p-4 flex flex-col items-center gap-1 shadow-md">
+                    <span className="text-[10px] font-bold font-mono text-purple-400">{s.step}</span>
                     <h3 className="text-xs font-bold text-zinc-200 font-mono">{s.title}</h3>
-                    <p className="text-[10px] text-zinc-500">{s.desc}</p>
+                    <p className="text-[10px] text-zinc-400/80">{s.desc}</p>
                   </div>
                 ))}
               </div>
@@ -512,34 +513,34 @@ export default function PptConverter() {
                 onClick={triggerFileSelect}
                 className={`w-full max-w-3xl border-2 border-dashed rounded-2xl p-14 text-center transition-all cursor-pointer shadow-2xl relative group ${
                   dragOver
-                    ? 'border-purple-500 bg-purple-950/15 shadow-[0_0_50px_rgba(139,92,246,0.25)]'
-                    : 'border-zinc-800 hover:border-zinc-700 bg-zinc-950/40 shadow-[0_0_40px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(139,92,246,0.08)]'
+                    ? 'border-purple-500 bg-[#1c1e2d]/90 shadow-[0_0_50px_rgba(139,92,246,0.25)]'
+                    : 'border-zinc-700/60 hover:border-purple-500/40 bg-[#11131c]/60 shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:shadow-[0_0_50px_rgba(139,92,246,0.12)]'
                 }`}
               >
-                <div className="p-5 bg-zinc-900 rounded-2xl border border-zinc-800 text-zinc-400 group-hover:text-purple-400 group-hover:border-purple-500/40 shadow-inner w-16 h-16 flex items-center justify-center mx-auto mb-4 transition-all duration-300">
+                <div className="p-5 bg-[#1c1e2d] rounded-2xl border border-zinc-800 text-zinc-400 group-hover:text-purple-400 group-hover:border-purple-500/40 shadow-inner w-16 h-16 flex items-center justify-center mx-auto mb-4 transition-all duration-300">
                   <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                   </svg>
                 </div>
-                <h2 className="text-sm font-semibold mb-1 group-hover:text-zinc-200 transition-colors">
+                <h2 className="text-sm font-semibold mb-1 group-hover:text-zinc-100 transition-colors text-zinc-200">
                   Drag & drop your presentation HTML file here
                 </h2>
                 <p className="text-xs text-zinc-500 font-mono">
                   or <span className="text-purple-400 group-hover:text-purple-300 font-bold underline decoration-purple-600/40 underline-offset-4">browse local files</span>
                 </p>
-                <p className="text-[10px] text-zinc-600 font-mono mt-4">
+                <p className="text-[10px] text-zinc-500 font-mono mt-4">
                   Supports .html and .htm format • Scales aspect ratio dynamically
                 </p>
               </div>
 
-              {/* Feature Highlights Grid */}
+              {/* Feature Highlights Grid - Layered Bright Cards */}
               <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
                 {[
                   { icon: '🔮', title: 'WYSIWYG Sidebar', desc: 'No coding required. Modify text cards easily via input fields in our side editor panel.' },
                   { icon: '⚡', title: 'Zero Layout Break', desc: 'Caches custom web fonts and retains raw Flexbox and CSS Grids without shifts.' },
                   { icon: '📐', title: 'Auto-Scaling', desc: 'Widescreen 16:9 or A4 portrait. Scales slides dynamically to keep layout proportions intact.' }
                 ].map((f, idx) => (
-                  <div key={idx} className="bg-zinc-950/60 border border-zinc-800/80 rounded-xl p-5 shadow-lg space-y-2 hover:border-zinc-700/80 transition-colors">
+                  <div key={idx} className="bg-[#1c1e2d] border border-zinc-800/80 rounded-xl p-5 shadow-lg space-y-2 hover:border-zinc-700/80 transition-colors">
                     <span className="text-2xl">{f.icon}</span>
                     <h3 className="text-xs font-bold text-zinc-200 font-mono">{f.title}</h3>
                     <p className="text-[10px] text-zinc-400 leading-relaxed">{f.desc}</p>
@@ -552,11 +553,11 @@ export default function PptConverter() {
             <div className="flex flex-col items-center w-full">
               {/* Pagination Controls */}
               {slideCount > 0 && (
-                <div className="mb-6 flex items-center gap-4 bg-zinc-950 px-5 py-2.5 rounded-full border border-zinc-800 shadow-lg select-none">
+                <div className="mb-6 flex items-center gap-4 bg-[#11131c] px-5 py-2.5 rounded-full border border-zinc-850 shadow-lg select-none">
                   <button
                     onClick={handlePrevPage}
                     disabled={activeSlideIndex === 0}
-                    className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold cursor-pointer"
                   >
                     ◀
                   </button>
@@ -566,7 +567,7 @@ export default function PptConverter() {
                   <button
                     onClick={handleNextPage}
                     disabled={activeSlideIndex === slideCount - 1}
-                    className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-850 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-zinc-900 border border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-all flex items-center justify-center active:scale-95 text-sm font-bold cursor-pointer"
                   >
                     ▶
                   </button>
@@ -581,7 +582,7 @@ export default function PptConverter() {
                   title="WYSIWYG Presentation Workspace"
                   style={{
                     width: `${slideWidth}px`,
-                    height: `${slideHeight}px`, // Strictly size to match the exact height of one slide
+                    height: `${slideHeight}px`,
                     border: 'none',
                     backgroundColor: '#ffffff'
                   }}
@@ -591,14 +592,14 @@ export default function PptConverter() {
           )}
         </main>
 
-        {/* Right Sidebar: Real-time Text Editing Panel */}
+        {/* Right Sidebar: Real-time Text Editing Panel - Layered Slate Navy */}
         {htmlContent && slideCount > 0 && (
-          <aside className="w-80 border-l border-zinc-800/80 bg-zinc-950/80 p-5 flex flex-col gap-4 overflow-y-auto select-none">
+          <aside className="w-80 border-l border-zinc-800/60 bg-[#11131c]/90 p-5 flex flex-col gap-4 overflow-y-auto select-none">
             <div>
-              <h2 className="text-[10px] font-bold text-zinc-500 tracking-wider font-mono uppercase mb-1">
+              <h2 className="text-[10px] font-bold text-zinc-400 tracking-wider font-mono uppercase mb-1">
                 Slide Edit Panel
               </h2>
-              <p className="text-xs text-zinc-400">
+              <p className="text-xs text-zinc-300">
                 Editing Slide {activeSlideIndex + 1}
               </p>
             </div>
@@ -607,7 +608,7 @@ export default function PptConverter() {
 
             <div className="flex-1 flex flex-col gap-4">
               {activeSlideTexts.length === 0 ? (
-                <p className="text-xs text-zinc-600 italic text-center mt-20">
+                <p className="text-xs text-zinc-500 italic text-center mt-20">
                   No editable text elements found on this slide.
                 </p>
               ) : (
@@ -617,7 +618,7 @@ export default function PptConverter() {
                       <span className="text-[10px] font-bold text-purple-400 font-mono uppercase">
                         {getFriendlyTagName(item.tagName)}
                       </span>
-                      <span className="text-[9px] text-zinc-600 font-mono">
+                      <span className="text-[9px] text-zinc-500 font-mono">
                         #{item.elementIndex + 1}
                       </span>
                     </div>
@@ -627,14 +628,14 @@ export default function PptConverter() {
                         type="text"
                         value={item.currentText}
                         onChange={(e) => handleTextChange(item.slideIndex, item.elementIndex, e.target.value)}
-                        className="w-full bg-zinc-900 hover:bg-zinc-850 focus:bg-zinc-900 border border-zinc-800 focus:border-purple-600 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-200 transition-colors outline-none"
+                        className="w-full bg-[#1c1e2d] hover:bg-zinc-850 focus:bg-zinc-900 border border-zinc-700/60 focus:border-purple-600 rounded-lg px-3 py-2 text-xs font-semibold text-zinc-200 transition-colors outline-none"
                       />
                     ) : (
                       <textarea
                         rows={3}
                         value={item.currentText}
                         onChange={(e) => handleTextChange(item.slideIndex, item.elementIndex, e.target.value)}
-                        className="w-full bg-zinc-900 hover:bg-zinc-850 focus:bg-zinc-900 border border-zinc-800 focus:border-purple-600 rounded-lg px-3 py-2 text-xs text-zinc-300 transition-colors outline-none resize-none"
+                        className="w-full bg-[#1c1e2d] hover:bg-zinc-850 focus:bg-zinc-900 border border-zinc-700/60 focus:border-purple-600 rounded-lg px-3 py-2 text-xs text-zinc-300 transition-colors outline-none resize-none"
                       />
                     )}
                   </div>
