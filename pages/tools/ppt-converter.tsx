@@ -56,9 +56,7 @@ export default function PptConverter() {
     parseAndPrepareEditor(selectedFile);
   };
 
-  // ====================================================
-  // Parse HTML DOM and Inject WYSIWYG ContentEditable Attributes
-  // ====================================================
+  // Measure and store dimensions, set the initial source HTML in state
   const parseAndPrepareEditor = (uploadedFile: File) => {
     const reader = new FileReader();
     reader.onload = async (event) => {
@@ -94,50 +92,8 @@ export default function PptConverter() {
           tempIframe.parentNode.removeChild(tempIframe);
         }
 
-        // 2. Parse DOM to inject WYSIWYG attributes
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(rawHtml, 'text/html');
-
-        // Target nodes containing actual text run children and flag them editable
-        const textElements = doc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, div, li, b, strong, td, th');
-        textElements.forEach((el) => {
-          // Grant contenteditable strictly to leaf nodes with text to preserve HTML block styling layout
-          if (el.children.length === 0 && el.textContent && el.textContent.trim() !== '') {
-            el.setAttribute('contenteditable', 'true');
-            el.setAttribute('spellcheck', 'false');
-            el.classList.add('wysiwyg-editable-node');
-          }
-        });
-
-        // 3. Inject premium editor guide CSS and html-to-image CDN script
-        const style = doc.createElement('style');
-        style.innerHTML = `
-          /* Visual feedback guides to notify user that elements can be clicked and edited */
-          .wysiwyg-editable-node {
-            transition: outline 0.15s ease-in-out, background-color 0.15s ease-in-out;
-            border-radius: 3px;
-          }
-          .wysiwyg-editable-node:hover {
-            outline: 2px dashed #8b5cf6 !important; /* Soft violet dashed outline on hover */
-            outline-offset: 3px;
-            cursor: text;
-            background-color: rgba(139, 92, 246, 0.05);
-          }
-          .wysiwyg-editable-node:focus {
-            outline: 2px solid #a78bfa !important;  /* Soft violet solid outline on active edit */
-            outline-offset: 3px;
-            background-color: rgba(255, 255, 255, 0.1);
-          }
-          /* Hide print and navigation guide banners during visual workspace editing */
-          #print-guide, .print-banner { display: none !important; }
-        `;
-        doc.head.appendChild(style);
-
-        const cdnScript = doc.createElement('script');
-        cdnScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js';
-        doc.head.appendChild(cdnScript);
-
-        setHtmlContent(doc.documentElement.outerHTML);
+        // Set raw HTML to start mounting. We will scan and make it editable live on iframe load.
+        setHtmlContent(rawHtml);
 
       } catch (err: any) {
         console.error(err);
@@ -145,6 +101,68 @@ export default function PptConverter() {
       }
     };
     reader.readAsText(uploadedFile, 'utf-8');
+  };
+
+  // ====================================================
+  // LIVE IFRAME LOAD WYSIWYG ATTRIBUTE INJECTOR (100% Reliable)
+  // ====================================================
+  const handleIframeLoad = () => {
+    if (!iframeRef.current || !iframeRef.current.contentWindow) return;
+    
+    const iframeWin = iframeRef.current.contentWindow as any;
+    const iframeDoc = iframeWin.document;
+
+    console.log('[DEBUG Editor] Active Paint Workspace loaded. Injecting WYSIWYG edit tags...');
+
+    // Find all text-bearing elements inside the loaded DOM
+    const textElements = iframeDoc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
+    
+    textElements.forEach((el: HTMLElement) => {
+      // If element contains leaf text content, flag it editable immediately
+      if (el.textContent && el.textContent.trim() !== '') {
+        el.contentEditable = 'true';
+        el.setAttribute('spellcheck', 'false');
+        el.classList.add('wysiwyg-editable-node');
+      }
+    });
+
+    // Inject editor feedback outline styles dynamically to loaded DOM
+    const styleId = 'wysiwyg-editor-styles';
+    if (!iframeDoc.getElementById(styleId)) {
+      const style = iframeDoc.createElement('style');
+      style.id = styleId;
+      style.innerHTML = `
+        .wysiwyg-editable-node {
+          transition: outline 0.15s ease-in-out, background-color 0.15s ease-in-out;
+          border-radius: 4px;
+        }
+        /* Dashboard dotted guide on hover */
+        .wysiwyg-editable-node:hover {
+          outline: 2px dashed #8b5cf6 !important;
+          outline-offset: 4px;
+          cursor: text;
+          background-color: rgba(139, 92, 246, 0.05) !important;
+        }
+        /* Active edit solid outline on focus */
+        .wysiwyg-editable-node:focus {
+          outline: 2px solid #a78bfa !important;
+          outline-offset: 4px;
+          background-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        /* Force hide system scroll bars and print banners */
+        #print-guide, .print-banner { display: none !important; }
+      `;
+      iframeDoc.head.appendChild(style);
+    }
+
+    // Load html-to-image script internally inside loaded DOM if missing
+    const scriptId = 'html-to-image-helper';
+    if (!iframeDoc.getElementById(scriptId)) {
+      const script = iframeDoc.createElement('script');
+      script.id = scriptId;
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html-to-image/1.11.11/html-to-image.min.js';
+      iframeDoc.head.appendChild(script);
+    }
   };
 
   // ====================================================
@@ -249,7 +267,7 @@ export default function PptConverter() {
       </Head>
 
       {/* Top Navigation Control Bar */}
-      <header className="h-16 border-b border-zinc-800/80 bg-zinc-950 px-6 flex justify-between items-center z-10 shadow-lg">
+      <header className="h-16 border-b border-zinc-800/80 bg-zinc-950 px-6 flex justify-between items-center z-10 shadow-lg select-none">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-black text-sm shadow-md">
             ✨
@@ -382,6 +400,7 @@ export default function PptConverter() {
                 <iframe
                   ref={iframeRef}
                   srcDoc={htmlContent}
+                  onLoad={handleIframeLoad} // Trigger WYSIWYG capabilities immediately when loaded inside active viewport
                   title="WYSIWYG Presentation Workspace"
                   style={{
                     width: `${slideWidth}px`,
