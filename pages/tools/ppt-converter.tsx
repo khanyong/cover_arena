@@ -82,7 +82,7 @@ export default function PptConverter() {
     options?: any;
   }
 
-  // Enhanced to capture nested computed font-sizes and child attributes dynamically
+  // Enhanced to capture nested computed font-sizes and apply safe PPT font scale (0.60x multiplier)
   const parseTextRuns = (element: Element, defaultFont: any, iframeWin: any): TextRun[] => {
     const runs: TextRun[] = [];
     
@@ -101,10 +101,11 @@ export default function PptConverter() {
           const el = child as Element;
           const tagName = el.tagName.toLowerCase();
           
-          // Read child computed style to override inherited properties (like font-size, bold, color)
           const childStyle = iframeWin.getComputedStyle(el);
           const childSizePx = parseFloat(childStyle.fontSize);
-          const childSize = childSizePx ? Math.round(childSizePx * 0.75) : currentStyle.sz;
+          
+          // Apply 0.60x scale on all child elements to prevent text box overflow
+          const childSize = childSizePx ? Math.max(8, Math.round(childSizePx * 0.60)) : currentStyle.sz;
           const childColor = parseColor(childStyle.color) || currentStyle.color;
           const childBold = parseInt(childStyle.fontWeight) >= 600 || childStyle.fontWeight === 'bold';
           const childFontFace = childStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || currentStyle.fontFace;
@@ -282,16 +283,18 @@ export default function PptConverter() {
             const left = (elRect.left - slideRect.left) * scaleX;
             const top = (elRect.top - slideRect.top) * scaleY;
             
-            // Adjust safety width buffer to ensure clean container flow in PPTX
-            const width = (elRect.width * scaleX) + 0.35;
-            const height = (elRect.height * scaleY) + 0.15;
+            // Increased width buffer (+0.50) to prevent line breaks, height buffer minimized to prevent overlap
+            const width = (elRect.width * scaleX) + 0.50;
+            const height = (elRect.height * scaleY) + 0.08;
 
             if (width < 0.1 || height < 0.1) return;
 
             const computedStyle = iframeWin.getComputedStyle(el);
             
             const fontSizePx = parseFloat(computedStyle.fontSize) || 16;
-            const sz = Math.round(fontSizePx * 0.75); // Convert px to pt
+            
+            // Standardize 0.60x scale factor on parent font sizing to prevent box overflows in PPTX
+            const sz = Math.max(8, Math.round(fontSizePx * 0.60));
             const colorHex = parseColor(computedStyle.color) || '333333';
             const fontFace = computedStyle.fontFamily.split(',')[0].replace(/['"]/g, '') || 'Arial';
             const bold = parseInt(computedStyle.fontWeight) >= 600 || computedStyle.fontWeight === 'bold';
@@ -304,14 +307,23 @@ export default function PptConverter() {
 
             const tagName = el.tagName.toLowerCase();
             
-            // PPT Options config: Force 0 margin to prevent element block offsets from overlapping
-            const pptOptions = { x: left, y: top, w: width, h: height, align, wrap: true, margin: 0 };
+            // PPT Options config: Force 0 margin & vertical align 'top' to prevent overlapping text baselines
+            const pptOptions: any = { 
+              x: left, 
+              y: top, 
+              w: width, 
+              h: height, 
+              align, 
+              valign: 'top', 
+              wrap: true, 
+              margin: 0 
+            };
             
             if (tagName === 'ul' || tagName === 'ol') {
               const textObjects: any[] = [];
               el.querySelectorAll('li').forEach((li) => {
                 const liStyle = iframeWin.getComputedStyle(li);
-                const liSize = Math.round((parseFloat(liStyle.fontSize) || fontSizePx) * 0.75);
+                const liSize = Math.max(8, Math.round((parseFloat(liStyle.fontSize) || fontSizePx) * 0.60));
                 const liColor = parseColor(liStyle.color) || colorHex;
                 const liBold = parseInt(liStyle.fontWeight) >= 600 || liStyle.fontWeight === 'bold';
                 
