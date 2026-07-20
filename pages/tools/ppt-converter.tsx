@@ -68,10 +68,6 @@ export default function PptConverter() {
         console.log('[DEBUG Image Engine] Starting browser sandbox render...');
 
         // 1. Create a sandboxed iframe to visually render the HTML layout
-        // IMPORTANT: Mount the iframe inside the active viewport at (0,0) with opacity 0.001
-        // and pointer-events none. This forces the browser to run full "Active Painting"
-        // for Noto Sans Web Font baselines and Tailwind CSS flex calculations instead of
-        // lazy-rendering them off-screen, which previously caused bottom-alignment text displacement.
         iframe = document.createElement('iframe');
         iframe.style.position = 'fixed';
         iframe.style.top = '0px';
@@ -87,9 +83,33 @@ export default function PptConverter() {
         if (!iframeDoc) throw new Error('Failed to mount sandbox iframe rendering context.');
 
         // Inject HTML and load html2canvas CDN
-        // All hacky display: inline-flex / padding-bottom properties have been removed
-        // to strictly preserve the original document layout structure without breaking spans or vertical spacing.
-        const cdnScript = '<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>';
+        // Add targeted vertical baseline-shifting offsets to lift font rendering from the bottom borders.
+        // We elevate spans (badges) to inline-block and lift them slightly using translateY,
+        // while preserving blocks (headings, paragraphs) to secure original grid / flex layouts.
+        const cdnScript = `
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+          <style>
+            /* 1. Lift inline elements (badges, labels) using translateY and line-height normalisation */
+            span, a {
+              display: inline-block !important;
+              line-height: 1.0 !important;
+              transform: translateY(-8%) !important; /* Lifts inline texts strictly from the bottom */
+            }
+
+            /* 2. Lift block paragraphs and headings slightly while maintaining block nature */
+            p, h1, h2, h3, h4, h5, h6, li, td, th {
+              display: block !important;
+              line-height: 1.25 !important;
+              transform: translateY(-4%) !important; /* Lifts block texts moderately */
+            }
+
+            /* 3. Re-assert flex layouts to prevent structure breaking */
+            .flex, [class*="flex"] {
+              display: flex !important;
+            }
+          </style>
+        `;
+        
         let updatedHtml = htmlText;
         if (htmlText.includes('</head>')) {
           updatedHtml = htmlText.replace('</head>', `${cdnScript}</head>`);
@@ -114,7 +134,7 @@ export default function PptConverter() {
           console.warn('[DEBUG Image Engine] Font loading detection warning:', fontErr);
         }
 
-        // Expanded buffer (5 seconds) to guarantee the browser's painting cycle finishes Noto Sans rendering
+        // Additional buffer for layout settlement
         await new Promise((resolve) => setTimeout(resolve, 5000));
 
         if (!iframeWin.html2canvas) {
@@ -144,7 +164,6 @@ export default function PptConverter() {
           let slideBase64 = '';
           try {
             // Capture the entire slide DOM exactly as rendered
-            // scale: 2 guarantees ultra-sharp high-definition vector-equivalent text display in PPTX
             const canvas = await iframeWin.html2canvas(slideEl, {
               useCORS: true,
               allowTaint: true,
