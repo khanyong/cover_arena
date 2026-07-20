@@ -108,11 +108,8 @@ export default function PptConverter() {
   };
 
   // ====================================================
-  // LIVE DOM POLLING INJECTOR WATCHER (100% Bug-free & Sync guaranteed)
+  // LIVE DOM POLLING INJECTOR WATCHER (정밀 타겟팅 수정본)
   // ====================================================
-  // React's srcDoc has a known issue where iframe onLoad does not reliably trigger.
-  // We resolve this by running a live DOM polling watcher that intercepts the mounted
-  // iframe DOM elements the instant they compile inside the browser viewport.
   useEffect(() => {
     if (!htmlContent) return;
 
@@ -123,24 +120,41 @@ export default function PptConverter() {
         const iframeWin = iframeRef.current.contentWindow as any;
         const iframeDoc = iframeWin.document;
 
-        // Verify if slides have compiled inside the sandbox document yet
+        // 슬라이드가 Iframe 내에 렌더링 되었는지 확인
         const slides = iframeDoc.querySelectorAll('.slide');
         if (slides.length > 0) {
           console.log('[DEBUG Editor] Watcher captured live DOM. Injecting contentEditable tags...');
 
-          // Find all text-bearing elements inside the loaded DOM
           const textElements = iframeDoc.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
           
-          textElements.forEach((el: HTMLElement) => {
-            // Apply contentEditable to leaf nodes or rich text containers
-            if (el.textContent && el.textContent.trim() !== '') {
-              el.contentEditable = 'true';
-              el.setAttribute('spellcheck', 'false');
-              el.classList.add('wysiwyg-editable-node');
+          textElements.forEach((el: Element) => {
+            const htmlEl = el as HTMLElement;
+
+            // 1. 텍스트가 비어있는 요소는 제외
+            if (!htmlEl.textContent || htmlEl.textContent.trim() === '') return;
+
+            // 2. 🌟 핵심 필터링 1: 내부에 레이아웃 박스(div, p, ul 등)를 품고 있다면 껍데기(컨테이너)이므로 제외!
+            const blockTags = ['DIV', 'P', 'UL', 'OL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SECTION', 'ARTICLE', 'TABLE'];
+            const hasBlockChildren = Array.from(htmlEl.children).some(child => 
+              blockTags.includes(child.tagName.toUpperCase())
+            );
+            if (hasBlockChildren) return;
+
+            // 3. 🌟 핵심 필터링 2: 부모 요소가 이미 에디터로 변환되었다면 자식에게는 중복 지정하지 않음 (이중 호버 테두리 방지)
+            if (htmlEl.parentElement && htmlEl.parentElement.closest('.wysiwyg-editable-node')) return;
+
+            // 4. 안전하게 걸러진 '가장 안쪽의 순수 텍스트 노드'에만 편집 속성 부여
+            htmlEl.contentEditable = 'true';
+            htmlEl.setAttribute('spellcheck', 'false');
+            htmlEl.classList.add('wysiwyg-editable-node');
+
+            // 링크(a) 태그인 경우 클릭 시 페이지 이동(튕김) 방지
+            if (htmlEl.tagName.toUpperCase() === 'A') {
+              htmlEl.addEventListener('click', (e) => e.preventDefault());
             }
           });
 
-          // Inject editor feedback outline styles dynamically to loaded DOM
+          // 에디터 호버 가이드 스타일 주입
           const styleId = 'wysiwyg-editor-styles';
           if (!iframeDoc.getElementById(styleId)) {
             const style = iframeDoc.createElement('style');
@@ -149,27 +163,35 @@ export default function PptConverter() {
               .wysiwyg-editable-node {
                 transition: outline 0.15s ease-in-out, background-color 0.15s ease-in-out;
                 border-radius: 4px;
+                /* 🌟 핵심 3: 텍스트를 최상단으로 끌어올려 투명 배경(오버레이)에 마우스가 막히는 현상 방지 */
+                position: relative; 
+                z-index: 50; 
               }
-              /* Dashboard dotted guide on hover */
+              /* 호버 시 점선 가이드 */
               .wysiwyg-editable-node:hover {
                 outline: 2px dashed #8b5cf6 !important;
                 outline-offset: 4px;
-                cursor: text;
-                background-color: rgba(139, 92, 246, 0.05) !important;
+                cursor: text !important;
+                background-color: rgba(139, 92, 246, 0.08) !important;
               }
-              /* Active edit solid outline on focus */
+              /* 텍스트 편집(클릭) 중일 때 실선 및 배경 강조 */
               .wysiwyg-editable-node:focus {
                 outline: 2px solid #a78bfa !important;
                 outline-offset: 4px;
-                background-color: rgba(255, 255, 255, 0.1) !important;
+                background-color: rgba(255, 255, 255, 0.95) !important;
+                color: #000 !important; /* 밝은 배경에서 가독성을 높이기 위해 임시로 글자를 어둡게 */
               }
-              /* Force hide system scroll bars and print banners */
+              /* 텍스트 블록 드래그 시 예쁜 파란색으로 변경 */
+              .wysiwyg-editable-node::selection {
+                background: #bfdbfe;
+                color: #1e3a8a;
+              }
               #print-guide, .print-banner { display: none !important; }
             `;
             iframeDoc.head.appendChild(style);
           }
 
-          // Load html-to-image script internally inside loaded DOM if missing
+          // 이미지 캡처 모듈 주입
           const scriptId = 'html-to-image-helper';
           if (!iframeDoc.getElementById(scriptId)) {
             const script = iframeDoc.createElement('script');
@@ -178,11 +200,11 @@ export default function PptConverter() {
             iframeDoc.head.appendChild(script);
           }
 
-          // WYSIWYG injection complete. Clear the polling loop safely.
+          // 모든 처리가 끝났으므로 Polling 루프를 종료합니다.
           clearInterval(timer);
         }
       }
-    }, 250); // Fast 250ms polling loop to prevent user click delay
+    }, 250);
 
     return () => clearInterval(timer);
   }, [htmlContent]);
