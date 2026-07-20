@@ -119,9 +119,6 @@ export default function PptConverter() {
   // ====================================================
   // COMPREHENSIVE TEXT SCANNER & LAYOUT CONTROLLER
   // ====================================================
-  // Extracts ALL meaningful leaf text nodes from the uploaded slides and binds them.
-  // We use dynamic CSS selector queries instead of buggy live element list additions
-  // to toggle slide visibilities, completely preventing black screen artifacts.
   useEffect(() => {
     if (!htmlContent) return;
 
@@ -140,17 +137,14 @@ export default function PptConverter() {
           const collectedTexts: EditableText[] = [];
 
           slides.forEach((slideEl: Element, slideIdx: number) => {
-            // Find all potential text elements
             const textNodes = slideEl.querySelectorAll('h1, h2, h3, h4, h5, h6, p, span, a, li, b, strong, td, th, div');
             
             let elementIdx = 0;
             textNodes.forEach((node: Element) => {
               const htmlEl = node as HTMLElement;
               
-              // Skip empty text blocks
               if (!htmlEl.textContent || htmlEl.textContent.trim() === '') return;
 
-              // Filter out layout wrapper nodes
               const blockTags = ['DIV', 'P', 'UL', 'OL', 'LI', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6', 'SECTION', 'ARTICLE', 'TABLE'];
               const hasBlockChildren = Array.from(htmlEl.children).some(child => 
                 blockTags.includes(child.tagName.toUpperCase())
@@ -177,7 +171,6 @@ export default function PptConverter() {
           setEditableTexts(collectedTexts);
 
           // Force hide system scroll bars, print banners, and all non-active slides
-          // We generate a dynamic CSS style map pointing to the body data attribute.
           const styleId = 'iframe-performance-fixes';
           if (!iframeDoc.getElementById(styleId)) {
             const style = iframeDoc.createElement('style');
@@ -197,23 +190,19 @@ export default function PptConverter() {
               body::-webkit-scrollbar { display: none !important; }
               body { -ms-overflow-style: none; scrollbar-width: none; background: #ffffff !important; overflow: hidden !important; margin: 0 !important; }
               
-              /* Hide all slides by default */
               .slide {
                 display: none !important;
                 margin: 0 !important;
                 box-shadow: none !important;
               }
               
-              /* Show slide matching body's active data-attribute */
               ${slideVisibilityRules}
             `;
             iframeDoc.head.appendChild(style);
           }
 
-          // Initialize the starting active slide index state on body
           iframeDoc.body.setAttribute('data-active-slide-idx', '0');
 
-          // Load html-to-image script internally inside loaded DOM if missing
           const scriptId = 'html-to-image-helper';
           if (!iframeDoc.getElementById(scriptId)) {
             const script = iframeDoc.createElement('script');
@@ -237,13 +226,11 @@ export default function PptConverter() {
     const iframeDoc = iframeRef.current.contentWindow.document;
     if (iframeDoc && iframeDoc.body) {
       iframeDoc.body.setAttribute('data-active-slide-idx', String(activeSlideIndex));
-      console.log(`[DEBUG Editor] Switched Iframe active slide index to: ${activeSlideIndex}`);
     }
   }, [activeSlideIndex, htmlContent]);
 
   // Update the live DOM text inside the Iframe when user types in the panel
   const handleTextChange = (slideIdx: number, elIdx: number, newValue: string) => {
-    // 1. Update React state
     setEditableTexts(prev => prev.map(item => {
       if (item.slideIndex === slideIdx && item.elementIndex === elIdx) {
         return { ...item, currentText: newValue };
@@ -251,7 +238,6 @@ export default function PptConverter() {
       return item;
     }));
 
-    // 2. Update Live Iframe DOM node immediately
     if (iframeRef.current && iframeRef.current.contentWindow) {
       const iframeDoc = iframeRef.current.contentWindow.document;
       const targetNode = iframeDoc.querySelector(`[data-ppt-editable-id="${slideIdx}-${elIdx}"]`);
@@ -269,7 +255,6 @@ export default function PptConverter() {
     setConverting(true);
     setError(null);
 
-    // Save previous active slide view state to restore later
     const originalActiveIdx = activeSlideIndex;
 
     try {
@@ -292,18 +277,14 @@ export default function PptConverter() {
 
       const slideElements = iframeDoc.querySelectorAll('.slide');
       
-      // Capture each slide by dynamically showing and snapshotting one by one
       for (let i = 0; i < slideElements.length; i++) {
         const slideEl = slideElements[i] as HTMLElement;
         const slide = pptx.addSlide();
 
-        // Force show slide temporarily for capture using body attribute mock
         iframeDoc.body.setAttribute('data-active-slide-idx', String(i));
 
-        // Let layout settle
         await new Promise((resolve) => setTimeout(resolve, 150));
 
-        // Capture slide PNG at high-res
         const slideBase64 = await iframeWin.htmlToImage.toPng(slideEl, {
           pixelRatio: 2,
           style: {
@@ -321,7 +302,6 @@ export default function PptConverter() {
         });
       }
 
-      // Restore user's viewing slide state
       iframeDoc.body.setAttribute('data-active-slide-idx', String(originalActiveIdx));
 
       const newFilename = file.name.replace(/\.(html|htm)$/i, '') + '_edited.pptx';
@@ -363,10 +343,8 @@ export default function PptConverter() {
     }
   };
 
-  // Filter text nodes for currently active slide
   const activeSlideTexts = editableTexts.filter(item => item.slideIndex === activeSlideIndex);
 
-  // Friendly name generator for label nodes
   const getFriendlyTagName = (tag: string) => {
     if (tag.startsWith('h')) return `Heading ${tag.replace('h', '')}`;
     if (tag === 'p') return 'Paragraph';
@@ -407,9 +385,9 @@ export default function PptConverter() {
           {!htmlContent ? (
             <button
               onClick={triggerFileSelect}
-              className="px-4 py-2 bg-zinc-900 hover:bg-zinc-850 border border-zinc-800 text-xs font-bold rounded-lg transition-all active:scale-95 shadow-md flex items-center gap-2"
+              className="px-4 py-2 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-xs font-bold rounded-lg transition-all active:scale-95 shadow-md flex items-center gap-2 font-mono"
             >
-              🚀 Load HTML Slide File
+              🚀 Get Started
             </button>
           ) : (
             <div className="flex items-center gap-3">
@@ -486,33 +464,89 @@ export default function PptConverter() {
         {/* Central Workspace Board */}
         <main className="flex-1 bg-zinc-900 overflow-y-auto p-8 flex flex-col items-center justify-start">
           {error && (
-            <div className="w-full max-w-4xl mb-6 p-4 bg-red-950/20 border border-red-900/60 rounded-xl flex items-start gap-2.5 shadow-md">
+            <div className="w-full max-w-4xl mb-6 p-4 bg-red-950/20 border border-red-900/60 rounded-xl flex items-start gap-2.5 shadow-md animate-shake">
               <span className="text-red-400 text-sm mt-0.5">⚠️</span>
               <p className="text-xs text-red-300 font-mono leading-relaxed">{error}</p>
             </div>
           )}
 
           {!htmlContent ? (
-            <div className="w-full max-w-2xl mt-32 text-center p-12 bg-zinc-950 border border-zinc-800/80 rounded-2xl shadow-2xl flex flex-col items-center gap-6">
+            <div className="w-full max-w-4xl mt-6 flex flex-col items-center gap-12 py-10 animate-fade-in select-none">
+              
+              {/* Premium Hero Title & Neon Flare Badge */}
+              <div className="text-center space-y-4">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-purple-500/30 bg-purple-950/15 text-purple-300 text-[10px] font-bold tracking-wider font-mono uppercase shadow-[0_0_15px_rgba(139,92,246,0.1)]">
+                  ⚡ WYSIWYG Visual Editor v4.0
+                </div>
+                <h1 className="text-4xl md:text-5xl font-black tracking-tight leading-none">
+                  Convert HTML to Premium
+                  <span className="block mt-2 bg-gradient-to-r from-purple-400 via-violet-200 to-indigo-400 bg-clip-text text-transparent font-extrabold">
+                    PowerPoint Presentations
+                  </span>
+                </h1>
+                <p className="text-xs md:text-sm text-zinc-400 max-w-xl mx-auto leading-relaxed font-mono">
+                  Modify contents directly on our live 2-way sync panel and export pixel-perfect, high-definition PPTX slides.
+                </p>
+              </div>
+
+              {/* Steps Flow Guide */}
+              <div className="w-full max-w-3xl grid grid-cols-3 gap-4 text-center">
+                {[
+                  { step: '01', title: 'Upload HTML', desc: 'Drag-and-drop raw presentation sheets' },
+                  { step: '02', title: 'Edit Text', desc: 'Change titles or data on the sidebar' },
+                  { step: '03', title: 'Get PPTX', desc: 'Download HD 1:1 formatted powerpoints' }
+                ].map((s, idx) => (
+                  <div key={idx} className="relative bg-zinc-950/40 border border-zinc-800/40 rounded-xl p-4 flex flex-col items-center gap-1">
+                    <span className="text-[10px] font-bold font-mono text-purple-500">{s.step}</span>
+                    <h3 className="text-xs font-bold text-zinc-200 font-mono">{s.title}</h3>
+                    <p className="text-[10px] text-zinc-500">{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Premium Drag & Drop Area with Neon Flare Aura */}
               <div 
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 onClick={triggerFileSelect}
-                className={`w-full border-2 border-dashed rounded-xl p-12 text-center transition-all cursor-pointer ${
+                className={`w-full max-w-3xl border-2 border-dashed rounded-2xl p-14 text-center transition-all cursor-pointer shadow-2xl relative group ${
                   dragOver
-                    ? 'border-purple-500 bg-purple-950/10'
-                    : 'border-zinc-800 hover:border-zinc-700 bg-zinc-900/10'
+                    ? 'border-purple-500 bg-purple-950/15 shadow-[0_0_50px_rgba(139,92,246,0.25)]'
+                    : 'border-zinc-800 hover:border-zinc-700 bg-zinc-950/40 shadow-[0_0_40px_rgba(0,0,0,0.4)] hover:shadow-[0_0_50px_rgba(139,92,246,0.08)]'
                 }`}
               >
-                <div className="p-5 bg-zinc-900 rounded-full border border-zinc-800 text-zinc-400 shadow-inner w-16 h-16 flex items-center justify-center mx-auto mb-4">
-                  <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <div className="p-5 bg-zinc-900 rounded-2xl border border-zinc-800 text-zinc-400 group-hover:text-purple-400 group-hover:border-purple-500/40 shadow-inner w-16 h-16 flex items-center justify-center mx-auto mb-4 transition-all duration-300">
+                  <svg className="w-8 h-8" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" />
                   </svg>
                 </div>
-                <h2 className="text-sm font-semibold mb-1">Drag & drop your presentation HTML here</h2>
-                <p className="text-xs text-zinc-500 font-mono">Supports all resolutions • Automatically scales</p>
+                <h2 className="text-sm font-semibold mb-1 group-hover:text-zinc-200 transition-colors">
+                  Drag & drop your presentation HTML file here
+                </h2>
+                <p className="text-xs text-zinc-500 font-mono">
+                  or <span className="text-purple-400 group-hover:text-purple-300 font-bold underline decoration-purple-600/40 underline-offset-4">browse local files</span>
+                </p>
+                <p className="text-[10px] text-zinc-600 font-mono mt-4">
+                  Supports .html and .htm format • Scales aspect ratio dynamically
+                </p>
               </div>
+
+              {/* Feature Highlights Grid */}
+              <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { icon: '🔮', title: 'WYSIWYG Sidebar', desc: 'No coding required. Modify text cards easily via input fields in our side editor panel.' },
+                  { icon: '⚡', title: 'Zero Layout Break', desc: 'Caches custom web fonts and retains raw Flexbox and CSS Grids without shifts.' },
+                  { icon: '📐', title: 'Auto-Scaling', desc: 'Widescreen 16:9 or A4 portrait. Scales slides dynamically to keep layout proportions intact.' }
+                ].map((f, idx) => (
+                  <div key={idx} className="bg-zinc-950/60 border border-zinc-800/80 rounded-xl p-5 shadow-lg space-y-2 hover:border-zinc-700/80 transition-colors">
+                    <span className="text-2xl">{f.icon}</span>
+                    <h3 className="text-xs font-bold text-zinc-200 font-mono">{f.title}</h3>
+                    <p className="text-[10px] text-zinc-400 leading-relaxed">{f.desc}</p>
+                  </div>
+                ))}
+              </div>
+
             </div>
           ) : (
             <div className="flex flex-col items-center w-full">
