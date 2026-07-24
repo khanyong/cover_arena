@@ -1,3 +1,5 @@
+import "katex/dist/katex.min.css";
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
 import 'katex/dist/katex.min.css'
