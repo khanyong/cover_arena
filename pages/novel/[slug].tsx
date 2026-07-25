@@ -40,6 +40,9 @@ export default function NovelStudioPage() {
   const [importTargetChapter, setImportTargetChapter] = useState(1);
   const [importVersionTag, setImportVersionTag] = useState('v1.0');
 
+  // 클릭 네비게이션 중 Observer 동작을 잠시 멈추기 위한 flag
+  const isNavigating = React.useRef(false);
+
   // 현재 화면에 보이는 챕터 ID (Scroll Spy 용)
   const [activeChapterId, setActiveChapterId] = useState<string>('');
 
@@ -58,16 +61,20 @@ export default function NovelStudioPage() {
             setActiveChapterId(currentId);
             
             // 사이드바 메뉴 아이템을 찾아 자동 스크롤
-            const navElement = document.getElementById(`nav-${currentId}`);
-            if (navElement) {
-              navElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // 단, 사용자가 목차를 클릭해서 이동 중일 때는 부드러운 스크롤 충돌을 막기 위해 무시함
+            if (!isNavigating.current) {
+              const navElement = document.getElementById(`nav-${currentId}`);
+              if (navElement) {
+                // 사이드바 내에서의 스크롤이므로 scrollIntoView 사용
+                navElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }
             }
           }
         });
       },
       {
         root: null,
-        rootMargin: '-20% 0px -60% 0px', // 화면 위쪽 20%, 아래쪽 60% 여백을 두고 관찰
+        rootMargin: '-20% 0px -40% 0px', // 화면 위쪽 20%, 아래쪽 40% 여백
         threshold: 0.1
       }
     );
@@ -184,10 +191,19 @@ export default function NovelStudioPage() {
   // 목차 클릭 시 부드럽게 스크롤
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, elementId: string) => {
     e.preventDefault();
+    
+    // 네비게이션 클릭 상태임을 표시 (옵저버 스크롤 충돌 방지)
+    isNavigating.current = true;
+
     const el = document.getElementById(elementId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
+
+    // 1초 뒤 네비게이션 완료 처리 (충분한 스크롤 시간 보장)
+    setTimeout(() => {
+      isNavigating.current = false;
+    }, 1000);
   };
 
   return (
