@@ -16089,5 +16089,71 @@ export const papersMap: Record<string, PaperDetails> = {
       "nextStep": "학술지 게재 검토 3단계",
       "journalTarget": "Nature Physics"
     }
+  },
+  "spatial-vibration-4": {
+    "id": "spatial-vibration-4",
+    "slug": "spatial-vibration-4",
+    "title": {
+      "ko": "공간의 진동 역학 IV: 강입자 구조와 대칭성에 대한 개념적 위상학적 유추",
+      "en": "Mechanics of Spatial Vibration IV: Conceptual Topological Analogies for Hadronic Structure and Symmetries"
+    },
+    "authors": {
+      "ko": "유광용 (Kwang yong Yoo)",
+      "en": "Kwang yong Yoo"
+    },
+    "affiliations": {
+      "ko": "KT 부장, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
+      "en": "KT Director, Ph.D. Candidate at Yonsei University, LL.M. at UCONN"
+    },
+    "abstract": {
+      "versions": {
+        "v1": {
+          "ko": "본 논문은 강입자 구조와 대칭성을 공간 진동 역학 프레임워크 내에서 위상학적으로 유추하는 모델을 제시한다.",
+          "en": "This paper presents a topological analogy for hadronic structure and symmetries within the framework of Mechanics of Spatial Vibration."
+        }
+      }
+    },
+    "chapters": [],
+    "references": {},
+    "reviews": {},
+    "workflow": {
+      "stage": "Zenodo Published",
+      "percent": 100,
+      "nextStep": "학술지 게재 검토 4단계",
+      "journalTarget": "Physical Review Letters"
+    }
+  },
+  "spatial-vibration-5": {
+    "id": "spatial-vibration-5",
+    "slug": "spatial-vibration-5",
+    "title": {
+      "ko": "공간의 진동 역학 V: 위상 중화, 차원 압착, 그리고 초전도 스트라이프의 기하역학적 기원",
+      "en": "Mechanics of Spatial Vibration V: Topological Neutralization, Dimensional Squeezing, and the Geomechanical Origin of Superconducting Stripes"
+    },
+    "authors": {
+      "ko": "유광용 (Kwang yong Yoo)",
+      "en": "Kwang yong Yoo"
+    },
+    "affiliations": {
+      "ko": "KT 부장, 연세대학교 경영학 박사 수료, 코네티컷 대학교 법학 석사 (LL.M.)",
+      "en": "KT Director, Ph.D. Candidate at Yonsei University, LL.M. at UCONN"
+    },
+    "abstract": {
+      "versions": {
+        "v1": {
+          "ko": "바딘-쿠퍼-슈리퍼(BCS) 이론은 모멘텀 공간에서 저온 초전도성을 훌륭하게 모델링하지만, 그 등방성 2체 페어링을 2D 큐프레이트의 실제 공간 거시적 1차원 솔리톤 사슬(스트라이프 상)과 조화시키는 것은 여전히 과제로 남아있다. 본 논문은 공간의 진동 역학을 확장하여 예측 가능한 거시적 위상 유효 이론을 제시한다. 초전도 전이를 공간 텐서 유체의 기하역학적 응축으로 모델링하며, 3D 에너제틱 점 노드가 어떻게 반대 카이랄성 스피너 매듭에 의한 정확한 위상 중화를 기하학적으로 강제하는지 입증한다. 또한 테라헤르츠 조사(THz irradiation)를 통한 '광학적 텐서 잠금'의 수학적 결합 방정식을 제공하여 동적으로 상온 초전도(RTSC)를 유도하는 기하역학적 경로를 확립한다.",
+          "en": "The Bardeen-Cooper-Schrieffer (BCS) theory elegantly models low-temperature superconductivity in momentum space, yet reconciling its isotropic binary pairing with the real-space macroscopic one-dimensional solitonic chains (the stripe phase) in 2D cuprates remains a challenge. This paper advances a predictive macroscopic topological effective theory by extending the Mechanics of Spatial Vibration. We model the superconducting transition as a geomechanical condensation of the spatial tensor fluid. We demonstrate how 3D energetic point nodes geometrically mandate exact topological neutralization by opposite-chirality spinor knots, providing a real-space analog for the Cooper limit via geometric saturation. Crucially, we introduce internal tensor compressibility to distinguish materials: highly rigid, incompressible tensor grids (analogous to strongly correlated Mott insulators), when subjected to extreme 2D geometric squeezing, fracture into 1D solitonic fault lines. By applying a spatial Fourier transform to these real-space diagonal fault lines, we explicitly derive the characteristic ∆(k) ∝ (cos kx − cos ky) nodal topology in momentum space. By phenomenologically mapping our topological stress functional to the Ginzburg-Landau free energy, we frame the coherence length, temperature-dependent gap, and magnetic flux quantization as emergent macroscopic properties. Finally, we provide the mathematical coupling equations for “Optical Tensor Locking” via THz irradiation, establishing a predictive geomechanical pathway to dynamically induce Room-Temperature Superconductivity (RTSC)."
+        }
+      }
+    },
+    "chapters": [],
+    "references": {},
+    "reviews": {},
+    "workflow": {
+      "stage": "Drafting",
+      "percent": 30,
+      "nextStep": "시뮬레이션 개발 및 본문 집필",
+      "journalTarget": "Nature"
+    }
   }
 };

@@ -10,6 +10,7 @@ import { SimulationWidget } from '../../components/PaperPlatform/SimulationWidge
 import { SimulationWidget_V2 } from '../../components/PaperPlatform/SimulationWidget_V2';
 import { SimulationWidget_V3 } from '../../components/PaperPlatform/SimulationWidget_V3';
 import { SimulationWidget_V4 } from '../../components/PaperPlatform/SimulationWidget_V4';
+import { SimulationWidget_V5 } from '../../components/PaperPlatform/SimulationWidget_V5';
 import { PaperDiffViewer } from '../../components/PaperPlatform/PaperDiffViewer';
 import { ReferencePdfPanel } from '../../components/PaperPlatform/ReferencePdfPanel';
 import { ReviewTracker } from '../../components/PaperPlatform/ReviewTracker';
@@ -1495,6 +1496,12 @@ export default function AcademicPaperViewer() {
                         <>
                           <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">TOPOLOGICAL TENSOR KNOTS & HADRONIC RESIDUES SANDBOX</h4>
                           <SimulationWidget_V4 />
+                        </>
+                      )}
+                      {paperData.id === 'spatial-vibration-5' && (
+                        <>
+                          <h4 className="text-xs font-bold text-zinc-900 font-mono text-center mb-2 uppercase tracking-wider">TOPOLOGICAL NEUTRALIZATION & STRIPE PHASE SANDBOX</h4>
+                          <SimulationWidget_V5 />
                         </>
                       )}
                     </>

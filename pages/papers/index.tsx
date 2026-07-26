@@ -8,7 +8,8 @@ const paperDOIs: Record<string, string> = {
   'spatial-vibration-1': '10.5281/zenodo.21206211',
   'spatial-vibration-2': '10.5281/zenodo.21233252',
   'spatial-vibration-3': '10.5281/zenodo.21258029',
-  'spatial-vibration-4': '10.5281/zenodo.21438016'
+  'spatial-vibration-4': '10.5281/zenodo.21438016',
+  'spatial-vibration-5': '10.5281/zenodo.pending'
 };
 
 export default function PapersDashboard() {
