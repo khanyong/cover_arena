@@ -21,8 +21,8 @@ interface VortexVector {
   intensity: number;
 }
 
-export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 'stripe' | 'meissner', compact?: boolean }> = ({ initialMode, compact = false }) => {
-  const [simMode, setSimMode] = useState<'neutralization' | 'stripe' | 'meissner'>('neutralization');
+export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 'stripe' | 'optical', compact?: boolean }> = ({ initialMode, compact = false }) => {
+  const [simMode, setSimMode] = useState<'neutralization' | 'stripe' | 'optical'>('neutralization');
   const [dimSqueeze, setDimSqueeze] = useState<number>(0); // Mode B: 0 to 1
 
   useEffect(() => {
@@ -144,7 +144,7 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
 
       if (simMode === 'neutralization') {
         // ==========================================
-        // Mode A: Topological Neutralization
+        // Mode A: Phase Cancellation & Defect Annihilation
         // ==========================================
         const p1 = particlesRef.current[0];
         const p2 = particlesRef.current[1];
@@ -249,7 +249,7 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
 
       } else if (simMode === 'stripe') {
         // ==========================================
-        // Mode B: Dimensional Squeezing & Stripe Phase
+        // Mode B: Dimensional Squeezing & 1D Phase-Slip Walls
         // ==========================================
         const getZ = (x: number, y: number, squeeze: number) => {
           // 3 Distinct Point Wells at dimSqueeze = 0
@@ -364,86 +364,96 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
           ctx.restore();
         });
 
-      } else if (simMode === 'meissner') {
+      } else if (simMode === 'optical') {
         // ==========================================
-        // Mode C: Meissner Exclusion
+        // Mode C: Optical Melting & Interlayer Coherence
         // ==========================================
-        ctx.strokeStyle = 'rgba(63, 63, 70, 0.6)';
-        ctx.lineWidth = 0.5;
-        for (let i = -15; i <= 15; i++) {
-          ctx.beginPath();
-          for (let j = -15; j <= 15; j++) {
-            const pt = project(i * 8, j * 8, 0);
-            j === -15 ? ctx.moveTo(pt.px, pt.py) : ctx.lineTo(pt.px, pt.py);
-          }
-          ctx.stroke();
-        }
-        for (let j = -15; j <= 15; j++) {
-          ctx.beginPath();
-          for (let i = -15; i <= 15; i++) {
-            const pt = project(i * 8, j * 8, 0);
-            i === -15 ? ctx.moveTo(pt.px, pt.py) : ctx.lineTo(pt.px, pt.py);
-          }
-          ctx.stroke();
-        }
+        const getZ_Optical = (x: number, y: number, pump: number) => {
+          // Stripe valley (d-wave diagonal) melts as pump -> 1
+          const rValley = Math.abs(x - y) * 0.7071;
+          const depth = -40 * (1 - pump);
+          return Math.exp(-rValley * rValley / 150) * depth;
+        };
 
-        if (frameCountRef.current % 2 === 0) {
-           vectorsRef.current.push({
-             x: (Math.random() - 0.5) * 120,
-             y: (Math.random() - 0.5) * 120,
-             z: 100 + Math.random() * 20,
-             vx: 0, vy: 0, vz: -2,
-             intensity: 1.0
-           });
-        }
-
-        vectorsRef.current.forEach(v => {
-          if (v.z < 20) {
-            const repulsion = Math.exp(-v.z / 5) * 0.8;
-            v.vz += repulsion;
-            v.vx += (v.x) * 0.005 * repulsion;
-            v.vy += (v.y) * 0.005 * repulsion;
-          }
-          
-          v.x += v.vx;
-          v.y += v.vy;
-          v.z += v.vz;
-
-          v.intensity -= 0.005;
-
-          if (v.intensity > 0) {
-            const ptStart = project(v.x, v.y, v.z);
-            const ptEnd = project(v.x + v.vx*3, v.y + v.vy*3, v.z + v.vz*3);
-            
-            ctx.save();
-            ctx.strokeStyle = `rgba(168, 85, 247, ${v.intensity})`;
-            ctx.lineWidth = 1.5;
+        const drawLayer = (zOffset: number, color: string) => {
+          ctx.strokeStyle = color;
+          ctx.lineWidth = 1;
+          for (let i = -12; i <= 12; i++) {
             ctx.beginPath();
-            ctx.moveTo(ptStart.px, ptStart.py);
-            ctx.lineTo(ptEnd.px, ptEnd.py);
+            for (let j = -12; j <= 12; j++) {
+              const x = i * 8;
+              const y = j * 8;
+              const z = getZ_Optical(x, y, dimSqueeze) + zOffset;
+              const pt = project(x, y, z);
+              j === -12 ? ctx.moveTo(pt.px, pt.py) : ctx.lineTo(pt.px, pt.py);
+            }
             ctx.stroke();
-            
-            ctx.fillStyle = `rgba(168, 85, 247, ${v.intensity})`;
-            ctx.beginPath();
-            ctx.arc(ptEnd.px, ptEnd.py, 1.5, 0, Math.PI*2);
-            ctx.fill();
-            ctx.restore();
           }
-        });
-        
-        vectorsRef.current = vectorsRef.current.filter(v => v.intensity > 0 && v.z > -10);
+          for (let j = -12; j <= 12; j++) {
+            ctx.beginPath();
+            for (let i = -12; i <= 12; i++) {
+              const x = i * 8;
+              const y = j * 8;
+              const z = getZ_Optical(x, y, dimSqueeze) + zOffset;
+              const pt = project(x, y, z);
+              i === -12 ? ctx.moveTo(pt.px, pt.py) : ctx.lineTo(pt.px, pt.py);
+            }
+            ctx.stroke();
+          }
+        };
+
+        // Draw Layer 1 (Lower) and Layer 2 (Upper)
+        drawLayer(-30, 'rgba(56, 189, 248, 0.5)'); // Sky blue
+        drawLayer(30, 'rgba(56, 189, 248, 0.5)');
+
+        // Draw Josephson Tunneling Links
+        if (dimSqueeze > 0.05) {
+          ctx.strokeStyle = `rgba(250, 204, 21, ${dimSqueeze * 0.9})`; // Yellow links
+          ctx.lineWidth = 1.0 + dimSqueeze * 2.0;
+          ctx.beginPath();
+          for (let i = -10; i <= 10; i+=2) {
+            for (let j = -10; j <= 10; j+=2) {
+              const x = i * 8;
+              const y = j * 8;
+              const zBase = getZ_Optical(x, y, dimSqueeze);
+              
+              // Only draw links where amplitude is recovered (away from deep phase-slip valleys)
+              if (zBase > -15) {
+                const pt1 = project(x, y, zBase - 30);
+                const pt2 = project(x, y, zBase + 30);
+                ctx.moveTo(pt1.px, pt1.py);
+                ctx.lineTo(pt2.px, pt2.py);
+              }
+            }
+          }
+          ctx.stroke();
+        }
       }
 
       ctx.globalCompositeOperation = 'source-over';
 
       // ==========================================
-      // UI Overlays (Energy Graphs & Labels)
+      // UI Overlays (Energy Graphs & Labels - Matched with Paper v18)
       // ==========================================
-      if (simMode === 'neutralization') {
-        const gx = 20, gy = height - 120, gw = 180, gh = 90;
+      if (simMode === 'optical') {
+        const gx = 20, gy = height - 90, gw = 380, gh = 70;
+        ctx.fillStyle = 'rgba(24, 24, 27, 0.85)';
+        ctx.fillRect(gx, gy, gw, gh);
+        ctx.strokeStyle = '#3f3f46';
+        ctx.strokeRect(gx, gy, gw, gh);
+        
+        ctx.fillStyle = '#fde047'; // yellow
+        ctx.font = 'bold 11px monospace';
+        ctx.fillText('Transient Josephson Coherence (Eq. 17 & 19)', gx + 10, gy + 20);
+        ctx.fillStyle = '#a1a1aa';
+        ctx.font = '10px monospace';
+        ctx.fillText('α_eff,n(t) = ᾱ_s(T) + δα_heat + g C_n(t) - 2(J̄_eff - J_⊥0)', gx + 10, gy + 38);
+        ctx.fillText('S_n(t) = max[ 0, -α_eff,n(t) / β_s ]', gx + 10, gy + 54);
+      } else if (simMode === 'neutralization') {
+        const gx = 20, gy = height - 120, gw = 280, gh = 90;
         
         // Background
-        ctx.fillStyle = 'rgba(24, 24, 27, 0.8)';
+        ctx.fillStyle = 'rgba(24, 24, 27, 0.85)';
         ctx.fillRect(gx, gy, gw, gh);
         ctx.strokeStyle = '#3f3f46';
         ctx.strokeRect(gx, gy, gw, gh);
@@ -451,8 +461,8 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
         // Axis Labels
         ctx.fillStyle = '#a1a1aa';
         ctx.font = '10px monospace';
-        ctx.fillText('E_topo = (κ/2)∫|∇θ_total|²d³r', gx + 5, gy - 5);
-        ctx.fillText('r (Distance to Node Center)', gx + 15, gy + gh + 15);
+        ctx.fillText('E_local,n ∝ ∫ d²r |∇θ_v,n + ∇θ_v̄,n|² = 0 (2D Sheet)', gx + 5, gy - 5);
+        ctx.fillText('r (In-plane distance to defect core)', gx + 15, gy + gh + 15);
         
         // Axis Line (E=0 Base Level)
         const zeroY = gy + gh/2 + 20; // 0 line is near the bottom
@@ -505,7 +515,7 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
            if (p3CenterDist < 45 && p3.vx > 0) { // Moving away
              ctx.fillStyle = '#ef4444';
              ctx.font = 'bold 11px monospace';
-             ctx.fillText('F_rep = -∇E_3-body', p3X + 15, p3Y - 5);
+             ctx.fillText('Far-field cancellation', p3X + 15, p3Y - 5);
              
              // Draw repelling arrow
              ctx.strokeStyle = '#ef4444';
@@ -526,9 +536,9 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
       ctx.fillStyle = '#f4f4f5';
       ctx.font = 'bold 12px monospace';
       ctx.fillText(
-        simMode === 'neutralization' ? 'MODE A: TOPOLOGICAL NEUTRALIZATION & 2-BODY LIMIT' :
-        simMode === 'stripe' ? 'MODE B: DIMENSIONAL SQUEEZING & STRIPE PHASE' :
-        'MODE C: MEISSNER EXCLUSION', 20, 30
+        simMode === 'neutralization' ? 'MODE A: PHASE CANCELLATION & DEFECT ANNIHILATION' :
+        simMode === 'stripe' ? 'MODE B: DIMENSIONAL SQUEEZING & 1D PHASE-SLIP WALLS (Director Symmetry Q̂)' :
+        'MODE C: OPTICAL MELTING & INTERLAYER COHERENCE', 20, 30
       );
       
       ctx.fillStyle = '#9ca3af';
@@ -561,18 +571,18 @@ export const SimulationWidget_V5: React.FC<{ initialMode?: 'neutralization' | 's
           Stripe Phase
         </button>
         <button
-          onClick={() => setSimMode('meissner')}
-          className={`px-3 py-1.5 text-xs font-semibold rounded ${simMode === 'meissner' ? 'bg-zinc-100 text-zinc-900' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}
+          onClick={() => setSimMode('optical')}
+          className={`px-3 py-1.5 text-xs font-semibold rounded ${simMode === 'optical' ? 'bg-zinc-100 text-zinc-900' : 'bg-zinc-800 text-zinc-400 hover:bg-zinc-700'}`}
         >
-          Meissner
+          Optical Melting
         </button>
       </div>
 
-      {simMode === 'stripe' && (
+      {(simMode === 'stripe' || simMode === 'optical') && (
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center w-64 bg-zinc-900/80 p-3 rounded-lg border border-zinc-700 backdrop-blur-sm">
           <label className="text-zinc-300 text-xs mb-2 font-semibold flex justify-between w-full">
-            <span>Dimensional Squeezing:</span>
-            <span className="text-emerald-400">{(dimSqueeze * 100).toFixed(0)}%</span>
+            <span>{simMode === 'stripe' ? 'Dimensional Squeezing:' : 'Optical Pump Intensity:'}</span>
+            <span className={simMode === 'stripe' ? 'text-emerald-400' : 'text-yellow-400'}>{(dimSqueeze * 100).toFixed(0)}%</span>
           </label>
           <input
             type="range"
