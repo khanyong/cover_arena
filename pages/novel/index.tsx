@@ -1,10 +1,64 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { initialNovelData } from '../../components/NovelPlatform/novelData';
+import { novels } from '../../shared/lib/supabase';
 
 export default function NovelDashboard() {
-  const novelList = [initialNovelData];
+  const router = useRouter();
+  const [novelList, setNovelList] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // DB에서 소설 목록 불러오기
+  useEffect(() => {
+    const fetchNovels = async () => {
+      try {
+        const { data, error } = await novels.getAllNovels();
+        if (error) {
+          console.error("Error fetching novels:", error);
+        } else if (data) {
+          // DB에서 가져온 JSON(data 컬럼) 리스트를 저장
+          setNovelList(data.map(row => row.data));
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchNovels();
+  }, []);
+
+  const handleCreateNewVolume = async () => {
+    const newSlug = window.prompt("새로운 권의 영문 주소(slug)를 입력하세요.\n예: quantum-vibration-vol2");
+    if (!newSlug) return;
+    
+    const newTitle = window.prompt("새로운 권의 제목을 입력하세요.\n예: 공간의 진동 2권");
+    if (!newTitle) return;
+
+    try {
+      // 1권의 뼈대(initialNovelData)를 복사하되 id, slug, title만 변경
+      const newNovelData = {
+        ...initialNovelData,
+        id: newSlug,
+        slug: newSlug,
+        title: newTitle,
+        updatedAt: new Date().toISOString().split('T')[0] // 오늘 날짜
+      };
+
+      const { error } = await novels.createNovel(newNovelData);
+      if (error) {
+        alert("생성 중 오류가 발생했습니다: " + error.message);
+      } else {
+        alert("새로운 프로젝트가 생성되었습니다. 집필 스튜디오로 이동합니다.");
+        router.push(`/novel/${newSlug}`);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("생성 실패");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950">
@@ -55,11 +109,28 @@ export default function NovelDashboard() {
 
         {/* Novel List */}
         <div>
-          <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-            <span>📚</span> 집필 중인 소설 프로젝트 목록
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl font-bold text-white flex items-center gap-2">
+              <span>📚</span> 집필 중인 소설 프로젝트 목록
+            </h2>
+            <button
+              onClick={handleCreateNewVolume}
+              className="bg-amber-500 hover:bg-amber-600 text-zinc-950 px-4 py-2 text-sm font-bold rounded-lg transition-colors shadow-lg shadow-amber-500/20"
+            >
+              + 새로운 권(Volume) 생성하기
+            </button>
+          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {loading ? (
+            <div className="text-center text-zinc-400 py-20 animate-pulse">
+              데이터를 불러오는 중입니다...
+            </div>
+          ) : novelList.length === 0 ? (
+            <div className="text-center text-zinc-400 py-20 bg-zinc-900/50 rounded-2xl border border-zinc-800">
+              아직 생성된 프로젝트가 없습니다. '새로운 권 생성하기' 버튼을 눌러 시작해 보세요.
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {novelList.map((novel) => (
               <div
                 key={novel.id}
@@ -68,9 +139,9 @@ export default function NovelDashboard() {
                 <div>
                   <div className="flex items-center justify-between mb-3 text-xs text-zinc-400">
                     <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded font-mono font-semibold">
-                      최신 버전: {novel.versionHistory[novel.versionHistory.length - 1]}
+                      최신 버전: {novel.versionHistory && novel.versionHistory.length > 0 ? novel.versionHistory[novel.versionHistory.length - 1] : 'v1.0'}
                     </span>
-                    <span>최종 수정: {novel.updatedAt}</span>
+                    <span>최종 수정: {novel.updatedAt || '알 수 없음'}</span>
                   </div>
 
                   <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors mb-2">
@@ -110,7 +181,7 @@ export default function NovelDashboard() {
                 <div>
                   <div className="flex items-center justify-between text-xs text-zinc-400 pb-4 mb-4 border-b border-zinc-800">
                     <span>저자: {novel.author}</span>
-                    <span>구조: {novel.acts.length}개 막 / {novel.acts.reduce((acc, a) => acc + a.chapters.length, 0)}개 장</span>
+                    <span>구조: {novel.acts ? novel.acts.length : 0}개 막 / {novel.acts ? novel.acts.reduce((acc: number, a: any) => acc + (a.chapters ? a.chapters.length : 0), 0) : 0}개 장</span>
                   </div>
 
                   <Link
@@ -122,7 +193,8 @@ export default function NovelDashboard() {
                 </div>
               </div>
             ))}
-          </div>
+            </div>
+          )}
         </div>
       </main>
     </div>

@@ -208,6 +208,33 @@ export const videos = {
 
 // 소설 연동 관련 함수들
 export const novels = {
+  // 모든 소설(목록) 불러오기 (메타데이터 위주)
+  async getAllNovels() {
+    const { data, error } = await supabase
+      .from('novel_documents')
+      .select('id, slug, title, data')
+      .order('id', { ascending: true });
+    
+    return { data, error };
+  },
+
+  // 새 소설(권) 생성하기
+  async createNovel(novelDetails) {
+    const { data, error } = await supabase
+      .from('novel_documents')
+      .insert([
+        {
+          id: novelDetails.slug,
+          slug: novelDetails.slug,
+          title: novelDetails.title,
+          data: novelDetails
+        }
+      ])
+      .select();
+    
+    return { data, error };
+  },
+
   // 특정 slug의 소설 불러오기
   async getNovelBySlug(slug) {
     const { data, error } = await supabase
