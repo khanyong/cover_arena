@@ -17,6 +17,9 @@ interface NovelFullReaderProps {
   onParagraphVersionChange: (paragraphId: string, versionKey: string) => void;
   onSaveAiPrompt?: (paragraphId: string, targetVersion: string, prompt: string) => void;
   onDeleteParagraph?: (paragraphId: string) => void;
+  onInsertParagraph?: (paragraphId: string) => void;
+  onUpdateActMetadata?: (actNumber: number, title: string, summary?: string) => void;
+  onUpdateChapterMetadata?: (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => void;
 }
 
 export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
@@ -25,7 +28,10 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onAddNewVersion,
   onParagraphVersionChange,
   onSaveAiPrompt,
-  onDeleteParagraph
+  onDeleteParagraph,
+  onInsertParagraph,
+  onUpdateActMetadata,
+  onUpdateChapterMetadata
 }) => {
   // 현재 클릭해서 편집 중인 단락 상태
   const [editingParagraph, setEditingParagraph] = useState<NovelParagraph | null>(null);
@@ -41,6 +47,15 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   
   // 저장 성공 알림 메시지
   const [toastMessage, setToastMessage] = useState<string | null>(null);
+
+  // 막/장 메타데이터 인라인 편집 상태
+  const [editingAct, setEditingAct] = useState<number | null>(null);
+  const [actEditTitle, setActEditTitle] = useState('');
+  const [actEditSummary, setActEditSummary] = useState('');
+
+  const [editingChapter, setEditingChapter] = useState<{actNumber: number, chapterNumber: number} | null>(null);
+  const [chapterEditTitle, setChapterEditTitle] = useState('');
+  const [chapterEditSynopsis, setChapterEditSynopsis] = useState('');
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -174,12 +189,60 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         {novel.acts.map((act) => (
           <div key={act.number} className="space-y-10">
             {/* Act Title */}
-            <div className="border-b border-amber-500/30 pb-4 pt-6">
-              <h2 className="text-2xl font-black text-amber-400 flex items-center gap-2">
-                <span>🎬</span> {act.title}
-              </h2>
-              {act.summary && (
-                <p className="text-xs text-zinc-400 mt-1">{act.summary}</p>
+            <div className="border-b border-amber-500/30 pb-4 pt-6 group relative">
+              {editingAct === act.number ? (
+                <div className="bg-zinc-950 border border-amber-500/50 p-4 rounded-xl space-y-3 shadow-lg">
+                  <input
+                    value={actEditTitle}
+                    onChange={(e) => setActEditTitle(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-xl font-black text-amber-400 focus:outline-none focus:border-amber-500"
+                    placeholder="막 제목"
+                  />
+                  <textarea
+                    value={actEditSummary}
+                    onChange={(e) => setActEditSummary(e.target.value)}
+                    className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-sm text-zinc-300 focus:outline-none focus:border-amber-500"
+                    placeholder="막 요약 (선택사항)"
+                    rows={2}
+                  />
+                  <div className="flex gap-2 justify-end">
+                    <button
+                      onClick={() => setEditingAct(null)}
+                      className="px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200"
+                    >
+                      취소
+                    </button>
+                    <button
+                      onClick={() => {
+                        onUpdateActMetadata?.(act.number, actEditTitle, actEditSummary);
+                        setEditingAct(null);
+                        showToast('막 정보가 수정되었습니다.');
+                      }}
+                      className="px-3 py-1.5 text-xs bg-amber-500 text-zinc-950 font-bold rounded hover:bg-amber-400"
+                    >
+                      저장
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <h2 className="text-2xl font-black text-amber-400 flex items-center gap-2">
+                    <span>🎬</span> {act.title}
+                    <button
+                      onClick={() => {
+                        setEditingAct(act.number);
+                        setActEditTitle(act.title);
+                        setActEditSummary(act.summary || '');
+                      }}
+                      className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      ✏️ 수정
+                    </button>
+                  </h2>
+                  {act.summary && (
+                    <p className="text-xs text-zinc-400 mt-1">{act.summary}</p>
+                  )}
+                </>
               )}
             </div>
 
@@ -190,12 +253,60 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 id={`full-act-${act.number}-ch-${ch.number}`}
                 className="space-y-6 scroll-mt-28"
               >
-                <div className="bg-zinc-950/60 border border-zinc-800/80 p-4 rounded-xl">
-                  <h3 className="text-lg font-bold text-zinc-200 flex items-center gap-2">
-                    <span>📖</span> {ch.title}
-                  </h3>
-                  {ch.synopsis && (
-                    <p className="text-xs text-zinc-400 mt-1">{ch.synopsis}</p>
+                <div className="bg-zinc-950/60 border border-zinc-800/80 p-4 rounded-xl group relative">
+                  {editingChapter?.actNumber === act.number && editingChapter?.chapterNumber === ch.number ? (
+                    <div className="space-y-3">
+                      <input
+                        value={chapterEditTitle}
+                        onChange={(e) => setChapterEditTitle(e.target.value)}
+                        className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-lg font-bold text-zinc-200 focus:outline-none focus:border-amber-500"
+                        placeholder="장 제목"
+                      />
+                      <textarea
+                        value={chapterEditSynopsis}
+                        onChange={(e) => setChapterEditSynopsis(e.target.value)}
+                        className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-2 text-sm text-zinc-400 focus:outline-none focus:border-amber-500"
+                        placeholder="장 시놉시스 (선택사항)"
+                        rows={2}
+                      />
+                      <div className="flex gap-2 justify-end">
+                        <button
+                          onClick={() => setEditingChapter(null)}
+                          className="px-3 py-1.5 text-xs text-zinc-400 hover:text-zinc-200"
+                        >
+                          취소
+                        </button>
+                        <button
+                          onClick={() => {
+                            onUpdateChapterMetadata?.(act.number, ch.number, chapterEditTitle, chapterEditSynopsis);
+                            setEditingChapter(null);
+                            showToast('장 정보가 수정되었습니다.');
+                          }}
+                          className="px-3 py-1.5 text-xs bg-amber-500 text-zinc-950 font-bold rounded hover:bg-amber-400"
+                        >
+                          저장
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <h3 className="text-lg font-bold text-zinc-200 flex items-center gap-2">
+                        <span>📖</span> {ch.title}
+                        <button
+                          onClick={() => {
+                            setEditingChapter({ actNumber: act.number, chapterNumber: ch.number });
+                            setChapterEditTitle(ch.title);
+                            setChapterEditSynopsis(ch.synopsis || '');
+                          }}
+                          className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                        >
+                          ✏️ 수정
+                        </button>
+                      </h3>
+                      {ch.synopsis && (
+                        <p className="text-xs text-zinc-400 mt-1">{ch.synopsis}</p>
+                      )}
+                    </>
                   )}
                 </div>
 
@@ -453,6 +564,19 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-red-500/20 ml-2"
                       >
                         🗑️ 단락 삭제
+                      </button>
+                    )}
+                    {onInsertParagraph && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onInsertParagraph(editingParagraph.id);
+                          showToast('현재 단락 아래에 새 단락이 추가되었습니다.');
+                          setEditingParagraph(null); // 모달 닫기 (배경에서 새 단락 확인 가능)
+                        }}
+                        className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-purple-500/20 ml-2"
+                      >
+                        ⬇️ 아래에 새 단락 추가
                       </button>
                     )}
                   </div>

@@ -8,6 +8,9 @@ import {
   addParagraphVersion,
   addParagraphAiComment,
   deleteParagraph,
+  insertParagraphAfter,
+  updateActMetadata,
+  updateChapterMetadata,
   initialNovelData
 } from '../../components/NovelPlatform/novelData';
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
@@ -177,6 +180,29 @@ export default function NovelStudioPage() {
       // Supabase에 저장
       novels.saveNovel(updatedNovel);
     }
+  };
+
+  const handleInsertParagraph = (paragraphId: string) => {
+    const updatedNovel = insertParagraphAfter(novel, paragraphId);
+    setNovel(updatedNovel);
+    
+    // Add 'v1.0' to customVersionMap for the new paragraph to ensure it displays correctly if needed.
+    // However, the ID is unknown here unless insertParagraphAfter returns it, but it uses default activeVersion anyway.
+    
+    // Supabase에 저장
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleUpdateActMetadata = (actNumber: number, title: string, summary?: string) => {
+    const updatedNovel = updateActMetadata(novel, actNumber, title, summary);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleUpdateChapterMetadata = (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => {
+    const updatedNovel = updateChapterMetadata(novel, actNumber, chapterNumber, title, synopsis);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
   };
 
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
@@ -400,6 +426,9 @@ export default function NovelStudioPage() {
               onParagraphVersionChange={handleParagraphVersionChange}
               onSaveAiPrompt={handleSaveAiPrompt}
               onDeleteParagraph={handleDeleteParagraph}
+              onInsertParagraph={handleInsertParagraph}
+              onUpdateActMetadata={handleUpdateActMetadata}
+              onUpdateChapterMetadata={handleUpdateChapterMetadata}
             />
           ) : activeTab === 'mosaic' ? (
             /* 마스터 최종본 조합 스튜디오 */

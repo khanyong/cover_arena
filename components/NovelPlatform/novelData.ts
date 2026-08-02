@@ -1207,3 +1207,85 @@ export function deleteParagraph(
 
   return updatedNovel;
 }
+
+export function insertParagraphAfter(
+  novel: NovelDetails,
+  targetParagraphId: string,
+  initialContent: string = '(새로운 단락 내용을 입력하세요)'
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  for (const act of updatedNovel.acts) {
+    for (const ch of act.chapters) {
+      const targetIndex = ch.paragraphs.findIndex(p => p.id === targetParagraphId);
+      if (targetIndex !== -1) {
+        const newParagraphId = `p-${crypto.randomUUID()}`;
+        const newParagraph: NovelParagraph = {
+          id: newParagraphId,
+          activeVersion: 'v1.0',
+          versions: {
+            'v1.0': {
+              version: 'v1.0',
+              content: initialContent,
+              note: '단락 분리/추가',
+              createdAt: new Date().toISOString().substring(0, 16)
+            }
+          },
+          aiPrompts: []
+        };
+        
+        // Insert right after the target index
+        ch.paragraphs.splice(targetIndex + 1, 0, newParagraph);
+        
+        updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+        return updatedNovel;
+      }
+    }
+  }
+
+  return updatedNovel;
+}
+
+export function updateActMetadata(
+  novel: NovelDetails,
+  actNumber: number,
+  newTitle: string,
+  newSummary?: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  const targetAct = updatedNovel.acts.find(a => a.number === actNumber);
+  
+  if (targetAct) {
+    targetAct.title = newTitle;
+    if (newSummary !== undefined) {
+      targetAct.summary = newSummary;
+    }
+    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  }
+  
+  return updatedNovel;
+}
+
+export function updateChapterMetadata(
+  novel: NovelDetails,
+  actNumber: number,
+  chapterNumber: number,
+  newTitle: string,
+  newSynopsis?: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  const targetAct = updatedNovel.acts.find(a => a.number === actNumber);
+  
+  if (targetAct) {
+    const targetChapter = targetAct.chapters.find(c => c.number === chapterNumber);
+    if (targetChapter) {
+      targetChapter.title = newTitle;
+      if (newSynopsis !== undefined) {
+        targetChapter.synopsis = newSynopsis;
+      }
+      updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+    }
+  }
+  
+  return updatedNovel;
+}
