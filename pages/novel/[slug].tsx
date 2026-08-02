@@ -6,11 +6,14 @@ import {
   novelsMap,
   NovelDetails,
   addParagraphVersion,
+  addParagraphAiComment,
+  deleteParagraph,
   initialNovelData
 } from '../../components/NovelPlatform/novelData';
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
 import { NovelMosaicMixer } from '../../components/NovelPlatform/NovelMosaicMixer';
 import { NovelFullReader } from '../../components/NovelPlatform/NovelFullReader';
+import { novels } from '../../shared/lib/supabase';
 
 export default function NovelStudioPage() {
   const router = useRouter();
@@ -26,6 +29,29 @@ export default function NovelStudioPage() {
 
   // 단락별 개별 선택 버전 맵: paragraphId -> versionKey
   const [customVersionMap, setCustomVersionMap] = useState<Record<string, string>>({});
+  const [isLoading, setIsLoading] = useState(true);
+
+  // Supabase에서 소설 데이터 불러오기
+  useEffect(() => {
+    async function loadNovel() {
+      if (!slug || typeof slug !== 'string') return;
+      
+      setIsLoading(true);
+      const { data, error } = await novels.getNovelBySlug(slug);
+      
+      if (data) {
+        setNovel(data);
+      } else if (novelsMap[slug]) {
+        // DB에 없으면 로컬 파일 데이터 사용
+        setNovel(novelsMap[slug]);
+      } else {
+        setNovel(initialNovelData);
+      }
+      setIsLoading(false);
+    }
+    
+    loadNovel();
+  }, [slug]);
 
   // 뷰 모드: 'reader' (전체 연속 정독 & 인라인 퀵 편집) | 'editor' (단락별 카드 세부 집필/비교) | 'mosaic' (최종본 조합)
   const [activeTab, setActiveTab] = useState<'reader' | 'editor' | 'mosaic'>('reader');
@@ -65,8 +91,13 @@ export default function NovelStudioPage() {
             if (!isNavigating.current) {
               const navElement = document.getElementById(`nav-${currentId}`);
               if (navElement) {
-                // 사이드바 내에서의 스크롤이므로 scrollIntoView 사용
-                navElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // scrollIntoView는 부모 창 전체 스크롤에 영향을 줄 수 있으므로,
+                // aside(사이드바) 컨테이너의 scrollTop을 수동으로 조작합니다.
+                const sidebar = navElement.closest('aside');
+                if (sidebar) {
+                  const targetTop = navElement.offsetTop - (sidebar.clientHeight / 2) + (navElement.clientHeight / 2);
+                  sidebar.scrollTo({ top: targetTop, behavior: 'smooth' });
+                }
               }
             }
           }
@@ -128,6 +159,24 @@ export default function NovelStudioPage() {
       ...prev,
       [paragraphId]: newVersionKey
     }));
+    // Supabase에 저장
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleSaveAiPrompt = (paragraphId: string, targetVersion: string, prompt: string) => {
+    const updatedNovel = addParagraphAiComment(novel, paragraphId, targetVersion, prompt);
+    setNovel(updatedNovel);
+    // Supabase에 저장
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteParagraph = (paragraphId: string) => {
+    if (confirm('이 단락을 정말 삭제하시겠습니까? (삭제 시 복구할 수 없습니다)')) {
+      const updatedNovel = deleteParagraph(novel, paragraphId);
+      setNovel(updatedNovel);
+      // Supabase에 저장
+      novels.saveNovel(updatedNovel);
+    }
   };
 
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
@@ -349,6 +398,8 @@ export default function NovelStudioPage() {
               customVersionMap={customVersionMap}
               onAddNewVersion={handleAddNewVersion}
               onParagraphVersionChange={handleParagraphVersionChange}
+              onSaveAiPrompt={handleSaveAiPrompt}
+              onDeleteParagraph={handleDeleteParagraph}
             />
           ) : activeTab === 'mosaic' ? (
             /* 마스터 최종본 조합 스튜디오 */
@@ -520,6 +571,7 @@ export default function NovelStudioPage() {
                               selectedVersion={selectedVer}
                               onVersionChange={handleParagraphVersionChange}
                               onAddNewVersion={handleAddNewVersion}
+                              onSaveAiPrompt={handleSaveAiPrompt}
                             />
                           );
                         })}

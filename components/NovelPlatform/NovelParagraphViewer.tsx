@@ -11,6 +11,7 @@ interface NovelParagraphViewerProps {
   selectedVersion: string;
   onVersionChange: (paragraphId: string, versionKey: string) => void;
   onAddNewVersion: (paragraphId: string, newVersionKey: string, content: string, note: string) => void;
+  onSaveAiPrompt?: (paragraphId: string, targetVersion: string, prompt: string) => void;
 }
 
 export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
@@ -18,11 +19,14 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
   allVersions,
   selectedVersion,
   onVersionChange,
-  onAddNewVersion
+  onAddNewVersion,
+  onSaveAiPrompt
 }) => {
   const [showDiff, setShowDiff] = useState(false);
   const [diffCompareVersion, setDiffCompareVersion] = useState<string>('');
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingPrompt, setIsEditingPrompt] = useState(false);
+  const [editPrompt, setEditPrompt] = useState('');
 
   const availableVersionKeys = Object.keys(paragraph.versions);
   const currentText = getParagraphText(paragraph, selectedVersion);
@@ -58,6 +62,27 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
     if (!newVerName.trim() || !editContent.trim()) return;
     onAddNewVersion(paragraph.id, newVerName.trim(), editContent, editNote);
     setIsEditing(false);
+  };
+
+  const handleSavePrompt = () => {
+    if (onSaveAiPrompt) {
+      onSaveAiPrompt(paragraph.id, selectedVersion, editPrompt);
+      setEditPrompt('');
+    }
+    setIsEditingPrompt(false);
+  };
+
+  const handleCopyForAi = () => {
+    const matchedComment = paragraph.aiPrompts?.find(c => c.targetVersion === selectedVersion)?.prompt
+                        || paragraph.aiPrompts?.slice(-1)[0]?.prompt
+                        || paragraph.aiPrompt
+                        || '';
+                        
+    const promptToCopy = editPrompt.trim() ? editPrompt.trim() : matchedComment;
+    const aiPromptSection = promptToCopy ? `\n\n[AI 수정 요청사항 / 가이드]\n${promptToCopy}` : '';
+    const textToCopy = `[현재 단락 본문]\n${currentText}${aiPromptSection}`;
+    navigator.clipboard.writeText(textToCopy);
+    alert('AI 수정을 위한 본문과 프롬프트가 복사되었습니다!');
   };
 
   // Diff 비교할 과거 버전 찾기
@@ -117,6 +142,20 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
             className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 px-3 py-1 rounded-md font-medium transition-colors"
           >
             ✏️ 새 버전으로 업데이트
+          </button>
+          
+          <button
+            onClick={() => setIsEditingPrompt(!isEditingPrompt)}
+            className="bg-blue-500/20 hover:bg-blue-500/30 text-blue-300 border border-blue-500/30 px-3 py-1 rounded-md font-medium transition-colors"
+          >
+            🤖 AI 수정 코멘트
+          </button>
+          
+          <button
+            onClick={handleCopyForAi}
+            className="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/30 px-3 py-1 rounded-md font-medium transition-colors"
+          >
+            📋 복사하기
           </button>
         </div>
       </div>
@@ -232,6 +271,56 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
           )}
         </div>
       )}
+
+      {/* AI 코멘트 편집 영역 */}
+      {isEditingPrompt && (
+        <div className="bg-zinc-950 border border-blue-500/30 rounded-lg p-4 mt-3 mb-3 shadow-lg">
+          <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800 text-xs">
+            <span className="font-bold text-blue-400">🤖 AI 수정 가이드/코멘트 작성</span>
+          </div>
+          <textarea
+            value={editPrompt}
+            onChange={(e) => setEditPrompt(e.target.value)}
+            rows={3}
+            className="w-full bg-zinc-900 border border-zinc-700 rounded-lg p-3 text-zinc-100 text-sm leading-relaxed focus:outline-none focus:border-blue-500 font-sans mb-3"
+            placeholder="AI에게 전달할 수정 방향이나 톤앤매너, 아이디어를 자유롭게 메모하세요..."
+          />
+          <div className="flex justify-end gap-2 text-xs">
+            <button
+              onClick={() => setIsEditingPrompt(false)}
+              className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded transition-colors"
+            >
+              취소
+            </button>
+            <button
+              onClick={handleSavePrompt}
+              className="bg-blue-500 hover:bg-blue-600 text-white font-bold px-4 py-1.5 rounded transition-colors"
+            >
+              코멘트 저장
+            </button>
+          </div>
+        </div>
+      )}
+      
+      {!isEditingPrompt && (paragraph.aiPrompts?.length || paragraph.aiPrompt) ? (
+        <div className="mt-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-sm">
+          <div className="text-blue-300/70 font-semibold mb-2 text-xs">🤖 AI 수정 지시 히스토리</div>
+          <div className="space-y-2">
+            {(!paragraph.aiPrompts && paragraph.aiPrompt) && (
+              <div className="flex gap-2 text-xs">
+                <span className="text-blue-400/70 font-mono flex-shrink-0">[Legacy]</span>
+                <span className="text-blue-100/90 whitespace-pre-wrap leading-relaxed">{paragraph.aiPrompt}</span>
+              </div>
+            )}
+            {[...(paragraph.aiPrompts || [])].reverse().map(c => (
+              <div key={c.id} className="flex gap-2 text-xs">
+                <span className="text-blue-400/70 font-mono flex-shrink-0">[{c.targetVersion}]</span>
+                <span className="text-blue-100/90 whitespace-pre-wrap leading-relaxed">{c.prompt}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 };

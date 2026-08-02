@@ -15,19 +15,24 @@ interface NovelFullReaderProps {
     note: string
   ) => void;
   onParagraphVersionChange: (paragraphId: string, versionKey: string) => void;
+  onSaveAiPrompt?: (paragraphId: string, targetVersion: string, prompt: string) => void;
+  onDeleteParagraph?: (paragraphId: string) => void;
 }
 
 export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   novel,
   customVersionMap,
   onAddNewVersion,
-  onParagraphVersionChange
+  onParagraphVersionChange,
+  onSaveAiPrompt,
+  onDeleteParagraph
 }) => {
   // 현재 클릭해서 편집 중인 단락 상태
   const [editingParagraph, setEditingParagraph] = useState<NovelParagraph | null>(null);
   const [editContent, setEditContent] = useState('');
   const [editVersionTag, setEditVersionTag] = useState('');
   const [editNote, setEditNote] = useState('');
+  const [editAiPrompt, setEditAiPrompt] = useState('');
   const [showDiffInModal, setShowDiffInModal] = useState(false);
   const [compareTargetVersion, setCompareTargetVersion] = useState<string>('');
 
@@ -68,6 +73,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     setEditContent(currentText);
     setEditVersionTag(nextVerTag);
     setEditNote('전체 창에서 즉시 수정 업데이트');
+    setEditAiPrompt(''); // 항상 빈칸으로 시작 (새로운 지시사항 작성용)
     setShowDiffInModal(false);
     setCompareTargetVersion(currentVerKey);
   };
@@ -83,6 +89,10 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       editContent,
       editNote.trim() || '소설 뷰어에서 인라인 수정'
     );
+
+    if (onSaveAiPrompt && editAiPrompt.trim()) {
+      onSaveAiPrompt(editingParagraph.id, editVersionTag.trim() || 'v2.1', editAiPrompt);
+    }
 
     showToast(`단락이 새로운 버전(${editVersionTag})으로 업데이트되었습니다!`);
     setEditingParagraph(null);
@@ -207,9 +217,23 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           <span>✏️</span> 클릭해서 단락 수정 ({activeVerKey})
                         </div>
 
-                        {/* Version Indicator Tag */}
-                        <div className="inline-block text-[11px] font-mono text-amber-400/80 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800 mb-1.5 mr-2 select-none">
-                          {activeVerKey}
+                        {/* Version Indicator Tag and AI Prompt */}
+                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                          <div className="inline-block text-[11px] font-mono text-amber-400/80 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800 select-none">
+                            {activeVerKey}
+                          </div>
+                          {(() => {
+                            const latestPrompt = p.aiPrompts && p.aiPrompts.length > 0 
+                              ? p.aiPrompts[p.aiPrompts.length - 1].prompt 
+                              : p.aiPrompt;
+                            if (!latestPrompt) return null;
+                            return (
+                              <div className="inline-flex items-center gap-1 text-[11px] text-blue-300 bg-blue-500/10 px-2 py-0.5 rounded border border-blue-500/20 max-w-full">
+                                <span>🤖</span>
+                                <span className="truncate" title={latestPrompt}>{latestPrompt}</span>
+                              </div>
+                            );
+                          })()}
                         </div>
 
                         {/* Paragraph Content with Paragraph Breaks */}
@@ -338,6 +362,40 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                   </div>
                 </div>
 
+                {/* AI Prompts Timeline & Input */}
+                <div className="space-y-2">
+                  <label className="block text-zinc-400 font-semibold mb-1">
+                    AI 수정 지시 히스토리
+                  </label>
+                  
+                  {/* Timeline */}
+                  {(editingParagraph.aiPrompts?.length || editingParagraph.aiPrompt) ? (
+                    <div className="bg-zinc-950/80 border border-zinc-800 rounded-xl p-3 max-h-40 overflow-y-auto space-y-2 mb-3 scrollbar-thin scrollbar-thumb-zinc-700">
+                      {(!editingParagraph.aiPrompts && editingParagraph.aiPrompt) && (
+                        <div className="flex gap-2 text-xs">
+                          <span className="text-zinc-500 font-mono flex-shrink-0">[Legacy]</span>
+                          <span className="text-zinc-300">{editingParagraph.aiPrompt}</span>
+                        </div>
+                      )}
+                      {[...(editingParagraph.aiPrompts || [])].reverse().map((c) => (
+                        <div key={c.id} className="flex gap-2 text-xs">
+                          <span className="text-zinc-500 font-mono flex-shrink-0">[{c.targetVersion}]</span>
+                          <span className="text-zinc-300">{c.prompt}</span>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+
+                  {/* New Comment Input */}
+                  <textarea
+                    value={editAiPrompt}
+                    onChange={(e) => setEditAiPrompt(e.target.value)}
+                    rows={2}
+                    className="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-2.5 text-sm text-blue-300 font-sans leading-relaxed focus:outline-none focus:border-blue-500"
+                    placeholder="새로운 수정 지시사항이나 코멘트를 입력하세요..."
+                  />
+                </div>
+
                 <div>
                   <label className="block text-xs text-zinc-400 font-semibold mb-1">
                     단락 본문 내용 (수식 및 문장 수정)
@@ -352,20 +410,92 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </div>
 
                 {/* Form Buttons */}
-                <div className="flex items-center justify-end gap-3 text-xs pt-2">
-                  <button
-                    type="button"
-                    onClick={() => setEditingParagraph(null)}
-                    className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-5 py-2.5 rounded-xl font-semibold"
-                  >
-                    취소
-                  </button>
-                  <button
-                    type="submit"
-                    className="bg-amber-500 hover:bg-amber-600 text-zinc-950 px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-amber-500/20 transition-all flex items-center gap-1.5"
-                  >
-                    <span>💾</span> 새 버전으로 저장 및 전체 반영
-                  </button>
+                <div className="flex flex-wrap items-center justify-between gap-3 text-xs pt-4 border-t border-zinc-800/60 mt-4">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        navigator.clipboard.writeText(editContent);
+                        showToast('단락 본문이 복사되었습니다!');
+                      }}
+                      className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-2.5 rounded-xl font-semibold transition-colors"
+                    >
+                      📋 본문 전체 복사
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const currentVer = customVersionMap[editingParagraph.id] || editingParagraph.activeVersion;
+                        const matchedComment = editingParagraph.aiPrompts?.find(c => c.targetVersion === currentVer)?.prompt
+                                            || editingParagraph.aiPrompts?.slice(-1)[0]?.prompt
+                                            || editingParagraph.aiPrompt
+                                            || '';
+                        
+                        // 사용자가 입력 중인 새 코멘트가 있다면 그것을 우선순위로 복사, 아니면 히스토리에서 찾은 코멘트 복사
+                        const promptToCopy = editAiPrompt.trim() ? editAiPrompt.trim() : matchedComment;
+                        
+                        const aiPromptSection = promptToCopy ? `\n\n[AI 수정 요청사항 / 가이드]\n${promptToCopy}` : '';
+                        const textToCopy = `[현재 단락 본문]\n${editContent}${aiPromptSection}`;
+                        navigator.clipboard.writeText(textToCopy);
+                        showToast('본문과 코멘트가 함께 복사되었습니다!');
+                      }}
+                      className="bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-emerald-500/30"
+                    >
+                      📋 본문 + 코멘트 복사
+                    </button>
+                    {onDeleteParagraph && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          onDeleteParagraph(editingParagraph.id);
+                          setEditingParagraph(null);
+                        }}
+                        className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-red-500/20 ml-2"
+                      >
+                        🗑️ 단락 삭제
+                      </button>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setEditingParagraph(null)}
+                      className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-4 py-2.5 rounded-xl font-semibold transition-colors"
+                    >
+                      취소
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (!editingParagraph || !onSaveAiPrompt || !editAiPrompt.trim()) return;
+                        const currentVer = customVersionMap[editingParagraph.id] || editingParagraph.activeVersion;
+                        onSaveAiPrompt(editingParagraph.id, currentVer, editAiPrompt);
+                        showToast(`현재 버전에 대한 AI 코멘트가 추가되었습니다!`);
+                        setEditAiPrompt('');
+                        
+                        // 로컬 상태 업데이트 (모달 닫지 않고 즉시 뷰 갱신)
+                        const newComment = {
+                          id: crypto.randomUUID(),
+                          targetVersion: currentVer,
+                          prompt: editAiPrompt,
+                          createdAt: new Date().toISOString()
+                        };
+                        const updatedParagraph = { ...editingParagraph };
+                        if (!updatedParagraph.aiPrompts) updatedParagraph.aiPrompts = [];
+                        updatedParagraph.aiPrompts.push(newComment);
+                        setEditingParagraph(updatedParagraph);
+                      }}
+                      className="bg-blue-500/80 hover:bg-blue-500 text-white px-4 py-2.5 rounded-xl font-bold transition-all border border-blue-500/30"
+                    >
+                      🤖 코멘트 저장
+                    </button>
+                    <button
+                      type="submit"
+                      className="bg-amber-500 hover:bg-amber-600 text-zinc-950 px-5 py-2.5 rounded-xl font-bold shadow-lg shadow-amber-500/20 transition-all flex items-center gap-1.5"
+                    >
+                      <span>💾</span> 새 버전 업데이트
+                    </button>
+                  </div>
                 </div>
               </form>
             )}

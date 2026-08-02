@@ -204,4 +204,32 @@ export const videos = {
       .eq('id', videoId)
     return { data, error }
   }
-} 
+}
+
+// 소설 연동 관련 함수들
+export const novels = {
+  // 특정 slug의 소설 불러오기
+  async getNovelBySlug(slug) {
+    const { data, error } = await supabase
+      .from('novel_documents')
+      .select('data')
+      .eq('slug', slug)
+      .single();
+    
+    return { data: data?.data, error };
+  },
+
+  // 소설 덮어쓰기 (업데이트)
+  async saveNovel(novelDetails) {
+    const { data, error } = await supabase
+      .from('novel_documents')
+      .update({ 
+        data: novelDetails,
+        title: novelDetails.title,
+        updated_at: new Date().toISOString()
+      })
+      .eq('slug', novelDetails.slug);
+    
+    return { data, error };
+  }
+}
