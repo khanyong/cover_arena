@@ -21,11 +21,17 @@ import { novels } from '../../shared/lib/supabase';
 export default function NovelStudioPage() {
   const router = useRouter();
   const { slug } = router.query;
+  const novelId = Array.isArray(slug) ? slug[0] : slug;
+  const lang = Array.isArray(slug) && slug.length > 1 ? slug[1] : 'ko';
+  const dbSlug = lang === 'en' ? `${novelId}-en` : (novelId || '');
 
   // 소설 데이터 state (기본값: initialNovelData)
   const [novel, setNovel] = useState<NovelDetails>(() => {
-    if (typeof slug === 'string' && novelsMap[slug]) {
-      return novelsMap[slug];
+    if (dbSlug && typeof dbSlug === 'string' && novelsMap[dbSlug]) {
+      return novelsMap[dbSlug];
+    }
+    if (novelId && typeof novelId === 'string' && novelsMap[novelId]) {
+      return novelsMap[novelId];
     }
     return initialNovelData;
   });
@@ -37,16 +43,18 @@ export default function NovelStudioPage() {
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
     async function loadNovel() {
-      if (!slug || typeof slug !== 'string') return;
+      if (!dbSlug || typeof dbSlug !== 'string') return;
       
       setIsLoading(true);
-      const { data, error } = await novels.getNovelBySlug(slug);
+      const { data, error } = await novels.getNovelBySlug(dbSlug);
       
       if (data) {
         setNovel(data);
-      } else if (novelsMap[slug]) {
+      } else if (novelsMap[dbSlug]) {
         // DB에 없으면 로컬 파일 데이터 사용
-        setNovel(novelsMap[slug]);
+        setNovel(novelsMap[dbSlug]);
+      } else if (novelId && typeof novelId === 'string' && novelsMap[novelId]) {
+        setNovel(novelsMap[novelId]);
       } else {
         setNovel(initialNovelData);
       }
@@ -54,7 +62,7 @@ export default function NovelStudioPage() {
     }
     
     loadNovel();
-  }, [slug]);
+  }, [dbSlug, novelId]);
 
   // 뷰 모드: 'reader' (전체 연속 정독 & 인라인 퀵 편집) | 'editor' (단락별 카드 세부 집필/비교) | 'mosaic' (최종본 조합)
   const [activeTab, setActiveTab] = useState<'reader' | 'editor' | 'mosaic'>('reader');
@@ -298,6 +306,24 @@ export default function NovelStudioPage() {
             <h1 className="text-lg font-bold text-white tracking-tight truncate max-w-md">
               {novel.title}
             </h1>
+
+            {/* Language Toggle */}
+            {novelId && (
+              <div className="ml-4 flex items-center bg-zinc-800 rounded-md p-0.5 border border-zinc-700">
+                <Link
+                  href={`/novel/${novelId}`}
+                  className={`text-xs px-2.5 py-1 rounded-sm font-semibold transition-colors ${lang !== 'en' ? 'bg-amber-500 text-zinc-950' : 'text-zinc-400 hover:text-zinc-200'}`}
+                >
+                  KOR
+                </Link>
+                <Link
+                  href={`/novel/${novelId}/en`}
+                  className={`text-xs px-2.5 py-1 rounded-sm font-semibold transition-colors ${lang === 'en' ? 'bg-amber-500 text-zinc-950' : 'text-zinc-400 hover:text-zinc-200'}`}
+                >
+                  ENG
+                </Link>
+              </div>
+            )}
           </div>
 
           {/* 탭 & 컨트롤 */}

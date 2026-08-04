@@ -125,13 +125,13 @@ export default function NovelDashboard() {
             <div className="text-center text-zinc-400 py-20 animate-pulse">
               데이터를 불러오는 중입니다...
             </div>
-          ) : novelList.length === 0 ? (
+          ) : novelList.filter(n => !n.slug.endsWith('-en')).length === 0 ? (
             <div className="text-center text-zinc-400 py-20 bg-zinc-900/50 rounded-2xl border border-zinc-800">
               아직 생성된 프로젝트가 없습니다. '새로운 권 생성하기' 버튼을 눌러 시작해 보세요.
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {novelList.map((novel) => (
+            {novelList.filter(n => !n.slug.endsWith('-en')).map((novel) => (
               <div
                 key={novel.id}
                 className="bg-zinc-900 border border-zinc-800 hover:border-amber-500/40 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group"
@@ -168,7 +168,7 @@ export default function NovelDashboard() {
                     <div className="mb-4">
                       <span className="text-[11px] font-bold text-zinc-400 block mb-2">👥 주요 등장인물:</span>
                       <div className="flex flex-wrap gap-1.5 text-[11px]">
-                        {novel.characters.map(c => (
+                        {novel.characters.map((c: any) => (
                           <span key={c.id} className="bg-zinc-950 border border-zinc-800 text-zinc-300 px-2 py-0.5 rounded">
                             {c.name} ({c.role.split('/')[0].trim()})
                           </span>
@@ -184,12 +184,20 @@ export default function NovelDashboard() {
                     <span>구조: {novel.acts ? novel.acts.length : 0}개 막 / {novel.acts ? novel.acts.reduce((acc: number, a: any) => acc + (a.chapters ? a.chapters.length : 0), 0) : 0}개 장</span>
                   </div>
 
-                  <Link
-                    href={`/novel/${novel.slug}`}
-                    className="w-full bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold text-sm py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-500/10"
-                  >
-                    <span>📖 집필 & 버전 비교 스튜디오 입장</span>
-                  </Link>
+                  <div className="flex gap-2">
+                    <Link
+                      href={`/novel/${novel.slug}`}
+                      className="flex-1 bg-amber-500 hover:bg-amber-600 text-zinc-950 font-bold text-sm py-3 rounded-xl transition-colors flex items-center justify-center gap-2 shadow-lg shadow-amber-500/10"
+                    >
+                      <span>📖 KOR Studio</span>
+                    </Link>
+                    <Link
+                      href={`/novel/${novel.slug}/en`}
+                      className="flex-1 bg-zinc-800 hover:bg-zinc-700 text-amber-400 border border-amber-500/30 font-bold text-sm py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+                    >
+                      <span>🌐 ENG Studio</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
