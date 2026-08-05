@@ -1249,6 +1249,55 @@ export function insertParagraphAfter(
   return updatedNovel;
 }
 
+export function insertChapterAfter(
+  novel: NovelDetails,
+  targetActNumber: number,
+  targetChapterNumber: number
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
+  if (actIndex === -1) return updatedNovel;
+
+  const act = updatedNovel.acts[actIndex];
+  const chapterIndex = act.chapters.findIndex(c => c.number === targetChapterNumber);
+  if (chapterIndex === -1) return updatedNovel;
+
+  const isEnglish = updatedNovel.slug.endsWith('-en');
+  const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+  const newParagraphId = `p-${crypto.randomUUID()}`;
+  
+  const maxChapterNum = act.chapters.reduce((max, ch) => Math.max(max, ch.number), 0);
+  const newChapterNum = maxChapterNum + 1;
+
+  const newChapter: NovelChapter = {
+    number: newChapterNum,
+    title: `새 챕터 (수정해 주세요)`,
+    synopsis: '',
+    paragraphs: [
+      {
+        id: newParagraphId,
+        activeVersion: defaultVer,
+        versions: {
+          [defaultVer]: {
+            version: defaultVer,
+            content: '(첫 단락 내용을 입력하세요)',
+            note: '새 챕터 생성',
+            createdAt: new Date().toISOString().substring(0, 16)
+          }
+        },
+        aiPrompts: []
+      }
+    ]
+  };
+
+  // Insert right after the target chapter
+  act.chapters.splice(chapterIndex + 1, 0, newChapter);
+  
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
 export function updateActMetadata(
   novel: NovelDetails,
   actNumber: number,

@@ -9,6 +9,7 @@ import {
   addParagraphAiComment,
   deleteParagraph,
   insertParagraphAfter,
+  insertChapterAfter,
   updateActMetadata,
   updateChapterMetadata,
   initialNovelData
@@ -198,6 +199,12 @@ export default function NovelStudioPage() {
     // However, the ID is unknown here unless insertParagraphAfter returns it, but it uses default activeVersion anyway.
     
     // Supabase에 저장
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleInsertChapter = (actNumber: number, chapterNumber: number) => {
+    const updatedNovel = insertChapterAfter(novel, actNumber, chapterNumber);
+    setNovel(updatedNovel);
     novels.saveNovel(updatedNovel);
   };
 
@@ -453,6 +460,7 @@ export default function NovelStudioPage() {
               onSaveAiPrompt={handleSaveAiPrompt}
               onDeleteParagraph={handleDeleteParagraph}
               onInsertParagraph={handleInsertParagraph}
+              onInsertChapter={handleInsertChapter}
               onUpdateActMetadata={handleUpdateActMetadata}
               onUpdateChapterMetadata={handleUpdateChapterMetadata}
             />

@@ -18,6 +18,7 @@ interface NovelFullReaderProps {
   onSaveAiPrompt?: (paragraphId: string, targetVersion: string, prompt: string) => void;
   onDeleteParagraph?: (paragraphId: string) => void;
   onInsertParagraph?: (paragraphId: string) => void;
+  onInsertChapter?: (actNumber: number, chapterNumber: number) => void;
   onUpdateActMetadata?: (actNumber: number, title: string, summary?: string) => void;
   onUpdateChapterMetadata?: (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => void;
 }
@@ -30,6 +31,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onSaveAiPrompt,
   onDeleteParagraph,
   onInsertParagraph,
+  onInsertChapter,
   onUpdateActMetadata,
   onUpdateChapterMetadata
 }) => {
@@ -393,6 +395,21 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     );
                   })}
                 </div>
+                
+                {/* Add Chapter Button */}
+                {onInsertChapter && (
+                  <div className="mt-6 flex justify-center border-t border-zinc-800/50 pt-4">
+                    <button
+                      onClick={() => {
+                        onInsertChapter(act.number, ch.number);
+                        // Optional: Add a toast notification here if you want
+                      }}
+                      className="text-xs bg-zinc-800/50 hover:bg-zinc-700/80 text-zinc-400 hover:text-zinc-200 px-4 py-2 rounded-full transition-all border border-zinc-700/50 flex items-center gap-2"
+                    >
+                      <span>➕</span> 여기에 새 챕터 추가하기
+                    </button>
+                  </div>
+                )}
               </div>
             ))}
           </div>
