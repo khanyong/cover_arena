@@ -383,7 +383,7 @@ export default function NovelStudioPage() {
         {/* Left Sidebar: Sticky Fixed Navigation & Version Swapper */}
         <aside className="space-y-6 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1 font-sans scrollbar-thin scrollbar-thumb-zinc-800">
           {/* Global Version Selector Box */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
+          <div className="hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
             <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center justify-between">
               <span>전체 버전 일괄 설정</span>
               <span className="text-zinc-500 font-normal font-mono">Global</span>
