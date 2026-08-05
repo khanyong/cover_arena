@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NovelDetails, NovelParagraph, getParagraphText } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
 import ReactMarkdown from 'react-markdown';
@@ -58,6 +58,64 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const [editingChapter, setEditingChapter] = useState<{actNumber: number, chapterNumber: number} | null>(null);
   const [chapterEditTitle, setChapterEditTitle] = useState('');
   const [chapterEditSynopsis, setChapterEditSynopsis] = useState('');
+
+  // 검색 상태
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [currentMatchIndex, setCurrentMatchIndex] = useState(0);
+
+  useEffect(() => {
+    if (!searchQuery.trim()) {
+      setSearchResults([]);
+      setCurrentMatchIndex(0);
+      return;
+    }
+    const q = searchQuery.toLowerCase();
+    const results: string[] = [];
+    novel.acts.forEach(act => {
+      act.chapters.forEach(ch => {
+        ch.paragraphs.forEach(p => {
+          const activeVerKey = customVersionMap[p.id] || p.activeVersion;
+          const content = getParagraphText(p, activeVerKey);
+          if (content.toLowerCase().includes(q)) {
+            results.push(p.id);
+          }
+        });
+      });
+    });
+    setSearchResults(results);
+    setCurrentMatchIndex(0);
+  }, [searchQuery, novel, customVersionMap]);
+
+  const scrollToMatch = (index: number, results = searchResults) => {
+    if (results.length === 0) return;
+    const pId = results[index];
+    const el = document.getElementById(`paragraph-${pId}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  };
+
+  const handleNextMatch = () => {
+    if (searchResults.length === 0) return;
+    const nextIdx = (currentMatchIndex + 1) % searchResults.length;
+    setCurrentMatchIndex(nextIdx);
+    scrollToMatch(nextIdx);
+  };
+
+  const handlePrevMatch = () => {
+    if (searchResults.length === 0) return;
+    const prevIdx = (currentMatchIndex - 1 + searchResults.length) % searchResults.length;
+    setCurrentMatchIndex(prevIdx);
+    scrollToMatch(prevIdx);
+  };
+
+  const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleNextMatch();
+    }
+  };
 
   const showToast = (msg: string) => {
     setToastMessage(msg);
@@ -158,9 +216,29 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
             📖 FULL CONTINUOUS READER
           </span>
-          <span className="text-xs text-zinc-400">
-            💡 본문의 **어느 단락이든 클릭**하면 해당 단락을 수정하고 새 버전으로 등록할 수 있습니다.
-          </span>
+          <div className="flex items-center gap-2 ml-2">
+            <span className="text-zinc-500 text-xs">🔍</span>
+            <input
+              type="text"
+              placeholder="단어 검색... (Enter로 다음)"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={handleSearchKeyDown}
+              className="bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-amber-500 w-48 lg:w-64"
+            />
+            {searchResults.length > 0 && (
+              <div className="flex items-center gap-1 text-xs">
+                <span className="text-amber-400 font-bold px-2">
+                  {currentMatchIndex + 1} / {searchResults.length}
+                </span>
+                <button onClick={handlePrevMatch} className="p-1 hover:bg-zinc-800 rounded text-zinc-400 hover:text-white" title="이전">▲</button>
+                <button onClick={handleNextMatch} className="p-1 hover:bg-zinc-800 rounded text-zinc-400 hover:text-white" title="다음">▼</button>
+              </div>
+            )}
+            {searchQuery.trim() !== '' && searchResults.length === 0 && (
+              <span className="text-xs text-red-400 px-2">0 결과</span>
+            )}
+          </div>
         </div>
 
         {/* Font Size Adjuster */}
@@ -331,11 +409,17 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     const activeVerKey = customVersionMap[p.id] || p.activeVersion;
                     const content = getParagraphText(p, activeVerKey);
 
+                    const isMatch = searchResults.length > 0 && searchResults[currentMatchIndex] === p.id;
+                    const bgClass = isMatch 
+                      ? 'bg-amber-900/30 border-amber-500/80 shadow-[0_0_15px_rgba(245,158,11,0.2)]' 
+                      : 'border-transparent hover:border-amber-500/40 hover:bg-amber-500/5';
+
                     return (
                       <div
+                        id={`paragraph-${p.id}`}
                         key={p.id}
                         onClick={() => handleParagraphClick(p)}
-                        className={`group relative p-4 rounded-2xl transition-all cursor-pointer border border-transparent hover:border-amber-500/40 hover:bg-amber-500/5 ${getFontSizeClass()}`}
+                        className={`group relative p-4 rounded-2xl transition-all cursor-pointer border ${bgClass} ${getFontSizeClass()}`}
                         title="클릭하여 이 단락 수정 & 새 버전 생성"
                       >
                         {/* Hover Quick Edit Badge */}
