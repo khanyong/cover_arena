@@ -365,6 +365,26 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           <ReactMarkdown
                             remarkPlugins={[remarkMath]}
                             rehypePlugins={[rehypeKatex]}
+                            components={{
+                              code({node, className, children, ...props}) {
+                                const match = /language-(\w+)/.exec(className || '');
+                                if (!match) {
+                                  return (
+                                    <mark
+                                      className="bg-amber-500/30 text-amber-200 px-1 py-0.5 rounded shadow-sm font-semibold mx-0.5"
+                                      {...props}
+                                    >
+                                      {children}
+                                    </mark>
+                                  );
+                                }
+                                return (
+                                  <code className={className} {...props}>
+                                    {children}
+                                  </code>
+                                );
+                              }
+                            }}
                           >
                             {content}
                           </ReactMarkdown>
@@ -521,10 +541,39 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-xs text-zinc-400 font-semibold mb-1">
-                    단락 본문 내용 (수식 및 문장 수정)
-                  </label>
+                  <div className="flex justify-between items-center mb-1">
+                    <label className="block text-xs text-zinc-400 font-semibold">
+                      단락 본문 내용 (수식 및 문장 수정)
+                    </label>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const textarea = document.getElementById(`editor-full-${editingParagraph.id}`) as HTMLTextAreaElement;
+                        if (!textarea) return;
+                        const start = textarea.selectionStart;
+                        const end = textarea.selectionEnd;
+                        const text = editContent;
+                        const before = text.substring(0, start);
+                        const selected = text.substring(start, end);
+                        const after = text.substring(end, text.length);
+                        
+                        if (selected) {
+                          setEditContent(`${before}\`${selected}\`${after}`);
+                        } else {
+                          setEditContent(`${before}\`강조할 문장\`${after}`);
+                        }
+                        
+                        setTimeout(() => {
+                          textarea.focus();
+                        }, 0);
+                      }}
+                      className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 hover:bg-amber-500/30 transition-colors flex items-center gap-1"
+                    >
+                      <span>💡</span> 형광펜 칠하기
+                    </button>
+                  </div>
                   <textarea
+                    id={`editor-full-${editingParagraph.id}`}
                     value={editContent}
                     onChange={(e) => setEditContent(e.target.value)}
                     rows={8}

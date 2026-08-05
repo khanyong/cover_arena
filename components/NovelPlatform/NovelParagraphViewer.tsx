@@ -217,8 +217,37 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
           </div>
 
           <div className="mb-3">
-            <label className="block text-xs text-zinc-400 mb-1">소설 단락 본문</label>
+            <div className="flex justify-between items-center mb-1">
+              <label className="block text-xs text-zinc-400">소설 단락 본문</label>
+              <button
+                type="button"
+                onClick={() => {
+                  const textarea = document.getElementById(`editor-${paragraph.id}`) as HTMLTextAreaElement;
+                  if (!textarea) return;
+                  const start = textarea.selectionStart;
+                  const end = textarea.selectionEnd;
+                  const text = editContent;
+                  const before = text.substring(0, start);
+                  const selected = text.substring(start, end);
+                  const after = text.substring(end, text.length);
+                  
+                  if (selected) {
+                    setEditContent(`${before}\`${selected}\`${after}`);
+                  } else {
+                    setEditContent(`${before}\`강조할 문장\`${after}`);
+                  }
+                  
+                  setTimeout(() => {
+                    textarea.focus();
+                  }, 0);
+                }}
+                className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 hover:bg-amber-500/30 transition-colors flex items-center gap-1"
+              >
+                <span>💡</span> 형광펜 칠하기
+              </button>
+            </div>
             <textarea
+              id={`editor-${paragraph.id}`}
               value={editContent}
               onChange={(e) => setEditContent(e.target.value)}
               rows={5}
@@ -262,6 +291,28 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
             <ReactMarkdown
               remarkPlugins={[remarkMath]}
               rehypePlugins={[rehypeKatex]}
+              components={{
+                code({node, className, children, ...props}) {
+                  // react-markdown v10+ does not provide 'inline' prop natively.
+                  // If className doesn't exist (no language- prefix), we treat it as inline code.
+                  const match = /language-(\w+)/.exec(className || '');
+                  if (!match) {
+                    return (
+                      <mark
+                        className="bg-amber-500/30 text-amber-200 px-1 py-0.5 rounded shadow-sm font-semibold mx-0.5"
+                        {...props}
+                      >
+                        {children}
+                      </mark>
+                    );
+                  }
+                  return (
+                    <code className={className} {...props}>
+                      {children}
+                    </code>
+                  );
+                }
+              }}
             >
               {currentText}
             </ReactMarkdown>
