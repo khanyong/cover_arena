@@ -1219,13 +1219,16 @@ export function insertParagraphAfter(
     for (const ch of act.chapters) {
       const targetIndex = ch.paragraphs.findIndex(p => p.id === targetParagraphId);
       if (targetIndex !== -1) {
+        const isEnglish = updatedNovel.slug.endsWith('-en');
+        const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+        
         const newParagraphId = `p-${crypto.randomUUID()}`;
         const newParagraph: NovelParagraph = {
           id: newParagraphId,
-          activeVersion: 'v1.0',
+          activeVersion: defaultVer,
           versions: {
-            'v1.0': {
-              version: 'v1.0',
+            [defaultVer]: {
+              version: defaultVer,
               content: initialContent,
               note: '단락 분리/추가',
               createdAt: new Date().toISOString().substring(0, 16)
