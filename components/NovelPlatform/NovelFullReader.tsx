@@ -73,7 +73,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     const verKeys = Object.keys(paragraph.versions);
     let nextVerTag = 'v2.1';
     if (verKeys.length > 0) {
-      const lastVer = verKeys[verKeys.length - 1];
+      const lastVer = currentVerKey;
       
       if (lastVer === 'v_en') {
         nextVerTag = 'v_en-0.0.1';

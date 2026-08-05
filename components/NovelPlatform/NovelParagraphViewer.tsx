@@ -39,7 +39,7 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
 
   const handleStartEdit = () => {
     // 다음 추천 버전명 계산 (예: v2.0 -> v2.1)
-    const latestVer = availableVersionKeys[availableVersionKeys.length - 1] || 'v1.0';
+    const latestVer = selectedVersion;
     let nextVer = 'v2.1';
     
     if (latestVer === 'v_en') {
