@@ -41,14 +41,23 @@ export const NovelParagraphViewer: React.FC<NovelParagraphViewerProps> = ({
     // 다음 추천 버전명 계산 (예: v2.0 -> v2.1)
     const latestVer = availableVersionKeys[availableVersionKeys.length - 1] || 'v1.0';
     let nextVer = 'v2.1';
-    if (latestVer.startsWith('v')) {
-      const parts = latestVer.replace('v', '').split('.');
-      if (parts.length >= 2) {
-        const major = parseInt(parts[0], 10);
-        const minor = parseInt(parts[1], 10) + 1;
-        nextVer = `v${major}.${minor}`;
+    
+    if (latestVer === 'v_en') {
+      nextVer = 'v_en-0.0.1';
+    } else if (latestVer.startsWith('v_en-')) {
+      const suffix = latestVer.replace('v_en-', '');
+      const numMatch = suffix.match(/^(\d+)\.(\d+)\.(\d+)$/);
+      if (numMatch) {
+        nextVer = `v_en-${numMatch[1]}.${numMatch[2]}.${parseInt(numMatch[3], 10) + 1}`;
       } else {
-        nextVer = `${latestVer}.1`;
+        nextVer = 'v_en-0.0.1';
+      }
+    } else {
+      const match = latestVer.match(/^v(\d+)\.(\d+)$/);
+      if (match) {
+        nextVer = `v${match[1]}.${parseInt(match[2], 10) + 1}`;
+      } else {
+        nextVer = `${latestVer}-1`;
       }
     }
     setNewVerName(nextVer);

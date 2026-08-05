@@ -74,13 +74,26 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     let nextVerTag = 'v2.1';
     if (verKeys.length > 0) {
       const lastVer = verKeys[verKeys.length - 1];
-      const match = lastVer.match(/^v(\d+)\.(\d+)$/);
-      if (match) {
-        const major = match[1];
-        const minor = parseInt(match[2], 10) + 1;
-        nextVerTag = `v${major}.${minor}`;
+      
+      if (lastVer === 'v_en') {
+        nextVerTag = 'v_en-0.0.1';
+      } else if (lastVer.startsWith('v_en-')) {
+        const suffix = lastVer.replace('v_en-', '');
+        const numMatch = suffix.match(/^(\d+)\.(\d+)\.(\d+)$/);
+        if (numMatch) {
+          nextVerTag = `v_en-${numMatch[1]}.${numMatch[2]}.${parseInt(numMatch[3], 10) + 1}`;
+        } else {
+          nextVerTag = 'v_en-0.0.1';
+        }
       } else {
-        nextVerTag = `${lastVer}-new`;
+        const match = lastVer.match(/^v(\d+)\.(\d+)$/);
+        if (match) {
+          const major = match[1];
+          const minor = parseInt(match[2], 10) + 1;
+          nextVerTag = `v${major}.${minor}`;
+        } else {
+          nextVerTag = `${lastVer}-1`;
+        }
       }
     }
 
