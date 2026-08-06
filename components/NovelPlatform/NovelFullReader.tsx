@@ -414,6 +414,15 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       ? 'bg-amber-900/30 border-amber-500/80 shadow-[0_0_15px_rgba(245,158,11,0.2)]' 
                       : 'border-transparent hover:border-amber-500/40 hover:bg-amber-500/5';
 
+                    let displayContent = content;
+                    if (searchQuery.trim() !== '' && searchResults.includes(p.id)) {
+                      const escapedQuery = searchQuery.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                      const regex = new RegExp(`(${escapedQuery})`, 'gi');
+                      displayContent = content.replace(regex, '`$1`');
+                      // 기존 백틱과 중첩되는 경우 방지 (``` -> `)
+                      displayContent = displayContent.replace(/```/g, '`');
+                    }
+
                     return (
                       <div
                         id={`paragraph-${p.id}`}
@@ -472,7 +481,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                               }
                             }}
                           >
-                            {content}
+                            {displayContent}
                           </ReactMarkdown>
                         </div>
                       </div>
