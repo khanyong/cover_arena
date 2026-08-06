@@ -44,6 +44,9 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const [showDiffInModal, setShowDiffInModal] = useState(false);
   const [compareTargetVersion, setCompareTargetVersion] = useState<string>('');
 
+  // 뷰 모드 (스크롤 vs 양면 책)
+  const [viewMode, setViewMode] = useState<'scroll' | 'book'>('scroll');
+
   // 폰트 크기 조절 (독서 편의용)
   const [fontSize, setFontSize] = useState<'sm' | 'base' | 'lg' | 'xl'>('lg');
   
@@ -216,7 +219,28 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
             📖 FULL CONTINUOUS READER
           </span>
-          <div className="flex items-center gap-2 ml-2">
+          
+          {/* View Mode Toggle */}
+          <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 ml-1">
+            <button
+              onClick={() => setViewMode('scroll')}
+              className={`px-3 py-1 text-xs font-bold rounded-lg transition-all ${
+                viewMode === 'scroll' ? 'bg-amber-500 text-zinc-950 shadow' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              📜 스크롤
+            </button>
+            <button
+              onClick={() => setViewMode('book')}
+              className={`px-3 py-1 text-xs font-bold rounded-lg transition-all ${
+                viewMode === 'book' ? 'bg-[#3a352c] text-[#e0d6c8] shadow' : 'text-zinc-400 hover:text-zinc-200'
+              }`}
+            >
+              📖 책 모드
+            </button>
+          </div>
+
+          <div className="flex items-center gap-2 ml-1">
             <span className="text-zinc-500 text-xs">🔍</span>
             <input
               type="text"
@@ -261,16 +285,20 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       </div>
 
       {/* Full Novel Document Sheet */}
-      <div className="bg-zinc-900/80 border border-zinc-800 rounded-3xl p-8 lg:p-12 shadow-2xl space-y-12">
+      <div className={`border rounded-3xl p-8 lg:p-12 shadow-2xl space-y-12 transition-all duration-700 ${
+        viewMode === 'book' 
+          ? 'bg-[#1a1815] bg-[radial-gradient(#2a2620_1px,transparent_1px)] [background-size:20px_20px] text-[#e0d6c8] border-[#3a352c] shadow-[inset_0_0_120px_rgba(0,0,0,0.8)]' 
+          : 'bg-zinc-900/80 border-zinc-800 text-zinc-200'
+      }`}>
         {/* Title Header */}
-        <div className="text-center pb-8 border-b border-zinc-800/80 space-y-3">
+        <div className={`text-center pb-8 border-b space-y-3 ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-zinc-800/80'}`}>
           <span className="text-xs font-mono text-amber-400 tracking-widest uppercase">
             MASTER NOVEL READ & EDIT MODE
           </span>
-          <h1 className="text-3xl lg:text-4xl font-black text-white tracking-tight">
+          <h1 className={`text-3xl lg:text-4xl font-black tracking-tight ${viewMode === 'book' ? 'text-[#e5dcd0] font-serif' : 'text-white'}`}>
             {novel.title}
           </h1>
-          <p className="text-sm text-zinc-400 max-w-2xl mx-auto">
+          <p className={`text-sm max-w-2xl mx-auto ${viewMode === 'book' ? 'text-[#a39a8c] font-serif' : 'text-zinc-400'}`}>
             {novel.subtitle}
           </p>
           <div className="text-xs text-amber-300/80 font-mono pt-2">
@@ -282,7 +310,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         {novel.acts.map((act) => (
           <div key={act.number} className="space-y-10">
             {/* Act Title */}
-            <div className="border-b border-amber-500/30 pb-4 pt-6 group relative">
+            <div className={`border-b pb-4 pt-6 group relative ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-amber-500/30'}`}>
               {editingAct === act.number ? (
                 <div className="bg-zinc-950 border border-amber-500/50 p-4 rounded-xl space-y-3 shadow-lg">
                   <input
@@ -319,7 +347,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </div>
               ) : (
                 <>
-                  <h2 className="text-2xl font-black text-amber-400 flex items-center gap-2">
+                  <h2 className={`text-2xl font-black flex items-center gap-2 ${viewMode === 'book' ? 'text-amber-500/90 font-serif' : 'text-amber-400'}`}>
                     <span>🎬</span> {act.title}
                     <button
                       onClick={() => {
@@ -327,13 +355,13 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         setActEditTitle(act.title);
                         setActEditSummary(act.summary || '');
                       }}
-                      className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity font-sans"
                     >
                       ✏️ 수정
                     </button>
                   </h2>
                   {act.summary && (
-                    <p className="text-xs text-zinc-400 mt-1">{act.summary}</p>
+                    <p className={`text-xs mt-1 ${viewMode === 'book' ? 'text-[#a39a8c] font-serif' : 'text-zinc-400'}`}>{act.summary}</p>
                   )}
                 </>
               )}
@@ -344,9 +372,13 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
               <div
                 key={ch.number}
                 id={`full-act-${act.number}-ch-${ch.number}`}
-                className="space-y-6 scroll-mt-28"
+                className="space-y-6 scroll-mt-28 break-inside-avoid"
               >
-                <div className="bg-zinc-950/60 border border-zinc-800/80 p-4 rounded-xl group relative">
+                <div className={`p-4 rounded-xl group relative border ${
+                  viewMode === 'book' 
+                    ? 'bg-[#141311]/50 border-[#3a352c]/50' 
+                    : 'bg-zinc-950/60 border-zinc-800/80'
+                }`}>
                   {editingChapter?.actNumber === act.number && editingChapter?.chapterNumber === ch.number ? (
                     <div className="space-y-3">
                       <input
@@ -383,7 +415,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     </div>
                   ) : (
                     <>
-                      <h3 className="text-lg font-bold text-zinc-200 flex items-center gap-2">
+                      <h3 className={`text-lg font-bold flex items-center gap-2 ${viewMode === 'book' ? 'text-[#e5dcd0] font-serif' : 'text-zinc-200'}`}>
                         <span>📖</span> {ch.title}
                         <button
                           onClick={() => {
@@ -391,28 +423,39 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             setChapterEditTitle(ch.title);
                             setChapterEditSynopsis(ch.synopsis || '');
                           }}
-                          className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity"
+                          className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity font-sans"
                         >
                           ✏️ 수정
                         </button>
                       </h3>
                       {ch.synopsis && (
-                        <p className="text-xs text-zinc-400 mt-1">{ch.synopsis}</p>
+                        <p className={`text-xs mt-1 ${viewMode === 'book' ? 'text-[#a39a8c] font-serif' : 'text-zinc-400'}`}>{ch.synopsis}</p>
                       )}
                     </>
                   )}
                 </div>
 
                 {/* Paragraphs Continuous Text Container */}
-                <div className="space-y-4 font-sans text-zinc-200">
+                <div className={`transition-all duration-700 ${
+                  viewMode === 'book' 
+                    ? 'font-serif text-[#d6caba] md:columns-2 md:gap-16 [column-rule:1px_solid_rgba(58,53,44,0.5)] space-y-0 text-justify' 
+                    : 'font-sans text-zinc-200 space-y-4'
+                }`}>
                   {ch.paragraphs.map((p) => {
                     const activeVerKey = customVersionMap[p.id] || p.activeVersion;
-                    const content = getParagraphText(p, activeVerKey);
+                    let content = getParagraphText(p, activeVerKey);
 
                     const isMatch = searchResults.length > 0 && searchResults[currentMatchIndex] === p.id;
-                    const bgClass = isMatch 
+                    
+                    let bgClass = isMatch 
                       ? 'bg-amber-900/30 border-amber-500/80 shadow-[0_0_15px_rgba(245,158,11,0.2)]' 
                       : 'border-transparent hover:border-amber-500/40 hover:bg-amber-500/5';
+                      
+                    if (viewMode === 'book') {
+                      bgClass = isMatch
+                        ? 'bg-amber-900/10 border-amber-800/40 shadow-[0_0_10px_rgba(245,158,11,0.05)]'
+                        : 'border-transparent hover:border-[#3a352c] hover:bg-[#201d19]';
+                    }
 
                     let displayContent = content;
                     if (searchQuery.trim() !== '' && searchResults.includes(p.id)) {
@@ -428,16 +471,16 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         id={`paragraph-${p.id}`}
                         key={p.id}
                         onClick={() => handleParagraphClick(p)}
-                        className={`group relative p-4 rounded-2xl transition-all cursor-pointer border ${bgClass} ${getFontSizeClass()}`}
+                        className={`group relative p-4 rounded-2xl transition-all cursor-pointer border break-inside-avoid ${bgClass} ${getFontSizeClass()} ${viewMode === 'book' ? 'mb-4' : ''}`}
                         title="클릭하여 이 단락 수정 & 새 버전 생성"
                       >
                         {/* Hover Quick Edit Badge */}
-                        <div className="absolute top-2 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-xs px-2.5 py-1 rounded-md font-bold shadow-lg flex items-center gap-1">
+                        <div className="absolute top-2 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-xs px-2.5 py-1 rounded-md font-bold shadow-lg flex items-center gap-1 font-sans z-10">
                           <span>✏️</span> 클릭해서 단락 수정 ({activeVerKey})
                         </div>
 
                         {/* Version Indicator Tag and AI Prompt */}
-                        <div className="flex items-center gap-2 mb-1.5 flex-wrap">
+                        <div className="flex items-center gap-2 mb-1.5 flex-wrap font-sans">
                           <div className="inline-block text-[11px] font-mono text-amber-400/80 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800 select-none">
                             {activeVerKey}
                           </div>
@@ -491,13 +534,16 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 
                 {/* Add Chapter Button */}
                 {onInsertChapter && (
-                  <div className="mt-6 flex justify-center border-t border-zinc-800/50 pt-4">
+                  <div className={`mt-6 flex justify-center border-t pt-4 font-sans ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-zinc-800/50'}`}>
                     <button
                       onClick={() => {
                         onInsertChapter(act.number, ch.number);
-                        // Optional: Add a toast notification here if you want
                       }}
-                      className="text-xs bg-zinc-800/50 hover:bg-zinc-700/80 text-zinc-400 hover:text-zinc-200 px-4 py-2 rounded-full transition-all border border-zinc-700/50 flex items-center gap-2"
+                      className={`text-xs px-4 py-2 rounded-full transition-all border flex items-center gap-2 ${
+                        viewMode === 'book' 
+                          ? 'bg-[#141311]/50 border-[#3a352c] text-[#a39a8c] hover:text-[#d6caba] hover:bg-[#201d19]' 
+                          : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/80'
+                      }`}
                     >
                       <span>➕</span> 여기에 새 챕터 추가하기
                     </button>
@@ -509,7 +555,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         ))}
 
         {/* End of Novel Sheet */}
-        <div className="text-center pt-12 border-t border-zinc-800 text-zinc-500 text-xs font-mono">
+        <div className={`text-center pt-12 border-t text-xs font-mono ${viewMode === 'book' ? 'border-[#3a352c] text-[#a39a8c]' : 'border-zinc-800 text-zinc-500'}`}>
           [ 소설 전체 본문 읽기 종료 - 모든 단락은 최신 버전으로 연동됩니다 ]
         </div>
       </div>
