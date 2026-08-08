@@ -1579,6 +1579,66 @@ export function updateChapterMetadata(
       updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
     }
   }
+  return updatedNovel;
+}
+
+export function addCharacter(
+  novel: NovelDetails,
+  name: string = '새로운 인물',
+  role: string = '역할 미상',
+  tagline: string = '한 줄 소개를 입력하세요',
+  description: string = '상세 설정을 입력하세요'
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.characters) {
+    updatedNovel.characters = [];
+  }
+
+  const newCharacter: CharacterDetails = {
+    id: `char-${crypto.randomUUID()}`,
+    name,
+    role,
+    tagline,
+    description
+  };
+
+  updatedNovel.characters.push(newCharacter);
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
+export function updateCharacter(
+  novel: NovelDetails,
+  characterId: string,
+  updates: Partial<Omit<CharacterDetails, 'id'>>
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.characters) return updatedNovel;
+
+  const charIndex = updatedNovel.characters.findIndex(c => c.id === characterId);
+  if (charIndex !== -1) {
+    updatedNovel.characters[charIndex] = {
+      ...updatedNovel.characters[charIndex],
+      ...updates
+    };
+    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  }
+  
+  return updatedNovel;
+}
+
+export function deleteCharacter(
+  novel: NovelDetails,
+  characterId: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.characters) return updatedNovel;
+
+  updatedNovel.characters = updatedNovel.characters.filter(c => c.id !== characterId);
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   
   return updatedNovel;
 }

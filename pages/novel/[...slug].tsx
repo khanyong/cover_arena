@@ -18,11 +18,15 @@ import {
   deleteAct,
   updateActMetadata,
   updateChapterMetadata,
+  addCharacter,
+  updateCharacter,
+  deleteCharacter,
   initialNovelData
 } from '../../components/NovelPlatform/novelData';
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
 import { NovelMosaicMixer } from '../../components/NovelPlatform/NovelMosaicMixer';
 import { NovelFullReader } from '../../components/NovelPlatform/NovelFullReader';
+import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGlossary';
 import { novels } from '../../shared/lib/supabase';
 
 export default function NovelStudioPage() {
@@ -46,6 +50,9 @@ export default function NovelStudioPage() {
   // 단락별 개별 선택 버전 맵: paragraphId -> versionKey
   const [customVersionMap, setCustomVersionMap] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(true);
+  
+  // 현재 선택된 메인 탭
+  const [mainTab, setMainTab] = useState<'story' | 'characters'>('story');
 
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
@@ -261,6 +268,24 @@ export default function NovelStudioPage() {
     novels.saveNovel(updatedNovel);
   };
 
+  const handleAddCharacter = () => {
+    const updatedNovel = addCharacter(novel);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleUpdateCharacter = (id: string, updates: any) => {
+    const updatedNovel = updateCharacter(novel, id, updates);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteCharacter = (id: string) => {
+    const updatedNovel = deleteCharacter(novel, id);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
   const handleImportDraft = (e: React.FormEvent) => {
     e.preventDefault();
@@ -372,6 +397,30 @@ export default function NovelStudioPage() {
                 </Link>
               </div>
             )}
+          </div>
+
+          {/* Top Center Tabs */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800">
+            <button
+              onClick={() => setMainTab('story')}
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
+                mainTab === 'story' 
+                  ? 'bg-amber-500 text-zinc-950 shadow-sm' 
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+              }`}
+            >
+              📖 본문 편집
+            </button>
+            <button
+              onClick={() => setMainTab('characters')}
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
+                mainTab === 'characters' 
+                  ? 'bg-amber-500 text-zinc-950 shadow-sm' 
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+              }`}
+            >
+              👥 캐릭터 설정
+            </button>
           </div>
 
           {/* 탭 & 컨트롤 */}
@@ -491,7 +540,15 @@ export default function NovelStudioPage() {
 
         {/* Center/Right Content Area */}
         <main className="lg:col-span-3 space-y-8">
-          {activeTab === 'reader' ? (
+          {/* Main Content View Switch */}
+          {mainTab === 'characters' ? (
+            <CharacterGlossary
+              characters={novel.characters || []}
+              onAddCharacter={handleAddCharacter}
+              onUpdateCharacter={handleUpdateCharacter}
+              onDeleteCharacter={handleDeleteCharacter}
+            />
+          ) : activeTab === 'reader' ? (
             /* 전체 연속 정독 & 인라인 수정 뷰어 (메인 모드) */
             <NovelFullReader
               novel={novel}
