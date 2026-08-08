@@ -48,6 +48,15 @@ export interface CharacterDetails {
   description: string;
 }
 
+export interface SceneDetails {
+  id: string;
+  title: string;
+  position: string;
+  background: string;
+  relationship: string;
+  narrative: string;
+}
+
 export interface NovelDetails {
   id: string;
   slug: string;
@@ -57,6 +66,7 @@ export interface NovelDetails {
   logline: string;
   synopsis: string;
   characters: CharacterDetails[];
+  scenes?: SceneDetails[];
   acts: NovelAct[];
   versionHistory: string[];
   updatedAt: string;
@@ -100,6 +110,32 @@ export const initialNovelData: NovelDetails = {
       role: "아틀라스 코퍼레이션 회장 / 거대 자본 총수",
       tagline: "오디세우스 방주의 백지수표 후원자",
       description: "글로벌 우주항공 및 퀀텀 바이오 그룹 아틀라스의 냉혹한 총수. 이안이 딸 클로이의 불가능한 뇌종양을 기하학적 메스로 완치시키자, 3천억 달러와 10만 엔지니어를 전폭 양도한다."
+    }
+  ],
+  scenes: [
+    {
+      id: "scene-1",
+      title: "1씬: 맥팔레인의 펍 (The Pub at Edinburgh)",
+      position: "제 1막 후반부 (과거 회상 혹은 사건 직전의 숨 고르기)",
+      background: "2장~3장 사이, 에든버러 대학교 근처의 낡고 허름한 펍. 밖에는 스코틀랜드 특유의 짙은 안개와 비가 내리고 있습니다.\n\n이안은 특강이 끝난 뒤에도 학생들의 찬사나 펍의 활기를 즐기지 못하고 구석 테이블에 홀로 앉아 노트에 수식을 빽빽이 적어 내려가고 있습니다.",
+      relationship: "노교수 맥팔레인이 맥주잔을 들고 와 이안의 맞은편에 툭 앉습니다. 맥팔레인은 이안이 과거 아버지의 죽음(건축 붕괴 사고)과 주류 학계의 배신 때문에 '사람과 사회를 철저히 불신하고 오직 차가운 수식(기하학) 뒤에 숨어 있다'는 것을 정확히 꿰뚫고 있습니다.\n\n맥팔레인은 맥주를 한 모금 마시며 가라앉은 목소리로 충고합니다.\n\"이안, 자네는 우주의 뼈대가 잘못되었다며 세상을 고치려 들지만, 정작 네 옆에서 자네를 걱정하는 사람들의 눈물은 기하학에 포함되어 있지 않더군. 완벽한 수식으로 우주를 구한들, 그 안에 자네가 사랑하는 사람이 하나도 없다면 그게 무슨 의미가 있나?\"\n\n이안은 냉소적으로 대답하며 자리를 피하려 하지만, 맥팔레인의 이 따뜻하고 묵직한 꾸짖음은 이안의 방어막에 첫 번째 금을 냅니다.",
+      narrative: "이안이 단순한 '괴짜 천재'나 '복수귀'가 아니라, 마음속에 깊은 결핍을 품은 인간임을 보여줍니다. 이 장면은 훗날 후반부에 맥팔레인이 재난 속에서 이안을 구하기 위해 희생할 때, 이안이 단순한 동료의 죽음이 아닌 '인생의 아버지'를 잃은 오열을 터뜨리게 만드는 감정적 닻(Anchor) 역할을 합니다."
+    },
+    {
+      id: "scene-2",
+      title: "2씬: NASA 랩실의 대치 (The NASA Server Room Confrontation)",
+      position: "제 2막 중반부 (위기가 고조되고 세라가 각성하는 터닝포인트)",
+      background: "워싱턴 NASA 본부의 지하 데이터 서버실. 새벽 3시.\n\n세라는 JWST가 포착한 우주 지진의 전조(테란 텐서 노이즈)를 분석해 스털링과 국방부가 이를 은폐하려 한다는 증거를 확보했습니다. 이제 이 데이터를 외부에 고발(또는 이안에게 전송)하기만 하면 됩니다.",
+      relationship: "그때 서버실 문이 열리고, 세라의 직속 상사이자 멘토인 엘레나 로스토바가 들어옵니다. 엘레나는 국방부의 압박을 이미 알고 있었습니다. 그녀의 손에는 연방보안관들의 출동 명령서가 들려 있습니다.\n\n엘레나는 세라를 원망스럽고 안타까운 눈으로 바라보며 경고합니다.\n\"세라, 정신 차려. 네가 그 데이터를 보내는 순간, 네 남동생 리오의 병원비 지원금은 그 즉시 끊길 거야. 국방부는 네 삶을 완전히 도려낼 수 있어. 진실 따위가 네 동생의 숨소리보다 중요해?\"\n\n세라는 극심한 공포와 죄책감 속에서 오열합니다. 3년 전 제네바에서 침묵했던 이유(가족을 지키기 위해)가 다시 한번 그녀의 목을 조릅니다. 하지만 그 순간, 동생 리오가 전화로 남겼던 목소리를 떠올린 세라는 눈물을 닦아냅니다.\n\n세라는 엘레나를 향해 정면으로 돌아섭니다. \"박사님은 저를 톱니바퀴로 키우셨지만... 저는 사람으로 살아야겠어요.\"\n\n세라가 전송을 강행하려 하자, 엘레나는 잠시 주춤하더니... 돌연 자신의 사원증을 뽑아 방화벽을 우회해 줍니다.\n\"가서 네 우주를 고쳐. 나처럼 늙어 죽지 말고.\" (엘레나가 자신의 커리어와 남은 여생을 던져 세라의 탈출을 돕고 연방 요원들의 길목을 가로막음)",
+      narrative: "세라가 '가족이라는 핑계 뒤에 숨던 방관자'에서, '모든 리스크를 짊어지고 진실을 향해 돌진하는 주체적인 전사'로 완벽하게 탈바꿈하는 각성의 씬입니다."
+    },
+    {
+      id: "scene-3",
+      title: "3씬: 펜타곤 브리핑룸의 배신 (The Pentagon's Briefing Room Collapse)",
+      position: "제 2막 후반부 ~ 제 3막 진입 (스털링의 실존적 몰락)",
+      background: "우주 지진의 전조가 전 지구적 재앙(통신 장애, 기상 이변)으로 가시화되면서, 워싱턴 펜타곤의 지하 통제실.\n\n스털링 교수는 백악관 고위 관료들과 국방부 장관들 앞에서 자신이 설계한 '양자 방위망 컷오프(확률적 통제 시스템)'가 완벽하다고 허세를 떨며 브리핑을 주도하고 있습니다. 그의 뒤에는 언제나처럼 충견 같은 제자이자 국방부 실세인 데이비드 첸이 서 있습니다.",
+      relationship: "하지만 통제실 대형 스크린에 띄워진 우주 텐서 맵이 스털링의 예상과 완전히 다르게 찢어지며 경보음이 울립니다. 스털링의 수식(확률적 통제)이 완전히 붕괴한 것입니다. 방안이 아수라장이 됩니다.\n\n당황한 스털링이 데이비드 첸에게 \"빨리 방어 플랜 B를 가동해!\"라고 소리치지만, 데이비드는 꿈쩍도 하지 않습니다.\n데이비드는 차가운 눈빛으로 스털링을 내려다보며 백악관 장관들에게 서류 가방을 건냅니다. 그 안에는 스털링이 지난 3년간 자신의 노벨상을 위해 가속기를 무차별적으로 난폭하게 돌려 우주 지진을 유발했다는 '진짜 로그 기록과 은폐 공작 증거'가 고스란히 담겨 있습니다.\n\n스털링이 경악하며 첸의 멱살을 잡자, 데이비드는 스털링의 손을 냉정하게 쳐내며 소름 돋는 조롱을 내뱉습니다.\n\"교수님, 인류의 구원자라도 되시는 줄 아셨습니까? 당신이나 나나, 밥그릇 지키려 남의 피를 빤 역겨운 도둑놈일 뿐입니다. 이 프로젝트의 모든 독박은 교수님이 지시는 겁니다.\"\n\n데이비드는 백악관의 승인을 받아 스털링을 그 자리에서 연방 반역죄 및 과실치사 혐의로 체포(구금)하도록 보안 요원들에게 지시합니다.",
+      narrative: "자신을 구원자라 믿던 스털링의 가면(메시아 콤플렉스)이 완벽하게 산산조각 나는 순간입니다. 자신과 똑 닮은 괴물(데이비드)에게 뒤통수를 맞으며, 자신이 쫓던 것이 '진리'도 '인류의 대의'도 아닌 얄팍한 허영심과 기득권욕에 불과했음을 뼈저리게 깨닫는 스털링의 추락을 극적으로 그립니다."
     }
   ],
   acts: [
@@ -1638,6 +1674,63 @@ export function deleteCharacter(
   if (!updatedNovel.characters) return updatedNovel;
 
   updatedNovel.characters = updatedNovel.characters.filter(c => c.id !== characterId);
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  
+  return updatedNovel;
+}
+
+export function addScene(novel: NovelDetails): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.scenes) {
+    updatedNovel.scenes = [];
+  }
+
+  const newScene: SceneDetails = {
+    id: `scene-${Date.now()}`,
+    title: '새로운 씬 드래프트',
+    position: '',
+    background: '',
+    relationship: '',
+    narrative: ''
+  };
+
+  updatedNovel.scenes.push(newScene);
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  
+  return updatedNovel;
+}
+
+export function updateScene(
+  novel: NovelDetails,
+  sceneId: string,
+  updates: Partial<Omit<SceneDetails, 'id'>>
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.scenes) return updatedNovel;
+
+  const sceneIndex = updatedNovel.scenes.findIndex(s => s.id === sceneId);
+  if (sceneIndex !== -1) {
+    updatedNovel.scenes[sceneIndex] = {
+      ...updatedNovel.scenes[sceneIndex],
+      ...updates
+    };
+    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  }
+  
+  return updatedNovel;
+}
+
+export function deleteScene(
+  novel: NovelDetails,
+  sceneId: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.scenes) return updatedNovel;
+
+  updatedNovel.scenes = updatedNovel.scenes.filter(s => s.id !== sceneId);
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   
   return updatedNovel;

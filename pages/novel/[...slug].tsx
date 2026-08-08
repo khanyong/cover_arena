@@ -21,12 +21,16 @@ import {
   addCharacter,
   updateCharacter,
   deleteCharacter,
+  addScene,
+  updateScene,
+  deleteScene,
   initialNovelData
 } from '../../components/NovelPlatform/novelData';
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
 import { NovelMosaicMixer } from '../../components/NovelPlatform/NovelMosaicMixer';
 import { NovelFullReader } from '../../components/NovelPlatform/NovelFullReader';
 import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGlossary';
+import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
 import { novels } from '../../shared/lib/supabase';
 
 export default function NovelStudioPage() {
@@ -52,7 +56,7 @@ export default function NovelStudioPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   // 현재 선택된 메인 탭
-  const [mainTab, setMainTab] = useState<'story' | 'characters'>('story');
+  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes'>('story');
 
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
@@ -286,6 +290,24 @@ export default function NovelStudioPage() {
     novels.saveNovel(updatedNovel);
   };
 
+  const handleAddScene = () => {
+    const updatedNovel = addScene(novel);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleUpdateScene = (id: string, updates: any) => {
+    const updatedNovel = updateScene(novel, id, updates);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteScene = (id: string) => {
+    const updatedNovel = deleteScene(novel, id);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
   const handleImportDraft = (e: React.FormEvent) => {
     e.preventDefault();
@@ -421,6 +443,16 @@ export default function NovelStudioPage() {
             >
               👥 캐릭터 설정
             </button>
+            <button
+              onClick={() => setMainTab('scenes')}
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
+                mainTab === 'scenes' 
+                  ? 'bg-amber-500 text-zinc-950 shadow-sm' 
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+              }`}
+            >
+              🎬 장면 씬 구상
+            </button>
           </div>
 
           {/* 탭 & 컨트롤 (본문 편집 시에만 표시) */}
@@ -543,14 +575,25 @@ export default function NovelStudioPage() {
         {/* Center/Right Content Area */}
         <main className="lg:col-span-3 space-y-8">
           {/* Main Content View Switch */}
-          {mainTab === 'characters' ? (
+          {mainTab === 'characters' && (
             <CharacterGlossary
               characters={novel.characters || []}
               onAddCharacter={handleAddCharacter}
               onUpdateCharacter={handleUpdateCharacter}
               onDeleteCharacter={handleDeleteCharacter}
             />
-          ) : activeTab === 'reader' ? (
+          )}
+
+          {mainTab === 'scenes' && (
+            <SceneGlossary
+              scenes={novel.scenes || []}
+              onAddScene={handleAddScene}
+              onUpdateScene={handleUpdateScene}
+              onDeleteScene={handleDeleteScene}
+            />
+          )}
+
+          {mainTab === 'story' && activeTab === 'reader' ? (
             /* 전체 연속 정독 & 인라인 수정 뷰어 (메인 모드) */
             <NovelFullReader
               novel={novel}
