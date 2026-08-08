@@ -24,6 +24,9 @@ import {
   addScene,
   updateScene,
   deleteScene,
+  addLocation,
+  updateLocation,
+  deleteLocation,
   initialNovelData
 } from '../../components/NovelPlatform/novelData';
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
@@ -31,6 +34,7 @@ import { NovelMosaicMixer } from '../../components/NovelPlatform/NovelMosaicMixe
 import { NovelFullReader } from '../../components/NovelPlatform/NovelFullReader';
 import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGlossary';
 import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
+import { LocationGlossary } from '../../components/NovelPlatform/LocationGlossary';
 import { novels } from '../../shared/lib/supabase';
 
 export default function NovelStudioPage() {
@@ -56,7 +60,7 @@ export default function NovelStudioPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   // 현재 선택된 메인 탭
-  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes'>('story');
+  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations'>('story');
 
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
@@ -71,15 +75,20 @@ export default function NovelStudioPage() {
         if (!data.scenes) {
           data.scenes = initialNovelData.scenes || [];
         }
+        if (!data.locations) {
+          data.locations = initialNovelData.locations || [];
+        }
         setNovel(data);
       } else if (novelsMap[dbSlug]) {
         // DB에 없으면 로컬 파일 데이터 사용
         const localData = novelsMap[dbSlug];
         if (!localData.scenes) localData.scenes = initialNovelData.scenes || [];
+        if (!localData.locations) localData.locations = initialNovelData.locations || [];
         setNovel(localData);
       } else if (novelId && typeof novelId === 'string' && novelsMap[novelId]) {
         const localData = novelsMap[novelId];
         if (!localData.scenes) localData.scenes = initialNovelData.scenes || [];
+        if (!localData.locations) localData.locations = initialNovelData.locations || [];
         setNovel(localData);
       } else {
         setNovel(initialNovelData);
@@ -316,6 +325,24 @@ export default function NovelStudioPage() {
     novels.saveNovel(updatedNovel);
   };
 
+  const handleAddLocation = () => {
+    const updatedNovel = addLocation(novel);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleUpdateLocation = (id: string, updates: any) => {
+    const updatedNovel = updateLocation(novel, id, updates);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteLocation = (id: string) => {
+    const updatedNovel = deleteLocation(novel, id);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
   const handleImportDraft = (e: React.FormEvent) => {
     e.preventDefault();
@@ -461,6 +488,16 @@ export default function NovelStudioPage() {
             >
               🎬 장면 씬 구상
             </button>
+            <button
+              onClick={() => setMainTab('locations')}
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
+                mainTab === 'locations' 
+                  ? 'bg-emerald-500 text-zinc-950 shadow-sm' 
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+              }`}
+            >
+              🌍 장소 구상
+            </button>
           </div>
 
           {/* 탭 & 컨트롤 (본문 편집 시에만 표시) */}
@@ -600,6 +637,15 @@ export default function NovelStudioPage() {
               onAddScene={handleAddScene}
               onUpdateScene={handleUpdateScene}
               onDeleteScene={handleDeleteScene}
+            />
+          )}
+
+          {mainTab === 'locations' && (
+            <LocationGlossary
+              locations={novel.locations || []}
+              onAddLocation={handleAddLocation}
+              onUpdateLocation={handleUpdateLocation}
+              onDeleteLocation={handleDeleteLocation}
             />
           )}
 

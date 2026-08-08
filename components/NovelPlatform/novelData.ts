@@ -48,6 +48,14 @@ export interface CharacterDetails {
   description: string;
 }
 
+export interface LocationDetails {
+  id: string;
+  name: string;
+  description: string;
+  visualTraits: string;
+  importance: string;
+}
+
 export interface SceneDetails {
   id: string;
   title: string;
@@ -67,6 +75,7 @@ export interface NovelDetails {
   synopsis: string;
   characters: CharacterDetails[];
   scenes?: SceneDetails[];
+  locations?: LocationDetails[];
   acts: NovelAct[];
   versionHistory: string[];
   updatedAt: string;
@@ -82,6 +91,43 @@ export const initialNovelData: NovelDetails = {
   synopsis: "공간이 비어있는 무대가 아닌 고유한 기하학적 진동을 지닌 동역학적 유체임을 발견한 이안. 그는 낡은 코펜하겐 학파의 비판에 맞서며, 다가올 공간의 파멸로부터 인류를 구하기 위한 반중력 방주를 건설하고 다중 우주의 탯줄을 끊어내려 한다.",
   versionHistory: ["v1.0", "v1.1", "v2.0", "v3.0", "v3.1", "v6.1", "v6.2", "v6.3"],
   updatedAt: "2026-07-24",
+  locations: [
+    {
+      id: "loc-geneva-ngc",
+      name: "제네바 NGC (거대 양자 가속기) 중앙 통제실",
+      description: "사건의 발단이 되는 곳. 고도의 최첨단 설비가 가득하지만, 붕괴 사고 당시에는 통제 불능의 공포가 지배하는 아수라장.",
+      visualTraits: "지하 200미터 알프스 화강암 암반 내. 둘레 100km의 거대한 초전도 진공 파이프와 30m 높이의 메인 코어가 방탄 차폐 유리 너머로 뿜어내는 푸른빛.",
+      importance: "이안이 처음으로 공간 진동 이론(MSV)의 기적을 현실에서 증명한 곳이자, 주류 학계로부터 추방당하는 실존적 죽음의 장소."
+    },
+    {
+      id: "loc-scotland-obs",
+      name: "스코틀랜드 하일랜드 전파 천문대",
+      description: "이안의 3년간의 은둔지. 세상과 단절된 고독한 공간이자 폭우가 쏟아지는 음침한 바깥 풍경과 대조적으로, 내부에서는 우주의 진리를 파헤치는 치열한 연구가 진행 중.",
+      visualTraits: "낡고 녹슨 철문, 벽면 전체를 빼곡하게 채운 텐서 방정식들, 중앙에 놓인 오래된 콘솔과 허공에 심우주의 홀로그램을 띄우는 프로젝터.",
+      importance: "세라와의 3년 만의 재회가 이루어지고, 우주 지진(Space Quake)의 붉은 전조를 처음으로 확인하게 되는 제1막의 핵심 무대."
+    },
+    {
+      id: "loc-edinburgh-pub",
+      name: "에든버러 맥팔레인의 펍",
+      description: "에든버러 대학 근처의 낡고 허름한 펍. 대학가의 활기와 스코틀랜드 특유의 스산한 날씨가 공존하는 일상적 공간.",
+      visualTraits: "어두운 목재 인테리어, 구석의 조용한 테이블, 유리창 너머로 내리는 짙은 안개와 비, 김이 서린 맥주잔.",
+      importance: "이안이 겪은 과거의 상처와 내면의 결핍이 드러나는 공간. 맥팔레인 교수와의 대화를 통해 이안의 차가운 방어막에 감정적인 균열이 생기는 장소."
+    },
+    {
+      id: "loc-nasa-server",
+      name: "워싱턴 NASA 지하 데이터 서버실",
+      description: "차갑고 건조한 서버실의 공기. 진실을 은폐하려는 거대 권력과 그것을 폭로하려는 개인의 치열한 심리적 대치가 일어나는 숨 막히는 공간.",
+      visualTraits: "새벽 3시의 푸르스름한 서버 랙 불빛, 수많은 케이블, 차가운 금속성 냄새, 방화벽을 우회하는 깜빡이는 콘솔 화면.",
+      importance: "세라가 수동적인 방관자에서 벗어나 자신의 모든 것을 걸고 진실을 세상에 알리는 주체적인 전사로 각성하는 터닝포인트."
+    },
+    {
+      id: "loc-pentagon-control",
+      name: "펜타곤 지하 통제실",
+      description: "전 지구적 위기 상황 속에서 국가 최고 권력자들이 모이는 곳. 그러나 완벽해 보였던 통제가 붕괴하면서 극한의 혼돈이 몰아치는 무대.",
+      visualTraits: "벽면을 가득 채운 대형 텐서 맵 스크린, 붉게 울리는 경보등, 고급 정장을 입은 관료들의 패닉, 무장한 보안 요원들.",
+      importance: "스털링 교수의 메시아 콤플렉스가 산산조각 나고, 기득권의 상징이던 그가 가장 비참하게 몰락하는 제2막 후반부의 하이라이트 장소."
+    }
+  ],
   characters: [
     {
       id: "ian",
@@ -1731,6 +1777,62 @@ export function deleteScene(
   if (!updatedNovel.scenes) return updatedNovel;
 
   updatedNovel.scenes = updatedNovel.scenes.filter(s => s.id !== sceneId);
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  
+  return updatedNovel;
+}
+
+export function addLocation(novel: NovelDetails): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.locations) {
+    updatedNovel.locations = [];
+  }
+
+  const newLocation: LocationDetails = {
+    id: `loc-${Date.now()}`,
+    name: '새로운 장소 드래프트',
+    description: '',
+    visualTraits: '',
+    importance: ''
+  };
+
+  updatedNovel.locations.push(newLocation);
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  
+  return updatedNovel;
+}
+
+export function updateLocation(
+  novel: NovelDetails,
+  locationId: string,
+  updates: Partial<Omit<LocationDetails, 'id'>>
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.locations) return updatedNovel;
+
+  const locIndex = updatedNovel.locations.findIndex(l => l.id === locationId);
+  if (locIndex !== -1) {
+    updatedNovel.locations[locIndex] = {
+      ...updatedNovel.locations[locIndex],
+      ...updates
+    };
+    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  }
+  
+  return updatedNovel;
+}
+
+export function deleteLocation(
+  novel: NovelDetails,
+  locationId: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  
+  if (!updatedNovel.locations) return updatedNovel;
+
+  updatedNovel.locations = updatedNovel.locations.filter(l => l.id !== locationId);
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   
   return updatedNovel;
