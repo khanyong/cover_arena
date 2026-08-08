@@ -9,7 +9,9 @@ import {
   addParagraphAiComment,
   deleteParagraph,
   insertParagraphAfter,
+  insertParagraphBefore,
   insertChapterAfter,
+  insertChapterBefore,
   updateActMetadata,
   updateChapterMetadata,
   initialNovelData
@@ -194,16 +196,23 @@ export default function NovelStudioPage() {
   const handleInsertParagraph = (paragraphId: string) => {
     const updatedNovel = insertParagraphAfter(novel, paragraphId);
     setNovel(updatedNovel);
-    
-    // Add 'v1.0' to customVersionMap for the new paragraph to ensure it displays correctly if needed.
-    // However, the ID is unknown here unless insertParagraphAfter returns it, but it uses default activeVersion anyway.
-    
-    // Supabase에 저장
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleInsertParagraphBefore = (paragraphId: string) => {
+    const updatedNovel = insertParagraphBefore(novel, paragraphId);
+    setNovel(updatedNovel);
     novels.saveNovel(updatedNovel);
   };
 
   const handleInsertChapter = (actNumber: number, chapterNumber: number) => {
     const updatedNovel = insertChapterAfter(novel, actNumber, chapterNumber);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleInsertChapterBefore = (actNumber: number, chapterNumber: number) => {
+    const updatedNovel = insertChapterBefore(novel, actNumber, chapterNumber);
     setNovel(updatedNovel);
     novels.saveNovel(updatedNovel);
   };
@@ -460,7 +469,9 @@ export default function NovelStudioPage() {
               onSaveAiPrompt={handleSaveAiPrompt}
               onDeleteParagraph={handleDeleteParagraph}
               onInsertParagraph={handleInsertParagraph}
+              onInsertParagraphBefore={handleInsertParagraphBefore}
               onInsertChapter={handleInsertChapter}
+              onInsertChapterBefore={handleInsertChapterBefore}
               onUpdateActMetadata={handleUpdateActMetadata}
               onUpdateChapterMetadata={handleUpdateChapterMetadata}
             />

@@ -18,7 +18,9 @@ interface NovelFullReaderProps {
   onSaveAiPrompt?: (paragraphId: string, targetVersion: string, prompt: string) => void;
   onDeleteParagraph?: (paragraphId: string) => void;
   onInsertParagraph?: (paragraphId: string) => void;
+  onInsertParagraphBefore?: (paragraphId: string) => void;
   onInsertChapter?: (actNumber: number, chapterNumber: number) => void;
+  onInsertChapterBefore?: (actNumber: number, chapterNumber: number) => void;
   onUpdateActMetadata?: (actNumber: number, title: string, summary?: string) => void;
   onUpdateChapterMetadata?: (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => void;
 }
@@ -31,7 +33,9 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onSaveAiPrompt,
   onDeleteParagraph,
   onInsertParagraph,
+  onInsertParagraphBefore,
   onInsertChapter,
+  onInsertChapterBefore,
   onUpdateActMetadata,
   onUpdateChapterMetadata
 }) => {
@@ -374,6 +378,22 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 id={`full-act-${act.number}-ch-${ch.number}`}
                 className="space-y-6 scroll-mt-28 break-inside-avoid"
               >
+                {/* Insert Chapter Before Button (Only shown before chapter 1, or can be shown before any chapter) */}
+                {onInsertChapterBefore && ch.number === 1 && (
+                  <div className={`mb-2 flex justify-center pb-2 font-sans`}>
+                    <button
+                      onClick={() => onInsertChapterBefore(act.number, ch.number)}
+                      className={`text-xs px-3 py-1.5 rounded-full transition-all border flex items-center gap-1.5 ${
+                        viewMode === 'book' 
+                          ? 'bg-[#141311]/50 border-[#3a352c] text-[#a39a8c] hover:text-[#d6caba] hover:bg-[#201d19]' 
+                          : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/80'
+                      }`}
+                    >
+                      <span>⬆️</span> 첫 챕터 이전에 새 챕터 추가
+                    </button>
+                  </div>
+                )}
+
                 <div className={`p-4 rounded-xl group relative border ${
                   viewMode === 'book' 
                     ? 'bg-[#141311]/50 border-[#3a352c]/50' 
@@ -785,17 +805,32 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       </button>
                     )}
                     {onInsertParagraph && (
-                      <button
-                        type="button"
-                        onClick={() => {
-                          onInsertParagraph(editingParagraph.id);
-                          showToast('현재 단락 아래에 새 단락이 추가되었습니다.');
-                          setEditingParagraph(null); // 모달 닫기 (배경에서 새 단락 확인 가능)
-                        }}
-                        className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-purple-500/20 ml-2"
-                      >
-                        ⬇️ 아래에 새 단락 추가
-                      </button>
+                      <>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            if (onInsertParagraphBefore) {
+                              onInsertParagraphBefore(editingParagraph.id);
+                              showToast('현재 단락 위에 새 단락이 추가되었습니다.');
+                              setEditingParagraph(null);
+                            }
+                          }}
+                          className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-purple-500/20 ml-2"
+                        >
+                          ⬆️ 위에 새 단락 추가
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            onInsertParagraph(editingParagraph.id);
+                            showToast('현재 단락 아래에 새 단락이 추가되었습니다.');
+                            setEditingParagraph(null);
+                          }}
+                          className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-purple-500/20 ml-2"
+                        >
+                          ⬇️ 아래에 새 단락 추가
+                        </button>
+                      </>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
