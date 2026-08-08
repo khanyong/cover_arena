@@ -12,6 +12,10 @@ import {
   insertParagraphBefore,
   insertChapterAfter,
   insertChapterBefore,
+  deleteChapter,
+  insertActAfter,
+  insertActBefore,
+  deleteAct,
   updateActMetadata,
   updateChapterMetadata,
   initialNovelData
@@ -215,6 +219,34 @@ export default function NovelStudioPage() {
     const updatedNovel = insertChapterBefore(novel, actNumber, chapterNumber);
     setNovel(updatedNovel);
     novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteChapter = (actNumber: number, chapterNumber: number) => {
+    if (confirm('이 챕터를 정말 삭제하시겠습니까? (삭제 시 내부의 모든 단락이 함께 삭제됩니다)')) {
+      const updatedNovel = deleteChapter(novel, actNumber, chapterNumber);
+      setNovel(updatedNovel);
+      novels.saveNovel(updatedNovel);
+    }
+  };
+
+  const handleInsertActAfter = (actNumber: number) => {
+    const updatedNovel = insertActAfter(novel, actNumber);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleInsertActBefore = (actNumber: number) => {
+    const updatedNovel = insertActBefore(novel, actNumber);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteAct = (actNumber: number) => {
+    if (confirm('이 막(Act)을 정말 삭제하시겠습니까? (삭제 시 내부의 모든 챕터와 단락이 함께 삭제됩니다)')) {
+      const updatedNovel = deleteAct(novel, actNumber);
+      setNovel(updatedNovel);
+      novels.saveNovel(updatedNovel);
+    }
   };
 
   const handleUpdateActMetadata = (actNumber: number, title: string, summary?: string) => {
@@ -472,6 +504,10 @@ export default function NovelStudioPage() {
               onInsertParagraphBefore={handleInsertParagraphBefore}
               onInsertChapter={handleInsertChapter}
               onInsertChapterBefore={handleInsertChapterBefore}
+              onDeleteChapter={handleDeleteChapter}
+              onInsertActAfter={handleInsertActAfter}
+              onInsertActBefore={handleInsertActBefore}
+              onDeleteAct={handleDeleteAct}
               onUpdateActMetadata={handleUpdateActMetadata}
               onUpdateChapterMetadata={handleUpdateChapterMetadata}
             />

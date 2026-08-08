@@ -21,6 +21,10 @@ interface NovelFullReaderProps {
   onInsertParagraphBefore?: (paragraphId: string) => void;
   onInsertChapter?: (actNumber: number, chapterNumber: number) => void;
   onInsertChapterBefore?: (actNumber: number, chapterNumber: number) => void;
+  onDeleteChapter?: (actNumber: number, chapterNumber: number) => void;
+  onInsertActAfter?: (actNumber: number) => void;
+  onInsertActBefore?: (actNumber: number) => void;
+  onDeleteAct?: (actNumber: number) => void;
   onUpdateActMetadata?: (actNumber: number, title: string, summary?: string) => void;
   onUpdateChapterMetadata?: (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => void;
 }
@@ -36,6 +40,10 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onInsertParagraphBefore,
   onInsertChapter,
   onInsertChapterBefore,
+  onDeleteChapter,
+  onInsertActAfter,
+  onInsertActBefore,
+  onDeleteAct,
   onUpdateActMetadata,
   onUpdateChapterMetadata
 }) => {
@@ -312,9 +320,25 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
         {/* Acts & Chapters Loop */}
         {novel.acts.map((act) => (
-          <div key={act.number} className="space-y-10">
-            {/* Act Title */}
-            <div className={`border-b pb-4 pt-6 group relative ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-amber-500/30'}`}>
+          <div key={act.number} className="mb-16">
+            {/* Act Insert Before Button (Only for the first act) */}
+            {onInsertActBefore && act.number === 1 && (
+              <div className="flex justify-center mb-8">
+                <button
+                  onClick={() => onInsertActBefore(act.number)}
+                  className={`text-sm px-5 py-2 rounded-full transition-all border flex items-center gap-2 font-bold ${
+                    viewMode === 'book'
+                      ? 'bg-[#141311]/50 border-[#3a352c] text-[#a39a8c] hover:text-[#d6caba] hover:bg-[#201d19]'
+                      : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/80'
+                  }`}
+                >
+                  <span>⬆️</span> 첫 막(Act) 이전에 새 막 추가
+                </button>
+              </div>
+            )}
+
+            {/* Act Header */}
+            <div className={`mb-8 pb-4 border-b group relative ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-amber-500/30'}`}>
               {editingAct === act.number ? (
                 <div className="bg-zinc-950 border border-amber-500/50 p-4 rounded-xl space-y-3 shadow-lg">
                   <input
@@ -337,6 +361,17 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     >
                       취소
                     </button>
+                    {onDeleteAct && (
+                      <button
+                        onClick={() => {
+                          onDeleteAct(act.number);
+                          setEditingAct(null);
+                        }}
+                        className="px-3 py-1.5 text-xs bg-red-500/20 text-red-400 hover:bg-red-500/30 font-bold rounded"
+                      >
+                        🗑️ 막 삭제
+                      </button>
+                    )}
                     <button
                       onClick={() => {
                         onUpdateActMetadata?.(act.number, actEditTitle, actEditSummary);
@@ -421,6 +456,17 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         >
                           취소
                         </button>
+                        {onDeleteChapter && (
+                          <button
+                            onClick={() => {
+                              onDeleteChapter(act.number, ch.number);
+                              setEditingChapter(null);
+                            }}
+                            className="px-3 py-1.5 text-xs bg-red-500/20 text-red-400 hover:bg-red-500/30 font-bold rounded"
+                          >
+                            🗑️ 챕터 삭제
+                          </button>
+                        )}
                         <button
                           onClick={() => {
                             onUpdateChapterMetadata?.(act.number, ch.number, chapterEditTitle, chapterEditSynopsis);
@@ -571,6 +617,22 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 )}
               </div>
             ))}
+
+            {/* Insert Act After Button */}
+            {onInsertActAfter && (
+              <div className="flex justify-center mt-12 mb-8">
+                <button
+                  onClick={() => onInsertActAfter(act.number)}
+                  className={`text-sm px-6 py-3 rounded-full transition-all border flex items-center gap-2 font-bold shadow-lg ${
+                    viewMode === 'book'
+                      ? 'bg-[#141311]/50 border-[#3a352c] text-[#a39a8c] hover:text-[#d6caba] hover:bg-[#201d19]'
+                      : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:text-zinc-100 hover:bg-zinc-700'
+                  }`}
+                >
+                  <span>➕</span> 이 막(Act) 다음에 새 막 추가하기
+                </button>
+              </div>
+            )}
           </div>
         ))}
 

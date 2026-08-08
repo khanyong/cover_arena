@@ -1392,6 +1392,153 @@ export function insertChapterBefore(
   return updatedNovel;
 }
 
+export function deleteChapter(
+  novel: NovelDetails,
+  targetActNumber: number,
+  targetChapterNumber: number
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
+  if (actIndex === -1) return updatedNovel;
+
+  const act = updatedNovel.acts[actIndex];
+  const chapterIndex = act.chapters.findIndex(c => c.number === targetChapterNumber);
+  if (chapterIndex === -1) return updatedNovel;
+
+  // Remove the chapter
+  act.chapters.splice(chapterIndex, 1);
+  
+  // Sequential re-numbering
+  act.chapters.forEach((ch, idx) => {
+    ch.number = idx + 1;
+  });
+  
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
+export function insertActAfter(
+  novel: NovelDetails,
+  targetActNumber: number
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
+  if (actIndex === -1) return updatedNovel;
+
+  const isEnglish = updatedNovel.slug.endsWith('-en');
+  const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+  const newParagraphId = `p-${crypto.randomUUID()}`;
+
+  const newAct: NovelAct = {
+    number: -1, // Temporary
+    title: `새로운 막 (수정해 주세요)`,
+    chapters: [
+      {
+        number: 1,
+        title: `새 챕터 (수정해 주세요)`,
+        paragraphs: [
+          {
+            id: newParagraphId,
+            activeVersion: defaultVer,
+            versions: {
+              [defaultVer]: {
+                version: defaultVer,
+                content: '(첫 단락 내용을 입력하세요)',
+                note: '새 막 생성',
+                createdAt: new Date().toISOString().substring(0, 16)
+              }
+            },
+            aiPrompts: []
+          }
+        ]
+      }
+    ]
+  };
+
+  updatedNovel.acts.splice(actIndex + 1, 0, newAct);
+
+  // Sequential re-numbering for acts
+  updatedNovel.acts.forEach((a, idx) => {
+    a.number = idx + 1;
+  });
+
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
+export function insertActBefore(
+  novel: NovelDetails,
+  targetActNumber: number
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
+  if (actIndex === -1) return updatedNovel;
+
+  const isEnglish = updatedNovel.slug.endsWith('-en');
+  const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+  const newParagraphId = `p-${crypto.randomUUID()}`;
+
+  const newAct: NovelAct = {
+    number: -1, // Temporary
+    title: `새로운 막 (수정해 주세요)`,
+    chapters: [
+      {
+        number: 1,
+        title: `새 챕터 (수정해 주세요)`,
+        paragraphs: [
+          {
+            id: newParagraphId,
+            activeVersion: defaultVer,
+            versions: {
+              [defaultVer]: {
+                version: defaultVer,
+                content: '(첫 단락 내용을 입력하세요)',
+                note: '새 막 생성 (이전)',
+                createdAt: new Date().toISOString().substring(0, 16)
+              }
+            },
+            aiPrompts: []
+          }
+        ]
+      }
+    ]
+  };
+
+  updatedNovel.acts.splice(actIndex, 0, newAct);
+
+  // Sequential re-numbering for acts
+  updatedNovel.acts.forEach((a, idx) => {
+    a.number = idx + 1;
+  });
+
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
+export function deleteAct(
+  novel: NovelDetails,
+  targetActNumber: number
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
+  if (actIndex === -1) return updatedNovel;
+
+  // Remove the act
+  updatedNovel.acts.splice(actIndex, 1);
+
+  // Sequential re-numbering for acts
+  updatedNovel.acts.forEach((a, idx) => {
+    a.number = idx + 1;
+  });
+
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
 export function updateActMetadata(
   novel: NovelDetails,
   actNumber: number,
