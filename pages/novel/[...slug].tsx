@@ -503,77 +503,79 @@ export default function NovelStudioPage() {
       </header>
 
       {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      <div className="max-w-[1600px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         {/* Left Sidebar: Sticky Fixed Navigation & Version Swapper */}
-        <aside className="space-y-6 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1 font-sans scrollbar-thin scrollbar-thumb-zinc-800">
-          {/* Global Version Selector Box */}
-          <div className="hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
-            <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center justify-between">
-              <span>전체 버전 일괄 설정</span>
-              <span className="text-zinc-500 font-normal font-mono">Global</span>
-            </h3>
-            <p className="text-xs text-zinc-400 mb-3">
-              모든 단락을 해당 버전으로 한번에 스위칭합니다.
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {novel.versionHistory.map((verKey) => (
-                <button
-                  key={verKey}
-                  onClick={() => handleSetGlobalVersion(verKey)}
-                  className="bg-zinc-950 hover:bg-amber-500/20 text-amber-300 border border-zinc-800 hover:border-amber-500/40 text-xs px-3 py-1.5 rounded-lg font-mono font-bold transition-colors"
-                >
-                  {verKey}로 적용
-                </button>
-              ))}
+        {mainTab === 'story' && (
+          <aside className="space-y-6 lg:col-span-1 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1 font-sans scrollbar-thin scrollbar-thumb-zinc-800">
+            {/* Global Version Selector Box */}
+            <div className="hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
+              <h3 className="text-xs font-bold text-amber-400 uppercase tracking-wider mb-3 flex items-center justify-between">
+                <span>전체 버전 일괄 설정</span>
+                <span className="text-zinc-500 font-normal font-mono">Global</span>
+              </h3>
+              <p className="text-xs text-zinc-400 mb-3">
+                모든 단락을 해당 버전으로 한번에 스위칭합니다.
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {novel.versionHistory.map((verKey) => (
+                  <button
+                    key={verKey}
+                    onClick={() => handleSetGlobalVersion(verKey)}
+                    className="bg-zinc-950 hover:bg-amber-500/20 text-amber-300 border border-zinc-800 hover:border-amber-500/40 text-xs px-3 py-1.5 rounded-lg font-mono font-bold transition-colors"
+                  >
+                    {verKey}로 적용
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
 
-          {/* Act & Chapter Outline Sticky Menu */}
-          <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
-            <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-4 flex items-center justify-between">
-              <span>📌 소설 목차 & 고속 이동</span>
-              <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-2 py-0.5 rounded font-mono">Sticky Fix</span>
-            </h3>
+            {/* Act & Chapter Outline Sticky Menu */}
+            <div className="bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
+              <h3 className="text-xs font-bold text-zinc-400 uppercase tracking-wider mb-4 flex items-center justify-between">
+                <span>📌 소설 목차 & 고속 이동</span>
+                <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-2 py-0.5 rounded font-mono">Sticky Fix</span>
+              </h3>
 
-            <div className="space-y-4 text-xs">
-              {novel.acts.map((act) => (
-                <div key={act.number} className="space-y-2">
-                  <div className="font-bold text-amber-300 flex items-center gap-1.5">
-                    <span>🎬</span> {act.title}
+              <div className="space-y-4 text-xs">
+                {novel.acts.map((act) => (
+                  <div key={act.number} className="space-y-2">
+                    <div className="font-bold text-amber-300 flex items-center gap-1.5">
+                      <span>🎬</span> {act.title}
+                    </div>
+                    <div className="pl-3 space-y-1 border-l border-zinc-800">
+                      {act.chapters.map((ch) => {
+                        const targetId = activeTab === 'reader' 
+                          ? `full-act-${act.number}-ch-${ch.number}` 
+                          : `act-${act.number}-ch-${ch.number}`;
+                        
+                        const isActive = activeChapterId === targetId;
+
+                        return (
+                          <a
+                            key={ch.number}
+                            id={`nav-${targetId}`}
+                            href={`#${targetId}`}
+                            onClick={(e) => handleNavClick(e, targetId)}
+                            className={`block transition-all py-1.5 px-2 rounded-md truncate duration-150 ${
+                              isActive
+                                ? 'text-amber-300 font-bold bg-amber-500/10 border border-amber-500/20 translate-x-1'
+                                : 'text-zinc-400 hover:text-amber-300 hover:translate-x-1 hover:bg-zinc-800/50'
+                            }`}
+                          >
+                            {ch.title}
+                          </a>
+                        );
+                      })}
+                    </div>
                   </div>
-                  <div className="pl-3 space-y-1 border-l border-zinc-800">
-                    {act.chapters.map((ch) => {
-                      const targetId = activeTab === 'reader' 
-                        ? `full-act-${act.number}-ch-${ch.number}` 
-                        : `act-${act.number}-ch-${ch.number}`;
-                      
-                      const isActive = activeChapterId === targetId;
-
-                      return (
-                        <a
-                          key={ch.number}
-                          id={`nav-${targetId}`}
-                          href={`#${targetId}`}
-                          onClick={(e) => handleNavClick(e, targetId)}
-                          className={`block transition-all py-1.5 px-2 rounded-md truncate duration-150 ${
-                            isActive
-                              ? 'text-amber-300 font-bold bg-amber-500/10 border border-amber-500/20 translate-x-1'
-                              : 'text-zinc-400 hover:text-amber-300 hover:translate-x-1 hover:bg-zinc-800/50'
-                          }`}
-                        >
-                          {ch.title}
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
-        </aside>
+          </aside>
+        )}
 
         {/* Center/Right Content Area */}
-        <main className="lg:col-span-3 space-y-8">
+        <main className={mainTab === 'story' ? 'lg:col-span-3 space-y-8' : 'lg:col-span-4 space-y-8'}>
           {/* Main Content View Switch */}
           {mainTab === 'characters' && (
             <CharacterGlossary
@@ -593,32 +595,33 @@ export default function NovelStudioPage() {
             />
           )}
 
-          {mainTab === 'story' && activeTab === 'reader' ? (
-            /* 전체 연속 정독 & 인라인 수정 뷰어 (메인 모드) */
-            <NovelFullReader
-              novel={novel}
-              customVersionMap={customVersionMap}
-              onAddNewVersion={handleAddNewVersion}
-              onParagraphVersionChange={handleParagraphVersionChange}
-              onSaveAiPrompt={handleSaveAiPrompt}
-              onDeleteParagraph={handleDeleteParagraph}
-              onInsertParagraph={handleInsertParagraph}
-              onInsertParagraphBefore={handleInsertParagraphBefore}
-              onInsertChapter={handleInsertChapter}
-              onInsertChapterBefore={handleInsertChapterBefore}
-              onDeleteChapter={handleDeleteChapter}
-              onInsertActAfter={handleInsertActAfter}
-              onInsertActBefore={handleInsertActBefore}
-              onDeleteAct={handleDeleteAct}
-              onUpdateActMetadata={handleUpdateActMetadata}
-              onUpdateChapterMetadata={handleUpdateChapterMetadata}
-            />
-          ) : activeTab === 'mosaic' ? (
-            /* 마스터 최종본 조합 스튜디오 */
-            <NovelMosaicMixer novel={novel} customVersionMap={customVersionMap} />
-          ) : (
-            /* 단락별 집필 및 버전 비교 모드 */
-            <div>
+          {mainTab === 'story' && (
+            activeTab === 'reader' ? (
+              /* 전체 연속 정독 & 인라인 수정 뷰어 (메인 모드) */
+              <NovelFullReader
+                novel={novel}
+                customVersionMap={customVersionMap}
+                onAddNewVersion={handleAddNewVersion}
+                onParagraphVersionChange={handleParagraphVersionChange}
+                onSaveAiPrompt={handleSaveAiPrompt}
+                onDeleteParagraph={handleDeleteParagraph}
+                onInsertParagraph={handleInsertParagraph}
+                onInsertParagraphBefore={handleInsertParagraphBefore}
+                onInsertChapter={handleInsertChapter}
+                onInsertChapterBefore={handleInsertChapterBefore}
+                onDeleteChapter={handleDeleteChapter}
+                onInsertActAfter={handleInsertActAfter}
+                onInsertActBefore={handleInsertActBefore}
+                onDeleteAct={handleDeleteAct}
+                onUpdateActMetadata={handleUpdateActMetadata}
+                onUpdateChapterMetadata={handleUpdateChapterMetadata}
+              />
+            ) : activeTab === 'mosaic' ? (
+              /* 마스터 최종본 조합 스튜디오 */
+              <NovelMosaicMixer novel={novel} customVersionMap={customVersionMap} />
+            ) : (
+              /* 단락별 집필 및 버전 비교 모드 */
+              <div>
               {/* Novel Logline & Overview Card */}
               <div className="bg-gradient-to-r from-zinc-900 via-amber-950/20 to-zinc-900 border border-amber-500/30 rounded-2xl p-6 mb-8 shadow-2xl relative overflow-hidden">
                 <div className="flex items-center justify-between mb-3">
@@ -793,7 +796,8 @@ export default function NovelStudioPage() {
                 </div>
               ))}
             </div>
-          )}
+          )
+        )}
         </main>
       </div>
 
