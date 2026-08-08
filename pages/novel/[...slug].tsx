@@ -371,7 +371,7 @@ export default function NovelStudioPage() {
 
       {/* Navigation Header */}
       <header className="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href="/novel" className="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-md font-semibold transition-colors">
               ← 목록으로
@@ -400,7 +400,7 @@ export default function NovelStudioPage() {
           </div>
 
           {/* Top Center Tabs */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800">
+          <div className="flex gap-1 bg-zinc-950 p-1 rounded-lg border border-zinc-800 shrink-0">
             <button
               onClick={() => setMainTab('story')}
               className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
@@ -423,48 +423,50 @@ export default function NovelStudioPage() {
             </button>
           </div>
 
-          {/* 탭 & 컨트롤 */}
-          <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowImportModal(true)}
-              className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-3.5 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1.5"
-            >
-              <span>📥</span> 초안 가져오기/입력
-            </button>
+          {/* 탭 & 컨트롤 (본문 편집 시에만 표시) */}
+          {mainTab === 'story' && (
+            <div className="flex items-center gap-3 shrink-0">
+              <button
+                onClick={() => setShowImportModal(true)}
+                className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-3.5 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1.5"
+              >
+                <span>📥</span> 초안 가져오기/입력
+              </button>
 
-            <div className="bg-zinc-950 p-1 rounded-xl border border-zinc-800 flex items-center text-xs">
-              <button
-                onClick={() => setActiveTab('reader')}
-                className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
-                  activeTab === 'reader'
-                    ? 'bg-amber-500 text-zinc-950 shadow-md'
-                    : 'text-zinc-400 hover:text-zinc-200'
-                }`}
-              >
-                📖 전체 정독 & 인라인 수정
-              </button>
-              <button
-                onClick={() => setActiveTab('editor')}
-                className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
-                  activeTab === 'editor'
-                    ? 'bg-amber-500 text-zinc-950 shadow-md'
-                    : 'text-zinc-400 hover:text-zinc-200'
-                }`}
-              >
-                📝 단락 카드 비교
-              </button>
-              <button
-                onClick={() => setActiveTab('mosaic')}
-                className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
-                  activeTab === 'mosaic'
-                    ? 'bg-amber-500 text-zinc-950 shadow-md'
-                    : 'text-zinc-400 hover:text-zinc-200'
-                }`}
-              >
-                ✨ 마스터 조합본
-              </button>
+              <div className="bg-zinc-950 p-1 rounded-xl border border-zinc-800 flex items-center text-xs">
+                <button
+                  onClick={() => setActiveTab('reader')}
+                  className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === 'reader'
+                      ? 'bg-amber-500 text-zinc-950 shadow-md'
+                      : 'text-zinc-400 hover:text-zinc-200'
+                  }`}
+                >
+                  📖 전체 정독 & 인라인 수정
+                </button>
+                <button
+                  onClick={() => setActiveTab('editor')}
+                  className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === 'editor'
+                      ? 'bg-amber-500 text-zinc-950 shadow-md'
+                      : 'text-zinc-400 hover:text-zinc-200'
+                  }`}
+                >
+                  📝 단락 카드 비교
+                </button>
+                <button
+                  onClick={() => setActiveTab('mosaic')}
+                  className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
+                    activeTab === 'mosaic'
+                      ? 'bg-amber-500 text-zinc-950 shadow-md'
+                      : 'text-zinc-400 hover:text-zinc-200'
+                  }`}
+                >
+                  ✨ 마스터 조합본
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </header>
 
