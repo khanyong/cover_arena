@@ -67,12 +67,20 @@ export default function NovelStudioPage() {
       const { data, error } = await novels.getNovelBySlug(dbSlug);
       
       if (data) {
+        // 기존 DB 데이터에 scenes가 없으면 샘플 데이터(initialNovelData.scenes) 주입
+        if (!data.scenes) {
+          data.scenes = initialNovelData.scenes || [];
+        }
         setNovel(data);
       } else if (novelsMap[dbSlug]) {
         // DB에 없으면 로컬 파일 데이터 사용
-        setNovel(novelsMap[dbSlug]);
+        const localData = novelsMap[dbSlug];
+        if (!localData.scenes) localData.scenes = initialNovelData.scenes || [];
+        setNovel(localData);
       } else if (novelId && typeof novelId === 'string' && novelsMap[novelId]) {
-        setNovel(novelsMap[novelId]);
+        const localData = novelsMap[novelId];
+        if (!localData.scenes) localData.scenes = initialNovelData.scenes || [];
+        setNovel(localData);
       } else {
         setNovel(initialNovelData);
       }
