@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface NovelDiffViewerProps {
   oldContent: string;
@@ -80,45 +80,61 @@ export const NovelDiffViewer: React.FC<NovelDiffViewerProps> = ({
   oldVersionLabel = '이전 버전',
   newVersionLabel = '선택/최신 버전'
 }) => {
+  const [viewMode, setViewMode] = useState<'diff' | 'raw'>('diff');
   const diffTokens = computeDiff(oldContent, newContent);
 
   return (
     <div className="border border-amber-500/20 bg-zinc-950/80 rounded-lg p-4 font-sans leading-relaxed text-sm">
-      <div className="flex items-center justify-between pb-3 mb-3 border-b border-zinc-800 text-xs text-zinc-400">
-        <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-red-400"></span>
-          <span className="font-medium text-red-300">{oldVersionLabel} (삭제)</span>
-        </span>
-        <span className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-          <span className="font-medium text-emerald-300">{newVersionLabel} (추가/수정)</span>
-        </span>
+      <div className="flex flex-wrap items-center justify-between pb-3 mb-3 border-b border-zinc-800 text-xs text-zinc-400 gap-2">
+        <div className="flex items-center gap-4">
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-red-400"></span>
+            <span className="font-medium text-red-300">{oldVersionLabel} {viewMode === 'diff' && '(삭제)'}</span>
+          </span>
+          {viewMode === 'diff' && (
+            <span className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              <span className="font-medium text-emerald-300">{newVersionLabel} (추가/수정)</span>
+            </span>
+          )}
+        </div>
+        
+        <button
+          onClick={() => setViewMode(prev => prev === 'diff' ? 'raw' : 'diff')}
+          className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1 rounded-md font-medium transition-colors border border-zinc-700 shrink-0"
+        >
+          {viewMode === 'diff' ? '📄 이전 버전 원본 통째로 보기' : '🔄 변경점(Diff) 보기'}
+        </button>
       </div>
 
       <div className="whitespace-pre-wrap leading-relaxed text-zinc-200">
-        {diffTokens.map((token, index) => {
-          if (token.type === 'removed') {
-            return (
-              <span
-                key={index}
-                className="bg-red-950/60 text-red-400 line-through px-1 py-0.5 rounded mx-0.5 border border-red-800/40"
-              >
-                {token.value}
-              </span>
-            );
-          }
-          if (token.type === 'added') {
-            return (
-              <span
-                key={index}
-                className="bg-emerald-950/60 text-emerald-300 font-medium px-1 py-0.5 rounded mx-0.5 border border-emerald-700/40"
-              >
-                {token.value}
-              </span>
-            );
-          }
-          return <span key={index}>{token.value}</span>;
-        })}
+        {viewMode === 'diff' ? (
+          diffTokens.map((token, index) => {
+            if (token.type === 'removed') {
+              return (
+                <span
+                  key={index}
+                  className="bg-red-950/60 text-red-400 line-through px-1 py-0.5 rounded mx-0.5 border border-red-800/40"
+                >
+                  {token.value}
+                </span>
+              );
+            }
+            if (token.type === 'added') {
+              return (
+                <span
+                  key={index}
+                  className="bg-emerald-950/60 text-emerald-300 font-medium px-1 py-0.5 rounded mx-0.5 border border-emerald-700/40"
+                >
+                  {token.value}
+                </span>
+              );
+            }
+            return <span key={index}>{token.value}</span>;
+          })
+        ) : (
+          <span className="opacity-90">{oldContent}</span>
+        )}
       </div>
     </div>
   );
