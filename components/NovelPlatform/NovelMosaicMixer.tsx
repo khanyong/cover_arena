@@ -51,6 +51,30 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
     document.body.removeChild(element);
   };
 
+  const buildActText = (act: any) => {
+    let actText = `# ${act.title}\n\n`;
+    for (const ch of act.chapters) {
+      actText += `## ${ch.title}\n\n`;
+      for (const p of ch.paragraphs) {
+        const versionKey = customVersionMap[p.id] || p.activeVersion;
+        const pText = getParagraphText(p, versionKey);
+        actText += `${pText}\n\n`;
+      }
+    }
+    return actText;
+  };
+
+  const handleDownloadAct = (act: any) => {
+    const actText = buildActText(act);
+    const element = document.createElement("a");
+    const file = new Blob([actText], { type: 'text/plain;charset=utf-8' });
+    element.href = URL.createObjectURL(file);
+    element.download = `${novel.title}_${act.title}.txt`;
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  };
+
   return (
     <div className="bg-zinc-950 border border-amber-500/30 rounded-2xl p-6 shadow-2xl">
       <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-5 border-b border-zinc-800">
@@ -74,7 +98,7 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
             onClick={handleDownload}
             className="bg-amber-500 hover:bg-amber-600 text-zinc-950 text-xs px-4 py-2 rounded-lg font-bold transition-colors flex items-center gap-1.5 shadow-lg shadow-amber-500/10"
           >
-            📥 텍스트 파일 저장 (.txt)
+            📥 전체 텍스트 저장 (.txt)
           </button>
         </div>
       </div>
@@ -102,10 +126,18 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
       {/* 마스터 텍스트 최종 뷰어 */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-6 max-h-[500px] overflow-y-auto font-sans leading-relaxed text-zinc-200 space-y-4">
         {novel.acts.map(act => (
-          <div key={act.number} className="space-y-4">
-            <h3 className="text-lg font-bold text-amber-400 border-b border-zinc-800 pb-2">
-              {act.title}
-            </h3>
+          <div key={act.number} className="space-y-4 mb-8">
+            <div className="flex items-center justify-between border-b border-zinc-800 pb-2">
+              <h3 className="text-lg font-bold text-amber-400">
+                {act.title}
+              </h3>
+              <button
+                onClick={() => handleDownloadAct(act)}
+                className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1 border border-zinc-700"
+              >
+                📥 이 막(Act)만 다운로드
+              </button>
+            </div>
             {act.chapters.map(ch => (
               <div key={ch.number} className="space-y-3 pl-2">
                 <h4 className="text-base font-semibold text-zinc-300">
@@ -128,3 +160,4 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
     </div>
   );
 };
+
