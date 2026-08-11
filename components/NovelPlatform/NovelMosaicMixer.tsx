@@ -11,6 +11,7 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
   customVersionMap
 }) => {
   const [copied, setCopied] = useState(false);
+  const [selectedDownloadAct, setSelectedDownloadAct] = useState<string>('all');
 
   // 선택된 버전들의 조합으로 완성된 전체 소설 마스터 텍스트 빌드
   const buildFullNovelText = () => {
@@ -90,16 +91,39 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
         <div className="flex items-center gap-3">
           <button
             onClick={handleCopy}
-            className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5 border border-zinc-700"
+            className="bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs px-4 py-2 rounded-lg font-medium transition-colors flex items-center gap-1.5 border border-zinc-700 shrink-0"
           >
             {copied ? '✅ 클립보드 복사 완료!' : '📋 전체 복사'}
           </button>
-          <button
-            onClick={handleDownload}
-            className="bg-amber-500 hover:bg-amber-600 text-zinc-950 text-xs px-4 py-2 rounded-lg font-bold transition-colors flex items-center gap-1.5 shadow-lg shadow-amber-500/10"
-          >
-            📥 전체 텍스트 저장 (.txt)
-          </button>
+          
+          <div className="flex items-center gap-2 border-l border-zinc-700 pl-3">
+            <select 
+              className="bg-zinc-800 border border-zinc-700 text-zinc-200 text-xs px-3 py-2 rounded-lg font-medium outline-none cursor-pointer focus:border-amber-500"
+              value={selectedDownloadAct}
+              onChange={(e) => setSelectedDownloadAct(e.target.value)}
+            >
+              <option value="all">전체 소설 포함</option>
+              {novel.acts.map(act => (
+                <option key={act.number} value={act.number.toString()}>
+                  {act.title}
+                </option>
+              ))}
+            </select>
+            
+            <button
+              onClick={() => {
+                if (selectedDownloadAct === 'all') {
+                  handleDownload();
+                } else {
+                  const act = novel.acts.find(a => a.number === parseInt(selectedDownloadAct));
+                  if (act) handleDownloadAct(act);
+                }
+              }}
+              className="bg-amber-500 hover:bg-amber-600 text-zinc-950 text-xs px-4 py-2 rounded-lg font-bold transition-colors flex items-center gap-1.5 shadow-lg shadow-amber-500/10 shrink-0"
+            >
+              📥 텍스트 저장 (.txt)
+            </button>
+          </div>
         </div>
       </div>
 
@@ -131,12 +155,6 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
               <h3 className="text-lg font-bold text-amber-400">
                 {act.title}
               </h3>
-              <button
-                onClick={() => handleDownloadAct(act)}
-                className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs px-3 py-1.5 rounded-md font-medium transition-colors flex items-center gap-1 border border-zinc-700"
-              >
-                📥 이 막(Act)만 다운로드
-              </button>
             </div>
             {act.chapters.map(ch => (
               <div key={ch.number} className="space-y-3 pl-2">
