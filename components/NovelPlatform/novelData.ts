@@ -84,9 +84,9 @@ export interface NovelDetails {
 export const initialNovelData: NovelDetails = {
   id: "quantum-vibration-novel",
   slug: "quantum-vibration-novel",
-  title: "공간의 진동: 시공간의 건축가들",
-  subtitle: "논문 [공간의 진동 역학 I~IV]을 기반으로 한 하드 SF 서사 소설",
-  author: "유광용 (Kwang yong Yoo)",
+  title: "[EN] The Resonance of Space: Architects of Spacetime",
+  subtitle: "A Hard SF Novel based on [Mechanics of Spatial Vibration I~IV]",
+  author: "Kwang Yong Yoo",
   logline: "주류 물리학계에서 이단아로 추방당한 천재 물리학자 이안이 '공간 진동 이론(MSV)'을 증명하여, 태양계를 덮쳐오는 초거대 우주 지진으로부터 인류를 구원하고 다중 우주로 도약하는 하드 SF 서사.",
   synopsis: "공간이 비어있는 무대가 아닌 고유한 기하학적 진동을 지닌 동역학적 유체임을 발견한 이안. 그는 낡은 코펜하겐 학파의 비판에 맞서며, 다가올 공간의 파멸로부터 인류를 구하기 위한 반중력 방주를 건설하고 다중 우주의 탯줄을 끊어내려 한다.",
   versionHistory: ["v1.0", "v1.1", "v2.0", "v3.0", "v3.1", "v6.1", "v6.2", "v6.3"],
