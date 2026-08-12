@@ -158,8 +158,16 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
             </div>
             {act.chapters.map(ch => (
               <div key={ch.number} className="space-y-3 pl-2">
-                <h4 className="text-base font-semibold text-zinc-300">
+                <h4 className="text-base font-semibold text-zinc-300 flex items-center gap-2">
                   {ch.title}
+                  <span className="text-xs font-normal bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">
+                    {(() => {
+                      const chText = ch.paragraphs.map(p => getParagraphText(p, customVersionMap[p.id] || p.activeVersion)).join(' ');
+                      const charCount = chText.replace(/\s/g, '').length;
+                      const wordCount = chText.trim() === '' ? 0 : chText.trim().split(/\s+/).length;
+                      return `${wordCount}단어 / 공백제외 ${charCount}자`;
+                    })()}
+                  </span>
                 </h4>
                 {ch.paragraphs.map(p => {
                   const verKey = customVersionMap[p.id] || p.activeVersion;

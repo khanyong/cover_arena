@@ -483,6 +483,18 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     <>
                       <h3 className={`text-lg font-bold flex items-center gap-2 ${viewMode === 'book' ? 'text-[#e5dcd0] font-serif' : 'text-zinc-200'}`}>
                         <span>📖</span> {ch.title}
+                        <span className={`text-xs font-normal px-2 py-0.5 rounded-full whitespace-nowrap ml-2 ${
+                          viewMode === 'book'
+                            ? 'bg-[#201d19] text-[#a39a8c] border border-[#3a352c]'
+                            : 'bg-zinc-800 text-zinc-400'
+                        }`}>
+                          {(() => {
+                            const chText = ch.paragraphs.map(p => getParagraphText(p, customVersionMap[p.id] || p.activeVersion)).join(' ');
+                            const charCount = chText.replace(/\s/g, '').length;
+                            const wordCount = chText.trim() === '' ? 0 : chText.trim().split(/\s+/).length;
+                            return `${wordCount}단어 / 공백제외 ${charCount}자`;
+                          })()}
+                        </span>
                         <button
                           onClick={() => {
                             setEditingChapter({ actNumber: act.number, chapterNumber: ch.number });
