@@ -32,6 +32,7 @@ import {
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
 import { NovelMosaicMixer } from '../../components/NovelPlatform/NovelMosaicMixer';
 import { NovelFullReader } from '../../components/NovelPlatform/NovelFullReader';
+import { NovelSideBySideDiff } from '../../components/NovelPlatform/NovelSideBySideDiff';
 import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGlossary';
 import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
 import { LocationGlossary } from '../../components/NovelPlatform/LocationGlossary';
@@ -60,7 +61,13 @@ export default function NovelStudioPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   // 현재 선택된 메인 탭
-  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations'>('story');
+  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations' | 'diff'>('story');
+
+  // 버전 비교 탭용 상태
+  const [diffActNumber, setDiffActNumber] = useState<number>(1);
+  const [diffChapterNumber, setDiffChapterNumber] = useState<number>(1);
+  const [diffVersionA, setDiffVersionA] = useState<string>('v1.0');
+  const [diffVersionB, setDiffVersionB] = useState<string>('v2.0');
 
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
@@ -498,6 +505,16 @@ export default function NovelStudioPage() {
             >
               🌍 장소 구상
             </button>
+            <button
+              onClick={() => setMainTab('diff')}
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
+                mainTab === 'diff' 
+                  ? 'bg-amber-500 text-zinc-950 shadow-sm' 
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+              }`}
+            >
+              ⚖️ 버전 비교
+            </button>
           </div>
 
           {/* 탭 & 컨트롤 (본문 편집 시에만 표시) */}
@@ -648,6 +665,141 @@ export default function NovelStudioPage() {
               onDeleteLocation={handleDeleteLocation}
             />
           )}
+
+          {mainTab === 'diff' && (() => {
+            const currentActNumber = diffActNumber || novel.acts[0]?.number || 1;
+            const currentAct = novel.acts.find(a => a.number === currentActNumber) || novel.acts[0];
+            const currentChNumber = diffChapterNumber || currentAct?.chapters[0]?.number || 1;
+            const currentCh = currentAct?.chapters.find(c => c.number === currentChNumber) || currentAct?.chapters[0];
+
+            const getChapterTextByVer = (ver: string) => {
+              if (!currentCh) return '';
+              return currentCh.paragraphs
+                .map(p => {
+                  if (p.versions && p.versions[ver]?.content) return p.versions[ver].content;
+                  if (p.activeVersion && p.versions && p.versions[p.activeVersion]?.content) {
+                    return p.versions[p.activeVersion].content;
+                  }
+                  const firstKey = Object.keys(p.versions || {})[0];
+                  return (firstKey && p.versions[firstKey]?.content) || '';
+                })
+                .filter(Boolean)
+                .join('\n\n');
+            };
+
+            const leftCompareText = getChapterTextByVer(diffVersionA);
+            const rightCompareText = getChapterTextByVer(diffVersionB);
+
+            return (
+              <div className="space-y-6 animate-fade-in">
+                {/* 상단 챕터 및 버전 선택기 */}
+                <div className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-5 shadow-xl">
+                  <div className="flex flex-wrap items-center justify-between gap-4 pb-4 mb-4 border-b border-zinc-800 text-xs">
+                    <div className="flex items-center gap-2">
+                      <span className="text-xl">⚖️</span>
+                      <div>
+                        <h2 className="text-base font-bold text-amber-400">
+                          {novel.title} - 챕터 버전 나란히 비교 & 채택
+                        </h2>
+                        <p className="text-zinc-400 text-[11px]">
+                          선택한 챕터의 두 버전을 라인별 수평 정렬로 비교하고 최종 버전을 채택하세요
+                        </p>
+                      </div>
+                    </div>
+                    <Link
+                      href="/tools/novel-diff"
+                      className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-lg border border-zinc-700 transition-colors flex items-center gap-1 font-semibold"
+                    >
+                      <span>↗️</span> 독립 비교 도구 열기
+                    </Link>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-3 text-xs">
+                    <div>
+                      <label className="block text-zinc-400 mb-1">비교 대상 막(Act)</label>
+                      <select
+                        value={currentActNumber}
+                        onChange={e => {
+                          const num = parseInt(e.target.value, 10) || 1;
+                          setDiffActNumber(num);
+                          const act = novel.acts.find(a => a.number === num);
+                          if (act && act.chapters[0]) setDiffChapterNumber(act.chapters[0].number);
+                        }}
+                        className="w-full bg-zinc-950 border border-zinc-700 rounded-lg p-2 text-zinc-200"
+                      >
+                        {novel.acts.map(act => (
+                          <option key={act.number} value={act.number}>
+                            {act.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-zinc-400 mb-1">비교 대상 장(Chapter)</label>
+                      <select
+                        value={currentChNumber}
+                        onChange={e => setDiffChapterNumber(parseInt(e.target.value, 10) || 1)}
+                        className="w-full bg-zinc-950 border border-zinc-700 rounded-lg p-2 text-zinc-200 truncate"
+                      >
+                        {currentAct?.chapters.map(ch => (
+                          <option key={ch.number} value={ch.number}>
+                            {ch.title}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-rose-400 font-semibold mb-1">◀ 좌측 비교 버전 (A)</label>
+                      <select
+                        value={diffVersionA}
+                        onChange={e => setDiffVersionA(e.target.value)}
+                        className="w-full bg-zinc-950 border border-rose-500/40 text-rose-300 font-mono rounded-lg p-2"
+                      >
+                        {novel.versionHistory.map(v => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="block text-emerald-400 font-semibold mb-1">▶ 우측 비교 버전 (B)</label>
+                      <select
+                        value={diffVersionB}
+                        onChange={e => setDiffVersionB(e.target.value)}
+                        className="w-full bg-zinc-950 border border-emerald-500/40 text-emerald-300 font-mono rounded-lg p-2"
+                      >
+                        {novel.versionHistory.map(v => (
+                          <option key={v} value={v}>
+                            {v}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Diff Viewer */}
+                <NovelSideBySideDiff
+                  initialLeftText={leftCompareText}
+                  initialRightText={rightCompareText}
+                  leftLabel={`${currentCh?.title || '챕터'} [${diffVersionA}]`}
+                  rightLabel={`${currentCh?.title || '챕터'} [${diffVersionB}]`}
+                  onAdoptLeft={text => {
+                    navigator.clipboard.writeText(text);
+                    alert(`[${diffVersionA}] 버전 본문이 클립보드에 복사되었습니다!`);
+                  }}
+                  onAdoptRight={text => {
+                    navigator.clipboard.writeText(text);
+                    alert(`[${diffVersionB}] 버전 본문이 클립보드에 복사되었습니다!`);
+                  }}
+                />
+              </div>
+            );
+          })()}
 
           {mainTab === 'story' && (
             activeTab === 'reader' ? (

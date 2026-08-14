@@ -78,6 +78,12 @@ export default function NovelDashboard() {
             <span className="text-xs text-zinc-400 font-medium">논문 기반 소설 버전 관리 플랫폼</span>
           </div>
           <div className="flex items-center gap-4 text-xs">
+            <Link
+              href="/tools/novel-diff"
+              className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-lg transition-colors font-semibold flex items-center gap-1.5"
+            >
+              <span>⚖️</span> 버전 비교 스튜디오
+            </Link>
             <Link href="/papers" className="text-zinc-400 hover:text-zinc-200 transition-colors font-semibold">
               📄 논문 리서치 창고 (/papers)
             </Link>

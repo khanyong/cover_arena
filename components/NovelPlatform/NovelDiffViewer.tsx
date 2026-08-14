@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
+import { NovelSideBySideDiff } from './NovelSideBySideDiff';
 
 interface NovelDiffViewerProps {
   oldContent: string;
   newContent: string;
   oldVersionLabel?: string;
   newVersionLabel?: string;
+  onAdoptOld?: () => void;
+  onAdoptNew?: () => void;
 }
 
 interface DiffToken {
@@ -31,7 +34,6 @@ function computeDiff(oldStr: string, newStr: string): DiffToken[] {
       i++;
       j++;
     } else {
-      // 어휘 일치 검색 window
       let foundMatch = false;
       for (let lookAhead = 1; lookAhead <= 5; lookAhead++) {
         if (j + lookAhead < newWords.length && oldWords[i] === newWords[j + lookAhead]) {
@@ -78,43 +80,89 @@ export const NovelDiffViewer: React.FC<NovelDiffViewerProps> = ({
   oldContent,
   newContent,
   oldVersionLabel = '이전 버전',
-  newVersionLabel = '선택/최신 버전'
+  newVersionLabel = '선택/최신 버전',
+  onAdoptOld,
+  onAdoptNew
 }) => {
-  const [viewMode, setViewMode] = useState<'diff' | 'raw'>('diff');
+  const [displayMode, setDisplayMode] = useState<'split' | 'inline' | 'raw'>('split');
   const diffTokens = computeDiff(oldContent, newContent);
 
   return (
-    <div className="border border-amber-500/20 bg-zinc-950/80 rounded-lg p-4 font-sans leading-relaxed text-sm">
+    <div className="border border-amber-500/20 bg-zinc-950/90 rounded-xl p-4 font-sans leading-relaxed text-sm shadow-xl">
+      {/* 뷰 모드 컨트롤 헤더 */}
       <div className="flex flex-wrap items-center justify-between pb-3 mb-3 border-b border-zinc-800 text-xs text-zinc-400 gap-2">
-        <div className="flex items-center gap-4">
-          <span className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-red-400"></span>
-            <span className="font-medium text-red-300">{oldVersionLabel} {viewMode === 'diff' && '(삭제)'}</span>
+        <div className="flex items-center gap-3">
+          <span className="font-bold text-amber-400 flex items-center gap-1.5">
+            <span>⚖️</span> 버전 차이 분석
           </span>
-          {viewMode === 'diff' && (
-            <span className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span className="font-medium text-emerald-300">{newVersionLabel} (추가/수정)</span>
+          <div className="flex items-center gap-3 text-[11px]">
+            <span className="flex items-center gap-1 text-rose-300">
+              <span className="w-2 h-2 rounded-full bg-rose-400"></span>
+              {oldVersionLabel}
             </span>
-          )}
+            <span className="flex items-center gap-1 text-emerald-300">
+              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+              {newVersionLabel}
+            </span>
+          </div>
         </div>
         
-        <button
-          onClick={() => setViewMode(prev => prev === 'diff' ? 'raw' : 'diff')}
-          className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1 rounded-md font-medium transition-colors border border-zinc-700 shrink-0"
-        >
-          {viewMode === 'diff' ? '📄 이전 버전 원본 통째로 보기' : '🔄 변경점(Diff) 보기'}
-        </button>
+        {/* 모드 전환 탭 */}
+        <div className="flex bg-zinc-900 p-0.5 rounded-lg border border-zinc-700/80 text-xs">
+          <button
+            onClick={() => setDisplayMode('split')}
+            className={`px-2.5 py-1 rounded-md transition-colors ${
+              displayMode === 'split'
+                ? 'bg-amber-500 text-zinc-950 font-bold'
+                : 'text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            양쪽 분할(Side-by-Side)
+          </button>
+          <button
+            onClick={() => setDisplayMode('inline')}
+            className={`px-2.5 py-1 rounded-md transition-colors ${
+              displayMode === 'inline'
+                ? 'bg-amber-500 text-zinc-950 font-bold'
+                : 'text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            인라인 취소선
+          </button>
+          <button
+            onClick={() => setDisplayMode('raw')}
+            className={`px-2.5 py-1 rounded-md transition-colors ${
+              displayMode === 'raw'
+                ? 'bg-amber-500 text-zinc-950 font-bold'
+                : 'text-zinc-400 hover:text-zinc-200'
+            }`}
+          >
+            이전 원본
+          </button>
+        </div>
       </div>
 
-      <div className="whitespace-pre-wrap leading-relaxed text-zinc-200">
-        {viewMode === 'diff' ? (
-          diffTokens.map((token, index) => {
+      {/* 1. 사이드 바이 사이드 분할 뷰 */}
+      {displayMode === 'split' && (
+        <NovelSideBySideDiff
+          initialLeftText={oldContent}
+          initialRightText={newContent}
+          leftLabel={oldVersionLabel}
+          rightLabel={newVersionLabel}
+          onAdoptLeft={onAdoptOld ? () => onAdoptOld() : undefined}
+          onAdoptRight={onAdoptNew ? () => onAdoptNew() : undefined}
+        />
+      )}
+
+      {/* 2. 인라인 취소선 뷰 */}
+      {displayMode === 'inline' && (
+        <div className="whitespace-pre-wrap leading-relaxed text-zinc-200 p-3 bg-zinc-900/60 rounded-lg border border-zinc-800">
+          {diffTokens.map((token, index) => {
             if (token.type === 'removed') {
               return (
                 <span
                   key={index}
-                  className="bg-red-950/60 text-red-400 line-through px-1 py-0.5 rounded mx-0.5 border border-red-800/40"
+                  className="bg-rose-950/70 text-rose-300 line-through px-1 py-0.5 rounded mx-0.5 border border-rose-800/50"
                 >
                   {token.value}
                 </span>
@@ -124,18 +172,24 @@ export const NovelDiffViewer: React.FC<NovelDiffViewerProps> = ({
               return (
                 <span
                   key={index}
-                  className="bg-emerald-950/60 text-emerald-300 font-medium px-1 py-0.5 rounded mx-0.5 border border-emerald-700/40"
+                  className="bg-emerald-950/70 text-emerald-200 font-medium px-1 py-0.5 rounded mx-0.5 border border-emerald-700/50"
                 >
                   {token.value}
                 </span>
               );
             }
             return <span key={index}>{token.value}</span>;
-          })
-        ) : (
-          <span className="opacity-90">{oldContent}</span>
-        )}
-      </div>
+          })}
+        </div>
+      )}
+
+      {/* 3. 과거 버전 원본 뷰 */}
+      {displayMode === 'raw' && (
+        <div className="whitespace-pre-wrap leading-relaxed text-zinc-300 p-3 bg-zinc-900/60 rounded-lg border border-zinc-800 font-serif">
+          {oldContent}
+        </div>
+      )}
     </div>
   );
 };
+
