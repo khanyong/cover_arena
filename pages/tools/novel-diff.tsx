@@ -45,7 +45,7 @@ export default function NovelDiffToolPage() {
     const chapter = act.chapters.find(c => c.number === chNum);
     if (!chapter) return '';
 
-    return chapter.paragraphs
+    return (chapter.scenes || []).flatMap(s => s.paragraphs || [])
       .map(p => {
         if (p.versions && p.versions[ver]?.content) {
           return p.versions[ver].content;

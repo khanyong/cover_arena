@@ -18,6 +18,9 @@ import {
   deleteAct,
   updateActMetadata,
   updateChapterMetadata,
+  insertNovelSceneAfter,
+  deleteNovelScene,
+  updateNovelSceneMetadata,
   addCharacter,
   updateCharacter,
   deleteCharacter,
@@ -27,7 +30,8 @@ import {
   addLocation,
   updateLocation,
   deleteLocation,
-  initialNovelData
+  initialNovelData,
+  getSceneTitle
 } from '../../components/NovelPlatform/novelData';
 import { NovelParagraphViewer } from '../../components/NovelPlatform/NovelParagraphViewer';
 import { NovelMosaicMixer } from '../../components/NovelPlatform/NovelMosaicMixer';
@@ -77,28 +81,50 @@ export default function NovelStudioPage() {
       setIsLoading(true);
       const { data, error } = await novels.getNovelBySlug(dbSlug);
       
+      // 마이그레이션 로직: act -> chapter -> paragraphs 구조를 act -> chapter -> scenes -> paragraphs 구조로 변환
+      const migrateNovelData = (sourceData: any) => {
+        const migrated = JSON.parse(JSON.stringify(sourceData));
+        if (!migrated.scenes) migrated.scenes = initialNovelData.scenes || [];
+        if (!migrated.locations) migrated.locations = initialNovelData.locations || [];
+        
+        if (migrated.acts) {
+          for (const act of migrated.acts) {
+            if (act.chapters) {
+              for (const ch of act.chapters) {
+                // 기존 paragraphs가 있다면 scene 1을 만들어서 넣는다
+                if (ch.paragraphs && ch.paragraphs.length > 0 && (!ch.scenes || ch.scenes.length === 0)) {
+                  ch.scenes = [{
+                    id: `scene-${act.number}-${ch.number}-1`,
+                    number: 1,
+                    title: `SCENE 1`,
+                    paragraphs: ch.paragraphs
+                  }];
+                  delete ch.paragraphs;
+                } else if (!ch.scenes || ch.scenes.length === 0) {
+                  // If scenes are completely empty and paragraphs are missing (corrupted state), try to recover from initialNovelData
+                  const initialAct = initialNovelData.acts.find(a => a.number === act.number);
+                  const initialCh = initialAct?.chapters.find(c => c.number === ch.number);
+                  if (initialCh && initialCh.scenes && initialCh.scenes.length > 0) {
+                    ch.scenes = initialCh.scenes;
+                  } else {
+                    ch.scenes = [];
+                  }
+                }
+              }
+            }
+          }
+        }
+        return migrated;
+      };
+
       if (data) {
-        // 기존 DB 데이터에 scenes가 없으면 샘플 데이터(initialNovelData.scenes) 주입
-        if (!data.scenes) {
-          data.scenes = initialNovelData.scenes || [];
-        }
-        if (!data.locations) {
-          data.locations = initialNovelData.locations || [];
-        }
-        setNovel(data);
+        setNovel(migrateNovelData(data));
       } else if (novelsMap[dbSlug]) {
-        // DB에 없으면 로컬 파일 데이터 사용
-        const localData = novelsMap[dbSlug];
-        if (!localData.scenes) localData.scenes = initialNovelData.scenes || [];
-        if (!localData.locations) localData.locations = initialNovelData.locations || [];
-        setNovel(localData);
+        setNovel(migrateNovelData(novelsMap[dbSlug]));
       } else if (novelId && typeof novelId === 'string' && novelsMap[novelId]) {
-        const localData = novelsMap[novelId];
-        if (!localData.scenes) localData.scenes = initialNovelData.scenes || [];
-        if (!localData.locations) localData.locations = initialNovelData.locations || [];
-        setNovel(localData);
+        setNovel(migrateNovelData(novelsMap[novelId]));
       } else {
-        setNovel(initialNovelData);
+        setNovel(migrateNovelData(initialNovelData));
       }
       setIsLoading(false);
     }
@@ -124,6 +150,7 @@ export default function NovelStudioPage() {
 
   // 현재 화면에 보이는 챕터 ID (Scroll Spy 용)
   const [activeChapterId, setActiveChapterId] = useState<string>('');
+  const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({});
 
   // Scroll Spy 구현 (Intersection Observer)
   useEffect(() => {
@@ -175,9 +202,11 @@ export default function NovelStudioPage() {
     const newMap: Record<string, string> = {};
     for (const act of novel.acts) {
       for (const ch of act.chapters) {
-        for (const p of ch.paragraphs) {
-          if (p.versions[globalVer]) {
-            newMap[p.id] = globalVer;
+        for (const scene of ch.scenes || []) {
+          for (const p of scene.paragraphs || []) {
+            if (p.versions[globalVer]) {
+              newMap[p.id] = globalVer;
+            }
           }
         }
       }
@@ -296,6 +325,26 @@ export default function NovelStudioPage() {
     novels.saveNovel(updatedNovel);
   };
 
+  const handleInsertScene = (actNumber: number, chapterNumber: number, targetSceneId: string) => {
+    const updatedNovel = insertNovelSceneAfter(novel, actNumber, chapterNumber, targetSceneId);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
+  const handleDeleteSceneInner = (actNumber: number, chapterNumber: number, sceneId: string) => {
+    if (confirm('이 씬(Scene)을 정말 삭제하시겠습니까? (삭제 시 내부의 모든 단락이 함께 삭제됩니다)')) {
+      const updatedNovel = deleteNovelScene(novel, actNumber, chapterNumber, sceneId);
+      setNovel(updatedNovel);
+      novels.saveNovel(updatedNovel);
+    }
+  };
+
+  const handleUpdateSceneMetadata = (actNumber: number, chapterNumber: number, sceneId: string, title: string) => {
+    const updatedNovel = updateNovelSceneMetadata(novel, actNumber, chapterNumber, sceneId, title);
+    setNovel(updatedNovel);
+    novels.saveNovel(updatedNovel);
+  };
+
   const handleAddCharacter = () => {
     const updatedNovel = addCharacter(novel);
     setNovel(updatedNovel);
@@ -377,14 +426,17 @@ export default function NovelStudioPage() {
       targetChObj = {
         number: importTargetChapter,
         title: `제 ${importTargetChapter} 장`,
-        paragraphs: []
+        scenes: []
       };
       targetActObj.chapters.push(targetChObj);
     }
 
     rawParagraphs.forEach((txt) => {
-      const pId = `act${importTargetAct}-ch${importTargetChapter}-p${targetChObj.paragraphs.length + 1}`;
-      targetChObj.paragraphs.push({
+      if (!targetChObj.scenes) targetChObj.scenes = [];
+      if (targetChObj.scenes.length === 0) targetChObj.scenes.push({ id: `scene-import`, number: 1, paragraphs: [] });
+      const targetScene = targetChObj.scenes[0];
+      const pId = `act${importTargetAct}-ch${importTargetChapter}-p${targetScene.paragraphs.length + 1}`;
+      targetScene.paragraphs.push({
         id: pId,
         activeVersion: importVersionTag,
         versions: {
@@ -412,18 +464,28 @@ export default function NovelStudioPage() {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, elementId: string) => {
     e.preventDefault();
     
-    // 네비게이션 클릭 상태임을 표시 (옵저버 스크롤 충돌 방지)
     isNavigating.current = true;
+    
+    setExpandedChapters(prev => ({
+      ...prev,
+      [elementId]: true
+    }));
 
     const el = document.getElementById(elementId);
     if (el) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
-    // 1초 뒤 네비게이션 완료 처리 (충분한 스크롤 시간 보장)
     setTimeout(() => {
       isNavigating.current = false;
     }, 1000);
+  };
+
+  const toggleChapterExpansion = (targetId: string) => {
+    setExpandedChapters(prev => ({
+      ...prev,
+      [targetId]: !prev[targetId]
+    }));
   };
 
   return (
@@ -613,19 +675,47 @@ export default function NovelStudioPage() {
                         const isActive = activeChapterId === targetId;
 
                         return (
-                          <a
-                            key={ch.number}
-                            id={`nav-${targetId}`}
-                            href={`#${targetId}`}
-                            onClick={(e) => handleNavClick(e, targetId)}
-                            className={`block transition-all py-1.5 px-2 rounded-md truncate duration-150 ${
-                              isActive
-                                ? 'text-amber-300 font-bold bg-amber-500/10 border border-amber-500/20 translate-x-1'
-                                : 'text-zinc-400 hover:text-amber-300 hover:translate-x-1 hover:bg-zinc-800/50'
-                            }`}
-                          >
-                            {ch.title}
-                          </a>
+                          <div key={ch.number} className="flex flex-col">
+                            <div className="flex items-center group">
+                              <button
+                                onClick={() => toggleChapterExpansion(targetId)}
+                                className="px-1.5 py-1 text-[10px] text-zinc-500 hover:text-amber-400 focus:outline-none"
+                              >
+                                {expandedChapters[targetId] ? '▼' : '▶'}
+                              </button>
+                              <a
+                                id={`nav-${targetId}`}
+                                href={`#${targetId}`}
+                                onClick={(e) => handleNavClick(e, targetId)}
+                                className={`flex-1 transition-all py-1.5 px-1.5 rounded-md truncate duration-150 ${
+                                  isActive
+                                    ? 'text-amber-300 font-bold bg-amber-500/10 border border-amber-500/20 translate-x-1'
+                                    : 'text-zinc-400 hover:text-amber-300 hover:translate-x-1 hover:bg-zinc-800/50'
+                                }`}
+                              >
+                                {ch.title}
+                              </a>
+                            </div>
+                            {/* Scenes dropdown */}
+                            {expandedChapters[targetId] && ch.scenes && ch.scenes.length > 0 && (
+                              <div className="pl-6 py-1 space-y-1 border-l border-zinc-800 ml-2 mb-1">
+                                {ch.scenes.map((scene) => (
+                                  <a
+                                    key={scene.id}
+                                    href={`#scene-${scene.id}`}
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      const el = document.getElementById(`scene-${scene.id}`);
+                                      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    }}
+                                    className="block transition-all py-1 px-2 rounded-md truncate duration-150 text-[11px] text-zinc-500 hover:text-amber-200 hover:bg-zinc-800/50"
+                                  >
+                                    🎬 {getSceneTitle(scene, customVersionMap)}
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </div>
                         );
                       })}
                     </div>
@@ -674,7 +764,7 @@ export default function NovelStudioPage() {
 
             const getChapterTextByVer = (ver: string) => {
               if (!currentCh) return '';
-              return currentCh.paragraphs
+              return (currentCh.scenes || []).flatMap(s => s.paragraphs || [])
                 .map(p => {
                   if (p.versions && p.versions[ver]?.content) return p.versions[ver].content;
                   if (p.activeVersion && p.versions && p.versions[p.activeVersion]?.content) {
@@ -821,6 +911,9 @@ export default function NovelStudioPage() {
                 onDeleteAct={handleDeleteAct}
                 onUpdateActMetadata={handleUpdateActMetadata}
                 onUpdateChapterMetadata={handleUpdateChapterMetadata}
+                onInsertScene={handleInsertScene}
+                onDeleteScene={handleDeleteSceneInner}
+                onUpdateSceneMetadata={handleUpdateSceneMetadata}
               />
             ) : activeTab === 'mosaic' ? (
               /* 마스터 최종본 조합 스튜디오 */
@@ -982,7 +1075,7 @@ export default function NovelStudioPage() {
 
                       {/* Paragraphs */}
                       <div className="pl-2 space-y-4">
-                        {ch.paragraphs.map((p) => {
+                        {(ch.scenes || []).flatMap(s => s.paragraphs || []).map((p) => {
                           const selectedVer = customVersionMap[p.id] || p.activeVersion;
                           return (
                             <NovelParagraphViewer

@@ -24,11 +24,18 @@ export interface NovelParagraph {
   aiPrompts?: AiComment[];
 }
 
+export interface NovelScene {
+  id: string;
+  number: number;
+  title?: string;
+  paragraphs: NovelParagraph[];
+}
+
 export interface NovelChapter {
   number: number;
   title: string;
   synopsis?: string;
-  paragraphs: NovelParagraph[];
+  scenes: NovelScene[];
 }
 
 export interface NovelAct {
@@ -195,7 +202,11 @@ export const initialNovelData: NovelDetails = {
           number: 1,
           title: "마디(Node) 구역 진입",
           synopsis: "통제를 벗어난 입자가속기와 코펜하겐 해석의 한계",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-1a21ce5f",
+              number: 1,
+              paragraphs: [
             {
               id: "act0-ch1-p1",
               activeVersion: "v6.2",
@@ -233,12 +244,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 2,
           title: "Exact Cancellation (상쇄의 수식)",
           synopsis: "마이너스 무한대와 플러스 무한대의 정면충돌",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-a25ba50b",
+              number: 1,
+              paragraphs: [
             {
               id: "act0-ch2-p1",
               activeVersion: "v6.2",
@@ -282,12 +299,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 3,
           title: "은폐와 추방",
           synopsis: "은폐되는 기적, 그리고 떠나는 이안",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-d2adcc0e",
+              number: 1,
+              paragraphs: [
             {
               id: "act0-ch3-p1",
               activeVersion: "v7.0",
@@ -331,6 +354,8 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         }
       ]
     },
@@ -345,7 +370,11 @@ export const initialNovelData: NovelDetails = {
           number: 1,
           title: "제 1 장: 스코틀랜드의 은둔자와 3년 만의 재회",
           synopsis: "제네바 가속기 사건 3년 후 스코틀랜드 하일랜드 버려진 전파 천문대에서의 재회와 JWST 1급 기밀 데이터 분석.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-250d311e",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch1-p1",
               activeVersion: "v2.0",
@@ -379,12 +408,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 2,
           title: "제 2 장: 암흑 유체의 상전이 수식 (Chameleon Mechanism)",
           synopsis: "우주상수 Λ 파기, 아이작슨 평균화 텐서 V~μν 및 카멜레온 메커니즘으로 암흑물질/암흑에너지 통합.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-23a206d9",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch2-p1",
               activeVersion: "v2.0",
@@ -412,12 +447,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 3,
           title: "제 3 장: 공간 유체 역학이 해명하는 잃어버린 역사와 미스터리",
           synopsis: "카멜레온 반중력 드라이브, 피라미드 거석 운반 및 공간 단층 칼날, UFO 공간 서핑(Surfing) 해명.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-43982ac1",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch3-p1",
               activeVersion: "v2.0",
@@ -445,12 +486,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 4,
           title: "제 4 장: 초공간 문명으로의 진화 청사진과 붉은 전조",
           synopsis: "t=0 초공간 통신망, 게르첸슈타인 역-공명 트랜시버, t=0 워프 항법, 진공 영구기관 및 PTA 붉은 전조 포착.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-63657059",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch4-p1",
               activeVersion: "v2.0",
@@ -478,12 +525,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 5,
           title: "제 5 장: 3광년 밖의 텐서 지문과 데칼코마니 (Phase-locking)",
           synopsis: "3광년 밖 PTA 노이즈와 3년 전 제네바 특이점 로그의 텐서 지문 100% 포개어짐과 얽힘의 증명.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-19e4b148",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch5-p1",
               activeVersion: "v3.0",
@@ -517,12 +570,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 7,
           title: "제 7 장: 18개월의 카운트다운과 게르첸슈타인 FRB 불바다 예언",
           synopsis: "단층 파열 카운트다운 18개월과 본진(Main Quake) 도래 시 게르첸슈타인 효과로 인한 전자기 방사선(FRB) 불바다 위기.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-e90b33e1",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch6-p1",
               activeVersion: "v2.0",
@@ -537,12 +596,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 8,
           title: "제 8 장: 다자간 얽힘(GHZ)과 거미줄 텐서 네트워크의 심연",
           synopsis: "GHZ 다자간 얽힘(Multi-partite Entanglement) 발견, 지구 중심 텐서 허브와 인류 구원 방주를 향한 질주.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-11d759ad",
+              number: 1,
+              paragraphs: [
             {
               id: "act2-ch7-p1",
               activeVersion: "v2.0",
@@ -570,6 +635,8 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         }
       ]
     },
@@ -584,7 +651,11 @@ export const initialNovelData: NovelDetails = {
           number: 1,
           title: "제 1 장: 닫힌 문과 처절한 세일즈",
           synopsis: "오디세우스 방주 청사진 세일즈와 수십 번의 문전박대, 아틀라스 코퍼레이션 본사에서의 프레젠테이션 실패.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-2c53ba92",
+              number: 1,
+              paragraphs: [
             {
               id: "act2_1-ch1-p1",
               activeVersion: "v2.0",
@@ -612,12 +683,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 2,
           title: "제 2 장: 10살 클로이의 뇌종양과 의학적 한계",
           synopsis: "정상 신경망과 얽힌 수술 불가능 뇌종양, 이안의 '위상 제어 펜' 프로토타입 제시.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-285cdc06",
+              number: 1,
+              paragraphs: [
             {
               id: "act2_1-ch2-p1",
               activeVersion: "v2.0",
@@ -651,12 +728,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 3,
           title: "제 3 장: 지하 수술실의 기하학적 기적 (Bypass 레이저 수술)",
           synopsis: "클로이의 뇌 신경망 0.001mm 앞 레이저 궤적 우회(Bypass) 완치 기적과 3천억 달러 백지수표 체결.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-0beb0e1d",
+              number: 1,
+              paragraphs: [
             {
               id: "act2_1-ch3-p1",
               activeVersion: "v4.0",
@@ -702,6 +785,8 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         }
       ]
     },
@@ -716,7 +801,11 @@ export const initialNovelData: NovelDetails = {
           number: 1,
           title: "제 1 장: 역류하는 바다와 비틀린 마천루 (텐서 응축 폭주)",
           synopsis: "마리아나 해구 수십만 톤 바다 역류와 서울 123층 롯데월드타워 허공 함몰, UN 대책회의 스털링 비판 및 이안의 직언.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-fcc6c289",
+              number: 1,
+              paragraphs: [
             {
               id: "act2_5-ch1-p1",
               activeVersion: "v2.0",
@@ -776,12 +865,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 3,
           title: "제 3 장: 사라진 여객기와 0초의 횡단 (거시적 양자 도약)",
           synopsis: "북대서양 보잉 777 여객기 6,000km 밖 알프스 몽블랑 0초 텔레포트 사건과 우주적 압축 유입(Compressive Influx)으로 인한 관성 억제 파괴 해석.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-1d6077ca",
+              number: 1,
+              paragraphs: [
             {
               id: "act2_5-ch3-p1",
               activeVersion: "v2.0",
@@ -841,12 +936,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 4,
           title: "제 4 장: 거대 진실의 강림과 오디세우스 프로젝트",
           synopsis: "UN 글로벌 과학 정상회의장 이안 난입, POINTING 프로토콜 재난 통합 수식 공개, 18개월 멸망 예언 및 흑연색 원반형 방주 오디세우스(Odysseus) 프로젝트 개막.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-dcb6d762",
+              number: 1,
+              paragraphs: [
             {
               id: "act2_5-ch4-p1",
               activeVersion: "v2.0",
@@ -900,6 +1001,8 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         }
       ]
     },
@@ -914,7 +1017,11 @@ export const initialNovelData: NovelDetails = {
           number: 1,
           title: "제 1 장: 18개월 후 카운트다운과 방주 '오디세우스'",
           synopsis: "18개월 흐른 후 스코틀랜드 깊은 지하에서 완성된 직경 5km 흑연색 원반형 방주 오디세우스(Odysseus)와 PTA 레이더의 임계점(Scrit) 돌파.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-8b2b8d5d",
+              number: 1,
+              paragraphs: [
             {
               id: "act3-ch1-p1",
               activeVersion: "v3.0",
@@ -929,12 +1036,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 2,
           title: "제 2 장: 게르첸슈타인 핏빛 불바다와 종말",
           synopsis: "초고주파 중력파(HFGW)와 지구 자기장 충돌의 게르첸슈타인 공명(Gertsenshtein Effect)으로 대기권 전체가 핏빛 FRB 섬광 불바다가 됨.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-33fee0fd",
+              number: 1,
+              paragraphs: [
             {
               id: "act3-ch2-p1",
               activeVersion: "v3.0",
@@ -949,12 +1062,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 3,
           title: "제 3 장: 오디세우스 엔진 실패와 지구 방어막(Shield) 전환",
           synopsis: "카멜레온 엔진 완성 불가능. 이륙을 포기한 오디세우스를 지구 단위의 위상 방어막으로 전환하여 거시적 상쇄 간섭(Destructive Interference)을 이뤄냄.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-7f936348",
+              number: 1,
+              paragraphs: [
             {
               id: "act3-ch3-p1",
               activeVersion: "v3.0",
@@ -1000,12 +1119,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 4,
           title: "제 4 장: 떨어진 위성과 텐서의 닻 (인공 암흑 물질)",
           synopsis: "우주 지진의 여파로 공전 궤도를 이탈하여 지구로 추락하는 달. 인공 암흑 물질 중력 닻(Gravity Anchor)을 창조하여 달을 주차시키려는 이안의 선언.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-e1074906",
+              number: 1,
+              paragraphs: [
             {
               id: "act3-ch4-p1",
               activeVersion: "v5.0",
@@ -1057,6 +1182,8 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         }
       ]
     },
@@ -1071,7 +1198,11 @@ export const initialNovelData: NovelDetails = {
           number: 1,
           title: "제 1 장: 상처 입은 지구와 세라의 절망",
           synopsis: "달을 주차시키고 살아남았으나, 재난의 여파로 생태계가 붕괴되고 자원이 고갈된 지구를 보며 절망하는 세라.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-0119f799",
+              number: 1,
+              paragraphs: [
             {
               id: "epilogue-ch1-p1",
               activeVersion: "v3.0",
@@ -1092,12 +1223,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 2,
           title: "제 2 장: 스카름 위상 감김과 강입자 창조 수식",
           synopsis: "물질은 알갱이가 아니라 공간 유체의 기하학적 매듭(Knot). 파괴된 자원에 얽매이지 않고 허공에서 질량을 창조하겠다는 4번째 논문 수식 공개.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-ce8b9ead",
+              number: 1,
+              paragraphs: [
             {
               id: "epilogue-ch2-p1",
               activeVersion: "v3.0",
@@ -1118,12 +1255,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 3,
           title: "제 3 장: 생명의 비 창조와 시공간의 건축가들",
           synopsis: "대기권 상공의 텅 빈 공간 유체를 720도(4π) 회전 비틀어 허공에서 순수한 물과 산소를 창조함. 지구를 치유하는 시공간의 건축가로 각성.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-69b01c1a",
+              number: 1,
+              paragraphs: [
             {
               id: "epilogue-ch3-p1",
               activeVersion: "v4.0",
@@ -1150,12 +1293,18 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         },
         {
           number: 4,
           title: "제 4 장: 원작 논문 4부작 학술 아카이브 연동 [완결]",
           synopsis: "SF 소설 『텐서의 바다』 전체 완결 및 논문 『Mechanics of Spatial Vibration I, II, III, IV』 4부작 아카이브 연동 해설.",
-          paragraphs: [
+          scenes: [
+            {
+              id: "scene-3b7ef97a",
+              number: 1,
+              paragraphs: [
             {
               id: "epilogue-ch4-p1",
               activeVersion: "v2.0",
@@ -1170,6 +1319,8 @@ export const initialNovelData: NovelDetails = {
               }
             }
           ]
+            }
+          ]
         }
       ]
     }
@@ -1179,6 +1330,7 @@ export const initialNovelData: NovelDetails = {
 export const novelsMap: Record<string, NovelDetails> = {
   [initialNovelData.slug]: initialNovelData
 };
+
 
 export function getParagraphText(
   paragraph: NovelParagraph,
@@ -1194,6 +1346,49 @@ export function getParagraphText(
   return keys.length > 0 ? paragraph.versions[keys[keys.length - 1]].content : "";
 }
 
+export function getSceneTitle(
+  scene: NovelScene,
+  customVersionMap?: Record<string, string>
+): string {
+  // 사용자가 명시적으로 지은 진짜 제목인지 확인 (플레이스홀더성 제목 제외)
+  const isPlaceholderTitle = !scene.title || scene.title === '새 장면' || scene.title.startsWith('SCENE ');
+  if (!isPlaceholderTitle) return scene.title;
+  
+  if (scene.paragraphs && scene.paragraphs.length > 0) {
+    const firstParagraph = scene.paragraphs[0];
+    const versionKey = customVersionMap ? customVersionMap[firstParagraph.id] : undefined;
+    const text = getParagraphText(firstParagraph, versionKey || firstParagraph.activeVersion).trim();
+    
+    if (text) {
+      // 1. 첫 번째 줄(Line break 기준)만 가져오기
+      let firstLine = text.split('\n')[0].trim();
+      
+      // 2. 마크다운 헤더(### 등) 기호 제거
+      firstLine = firstLine.replace(/^#+\s*/, '').trim();
+      
+      // 3. 만약 줄 전체가 대괄호 [ ] 로 감싸져 있다면 제거 (예: [Scene 1: Title])
+      firstLine = firstLine.replace(/^\[(.*?)\]$/, '$1').trim();
+      
+      // 4. 문장 부호 분리 로직 (첫 줄이 너무 길 경우에만 마침표 등으로 자르기)
+      const sentenceMatch = firstLine.match(/^.*?[.?!](?:\s|$)/);
+      let title = firstLine;
+      
+      if (title.length > 50 && sentenceMatch) {
+         title = sentenceMatch[0].trim();
+      }
+      
+      if (title.length > 40) {
+        title = title.substring(0, 40) + '...';
+      }
+      
+      if (title) return title;
+    }
+  }
+  
+  return `SCENE ${scene.number}`;
+}
+
+
 export function addParagraphVersion(
   novel: NovelDetails,
   paragraphId: string,
@@ -1206,16 +1401,18 @@ export function addParagraphVersion(
 
   for (const act of updatedNovel.acts) {
     for (const ch of act.chapters) {
-      for (const p of ch.paragraphs) {
-        if (p.id === paragraphId) {
-          p.versions[newVersionKey] = {
-            version: newVersionKey,
-            content,
-            note: note || "새 버전 업데이트",
-            createdAt: new Date().toISOString().replace("T", " ").substring(0, 16),
-            author: author || updatedNovel.author
-          };
-          p.activeVersion = newVersionKey;
+      for (const scene of ch.scenes || []) {
+        for (const p of scene.paragraphs || []) {
+          if (p.id === paragraphId) {
+            p.versions[newVersionKey] = {
+              version: newVersionKey,
+              content,
+              note: note || "새 버전 업데이트",
+              createdAt: new Date().toISOString().replace("T", " ").substring(0, 16),
+              author: author || updatedNovel.author
+            };
+            p.activeVersion = newVersionKey;
+          }
         }
       }
     }
@@ -1240,27 +1437,28 @@ export function addParagraphAiComment(
 
   for (const act of updatedNovel.acts) {
     for (const ch of act.chapters) {
-      for (const p of ch.paragraphs) {
-        if (p.id === paragraphId) {
-          if (!p.aiPrompts) {
-            p.aiPrompts = [];
-            // Legacy 데이터 마이그레이션
-            if (p.aiPrompt) {
-              p.aiPrompts.push({
-                id: crypto.randomUUID(),
-                targetVersion: 'v1.0 (Legacy)',
-                prompt: p.aiPrompt,
-                createdAt: new Date().toISOString()
-              });
+      for (const scene of ch.scenes || []) {
+        for (const p of scene.paragraphs || []) {
+          if (p.id === paragraphId) {
+            if (!p.aiPrompts) {
+              p.aiPrompts = [];
+              if (p.aiPrompt) {
+                p.aiPrompts.push({
+                  id: crypto.randomUUID(),
+                  targetVersion: 'v1.0 (Legacy)',
+                  prompt: p.aiPrompt,
+                  createdAt: new Date().toISOString()
+                });
+              }
             }
+            p.aiPrompts.push({
+              id: crypto.randomUUID(),
+              targetVersion,
+              prompt,
+              createdAt: new Date().toISOString()
+            });
+            p.aiPrompt = prompt; 
           }
-          p.aiPrompts.push({
-            id: crypto.randomUUID(),
-            targetVersion,
-            prompt,
-            createdAt: new Date().toISOString()
-          });
-          p.aiPrompt = prompt; // 하위 호환성을 위해 최근 코멘트를 덮어씀
         }
       }
     }
@@ -1277,12 +1475,14 @@ export function deleteParagraph(
 
   for (const act of updatedNovel.acts) {
     for (const ch of act.chapters) {
-      const initialLength = ch.paragraphs.length;
-      ch.paragraphs = ch.paragraphs.filter(p => p.id !== paragraphId);
-      if (ch.paragraphs.length !== initialLength) {
-        // Found and removed
-        updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-        return updatedNovel;
+      for (const scene of ch.scenes || []) {
+        if (!scene.paragraphs) continue;
+        const initialLength = scene.paragraphs.length;
+        scene.paragraphs = scene.paragraphs.filter(p => p.id !== paragraphId);
+        if (scene.paragraphs.length !== initialLength) {
+          updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+          return updatedNovel;
+        }
       }
     }
   }
@@ -1299,31 +1499,32 @@ export function insertParagraphAfter(
 
   for (const act of updatedNovel.acts) {
     for (const ch of act.chapters) {
-      const targetIndex = ch.paragraphs.findIndex(p => p.id === targetParagraphId);
-      if (targetIndex !== -1) {
-        const isEnglish = updatedNovel.slug.endsWith('-en');
-        const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
-        
-        const newParagraphId = `p-${crypto.randomUUID()}`;
-        const newParagraph: NovelParagraph = {
-          id: newParagraphId,
-          activeVersion: defaultVer,
-          versions: {
-            [defaultVer]: {
-              version: defaultVer,
-              content: initialContent,
-              note: '단락 분리/추가',
-              createdAt: new Date().toISOString().substring(0, 16)
-            }
-          },
-          aiPrompts: []
-        };
-        
-        // Insert right after the target index
-        ch.paragraphs.splice(targetIndex + 1, 0, newParagraph);
-        
-        updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-        return updatedNovel;
+      for (const scene of ch.scenes || []) {
+        if (!scene.paragraphs) continue;
+        const targetIndex = scene.paragraphs.findIndex(p => p.id === targetParagraphId);
+        if (targetIndex !== -1) {
+          const isEnglish = updatedNovel.slug.endsWith('-en');
+          const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+          
+          const newParagraphId = `p-${crypto.randomUUID()}`;
+          const newParagraph: NovelParagraph = {
+            id: newParagraphId,
+            activeVersion: defaultVer,
+            versions: {
+              [defaultVer]: {
+                version: defaultVer,
+                content: initialContent,
+                note: '단락 분리/추가',
+                createdAt: new Date().toISOString().substring(0, 16)
+              }
+            },
+            aiPrompts: []
+          };
+          
+          scene.paragraphs.splice(targetIndex + 1, 0, newParagraph);
+          updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+          return updatedNovel;
+        }
       }
     }
   }
@@ -1340,31 +1541,32 @@ export function insertParagraphBefore(
 
   for (const act of updatedNovel.acts) {
     for (const ch of act.chapters) {
-      const targetIndex = ch.paragraphs.findIndex(p => p.id === targetParagraphId);
-      if (targetIndex !== -1) {
-        const isEnglish = updatedNovel.slug.endsWith('-en');
-        const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
-        
-        const newParagraphId = `p-${crypto.randomUUID()}`;
-        const newParagraph: NovelParagraph = {
-          id: newParagraphId,
-          activeVersion: defaultVer,
-          versions: {
-            [defaultVer]: {
-              version: defaultVer,
-              content: initialContent,
-              note: '단락 분리/추가 (이전)',
-              createdAt: new Date().toISOString().substring(0, 16)
-            }
-          },
-          aiPrompts: []
-        };
-        
-        // Insert right before the target index
-        ch.paragraphs.splice(targetIndex, 0, newParagraph);
-        
-        updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-        return updatedNovel;
+      for (const scene of ch.scenes || []) {
+        if (!scene.paragraphs) continue;
+        const targetIndex = scene.paragraphs.findIndex(p => p.id === targetParagraphId);
+        if (targetIndex !== -1) {
+          const isEnglish = updatedNovel.slug.endsWith('-en');
+          const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+          
+          const newParagraphId = `p-${crypto.randomUUID()}`;
+          const newParagraph: NovelParagraph = {
+            id: newParagraphId,
+            activeVersion: defaultVer,
+            versions: {
+              [defaultVer]: {
+                version: defaultVer,
+                content: initialContent,
+                note: '단락 분리/추가 (이전)',
+                createdAt: new Date().toISOString().substring(0, 16)
+              }
+            },
+            aiPrompts: []
+          };
+          
+          scene.paragraphs.splice(targetIndex, 0, newParagraph);
+          updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+          return updatedNovel;
+        }
       }
     }
   }
@@ -1391,34 +1593,37 @@ export function insertChapterAfter(
   const newParagraphId = `p-${crypto.randomUUID()}`;
   
   const newChapter: NovelChapter = {
-    number: -1, // Temporary, will be renumbered below
+    number: -1,
     title: `새 챕터 (수정해 주세요)`,
     synopsis: '',
-    paragraphs: [
+    scenes: [
       {
-        id: newParagraphId,
-        activeVersion: defaultVer,
-        versions: {
-          [defaultVer]: {
-            version: defaultVer,
-            content: '(첫 단락 내용을 입력하세요)',
-            note: '새 챕터 생성',
-            createdAt: new Date().toISOString().substring(0, 16)
+        id: `scene-${crypto.randomUUID()}`,
+        number: 1,
+        paragraphs: [
+          {
+            id: newParagraphId,
+            activeVersion: defaultVer,
+            versions: {
+              [defaultVer]: {
+                version: defaultVer,
+                content: '(새로운 챕터의 첫 단락입니다)',
+                note: '챕터 생성',
+                createdAt: new Date().toISOString().substring(0, 16)
+              }
+            },
+            aiPrompts: []
           }
-        },
-        aiPrompts: []
+        ]
       }
     ]
   };
 
-  // Insert right after the target chapter
   act.chapters.splice(chapterIndex + 1, 0, newChapter);
-  
-  // Sequential re-numbering
-  act.chapters.forEach((ch, idx) => {
-    ch.number = idx + 1;
+  act.chapters.forEach((c, idx) => {
+    c.number = idx + 1;
   });
-  
+
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   return updatedNovel;
 }
@@ -1440,36 +1645,39 @@ export function insertChapterBefore(
   const isEnglish = updatedNovel.slug.endsWith('-en');
   const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
   const newParagraphId = `p-${crypto.randomUUID()}`;
-  
+
   const newChapter: NovelChapter = {
-    number: -1, // Temporary, will be renumbered below
+    number: -1,
     title: `새 챕터 (수정해 주세요)`,
     synopsis: '',
-    paragraphs: [
+    scenes: [
       {
-        id: newParagraphId,
-        activeVersion: defaultVer,
-        versions: {
-          [defaultVer]: {
-            version: defaultVer,
-            content: '(첫 단락 내용을 입력하세요)',
-            note: '새 챕터 생성 (이전)',
-            createdAt: new Date().toISOString().substring(0, 16)
+        id: `scene-${crypto.randomUUID()}`,
+        number: 1,
+        paragraphs: [
+          {
+            id: newParagraphId,
+            activeVersion: defaultVer,
+            versions: {
+              [defaultVer]: {
+                version: defaultVer,
+                content: '(새로운 챕터의 첫 단락입니다)',
+                note: '챕터 생성',
+                createdAt: new Date().toISOString().substring(0, 16)
+              }
+            },
+            aiPrompts: []
           }
-        },
-        aiPrompts: []
+        ]
       }
     ]
   };
 
-  // Insert right before the target chapter
   act.chapters.splice(chapterIndex, 0, newChapter);
-  
-  // Sequential re-numbering
-  act.chapters.forEach((ch, idx) => {
-    ch.number = idx + 1;
+  act.chapters.forEach((c, idx) => {
+    c.number = idx + 1;
   });
-  
+
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   return updatedNovel;
 }
@@ -1485,17 +1693,11 @@ export function deleteChapter(
   if (actIndex === -1) return updatedNovel;
 
   const act = updatedNovel.acts[actIndex];
-  const chapterIndex = act.chapters.findIndex(c => c.number === targetChapterNumber);
-  if (chapterIndex === -1) return updatedNovel;
-
-  // Remove the chapter
-  act.chapters.splice(chapterIndex, 1);
-  
-  // Sequential re-numbering
-  act.chapters.forEach((ch, idx) => {
-    ch.number = idx + 1;
+  act.chapters = act.chapters.filter(c => c.number !== targetChapterNumber);
+  act.chapters.forEach((c, idx) => {
+    c.number = idx + 1;
   });
-  
+
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   return updatedNovel;
 }
@@ -1505,7 +1707,6 @@ export function insertActAfter(
   targetActNumber: number
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-
   const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
   if (actIndex === -1) return updatedNovel;
 
@@ -1514,25 +1715,33 @@ export function insertActAfter(
   const newParagraphId = `p-${crypto.randomUUID()}`;
 
   const newAct: NovelAct = {
-    number: -1, // Temporary
+    number: -1,
     title: `새로운 막 (수정해 주세요)`,
+    summary: '',
     chapters: [
       {
         number: 1,
-        title: `새 챕터 (수정해 주세요)`,
-        paragraphs: [
+        title: `제 1 장`,
+        synopsis: '',
+        scenes: [
           {
-            id: newParagraphId,
-            activeVersion: defaultVer,
-            versions: {
-              [defaultVer]: {
-                version: defaultVer,
-                content: '(첫 단락 내용을 입력하세요)',
-                note: '새 막 생성',
-                createdAt: new Date().toISOString().substring(0, 16)
+            id: `scene-${crypto.randomUUID()}`,
+            number: 1,
+            paragraphs: [
+              {
+                id: newParagraphId,
+                activeVersion: defaultVer,
+                versions: {
+                  [defaultVer]: {
+                    version: defaultVer,
+                    content: '(새로운 막의 첫 단락입니다)',
+                    note: '막 생성',
+                    createdAt: new Date().toISOString().substring(0, 16)
+                  }
+                },
+                aiPrompts: []
               }
-            },
-            aiPrompts: []
+            ]
           }
         ]
       }
@@ -1540,10 +1749,8 @@ export function insertActAfter(
   };
 
   updatedNovel.acts.splice(actIndex + 1, 0, newAct);
-
-  // Sequential re-numbering for acts
   updatedNovel.acts.forEach((a, idx) => {
-    a.number = idx + 1;
+    a.number = idx;
   });
 
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
@@ -1555,7 +1762,6 @@ export function insertActBefore(
   targetActNumber: number
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-
   const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
   if (actIndex === -1) return updatedNovel;
 
@@ -1564,25 +1770,33 @@ export function insertActBefore(
   const newParagraphId = `p-${crypto.randomUUID()}`;
 
   const newAct: NovelAct = {
-    number: -1, // Temporary
+    number: -1,
     title: `새로운 막 (수정해 주세요)`,
+    summary: '',
     chapters: [
       {
         number: 1,
-        title: `새 챕터 (수정해 주세요)`,
-        paragraphs: [
+        title: `제 1 장`,
+        synopsis: '',
+        scenes: [
           {
-            id: newParagraphId,
-            activeVersion: defaultVer,
-            versions: {
-              [defaultVer]: {
-                version: defaultVer,
-                content: '(첫 단락 내용을 입력하세요)',
-                note: '새 막 생성 (이전)',
-                createdAt: new Date().toISOString().substring(0, 16)
+            id: `scene-${crypto.randomUUID()}`,
+            number: 1,
+            paragraphs: [
+              {
+                id: newParagraphId,
+                activeVersion: defaultVer,
+                versions: {
+                  [defaultVer]: {
+                    version: defaultVer,
+                    content: '(새로운 막의 첫 단락입니다)',
+                    note: '막 생성',
+                    createdAt: new Date().toISOString().substring(0, 16)
+                  }
+                },
+                aiPrompts: []
               }
-            },
-            aiPrompts: []
+            ]
           }
         ]
       }
@@ -1590,10 +1804,8 @@ export function insertActBefore(
   };
 
   updatedNovel.acts.splice(actIndex, 0, newAct);
-
-  // Sequential re-numbering for acts
   updatedNovel.acts.forEach((a, idx) => {
-    a.number = idx + 1;
+    a.number = idx;
   });
 
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
@@ -1605,16 +1817,9 @@ export function deleteAct(
   targetActNumber: number
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-
-  const actIndex = updatedNovel.acts.findIndex(a => a.number === targetActNumber);
-  if (actIndex === -1) return updatedNovel;
-
-  // Remove the act
-  updatedNovel.acts.splice(actIndex, 1);
-
-  // Sequential re-numbering for acts
+  updatedNovel.acts = updatedNovel.acts.filter(a => a.number !== targetActNumber);
   updatedNovel.acts.forEach((a, idx) => {
-    a.number = idx + 1;
+    a.number = idx;
   });
 
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
@@ -1623,217 +1828,233 @@ export function deleteAct(
 
 export function updateActMetadata(
   novel: NovelDetails,
-  actNumber: number,
-  newTitle: string,
-  newSummary?: string
+  targetActNumber: number,
+  title: string,
+  summary?: string
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  const targetAct = updatedNovel.acts.find(a => a.number === actNumber);
-  
-  if (targetAct) {
-    targetAct.title = newTitle;
-    if (newSummary !== undefined) {
-      targetAct.summary = newSummary;
-    }
+  const act = updatedNovel.acts.find(a => a.number === targetActNumber);
+  if (act) {
+    act.title = title;
+    if (summary !== undefined) act.summary = summary;
     updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
   }
-  
   return updatedNovel;
 }
 
 export function updateChapterMetadata(
   novel: NovelDetails,
-  actNumber: number,
-  chapterNumber: number,
-  newTitle: string,
-  newSynopsis?: string
+  targetActNumber: number,
+  targetChapterNumber: number,
+  title: string,
+  synopsis?: string
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  const targetAct = updatedNovel.acts.find(a => a.number === actNumber);
-  
-  if (targetAct) {
-    const targetChapter = targetAct.chapters.find(c => c.number === chapterNumber);
-    if (targetChapter) {
-      targetChapter.title = newTitle;
-      if (newSynopsis !== undefined) {
-        targetChapter.synopsis = newSynopsis;
-      }
+  const act = updatedNovel.acts.find(a => a.number === targetActNumber);
+  if (act) {
+    const ch = act.chapters.find(c => c.number === targetChapterNumber);
+    if (ch) {
+      ch.title = title;
+      if (synopsis !== undefined) ch.synopsis = synopsis;
       updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
     }
   }
   return updatedNovel;
 }
 
-export function addCharacter(
-  novel: NovelDetails,
-  name: string = '새로운 인물',
-  role: string = '역할 미상',
-  tagline: string = '한 줄 소개를 입력하세요',
-  description: string = '상세 설정을 입력하세요'
-): NovelDetails {
+export function addCharacter(novel: NovelDetails): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
-  if (!updatedNovel.characters) {
-    updatedNovel.characters = [];
-  }
-
-  const newCharacter: CharacterDetails = {
+  if (!updatedNovel.characters) updatedNovel.characters = [];
+  updatedNovel.characters.push({
     id: `char-${crypto.randomUUID()}`,
-    name,
-    role,
-    tagline,
-    description
-  };
-
-  updatedNovel.characters.push(newCharacter);
-  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+    name: "새 캐릭터",
+    role: "역할",
+    tagline: "태그라인",
+    description: "설명"
+  });
   return updatedNovel;
 }
 
 export function updateCharacter(
   novel: NovelDetails,
-  characterId: string,
-  updates: Partial<Omit<CharacterDetails, 'id'>>
+  id: string,
+  updates: Partial<CharacterDetails>
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
-  if (!updatedNovel.characters) return updatedNovel;
-
-  const charIndex = updatedNovel.characters.findIndex(c => c.id === characterId);
-  if (charIndex !== -1) {
-    updatedNovel.characters[charIndex] = {
-      ...updatedNovel.characters[charIndex],
-      ...updates
-    };
-    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  const idx = updatedNovel.characters.findIndex(c => c.id === id);
+  if (idx !== -1) {
+    updatedNovel.characters[idx] = { ...updatedNovel.characters[idx], ...updates };
   }
-  
   return updatedNovel;
 }
 
-export function deleteCharacter(
-  novel: NovelDetails,
-  characterId: string
-): NovelDetails {
+export function deleteCharacter(novel: NovelDetails, id: string): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
-  if (!updatedNovel.characters) return updatedNovel;
-
-  updatedNovel.characters = updatedNovel.characters.filter(c => c.id !== characterId);
-  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-  
+  updatedNovel.characters = updatedNovel.characters.filter(c => c.id !== id);
   return updatedNovel;
 }
 
 export function addScene(novel: NovelDetails): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
-  if (!updatedNovel.scenes) {
-    updatedNovel.scenes = [];
-  }
-
-  const newScene: SceneDetails = {
-    id: `scene-${Date.now()}`,
-    title: '새로운 씬 드래프트',
-    position: '',
-    background: '',
-    relationship: '',
-    narrative: ''
-  };
-
-  updatedNovel.scenes.push(newScene);
-  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-  
+  if (!updatedNovel.scenes) updatedNovel.scenes = [];
+  updatedNovel.scenes.push({
+    id: `scene-${crypto.randomUUID()}`,
+    title: "새로운 장면",
+    position: "위치/시점",
+    background: "배경",
+    relationship: "관계/상황",
+    narrative: "서사적 의미"
+  });
   return updatedNovel;
 }
 
 export function updateScene(
   novel: NovelDetails,
-  sceneId: string,
-  updates: Partial<Omit<SceneDetails, 'id'>>
+  id: string,
+  updates: Partial<SceneDetails>
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
   if (!updatedNovel.scenes) return updatedNovel;
-
-  const sceneIndex = updatedNovel.scenes.findIndex(s => s.id === sceneId);
-  if (sceneIndex !== -1) {
-    updatedNovel.scenes[sceneIndex] = {
-      ...updatedNovel.scenes[sceneIndex],
-      ...updates
-    };
-    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  const idx = updatedNovel.scenes.findIndex(s => s.id === id);
+  if (idx !== -1) {
+    updatedNovel.scenes[idx] = { ...updatedNovel.scenes[idx], ...updates };
   }
-  
   return updatedNovel;
 }
 
-export function deleteScene(
-  novel: NovelDetails,
-  sceneId: string
-): NovelDetails {
+export function deleteScene(novel: NovelDetails, id: string): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
   if (!updatedNovel.scenes) return updatedNovel;
-
-  updatedNovel.scenes = updatedNovel.scenes.filter(s => s.id !== sceneId);
-  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-  
+  updatedNovel.scenes = updatedNovel.scenes.filter(s => s.id !== id);
   return updatedNovel;
 }
 
 export function addLocation(novel: NovelDetails): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
-  if (!updatedNovel.locations) {
-    updatedNovel.locations = [];
-  }
-
-  const newLocation: LocationDetails = {
-    id: `loc-${Date.now()}`,
-    name: '새로운 장소 드래프트',
-    description: '',
-    visualTraits: '',
-    importance: ''
-  };
-
-  updatedNovel.locations.push(newLocation);
-  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
-  
+  if (!updatedNovel.locations) updatedNovel.locations = [];
+  updatedNovel.locations.push({
+    id: `loc-${crypto.randomUUID()}`,
+    name: "새 장소",
+    description: "장소 설명",
+    visualTraits: "시각적 특징",
+    importance: "중요도"
+  });
   return updatedNovel;
 }
 
 export function updateLocation(
   novel: NovelDetails,
-  locationId: string,
-  updates: Partial<Omit<LocationDetails, 'id'>>
+  id: string,
+  updates: Partial<LocationDetails>
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
   if (!updatedNovel.locations) return updatedNovel;
-
-  const locIndex = updatedNovel.locations.findIndex(l => l.id === locationId);
-  if (locIndex !== -1) {
-    updatedNovel.locations[locIndex] = {
-      ...updatedNovel.locations[locIndex],
-      ...updates
-    };
-    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  const idx = updatedNovel.locations.findIndex(s => s.id === id);
+  if (idx !== -1) {
+    updatedNovel.locations[idx] = { ...updatedNovel.locations[idx], ...updates };
   }
-  
   return updatedNovel;
 }
 
-export function deleteLocation(
+export function deleteLocation(novel: NovelDetails, id: string): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+  if (!updatedNovel.locations) return updatedNovel;
+  updatedNovel.locations = updatedNovel.locations.filter(s => s.id !== id);
+  return updatedNovel;
+}
+
+// NovelScene CRUD functions
+export function insertNovelSceneAfter(
   novel: NovelDetails,
-  locationId: string
+  targetActNumber: number,
+  targetChapterNumber: number,
+  targetSceneId: string
 ): NovelDetails {
   const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-  
-  if (!updatedNovel.locations) return updatedNovel;
 
-  updatedNovel.locations = updatedNovel.locations.filter(l => l.id !== locationId);
+  const act = updatedNovel.acts.find(a => a.number === targetActNumber);
+  if (!act) return updatedNovel;
+  
+  const ch = act.chapters.find(c => c.number === targetChapterNumber);
+  if (!ch || !ch.scenes) return updatedNovel;
+
+  const isEnglish = updatedNovel.slug.endsWith('-en');
+  const defaultVer = isEnglish ? 'v_en-0.0.1' : 'v1.0';
+
+  const sceneIndex = ch.scenes.findIndex(s => s.id === targetSceneId);
+  const newScene: NovelScene = {
+    id: `scene-${crypto.randomUUID()}`,
+    number: -1, // will renumber
+    title: `새 장면`,
+    paragraphs: [
+      {
+        id: `p-${crypto.randomUUID()}`,
+        activeVersion: defaultVer,
+        versions: {
+          [defaultVer]: {
+            version: defaultVer,
+            content: '(새로운 씬의 첫 단락입니다)',
+            note: '씬 생성',
+            createdAt: new Date().toISOString().substring(0, 16)
+          }
+        },
+        aiPrompts: []
+      }
+    ]
+  };
+
+  if (sceneIndex === -1) {
+    ch.scenes.push(newScene);
+  } else {
+    ch.scenes.splice(sceneIndex + 1, 0, newScene);
+  }
+  
+  ch.scenes.forEach((s, idx) => s.number = idx + 1);
   updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
+export function deleteNovelScene(
+  novel: NovelDetails,
+  targetActNumber: number,
+  targetChapterNumber: number,
+  sceneId: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const act = updatedNovel.acts.find(a => a.number === targetActNumber);
+  if (!act) return updatedNovel;
+  
+  const ch = act.chapters.find(c => c.number === targetChapterNumber);
+  if (!ch || !ch.scenes) return updatedNovel;
+
+  ch.scenes = ch.scenes.filter(s => s.id !== sceneId);
+  ch.scenes.forEach((s, idx) => s.number = idx + 1);
+  
+  updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  return updatedNovel;
+}
+
+export function updateNovelSceneMetadata(
+  novel: NovelDetails,
+  targetActNumber: number,
+  targetChapterNumber: number,
+  sceneId: string,
+  title: string
+): NovelDetails {
+  const updatedNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+
+  const act = updatedNovel.acts.find(a => a.number === targetActNumber);
+  if (!act) return updatedNovel;
+  
+  const ch = act.chapters.find(c => c.number === targetChapterNumber);
+  if (!ch || !ch.scenes) return updatedNovel;
+
+  const scene = ch.scenes.find(s => s.id === sceneId);
+  if (scene) {
+    scene.title = title;
+    updatedNovel.updatedAt = new Date().toISOString().substring(0, 10);
+  }
   
   return updatedNovel;
 }

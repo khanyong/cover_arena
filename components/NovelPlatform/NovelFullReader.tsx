@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { NovelDetails, NovelParagraph, getParagraphText } from './novelData';
+import { NovelDetails, NovelParagraph, getParagraphText, getSceneTitle } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -26,7 +26,10 @@ interface NovelFullReaderProps {
   onInsertActBefore?: (actNumber: number) => void;
   onDeleteAct?: (actNumber: number) => void;
   onUpdateActMetadata?: (actNumber: number, title: string, summary?: string) => void;
-  onUpdateChapterMetadata?: (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => void;
+  onUpdateChapterMetadata: (actNum: number, chNum: number, title: string, synopsis?: string) => void;
+  onInsertScene?: (actNum: number, chNum: number, targetSceneId: string) => void;
+  onDeleteScene?: (actNum: number, chNum: number, sceneId: string) => void;
+  onUpdateSceneMetadata?: (actNum: number, chNum: number, sceneId: string, title: string) => void;
 }
 
 export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
@@ -45,7 +48,10 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onInsertActBefore,
   onDeleteAct,
   onUpdateActMetadata,
-  onUpdateChapterMetadata
+  onUpdateChapterMetadata,
+  onInsertScene,
+  onDeleteScene,
+  onUpdateSceneMetadata
 }) => {
   // 현재 클릭해서 편집 중인 단락 상태
   const [editingParagraph, setEditingParagraph] = useState<NovelParagraph | null>(null);
@@ -89,13 +95,13 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     const results: string[] = [];
     novel.acts.forEach(act => {
       act.chapters.forEach(ch => {
-        ch.paragraphs.forEach(p => {
+        (ch.scenes || []).forEach(scene => (scene.paragraphs || []).forEach(p => {
           const activeVerKey = customVersionMap[p.id] || p.activeVersion;
           const content = getParagraphText(p, activeVerKey);
           if (content.toLowerCase().includes(q)) {
             results.push(p.id);
           }
-        });
+        }));
       });
     });
     setSearchResults(results);
@@ -489,7 +495,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             : 'bg-zinc-800 text-zinc-400'
                         }`}>
                           {(() => {
-                            const chText = ch.paragraphs.map(p => getParagraphText(p, customVersionMap[p.id] || p.activeVersion)).join(' ');
+                            const chText = (ch.scenes || []).flatMap(s => s.paragraphs || []).map(p => getParagraphText(p, customVersionMap[p.id] || p.activeVersion)).join(' ');
                             const charCount = chText.replace(/\s/g, '').length;
                             const wordCount = chText.trim() === '' ? 0 : chText.trim().split(/\s+/).length;
                             return `${wordCount}단어 / 공백제외 ${charCount}자`;
@@ -517,9 +523,18 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 <div className={`transition-all duration-700 ${
                   viewMode === 'book' 
                     ? 'font-serif text-[#d6caba] md:columns-2 md:gap-16 [column-rule:1px_solid_rgba(58,53,44,0.5)] space-y-0 text-justify' 
-                    : 'font-sans text-zinc-200 space-y-4'
+                    : 'font-sans text-zinc-200 space-y-8'
                 }`}>
-                  {ch.paragraphs.map((p) => {
+                  {(ch.scenes || []).map((scene) => (
+                    <div key={scene.id} id={`scene-${scene.id}`} className="relative group/scene">
+                      <div className="flex items-center gap-2 mb-3">
+                        <h4 className="text-sm font-semibold text-zinc-500 font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1">
+                          {getSceneTitle(scene, customVersionMap)}
+                        </h4>
+                      </div>
+                      
+                      <div className="space-y-4">
+                      {(scene.paragraphs || []).map((p) => {
                     const activeVerKey = customVersionMap[p.id] || p.activeVersion;
                     let content = getParagraphText(p, activeVerKey);
 
@@ -608,7 +623,28 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       </div>
                     );
                   })}
+                      </div>
+                    </div>
+                  ))}
                 </div>
+                
+                {/* Add Scene Button */}
+                {onInsertScene && (
+                  <div className={`mt-2 flex justify-center pb-4 font-sans`}>
+                    <button
+                      onClick={() => {
+                        onInsertScene(act.number, ch.number, '');
+                      }}
+                      className={`text-xs px-4 py-2 rounded-full transition-all border flex items-center gap-2 ${
+                        viewMode === 'book' 
+                          ? 'bg-[#141311]/50 border-[#3a352c] text-[#a39a8c] hover:text-[#d6caba] hover:bg-[#201d19]' 
+                          : 'bg-zinc-800/50 border-zinc-700/50 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-700/80'
+                      }`}
+                    >
+                      <span>🎬</span> 여기에 새 씬(Scene) 추가하기
+                    </button>
+                  </div>
+                )}
                 
                 {/* Add Chapter Button */}
                 {onInsertChapter && (

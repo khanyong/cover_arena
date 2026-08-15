@@ -24,10 +24,12 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
       fullText += `# ${act.title}\n\n`;
       for (const ch of act.chapters) {
         fullText += `## ${ch.title}\n\n`;
-        for (const p of ch.paragraphs) {
-          const versionKey = customVersionMap[p.id] || p.activeVersion;
-          const pText = getParagraphText(p, versionKey);
-          fullText += `${pText}\n\n`;
+        for (const scene of ch.scenes || []) {
+          for (const p of scene.paragraphs || []) {
+            const versionKey = customVersionMap[p.id] || p.activeVersion;
+            const pText = getParagraphText(p, versionKey);
+            fullText += `${pText}\n\n`;
+          }
         }
       }
     }
@@ -56,10 +58,12 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
     let actText = `# ${act.title}\n\n`;
     for (const ch of act.chapters) {
       actText += `## ${ch.title}\n\n`;
-      for (const p of ch.paragraphs) {
-        const versionKey = customVersionMap[p.id] || p.activeVersion;
-        const pText = getParagraphText(p, versionKey);
-        actText += `${pText}\n\n`;
+      for (const scene of ch.scenes || []) {
+        for (const p of scene.paragraphs || []) {
+          const versionKey = customVersionMap[p.id] || p.activeVersion;
+          const pText = getParagraphText(p, versionKey);
+          actText += `${pText}\n\n`;
+        }
       }
     }
     return actText;
@@ -133,7 +137,7 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
           <span>🧩</span> 선택된 단락별 버전 구성 조합 (Mosaic Version Selection):
         </h3>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2 text-xs">
-          {novel.acts.flatMap(a => a.chapters.flatMap(c => c.paragraphs)).map(p => {
+          {novel.acts.flatMap(a => a.chapters.flatMap(c => (c.scenes || []).flatMap(s => s.paragraphs || []))).map(p => {
             const ver = customVersionMap[p.id] || p.activeVersion;
             return (
               <div key={p.id} className="bg-zinc-950 px-3 py-2 rounded border border-zinc-800 flex justify-between items-center">
@@ -162,14 +166,14 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
                   {ch.title}
                   <span className="text-xs font-normal bg-zinc-800 text-zinc-400 px-2 py-0.5 rounded-full">
                     {(() => {
-                      const chText = ch.paragraphs.map(p => getParagraphText(p, customVersionMap[p.id] || p.activeVersion)).join(' ');
+                      const chText = (ch.scenes || []).flatMap(s => s.paragraphs || []).map(p => getParagraphText(p, customVersionMap[p.id] || p.activeVersion)).join(' ');
                       const charCount = chText.replace(/\s/g, '').length;
                       const wordCount = chText.trim() === '' ? 0 : chText.trim().split(/\s+/).length;
                       return `${wordCount}단어 / 공백제외 ${charCount}자`;
                     })()}
                   </span>
                 </h4>
-                {ch.paragraphs.map(p => {
+                {(ch.scenes || []).flatMap(s => s.paragraphs || []).map(p => {
                   const verKey = customVersionMap[p.id] || p.activeVersion;
                   const text = getParagraphText(p, verKey);
                   return (
