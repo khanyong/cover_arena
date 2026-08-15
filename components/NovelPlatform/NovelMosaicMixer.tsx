@@ -24,6 +24,9 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
       fullText += `# ${act.title}\n\n`;
       for (const ch of act.chapters) {
         fullText += `## ${ch.title}\n\n`;
+        if (ch.synopsis) {
+          fullText += `${ch.synopsis}\n\n`;
+        }
         for (const scene of ch.scenes || []) {
           for (const p of scene.paragraphs || []) {
             const versionKey = customVersionMap[p.id] || p.activeVersion;
@@ -58,6 +61,9 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
     let actText = `# ${act.title}\n\n`;
     for (const ch of act.chapters) {
       actText += `## ${ch.title}\n\n`;
+      if (ch.synopsis) {
+        actText += `${ch.synopsis}\n\n`;
+      }
       for (const scene of ch.scenes || []) {
         for (const p of scene.paragraphs || []) {
           const versionKey = customVersionMap[p.id] || p.activeVersion;
