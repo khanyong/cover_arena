@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
+import { useRouter } from 'next/router';
+import { auth } from '../../shared/lib/supabase';
 import Link from 'next/link';
 import { NovelSideBySideDiff } from '../../components/NovelPlatform/NovelSideBySideDiff';
 import { novelsMap, initialNovelData } from '../../components/NovelPlatform/novelData';
@@ -8,6 +10,23 @@ export default function NovelDiffToolPage() {
   // 프리셋 소설 선택 상태
   const [selectedNovelKey, setSelectedNovelKey] = useState<string>('spatial-vibration-novel');
   const currentNovel = novelsMap[selectedNovelKey] || initialNovelData;
+
+  const router = useRouter();
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
+
+  // 인증 확인
+  useEffect(() => {
+    if (!router.isReady) return;
+    const checkAuth = async () => {
+      const user = await auth.getCurrentUser();
+      if (!user) {
+        router.replace('/auth');
+      } else {
+        setIsAuthChecking(false);
+      }
+    };
+    checkAuth();
+  }, [router.isReady]);
 
   // 좌측/우측에 로드할 챕터 및 버전 선택 상태 (actNumber, chapterNumber)
   const [leftActNumber, setLeftActNumber] = useState<number>(currentNovel.acts[0]?.number || 1);
@@ -108,6 +127,16 @@ export default function NovelDiffToolPage() {
   // 챕터 목록 추출
   const leftAct = currentNovel.acts.find(a => a.number === leftActNumber) || currentNovel.acts[0];
   const rightAct = currentNovel.acts.find(a => a.number === rightActNumber) || currentNovel.acts[0];
+
+  if (isAuthChecking) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+        <div className="text-amber-500 animate-pulse text-lg font-bold">
+          Verifying access...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans pb-16">

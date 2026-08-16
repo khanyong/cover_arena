@@ -3,12 +3,26 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { initialNovelData } from '../../components/NovelPlatform/novelData';
-import { novels } from '../../shared/lib/supabase';
+import { novels, auth } from '../../shared/lib/supabase';
 
 export default function NovelDashboard() {
   const router = useRouter();
   const [novelList, setNovelList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
+
+  // 인증 확인
+  useEffect(() => {
+    const checkAuth = async () => {
+      const user = await auth.getCurrentUser();
+      if (!user) {
+        router.replace('/auth');
+      } else {
+        setIsAuthChecking(false);
+      }
+    };
+    checkAuth();
+  }, [router]);
 
   // DB에서 소설 목록 불러오기
   useEffect(() => {
@@ -31,10 +45,10 @@ export default function NovelDashboard() {
   }, []);
 
   const handleCreateNewVolume = async () => {
-    const newSlug = window.prompt("새로운 권의 영문 주소(slug)를 입력하세요.\n예: quantum-vibration-vol2");
+    const newSlug = window.prompt("Enter the slug (English URL) for the new volume.\ne.g., quantum-vibration-vol2");
     if (!newSlug) return;
     
-    const newTitle = window.prompt("새로운 권의 제목을 입력하세요.\n예: 공간의 진동 2권");
+    const newTitle = window.prompt("Enter the title for the new volume.\ne.g., Quantum Vibration Vol 2");
     if (!newTitle) return;
 
     try {
@@ -49,22 +63,32 @@ export default function NovelDashboard() {
 
       const { error } = await novels.createNovel(newNovelData);
       if (error) {
-        alert("생성 중 오류가 발생했습니다: " + error.message);
+        alert("Error occurred during creation: " + error.message);
       } else {
-        alert("새로운 프로젝트가 생성되었습니다. 집필 스튜디오로 이동합니다.");
+        alert("New project created. Redirecting to the writing studio.");
         router.push(`/novel/${newSlug}`);
       }
     } catch (err) {
       console.error(err);
-      alert("생성 실패");
+      alert("Creation failed");
     }
   };
+
+  if (isAuthChecking) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+        <div className="text-amber-500 animate-pulse text-lg font-bold">
+          Verifying access...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950">
       <Head>
-        <title>SF 소설 버전 관리 & 집필 플랫폼</title>
-        <meta name="description" content="논문 기반 소설 막·장·단락 계층형 버전 관리 및 비교 스튜디오" />
+        <title>Sci-Fi Novel Version Control & Writing Studio</title>
+        <meta name="description" content="Paper-based Sci-Fi novel hierarchical version control and comparison studio" />
       </Head>
 
       {/* Navigation Bar */}
@@ -75,17 +99,17 @@ export default function NovelDashboard() {
               N O V E L <span className="text-xs px-2 py-0.5 rounded bg-amber-500/20 border border-amber-500/30 text-amber-300 font-mono">STUDIO</span>
             </Link>
             <span className="text-zinc-600">|</span>
-            <span className="text-xs text-zinc-400 font-medium">논문 기반 소설 버전 관리 플랫폼</span>
+            <span className="text-xs text-zinc-400 font-medium">Paper-based Novel Version Control Platform</span>
           </div>
           <div className="flex items-center gap-4 text-xs">
             <Link
               href="/tools/novel-diff"
               className="bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-lg transition-colors font-semibold flex items-center gap-1.5"
             >
-              <span>⚖️</span> 버전 비교 스튜디오
+              <span>⚖️</span> Version Comparison Studio
             </Link>
             <Link href="/papers" className="text-zinc-400 hover:text-zinc-200 transition-colors font-semibold">
-              📄 논문 리서치 창고 (/papers)
+              📄 Paper Research Vault (/papers)
             </Link>
           </div>
         </div>
@@ -98,17 +122,16 @@ export default function NovelDashboard() {
           <div className="absolute right-0 top-0 w-96 h-96 bg-amber-500/5 rounded-full blur-3xl -z-0 pointer-events-none"></div>
           <div className="relative z-10 max-w-3xl">
             <span className="inline-block text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 mb-4">
-              ✨ 막 · 장 · 단락 독립 버전 관리 지원
+              ✨ Independent Version Control for Acts, Chapters & Paragraphs
             </span>
             <h1 className="text-4xl font-extrabold tracking-tight text-white mb-4 leading-tight">
-              논문 기반 SF 소설 집필 & <br />
+              Paper-based Sci-Fi Novel Writing & <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-200">
-                버전 비교 · 최종본 완성을 위한 스튜디오
+                Version Comparison Studio for the Master Draft
               </span>
             </h1>
             <p className="text-zinc-300 text-sm leading-relaxed mb-6">
-              논문의 마디(Node) 특이점, 카멜레온 메커니즘, 게르첸슈타인 효과 등 원작 논문의 핵심 이론 수식을 바탕으로 소설을 구성하며, 
-              <strong> 1막 1장의 각 단락별 독립 버전(v1.0, v1.1, v2.0...)</strong>을 과거 내용과 실시간 비교하고 조합하여 마스터 최종본을 완성해보세요.
+              Construct your novel based on core theoretical formulas from original papers such as Node singularities, chameleon mechanisms, and the Gertsenshtein effect. Manage <strong>independent versions for each paragraph (v1.0, v1.1, v2.0...)</strong>, compare them in real-time, and combine them to complete your master draft.
             </p>
           </div>
         </div>
@@ -117,23 +140,23 @@ export default function NovelDashboard() {
         <div>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold text-white flex items-center gap-2">
-              <span>📚</span> 집필 중인 소설 프로젝트 목록
+              <span>📚</span> Novel Projects in Progress
             </h2>
             <button
               onClick={handleCreateNewVolume}
               className="bg-amber-500 hover:bg-amber-600 text-zinc-950 px-4 py-2 text-sm font-bold rounded-lg transition-colors shadow-lg shadow-amber-500/20"
             >
-              + 새로운 권(Volume) 생성하기
+              + Create New Volume
             </button>
           </div>
 
           {loading ? (
             <div className="text-center text-zinc-400 py-20 animate-pulse">
-              데이터를 불러오는 중입니다...
+              Loading data...
             </div>
           ) : novelList.filter(n => !n.slug.endsWith('-en')).length === 0 ? (
             <div className="text-center text-zinc-400 py-20 bg-zinc-900/50 rounded-2xl border border-zinc-800">
-              아직 생성된 프로젝트가 없습니다. '새로운 권 생성하기' 버튼을 눌러 시작해 보세요.
+              No projects created yet. Click '+ Create New Volume' to begin.
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -145,9 +168,9 @@ export default function NovelDashboard() {
                 <div>
                   <div className="flex items-center justify-between mb-3 text-xs text-zinc-400">
                     <span className="bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2.5 py-0.5 rounded font-mono font-semibold">
-                      최신 버전: {novel.versionHistory && novel.versionHistory.length > 0 ? novel.versionHistory[novel.versionHistory.length - 1] : 'v1.0'}
+                      Latest Version: {novel.versionHistory && novel.versionHistory.length > 0 ? novel.versionHistory[novel.versionHistory.length - 1] : 'v1.0'}
                     </span>
-                    <span>최종 수정: {novel.updatedAt || '알 수 없음'}</span>
+                    <span>Last Updated: {novel.updatedAt || 'Unknown'}</span>
                   </div>
 
                   <h3 className="text-2xl font-bold text-white group-hover:text-amber-400 transition-colors mb-2">
@@ -172,7 +195,7 @@ export default function NovelDashboard() {
                   {/* Characters Preview */}
                   {novel.characters && (
                     <div className="mb-4">
-                      <span className="text-[11px] font-bold text-zinc-400 block mb-2">👥 주요 등장인물:</span>
+                      <span className="text-[11px] font-bold text-zinc-400 block mb-2">👥 Key Characters:</span>
                       <div className="flex flex-wrap gap-1.5 text-[11px]">
                         {novel.characters.map((c: any) => (
                           <span key={c.id} className="bg-zinc-950 border border-zinc-800 text-zinc-300 px-2 py-0.5 rounded">
@@ -186,8 +209,8 @@ export default function NovelDashboard() {
 
                 <div>
                   <div className="flex items-center justify-between text-xs text-zinc-400 pb-4 mb-4 border-b border-zinc-800">
-                    <span>저자: {novel.author}</span>
-                    <span>구조: {novel.acts ? novel.acts.length : 0}개 막 / {novel.acts ? novel.acts.reduce((acc: number, a: any) => acc + (a.chapters ? a.chapters.length : 0), 0) : 0}개 장</span>
+                    <span>Author: {novel.author}</span>
+                    <span>Structure: {novel.acts ? novel.acts.length : 0} Acts / {novel.acts ? novel.acts.reduce((acc: number, a: any) => acc + (a.chapters ? a.chapters.length : 0), 0) : 0} Chapters</span>
                   </div>
 
                   <div className="flex gap-2">

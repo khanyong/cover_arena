@@ -40,7 +40,7 @@ import { NovelSideBySideDiff } from '../../components/NovelPlatform/NovelSideByS
 import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGlossary';
 import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
 import { LocationGlossary } from '../../components/NovelPlatform/LocationGlossary';
-import { novels } from '../../shared/lib/supabase';
+import { novels, auth } from '../../shared/lib/supabase';
 
 export default function NovelStudioPage() {
   const router = useRouter();
@@ -48,6 +48,22 @@ export default function NovelStudioPage() {
   const novelId = Array.isArray(slug) ? slug[0] : slug;
   const lang = Array.isArray(slug) && slug.length > 1 ? slug[1] : 'ko';
   const dbSlug = lang === 'en' ? `${novelId}-en` : (novelId || '');
+
+  const [isAuthChecking, setIsAuthChecking] = useState(true);
+
+  // 인증 확인
+  useEffect(() => {
+    if (!router.isReady) return;
+    const checkAuth = async () => {
+      const user = await auth.getCurrentUser();
+      if (!user) {
+        router.replace('/auth');
+      } else {
+        setIsAuthChecking(false);
+      }
+    };
+    checkAuth();
+  }, [router.isReady]);
 
   // 소설 데이터 state (기본값: initialNovelData)
   const [novel, setNovel] = useState<NovelDetails>(() => {
@@ -93,12 +109,12 @@ export default function NovelStudioPage() {
               for (const ch of act.chapters) {
                 // 기존 paragraphs가 있다면 scene 1을 만들어서 넣는다
                 if (ch.paragraphs && ch.paragraphs.length > 0 && (!ch.scenes || ch.scenes.length === 0)) {
-                  ch.scenes = [{
-                    id: `scene-${act.number}-${ch.number}-1`,
-                    number: 1,
-                    title: `SCENE 1`,
-                    paragraphs: ch.paragraphs
-                  }];
+                  ch.scenes = ch.paragraphs.map((p, idx) => ({
+                    id: `scene-${act.number}-${ch.number}-${idx + 1}`,
+                    number: idx + 1,
+                    title: `SCENE ${idx + 1}`,
+                    paragraphs: [p]
+                  }));
                   delete ch.paragraphs;
                 } else if (!ch.scenes || ch.scenes.length === 0) {
                   // If scenes are completely empty and paragraphs are missing (corrupted state), try to recover from initialNovelData
@@ -480,13 +496,26 @@ export default function NovelStudioPage() {
       isNavigating.current = false;
     }, 1000);
   };
-
   const toggleChapterExpansion = (targetId: string) => {
     setExpandedChapters(prev => ({
       ...prev,
       [targetId]: !prev[targetId]
     }));
   };
+
+
+
+  // ===== 14. 렌더링 =====
+  
+  if (isAuthChecking) {
+    return (
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+        <div className="text-amber-500 animate-pulse text-lg font-bold">
+          Verifying access...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950">
