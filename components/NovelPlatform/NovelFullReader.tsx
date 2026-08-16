@@ -531,6 +531,15 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         <h4 className="text-sm font-semibold text-zinc-500 font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1">
                           {getSceneTitle(scene, customVersionMap)}
                         </h4>
+                        {onDeleteScene && (
+                          <button
+                            onClick={() => onDeleteScene(act.number, ch.number, scene.id)}
+                            className="ml-2 text-[10px] bg-zinc-800 hover:bg-red-900/50 text-zinc-400 hover:text-red-200 px-2 py-1 rounded opacity-0 group-hover/scene:opacity-100 transition-opacity font-sans"
+                            title="이 씬을 삭제합니다"
+                          >
+                            🗑️ 씬 삭제
+                          </button>
+                        )}
                       </div>
                       
                       <div className="space-y-4">
