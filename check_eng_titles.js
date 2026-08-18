@@ -7,14 +7,10 @@ const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 async function check() {
-  const { data, error } = await supabase.from('novel_documents').select('data').eq('slug', 'spatial-vibration-novel').single();
-  if (error) console.error(error);
-  
+  const { data } = await supabase.from('novel_documents').select('data').eq('slug', 'quantum-vibration-novel-en').single();
   const act3 = data.data.acts.find(a => a.number === 3);
+  console.log("Act 3 Title:", act3.title);
   const ch2 = act3.chapters.find(c => c.number === 2);
-  
-  console.log("Act 3 Chapter 2 Scenes:");
-  console.log(ch2.scenes.map(s => ({ id: s.id, number: s.number })));
+  console.log("Chapter 2 Title:", ch2.title);
 }
-
 check();

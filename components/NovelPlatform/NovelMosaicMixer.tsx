@@ -22,6 +22,9 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
 
     for (const act of novel.acts) {
       fullText += `# ${act.title}\n\n`;
+      if (act.summary) {
+        fullText += `${act.summary}\n\n`;
+      }
       for (const ch of act.chapters) {
         fullText += `## ${ch.title}\n\n`;
         if (ch.synopsis) {
@@ -59,6 +62,9 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
 
   const buildActText = (act: any) => {
     let actText = `# ${act.title}\n\n`;
+    if (act.summary) {
+      actText += `${act.summary}\n\n`;
+    }
     for (const ch of act.chapters) {
       actText += `## ${ch.title}\n\n`;
       if (ch.synopsis) {
