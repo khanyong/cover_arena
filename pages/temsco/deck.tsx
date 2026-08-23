@@ -292,7 +292,7 @@ export default function TemscoDeckPage() {
             </div>
             <h1 className="leading-tight mb-7 flex flex-col items-start">
               <span className="text-[34px] font-bold text-slate-800 tracking-tight mb-1">
-                박막 타겟 소재 × 진공 메탈마스크,
+                박막 코팅 소재 × 진공 메탈마스크,
               </span>
               <span className="text-[44px] font-black text-blue-700 tracking-tight mb-1">
                 반도체·디스플레이 산업의 글로벌
@@ -302,7 +302,7 @@ export default function TemscoDeckPage() {
               </span>
             </h1>
             <p className="text-lg text-slate-700 mb-7 font-medium leading-relaxed max-w-3xl bg-white/60 p-4 rounded-xl border border-slate-200 shadow-xs">
-              템스코의 고순도 박막 타겟 기술력과 정밀 메탈마스크 제조 역량을 결합하여 업계 유일의 &apos;소재-정밀가공-코팅-세정&apos; 원스톱 일원화 체계를 완성했습니다. 삼성·LG 및 글로벌 패널사의 1차 핵심 파트너로 도약합니다.
+              템스코의 고순도 박막 코팅 소재 기술력과 정밀 메탈마스크 제조 역량을 결합하여 업계 유일의 &apos;소재-정밀가공-코팅-세정&apos; 원스톱 일원화 체계를 완성했습니다. 삼성·LG 및 글로벌 패널사의 1차 핵심 파트너로 도약합니다.
             </p>
             <div className="mt-auto w-full flex justify-between items-end border-t border-slate-300 pt-5 pb-2">
               <div>
@@ -388,7 +388,7 @@ export default function TemscoDeckPage() {
                     <div className="flex items-start gap-4">
                       <span className="bg-slate-200 text-slate-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">특수강</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">고청정 Ni특수강 및 SUS420 비철소재</p>
+                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">Ni 특수강 및 SUS420 비철소재</p>
                         <p className="text-[13px] text-slate-500 leading-snug">고진공 챔버 및 정밀 가공 부품용 신뢰성 기초 소재 네트워크 구축.</p>
                       </div>
                     </div>
@@ -472,7 +472,7 @@ export default function TemscoDeckPage() {
                 </div>
                 <div className="w-1/3 border-r border-slate-600 px-8">
                   <h4 className="text-xl font-bold text-emerald-400 mb-3 flex items-center"><i className="fa-solid fa-boxes-stacked mr-2"></i>소재-부품 융합 확장</h4>
-                  <p className="text-[14px] text-slate-300 leading-relaxed font-medium break-keep">마스크 1차 승격을 지렛대 삼아 박막 타겟 소재(Al, Mo 등)까지 1차 직납 확정.</p>
+                  <p className="text-[14px] text-slate-300 leading-relaxed font-medium break-keep">마스크 1차 벤더를 지렛대 삼아 박막 코팅 소재까지 1차 벤더 확정.</p>
                 </div>
                 <div className="w-1/3 pl-8">
                   <h4 className="text-xl font-bold text-purple-400 mb-3 flex items-center"><i className="fa-solid fa-handshake-angle mr-2"></i>이익률 극대화 실현</h4>
