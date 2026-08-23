@@ -157,9 +157,14 @@ export default function TemscoDeckPage() {
             z-index: 100;
           }
 
+          @page {
+            size: A4 landscape;
+            margin: 0mm !important;
+          }
+
           @media print {
             @page {
-              size: 297mm 210mm;
+              size: A4 landscape;
               margin: 0mm !important;
             }
             html, body { 
