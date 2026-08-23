@@ -1111,9 +1111,49 @@ export default function TemscoDeckPage() {
                   <span className="text-xs text-slate-500 font-bold">조달 금액 기준</span>
                 </div>
                 
-                <div className="flex justify-center my-1.5">
-                  {/* CSS Donut Chart */}
-                  <div className="w-36 h-36 conic-donut shadow-md border border-slate-200 rounded-full"></div>
+                <div className="flex justify-center my-2">
+                  {/* Robust SVG Donut Chart */}
+                  <div className="relative w-36 h-36 flex items-center justify-center filter drop-shadow-sm">
+                    <svg viewBox="0 0 160 160" className="w-full h-full transform -rotate-90">
+                      {/* Segment 1: 설비 투자 40% (약 20억) - #1e3a8a */}
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="58"
+                        fill="transparent"
+                        stroke="#1e3a8a"
+                        strokeWidth="26"
+                        strokeDasharray="145.77 218.66"
+                        strokeDashoffset="0"
+                      />
+                      {/* Segment 2: 운영 자금 40% (약 20억) - #3b82f6 */}
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="58"
+                        fill="transparent"
+                        stroke="#3b82f6"
+                        strokeWidth="26"
+                        strokeDasharray="145.77 218.66"
+                        strokeDashoffset="-145.77"
+                      />
+                      {/* Segment 3: R&D 및 신사업 20% (약 10억) - #9ca3af */}
+                      <circle
+                        cx="80"
+                        cy="80"
+                        r="58"
+                        fill="transparent"
+                        stroke="#9ca3af"
+                        strokeWidth="26"
+                        strokeDasharray="72.88 291.55"
+                        strokeDashoffset="-291.55"
+                      />
+                    </svg>
+                    <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
+                      <span className="text-[10px] font-black text-slate-400 leading-none">TOTAL</span>
+                      <span className="text-[15px] font-black text-slate-800 leading-tight">50억</span>
+                    </div>
+                  </div>
                 </div>
                 
                 {/* Legend & Text */}
