@@ -815,15 +815,15 @@ export default function TemscoDeckPage() {
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
                     <td className="py-1 text-left pl-8 border-r border-slate-200">└ 마스크 부문 매출원가</td>
-                    <td>86.5</td><td>103.2</td><td>134.4</td><td>194.0</td><td>233.1</td><td>297.4</td>
+                    <td>86.5</td><td>103.2</td><td>128.0</td><td>184.8</td><td>222.0</td><td>283.2</td>
                   </tr>
                   <tr className="border-b-2 border-indigo-200 bg-indigo-50/40 text-indigo-950 font-bold">
-                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-indigo-900">└ 마스크 매출총이익 (14.0~16.0%)</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-indigo-900">└ 마스크 매출총이익 (14.0~20.0%)</td>
                     <td>14.1 (14.0%)</td><td>16.8 (14.0%)</td>
-                    <td className="text-indigo-700 font-bold">25.6 (16.0%)</td>
-                    <td className="font-bold">37.0 (16.0%)</td>
-                    <td className="font-bold">44.4 (16.0%)</td>
-                    <td className="font-bold">56.6 (16.0%)</td>
+                    <td className="text-indigo-700 font-bold">32.0 (20.0%)</td>
+                    <td className="font-bold">46.2 (20.0%)</td>
+                    <td className="font-bold">55.5 (20.0%)</td>
+                    <td className="font-bold">70.8 (20.0%)</td>
                   </tr>
 
                   {/* Segment 2: Coating Material */}
@@ -840,15 +840,15 @@ export default function TemscoDeckPage() {
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
                     <td className="py-1 text-left pl-8 border-r border-slate-200">└ 소재 부문 매출원가</td>
-                    <td>271.7</td><td>209.5</td><td>197.6</td><td>237.6</td><td>264.9</td><td>283.6</td>
+                    <td>271.7</td><td>209.5</td><td>204.0</td><td>246.8</td><td>276.0</td><td>297.8</td>
                   </tr>
                   <tr className="border-b-2 border-blue-200 bg-blue-50/40 text-blue-950 font-bold">
-                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-blue-900">└ 소재 매출총이익 (9.1~18.0%)</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-blue-900">└ 소재 매출총이익 (9.1~15.0%)</td>
                     <td>26.3 (8.8%)</td><td>21.0 (9.1%)</td>
-                    <td className="text-blue-700 font-bold">42.4 (17.7%)</td>
-                    <td className="font-bold">51.4 (17.8%)</td>
-                    <td className="font-bold">57.6 (17.9%)</td>
-                    <td className="font-bold">62.4 (18.0%)</td>
+                    <td className="text-blue-700 font-bold">36.0 (15.0%)</td>
+                    <td className="font-bold">42.2 (14.6%)</td>
+                    <td className="font-bold">46.5 (14.4%)</td>
+                    <td className="font-bold">48.2 (13.9%)</td>
                   </tr>
 
                   {/* Total Consolidation */}
@@ -940,7 +940,7 @@ export default function TemscoDeckPage() {
                 </div>
                 <div className="bg-white/95 p-2.5 px-3.5 rounded-xl border border-blue-100 mt-2 text-[12px] text-blue-950 font-bold text-left shadow-xs break-keep flex items-start gap-1.5">
                   <span className="select-none flex-shrink-0">💡</span>
-                  <span><b>소재·부품 수직계열화 시너지:</b> 마진율 18.0% 유지 및 연 300억대 안정적 기초 체력 확보</span>
+                  <span><b>소재·부품 수직계열화 시너지:</b> 마스크 부문 20.0% 고마진 실현 및 소재 부문 연 300억대 안정적 기초 체력 확보</span>
                 </div>
               </div>
             </div>
