@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주식회사 템스코 (TEMSCO) 투자제안서</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <style>
+        :root {
+            /* A4 Landscape dimensions (297mm x 210mm) at 96 DPI */
+            --slide-width: 1123px;
+            --slide-height: 794px;
+        }
+        body { 
+            font-family: 'Noto Sans KR', sans-serif; 
+            background-color: #f1f5f9; /* 배경을 약간 회색으로 두어 슬라이드가 돋보이게 함 */
+            margin: 0; 
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            counter-reset: slide-page; /* 페이지 번호 카운터 초기화 */
+        }
+        
+        .slide { 
+            width: var(--slide-width); 
+            height: var(--slide-height); 
+            background-color: #ffffff; 
+            position: relative; 
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1); 
+            overflow: hidden; 
+            flex-shrink: 0;
+            border: 1px solid #cbd5e1;
+            box-sizing: border-box;
+            counter-increment: slide-page; /* 슬라이드마다 카운터 1씩 증가 */
+        }
+
+        /* 우측 하단 자동 페이지 번호 삽입 (PDF 인쇄 시에도 유지됨) */
+        .slide::after {
+            content: counter(slide-page);
+            position: absolute;
+            bottom: 24px;
+            right: 48px;
+            font-size: 15px;
+            font-weight: 700;
+            color: #94a3b8; /* 본문을 방해하지 않는 연한 slate-400 색상 */
+            z-index: 100;
+        }
+
+        /* Infographic Specific Styles */
+        .conic-donut { 
+            background: conic-gradient(#1e3a8a 0% 40%, #3b82f6 40% 80%, #9ca3af 80% 100%); 
+            border-radius: 50%; 
+            position: relative;
+        }
+        .conic-donut::after {
+            content: ""; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 55%; height: 55%; background-color: white; border-radius: 50%;
+        }
+
+        /* Print Settings for strictly A4 Landscape */
+        @media print {
+            @page {
+                size: A4 landscape; /* 브라우저에 A4 가로 인쇄를 강제함 */
+                margin: 0mm; /* 여백 제거 */
+            }
+            body { 
+                background-color: white; 
+                padding: 0; 
+                margin: 0;
+                gap: 0; 
+                display: block; 
+            }
+            .slide { 
+                width: 297mm !important; 
+                height: 209.5mm !important; /* 다음 장으로 빈 페이지가 넘어가는 것을 방지하기 위해 210mm에서 미세 조정 */
+                box-shadow: none; 
+                border: none;
+                margin: 0; 
+                page-break-after: always; 
+                page-break-inside: avoid;
+            }
+            #print-guide { display: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="print-guide" class="bg-white border border-slate-300 p-4 rounded-lg flex justify-between items-center shadow-md mb-4" style="width: var(--slide-width);">
+        <div>
+            <h3 class="font-bold text-lg text-slate-800"><i class="fa-solid fa-file-pdf mr-2 text-red-500"></i>A4 PDF 출력 가이드</h3>
+            <p class="text-sm text-slate-600">브라우저 인쇄(Ctrl+P 또는 Cmd+P) 실행 ➔ <b>[대상: PDF로 저장], [방향: 가로], [용지 크기: A4], [여백: 없음]</b>으로 설정하세요.</p>
+        </div>
+        <button onclick="window.print()" class="px-6 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded font-bold transition flex items-center shadow-sm">
+            <i class="fa-solid fa-print mr-2"></i>지금 PDF로 저장
+        </button>
+    </div>
+
+    <div class="slide bg-white">
+        <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-white/95 to-slate-100/90"></div>
+        <div class="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-bl-full opacity-50 -z-0"></div>
+        <div class="relative z-10 flex flex-col items-start justify-start h-full px-24 pt-32">
+            <div class="border-l-4 border-blue-600 pl-6 mb-8">
+                <h2 class="text-2xl text-blue-700 font-bold tracking-widest uppercase">TEMSCO Investment Proposal</h2>
+                <p class="text-slate-500 mt-2 font-medium">CONFIDENTIAL - For Investors Only</p>
+            </div>
+            <h1 class="text-[3.5rem] font-black leading-tight mb-8 text-slate-900">
+                일시적 재무 착시를 넘어,<br>
+                <span class="text-blue-700">반도체 및 디스플레이 산업의 글로벌 TIER-1 소부장 파트너</span>로의 폭발적 도약
+            </h1>
+            <p class="text-xl text-slate-700 mb-12 font-medium leading-relaxed max-w-3xl bg-white/60 p-4 rounded-lg border border-slate-200">
+                2차 벤더의 구조적 한계를 탈피하고, 박막코팅소재와 정밀 부품(메탈마스크)의 일괄 공급망을 완성했습니다. ㈜템스코는 압도적인 기술 시너지를 바탕으로 삼성·LG 및 글로벌 패널 메이커의 1차 핵심 파트너로 진화하고 있습니다.
+            </p>
+            <div class="mt-auto pb-12 w-full flex justify-between items-end border-t border-slate-300 pt-6">
+                <div>
+                    <p class="text-2xl font-bold tracking-wide text-slate-800">주식회사 템스코 (TEMSCO, Ltd.)</p>
+                    <p class="text-sm text-slate-500 mt-1">CEO 오정석 | 설립일: 2010. 10. 22</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-lg text-slate-600 font-bold">2026. 0.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-white">
+        <div class="h-full flex flex-col p-12">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Executive Summary : 비즈니스 하이라이트</h2>
+            <div class="grid grid-cols-2 gap-5 h-full pb-2">
+                
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
+                    <div class="text-blue-600 text-[1.75rem] mb-3"><i class="fa-solid fa-shield-halved"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">The Crisis & Overcome</h3>
+                    <p class="text-gray-700 text-[14px] leading-relaxed">
+                        <b>과감한 상각 처리를 통한 리스크 완전 소멸</b><br>
+                        2025년 주요 거래처인 파인원의 흑자부도로 약 75억 원의 미회수 채권이 발생했습니다. 템스코는 이를 이연시키지 않고 <b>68.2억 원을 대손상각(비용)으로 일시 반영</b>하는 정면 돌파를 택했습니다. 이로 인해 장부상 부채비율은 급증했으나, 회사의 잠재적 불확실성과 회계적 리스크는 선제적으로 완전 소멸되었습니다.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
+                    <div class="text-indigo-600 text-[1.75rem] mb-3"><i class="fa-solid fa-object-group"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">The Game Changer</h3>
+                    <p class="text-gray-700 text-[14px] leading-relaxed">
+                        <b>M&A를 통한 소부장 수직 계열화 완성</b><br>
+                        2024년 3월, 진공증착설비에 사용되는 핵심정밀부품인 메탈마스크 전문기업 <b>위폼스㈜ 경영권(지분 75%)을 전격 인수</b>했습니다. 단순 박막 코팅소재 공급을 넘어 '소재+부품' 일괄 솔루션을 제공하는 밸류체인을 구축함으로써, 글로벌 고객사들이 요구하는 Tier-1 자격을 획득하는 결정적 전환점을 마련했습니다.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
+                    <div class="text-emerald-600 text-[1.75rem] mb-3"><i class="fa-solid fa-handshake-angle"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">The Traction</h3>
+                    <p class="text-gray-700 text-[14px] leading-relaxed">
+                        <b>글로벌 1차 벤더 직납 확정 및 폭발적 수주</b><br>
+                        중간 벤더(파인원)의 부재를 기회로 삼아 <b>삼성/LG디스플레이 1차 벤더로 직납 지위를 확보</b>했습니다. 삼성 디스플레이 27년 양산 신모델 4개 선정을 완료하였고, LG 디스플레이 최우선협상 메인업체로 선정되었습니다. 또한 중국 비전옥스와 양산 대체 물량 30% 배정을 확정 지었습니다.
+                    </p>
+                </div>
+
+                <div class="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
+                    <div class="text-slate-700 text-[1.75rem] mb-3"><i class="fa-solid fa-chart-line"></i></div>
+                    <h3 class="text-xl font-bold mb-2 text-slate-800">The Vision</h3>
+                    <p class="text-gray-700 text-[14px] leading-relaxed">
+                        <b>2026년 매출 400억 달성 및 반도체 스케일업</b><br>
+                        일회성 상각 비용을 제외한 템스코의 2025년 본업 실질 영업이익은 11.8억 원(흑자)으로 펀더멘털을 유지하고 있습니다. 확정된 디스플레이 수주 물량을 통해 <b>26년 매출 400억 원 달성을 가시화</b>하고, 향후 반도체용 HF가스용 봄베, 고순도CuMn 스퍼터링타겟, 전력반도체모듈 전용 구리기판 등의 시장에도 진입할 것입니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-slate-50">
+        <div class="h-full flex flex-col p-14 relative z-10">
+            <h2 class="text-[2.2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-8 inline-block w-max">Company Overview & Milestones</h2>
+            
+            <div class="flex flex-1 gap-10 items-stretch">
+                <!-- Left Column: Mission & Core Business -->
+                <div class="w-[45%] flex flex-col gap-5">
+                    <!-- Mission Box -->
+                    <div class="bg-blue-50/60 border border-blue-100 rounded-xl p-8 border-l-[10px] border-l-blue-600 shadow-sm relative h-[45%]">
+                        <p class="text-blue-600 font-bold text-sm tracking-widest mb-2 uppercase">Our Mission</p>
+                        <h3 class="text-[1.6rem] font-black text-slate-900 leading-tight mb-4 tracking-tight">"우리는 사업을 창출하고<br>연결하여 완성한다"</h3>
+                        <p class="text-[13px] text-slate-700 leading-relaxed font-medium">
+                            템스코는 단순한 부품 납품업체가 아닙니다. 국내외 유수한 소재 메이커와의 협업 R&D를 통해 디스플레이와 반도체 공정에 필수적인 핵심 소재를 발굴하고, 이를 장비 부품과 결합하여 고객사에게 최적화된 통합 솔루션을 '연결'하고 '완성'합니다.
+                        </p>
+                    </div>
+
+                    <!-- Business Box -->
+                    <div class="bg-white border border-slate-200 rounded-xl p-7 shadow-sm h-[55%]">
+                        <h4 class="font-bold text-lg text-slate-800 mb-4 border-b border-slate-100 pb-3 flex items-center">
+                            <i class="fa-solid fa-layer-group text-blue-600 mr-2"></i>핵심 사업 영역
+                        </h4>
+                        <div class="flex flex-col gap-5">
+                            <!-- Item 1 -->
+                            <div class="flex items-start gap-4">
+                                <span class="bg-blue-100 text-blue-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">박막코팅재료</span>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-[15px] mb-0.5">박막코팅소재 (Array Layer)</p>
+                                    <p class="text-[13px] text-slate-500 leading-snug">반도체 및 디스플레이 미세 선폭 배선막용 핵심 소재. 알루미늄, 몰리브덴 타겟 등.</p>
+                                </div>
+                            </div>
+                            <!-- Item 2 -->
+                            <div class="flex items-start gap-4">
+                                <span class="bg-indigo-100 text-indigo-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">부품</span>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-[15px] mb-0.5">정밀 메탈마스크 (위폼스)</p>
+                                    <p class="text-[13px] text-slate-500 leading-snug">OLED 진공증착설비에 사용되는 메탈마스크. 고객사 수율을 좌우하는 핵심부품.</p>
+                                </div>
+                            </div>
+                            <!-- Item 3 -->
+                            <div class="flex items-start gap-4">
+                                <span class="bg-slate-200 text-slate-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">소재</span>
+                                <div>
+                                    <p class="font-bold text-slate-900 text-[15px] mb-0.5">특수강 및 비철소재</p>
+                                    <p class="text-[13px] text-slate-500 leading-snug">진공 부품용 Ni특수강, SUS420 등 고신뢰성 기초 소재 벤더 네트워크.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Milestone Chart -->
+                <div class="w-[55%] flex flex-col justify-end pt-4 pb-2">
+                    <!-- Title Box -->
+                    <div class="relative bg-slate-50/50 border border-slate-200 rounded-xl p-4 text-center w-[90%] mx-auto mb-10">
+                        <h3 class="font-black text-[1.1rem] text-slate-800">2차 벤더에서 글로벌 Tier-1으로의 진화 로드맵</h3>
+                        <div class="absolute -top-4 -right-10 text-blue-600 font-black text-[1.1rem] bg-slate-50 px-2 tracking-wide">Tier-1 Leap!</div>
+                    </div>
+
+                    <!-- Chart Container -->
+                    <div class="flex-1 flex flex-col justify-end relative h-[320px]">
+                        <div class="flex items-end h-[280px] gap-3 px-2">
+                            <!-- Bar 1 -->
+                            <div class="w-1/4 h-[35%] bg-[#f1f5f9] border border-slate-200 rounded-t-lg flex flex-col items-center justify-center px-1 py-3 text-center shadow-sm">
+                                <p class="text-[11px] font-bold text-slate-700 leading-relaxed whitespace-nowrap tracking-tight">창업 및 안정적 성장<br><span class="font-medium text-[10px] mt-1.5 block">(2차 벤더 기반)</span></p>
+                            </div>
+                            <!-- Bar 2 -->
+                            <div class="w-1/4 h-[55%] bg-[#eff6ff] border border-blue-200 rounded-t-lg flex flex-col items-center justify-center px-1 py-3 text-center relative shadow-sm">
+                                <div class="absolute -top-8 bg-[#e0e7ff] text-[#3730a3] text-[10px] font-bold px-2 py-1 rounded shadow-sm whitespace-nowrap">M&A 모멘텀</div>
+                                <i class="fa-solid fa-building-circle-check text-blue-500 text-2xl mb-2"></i>
+                                <p class="text-[11px] font-bold text-blue-900 leading-relaxed whitespace-nowrap tracking-tight">위폼스㈜ 경영권 인수<br><span class="font-medium text-[10px] text-blue-700 mt-1.5 block">(메탈마스크 역량 확보)</span></p>
+                            </div>
+                            <!-- Bar 3 -->
+                            <div class="w-1/4 h-[80%] bg-[#3b4758] rounded-t-lg flex flex-col items-center justify-start pt-6 px-1 py-3 text-center relative shadow-md">
+                                <div class="absolute -top-8 bg-[#fee2e2] border border-red-200 text-[#b91c1c] text-[10px] font-bold px-2 py-1 rounded shadow-sm whitespace-nowrap">리스크 선제 해소</div>
+                                <i class="fa-solid fa-broom text-red-400 text-[1.4rem] mb-3"></i>
+                                <p class="text-[11px] font-bold text-white leading-relaxed whitespace-nowrap tracking-tight">파인원 75억 미회수 건<br>선제적 결산 상각 반영<br><span class="font-medium text-[10px] text-slate-300 mt-2 block">(부실 자산 완전 제각)</span></p>
+                            </div>
+                            <!-- Bar 4 -->
+                            <div class="w-1/4 h-[100%] bg-[#2563eb] rounded-t-lg flex flex-col items-center justify-start pt-6 px-1 py-3 text-center relative shadow-md">
+                                <i class="fa-solid fa-earth-asia text-white text-3xl mb-3"></i>
+                                <p class="text-[12px] font-bold text-white leading-relaxed mb-4 whitespace-nowrap tracking-tight">글로벌 1차 벤더<br>양산 개시</p>
+                                <div class="bg-white w-[95%] rounded p-1 shadow-sm">
+                                    <p class="text-[10px] font-bold text-blue-800 leading-tight whitespace-nowrap tracking-tight">삼성, LG, AMAT,<br>Visionox, CSOT</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- X-Axis Dates -->
+                        <div class="flex items-center gap-3 px-2 mt-4 border-t border-slate-300 pt-2">
+                            <div class="w-1/4 text-center text-[13px] font-bold text-slate-600">2010 ~ 2023</div>
+                            <div class="w-1/4 text-center text-[13px] font-bold text-blue-600">24. 03</div>
+                            <div class="w-1/4 text-center text-[13px] font-bold text-slate-800">25. 12</div>
+                            <div class="w-1/4 text-center text-[13px] font-black text-blue-800">26. 01 ~</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-white">
+        <div class="h-full flex flex-col p-14 relative z-10">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-10 inline-block w-max">Core Competency : 2차 벤더의 한계를 넘어선 '소재-부품 통합 시너지'</h2>
+            
+            <div class="flex-1 flex flex-col justify-between pb-6">
+                <!-- Puzzle / Gear Diagram -->
+                <div class="flex items-center justify-center gap-8 h-full">
+                    <!-- Before -->
+                    <div class="w-[30%] bg-slate-50 border border-slate-200 p-8 rounded-2xl shadow-sm text-center">
+                        <span class="bg-slate-200 text-slate-600 font-bold px-3 py-1 rounded text-sm mb-4 inline-block">과거 (Before)</span>
+                        <div class="w-24 h-24 bg-white rounded-full mx-auto mb-6 flex items-center justify-center text-3xl text-slate-400 border border-slate-200 shadow-sm"><i class="fa-solid fa-link-slash"></i></div>
+                        <h4 class="font-bold text-xl text-slate-700 mb-2">단일 품목 2차 벤더</h4>
+                        <p class="text-[15px] text-slate-500 font-medium">중간 벤더 의존으로 인한 납기 지연 및 원가 마진의 구조적 한계 노출</p>
+                    </div>
+                    
+                    <div class="text-4xl text-blue-300"><i class="fa-solid fa-angles-right"></i></div>
+                    
+                    <!-- After -->
+                    <div class="w-[60%] flex gap-6 bg-blue-50 border border-blue-200 p-10 rounded-2xl shadow-md relative">
+                        <div class="absolute -top-5 right-10 bg-blue-700 text-white font-bold px-6 py-2 rounded-full shadow-lg text-lg flex items-center">
+                            <i class="fa-solid fa-crown mr-2 text-yellow-300"></i>Tier-1 통합 솔루션 완성
+                        </div>
+                        
+                        <div class="flex-1 bg-white p-6 rounded-xl border border-blue-200 shadow-sm text-center">
+                            <div class="w-20 h-20 bg-blue-50 text-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl border border-blue-100"><i class="fa-solid fa-layer-group"></i></div>
+                            <h4 class="font-black text-2xl text-slate-800 mb-2">템스코 <span class="text-lg font-bold text-slate-500">(TEMSCO)</span></h4>
+                            <p class="font-bold text-blue-700 text-lg bg-blue-50 py-2 rounded leading-snug">박막코팅 재료<br>비철소재</p>
+                        </div>
+                        
+                        <div class="flex items-center justify-center text-4xl text-blue-400 drop-shadow-sm">
+                            <i class="fa-solid fa-plus"></i>
+                        </div>
+
+                        <div class="flex-1 bg-white p-6 rounded-xl border border-indigo-200 shadow-sm text-center">
+                            <div class="w-20 h-20 bg-indigo-50 text-indigo-600 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl border border-indigo-100"><i class="fa-solid fa-microchip"></i></div>
+                            <h4 class="font-black text-2xl text-slate-800 mb-2">위폼스 <span class="text-lg font-bold text-slate-500">(WEFORMS)</span></h4>
+                            <p class="font-bold text-indigo-700 text-lg bg-indigo-50 py-1 rounded">정밀 메탈마스크</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Value Proposition -->
+                <div class="bg-slate-800 text-white p-8 rounded-2xl flex items-start justify-between shadow-lg mt-8">
+                    <div class="w-1/3 border-r border-slate-600 pr-8">
+                        <h4 class="text-xl font-bold text-blue-400 mb-3 flex items-center"><i class="fa-solid fa-stopwatch mr-2"></i>벤더 단축 효과</h4>
+                        <p class="text-[14px] text-slate-300 leading-relaxed font-medium break-keep">중간 마진을 제거하여 고객사의 원가 절감에 기여하고 공급 납기를 최적화합니다.</p>
+                    </div>
+                    <div class="w-1/3 border-r border-slate-600 px-8">
+                        <h4 class="text-xl font-bold text-emerald-400 mb-3 flex items-center"><i class="fa-solid fa-boxes-stacked mr-2"></i>일괄 공급망 구축</h4>
+                        <p class="text-[14px] text-slate-300 leading-relaxed font-medium break-keep">박막코팅 소재부터 정밀 부품까지 진공증착의 핵심 요소를 토탈 프로바이더로 제공하며, 산업영역을 이차전지 및 페로브스카이트 태양전지 등, 사업영역을 확장하고 있습니다.</p>
+                    </div>
+                    <div class="w-1/3 pl-8">
+                        <h4 class="text-xl font-bold text-purple-400 mb-3 flex items-center"><i class="fa-solid fa-handshake-angle mr-2"></i>공동 R&D 파트너</h4>
+                        <p class="text-[14px] text-slate-300 leading-relaxed font-medium break-keep">글로벌 패널 메이커의 차세대 신규 모델(OLED 등) 공동 개발 지위를 확보합니다.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-white">
+        <div class="h-full flex flex-col p-14">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Risk & Resolution : 파인원 사태의 본질과 재무 팩트 체크</h2>
+            <p class="text-[17px] tracking-tight break-keep text-slate-800 mb-8 border-l-4 border-red-600 pl-4 bg-red-50 py-2 border-r border-t border-b border-r-red-100 border-t-red-100 border-b-red-100">
+                "부채비율 1557%의 진실" : 당사의 영업력이나 기술력 훼손이 아닌, 과거 악성 채권 상각에 따른 <b>장부상 자본 감소(회계적 착시)</b>입니다.
+            </p>
+            
+            <div class="flex-1 flex items-stretch justify-between gap-8 pb-4">
+                
+                <!-- Waterfall Chart Container -->
+                <div class="flex-1 bg-white border border-slate-300 shadow-sm rounded-xl p-8 flex items-end justify-center relative">
+                    <div class="absolute top-4 left-6 text-sm font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded border border-slate-200"><i class="fa-solid fa-chart-column mr-2"></i>자본총계 변동 폭포수 차트 (단위: 억원)</div>
+                    
+                    <div class="flex flex-col items-center justify-end h-[300px]">
+                        <span class="text-2xl font-bold text-slate-800 mb-2">104.7억</span>
+                        <div class="w-24 bg-blue-600 rounded-t h-[240px] shadow-sm flex items-end justify-center pb-4 text-white font-bold text-sm">24년 자본총계</div>
+                    </div>
+                    
+                    <!-- Decrement 1 -->
+                    <div class="flex flex-col items-center justify-start h-[300px] pt-[60px]">
+                        <span class="text-xl font-bold text-red-600 mb-2">-68.2억</span>
+                        <div class="w-24 bg-red-500 rounded h-[160px] shadow-sm flex flex-col items-center justify-center text-white font-bold border border-red-600">
+                            <i class="fa-solid fa-arrow-down mb-1"></i>대손상각비
+                        </div>
+                    </div>
+
+                    <!-- Decrement 2 -->
+                    <div class="flex flex-col items-center justify-start h-[300px] pt-[220px]">
+                        <span class="text-sm font-bold text-orange-600 mb-1">-15.4억</span>
+                        <div class="w-24 bg-orange-400 rounded h-[36px] shadow-sm flex items-center justify-center text-white font-bold text-xs border border-orange-500">기타(지분법등)</div>
+                    </div>
+
+                    <div class="flex flex-col items-center justify-end h-[300px]">
+                        <span class="text-2xl font-bold text-slate-800 mb-2">21.0억</span>
+                        <div class="w-24 bg-slate-500 rounded-t h-[44px] shadow-sm flex items-end justify-center pb-2 text-white font-bold text-sm">25년 자본총계</div>
+                    </div>
+                </div>
+
+                <!-- Text Explanation -->
+                <div class="w-[45%] flex flex-col">
+                    <div class="bg-slate-50 border border-slate-200 p-8 rounded-xl shadow-sm h-full flex flex-col justify-center gap-6">
+                        <div class="border-b border-slate-300 pb-5">
+                            <span class="bg-red-100 text-red-800 border border-red-200 font-bold px-3 py-1 rounded text-sm mb-3 inline-block"><i class="fa-solid fa-triangle-exclamation mr-2"></i>이슈의 발생 (Crisis)</span>
+                            <p class="text-slate-700 text-[15px] leading-relaxed">
+                                2025년 9월, 제품 불량이 아닌 고객사(파인원)의 무리한 상장 준비 및 선행투자로 인한 <b>'흑자 부도'</b> 발생. 이에 따라 회수 불투명해진 약 75억 원의 채권 중 <b>68.2억 원을 25년 결산에 대손상각(비용)으로 전액 반영</b>하였습니다.
+                            </p>
+                        </div>
+                        <div>
+                            <span class="bg-blue-100 text-blue-800 border border-blue-200 font-bold px-3 py-1 rounded text-sm mb-3 inline-block"><i class="fa-solid fa-lightbulb mr-2"></i>팩트 체크 및 기회 (Resolution)</span>
+                            <ul class="space-y-3 text-slate-700 text-[15px] leading-relaxed list-none">
+                                <li class="flex items-start"><i class="fa-solid fa-check text-green-600 mt-1 mr-2"></i><span><b>부채 자체의 증가 없음:</b> 25년 총 부채는 328억으로 전년(333억) 대비 감소. 부채비율 폭등은 분모(자본) 감소에 의한 단순 산술적 결과입니다.</span></li>
+                                <li class="flex items-start"><i class="fa-solid fa-check text-green-600 mt-1 mr-2"></i><span><b>현금 유출 없는 회계적 손실:</b> 대손상각은 과거 발생 채권의 제각(Write-off)일 뿐, 당기 영업 현금흐름을 훼손하지 않습니다.</span></li>
+                                <li class="flex items-start"><i class="fa-solid fa-check text-green-600 mt-1 mr-2"></i><span><b>최종 고객사 직납 기회 창출:</b> 중간 벤더 소멸을 기회로 중국 CSOT, 비전옥스 등 최종 패널 메이커의 1차 직납 업체로 진입하는 성과를 거두었습니다.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-slate-50">
+        <div class="h-full flex flex-col p-14 relative z-10">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-4 inline-block w-max">Traction : 글로벌 Top-Tier 양산 파이프라인 확보</h2>
+            <p class="text-slate-700 text-lg mb-8 font-medium">템스코와 위폼스의 결합은 국내외 주요 디스플레이 메이커의 강력한 러브콜로 이어지고 있습니다. (2026년 본격 양산 개시)</p>
+            
+            <div class="grid grid-cols-2 gap-8 flex-1">
+                <!-- Domestic -->
+                <div class="bg-white rounded-2xl p-8 border border-slate-300 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center border-b border-slate-200 pb-3"><i class="fa-solid fa-building-flag text-blue-600 mr-3"></i>국내 메인 고객사 (디스플레이)</h3>
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-black text-xl text-blue-800">S사 (삼성디스플레이)</h4>
+                                <span class="bg-green-100 text-green-800 border border-green-300 text-sm font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-circle-check mr-2"></i>선정 완료</span>
+                            </div>
+                            <ul class="text-sm text-slate-700 space-y-2 mt-3">
+                                <li>• <b>부품:</b> 27년 양산용 메탈마스크 신모델 <b>4개 선정 완료</b> (추가 2개 모델 논의 중)</li>
+                                <li>• <b>소재:</b> 고순도 알루미늄 스퍼터링 타겟 및 Invar 소재 1차 벤더 양산 평가 진행 중</li>
+                            </ul>
+                        </div>
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 shadow-sm">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="font-black text-xl text-red-700">L사 (LG디스플레이)</h4>
+                                <span class="bg-green-100 text-green-800 border border-green-300 text-sm font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-handshake mr-2"></i>메인업체 지정</span>
+                            </div>
+                            <ul class="text-sm text-slate-700 space-y-2 mt-3">
+                                <li>• <b>부품:</b> 1차 벤더 메탈마스크 <b>최우선협상 메인업체 선정</b> (모든 개발모델 최우선 평가권 확보)</li>
+                                <li>• <b>소재:</b> 몰리브덴/알루미늄 스퍼터링 타겟 평가 중 (실버 합금 타겟 추가 계획)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Global -->
+                <div class="bg-white rounded-2xl p-8 border border-slate-300 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-2 bg-emerald-600"></div>
+                    <h3 class="text-2xl font-bold text-slate-800 mb-6 flex items-center border-b border-slate-200 pb-3"><i class="fa-solid fa-globe text-emerald-600 mr-3"></i>글로벌 장비 / 패널 메이커</h3>
+                    <div class="space-y-6">
+                        <div class="bg-slate-50 p-5 rounded-lg border border-slate-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-2">
+                                <div>
+                                    <h4 class="font-black text-xl text-slate-900">Visionox (중국 비전옥스)</h4>
+                                    <p class="text-xs text-slate-500 mt-1 font-bold">OLED 패널 제조</p>
+                                </div>
+                                <span class="bg-blue-100 text-blue-800 border border-blue-300 text-sm font-bold px-3 py-1 rounded-full"><i class="fa-solid fa-boxes-packing mr-2"></i>양산 물량 확보</span>
+                            </div>
+                            <p class="text-sm text-slate-700 mt-3 border-t border-slate-200 pt-3 leading-relaxed">
+                                파인원의 신용불량 공백을 메우기 위해 당사가 <b>직접 대체 업체로 평가 통과.</b><br>양산 공급 물량의 <b>30% 배정 협의 완료</b> (2026년 4분기부터 양산 공급 논의 중).
+                            </p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-1 bg-slate-50 p-5 rounded-lg border border-slate-200 shadow-sm">
+                                <h4 class="font-black text-lg text-slate-900 mb-1">AMAT & emagin (미국)</h4>
+                                <p class="text-xs text-slate-500 mb-3 font-bold">진공장비 / 마이크로 디스플레이</p>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded border border-yellow-300">시양산 개시</span>
+                            </div>
+                            <div class="flex-1 bg-slate-50 p-5 rounded-lg border border-slate-200 shadow-sm">
+                                <h4 class="font-black text-lg text-slate-900 mb-1">CSOT (중국)</h4>
+                                <p class="text-xs text-slate-500 mb-3 font-bold">OLED 패널 제조</p>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-bold px-2 py-1 rounded border border-yellow-300">물량 배정 논의 중</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-white">
+        <div class="h-full flex flex-col p-14">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Financial Turnaround : 데이터로 증명하는 본질적 수익성</h2>
+            <p class="text-lg text-slate-800 mb-8 border-l-4 border-blue-600 pl-4 bg-blue-50 py-2 font-medium border-r border-t border-b border-blue-100">
+                2025년 감사보고서 기준, 영업손실(-51.9억)은 판관비에 포함된 일회성 대손상각비(63.7억) 때문입니다. 이를 환원하면 <b>당사의 실제 본업 영업이익(Adjusted OP)은 +11.8억 원 흑자</b>입니다.
+            </p>
+            
+            <div class="flex-1 flex items-start justify-center gap-12 mt-4">
+                
+                <!-- Bridge Chart -->
+                <div class="w-[55%] relative h-[380px] border-b-2 border-slate-800 flex items-end justify-between px-10 pb-0 bg-slate-50 rounded-xl pt-10 border border-t-slate-200 border-l-slate-200 border-r-slate-200 shadow-sm">
+                    <!-- Zero Line Label -->
+                    <div class="absolute left-4 top-[170px] text-sm font-bold text-slate-600 bg-white px-2 py-1 rounded border border-slate-300">0 (손익분기)</div>
+                    <div class="absolute w-full left-0 h-px bg-slate-400 border-b border-dashed border-slate-500 top-[180px] z-0"></div>
+
+                    <!-- Bar 1: Reported Loss -->
+                    <div class="relative z-10 flex flex-col items-center justify-start h-full pt-[180px]">
+                        <div class="w-24 bg-red-500 rounded-b h-[90px] shadow-sm flex items-start justify-center pt-2 text-white font-bold relative border border-red-600">
+                        </div>
+                        <span class="text-lg font-bold text-red-600 mt-2">-51.9억</span>
+                        <span class="text-slate-800 font-bold whitespace-nowrap text-sm mt-1">장부상 영업손실</span>
+                    </div>
+
+                    <!-- Plus Sign -->
+                    <div class="relative z-10 text-2xl text-slate-500 h-full flex items-center pt-[30px]"><i class="fa-solid fa-plus"></i></div>
+
+                    <!-- Bar 2: Add-back -->
+                    <div class="relative z-10 flex flex-col items-center justify-end h-full pb-[200px]">
+                        <span class="text-lg font-bold text-slate-700 mb-2">+63.7억</span>
+                        <div class="w-24 bg-white border-2 border-dashed border-slate-400 rounded-t h-[110px] shadow-sm flex items-center justify-center text-slate-700 font-bold text-center relative px-1 leading-tight text-sm">
+                            일회성<br>대손상각비
+                            <span class="absolute -bottom-8 text-slate-800 font-bold whitespace-nowrap text-sm">비용 환원(Add-back)</span>
+                        </div>
+                    </div>
+
+                    <!-- Equals Sign -->
+                    <div class="relative z-10 text-2xl text-slate-500 h-full flex items-center pt-[30px]"><i class="fa-solid fa-equals"></i></div>
+
+                    <!-- Bar 3: Adjusted OP -->
+                    <div class="relative z-10 flex flex-col items-center justify-end h-full pb-[200px]">
+                        <span class="text-2xl font-black text-blue-700 mb-2">+11.8억</span>
+                        <div class="w-28 bg-blue-600 rounded-t h-[20px] shadow-sm relative border border-blue-700">
+                            <span class="absolute -bottom-14 w-full text-center text-blue-900 font-black text-base leading-tight">실질 조정<br>영업이익</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financial Context -->
+                <div class="w-[45%] h-full flex flex-col gap-5">
+                    <div class="bg-white border border-slate-200 p-6 rounded-xl shadow-sm">
+                        <h4 class="font-bold text-lg text-slate-800 mb-2 border-b border-slate-200 pb-2 flex items-center"><i class="fa-solid fa-clock-rotate-left mr-2 text-slate-500"></i>과거 펀더멘털 (2024년 결산)</h4>
+                        <ul class="text-sm text-slate-700 space-y-1">
+                            <li>• <b>매출액:</b> 398.5억 원 (CIGS 32% 고성장 이력)</li>
+                            <li>• <b>영업이익:</b> 20.5억 원 (영업이익률 10% 수준)</li>
+                            <li>• 본업 자체는 연 400억 규모를 안정적으로 소화하는 구조.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-blue-50 border border-blue-200 p-6 rounded-xl shadow-sm flex-1">
+                        <h4 class="font-bold text-lg text-blue-900 mb-2 border-b border-blue-200 pb-2 flex items-center"><i class="fa-solid fa-rocket mr-2 text-blue-600"></i>향후 턴어라운드 (2026년 목표)</h4>
+                        <ul class="text-[15px] text-slate-800 space-y-3 mt-3 leading-relaxed font-medium">
+                            <li><b>1. 매출 400억 원 돌파 확정적:</b> 위폼스의 메탈마스크 직납 물량 및 중국 비전옥스 30% 배정 물량이 26년부터 매출로 본격 인식됩니다.</li>
+                            <li><b>2. 1차 벤더 마진율 프리미엄:</b> 중간 벤더를 거치지 않는 직거래 구조 전환으로 원가율이 개선되어 <b>약 8~9% 수준</b>의 수익성 극대화가 예상됩니다.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. Financial Projections (새로 추가된 슬라이드) -->
+    <div class="slide bg-white">
+        <div class="h-full flex flex-col p-14 relative z-10">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-8 inline-block w-max">Financial Projections : 향후 4개년 추정 손익계산 및 성장 전망</h2>
+            <div class="flex-1 flex gap-8">
+                <!-- Left: Key Insights -->
+                <div class="w-[35%] flex flex-col justify-between">
+                    <div>
+                        <p class="text-blue-600 font-bold mb-2 uppercase tracking-wide">Key Highlights</p>
+                        <h3 class="text-3xl font-black text-slate-900 leading-tight mb-6">2029년 매출 <span class="text-blue-700">700억</span>,<br>영업이익 <span class="text-blue-700">65억</span> 달성</h3>
+                        <div class="space-y-4">
+                            <div class="bg-slate-50 p-4 border border-slate-200 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-slate-800 flex items-center mb-2"><i class="fa-solid fa-arrow-trend-up text-blue-600 mr-2"></i>수주 본격화에 따른 Top-line 폭발</h4>
+                                <p class="text-[13px] text-slate-600 font-medium break-keep">위폼스 메탈마스크 양산 및 해외 고객사 물량 확대로 FY2026년 400억을 시작으로 매년 가파른 두 자릿수 매출 성장을 기록합니다.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 border border-slate-200 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-slate-800 flex items-center mb-2"><i class="fa-solid fa-won-sign text-emerald-600 mr-2"></i>일회성 요인 소멸 및 즉각적 흑자</h4>
+                                <p class="text-[13px] text-slate-600 font-medium break-keep">당기(25년)의 63.7억 원 대손상각 악재가 해소되는 즉시, FY2026 영업이익 31.5억(7.9%)을 기록하며 강력한 이익 창출력을 회복합니다.</p>
+                            </div>
+                            <div class="bg-slate-50 p-4 border border-slate-200 rounded-lg shadow-sm">
+                                <h4 class="font-bold text-slate-800 flex items-center mb-2"><i class="fa-solid fa-gem text-purple-600 mr-2"></i>Tier-1 프리미엄 이익률 진입</h4>
+                                <p class="text-[13px] text-slate-600 font-medium break-keep">중간 벤더 마진 구조를 탈피하여 직납 체계가 안정화되는 FY2029 기준, 15.0%의 매출총이익률과 9.3%의 영업이익률을 달성합니다.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Chart & Table -->
+                <div class="w-[65%] bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col justify-between shadow-sm">
+                    
+                    <div class="flex justify-end gap-5 mb-1 pr-4">
+                        <div class="flex items-center text-[12px] font-bold text-slate-600"><span class="w-3 h-3 bg-blue-500 rounded-sm mr-1.5 shadow-sm"></span>매출액</div>
+                        <div class="flex items-center text-[12px] font-bold text-slate-600"><span class="w-3 h-3 bg-blue-100 border border-blue-300 rounded-sm mr-1.5 shadow-sm"></span>영업이익</div>
+                        <div class="flex items-center text-[12px] font-bold text-slate-600">
+                            <span class="w-5 border-t-2 border-orange-500 relative mr-1.5 flex items-center justify-center">
+                                <span class="absolute w-2 h-2 bg-white border-2 border-orange-500 rounded-full"></span>
+                            </span>
+                            영업이익률
+                        </div>
+                    </div>
+
+                    <!-- Chart Area (Bar: Sales) -->
+                    <div class="flex-1 flex items-end justify-around px-4 pb-0 relative h-[250px] mt-2 border-b border-slate-300">
+                        
+                        <!-- SVG Line Graph -->
+                        <svg class="absolute inset-0 w-full h-full z-20 pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                            <polyline points="10,89.6 30,44.2 50,42.8 70,42.2 90,41.4" fill="none" stroke="#f59e0b" stroke-width="1.5" vector-effect="non-scaling-stroke" />
+                        </svg>
+
+                        <!-- Overlay Elements (Dots and Percentages) -->
+                        <div class="absolute inset-0 w-full h-full z-30 pointer-events-none">
+                            <!-- 0% Baseline -->
+                            <div class="absolute w-full border-t border-dashed border-slate-400" style="top: 60%;"></div>
+                            <span class="absolute text-[10px] font-bold text-slate-400 bg-slate-50 px-1 rounded-sm" style="top: calc(60% - 7px); left: 0;">OPM 0%</span>
+
+                            <!-- FY25 Point: Text ABOVE marker -->
+                            <div class="absolute w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full shadow-sm" style="top: 89.6%; left: 10%; transform: translate(-50%, -50%);"></div>
+                            <span class="absolute text-[11px] font-black text-orange-700 bg-white/95 border border-orange-200 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap z-40" style="top: 89.6%; left: 10%; transform: translate(-50%, calc(-100% - 10px));">-14.8%</span>
+
+                            <!-- FY26 Point: Text BELOW marker -->
+                            <div class="absolute w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full shadow-sm" style="top: 44.2%; left: 30%; transform: translate(-50%, -50%);"></div>
+                            <span class="absolute text-[11px] font-black text-orange-700 bg-white/95 border border-orange-200 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap z-40" style="top: 44.2%; left: 30%; transform: translate(-50%, 12px);">7.9%</span>
+
+                            <!-- FY27 Point: Text BELOW marker -->
+                            <div class="absolute w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full shadow-sm" style="top: 42.8%; left: 50%; transform: translate(-50%, -50%);"></div>
+                            <span class="absolute text-[11px] font-black text-orange-700 bg-white/95 border border-orange-200 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap z-40" style="top: 42.8%; left: 50%; transform: translate(-50%, 12px);">8.6%</span>
+
+                            <!-- FY28 Point: Text BELOW marker -->
+                            <div class="absolute w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full shadow-sm" style="top: 42.2%; left: 70%; transform: translate(-50%, -50%);"></div>
+                            <span class="absolute text-[11px] font-black text-orange-700 bg-white/95 border border-orange-200 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap z-40" style="top: 42.2%; left: 70%; transform: translate(-50%, 12px);">8.9%</span>
+
+                            <!-- FY29 Point: Text BELOW marker -->
+                            <div class="absolute w-2.5 h-2.5 bg-white border-2 border-orange-500 rounded-full shadow-sm" style="top: 41.4%; left: 90%; transform: translate(-50%, -50%);"></div>
+                            <span class="absolute text-[11px] font-black text-orange-700 bg-white/95 border border-orange-200 px-1.5 py-0.5 rounded shadow-sm whitespace-nowrap z-40" style="top: 41.4%; left: 90%; transform: translate(-50%, 12px);">9.3%</span>
+                        </div>
+
+                        <!-- FY2025 Bar (Text TOP) -->
+                        <div class="flex flex-col items-center w-1/5 relative h-full justify-end">
+                            <div class="mb-1.5 bg-red-100 border border-red-300 text-red-600 text-[11px] font-bold px-1.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">OP -51.9억</div>
+                            <div class="w-16 bg-slate-300 rounded-t h-[50%] flex flex-col items-center justify-start pt-3 relative border border-slate-400">
+                                <span class="text-slate-800 font-bold text-sm">350억</span>
+                            </div>
+                        </div>
+                        <!-- FY2026 Bar (Text BOTTOM) -->
+                        <div class="flex flex-col items-center w-1/5 relative h-full justify-end">
+                            <div class="mb-1.5 bg-blue-100 border border-blue-300 text-blue-700 text-[11px] font-bold px-1.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">OP 31.5억</div>
+                            <div class="w-16 bg-blue-400 rounded-t h-[57%] flex flex-col items-center justify-end pb-3 relative border border-blue-500 shadow-sm">
+                                <span class="text-white font-bold text-sm">400억</span>
+                            </div>
+                        </div>
+                        <!-- FY2027 Bar (Text BOTTOM) -->
+                        <div class="flex flex-col items-center w-1/5 relative h-full justify-end">
+                            <div class="mb-1.5 bg-blue-100 border border-blue-300 text-blue-700 text-[11px] font-bold px-1.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">OP 44.8억</div>
+                            <div class="w-16 bg-blue-500 rounded-t h-[74%] flex flex-col items-center justify-end pb-3 relative border border-blue-600 shadow-sm">
+                                <span class="text-white font-bold text-sm">520억</span>
+                            </div>
+                        </div>
+                        <!-- FY2028 Bar (Text BOTTOM) -->
+                        <div class="flex flex-col items-center w-1/5 relative h-full justify-end">
+                            <div class="mb-1.5 bg-blue-100 border border-blue-300 text-blue-700 text-[11px] font-bold px-1.5 py-0.5 rounded shadow-sm z-20 whitespace-nowrap">OP 53.4억</div>
+                            <div class="w-16 bg-blue-600 rounded-t h-[85%] flex flex-col items-center justify-end pb-3 relative border border-blue-700 shadow-md">
+                                <span class="text-white font-bold text-sm">600억</span>
+                            </div>
+                        </div>
+                        <!-- FY2029 Bar (Text BOTTOM) -->
+                        <div class="flex flex-col items-center w-1/5 relative h-full justify-end">
+                            <div class="mb-1.5 bg-blue-800 border border-blue-900 text-white text-[11px] font-bold px-1.5 py-0.5 rounded shadow-md z-20 whitespace-nowrap">OP 64.8억</div>
+                            <div class="w-16 bg-blue-700 rounded-t h-[100%] flex flex-col items-center justify-end pb-3 relative border border-blue-800 shadow-md">
+                                <span class="text-white font-bold text-sm">700억</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- X Axis Labels -->
+                    <div class="flex justify-around px-4 mt-2 mb-4">
+                        <div class="w-1/5 text-center text-xs font-bold text-slate-500">당기(FY25)</div>
+                        <div class="w-1/5 text-center text-xs font-bold text-slate-800">FY2026</div>
+                        <div class="w-1/5 text-center text-xs font-bold text-slate-800">FY2027</div>
+                        <div class="w-1/5 text-center text-xs font-bold text-slate-800">FY2028</div>
+                        <div class="w-1/5 text-center text-xs font-black text-blue-700">FY2029</div>
+                    </div>
+
+                    <!-- Mini Table -->
+                    <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-sm">
+                        <table class="w-full text-center text-sm">
+                            <thead class="bg-slate-800 text-white font-bold text-[13px]">
+                                <tr>
+                                    <th class="py-2 px-2 w-1/6 text-center pl-4">항목<br><span class="text-[11px] font-normal text-slate-300">(단위: 억원)</span></th>
+                                    <th class="py-2 px-2 w-1/6">당기실적<br><span class="text-[11px] font-normal text-slate-300">(25년)</span></th>
+                                    <th class="py-2 px-2 w-1/6 text-blue-300 align-middle">FY2026(E)</th>
+                                    <th class="py-2 px-2 w-1/6 align-middle">FY2027(E)</th>
+                                    <th class="py-2 px-2 w-1/6 align-middle">FY2028(E)</th>
+                                    <th class="py-2 px-2 w-1/6 align-middle">FY2029(E)</th>
+                                </tr>
+                            </thead>
+                            <tbody class="font-medium text-slate-700 text-[13px]">
+                                <tr class="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-100 transition">
+                                    <td class="py-2.5 font-bold text-left pl-4 border-r border-slate-200">매출액 합계</td>
+                                    <td>350.5</td><td class="text-blue-700 font-bold bg-blue-50/50">400.0</td><td>520.0</td><td>600.0</td><td class="font-bold">700.0</td>
+                                </tr>
+                                <tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+                                    <td class="py-2.5 font-bold text-left pl-4 border-r border-slate-200">영업이익</td>
+                                    <td class="text-red-500">-51.9</td><td class="text-blue-700 font-bold bg-blue-50/50">31.5</td><td>44.8</td><td>53.4</td><td class="font-bold">64.8</td>
+                                </tr>
+                                <tr class="border-b border-slate-100 bg-slate-50/50 hover:bg-slate-100 transition">
+                                    <td class="py-2.5 font-bold text-left pl-4 border-r border-slate-200 text-slate-500">영업이익률</td>
+                                    <td class="text-red-500">-14.8%</td><td class="text-blue-700 font-bold bg-blue-50/50">7.9%</td><td>8.6%</td><td>8.9%</td><td class="font-bold">9.3%</td>
+                                </tr>
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="py-2.5 font-bold text-left pl-4 border-r border-slate-200">당기순이익</td>
+                                    <td class="text-red-500">-83.6</td><td class="text-blue-700 font-bold bg-blue-50/50">19.8</td><td>30.2</td><td>36.9</td><td class="font-bold">45.8</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-slate-50">
+        <div class="h-full flex flex-col p-14">
+            <h2 class="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-8 inline-block w-max">Valuation & Post-Investment : 투자 유치에 따른 재무구조 혁신</h2>
+            
+            <div class="flex gap-8 h-full">
+                <!-- Valuation Logic -->
+                <div class="w-1/3 bg-white border border-slate-300 shadow-sm rounded-xl p-8 flex flex-col justify-start">
+                    <span class="bg-blue-100 text-blue-800 border border-blue-200 px-3 py-1 rounded text-sm font-bold w-max mb-4">Pre-Money Valuation Logic</span>
+                    <h3 class="text-2xl font-bold mb-6 text-slate-900">내재 가치 평가</h3>
+                    <p class="text-[15px] text-slate-700 mb-6 leading-relaxed">
+                        일회성 손실을 제외한 당사의 정상 영업이익(Normalized OP) 창출력은 약 <b>15억~20억 원</b> 수준입니다. 삼성/LG 1차 소부장 벤더의 상장사 평균 멀티플(EV/EBITDA 10~15x)을 적용할 경우, 현재 투자가치는 대단히 매력적인 구간에 위치해 있습니다.
+                    </p>
+                    <div class="mt-auto bg-blue-50 border border-blue-100 p-5 rounded-lg shadow-inner">
+                        <p class="text-sm text-blue-800 font-bold mb-2 border-b border-blue-200 pb-1">2026년 예상 매출 기반 추정</p>
+                        <p class="text-xl font-black text-slate-800">Target Rev: 400억 원</p>
+                        <p class="text-xl font-black text-blue-700 mt-1">Target OP: 31.5억 원 (7.9%)</p>
+                    </div>
+                </div>
+
+                <!-- Financial Structure Change -->
+                <div class="w-2/3 bg-white text-slate-800 border border-slate-300 shadow-sm rounded-xl p-8 flex flex-col">
+                    <span class="bg-emerald-100 text-emerald-800 border border-emerald-200 px-3 py-1 rounded text-sm font-bold w-max mb-4">Post-Investment Impact (50억 자금 조달 가정 시)</span>
+                    <h3 class="text-2xl font-bold mb-6 text-slate-900">재무구조 완전 정상화 시뮬레이션</h3>
+                    
+                    <div class="flex items-center justify-between mt-4 bg-slate-50 p-6 rounded-lg border border-slate-200">
+                        <div class="flex flex-col items-center w-[40%]">
+                            <h4 class="font-bold text-slate-600 mb-4 bg-white px-3 py-1 border border-slate-200 rounded whitespace-nowrap">2025년 결산 (투자 전)</h4>
+                            <div class="w-full max-w-[200px] border border-slate-400 rounded overflow-hidden shadow-sm">
+                                <div class="bg-red-500 text-white text-center py-4 font-bold text-lg border-b border-white">
+                                    부채 328억
+                                </div>
+                                <div class="bg-slate-300 text-slate-800 text-center py-2 font-bold text-sm">
+                                    자본 21억
+                                </div>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <p class="text-sm text-slate-600 font-bold">장부상 부채비율</p>
+                                <p class="text-3xl font-black text-red-600">1,557%</p>
+                            </div>
+                        </div>
+                        <div class="text-4xl text-blue-400"><i class="fa-solid fa-arrow-right-long"></i></div>
+                        <div class="flex flex-col items-center w-[40%]">
+                            <h4 class="font-bold text-blue-700 mb-4 bg-blue-50 px-3 py-1 border border-blue-200 rounded whitespace-nowrap">투자 유치 후 (50억 자본 전입)</h4>
+                            <div class="w-full max-w-[200px] border border-blue-400 rounded overflow-hidden shadow-md transform scale-105">
+                                <div class="bg-red-400 text-white text-center py-3 font-bold text-base border-b border-white">
+                                    부채 328억 (유지)
+                                </div>
+                                <div class="bg-blue-600 text-white text-center py-4 font-bold text-lg">
+                                    자본 71억 (+50억)
+                                </div>
+                            </div>
+                            <div class="mt-4 text-center">
+                                <p class="text-sm text-blue-700 font-bold">자본 확충시 부채비율</p>
+                                <p class="text-3xl font-black text-blue-700">461% <i class="fa-solid fa-arrow-trend-down text-lg"></i></p>
+                                <p class="text-xs text-slate-500 mt-1 font-medium">26년 순이익 가산시 300%대 진입</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slide bg-white">
+        <div class="h-full flex flex-col p-10 pt-8 pb-7">
+            <h2 class="text-[1.95rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-4 inline-block w-max">The Ask &amp; Use of Proceeds : 성장 재원 확보</h2>
+            
+            <div class="flex-1 grid grid-cols-2 gap-6 min-h-0">
+                <!-- Left: Funding Structure -->
+                <div class="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-300 flex flex-col justify-between">
+                    <div>
+                        <div class="bg-blue-600 text-white inline-block px-3.5 py-1 rounded-md font-bold text-xs mb-2.5 shadow-xs">Target Funding</div>
+                        <h3 class="text-[38px] font-black text-blue-900 leading-tight mb-3">30억 ~ 50억 원</h3>
+                        
+                        <p class="text-slate-700 font-medium border-b border-slate-300 pb-4 text-[14.5px] leading-relaxed break-keep">
+                            당사는 재무구조 개선과 26~27년 폭발적 수주 대응을 위해 자금을 조달하며, 투자 기관의 펀드 성격에 맞춘 <b>유연한 투자 구조(Tailor-made)</b> 설계가 가능합니다.
+                        </p>
+                    </div>
+                    
+                    <div class="space-y-3.5">
+                        <div class="flex items-start p-4 bg-white rounded-xl border border-blue-200 shadow-xs">
+                            <div class="w-11 h-11 bg-blue-100 text-blue-700 border border-blue-300 rounded-full flex items-center justify-center text-lg mr-4 flex-shrink-0 mt-0.5"><i class="fa-solid fa-chart-pie"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-[15.5px] mb-1">자본 확충형 (Equity) 제안</h4>
+                                <p class="text-[13px] text-slate-600 leading-relaxed break-keep">RCPS(상환전환우선주), CPS, 보통주 등 자본으로 전입되어 즉각적인 부채비율 감소 및 밸류에이션 업사이드(Upside)를 공유하는 구조.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start p-4 bg-white rounded-xl border border-emerald-200 shadow-xs">
+                            <div class="w-11 h-11 bg-emerald-100 text-emerald-700 border border-emerald-300 rounded-full flex items-center justify-center text-lg mr-4 flex-shrink-0 mt-0.5"><i class="fa-solid fa-money-bill-transfer"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-900 text-[15.5px] mb-1">메자닌 / 부채형 (Debt) 제안</h4>
+                                <p class="text-[13px] text-slate-600 leading-relaxed break-keep">CB(전환사채), BW(신주인수권부사채) 등 원금 보장의 안정성을 확보하면서 향후 1차 벤더 양산 실적에 따라 주식 전환 차익을 노리는 구조.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Use of Proceeds -->
+                <div class="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-300 flex flex-col justify-between">
+                    <div class="flex justify-between items-center border-b border-slate-300 pb-2">
+                        <h3 class="text-[16px] font-bold text-slate-900 flex items-center"><i class="fa-solid fa-bullseye text-blue-700 mr-2"></i>자금 활용 계획 (Use of Proceeds)</h3>
+                        <span class="text-xs text-slate-500 font-bold">조달 금액 기준</span>
+                    </div>
+                    
+                    <div class="flex justify-center my-1.5">
+                        <!-- CSS Donut Chart -->
+                        <div class="w-36 h-36 conic-donut shadow-md border border-slate-200 rounded-full"></div>
+                    </div>
+                    
+                    <!-- Legend & Text -->
+                    <div class="flex flex-col space-y-2.5 w-full">
+                        <div class="flex items-start bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+                            <div class="w-3.5 h-3.5 bg-[#1e3a8a] rounded-sm mt-0.5 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-black text-slate-900 text-[13.5px]">설비 투자 (CAPEX) <span class="text-blue-800 ml-2 font-black">40% (약 20억)</span></p>
+                                <p class="text-[12px] text-slate-600 mt-0.5 font-medium leading-snug break-keep">1차 벤더 양산 물량 대응을 위한 메탈마스크 정밀 가공 설비 고도화 및 라인 증설.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+                            <div class="w-3.5 h-3.5 bg-[#3b82f6] rounded-sm mt-0.5 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-black text-slate-900 text-[13.5px]">운영 자금 (Working Capital) <span class="text-blue-600 ml-2 font-black">40% (약 20억)</span></p>
+                                <p class="text-[12px] text-slate-600 mt-0.5 font-medium leading-snug break-keep">26년 삼성/LG디스플레이 및 비전옥스 신모델 수주 물량 급증에 따른 선제적 원소재 매입 대금.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+                            <div class="w-3.5 h-3.5 bg-[#9ca3af] rounded-sm mt-0.5 mr-3 flex-shrink-0"></div>
+                            <div>
+                                <p class="font-black text-slate-900 text-[13.5px]">연구 개발 (R&amp;D 및 신사업) <span class="text-slate-600 ml-2 font-black">20% (약 10억)</span></p>
+                                <p class="text-[12px] text-slate-600 mt-0.5 font-medium leading-snug break-keep">디스플레이를 넘어 반도체(HF가스 봄베, 고순도 CuMn 타겟) 및 전력반도체 구리기판 양산 테스트 비용.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

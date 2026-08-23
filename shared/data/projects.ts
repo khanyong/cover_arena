@@ -455,5 +455,28 @@ export const PROJECTS: Project[] = [
       { title: '수식 렌더링', desc: 'KaTeX를 활용한 미려한 아인슈타인 방정식 및 카멜레온 메커니즘 수식 표현' },
       { title: '연속 읽기 모드', desc: '부드러운 스크롤 트래킹과 Sticky 네비게이션으로 끊김 없는 독서 경험 제공' }
     ]
+  },
+  {
+    id: 'temsco',
+    slug: 'temsco',
+    title: '주식회사 템스코 (TEMSCO)',
+    subtitle: 'IR Pitch Deck & Financial Simulation Platform',
+    category: 'Corporate IR & Business Platform',
+    year: '2026',
+    status: 'active',
+    path: '/temsco',
+    executiveSummary: '반도체 및 디스플레이 핵심 소재·부품(메탈마스크) 일괄 공급망을 완성하고 삼성·LG 디스플레이 1차 벤더로 도약하는 ㈜템스코의 인터랙티브 IR 투자제안서 및 PDF 출력 플랫폼입니다.',
+    metrics: [
+      { label: '26 Target Rev', value: '400억' },
+      { label: '29 Target Rev', value: '700억' },
+      { label: 'Target Funding', value: '30~50억' }
+    ],
+    overview: '2차 벤더의 한계를 극복하고 위폼스 M&A를 통해 소부장 수직 계열화를 완성한 ㈜템스코의 투자제안서입니다. 과거 일회성 대손상각 리스크 소멸 및 삼성/LG/비전옥스 직납 수주를 통한 실질 흑자 턴어라운드 데이터와 추정손익계산서, 자본확충 시뮬레이션을 슬라이드 및 고품질 A4 PDF 출력으로 제공합니다.',
+    tech: ['Next.js', 'Tailwind CSS', 'A4 Print CSS Engine', 'Interactive Deck'],
+    features: [
+      { title: 'A4 Landscape 슬라이드 뷰어', desc: '10개 핵심 장표의 고해상도 벡터/폰트 보존 뷰어' },
+      { title: 'A4 PDF 원클릭 인쇄/저장', desc: '@media print 기반 무손실 여백 최적화 PDF 익스포트' },
+      { title: '재무 턴어라운드 시뮬레이션', desc: '폭포수 차트, 추정손익계산서, 50억 펀딩 시 부채비율 개선 시뮬레이션' }
+    ]
   }
 ];
