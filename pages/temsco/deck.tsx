@@ -749,13 +749,13 @@ export default function TemscoDeckPage() {
                       <span className="text-[11px]">2025년</span>
                       <span className="text-[9.5px] text-red-100 font-normal">대손 반영</span>
                     </div>
-                    <span className="text-lg font-black text-red-600 mt-1.5">-51.9억</span>
+                    <span className="text-lg font-black text-red-600 mt-1.5 whitespace-nowrap">-51.9억</span>
                     <span className="text-xs text-slate-600 font-bold whitespace-nowrap">장부상 손실</span>
                   </div>
 
                   {/* Bridge 1: 2025 -> 2026 */}
                   <div className="relative z-10 flex flex-col items-center justify-center pb-8">
-                    <div className="bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1">
+                    <div className="bg-emerald-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1 whitespace-nowrap">
                       <i className="fa-solid fa-arrow-trend-up"></i>
                       <span>+91.4억</span>
                     </div>
@@ -770,7 +770,7 @@ export default function TemscoDeckPage() {
 
                   {/* Bar 2: 2026(E) */}
                   <div className="relative z-10 flex flex-col items-center justify-end h-full pb-[135px] w-24">
-                    <span className="text-lg font-black text-blue-700 mb-1.5">+39.5억</span>
+                    <span className="text-lg font-black text-blue-700 mb-1.5 whitespace-nowrap">+39.5억</span>
                     <div className="w-22 bg-blue-600 rounded-t-xl h-[90px] shadow-sm flex flex-col items-center justify-center text-white font-bold text-center text-xs border border-blue-700">
                       <span>2026(E)</span>
                       <span className="text-[10px] text-blue-100 font-normal">영업이익</span>
@@ -783,7 +783,7 @@ export default function TemscoDeckPage() {
 
                   {/* Bridge 2: 2026 -> 2029 */}
                   <div className="relative z-10 flex flex-col items-center justify-center pb-12">
-                    <div className="bg-indigo-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1">
+                    <div className="bg-indigo-600 text-white font-black text-xs px-3 py-1 rounded-full shadow-sm flex items-center gap-1 whitespace-nowrap">
                       <i className="fa-solid fa-bolt text-yellow-300"></i>
                       <span>2.0배 성장</span>
                     </div>
@@ -798,7 +798,7 @@ export default function TemscoDeckPage() {
 
                   {/* Bar 3: 2029(E) */}
                   <div className="relative z-10 flex flex-col items-center justify-end h-full pb-[135px] w-26">
-                    <span className="text-xl font-black text-indigo-700 mb-1.5">+78.9억</span>
+                    <span className="text-xl font-black text-indigo-700 mb-1.5 whitespace-nowrap">+78.9억</span>
                     <div className="w-24 bg-indigo-700 rounded-t-xl h-[125px] shadow-sm flex flex-col items-center justify-center text-white font-bold text-center text-xs border border-indigo-800">
                       <span>2029(E)</span>
                       <span className="text-[10px] text-indigo-100 font-normal">영업이익</span>
