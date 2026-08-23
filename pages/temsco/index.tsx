@@ -130,7 +130,7 @@ export default function TemscoLandingPage() {
             <div className="bg-slate-900/70 border border-slate-800 p-4 rounded-xl text-center backdrop-blur-xs">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">2026E 매출액</p>
               <p className="text-2xl sm:text-3xl font-black text-blue-400">400억 원</p>
-              <p className="text-[11px] text-emerald-400 font-semibold mt-1">흑자전환 (OP 45.2억)</p>
+              <p className="text-[11px] text-emerald-400 font-semibold mt-1">흑자전환 (OP 39.5억)</p>
             </div>
             <div className="bg-slate-900/70 border border-slate-800 p-4 rounded-xl text-center backdrop-blur-xs">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">2029E 목표 실적</p>
