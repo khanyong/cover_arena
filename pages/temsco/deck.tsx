@@ -292,7 +292,7 @@ export default function TemscoDeckPage() {
             </div>
             <h1 className="leading-tight mb-7 flex flex-col items-start">
               <span className="text-[34px] font-bold text-slate-800 tracking-tight mb-1">
-                박막 코팅 소재 × 진공 메탈마스크,
+                박막 코팅 소재 × 정밀 메탈마스크,
               </span>
               <span className="text-[44px] font-black text-blue-700 tracking-tight mb-1">
                 반도체·디스플레이 산업의 글로벌
@@ -355,41 +355,41 @@ export default function TemscoDeckPage() {
 
         {/* Slide 3 : Slide 2. Company Overview */}
         <div className={getSlideClass(2, 'bg-slate-50')}>
-          <div className="h-full flex flex-col p-14 relative z-10">
-            <h2 className="text-[2.2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-8 inline-block w-max">Company Overview : 회사 개요 및 성장 연혁</h2>
-            <div className="flex flex-1 gap-10 items-stretch">
-              <div className="w-[45%] flex flex-col gap-5">
-                <div className="bg-blue-50/60 border border-blue-100 rounded-xl p-8 border-l-[10px] border-l-blue-600 shadow-sm relative h-[45%]">
-                  <p className="text-blue-600 font-bold text-sm tracking-widest mb-2 uppercase">Core Identity</p>
-                  <h3 className="text-[1.5rem] font-black text-slate-900 leading-tight mb-3 tracking-tight">&quot;첨단 소부장 융합으로<br />글로벌 초격차를 연결한다&quot;</h3>
-                  <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
-                    2010년 10월 설립 이후 반도체 및 디스플레이 핵심 배선막(Array layer) 고순도 박막코팅소재로 출발하여, 이차전지 및 차세대 페로브스카이트 태양전지 등 첨단 에너지 소재로 포트폴리오를 지속 확장해 왔습니다.
+          <div className="h-full flex flex-col px-12 py-10 relative z-10">
+            <h2 className="text-[2.1rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-5 inline-block w-max">Company Overview : 회사 개요 및 성장 연혁</h2>
+            <div className="flex flex-1 gap-8 items-stretch min-h-0">
+              <div className="w-[45%] flex flex-col justify-between gap-3.5">
+                <div className="bg-blue-50/60 border border-blue-100 rounded-xl p-5 border-l-[8px] border-l-blue-600 shadow-sm relative">
+                  <p className="text-blue-600 font-bold text-xs tracking-widest mb-1 uppercase">Core Identity</p>
+                  <h3 className="text-[1.3rem] font-black text-slate-900 leading-tight mb-2 tracking-tight">&quot;첨단 소부장 융합으로 글로벌 초격차를 연결한다&quot;</h3>
+                  <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
+                    2010년 10월 설립 이후 반도체 및 디스플레이 핵심 배선막(Array layer) 고순도 박막코팅소재로 출발하여, 첨단 에너지 및 정밀부품 분야로 포트폴리오를 지속 확장해 왔습니다.
                   </p>
                 </div>
-                <div className="bg-white border border-slate-200 rounded-xl p-7 shadow-sm h-[55%]">
-                  <h4 className="font-bold text-lg text-slate-800 mb-4 border-b border-slate-100 pb-3 flex items-center">
+                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex-1 flex flex-col justify-between">
+                  <h4 className="font-bold text-[15px] text-slate-800 border-b border-slate-100 pb-2.5 flex items-center mb-1">
                     <i className="fa-solid fa-layer-group text-blue-600 mr-2"></i>핵심 사업 영역 및 다각화
                   </h4>
-                  <div className="flex flex-col gap-4">
-                    <div className="flex items-start gap-4">
-                      <span className="bg-blue-100 text-blue-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">박막소재</span>
+                  <div className="flex flex-col gap-2.5 py-1">
+                    <div className="flex items-start gap-3">
+                      <span className="bg-blue-100 text-blue-700 font-black text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap mt-0.5">박막소재</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">고순도 박막코팅소재 (Al, Mo, CuMn, Ag 등)</p>
-                        <p className="text-[13px] text-slate-500 leading-snug">반도체·디스플레이 미세 배선막용 스퍼터링 타겟 및 첨단 에너지 소재.</p>
+                        <p className="font-bold text-slate-900 text-[13.5px] mb-0.5">고순도 박막코팅소재 (Al, Mo, CuMn, Ag 등)</p>
+                        <p className="text-[12px] text-slate-500 leading-snug">반도체·디스플레이 미세 배선막용 스퍼터링 타겟 및 첨단 에너지 소재.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-4">
-                      <span className="bg-indigo-100 text-indigo-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">정밀부품</span>
+                    <div className="flex items-start gap-3">
+                      <span className="bg-indigo-100 text-indigo-700 font-black text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap mt-0.5">정밀부품</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">정밀 메탈마스크 (위폼스 CVD/OMM/FMM)</p>
-                        <p className="text-[13px] text-slate-500 leading-snug">OLED 진공증착 핵심 부품. 24년 3월 인수 통해 일괄 제조 역량 확보.</p>
+                        <p className="font-bold text-slate-900 text-[13.5px] mb-0.5">정밀 메탈마스크 (위폼스 CVD/OMM/FMM)</p>
+                        <p className="text-[12px] text-slate-500 leading-snug">OLED 진공증착 핵심 부품. 24년 3월 인수 통해 일괄 제조 역량 확보.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-4">
-                      <span className="bg-slate-200 text-slate-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">특수강</span>
+                    <div className="flex items-start gap-3">
+                      <span className="bg-slate-200 text-slate-700 font-black text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap mt-0.5">특수강</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">Ni 특수강 및 SUS420 비철소재</p>
-                        <p className="text-[13px] text-slate-500 leading-snug">고진공 챔버 및 정밀 가공 부품용 신뢰성 기초 소재 네트워크 구축.</p>
+                        <p className="font-bold text-slate-900 text-[13.5px] mb-0.5">Ni 특수강 및 SUS420 비철소재</p>
+                        <p className="text-[12px] text-slate-500 leading-snug">고진공 챔버 및 정밀 가공 부품용 신뢰성 기초 소재 네트워크 구축.</p>
                       </div>
                     </div>
                   </div>
@@ -455,7 +455,7 @@ export default function TemscoDeckPage() {
                   <div className="flex-1 bg-white p-6 rounded-xl border border-blue-200 shadow-sm text-center">
                     <div className="w-20 h-20 bg-blue-50 text-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center text-3xl border border-blue-100"><i className="fa-solid fa-layer-group"></i></div>
                     <h4 className="font-black text-2xl text-slate-800 mb-2">템스코 <span className="text-lg font-bold text-slate-500">(TEMSCO)</span></h4>
-                    <p className="font-bold text-blue-700 text-lg bg-blue-50 py-2 rounded leading-snug">고순도 박막 타겟<br />표면 코팅 &amp; 세정</p>
+                    <p className="font-bold text-blue-700 text-lg bg-blue-50 py-2 rounded leading-snug">CVD 코팅 &amp; 세정</p>
                   </div>
                   <div className="flex items-center justify-center text-4xl text-blue-400 drop-shadow-sm"><i className="fa-solid fa-plus"></i></div>
                   <div className="flex-1 bg-white p-6 rounded-xl border border-indigo-200 shadow-sm text-center">
@@ -863,7 +863,7 @@ export default function TemscoDeckPage() {
                     </li>
                     <li className="flex items-start gap-1.5">
                       <span className="text-blue-600 font-bold select-none flex-shrink-0">•</span>
-                      <span><b>Ni 특수강 및 비철소재:</b> 고진공 챔버 및 정밀부품용 Ni특수강/SUS420 안정적 상품 유통망 확대</span>
+                      <span><b>비철소재 및 특수강:</b> 고진공 챔버 및 정밀부품용 Ni특수강/SUS420 안정적 상품 유통망 확대</span>
                     </li>
                     <li className="flex items-start gap-1.5">
                       <span className="text-blue-600 font-bold select-none flex-shrink-0">•</span>

@@ -6,7 +6,7 @@ export default function TemscoLandingPage() {
   const [activeTab, setActiveTab] = useState<'all' | 'highlights' | 'financials' | 'strategy'>('all')
 
   const slideList = [
-    { num: '01', title: 'Cover & Title', desc: '박막 코팅 소재 × 진공 메탈마스크 글로벌 TIER-1 소부장 파트너', category: 'highlights', icon: 'fa-shield-halved' },
+    { num: '01', title: 'Cover & Title', desc: '박막 코팅 소재 × 정밀 메탈마스크 글로벌 TIER-1 소부장 파트너', category: 'highlights', icon: 'fa-shield-halved' },
     { num: '02', title: 'Executive Summary', desc: '4대 핵심 투자 하이라이트 (수직계열화, 1차벤더, 부실해소, 퀀텀점프)', category: 'highlights', icon: 'fa-chart-line' },
     { num: '03', title: 'Company Overview', desc: '기업 개요, 핵심 연혁, 위폼스 인수 효과 및 경영진 프로필', category: 'highlights', icon: 'fa-building' },
     { num: '04', title: 'Market Opportunity', desc: '글로벌 디스플레이 공급망 재편 및 OLED 메탈마스크 시장 기회', category: 'strategy', icon: 'fa-globe' },
@@ -82,7 +82,7 @@ export default function TemscoLandingPage() {
 
           {/* Main Title */}
           <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-[1.2] mb-6">
-            박막 코팅 소재 <span className="text-blue-500 font-normal">×</span> 진공 메탈마스크<br />
+            박막 코팅 소재 <span className="text-blue-500 font-normal">×</span> 정밀 메탈마스크<br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-sky-300 to-indigo-400">
               글로벌 TIER-1 소부장 파트너
             </span>
