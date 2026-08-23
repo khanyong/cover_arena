@@ -1,13 +1,120 @@
 import Head from 'next/head'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 
 export default function TemscoDeckPage() {
+  const [viewMode, setViewMode] = useState<'presentation' | 'scroll'>('presentation')
+  const [currentSlide, setCurrentSlide] = useState(0)
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const [scale, setScale] = useState(1)
+  const TOTAL_SLIDES = 11
+
+  const slideTitles = [
+    '01. 표지 (TEMSCO Investment Proposal)',
+    '02. Executive Summary : 핵심 투자 하이라이트',
+    '03. Company Overview : 기업 개요 및 연혁',
+    '04. Market Opportunity : 디스플레이 시장 기회 & 공급망 재편',
+    '05. Core Solution : 소재·부품 수직계열화 토탈 솔루션',
+    '06. Core Competencies : 고순도 코팅 기술 & 메탈마스크 해자',
+    '07. Expansion Strategy : 글로벌 1차 벤더 직납 확대',
+    '08. Financial Track Record : 2025년 부실 100% 해소',
+    '09. Financial Projections : 2026-2029 퀀텀점프 실적 추정',
+    '10. Non-Mask New Growth : 탈마스크 신성장 로드맵',
+    '11. The Ask & Use of Proceeds : 30~50억 투자 조건 및 자금 활용',
+  ]
+
   const handlePrint = () => {
     window.print()
   }
 
+  const nextSlide = () => {
+    setCurrentSlide(prev => Math.min(prev + 1, TOTAL_SLIDES - 1))
+  }
+
+  const prevSlide = () => {
+    setCurrentSlide(prev => Math.max(prev - 1, 0))
+  }
+
+  const goToSlide = (idx: number) => {
+    setCurrentSlide(idx)
+  }
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(err => console.error(err))
+      setIsFullscreen(true)
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen()
+        setIsFullscreen(false)
+      }
+    }
+  }
+
+  useEffect(() => {
+    const handleFsChange = () => {
+      setIsFullscreen(!!document.fullscreenElement)
+    }
+    document.addEventListener('fullscreenchange', handleFsChange)
+    return () => document.removeEventListener('fullscreenchange', handleFsChange)
+  }, [])
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (['INPUT', 'TEXTAREA'].includes((e.target as HTMLElement)?.tagName)) return
+
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+        e.preventDefault()
+        setCurrentSlide(prev => Math.min(prev + 1, TOTAL_SLIDES - 1))
+      } else if (e.key === 'ArrowLeft' || e.key === 'PageUp' || e.key === 'Backspace') {
+        e.preventDefault()
+        setCurrentSlide(prev => Math.max(prev - 1, 0))
+      } else if (e.key === 'Home') {
+        e.preventDefault()
+        setCurrentSlide(0)
+      } else if (e.key === 'End') {
+        e.preventDefault()
+        setCurrentSlide(TOTAL_SLIDES - 1)
+      } else if (e.key.toLowerCase() === 'f') {
+        e.preventDefault()
+        toggleFullscreen()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  useEffect(() => {
+    const updateScale = () => {
+      if (viewMode !== 'presentation') {
+        setScale(1)
+        return
+      }
+      const availableWidth = window.innerWidth - (isFullscreen ? 24 : 48)
+      const availableHeight = window.innerHeight - (isFullscreen ? 110 : 170)
+      
+      const scaleX = availableWidth / 1123
+      const scaleY = availableHeight / 794
+      const newScale = Math.min(scaleX, scaleY, 1.4)
+      setScale(Math.max(newScale, 0.4))
+    }
+
+    updateScale()
+    window.addEventListener('resize', updateScale)
+    return () => window.removeEventListener('resize', updateScale)
+  }, [viewMode, isFullscreen])
+
+  const getSlideClass = (index: number, bg: string = 'bg-white') => {
+    const isActive = currentSlide === index
+    if (viewMode === 'presentation') {
+      return `temsco-slide ${bg} ${isActive ? 'block shadow-2xl ring-1 ring-slate-700/50' : 'hidden print:block'}`
+    }
+    return `temsco-slide ${bg}`
+  }
+
   return (
-    <div className="min-h-screen bg-slate-900 print:bg-white print:min-h-0 print:block flex flex-col font-sans text-slate-800">
+    <div className="min-h-screen bg-slate-950 print:bg-white print:min-h-0 print:block flex flex-col font-sans text-slate-800">
       <Head>
         <title>주식회사 템스코 (TEMSCO) - IR 투자제안서 슬라이드</title>
         <meta name="description" content="주식회사 템스코(TEMSCO) IR 자료 슬라이드 및 PDF 다운로드" />
@@ -37,8 +144,6 @@ export default function TemscoDeckPage() {
             border: 1px solid #cbd5e1;
             box-sizing: border-box;
             counter-increment: slide-page;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
           }
 
           .temsco-slide::after {
@@ -52,25 +157,6 @@ export default function TemscoDeckPage() {
             z-index: 100;
           }
 
-          .conic-donut { 
-            background: conic-gradient(#1e3a8a 0% 40%, #3b82f6 40% 80%, #9ca3af 80% 100%); 
-            border-radius: 50%; 
-            position: relative;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
-          }
-          .conic-donut::after {
-            content: ""; 
-            position: absolute; 
-            top: 50%; 
-            left: 50%; 
-            transform: translate(-50%, -50%);
-            width: 55%; 
-            height: 55%; 
-            background-color: white; 
-            border-radius: 50%;
-          }
-
           @media print {
             @page {
               size: 297mm 210mm;
@@ -78,151 +164,124 @@ export default function TemscoDeckPage() {
             }
             html, body { 
               background-color: #ffffff !important; 
-              background: #ffffff !important;
               padding: 0 !important; 
               margin: 0 !important; 
-              width: 297mm !important;
-              height: auto !important;
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
             }
-            .no-print { 
-              display: none !important; 
-            }
-            /* Hide any external browser extension elements injected into body */
-            body > *:not(#__next),
-            body > #__next > div > header,
-            body > #__next > div > div.no-print,
-            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
-            [class*="extension"], [id*="extension"],
-            [data-extension-id] {
-              display: none !important;
-              visibility: hidden !important;
-              opacity: 0 !important;
-            }
+            .no-print { display: none !important; }
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
               margin: 0 !important;
-              background-color: #ffffff !important;
-              background: #ffffff !important;
               display: block !important;
-              height: auto !important;
             }
             .temsco-slide { 
+              display: block !important;
               width: 297mm !important; 
               height: 209.5mm !important; 
-              min-height: 209.5mm !important;
-              max-height: 209.5mm !important;
               box-shadow: none !important; 
               border: none !important;
               border-radius: 0 !important;
               margin: 0 !important; 
-              page-break-before: always !important;
-              page-break-after: always !important; 
               break-before: page !important;
-              break-after: page !important;
-              page-break-inside: avoid !important;
-              break-inside: avoid !important;
-              overflow: hidden !important;
-              position: relative !important;
-              box-sizing: border-box !important;
-              -webkit-print-color-adjust: exact !important;
-              print-color-adjust: exact !important;
-            }
-            .temsco-slide:first-of-type {
-              page-break-before: avoid !important;
-              break-before: avoid !important;
-            }
-            .temsco-slide:last-of-type,
-            .temsco-slide:last-child {
-              page-break-after: avoid !important;
-              break-after: avoid !important;
             }
           }
         `}</style>
       </Head>
 
-      <header className="no-print bg-slate-800/95 backdrop-blur border-b border-slate-700 text-white px-6 py-3.5 flex items-center justify-between sticky top-0 z-50 shadow-xl">
+      <header className="no-print bg-slate-900/95 backdrop-blur border-b border-slate-800 text-white px-5 py-3 flex flex-wrap items-center justify-between sticky top-0 z-50 shadow-xl gap-3">
         <div className="flex items-center space-x-3">
           <Link 
             href="/temsco"
-            className="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-blue-600/90 hover:bg-blue-500 text-white transition flex items-center gap-1.5 shadow"
+            className="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white transition flex items-center gap-1.5 border border-slate-700 shadow-sm"
           >
-            <span>←</span> 템스코 소개 (Landing)
+            <span>←</span> 템스코 소개
           </Link>
-          <div className="h-4 w-px bg-slate-600" />
-          <div className="flex items-center gap-2">
-            <span className="bg-slate-700 text-xs px-2.5 py-0.5 rounded font-black tracking-wider uppercase text-blue-400 border border-slate-600">IR Pitch Deck</span>
-            <h1 className="text-sm md:text-base font-bold text-white hidden sm:block">
-              주식회사 템스코 투자제안서
-            </h1>
+          <div className="h-4 w-px bg-slate-700" />
+          
+          <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 shadow-inner">
+            <button
+              onClick={() => setViewMode('presentation')}
+              className={`text-xs font-black px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
+                viewMode === 'presentation'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              }`}
+            >
+              <i className="fa-solid fa-desktop text-[11px]"></i>
+              <span>PPT 슬라이드 쇼</span>
+            </button>
+            <button
+              onClick={() => setViewMode('scroll')}
+              className={`text-xs font-black px-3.5 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
+                viewMode === 'scroll'
+                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/30'
+                  : 'text-slate-400 hover:text-white hover:bg-slate-900'
+              }`}
+            >
+              <i className="fa-solid fa-scroll text-[11px]"></i>
+              <span>연속 스크롤</span>
+            </button>
           </div>
         </div>
 
-        <div className="flex items-center space-x-3">
-          <div className="flex items-center bg-slate-900/80 p-1 rounded-lg border border-slate-700">
-            <span className="text-xs font-bold px-3 py-1.5 rounded-md bg-blue-600 text-white shadow-sm">
-              Latest (수정본)
-            </span>
-            <Link
-              href="/temsco/original"
-              className="text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition"
+        <div className="flex items-center space-x-2.5">
+          <div className="hidden md:flex items-center bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 text-xs text-slate-300">
+            <span className="font-bold text-blue-400 mr-2">{String(currentSlide + 1).padStart(2, '0')} / {TOTAL_SLIDES}</span>
+            <select
+              value={currentSlide}
+              onChange={(e) => goToSlide(Number(e.target.value))}
+              className="bg-transparent text-slate-200 text-xs font-medium focus:outline-none cursor-pointer max-w-[180px] truncate"
             >
-              Original (원본)
-            </Link>
+              {slideTitles.map((title, i) => (
+                <option key={i} value={i} className="bg-slate-900 text-white">
+                  {title}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <a
-            href="/temsco/index.html"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-xs font-semibold px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition"
+          <button
+            onClick={toggleFullscreen}
+            title="전체화면 (F)"
+            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white border border-slate-700 transition flex items-center gap-1.5"
           >
-            HTML 원문
-          </a>
+            <i className={`fa-solid ${isFullscreen ? 'fa-compress' : 'fa-expand'}`}></i>
+            <span className="hidden sm:inline">{isFullscreen ? '전체화면 해제' : '전체화면'}</span>
+          </button>
+
+          <Link
+            href="/temsco/original"
+            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition hidden sm:inline-block"
+          >
+            초기 원본
+          </Link>
 
           <button
             onClick={handlePrint}
-            className="text-xs font-bold px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-2 shadow-lg hover:shadow-blue-500/20 active:scale-95 cursor-pointer"
+            className="text-xs font-black px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-1.5 shadow-md shadow-blue-600/20 active:scale-95 cursor-pointer"
           >
             <i className="fa-solid fa-file-pdf"></i>
-            PDF로 인쇄 / 저장
+            PDF 저장
           </button>
         </div>
       </header>
 
-      <div className="no-print flex justify-center pt-6 px-4">
-        <div 
-          className="bg-slate-800/90 border border-slate-700 p-4 rounded-xl flex justify-between items-center shadow-lg text-white"
-          style={{ width: 'var(--slide-width)', maxWidth: '100%' }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-lg flex-shrink-0">
-              <i className="fa-solid fa-file-pdf"></i>
-            </div>
-            <div>
-              <h3 className="font-bold text-sm text-slate-100">A4 PDF 고화질 인쇄 안내 (색상 &amp; 그래픽 100% 동일 출력)</h3>
-              <p className="text-xs text-slate-300 mt-0.5">
-                인쇄 대화상자에서 ➔ <b>[대상: PDF로 저장], [여백: 없음], [배경 그래픽: 체크 ✓]</b> 설정하시면 모든 그래프와 배경색이 화면 그대로 선명하게 출력됩니다.
-              </p>
-            </div>
-          </div>
-          <button 
-            onClick={handlePrint}
-            className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs rounded-lg font-bold transition flex items-center gap-2 flex-shrink-0 shadow cursor-pointer"
-          >
-            <i className="fa-solid fa-print"></i>지금 PDF 저장
-          </button>
-        </div>
-      </div>
-
-      <main 
-        className="temsco-slide-container flex-1 py-8 flex flex-col items-center gap-10"
-        style={{ counterReset: 'slide-page' }}
+      {/* Main Slide Container */}
+      <div 
+        className={viewMode === 'presentation' ? 'flex flex-col items-center justify-center flex-1 overflow-hidden relative py-4' : 'flex-1 py-8'}
+        style={viewMode === 'presentation' ? { minHeight: isFullscreen ? '100vh' : 'calc(100vh - 120px)' } : undefined}
       >
+        <main 
+          className="temsco-slide-container flex flex-col items-center"
+          style={{ 
+            counterReset: 'slide-page',
+            transform: viewMode === 'presentation' ? `scale(${scale})` : undefined,
+            transformOrigin: 'center top',
+            transition: 'transform 0.15s ease-out'
+          }}
+        >
         {/* Slide 1 : 표지 */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(0, 'bg-white')}>
           <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80')] bg-cover bg-center"></div>
           <div className="absolute inset-0 bg-gradient-to-br from-blue-50/90 via-white/95 to-slate-100/90"></div>
           <div className="absolute top-0 right-0 w-96 h-96 bg-blue-100 rounded-bl-full opacity-50 -z-0"></div>
@@ -258,7 +317,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 2 : Slide 1. Executive Summary */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(1, 'bg-white')}>
           <div className="h-full flex flex-col p-12">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Executive Summary : 핵심 투자 하이라이트</h2>
             <div className="grid grid-cols-2 gap-5 h-full pb-2">
@@ -295,7 +354,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 3 : Slide 2. Company Overview */}
-        <div className="temsco-slide bg-slate-50">
+        <div className={getSlideClass(2, 'bg-slate-50')}>
           <div className="h-full flex flex-col p-14 relative z-10">
             <h2 className="text-[2.2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-8 inline-block w-max">Company Overview : 회사 개요 및 성장 연혁</h2>
             <div className="flex flex-1 gap-10 items-stretch">
@@ -377,7 +436,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 4 : Business Synergy */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(3, 'bg-white')}>
           <div className="h-full flex flex-col p-14 relative z-10">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-10 inline-block w-max">Business Synergy : [소재-정밀가공-코팅-세정] 원스톱 일원화 체계</h2>
             <div className="flex-1 flex flex-col justify-between pb-6">
@@ -425,7 +484,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 5 : Risk & Resolution (Original 복원) */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(4, 'bg-white')}>
           <div className="h-full flex flex-col p-14">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Risk &amp; Resolution : 파인원 사태의 본질과 재무 팩트 체크</h2>
             <p className="text-[17px] tracking-tight break-keep text-slate-800 mb-8 border-l-4 border-red-600 pl-4 bg-red-50 py-2 border-r border-t border-b border-r-red-100 border-t-red-100 border-b-red-100">
@@ -492,7 +551,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 6 : Growth Pipeline */}
-        <div className="temsco-slide bg-slate-50">
+        <div className={getSlideClass(5, 'bg-slate-50')}>
           <div className="h-full flex flex-col p-14 relative z-10">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-4 inline-block w-max">Growth Pipeline : 주요 고객사별 양산 전개 계획</h2>
             <p className="text-slate-700 text-lg mb-8 font-medium">국내외 메이저 패널 메이커 및 글로벌 반도체·XR 장비사와의 직납 양산 라인업을 완성했습니다.</p>
@@ -558,7 +617,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 7 : Financial Turnaround */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(6, 'bg-white')}>
           <div className="h-full flex flex-col p-14">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Financial Turnaround : 본질적 수익성 흑자 턴어라운드</h2>
             <p className="text-lg text-slate-800 mb-8 border-l-4 border-blue-600 pl-4 bg-blue-50 py-2 font-medium border border-blue-100">
@@ -650,7 +709,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 8-1 : Segment Revenue (마스크 vs 소재 부문별 매출 로드맵) */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(7, 'bg-white')}>
           <div className="h-full flex flex-col p-10 relative z-10">
             <div className="flex justify-between items-start mb-3 border-b-4 border-blue-600 pb-2">
               <div>
@@ -822,7 +881,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 8-2 : Income Statement (종합 추정손익계산서 및 수익성 분석) */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(8, 'bg-white')}>
           <div className="h-full flex flex-col p-12 relative z-10">
             <div className="flex justify-between items-start mb-4 border-b-4 border-blue-600 pb-2">
               <div>
@@ -971,7 +1030,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 9 : Valuation & Post-Investment */}
-        <div className="temsco-slide bg-slate-50">
+        <div className={getSlideClass(9, 'bg-slate-50')}>
           <div className="h-full flex flex-col p-14">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-8 inline-block w-max">Valuation &amp; Post-Investment : 투자 유치에 따른 재무구조 혁신</h2>
             <div className="flex gap-8 h-full">
@@ -1022,7 +1081,7 @@ export default function TemscoDeckPage() {
         </div>
 
         {/* Slide 10 : The Ask & Use of Proceeds */}
-        <div className="temsco-slide bg-white">
+        <div className={getSlideClass(10, 'bg-white')}>
           <div className="h-full flex flex-col p-10 pt-8 pb-7">
             <h2 className="text-[1.95rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-4 inline-block w-max">The Ask &amp; Use of Proceeds : 성장 재원 확보</h2>
             <div className="flex-1 grid grid-cols-2 gap-6 min-h-0">
@@ -1094,6 +1153,74 @@ export default function TemscoDeckPage() {
           </div>
         </div>
       </main>
+      </div>
+
+      {/* Floating Bottom Control Bar in Presentation Mode */}
+      {viewMode === 'presentation' && (
+        <div className="no-print fixed bottom-4 left-1/2 -translate-x-1/2 z-50 bg-slate-900/95 backdrop-blur-md border border-slate-700/80 px-4 py-2.5 rounded-2xl shadow-2xl flex flex-col items-center gap-2 max-w-[95vw]">
+          <div className="flex items-center gap-3">
+            {/* Prev Button */}
+            <button
+              onClick={prevSlide}
+              disabled={currentSlide === 0}
+              title="이전 슬라이드 (←, PageUp)"
+              className="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:cursor-not-allowed text-white font-bold text-xs transition flex items-center gap-1.5 border border-slate-700 active:scale-95"
+            >
+              <i className="fa-solid fa-chevron-left text-[10px]"></i>
+              <span className="hidden sm:inline">이전</span>
+            </button>
+
+            {/* Current Slide Info Chip */}
+            <div className="flex items-center gap-2 px-3 py-1 bg-slate-950 rounded-xl border border-slate-800 text-xs">
+              <span className="font-black text-blue-400">
+                {String(currentSlide + 1).padStart(2, '0')} <span className="text-slate-500 font-normal">/ {TOTAL_SLIDES}</span>
+              </span>
+              <span className="text-slate-500">|</span>
+              <span className="font-bold text-slate-200 max-w-[200px] sm:max-w-[320px] truncate">
+                {slideTitles[currentSlide]}
+              </span>
+            </div>
+
+            {/* Next Button */}
+            <button
+              onClick={nextSlide}
+              disabled={currentSlide === TOTAL_SLIDES - 1}
+              title="다음 슬라이드 (→, Space, PageDown)"
+              className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 disabled:opacity-30 disabled:cursor-not-allowed text-white font-black text-xs transition flex items-center gap-1.5 shadow-md shadow-blue-600/30 active:scale-95"
+            >
+              <span className="hidden sm:inline">다음</span>
+              <i className="fa-solid fa-chevron-right text-[10px]"></i>
+            </button>
+
+            {/* Fullscreen Icon Button */}
+            <button
+              onClick={toggleFullscreen}
+              title={isFullscreen ? '전체화면 해제 (F)' : '전체화면 (F)'}
+              className="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition flex items-center justify-center text-xs ml-1"
+            >
+              <i className={`fa-solid ${isFullscreen ? 'fa-compress' : 'fa-expand'}`}></i>
+            </button>
+          </div>
+
+          {/* Quick Number/Dot Navigator Strip */}
+          <div className="flex items-center gap-1.5 overflow-x-auto max-w-full px-1 py-0.5">
+            {Array.from({ length: TOTAL_SLIDES }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => goToSlide(idx)}
+                title={slideTitles[idx]}
+                className={`text-[11px] font-bold rounded-md px-2 py-0.5 transition ${
+                  currentSlide === idx
+                    ? 'bg-blue-600 text-white shadow-sm scale-110'
+                    : 'bg-slate-800/80 text-slate-400 hover:text-white hover:bg-slate-700'
+                }`}
+              >
+                {idx + 1}
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   )
 }
