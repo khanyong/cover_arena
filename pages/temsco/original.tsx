@@ -144,18 +144,18 @@ export default function TemscoOriginalPage() {
       </Head>
 
       <header className="no-print bg-slate-800/95 backdrop-blur border-b border-slate-700 text-white px-6 py-3.5 flex items-center justify-between sticky top-0 z-50 shadow-xl">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-3">
           <Link 
-            href="/"
-            className="text-xs font-semibold px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-slate-300 hover:text-white transition flex items-center gap-1.5"
+            href="/temsco"
+            className="text-xs font-bold px-3.5 py-1.5 rounded-lg bg-amber-600/90 hover:bg-amber-500 text-white transition flex items-center gap-1.5 shadow"
           >
-            <span>←</span> 포트폴리오 홈
+            <span>←</span> 템스코 소개 (Landing)
           </Link>
           <div className="h-4 w-px bg-slate-600" />
           <div className="flex items-center gap-2">
             <span className="bg-amber-600 text-xs px-2.5 py-0.5 rounded font-black tracking-wider uppercase">Original Deck</span>
-            <h1 className="text-sm md:text-base font-bold text-white">
-              주식회사 템스코 (TEMSCO) 투자제안서 <span className="text-amber-400 text-xs font-normal">[초기 원본]</span>
+            <h1 className="text-sm md:text-base font-bold text-white hidden sm:block">
+              주식회사 템스코 투자제안서 <span className="text-amber-400 text-xs font-normal">[초기 원본]</span>
             </h1>
           </div>
         </div>
@@ -164,7 +164,7 @@ export default function TemscoOriginalPage() {
           {/* Version Switcher Chips */}
           <div className="flex items-center bg-slate-900/80 p-1 rounded-lg border border-slate-700">
             <Link
-              href="/temsco"
+              href="/temsco/deck"
               className="text-xs font-medium px-3 py-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition"
             >
               Latest (수정본)
