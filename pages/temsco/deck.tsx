@@ -108,7 +108,7 @@ export default function TemscoDeckPage() {
   const getSlideClass = (index: number, bg: string = 'bg-white') => {
     const isActive = currentSlide === index
     if (viewMode === 'presentation') {
-      return `temsco-slide ${bg} ${isActive ? 'block shadow-2xl ring-1 ring-slate-700/50' : 'hidden print:block'}`
+      return `temsco-slide ${bg} ${isActive ? 'block shadow-2xl ring-1 ring-slate-700/50' : 'hidden print:!block'}`
     }
     return `temsco-slide ${bg}`
   }
@@ -198,6 +198,21 @@ export default function TemscoDeckPage() {
               position: absolute !important;
               left: -9999px !important;
             }
+            #__next,
+            #__next > div,
+            div[class*="overflow-hidden"],
+            .temsco-slide-container {
+              display: block !important;
+              overflow: visible !important;
+              height: auto !important;
+              min-height: 0 !important;
+              max-height: none !important;
+              width: 297mm !important;
+              margin: 0 !important;
+              padding: 0 !important;
+              position: static !important;
+              transform: none !important;
+            }
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
@@ -206,9 +221,12 @@ export default function TemscoDeckPage() {
               background: #ffffff !important;
               display: block !important;
               height: auto !important;
+              transform: none !important;
             }
             .temsco-slide { 
               display: block !important;
+              visibility: visible !important;
+              opacity: 1 !important;
               width: 297mm !important; 
               height: 209mm !important; 
               min-height: 209mm !important;
@@ -224,6 +242,7 @@ export default function TemscoDeckPage() {
               overflow: hidden !important;
               position: relative !important;
               box-sizing: border-box !important;
+              transform: none !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
             }
@@ -316,11 +335,11 @@ export default function TemscoDeckPage() {
 
       {/* Main Slide Container */}
       <div 
-        className={viewMode === 'presentation' ? 'flex flex-col items-center justify-center flex-1 overflow-hidden relative py-4' : 'flex-1 py-8'}
+        className={viewMode === 'presentation' ? 'flex flex-col items-center justify-center flex-1 overflow-hidden relative py-4 print:!block print:!overflow-visible print:!h-auto print:!min-h-0 print:!p-0 print:!m-0' : 'flex-1 py-8 print:!p-0 print:!m-0'}
         style={viewMode === 'presentation' ? { minHeight: isFullscreen ? '100vh' : 'calc(100vh - 120px)' } : undefined}
       >
         <main 
-          className="temsco-slide-container flex flex-col items-center"
+          className="temsco-slide-container flex flex-col items-center print:!block print:!overflow-visible print:!h-auto print:!min-h-0 print:!p-0 print:!m-0"
           style={{ 
             counterReset: 'slide-page',
             transform: viewMode === 'presentation' ? `scale(${scale})` : undefined,
