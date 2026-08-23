@@ -937,19 +937,19 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Growth Driver Highlight Cards */}
-            <div className="grid grid-cols-2 gap-6">
-              <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-5 flex flex-col justify-between shadow-sm">
+            <div className="grid grid-cols-2 gap-6 flex-1">
+              <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-6 flex flex-col justify-center gap-4 shadow-sm">
                 <div>
-                  <div className="flex items-center justify-between mb-2.5 border-b border-indigo-200 pb-2">
-                    <h4 className="font-black text-[15px] text-indigo-950 flex items-center gap-2">
+                  <div className="flex items-center justify-between mb-3 border-b border-indigo-200 pb-2.5">
+                    <h4 className="font-black text-[15.5px] text-indigo-950 flex items-center gap-2">
                       <i className="fa-solid fa-rocket text-indigo-600"></i>
                       <span>메탈마스크 부문(템스코) 성장 동력</span>
                     </h4>
-                    <span className="text-[11.5px] bg-indigo-600 text-white px-3 py-1 rounded-full font-black whitespace-nowrap shadow-xs">
+                    <span className="text-[12px] bg-indigo-600 text-white px-3.5 py-1 rounded-full font-black whitespace-nowrap shadow-xs">
                       26E 160억 ➔ 29E 354억
                     </span>
                   </div>
-                  <ul className="text-[13px] text-slate-800 space-y-2 leading-snug font-medium break-keep">
+                  <ul className="text-[13.5px] text-slate-800 space-y-2.5 leading-snug font-medium break-keep">
                     <li className="flex items-start gap-1.5">
                       <span className="text-indigo-600 font-bold select-none flex-shrink-0">•</span>
                       <span><b>삼성디스플레이(SDC):</b> 2027년 양산 메탈마스크 <b>신규 4개 모델 선정 완료</b> (추가 2개 모델 협의 중)</span>
@@ -964,24 +964,24 @@ export default function TemscoDeckPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white/95 p-2.5 px-3.5 rounded-xl border border-indigo-100 mt-2 text-[12px] text-indigo-950 font-bold text-left shadow-xs break-keep flex items-start gap-1.5">
+                <div className="bg-white/95 p-3 px-4 rounded-xl border border-indigo-100 text-[12.5px] text-indigo-950 font-bold text-left shadow-sm break-keep flex items-start gap-1.5">
                   <span className="select-none flex-shrink-0">💡</span>
                   <span><b>메탈마스크 매출 비중:</b> 2025년 34.2% ➔ 2026년 40.0% ➔ 2029년 50.6%로 전사 핵심 캐시카우 도약</span>
                 </div>
               </div>
 
-              <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-5 flex flex-col justify-between shadow-sm">
+              <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-6 flex flex-col justify-center gap-4 shadow-sm">
                 <div>
-                  <div className="flex items-center justify-between mb-2.5 border-b border-blue-200 pb-2">
-                    <h4 className="font-black text-[15px] text-blue-950 flex items-center gap-2">
+                  <div className="flex items-center justify-between mb-3 border-b border-blue-200 pb-2.5">
+                    <h4 className="font-black text-[15.5px] text-blue-950 flex items-center gap-2">
                       <i className="fa-solid fa-shield-halved text-blue-600"></i>
                       <span>박막타겟 &amp; 소재 부문(템스코) 성장 동력</span>
                     </h4>
-                    <span className="text-[11.5px] bg-blue-600 text-white px-3 py-1 rounded-full font-black whitespace-nowrap shadow-xs">
+                    <span className="text-[12px] bg-blue-600 text-white px-3.5 py-1 rounded-full font-black whitespace-nowrap shadow-xs">
                       26E 240억 ➔ 29E 346억
                     </span>
                   </div>
-                  <ul className="text-[13px] text-slate-800 space-y-2 leading-snug font-medium break-keep">
+                  <ul className="text-[13.5px] text-slate-800 space-y-2.5 leading-snug font-medium break-keep">
                     <li className="flex items-start gap-1.5">
                       <span className="text-blue-600 font-bold select-none flex-shrink-0">•</span>
                       <span><b>디스플레이 타겟 직납:</b> 고순도 알루미늄(Al), 몰리브덴(Mo), 은(Ag) 합금 타겟 직납 확정</span>
@@ -996,7 +996,7 @@ export default function TemscoDeckPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white/95 p-2.5 px-3.5 rounded-xl border border-blue-100 mt-2 text-[12px] text-blue-950 font-bold text-left shadow-xs break-keep flex items-start gap-1.5">
+                <div className="bg-white/95 p-3 px-4 rounded-xl border border-blue-100 text-[12.5px] text-blue-950 font-bold text-left shadow-sm break-keep flex items-start gap-1.5">
                   <span className="select-none flex-shrink-0">💡</span>
                   <span><b>소재·부품 수직계열화 시너지:</b> 마스크 부문 20.0% 고마진 실현 및 소재 부문 연 300억대 안정적 체력 확보</span>
                 </div>
@@ -1099,45 +1099,45 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Financial Highlights 3-Cards */}
-            <div className="grid grid-cols-3 gap-5">
-              <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-4.5 shadow-sm flex flex-col justify-between">
+            <div className="grid grid-cols-3 gap-5 flex-1">
+              <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-5 shadow-sm flex flex-col justify-center gap-3">
                 <div>
-                  <h4 className="font-black text-[14px] text-blue-900 mb-1.5 flex items-center gap-2">
+                  <h4 className="font-black text-[14.5px] text-blue-900 mb-2 flex items-center gap-2">
                     <i className="fa-solid fa-chart-line text-blue-600"></i>본업 실질 흑자 턴어라운드
                   </h4>
-                  <p className="text-[12px] text-slate-700 leading-relaxed font-medium">
+                  <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
                     2025년 대손상각(63.7억) 일회성 악재가 종결되어, <b>2026년 영업이익 39.5억(OPM 9.9%), 순이익 26.1억</b>으로 즉각 흑자 전환을 달성합니다.
                   </p>
                 </div>
-                <div className="text-[11.5px] font-bold text-blue-800 bg-white p-1.5 rounded border border-blue-100 text-center mt-2">
+                <div className="text-[12px] font-bold text-blue-800 bg-white p-2 rounded-lg border border-blue-100 text-center shadow-sm">
                   2026(E) OP 39.5억 (흑자 전환)
                 </div>
               </div>
 
-              <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4.5 shadow-sm flex flex-col justify-between">
+              <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-5 shadow-sm flex flex-col justify-center gap-3">
                 <div>
-                  <h4 className="font-black text-[14px] text-emerald-900 mb-1.5 flex items-center gap-2">
+                  <h4 className="font-black text-[14.5px] text-emerald-900 mb-2 flex items-center gap-2">
                     <i className="fa-solid fa-hand-holding-dollar text-emerald-600"></i>원가 구조 혁신 (마진율 17%)
                   </h4>
-                  <p className="text-[12px] text-slate-700 leading-relaxed font-medium">
+                  <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
                     &apos;원소재-정밀가공-코팅-세정&apos; 원스톱 내재화로 외주 마진을 제거하여 <b>매출총이익률 17.0%(119억)</b>의 안정적 원가 경쟁력을 확립했습니다.
                   </p>
                 </div>
-                <div className="text-[11.5px] font-bold text-emerald-800 bg-white p-1.5 rounded border border-emerald-100 text-center mt-2">
+                <div className="text-[12px] font-bold text-emerald-800 bg-white p-2 rounded-lg border border-emerald-100 text-center shadow-sm">
                   매출총이익률: 10.8% ➔ 17.0% 구조적 개선
                 </div>
               </div>
 
-              <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-4.5 shadow-sm flex flex-col justify-between">
+              <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-5 shadow-sm flex flex-col justify-center gap-3">
                 <div>
-                  <h4 className="font-black text-[14px] text-indigo-900 mb-1.5 flex items-center gap-2">
+                  <h4 className="font-black text-[14.5px] text-indigo-900 mb-2 flex items-center gap-2">
                     <i className="fa-solid fa-crown text-indigo-600"></i>Tier-1 직납 영업레버리지
                   </h4>
-                  <p className="text-[12px] text-slate-700 leading-relaxed font-medium">
+                  <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
                     중간 유통 단계 축소 및 글로벌 1차 직납 공급 확대로 <b>2029년 매출 700억 원, 영업이익률 11.3%(78.9억)</b>의 고수익 체질을 완성합니다.
                   </p>
                 </div>
-                <div className="text-[11.5px] font-bold text-indigo-800 bg-white p-1.5 rounded border border-indigo-100 text-center mt-2">
+                <div className="text-[12px] font-bold text-indigo-800 bg-white p-2 rounded-lg border border-indigo-100 text-center shadow-sm">
                   2029(E) OP 78.9억 (OPM 11.3%)
                 </div>
               </div>
