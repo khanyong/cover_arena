@@ -80,15 +80,15 @@
                 padding: 0 !important; 
                 margin: 0 !important; 
                 width: 297mm !important;
-                height: 210mm !important;
+                height: auto !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
             }
             .slide { 
                 width: 297mm !important; 
-                height: 210mm !important; 
-                min-height: 210mm !important;
-                max-height: 210mm !important;
+                height: 209.5mm !important; 
+                min-height: 209.5mm !important;
+                max-height: 209.5mm !important;
                 box-shadow: none !important; 
                 border: none !important;
                 border-radius: 0 !important;
@@ -108,6 +108,11 @@
             .slide:first-of-type {
                 page-break-before: avoid !important;
                 break-before: avoid !important;
+            }
+            .slide:last-of-type,
+            .slide:last-child {
+                page-break-after: avoid !important;
+                break-after: avoid !important;
             }
             #print-guide { display: none !important; }
         }

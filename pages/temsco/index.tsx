@@ -81,7 +81,7 @@ export default function TemscoPage() {
               padding: 0 !important; 
               margin: 0 !important; 
               width: 297mm !important;
-              height: 210mm !important;
+              height: auto !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
             }
@@ -94,12 +94,13 @@ export default function TemscoPage() {
               margin: 0 !important;
               background-color: #ffffff !important;
               display: block !important;
+              height: auto !important;
             }
             .temsco-slide { 
               width: 297mm !important; 
-              height: 210mm !important; 
-              min-height: 210mm !important;
-              max-height: 210mm !important;
+              height: 209.5mm !important; 
+              min-height: 209.5mm !important;
+              max-height: 209.5mm !important;
               box-shadow: none !important; 
               border: none !important;
               border-radius: 0 !important;
@@ -119,6 +120,11 @@ export default function TemscoPage() {
             .temsco-slide:first-of-type {
               page-break-before: avoid !important;
               break-before: avoid !important;
+            }
+            .temsco-slide:last-of-type,
+            .temsco-slide:last-child {
+              page-break-after: avoid !important;
+              break-after: avoid !important;
             }
           }
         `}</style>
