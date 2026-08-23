@@ -937,7 +937,7 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Growth Driver Highlight Cards */}
-            <div className="grid grid-cols-2 gap-6 flex-1">
+            <div className="grid grid-cols-2 gap-6">
               <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-5 flex flex-col justify-between shadow-sm">
                 <div>
                   <div className="flex items-center justify-between mb-2.5 border-b border-indigo-200 pb-2">
@@ -1099,7 +1099,7 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Financial Highlights 3-Cards */}
-            <div className="grid grid-cols-3 gap-5 flex-1">
+            <div className="grid grid-cols-3 gap-5">
               <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-4.5 shadow-sm flex flex-col justify-between">
                 <div>
                   <h4 className="font-black text-[14px] text-blue-900 mb-1.5 flex items-center gap-2">
