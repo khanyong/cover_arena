@@ -85,8 +85,15 @@ export default function TemscoOriginalPage() {
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
             }
-            .no-print { 
+            .no-print,
+            body > *:not(#__next):not(main):not(.temsco-slide-container),
+            #__next > header,
+            #__next > div:not(.temsco-slide-container):not(main),
+            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
+            [class*="extension"], [id*="extension"] { 
               display: none !important; 
+              visibility: hidden !important;
+              opacity: 0 !important;
             }
             .temsco-slide-container {
               padding: 0 !important;

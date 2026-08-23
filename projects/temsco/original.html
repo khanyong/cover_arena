@@ -114,7 +114,13 @@
                 page-break-after: avoid !important;
                 break-after: avoid !important;
             }
-            #print-guide { display: none !important; }
+            #print-guide,
+            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
+            [class*="extension"], [id*="extension"] { 
+                display: none !important; 
+                visibility: hidden !important;
+                opacity: 0 !important;
+            }
         }
     </style>
 </head>
