@@ -63,27 +63,51 @@
             width: 55%; height: 55%; background-color: white; border-radius: 50%;
         }
 
+        *, *::before, *::after {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+        }
+
         /* Print Settings for strictly A4 Landscape */
         @media print {
             @page {
-                size: A4 landscape; /* 브라우저에 A4 가로 인쇄를 강제함 */
-                margin: 0mm; /* 여백 제거 */
+                size: 297mm 210mm;
+                margin: 0mm !important;
             }
-            body { 
-                background-color: white; 
-                padding: 0; 
-                margin: 0;
-                gap: 0; 
-                display: block; 
+            html, body { 
+                background-color: #ffffff !important; 
+                padding: 0 !important; 
+                margin: 0 !important; 
+                width: 297mm !important;
+                height: 210mm !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
             }
             .slide { 
                 width: 297mm !important; 
-                height: 209.5mm !important; /* 다음 장으로 빈 페이지가 넘어가는 것을 방지하기 위해 210mm에서 미세 조정 */
-                box-shadow: none; 
-                border: none;
-                margin: 0; 
-                page-break-after: always; 
-                page-break-inside: avoid;
+                height: 210mm !important; 
+                min-height: 210mm !important;
+                max-height: 210mm !important;
+                box-shadow: none !important; 
+                border: none !important;
+                border-radius: 0 !important;
+                margin: 0 !important; 
+                page-break-before: always !important;
+                page-break-after: always !important; 
+                break-before: page !important;
+                break-after: page !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+                overflow: hidden !important;
+                position: relative !important;
+                box-sizing: border-box !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .slide:first-of-type {
+                page-break-before: avoid !important;
+                break-before: avoid !important;
             }
             #print-guide { display: none !important; }
         }

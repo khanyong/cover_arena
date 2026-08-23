@@ -19,6 +19,12 @@ export default function TemscoPage() {
             --slide-height: 794px;
           }
           
+          *, *::before, *::after {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            color-adjust: exact !important;
+          }
+
           .temsco-slide { 
             width: var(--slide-width); 
             height: var(--slide-height); 
@@ -31,6 +37,8 @@ export default function TemscoPage() {
             border: 1px solid #cbd5e1;
             box-sizing: border-box;
             counter-increment: slide-page;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
 
           .temsco-slide::after {
@@ -48,6 +56,8 @@ export default function TemscoPage() {
             background: conic-gradient(#1e3a8a 0% 40%, #3b82f6 40% 80%, #9ca3af 80% 100%); 
             border-radius: 50%; 
             position: relative;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
           }
           .conic-donut::after {
             content: ""; 
@@ -63,14 +73,17 @@ export default function TemscoPage() {
 
           @media print {
             @page {
-              size: A4 landscape;
-              margin: 0mm;
+              size: 297mm 210mm;
+              margin: 0mm !important;
             }
-            body { 
-              background-color: white !important; 
+            html, body { 
+              background-color: #ffffff !important; 
               padding: 0 !important; 
-              margin: 0 !important;
-              display: block !important; 
+              margin: 0 !important; 
+              width: 297mm !important;
+              height: 210mm !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
             }
             .no-print { 
               display: none !important; 
@@ -78,23 +91,39 @@ export default function TemscoPage() {
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
-              background-color: white !important;
+              margin: 0 !important;
+              background-color: #ffffff !important;
+              display: block !important;
             }
             .temsco-slide { 
               width: 297mm !important; 
-              height: 209.5mm !important; 
+              height: 210mm !important; 
+              min-height: 210mm !important;
+              max-height: 210mm !important;
               box-shadow: none !important; 
               border: none !important;
               border-radius: 0 !important;
               margin: 0 !important; 
+              page-break-before: always !important;
               page-break-after: always !important; 
+              break-before: page !important;
+              break-after: page !important;
               page-break-inside: avoid !important;
+              break-inside: avoid !important;
+              overflow: hidden !important;
+              position: relative !important;
+              box-sizing: border-box !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .temsco-slide:first-of-type {
+              page-break-before: avoid !important;
+              break-before: avoid !important;
             }
           }
         `}</style>
       </Head>
 
-      {/* Top Sticky Toolbar */}
       <header className="no-print bg-slate-800/95 backdrop-blur border-b border-slate-700 text-white px-6 py-3.5 flex items-center justify-between sticky top-0 z-50 shadow-xl">
         <div className="flex items-center space-x-4">
           <Link 
@@ -113,25 +142,23 @@ export default function TemscoPage() {
         </div>
 
         <div className="flex items-center space-x-3">
-          {/* Version Switcher Chips */}
           <div className="flex items-center bg-slate-900/80 p-1 rounded-lg border border-slate-700">
             <span className="text-xs font-bold px-3 py-1.5 rounded-md bg-blue-600 text-white shadow-sm">
               Latest (수정본)
             </span>
             <Link
               href="/temsco/original"
-              className="text-xs font-medium px-3 py-1.5 rounded-md text-slate-400 hover:text-amber-400 hover:bg-slate-800 transition flex items-center gap-1.5"
+              className="text-xs font-semibold px-3 py-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition"
             >
-              <span className="w-2 h-2 rounded-full bg-amber-500"></span>
-              Original (초기본)
+              Original (원본)
             </Link>
           </div>
 
           <a
             href="/temsco/index.html"
             target="_blank"
-            rel="noreferrer"
-            className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 hover:text-white transition border border-slate-600"
+            rel="noopener noreferrer"
+            className="text-xs font-semibold px-3 py-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-slate-200 transition"
           >
             HTML 원문
           </a>
@@ -146,20 +173,19 @@ export default function TemscoPage() {
         </div>
       </header>
 
-      {/* Print Guide Notification */}
       <div className="no-print flex justify-center pt-6 px-4">
         <div 
           className="bg-slate-800/90 border border-slate-700 p-4 rounded-xl flex justify-between items-center shadow-lg text-white"
           style={{ width: 'var(--slide-width)', maxWidth: '100%' }}
         >
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-lg bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 text-lg flex-shrink-0">
+            <div className="w-10 h-10 rounded-lg bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-lg flex-shrink-0">
               <i className="fa-solid fa-file-pdf"></i>
             </div>
             <div>
-              <h3 className="font-bold text-sm text-slate-100">A4 PDF 출력 및 고해상도 인쇄 안내</h3>
-              <p className="text-xs text-slate-400 mt-0.5">
-                상단 <b>[PDF로 인쇄 / 저장]</b> 클릭 ➔ <b>[대상: PDF로 저장], [방향: 가로], [용지 크기: A4], [여백: 없음]</b>으로 설정하시면 완벽한 비율로 저장됩니다.
+              <h3 className="font-bold text-sm text-slate-100">A4 PDF 고화질 인쇄 안내 (색상 &amp; 그래픽 100% 동일 출력)</h3>
+              <p className="text-xs text-slate-300 mt-0.5">
+                인쇄 대화상자에서 ➔ <b>[대상: PDF로 저장], [여백: 없음], [배경 그래픽: 체크 ✓]</b> 설정하시면 모든 그래프와 배경색이 화면 그대로 선명하게 출력됩니다.
               </p>
             </div>
           </div>
@@ -172,7 +198,6 @@ export default function TemscoPage() {
         </div>
       </div>
 
-      {/* Slides Container */}
       <main 
         className="temsco-slide-container flex-1 py-8 flex flex-col items-center gap-10"
         style={{ counterReset: 'slide-page' }}
