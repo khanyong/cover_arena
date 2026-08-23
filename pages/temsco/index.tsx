@@ -7,7 +7,7 @@ export default function TemscoPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col font-sans text-slate-800">
+    <div className="min-h-screen bg-slate-900 print:bg-white print:min-h-0 print:block flex flex-col font-sans text-slate-800">
       <Head>
         <title>주식회사 템스코 (TEMSCO) - IR 투자제안서</title>
         <meta name="description" content="주식회사 템스코(TEMSCO) IR 자료 슬라이드 및 PDF 다운로드" />
@@ -78,6 +78,7 @@ export default function TemscoPage() {
             }
             html, body { 
               background-color: #ffffff !important; 
+              background: #ffffff !important;
               padding: 0 !important; 
               margin: 0 !important; 
               width: 297mm !important;
@@ -85,21 +86,15 @@ export default function TemscoPage() {
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
             }
-            .no-print,
-            body > *:not(#__next):not(main):not(.temsco-slide-container),
-            #__next > header,
-            #__next > div:not(.temsco-slide-container):not(main),
-            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
-            [class*="extension"], [id*="extension"] { 
+            .no-print { 
               display: none !important; 
-              visibility: hidden !important;
-              opacity: 0 !important;
             }
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
               margin: 0 !important;
               background-color: #ffffff !important;
+              background: #ffffff !important;
               display: block !important;
               height: auto !important;
             }

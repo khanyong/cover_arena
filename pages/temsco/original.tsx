@@ -7,7 +7,7 @@ export default function TemscoOriginalPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col font-sans text-slate-800">
+    <div className="min-h-screen bg-slate-900 print:bg-white print:min-h-0 print:block flex flex-col font-sans text-slate-800">
       <Head>
         <title>주식회사 템스코 (TEMSCO) - IR 투자제안서 (Original)</title>
         <meta name="description" content="주식회사 템스코(TEMSCO) IR 자료 슬라이드 (Original 버전)" />
@@ -78,6 +78,7 @@ export default function TemscoOriginalPage() {
             }
             html, body { 
               background-color: #ffffff !important; 
+              background: #ffffff !important;
               padding: 0 !important; 
               margin: 0 !important; 
               width: 297mm !important;
@@ -85,21 +86,15 @@ export default function TemscoOriginalPage() {
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
             }
-            .no-print,
-            body > *:not(#__next):not(main):not(.temsco-slide-container),
-            #__next > header,
-            #__next > div:not(.temsco-slide-container):not(main),
-            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
-            [class*="extension"], [id*="extension"] { 
+            .no-print { 
               display: none !important; 
-              visibility: hidden !important;
-              opacity: 0 !important;
             }
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
               margin: 0 !important;
               background-color: #ffffff !important;
+              background: #ffffff !important;
               display: block !important;
               height: auto !important;
             }
@@ -137,7 +132,6 @@ export default function TemscoOriginalPage() {
         `}</style>
       </Head>
 
-      {/* Top Sticky Toolbar */}
       <header className="no-print bg-slate-800/95 backdrop-blur border-b border-slate-700 text-white px-6 py-3.5 flex items-center justify-between sticky top-0 z-50 shadow-xl">
         <div className="flex items-center space-x-4">
           <Link 
