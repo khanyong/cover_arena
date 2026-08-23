@@ -167,6 +167,11 @@ export default function TemscoDeckPage() {
               size: A4 landscape;
               margin: 0mm !important;
             }
+            * {
+              box-shadow: none !important;
+              text-shadow: none !important;
+              filter: none !important;
+            }
             html, body { 
               background-color: #ffffff !important; 
               background: #ffffff !important;
