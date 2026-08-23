@@ -205,28 +205,27 @@ export default function TemscoDeckPage() {
             .temsco-slide { 
               display: block !important;
               width: 297mm !important; 
-              height: 209.5mm !important; 
-              min-height: 209.5mm !important;
-              max-height: 209.5mm !important;
+              height: 209mm !important; 
+              min-height: 209mm !important;
+              max-height: 209mm !important;
               box-shadow: none !important; 
               border: none !important;
               border-radius: 0 !important;
               margin: 0 !important; 
-              page-break-before: always !important;
-              page-break-after: always !important; 
-              break-before: page !important;
-              break-after: page !important;
               page-break-inside: avoid !important;
               break-inside: avoid !important;
+              page-break-after: always !important; 
+              break-after: page !important;
               overflow: hidden !important;
               position: relative !important;
               box-sizing: border-box !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
             }
-            .temsco-slide:first-child {
-              page-break-before: avoid !important;
-              break-before: avoid !important;
+            .temsco-slide:last-child,
+            .temsco-slide:last-of-type {
+              page-break-after: avoid !important;
+              break-after: avoid !important;
             }
           }
         `}</style>
