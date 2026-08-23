@@ -647,7 +647,7 @@ export default function TemscoDeckPage() {
                         <i className="fa-solid fa-circle-check"></i>4개 모델 선정
                       </span>
                     </div>
-                    <ul className="text-[14px] text-slate-700 space-y-2 font-medium">
+                    <ul className="text-[15px] text-slate-700 space-y-2.5 font-medium break-keep leading-relaxed">
                       <li>• <b>부품:</b> 진공증착용 메탈마스크 2027년 본양산 <b>신규 4개 모델 선정 완료</b> (추가 2개 모델 협의 중)</li>
                       <li>• <b>소재:</b> 고순도 알루미늄(Al) 타겟 및 Invar 특수 소재 직납 평가 동시 진행</li>
                     </ul>
@@ -660,7 +660,7 @@ export default function TemscoDeckPage() {
                         <i className="fa-solid fa-handshake"></i>메인 공급사 선정
                       </span>
                     </div>
-                    <ul className="text-[14px] text-slate-700 space-y-2 font-medium">
+                    <ul className="text-[15px] text-slate-700 space-y-2.5 font-medium break-keep leading-relaxed">
                       <li>• <b>부품:</b> 메탈마스크 1차 벤더 <b>최우선 협상 대상자 및 메인 공급사 공식 선정</b></li>
                       <li>• <b>소재:</b> 몰리브덴(Mo)/알루미늄(Al) 타겟 평가 후 은(Ag) 합금 타겟 순차 확대</li>
                     </ul>
