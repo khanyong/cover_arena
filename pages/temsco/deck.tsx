@@ -389,30 +389,30 @@ export default function TemscoDeckPage() {
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Executive Summary : 핵심 투자 하이라이트</h2>
             <div className="grid grid-cols-2 gap-5 h-full pb-2">
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
-                <div className="text-blue-600 text-[1.75rem] mb-2"><i className="fa-solid fa-layer-group"></i></div>
-                <h3 className="text-lg font-bold mb-1.5 text-slate-800">소재·부품 수직계열화 토탈 솔루션 완성</h3>
-                <p className="text-gray-700 text-[13px] leading-relaxed">
+                <div className="text-blue-600 text-[1.75rem] mb-3"><i className="fa-solid fa-layer-group"></i></div>
+                <h3 className="text-xl font-bold mb-2 text-slate-800">소재·부품 수직계열화 토탈 솔루션 완성</h3>
+                <p className="text-gray-700 text-[14px] leading-relaxed">
                   템스코의 고순도 박막 코팅 소재(스퍼터링 타겟) 기술력과 2024년 3월 인수한 <b>위폼스(주)의 정밀 메탈마스크 제조 역량을 결합</b>하여, 업계 유일의 <b>&apos;소재-정밀가공-코팅-세정&apos; 원스톱 일원화 체계를 완성</b>하였습니다.
                 </p>
               </div>
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
-                <div className="text-indigo-600 text-[1.75rem] mb-2"><i className="fa-solid fa-earth-asia"></i></div>
-                <h3 className="text-lg font-bold mb-1.5 text-slate-800">글로벌 Top-tier 1차 벤더(Tier-1) 직납 승격</h3>
-                <p className="text-gray-700 text-[13px] leading-relaxed">
+                <div className="text-indigo-600 text-[1.75rem] mb-3"><i className="fa-solid fa-earth-asia"></i></div>
+                <h3 className="text-xl font-bold mb-2 text-slate-800">글로벌 Top-tier 1차 벤더(Tier-1) 직납 승격</h3>
+                <p className="text-gray-700 text-[14px] leading-relaxed">
                   기존 2차 벤더 간접 납품 구조에서 탈피하여 <b>삼성디스플레이, LG디스플레이, 미국 AMAT, eMagin, 중국 CSOT 및 비전옥스(Visionox)</b> 등에 1차 벤더 등록을 완료하고 2026년부터 본격적인 양산 공급을 개시하였습니다.
                 </p>
               </div>
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
-                <div className="text-emerald-600 text-[1.75rem] mb-2"><i className="fa-solid fa-handshake-angle"></i></div>
-                <h3 className="text-lg font-bold mb-1.5 text-slate-800">위기를 기회로 전환한 턴어라운드 & 직수출 확대</h3>
-                <p className="text-gray-700 text-[13px] leading-relaxed">
+                <div className="text-emerald-600 text-[1.75rem] mb-3"><i className="fa-solid fa-handshake-angle"></i></div>
+                <h3 className="text-xl font-bold mb-2 text-slate-800">위기를 기회로 전환한 턴어라운드 &amp; 직수출 확대</h3>
+                <p className="text-gray-700 text-[14px] leading-relaxed">
                   파인원 회생절차를 계기로 글로벌 패널사 직납 체제로 전면 전환하였으며, <b>중국 비전옥스로부터 마스크 전체 물량의 30% 배정을 확정</b>받는 등 수주 규모를 획기적으로 확대하고 2026년 4분기부터 직수출 양산에 돌입합니다.
                 </p>
               </div>
               <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 flex flex-col justify-start relative shadow-sm hover:shadow-md transition">
-                <div className="text-slate-700 text-[1.75rem] mb-2"><i className="fa-solid fa-chart-line"></i></div>
-                <h3 className="text-lg font-bold mb-1.5 text-slate-800">2025년 잠재 부실 완전 해소 & 퀀텀점프 실적</h3>
-                <p className="text-gray-700 text-[13px] leading-relaxed">
+                <div className="text-slate-700 text-[1.75rem] mb-3"><i className="fa-solid fa-chart-line"></i></div>
+                <h3 className="text-xl font-bold mb-2 text-slate-800">2025년 잠재 부실 완전 해소 &amp; 퀀텀점프 실적</h3>
+                <p className="text-gray-700 text-[14px] leading-relaxed">
                   2025년 결산 시 회생 관련 채권 <b>약 80억 원을 전액 대손상각 처리하여 부실을 100% 선반영(Clean Sheet)</b>했습니다. 2026년 매출 400억 흑자 전환을 시작으로 <b>2027년 520억, 2029년 700억 원(OPM 11.3%, OP 78.9억)</b>을 실현합니다.
                 </p>
               </div>
@@ -422,41 +422,41 @@ export default function TemscoDeckPage() {
 
         {/* Slide 3 : Slide 2. Company Overview */}
         <div className={getSlideClass(2, 'bg-slate-50')}>
-          <div className="h-full flex flex-col px-12 py-10 relative z-10">
-            <h2 className="text-[2.1rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-5 inline-block w-max">Company Overview : 회사 개요 및 성장 연혁</h2>
-            <div className="flex flex-1 gap-8 items-stretch min-h-0">
-              <div className="w-[45%] flex flex-col justify-between gap-3.5">
-                <div className="bg-blue-50/60 border border-blue-100 rounded-xl p-5 border-l-[8px] border-l-blue-600 shadow-sm relative">
-                  <p className="text-blue-600 font-bold text-xs tracking-widest mb-1 uppercase">Core Identity</p>
-                  <h3 className="text-[1.3rem] font-black text-slate-900 leading-tight mb-2 tracking-tight">&quot;첨단 소부장 융합으로 글로벌 초격차를 연결한다&quot;</h3>
-                  <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
+          <div className="h-full flex flex-col p-14 relative z-10">
+            <h2 className="text-[2.2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-8 inline-block w-max">Company Overview &amp; Milestones</h2>
+            <div className="flex flex-1 gap-10 items-stretch">
+              <div className="w-[45%] flex flex-col gap-5">
+                <div className="bg-blue-50/60 border border-blue-100 rounded-xl p-8 border-l-[10px] border-l-blue-600 shadow-sm relative h-[45%] flex flex-col justify-start">
+                  <p className="text-blue-600 font-bold text-sm tracking-widest mb-2 uppercase">Core Identity</p>
+                  <h3 className="text-[1.5rem] font-black text-slate-900 leading-tight mb-3 tracking-tight">&quot;첨단 소부장 융합으로 글로벌 초격차를 연결한다&quot;</h3>
+                  <p className="text-[13px] text-slate-700 leading-relaxed font-medium">
                     2010년 10월 설립 이후 반도체 및 디스플레이 핵심 배선막(Array layer) 고순도 박막코팅소재로 출발하여, 첨단 에너지 및 정밀부품 분야로 포트폴리오를 지속 확장해 왔습니다.
                   </p>
                 </div>
-                <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm flex-1 flex flex-col justify-between">
-                  <h4 className="font-bold text-[15px] text-slate-800 border-b border-slate-100 pb-2.5 flex items-center mb-1">
+                <div className="bg-white border border-slate-200 rounded-xl p-7 shadow-sm h-[55%] flex flex-col justify-start">
+                  <h4 className="font-bold text-lg text-slate-800 mb-4 border-b border-slate-100 pb-3 flex items-center">
                     <i className="fa-solid fa-layer-group text-blue-600 mr-2"></i>핵심 사업 영역 및 다각화
                   </h4>
-                  <div className="flex flex-col gap-2.5 py-1">
-                    <div className="flex items-start gap-3">
-                      <span className="bg-blue-100 text-blue-700 font-black text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap mt-0.5">박막소재</span>
+                  <div className="flex flex-col gap-4">
+                    <div className="flex items-start gap-4">
+                      <span className="bg-blue-100 text-blue-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">박막소재</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[13.5px] mb-0.5">고순도 박막코팅소재 (Al, Mo, CuMn, Ag 등)</p>
-                        <p className="text-[12px] text-slate-500 leading-snug">반도체·디스플레이 미세 배선막용 스퍼터링 타겟 및 첨단 에너지 소재.</p>
+                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">고순도 박막코팅소재 (Al, Mo, CuMn, Ag 등)</p>
+                        <p className="text-[13px] text-slate-500 leading-snug">반도체·디스플레이 미세 배선막용 스퍼터링 타겟 및 첨단 에너지 소재.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <span className="bg-indigo-100 text-indigo-700 font-black text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap mt-0.5">정밀부품</span>
+                    <div className="flex items-start gap-4">
+                      <span className="bg-indigo-100 text-indigo-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">정밀부품</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[13.5px] mb-0.5">정밀 메탈마스크 (위폼스 CVD/OMM/FMM)</p>
-                        <p className="text-[12px] text-slate-500 leading-snug">OLED 진공증착 핵심 부품. 24년 3월 인수 통해 일괄 제조 역량 확보.</p>
+                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">정밀 메탈마스크 (위폼스 CVD/OMM/FMM)</p>
+                        <p className="text-[13px] text-slate-500 leading-snug">OLED 진공증착 핵심 부품. 24년 3월 인수 통해 일괄 제조 역량 확보.</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <span className="bg-slate-200 text-slate-700 font-black text-[11px] px-2.5 py-1 rounded-full whitespace-nowrap mt-0.5">특수강</span>
+                    <div className="flex items-start gap-4">
+                      <span className="bg-slate-200 text-slate-700 font-black text-xs px-3 py-1.5 rounded-full whitespace-nowrap mt-0.5">특수강</span>
                       <div>
-                        <p className="font-bold text-slate-900 text-[13.5px] mb-0.5">Ni 특수강 및 SUS420 비철소재</p>
-                        <p className="text-[12px] text-slate-500 leading-snug">고진공 챔버 및 정밀 가공 부품용 신뢰성 기초 소재 네트워크 구축.</p>
+                        <p className="font-bold text-slate-900 text-[15px] mb-0.5">Ni 특수강 및 SUS420 비철소재</p>
+                        <p className="text-[13px] text-slate-500 leading-snug">고진공 챔버 및 정밀 가공 부품용 신뢰성 기초 소재 네트워크 구축.</p>
                       </div>
                     </div>
                   </div>
@@ -554,7 +554,7 @@ export default function TemscoDeckPage() {
         <div className={getSlideClass(4, 'bg-white')}>
           <div className="h-full flex flex-col p-14">
             <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-6 inline-block w-max">Risk &amp; Resolution : 파인원 사태의 본질과 재무 팩트 체크</h2>
-            <p className="text-[17px] tracking-tight break-keep text-slate-800 mb-8 border-l-4 border-red-600 pl-4 bg-red-50 py-2 border-r border-t border-b border-r-red-100 border-t-red-100 border-b-red-100">
+            <p className="text-[17px] tracking-tight break-keep text-slate-800 mb-8 border-l-4 border-red-600 pl-4 bg-red-50 py-2 border border-red-100">
               &quot;부채비율 1557%의 진실&quot; : 당사의 영업력이나 기술력 훼손이 아닌, 과거 악성 채권 상각에 따른 <b>장부상 자본 감소(회계적 착시)</b>입니다.
             </p>
             
@@ -619,42 +619,40 @@ export default function TemscoDeckPage() {
 
         {/* Slide 6 : Growth Pipeline */}
         <div className={getSlideClass(5, 'bg-slate-50')}>
-          <div className="h-full flex flex-col p-10 pt-8 pb-7 relative z-10 justify-between">
-            <div>
-              <h2 className="text-[1.85rem] font-black text-slate-800 border-b-4 border-blue-600 pb-2 mb-2 inline-block w-max">Growth Pipeline : 주요 고객사별 양산 전개 계획</h2>
-              <p className="text-slate-700 text-[14px] mb-3.5 font-medium">국내외 메이저 패널 메이커 및 글로벌 반도체·XR 장비사와의 직납 양산 라인업을 완성했습니다.</p>
-            </div>
+          <div className="h-full flex flex-col p-14 relative z-10">
+            <h2 className="text-[2rem] font-black text-slate-800 border-b-4 border-blue-600 pb-3 mb-4 inline-block w-max">Growth Pipeline : 주요 고객사별 양산 전개 계획</h2>
+            <p className="text-slate-700 text-lg mb-6 font-medium">국내외 메이저 패널 메이커 및 글로벌 반도체·XR 장비사와의 직납 양산 라인업을 완성했습니다.</p>
             
-            <div className="grid grid-cols-2 gap-5 flex-1 items-stretch min-h-0">
+            <div className="grid grid-cols-2 gap-8 flex-1 min-h-0">
               {/* Left Column: 국내 메인 고객사 */}
-              <div className="bg-white rounded-2xl p-5 border border-slate-300 shadow-sm relative overflow-hidden flex flex-col justify-between">
+              <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-sm relative overflow-hidden flex flex-col justify-start">
                 <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2.5 flex items-center border-b border-slate-200 pb-2">
-                  <i className="fa-solid fa-building-flag text-blue-600 mr-2.5"></i>
+                <h3 className="text-2xl font-bold text-slate-800 mb-4 flex items-center border-b border-slate-200 pb-3">
+                  <i className="fa-solid fa-building-flag text-blue-600 mr-3"></i>
                   국내 메인 고객사 (디스플레이)
                 </h3>
-                <div className="space-y-3 flex-1 flex flex-col justify-center">
-                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-xs">
-                    <div className="flex justify-between items-center mb-1.5">
-                      <h4 className="font-black text-[16px] text-blue-800">삼성디스플레이 (SDC)</h4>
-                      <span className="bg-green-100 text-green-800 border border-green-300 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                <div className="space-y-4">
+                  <div className="bg-slate-50 p-4.5 rounded-xl border border-slate-200 shadow-xs">
+                    <div className="flex justify-between items-start mb-1.5">
+                      <h4 className="font-black text-xl text-blue-800">삼성디스플레이 (SDC)</h4>
+                      <span className="bg-green-100 text-green-800 border border-green-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <i className="fa-solid fa-circle-check"></i>4개 모델 선정
                       </span>
                     </div>
-                    <ul className="text-[12.5px] text-slate-700 space-y-1 mt-1 font-medium break-keep">
+                    <ul className="text-[13.5px] text-slate-700 space-y-1.5 mt-2 font-medium break-keep">
                       <li>• <b>부품:</b> 진공증착용 메탈마스크 2027년 본양산 <b>신규 4개 모델 선정 완료</b> (추가 2개 모델 협의 중)</li>
                       <li>• <b>소재:</b> 고순도 알루미늄(Al) 타겟 및 Invar 특수 소재 직납 평가 동시 진행</li>
                     </ul>
                   </div>
 
-                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-xs">
-                    <div className="flex justify-between items-center mb-1.5">
-                      <h4 className="font-black text-[16px] text-red-700">LG디스플레이 (LGD)</h4>
-                      <span className="bg-green-100 text-green-800 border border-green-300 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                  <div className="bg-slate-50 p-4.5 rounded-xl border border-slate-200 shadow-xs">
+                    <div className="flex justify-between items-start mb-1.5">
+                      <h4 className="font-black text-xl text-red-700">LG디스플레이 (LGD)</h4>
+                      <span className="bg-green-100 text-green-800 border border-green-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <i className="fa-solid fa-handshake"></i>메인 공급사 선정
                       </span>
                     </div>
-                    <ul className="text-[12.5px] text-slate-700 space-y-1 mt-1 font-medium break-keep">
+                    <ul className="text-[13.5px] text-slate-700 space-y-1.5 mt-2 font-medium break-keep">
                       <li>• <b>부품:</b> 메탈마스크 1차 벤더 <b>최우선 협상 대상자 및 메인 공급사 공식 선정</b></li>
                       <li>• <b>소재:</b> 몰리브덴(Mo)/알루미늄(Al) 타겟 평가 후 은(Ag) 합금 타겟 순차 확대</li>
                     </ul>
@@ -663,44 +661,44 @@ export default function TemscoDeckPage() {
               </div>
 
               {/* Right Column: 글로벌 고객사 & 신사업 */}
-              <div className="bg-white rounded-2xl p-5 border border-slate-300 shadow-sm relative overflow-hidden flex flex-col justify-between">
+              <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-sm relative overflow-hidden flex flex-col justify-start">
                 <div className="absolute top-0 left-0 w-full h-2 bg-emerald-600"></div>
-                <h3 className="text-lg font-bold text-slate-800 mb-2.5 flex items-center border-b border-slate-200 pb-2">
-                  <i className="fa-solid fa-globe text-emerald-600 mr-2.5"></i>
+                <h3 className="text-2xl font-bold text-slate-800 mb-4 flex items-center border-b border-slate-200 pb-3">
+                  <i className="fa-solid fa-globe text-emerald-600 mr-3"></i>
                   글로벌 패널사 &amp; 반도체/XR 장비사
                 </h3>
-                <div className="space-y-3 flex-1 flex flex-col justify-center">
-                  <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-xs">
+                <div className="space-y-4">
+                  <div className="bg-slate-50 p-4.5 rounded-xl border border-slate-200 shadow-xs">
                     <div className="flex justify-between items-center mb-1.5">
                       <div>
-                        <h4 className="font-black text-[16px] text-slate-900">중국 Visionox &amp; CSOT</h4>
-                        <p className="text-[10.5px] text-slate-500 font-bold">OLED 패널 글로벌 제조사</p>
+                        <h4 className="font-black text-xl text-slate-900">중국 Visionox &amp; CSOT</h4>
+                        <p className="text-xs text-slate-500 font-bold">OLED 패널 글로벌 제조사</p>
                       </div>
-                      <span className="bg-blue-100 text-blue-800 border border-blue-300 text-xs font-bold px-2.5 py-0.5 rounded-full flex items-center gap-1">
+                      <span className="bg-blue-100 text-blue-800 border border-blue-300 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                         <i className="fa-solid fa-boxes-packing"></i>물량 30% 배정 확정
                       </span>
                     </div>
-                    <p className="text-[12.5px] text-slate-700 mt-1.5 border-t border-slate-200 pt-1.5 leading-snug font-medium break-keep">
+                    <p className="text-[13.5px] text-slate-700 mt-2 border-t border-slate-200 pt-2 leading-relaxed font-medium break-keep">
                       파인원 대체 1차 벤더 승격을 완료하여 <b>비전옥스 전체 메탈마스크 물량의 30% 배정을 확정</b>받았으며, 2026년 4분기부터 직수출 양산에 돌입합니다.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
                       <div>
-                        <h4 className="font-black text-[13.5px] text-slate-900 mb-0.5">AMAT &amp; eMagin (미국)</h4>
-                        <p className="text-[10px] text-slate-500 font-bold mb-1.5">글로벌 장비사 / 초고해상도 XR</p>
+                        <h4 className="font-black text-base text-slate-900 mb-0.5">AMAT &amp; eMagin (미국)</h4>
+                        <p className="text-xs text-slate-500 font-bold mb-2">글로벌 장비사 / 초고해상도 XR</p>
                       </div>
-                      <span className="bg-yellow-100 text-yellow-800 text-[10.5px] font-bold px-2 py-0.5 rounded border border-yellow-300 w-max">
+                      <span className="bg-yellow-100 text-yellow-800 text-xs font-bold px-2.5 py-1 rounded border border-yellow-300 w-max">
                         1차 벤더 등록 완료
                       </span>
                     </div>
-                    <div className="bg-slate-50 p-3 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
+                    <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 shadow-xs flex flex-col justify-between">
                       <div>
-                        <h4 className="font-black text-[13.5px] text-slate-900 mb-0.5">반도체 신사업 파이프라인</h4>
-                        <p className="text-[10px] text-slate-500 font-bold mb-1.5">HF 봄베 / CuMn 타겟 / 구리기판</p>
+                        <h4 className="font-black text-base text-slate-900 mb-0.5">반도체 신사업 파이프라인</h4>
+                        <p className="text-xs text-slate-500 font-bold mb-2">HF 봄베 / CuMn 타겟 / 구리기판</p>
                       </div>
-                      <span className="bg-purple-100 text-purple-800 text-[10.5px] font-bold px-2 py-0.5 rounded border border-purple-300 w-max">
+                      <span className="bg-purple-100 text-purple-800 text-xs font-bold px-2.5 py-1 rounded border border-purple-300 w-max">
                         시제품 평가 전개
                       </span>
                     </div>
