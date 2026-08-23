@@ -745,7 +745,7 @@ export default function TemscoDeckPage() {
 
                   {/* Bar 1: 2025년 */}
                   <div className="relative z-10 flex flex-col items-center justify-start h-full pt-[135px] w-24">
-                    <div className="w-22 bg-red-500 rounded-b-xl h-[70px] shadow-sm flex flex-col items-center justify-center text-white font-bold border border-red-600 text-xs text-center leading-tight">
+                    <div className="w-24 bg-red-500 rounded-b-xl h-[70px] shadow-sm flex flex-col items-center justify-center text-white font-bold border border-red-600 text-xs text-center leading-tight">
                       <span className="text-[11px]">2025년</span>
                       <span className="text-[9.5px] text-red-100 font-normal">대손 반영</span>
                     </div>
@@ -771,7 +771,7 @@ export default function TemscoDeckPage() {
                   {/* Bar 2: 2026(E) */}
                   <div className="relative z-10 flex flex-col items-center justify-end h-full pb-[135px] w-24">
                     <span className="text-lg font-black text-blue-700 mb-1.5 whitespace-nowrap">+39.5억</span>
-                    <div className="w-22 bg-blue-600 rounded-t-xl h-[90px] shadow-sm flex flex-col items-center justify-center text-white font-bold text-center text-xs border border-blue-700">
+                    <div className="w-24 bg-blue-600 rounded-t-xl h-[90px] shadow-sm flex flex-col items-center justify-center text-white font-bold text-center text-xs border border-blue-700">
                       <span>2026(E)</span>
                       <span className="text-[10px] text-blue-100 font-normal">영업이익</span>
                     </div>
