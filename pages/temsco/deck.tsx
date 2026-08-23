@@ -164,25 +164,69 @@ export default function TemscoDeckPage() {
             }
             html, body { 
               background-color: #ffffff !important; 
+              background: #ffffff !important;
               padding: 0 !important; 
               margin: 0 !important; 
+              width: 297mm !important;
+              height: auto !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
             }
-            .no-print { display: none !important; }
+            .no-print,
+            header,
+            footer,
+            #print-guide,
+            body > *:not(#__next),
+            body > #__next > div > header,
+            body > #__next > div > div.no-print,
+            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
+            [class*="extension"], [id*="extension"],
+            [data-extension-id],
+            img[src*="feed"], img[src*="rss"],
+            svg[class*="feed"], svg[class*="rss"],
+            a[href*="rss"], a[href*="feed"] {
+              display: none !important;
+              visibility: hidden !important;
+              opacity: 0 !important;
+              width: 0 !important;
+              height: 0 !important;
+              position: absolute !important;
+              left: -9999px !important;
+            }
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
               margin: 0 !important;
+              background-color: #ffffff !important;
+              background: #ffffff !important;
               display: block !important;
+              height: auto !important;
             }
             .temsco-slide { 
               display: block !important;
               width: 297mm !important; 
               height: 209.5mm !important; 
+              min-height: 209.5mm !important;
+              max-height: 209.5mm !important;
               box-shadow: none !important; 
               border: none !important;
               border-radius: 0 !important;
               margin: 0 !important; 
+              page-break-before: always !important;
+              page-break-after: always !important; 
               break-before: page !important;
+              break-after: page !important;
+              page-break-inside: avoid !important;
+              break-inside: avoid !important;
+              overflow: hidden !important;
+              position: relative !important;
+              box-sizing: border-box !important;
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
+            .temsco-slide:first-child {
+              page-break-before: avoid !important;
+              break-before: avoid !important;
             }
           }
         `}</style>
