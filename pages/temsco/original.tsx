@@ -247,7 +247,7 @@ export default function TemscoOriginalPage() {
                 <p className="text-sm text-slate-500 mt-1">CEO 오정석 | 설립일: 2010. 10. 22</p>
               </div>
               <div className="text-right">
-                <p className="text-lg text-slate-600 font-bold">2026. 07.</p>
+                <p className="text-lg text-slate-600 font-bold">2026. 08.</p>
               </div>
             </div>
           </div>
