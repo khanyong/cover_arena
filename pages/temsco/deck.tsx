@@ -625,7 +625,7 @@ export default function TemscoDeckPage() {
             
             <div className="grid grid-cols-2 gap-8 flex-1 min-h-0">
               {/* Left Column: 국내 메인 고객사 */}
-              <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-sm relative overflow-hidden flex flex-col justify-start">
+              <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-sm relative flex flex-col justify-start min-w-0">
                 <div className="absolute top-0 left-0 w-full h-2 bg-blue-600"></div>
                 <h3 className="text-2xl font-bold text-slate-800 mb-4 flex items-center border-b border-slate-200 pb-3">
                   <i className="fa-solid fa-building-flag text-blue-600 mr-3"></i>
@@ -633,26 +633,26 @@ export default function TemscoDeckPage() {
                 </h3>
                 <div className="flex-1 flex flex-col justify-between gap-4">
                   <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs flex-1 flex flex-col justify-center">
-                    <div className="flex justify-between items-start mb-3">
+                    <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
                       <h4 className="font-black text-xl text-blue-800">삼성디스플레이 (SDC)</h4>
-                      <span className="bg-green-100 text-green-800 border border-green-300 text-[13px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                      <span className="bg-green-100 text-green-800 border border-green-300 text-[13px] font-bold px-3 py-1 rounded-full flex items-center gap-1 whitespace-nowrap shrink-0">
                         <i className="fa-solid fa-circle-check"></i>4개 모델 선정
                       </span>
                     </div>
-                    <ul className="text-[14px] text-slate-700 space-y-2 font-medium break-keep">
+                    <ul className="text-[14px] text-slate-700 space-y-2 font-medium">
                       <li>• <b>부품:</b> 진공증착용 메탈마스크 2027년 본양산 <b>신규 4개 모델 선정 완료</b> (추가 2개 모델 협의 중)</li>
                       <li>• <b>소재:</b> 고순도 알루미늄(Al) 타겟 및 Invar 특수 소재 직납 평가 동시 진행</li>
                     </ul>
                   </div>
 
                   <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs flex-1 flex flex-col justify-center">
-                    <div className="flex justify-between items-start mb-3">
+                    <div className="flex flex-wrap justify-between items-start gap-2 mb-3">
                       <h4 className="font-black text-xl text-red-700">LG디스플레이 (LGD)</h4>
-                      <span className="bg-green-100 text-green-800 border border-green-300 text-[13px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                      <span className="bg-green-100 text-green-800 border border-green-300 text-[13px] font-bold px-3 py-1 rounded-full flex items-center gap-1 whitespace-nowrap shrink-0">
                         <i className="fa-solid fa-handshake"></i>메인 공급사 선정
                       </span>
                     </div>
-                    <ul className="text-[14px] text-slate-700 space-y-2 font-medium break-keep">
+                    <ul className="text-[14px] text-slate-700 space-y-2 font-medium">
                       <li>• <b>부품:</b> 메탈마스크 1차 벤더 <b>최우선 협상 대상자 및 메인 공급사 공식 선정</b></li>
                       <li>• <b>소재:</b> 몰리브덴(Mo)/알루미늄(Al) 타겟 평가 후 은(Ag) 합금 타겟 순차 확대</li>
                     </ul>
@@ -661,7 +661,7 @@ export default function TemscoDeckPage() {
               </div>
 
               {/* Right Column: 글로벌 고객사 & 신사업 */}
-              <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-sm relative overflow-hidden flex flex-col justify-start">
+              <div className="bg-white rounded-2xl p-6 border border-slate-300 shadow-sm relative flex flex-col justify-start min-w-0">
                 <div className="absolute top-0 left-0 w-full h-2 bg-emerald-600"></div>
                 <h3 className="text-2xl font-bold text-slate-800 mb-4 flex items-center border-b border-slate-200 pb-3">
                   <i className="fa-solid fa-globe text-emerald-600 mr-3"></i>
@@ -669,16 +669,16 @@ export default function TemscoDeckPage() {
                 </h3>
                 <div className="flex-1 flex flex-col justify-between gap-4">
                   <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 shadow-xs flex-1 flex flex-col justify-center">
-                    <div className="flex justify-between items-center mb-2">
+                    <div className="flex flex-wrap justify-between items-start gap-2 mb-2">
                       <div>
                         <h4 className="font-black text-xl text-slate-900">중국 Visionox &amp; CSOT</h4>
                         <p className="text-[13px] text-slate-500 font-bold mt-1">OLED 패널 글로벌 제조사</p>
                       </div>
-                      <span className="bg-blue-100 text-blue-800 border border-blue-300 text-[13px] font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                      <span className="bg-blue-100 text-blue-800 border border-blue-300 text-[13px] font-bold px-3 py-1 rounded-full flex items-center gap-1 whitespace-nowrap shrink-0">
                         <i className="fa-solid fa-boxes-packing"></i>물량 30% 배정 확정
                       </span>
                     </div>
-                    <p className="text-[14px] text-slate-700 mt-2 border-t border-slate-200 pt-3 leading-relaxed font-medium break-keep">
+                    <p className="text-[14px] text-slate-700 mt-2 border-t border-slate-200 pt-3 leading-relaxed font-medium">
                       파인원 대체 1차 벤더 승격을 완료하여 <b>비전옥스 전체 메탈마스크 물량의 30% 배정을 확정</b>받았으며, 2026년 4분기부터 직수출 양산에 돌입합니다.
                     </p>
                   </div>
@@ -844,17 +844,17 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Segment Breakdown Detailed Table (Strict table-fixed & 100% container width) */}
-            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-4 w-full">
+            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-3 w-full">
               <table className="w-full table-fixed text-center">
                 <thead className="bg-slate-800 text-white font-bold">
                   <tr className="text-[11.5px]">
-                    <th className="py-2.5 px-3 text-left pl-4 w-[28%] truncate">사업 부문 및 손익 세부 항목</th>
-                    <th className="py-2.5 px-1 w-[12%]">2024년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
-                    <th className="py-2.5 px-1 w-[12%]">2025년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
-                    <th className="py-2.5 px-1 w-[12%] text-blue-300 bg-slate-900/60 font-black">FY2026(E)<br /><span className="text-[9.5px] font-normal text-blue-200">턴어라운드</span></th>
-                    <th className="py-2.5 px-1 w-[12%]">FY2027(E)<br /><span className="text-[9.5px] font-normal text-slate-300">양산 본격화</span></th>
-                    <th className="py-2.5 px-1 w-[12%]">FY2028(E)<br /><span className="text-[9.5px] font-normal text-slate-300">스케일업</span></th>
-                    <th className="py-2.5 px-1 w-[12%] font-black text-yellow-300">FY2029(E)<br /><span className="text-[9.5px] font-normal text-slate-300">퀀텀점프</span></th>
+                    <th className="py-1.5 px-3 text-left pl-4 w-[28%] truncate">사업 부문 및 손익 세부 항목</th>
+                    <th className="py-1.5 px-1 w-[12%]">2024년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
+                    <th className="py-1.5 px-1 w-[12%]">2025년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
+                    <th className="py-1.5 px-1 w-[12%] text-blue-300 bg-slate-900/60 font-black">FY2026(E)<br /><span className="text-[9.5px] font-normal text-blue-200">턴어라운드</span></th>
+                    <th className="py-1.5 px-1 w-[12%]">FY2027(E)<br /><span className="text-[9.5px] font-normal text-slate-300">양산 본격화</span></th>
+                    <th className="py-1.5 px-1 w-[12%]">FY2028(E)<br /><span className="text-[9.5px] font-normal text-slate-300">스케일업</span></th>
+                    <th className="py-1.5 px-1 w-[12%] font-black text-yellow-300">FY2029(E)<br /><span className="text-[9.5px] font-normal text-slate-300">퀀텀점프</span></th>
                   </tr>
                 </thead>
                 <tbody className="font-medium text-slate-700 text-[11px]">
@@ -864,24 +864,24 @@ export default function TemscoDeckPage() {
                       <i className="fa-solid fa-microchip text-indigo-600 text-xs mr-1.5"></i>
                       <span>1. 메탈마스크 사업 부문 매출</span>
                     </td>
-                    <td className="whitespace-nowrap">100.6</td>
-                    <td className="whitespace-nowrap">120.0</td>
-                    <td className="text-indigo-700 font-black bg-indigo-100/50 whitespace-nowrap">160.0</td>
-                    <td className="font-bold text-indigo-800 whitespace-nowrap">231.0</td>
-                    <td className="font-bold whitespace-nowrap">277.5</td>
-                    <td className="font-black text-indigo-900 bg-indigo-100/60 whitespace-nowrap">354.0</td>
+                    <td className="break-keep">100.6</td>
+                    <td className="break-keep">120.0</td>
+                    <td className="text-indigo-700 font-black bg-indigo-100/50 ">160.0</td>
+                    <td className="font-bold text-indigo-800 ">231.0</td>
+                    <td className="font-bold ">277.5</td>
+                    <td className="font-black text-indigo-900 bg-indigo-100/60 ">354.0</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
                     <td className="py-1 text-left pl-8 border-r border-slate-200 truncate">└ 마스크 부문 매출원가</td>
-                    <td className="whitespace-nowrap">86.5</td><td className="whitespace-nowrap">103.2</td><td className="whitespace-nowrap">128.0</td><td className="whitespace-nowrap">184.8</td><td className="whitespace-nowrap">222.0</td><td className="whitespace-nowrap">283.2</td>
+                    <td className="break-keep">86.5</td><td className="break-keep">103.2</td><td className="break-keep">128.0</td><td className="break-keep">184.8</td><td className="break-keep">222.0</td><td className="break-keep">283.2</td>
                   </tr>
                   <tr className="border-b-2 border-indigo-200 bg-indigo-50/40 text-indigo-950 font-bold">
                     <td className="py-1 text-left pl-8 border-r border-slate-200 text-indigo-900 truncate">└ 마스크 매출총이익 (20.0%)</td>
-                    <td className="whitespace-nowrap">14.1 (14.0%)</td><td className="whitespace-nowrap">16.8 (14.0%)</td>
-                    <td className="text-indigo-700 font-bold whitespace-nowrap">32.0 (20.0%)</td>
-                    <td className="font-bold whitespace-nowrap">46.2 (20.0%)</td>
-                    <td className="font-bold whitespace-nowrap">55.5 (20.0%)</td>
-                    <td className="font-bold whitespace-nowrap">70.8 (20.0%)</td>
+                    <td className="break-keep">14.1 (14.0%)</td><td className="break-keep">16.8 (14.0%)</td>
+                    <td className="text-indigo-700 font-bold ">32.0 (20.0%)</td>
+                    <td className="font-bold ">46.2 (20.0%)</td>
+                    <td className="font-bold ">55.5 (20.0%)</td>
+                    <td className="font-bold ">70.8 (20.0%)</td>
                   </tr>
 
                   {/* Segment 2: Coating Material */}
@@ -890,23 +890,23 @@ export default function TemscoDeckPage() {
                       <i className="fa-solid fa-layer-group text-blue-600 text-xs mr-1.5"></i>
                       <span>2. 박막타겟 및 소재 사업 부문 매출</span>
                     </td>
-                    <td className="whitespace-nowrap">298.0</td><td className="whitespace-nowrap">230.6</td>
-                    <td className="text-blue-700 font-black bg-blue-100/50 whitespace-nowrap">240.0</td>
-                    <td className="font-bold text-blue-800 whitespace-nowrap">289.0</td>
-                    <td className="font-bold whitespace-nowrap">322.5</td>
-                    <td className="font-black text-blue-900 bg-blue-100/60 whitespace-nowrap">346.0</td>
+                    <td className="break-keep">298.0</td><td className="break-keep">230.6</td>
+                    <td className="text-blue-700 font-black bg-blue-100/50 ">240.0</td>
+                    <td className="font-bold text-blue-800 ">289.0</td>
+                    <td className="font-bold ">322.5</td>
+                    <td className="font-black text-blue-900 bg-blue-100/60 ">346.0</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
                     <td className="py-1 text-left pl-8 border-r border-slate-200 truncate">└ 소재 부문 매출원가</td>
-                    <td className="whitespace-nowrap">271.7</td><td className="whitespace-nowrap">209.5</td><td className="whitespace-nowrap">204.0</td><td className="whitespace-nowrap">246.8</td><td className="whitespace-nowrap">276.0</td><td className="whitespace-nowrap">297.8</td>
+                    <td className="break-keep">271.7</td><td className="break-keep">209.5</td><td className="break-keep">204.0</td><td className="break-keep">246.8</td><td className="break-keep">276.0</td><td className="break-keep">297.8</td>
                   </tr>
                   <tr className="border-b-2 border-blue-200 bg-blue-50/40 text-blue-950 font-bold">
                     <td className="py-1 text-left pl-8 border-r border-slate-200 text-blue-900 truncate">└ 소재 매출총이익 (13.9~15.0%)</td>
-                    <td className="whitespace-nowrap">26.3 (8.8%)</td><td className="whitespace-nowrap">21.0 (9.1%)</td>
-                    <td className="text-blue-700 font-bold whitespace-nowrap">36.0 (15.0%)</td>
-                    <td className="font-bold whitespace-nowrap">42.2 (14.6%)</td>
-                    <td className="font-bold whitespace-nowrap">46.5 (14.4%)</td>
-                    <td className="font-bold whitespace-nowrap">48.2 (13.9%)</td>
+                    <td className="break-keep">26.3 (8.8%)</td><td className="break-keep">21.0 (9.1%)</td>
+                    <td className="text-blue-700 font-bold ">36.0 (15.0%)</td>
+                    <td className="font-bold ">42.2 (14.6%)</td>
+                    <td className="font-bold ">46.5 (14.4%)</td>
+                    <td className="font-bold ">48.2 (13.9%)</td>
                   </tr>
 
                   {/* Total Consolidation */}
@@ -915,41 +915,41 @@ export default function TemscoDeckPage() {
                       <i className="fa-solid fa-calculator text-yellow-300 text-xs mr-1.5"></i>
                       <span>전사 총 매출액 합계 (1 + 2)</span>
                     </td>
-                    <td className="whitespace-nowrap">398.6</td><td className="whitespace-nowrap">350.6</td>
-                    <td className="text-blue-300 font-black text-[12px] whitespace-nowrap">400.0</td>
-                    <td className="whitespace-nowrap">520.0</td><td className="whitespace-nowrap">600.0</td>
-                    <td className="text-yellow-300 font-black text-[12px] whitespace-nowrap">700.0</td>
+                    <td className="break-keep">398.6</td><td className="break-keep">350.6</td>
+                    <td className="text-blue-300 font-black text-[12px] ">400.0</td>
+                    <td className="break-keep">520.0</td><td className="break-keep">600.0</td>
+                    <td className="text-yellow-300 font-black text-[12px] ">700.0</td>
                   </tr>
                   <tr className="border-b border-slate-700 bg-slate-700 text-slate-200 text-[10.5px] font-semibold">
                     <td className="py-1 text-left pl-8 border-r border-slate-600 truncate">└ 전사 총 매출원가 합계</td>
-                    <td className="whitespace-nowrap">358.2</td><td className="whitespace-nowrap">312.7</td><td className="whitespace-nowrap">332.0</td><td className="whitespace-nowrap">431.6</td><td className="whitespace-nowrap">498.0</td><td className="whitespace-nowrap">581.0</td>
+                    <td className="break-keep">358.2</td><td className="break-keep">312.7</td><td className="break-keep">332.0</td><td className="break-keep">431.6</td><td className="break-keep">498.0</td><td className="break-keep">581.0</td>
                   </tr>
                   <tr className="bg-slate-900 text-emerald-300 font-black text-[11px]">
                     <td className="py-1.5 text-left pl-8 border-r border-slate-700 text-white truncate">└ 전사 총 매출총이익 합계 (17.0%)</td>
-                    <td className="whitespace-nowrap">40.4 (10.1%)</td><td className="whitespace-nowrap">37.8 (10.8%)</td>
-                    <td className="text-emerald-300 font-black whitespace-nowrap">68.0 (17.0%)</td>
-                    <td className="text-emerald-300 whitespace-nowrap">88.4 (17.0%)</td>
-                    <td className="text-emerald-300 whitespace-nowrap">102.0 (17.0%)</td>
-                    <td className="text-yellow-300 font-black whitespace-nowrap">119.0 (17.0%)</td>
+                    <td className="break-keep">40.4 (10.1%)</td><td className="break-keep">37.8 (10.8%)</td>
+                    <td className="text-emerald-300 font-black ">68.0 (17.0%)</td>
+                    <td className="text-emerald-300 ">88.4 (17.0%)</td>
+                    <td className="text-emerald-300 ">102.0 (17.0%)</td>
+                    <td className="text-yellow-300 font-black ">119.0 (17.0%)</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
             {/* Growth Driver Highlight Cards */}
-            <div className="grid grid-cols-2 gap-6 flex-1">
-              <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-6 flex flex-col justify-center gap-4 shadow-sm">
-                <div>
-                  <div className="flex items-center justify-between mb-3 border-b border-indigo-200 pb-2.5">
-                    <h4 className="font-black text-[15.5px] text-indigo-950 flex items-center gap-2">
+            <div className="grid grid-cols-2 gap-5 flex-1 min-h-0 min-w-0">
+              <div className="bg-indigo-50/60 border border-indigo-200 rounded-2xl p-5 flex flex-col justify-center gap-3 shadow-sm min-w-0">
+                <div className="min-w-0">
+                  <div className="flex items-center justify-between mb-2.5 border-b border-indigo-200 pb-2">
+                    <h4 className="font-black text-[15px] text-indigo-950 flex items-center gap-2">
                       <i className="fa-solid fa-rocket text-indigo-600"></i>
                       <span>메탈마스크 부문(템스코) 성장 동력</span>
                     </h4>
-                    <span className="text-[12px] bg-indigo-600 text-white px-3.5 py-1 rounded-full font-black whitespace-nowrap shadow-xs">
+                    <span className="text-[11.5px] bg-indigo-600 text-white px-3 py-1 rounded-full font-black  shadow-xs">
                       26E 160억 ➔ 29E 354억
                     </span>
                   </div>
-                  <ul className="text-[13.5px] text-slate-800 space-y-2.5 leading-snug font-medium break-keep">
+                  <ul className="text-[13px] text-slate-800 space-y-2 leading-snug font-medium">
                     <li className="flex items-start gap-1.5">
                       <span className="text-indigo-600 font-bold select-none flex-shrink-0">•</span>
                       <span><b>삼성디스플레이(SDC):</b> 2027년 양산 메탈마스크 <b>신규 4개 모델 선정 완료</b> (추가 2개 모델 협의 중)</span>
@@ -964,24 +964,24 @@ export default function TemscoDeckPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white/95 p-3 px-4 rounded-xl border border-indigo-100 text-[12.5px] text-indigo-950 font-bold text-left shadow-sm break-keep flex items-start gap-1.5">
+                <div className="bg-white/95 p-2.5 px-3.5 rounded-xl border border-indigo-100 text-[12px] text-indigo-950 font-bold text-left shadow-sm flex items-start gap-1.5">
                   <span className="select-none flex-shrink-0">💡</span>
                   <span><b>메탈마스크 매출 비중:</b> 2025년 34.2% ➔ 2026년 40.0% ➔ 2029년 50.6%로 전사 핵심 캐시카우 도약</span>
                 </div>
               </div>
 
-              <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-6 flex flex-col justify-center gap-4 shadow-sm">
-                <div>
-                  <div className="flex items-center justify-between mb-3 border-b border-blue-200 pb-2.5">
-                    <h4 className="font-black text-[15.5px] text-blue-950 flex items-center gap-2">
+              <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-5 flex flex-col justify-center gap-3 shadow-sm min-w-0">
+                <div className="min-w-0">
+                  <div className="flex items-center justify-between mb-2.5 border-b border-blue-200 pb-2">
+                    <h4 className="font-black text-[15px] text-blue-950 flex items-center gap-2">
                       <i className="fa-solid fa-shield-halved text-blue-600"></i>
                       <span>박막타겟 &amp; 소재 부문(템스코) 성장 동력</span>
                     </h4>
-                    <span className="text-[12px] bg-blue-600 text-white px-3.5 py-1 rounded-full font-black whitespace-nowrap shadow-xs">
+                    <span className="text-[11.5px] bg-blue-600 text-white px-3 py-1 rounded-full font-black  shadow-xs">
                       26E 240억 ➔ 29E 346억
                     </span>
                   </div>
-                  <ul className="text-[13.5px] text-slate-800 space-y-2.5 leading-snug font-medium break-keep">
+                  <ul className="text-[13px] text-slate-800 space-y-2 leading-snug font-medium">
                     <li className="flex items-start gap-1.5">
                       <span className="text-blue-600 font-bold select-none flex-shrink-0">•</span>
                       <span><b>디스플레이 타겟 직납:</b> 고순도 알루미늄(Al), 몰리브덴(Mo), 은(Ag) 합금 타겟 직납 확정</span>
@@ -996,7 +996,7 @@ export default function TemscoDeckPage() {
                     </li>
                   </ul>
                 </div>
-                <div className="bg-white/95 p-3 px-4 rounded-xl border border-blue-100 text-[12.5px] text-blue-950 font-bold text-left shadow-sm break-keep flex items-start gap-1.5">
+                <div className="bg-white/95 p-2.5 px-3.5 rounded-xl border border-blue-100 text-[12px] text-blue-950 font-bold text-left shadow-sm break-keep flex items-start gap-1.5">
                   <span className="select-none flex-shrink-0">💡</span>
                   <span><b>소재·부품 수직계열화 시너지:</b> 마스크 부문 20.0% 고마진 실현 및 소재 부문 연 300억대 안정적 체력 확보</span>
                 </div>
@@ -1016,128 +1016,128 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Comprehensive Income Statement Table (Strict table-fixed & 100% width) */}
-            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-4 w-full">
+            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-3 w-full">
               <table className="w-full table-fixed text-center">
                 <thead className="bg-slate-800 text-white font-bold">
                   <tr className="text-[11.5px]">
-                    <th className="py-2.5 px-3 text-left pl-4 w-[28%] truncate">구분 (손익 항목)</th>
-                    <th className="py-2.5 px-1 w-[12%]">2024년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
-                    <th className="py-2.5 px-1 w-[12%]">2025년<br /><span className="text-[9.5px] font-normal text-slate-300">(상각반영)</span></th>
-                    <th className="py-2.5 px-1 w-[12%] text-blue-300 bg-slate-900/60 font-black">FY2026(E)<br /><span className="text-[9.5px] font-normal text-blue-200">턴어라운드</span></th>
-                    <th className="py-2.5 px-1 w-[12%]">FY2027(E)<br /><span className="text-[9.5px] font-normal text-slate-300">양산 본격화</span></th>
-                    <th className="py-2.5 px-1 w-[12%]">FY2028(E)<br /><span className="text-[9.5px] font-normal text-slate-300">스케일업</span></th>
-                    <th className="py-2.5 px-1 w-[12%] font-black text-yellow-300">FY2029(E)<br /><span className="text-[9.5px] font-normal text-slate-300">퀀텀점프</span></th>
+                    <th className="py-1.5 px-3 text-left pl-4 w-[28%] truncate">구분 (손익 항목)</th>
+                    <th className="py-1.5 px-1 w-[12%]">2024년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
+                    <th className="py-1.5 px-1 w-[12%]">2025년<br /><span className="text-[9.5px] font-normal text-slate-300">(상각반영)</span></th>
+                    <th className="py-1.5 px-1 w-[12%] text-blue-300 bg-slate-900/60 font-black">FY2026(E)<br /><span className="text-[9.5px] font-normal text-blue-200">턴어라운드</span></th>
+                    <th className="py-1.5 px-1 w-[12%]">FY2027(E)<br /><span className="text-[9.5px] font-normal text-slate-300">양산 본격화</span></th>
+                    <th className="py-1.5 px-1 w-[12%]">FY2028(E)<br /><span className="text-[9.5px] font-normal text-slate-300">스케일업</span></th>
+                    <th className="py-1.5 px-1 w-[12%] font-black text-yellow-300">FY2029(E)<br /><span className="text-[9.5px] font-normal text-slate-300">퀀텀점프</span></th>
                   </tr>
                 </thead>
                 <tbody className="font-medium text-slate-700 text-[11px]">
                   <tr className="border-b border-slate-200 bg-blue-50/70 font-bold text-blue-900">
                     <td className="py-1.5 text-left pl-4 border-r border-slate-200 truncate">Ⅰ. 매출액 (Total Revenue)</td>
-                    <td className="whitespace-nowrap">398.6</td><td className="whitespace-nowrap">350.6</td>
-                    <td className="text-blue-700 font-black text-[12px] whitespace-nowrap">400.0</td>
-                    <td className="font-bold whitespace-nowrap">520.0</td><td className="font-bold whitespace-nowrap">600.0</td>
-                    <td className="text-blue-900 font-black text-[12.5px] whitespace-nowrap">700.0</td>
+                    <td className="break-keep">398.6</td><td className="break-keep">350.6</td>
+                    <td className="text-blue-700 font-black text-[12px] ">400.0</td>
+                    <td className="font-bold ">520.0</td><td className="font-bold ">600.0</td>
+                    <td className="text-blue-900 font-black text-[12.5px] ">700.0</td>
                   </tr>
                   <tr className="border-b border-slate-100">
                     <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅱ. 매출원가 합계</td>
-                    <td className="whitespace-nowrap">358.2</td><td className="whitespace-nowrap">312.7</td><td className="whitespace-nowrap">332.0</td><td className="whitespace-nowrap">431.6</td><td className="whitespace-nowrap">498.0</td><td className="whitespace-nowrap">581.0</td>
+                    <td className="break-keep">358.2</td><td className="break-keep">312.7</td><td className="break-keep">332.0</td><td className="break-keep">431.6</td><td className="break-keep">498.0</td><td className="break-keep">581.0</td>
                   </tr>
                   <tr className="border-b border-slate-200 bg-emerald-50/60 font-bold text-emerald-950">
                     <td className="py-1.5 text-left pl-4 border-r border-slate-200 truncate">Ⅲ. 매출총이익 (17.0%)</td>
-                    <td className="whitespace-nowrap">40.4 (10.1%)</td><td className="whitespace-nowrap">37.8 (10.8%)</td>
-                    <td className="text-emerald-700 font-black whitespace-nowrap">68.0 (17.0%)</td>
-                    <td className="font-bold whitespace-nowrap">88.4 (17.0%)</td>
-                    <td className="font-bold whitespace-nowrap">102.0 (17.0%)</td>
-                    <td className="text-emerald-900 font-black whitespace-nowrap">119.0 (17.0%)</td>
+                    <td className="break-keep">40.4 (10.1%)</td><td className="break-keep">37.8 (10.8%)</td>
+                    <td className="text-emerald-700 font-black ">68.0 (17.0%)</td>
+                    <td className="font-bold ">88.4 (17.0%)</td>
+                    <td className="font-bold ">102.0 (17.0%)</td>
+                    <td className="text-emerald-900 font-black ">119.0 (17.0%)</td>
                   </tr>
                   <tr className="border-b border-slate-100">
                     <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅳ. 판매비와관리비 합계</td>
-                    <td className="whitespace-nowrap">19.8</td><td className="text-red-600 font-bold whitespace-nowrap">89.7 (상각포함)</td><td className="whitespace-nowrap">28.5</td><td className="whitespace-nowrap">33.1</td><td className="whitespace-nowrap">36.6</td><td className="whitespace-nowrap">40.1</td>
+                    <td className="break-keep">19.8</td><td className="text-red-600 font-bold ">89.7 (상각포함)</td><td className="break-keep">28.5</td><td className="break-keep">33.1</td><td className="break-keep">36.6</td><td className="break-keep">40.1</td>
                   </tr>
                   <tr className="border-b-2 border-slate-300 bg-blue-100/60 font-bold text-blue-950">
                     <td className="py-1.5 text-left pl-4 border-r border-slate-200 text-blue-900 text-[11.5px] truncate">Ⅴ. 영업이익 (Operating Profit)</td>
-                    <td className="text-slate-800 whitespace-nowrap">20.6</td>
-                    <td className="text-red-500 font-bold whitespace-nowrap">-51.9</td>
-                    <td className="text-blue-700 font-black bg-blue-200/50 text-[12.5px] whitespace-nowrap">39.5</td>
-                    <td className="font-black text-blue-800 whitespace-nowrap">55.3</td>
-                    <td className="font-black whitespace-nowrap">65.4</td>
-                    <td className="font-black text-blue-950 bg-blue-200/60 text-[13px] whitespace-nowrap">78.9</td>
+                    <td className="text-slate-800 ">20.6</td>
+                    <td className="text-red-500 font-bold ">-51.9</td>
+                    <td className="text-blue-700 font-black bg-blue-200/50 text-[12.5px] ">39.5</td>
+                    <td className="font-black text-blue-800 ">55.3</td>
+                    <td className="font-black ">65.4</td>
+                    <td className="font-black text-blue-950 bg-blue-200/60 text-[13px] ">78.9</td>
                   </tr>
                   <tr className="border-b border-slate-100 bg-slate-50 font-bold text-slate-700">
                     <td className="py-1 text-left pl-4 border-r border-slate-200 truncate">   영업이익률 (OPM)</td>
-                    <td className="whitespace-nowrap">5.2%</td><td className="text-red-500 whitespace-nowrap">-14.8%</td>
-                    <td className="text-blue-700 font-black whitespace-nowrap">9.9%</td>
-                    <td className="font-bold text-blue-800 whitespace-nowrap">10.6%</td>
-                    <td className="font-bold whitespace-nowrap">10.9%</td>
-                    <td className="font-black text-blue-900 whitespace-nowrap">11.3%</td>
+                    <td className="break-keep">5.2%</td><td className="text-red-500 ">-14.8%</td>
+                    <td className="text-blue-700 font-black ">9.9%</td>
+                    <td className="font-bold text-blue-800 ">10.6%</td>
+                    <td className="font-bold ">10.9%</td>
+                    <td className="font-black text-blue-900 ">11.3%</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
                     <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅵ. 영업외손익(순) 및 금융비용</td>
-                    <td className="whitespace-nowrap">0.5</td><td className="whitespace-nowrap">-31.0</td><td className="whitespace-nowrap">-6.0</td><td className="whitespace-nowrap">-6.0</td><td className="whitespace-nowrap">-6.0</td><td className="whitespace-nowrap">-6.0</td>
+                    <td className="break-keep">0.5</td><td className="break-keep">-31.0</td><td className="break-keep">-6.0</td><td className="break-keep">-6.0</td><td className="break-keep">-6.0</td><td className="break-keep">-6.0</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
                     <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅶ. 법인세비용</td>
-                    <td className="whitespace-nowrap">5.0</td><td className="whitespace-nowrap">0.8</td><td className="whitespace-nowrap">7.4</td><td className="whitespace-nowrap">10.8</td><td className="whitespace-nowrap">13.1</td><td className="whitespace-nowrap">16.0</td>
+                    <td className="break-keep">5.0</td><td className="break-keep">0.8</td><td className="break-keep">7.4</td><td className="break-keep">10.8</td><td className="break-keep">13.1</td><td className="break-keep">16.0</td>
                   </tr>
                   <tr className="hover:bg-slate-50 font-bold bg-indigo-50/80 text-indigo-950 border-t border-indigo-200">
                     <td className="py-1.5 text-left pl-4 border-r border-slate-200 text-indigo-900 text-[11.5px] truncate">Ⅷ. 당기순이익 (Net Income)</td>
-                    <td className="whitespace-nowrap">16.1</td><td className="text-red-500 font-bold whitespace-nowrap">-83.7</td>
-                    <td className="text-indigo-700 font-black text-[12px] whitespace-nowrap">26.1</td>
-                    <td className="font-bold text-indigo-800 whitespace-nowrap">38.4</td>
-                    <td className="font-bold whitespace-nowrap">46.3</td>
-                    <td className="text-indigo-900 font-black text-[12.5px] whitespace-nowrap">56.8</td>
+                    <td className="break-keep">16.1</td><td className="text-red-500 font-bold ">-83.7</td>
+                    <td className="text-indigo-700 font-black text-[12px] ">26.1</td>
+                    <td className="font-bold text-indigo-800 ">38.4</td>
+                    <td className="font-bold ">46.3</td>
+                    <td className="text-indigo-900 font-black text-[12.5px] ">56.8</td>
                   </tr>
                   <tr className="bg-indigo-50/30 text-indigo-800 text-[10.5px] font-bold">
                     <td className="py-0.5 text-left pl-4 border-r border-slate-200 truncate">   당기순이익률 (NPM)</td>
-                    <td className="whitespace-nowrap">4.0%</td><td className="text-red-500 whitespace-nowrap">-23.9%</td>
-                    <td className="text-indigo-700 font-bold whitespace-nowrap">6.5%</td>
-                    <td className="font-bold whitespace-nowrap">7.4%</td>
-                    <td className="font-bold whitespace-nowrap">7.7%</td>
-                    <td className="text-indigo-900 font-black whitespace-nowrap">8.1%</td>
+                    <td className="break-keep">4.0%</td><td className="text-red-500 ">-23.9%</td>
+                    <td className="text-indigo-700 font-bold ">6.5%</td>
+                    <td className="font-bold ">7.4%</td>
+                    <td className="font-bold ">7.7%</td>
+                    <td className="text-indigo-900 font-black ">8.1%</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
             {/* Financial Highlights 3-Cards */}
-            <div className="grid grid-cols-3 gap-5 flex-1">
-              <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-5 shadow-sm flex flex-col justify-center gap-3">
-                <div>
-                  <h4 className="font-black text-[14.5px] text-blue-900 mb-2 flex items-center gap-2">
+            <div className="grid grid-cols-3 gap-5 flex-1 min-h-0 min-w-0">
+              <div className="bg-blue-50/70 border border-blue-200 rounded-xl p-4 flex flex-col justify-center gap-2.5 shadow-sm min-w-0">
+                <div className="min-w-0">
+                  <h4 className="font-black text-[14px] text-blue-900 mb-2 flex items-center gap-2">
                     <i className="fa-solid fa-chart-line text-blue-600"></i>본업 실질 흑자 턴어라운드
                   </h4>
                   <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
                     2025년 대손상각(63.7억) 일회성 악재가 종결되어, <b>2026년 영업이익 39.5억(OPM 9.9%), 순이익 26.1억</b>으로 즉각 흑자 전환을 달성합니다.
                   </p>
                 </div>
-                <div className="text-[12px] font-bold text-blue-800 bg-white p-2 rounded-lg border border-blue-100 text-center shadow-sm">
+                <div className="text-[12px] font-bold text-blue-800 bg-white p-2 rounded-lg border border-blue-100 text-center shadow-sm mt-0.5">
                   2026(E) OP 39.5억 (흑자 전환)
                 </div>
               </div>
 
-              <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-5 shadow-sm flex flex-col justify-center gap-3">
-                <div>
-                  <h4 className="font-black text-[14.5px] text-emerald-900 mb-2 flex items-center gap-2">
+              <div className="bg-emerald-50/70 border border-emerald-200 rounded-xl p-4 flex flex-col justify-center gap-2.5 shadow-sm min-w-0">
+                <div className="min-w-0">
+                  <h4 className="font-black text-[14px] text-emerald-900 mb-2 flex items-center gap-2">
                     <i className="fa-solid fa-hand-holding-dollar text-emerald-600"></i>원가 구조 혁신 (마진율 17%)
                   </h4>
                   <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
                     &apos;원소재-정밀가공-코팅-세정&apos; 원스톱 내재화로 외주 마진을 제거하여 <b>매출총이익률 17.0%(119억)</b>의 안정적 원가 경쟁력을 확립했습니다.
                   </p>
                 </div>
-                <div className="text-[12px] font-bold text-emerald-800 bg-white p-2 rounded-lg border border-emerald-100 text-center shadow-sm">
+                <div className="text-[12px] font-bold text-emerald-800 bg-white p-2 rounded-lg border border-emerald-100 text-center shadow-sm mt-0.5">
                   매출총이익률: 10.8% ➔ 17.0% 구조적 개선
                 </div>
               </div>
 
-              <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-5 shadow-sm flex flex-col justify-center gap-3">
-                <div>
-                  <h4 className="font-black text-[14.5px] text-indigo-900 mb-2 flex items-center gap-2">
+              <div className="bg-indigo-50/70 border border-indigo-200 rounded-xl p-4 flex flex-col justify-center gap-2.5 shadow-sm min-w-0">
+                <div className="min-w-0">
+                  <h4 className="font-black text-[14px] text-indigo-900 mb-2 flex items-center gap-2">
                     <i className="fa-solid fa-crown text-indigo-600"></i>Tier-1 직납 영업레버리지
                   </h4>
                   <p className="text-[12.5px] text-slate-700 leading-relaxed font-medium">
                     중간 유통 단계 축소 및 글로벌 1차 직납 공급 확대로 <b>2029년 매출 700억 원, 영업이익률 11.3%(78.9억)</b>의 고수익 체질을 완성합니다.
                   </p>
                 </div>
-                <div className="text-[12px] font-bold text-indigo-800 bg-white p-2 rounded-lg border border-indigo-100 text-center shadow-sm">
+                <div className="text-[12px] font-bold text-indigo-800 bg-white p-2 rounded-lg border border-indigo-100 text-center shadow-sm mt-0.5">
                   2029(E) OP 78.9억 (OPM 11.3%)
                 </div>
               </div>
