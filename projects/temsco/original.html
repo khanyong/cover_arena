@@ -115,8 +115,10 @@
                 break-after: avoid !important;
             }
             #print-guide,
+            body > *:not(.slide):not(#print-guide),
             [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
-            [class*="extension"], [id*="extension"] { 
+            [class*="extension"], [id*="extension"],
+            [data-extension-id] { 
                 display: none !important; 
                 visibility: hidden !important;
                 opacity: 0 !important;

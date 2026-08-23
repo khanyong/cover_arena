@@ -89,6 +89,17 @@ export default function TemscoPage() {
             .no-print { 
               display: none !important; 
             }
+            /* Hide any external browser extension elements injected into body */
+            body > *:not(#__next),
+            body > #__next > div > header,
+            body > #__next > div > div.no-print,
+            [class*="feed"], [class*="rss"], [id*="feed"], [id*="rss"],
+            [class*="extension"], [id*="extension"],
+            [data-extension-id] {
+              display: none !important;
+              visibility: hidden !important;
+              opacity: 0 !important;
+            }
             .temsco-slide-container {
               padding: 0 !important;
               gap: 0 !important;
