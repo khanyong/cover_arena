@@ -906,16 +906,8 @@ export default function TemscoDeckPage() {
                   </tr>
                 </thead>
                 <tbody className="font-medium text-slate-700 text-[11.5px]">
-                  <tr className="border-b border-slate-100 bg-slate-50/50">
-                    <td className="py-1.5 font-bold text-left pl-4 border-r border-slate-200">  제품 매출</td>
-                    <td>236.8</td><td>179.1</td><td>250.0</td><td>300.0</td><td>350.0</td><td className="font-bold">400.0</td>
-                  </tr>
-                  <tr className="border-b border-slate-100">
-                    <td className="py-1.5 font-bold text-left pl-4 border-r border-slate-200">  상품 매출</td>
-                    <td>161.8</td><td>171.5</td><td>150.0</td><td>220.0</td><td>250.0</td><td>300.0</td>
-                  </tr>
                   <tr className="border-b border-slate-200 bg-blue-50/70 font-bold text-blue-900">
-                    <td className="py-2 text-left pl-4 border-r border-slate-200">Ⅰ. 매출액 합계</td>
+                    <td className="py-2 text-left pl-4 border-r border-slate-200">Ⅰ. 매출액 (Total Revenue)</td>
                     <td>398.6</td><td>350.6</td>
                     <td className="text-blue-700 font-black text-[12.5px]">400.0</td>
                     <td className="font-bold">520.0</td><td className="font-bold">600.0</td>
