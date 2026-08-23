@@ -835,7 +835,7 @@ export default function TemscoDeckPage() {
 
         {/* Slide 8-1 : Segment Revenue (마스크 vs 소재 부문별 매출 로드맵) */}
         <div className={getSlideClass(7, 'bg-white')}>
-          <div className="h-full flex flex-col p-14 relative z-10">
+          <div className="h-full flex flex-col p-14 relative z-10 min-w-0">
             <div className="flex justify-between items-start mb-3 border-b-4 border-blue-600 pb-3">
               <div>
                 <h2 className="text-[2rem] font-black text-slate-800 inline-block">부문별 매출 실적 및 마스크 · 소재 성장 로드맵</h2>
@@ -844,11 +844,11 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Segment Breakdown Detailed Table (Strict table-fixed & 100% container width) */}
-            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-3 w-full">
+            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-3 w-full min-w-0">
               <table className="w-full table-fixed text-center">
                 <thead className="bg-slate-800 text-white font-bold">
                   <tr className="text-[11.5px]">
-                    <th className="py-1.5 px-3 text-left pl-4 w-[28%] truncate">사업 부문 및 손익 세부 항목</th>
+                    <th className="py-1.5 px-3 text-left pl-4 w-[28%] break-keep">사업 부문 및 손익 세부 항목</th>
                     <th className="py-1.5 px-1 w-[12%]">2024년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
                     <th className="py-1.5 px-1 w-[12%]">2025년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
                     <th className="py-1.5 px-1 w-[12%] text-blue-300 bg-slate-900/60 font-black">FY2026(E)<br /><span className="text-[9.5px] font-normal text-blue-200">턴어라운드</span></th>
@@ -860,7 +860,7 @@ export default function TemscoDeckPage() {
                 <tbody className="font-medium text-slate-700 text-[11px]">
                   {/* Segment 1: Metal Mask */}
                   <tr className="bg-indigo-50/80 border-b border-indigo-100 font-bold text-indigo-950">
-                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 truncate">
+                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 break-keep">
                       <i className="fa-solid fa-microchip text-indigo-600 text-xs mr-1.5"></i>
                       <span>1. 메탈마스크 사업 부문 매출</span>
                     </td>
@@ -872,11 +872,11 @@ export default function TemscoDeckPage() {
                     <td className="font-black text-indigo-900 bg-indigo-100/60 ">354.0</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
-                    <td className="py-1 text-left pl-8 border-r border-slate-200 truncate">└ 마스크 부문 매출원가</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-200 break-keep">└ 마스크 부문 매출원가</td>
                     <td className="break-keep">86.5</td><td className="break-keep">103.2</td><td className="break-keep">128.0</td><td className="break-keep">184.8</td><td className="break-keep">222.0</td><td className="break-keep">283.2</td>
                   </tr>
                   <tr className="border-b-2 border-indigo-200 bg-indigo-50/40 text-indigo-950 font-bold">
-                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-indigo-900 truncate">└ 마스크 매출총이익 (20.0%)</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-indigo-900 break-keep">└ 마스크 매출총이익 (20.0%)</td>
                     <td className="break-keep">14.1 (14.0%)</td><td className="break-keep">16.8 (14.0%)</td>
                     <td className="text-indigo-700 font-bold ">32.0 (20.0%)</td>
                     <td className="font-bold ">46.2 (20.0%)</td>
@@ -886,7 +886,7 @@ export default function TemscoDeckPage() {
 
                   {/* Segment 2: Coating Material */}
                   <tr className="bg-blue-50/80 border-b border-blue-100 font-bold text-blue-950">
-                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 truncate">
+                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 break-keep">
                       <i className="fa-solid fa-layer-group text-blue-600 text-xs mr-1.5"></i>
                       <span>2. 박막타겟 및 소재 사업 부문 매출</span>
                     </td>
@@ -897,11 +897,11 @@ export default function TemscoDeckPage() {
                     <td className="font-black text-blue-900 bg-blue-100/60 ">346.0</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
-                    <td className="py-1 text-left pl-8 border-r border-slate-200 truncate">└ 소재 부문 매출원가</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-200 break-keep">└ 소재 부문 매출원가</td>
                     <td className="break-keep">271.7</td><td className="break-keep">209.5</td><td className="break-keep">204.0</td><td className="break-keep">246.8</td><td className="break-keep">276.0</td><td className="break-keep">297.8</td>
                   </tr>
                   <tr className="border-b-2 border-blue-200 bg-blue-50/40 text-blue-950 font-bold">
-                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-blue-900 truncate">└ 소재 매출총이익 (13.9~15.0%)</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-200 text-blue-900 break-keep">└ 소재 매출총이익 (13.9~15.0%)</td>
                     <td className="break-keep">26.3 (8.8%)</td><td className="break-keep">21.0 (9.1%)</td>
                     <td className="text-blue-700 font-bold ">36.0 (15.0%)</td>
                     <td className="font-bold ">42.2 (14.6%)</td>
@@ -911,7 +911,7 @@ export default function TemscoDeckPage() {
 
                   {/* Total Consolidation */}
                   <tr className="border-t-2 border-slate-600 bg-slate-800 text-white font-bold text-[11.5px]">
-                    <td className="py-2 text-left pl-4 border-r border-slate-700 truncate">
+                    <td className="py-2 text-left pl-4 border-r border-slate-700 break-keep">
                       <i className="fa-solid fa-calculator text-yellow-300 text-xs mr-1.5"></i>
                       <span>전사 총 매출액 합계 (1 + 2)</span>
                     </td>
@@ -921,11 +921,11 @@ export default function TemscoDeckPage() {
                     <td className="text-yellow-300 font-black text-[12px] ">700.0</td>
                   </tr>
                   <tr className="border-b border-slate-700 bg-slate-700 text-slate-200 text-[10.5px] font-semibold">
-                    <td className="py-1 text-left pl-8 border-r border-slate-600 truncate">└ 전사 총 매출원가 합계</td>
+                    <td className="py-1 text-left pl-8 border-r border-slate-600 break-keep">└ 전사 총 매출원가 합계</td>
                     <td className="break-keep">358.2</td><td className="break-keep">312.7</td><td className="break-keep">332.0</td><td className="break-keep">431.6</td><td className="break-keep">498.0</td><td className="break-keep">581.0</td>
                   </tr>
                   <tr className="bg-slate-900 text-emerald-300 font-black text-[11px]">
-                    <td className="py-1.5 text-left pl-8 border-r border-slate-700 text-white truncate">└ 전사 총 매출총이익 합계 (17.0%)</td>
+                    <td className="py-1.5 text-left pl-8 border-r border-slate-700 text-white break-keep">└ 전사 총 매출총이익 합계 (17.0%)</td>
                     <td className="break-keep">40.4 (10.1%)</td><td className="break-keep">37.8 (10.8%)</td>
                     <td className="text-emerald-300 font-black ">68.0 (17.0%)</td>
                     <td className="text-emerald-300 ">88.4 (17.0%)</td>
@@ -1007,7 +1007,7 @@ export default function TemscoDeckPage() {
 
         {/* Slide 8-2 : Income Statement (종합 추정손익계산서 및 수익성 분석) */}
         <div className={getSlideClass(8, 'bg-white')}>
-          <div className="h-full flex flex-col p-14 relative z-10">
+          <div className="h-full flex flex-col p-14 relative z-10 min-w-0">
             <div className="flex justify-between items-start mb-3 border-b-4 border-blue-600 pb-3">
               <div>
                 <h2 className="text-[2rem] font-black text-slate-800 inline-block">종합 추정손익계산서 및 수익성 구조 분석</h2>
@@ -1016,11 +1016,11 @@ export default function TemscoDeckPage() {
             </div>
 
             {/* Comprehensive Income Statement Table (Strict table-fixed & 100% width) */}
-            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-3 w-full">
+            <div className="bg-white rounded-xl border border-slate-300 overflow-hidden shadow-sm mb-3 w-full min-w-0">
               <table className="w-full table-fixed text-center">
                 <thead className="bg-slate-800 text-white font-bold">
                   <tr className="text-[11.5px]">
-                    <th className="py-1.5 px-3 text-left pl-4 w-[28%] truncate">구분 (손익 항목)</th>
+                    <th className="py-1.5 px-3 text-left pl-4 w-[28%] break-keep">구분 (손익 항목)</th>
                     <th className="py-1.5 px-1 w-[12%]">2024년<br /><span className="text-[9.5px] font-normal text-slate-300">(실적)</span></th>
                     <th className="py-1.5 px-1 w-[12%]">2025년<br /><span className="text-[9.5px] font-normal text-slate-300">(상각반영)</span></th>
                     <th className="py-1.5 px-1 w-[12%] text-blue-300 bg-slate-900/60 font-black">FY2026(E)<br /><span className="text-[9.5px] font-normal text-blue-200">턴어라운드</span></th>
@@ -1031,18 +1031,18 @@ export default function TemscoDeckPage() {
                 </thead>
                 <tbody className="font-medium text-slate-700 text-[11px]">
                   <tr className="border-b border-slate-200 bg-blue-50/70 font-bold text-blue-900">
-                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 truncate">Ⅰ. 매출액 (Total Revenue)</td>
+                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 break-keep">Ⅰ. 매출액 (Total Revenue)</td>
                     <td className="break-keep">398.6</td><td className="break-keep">350.6</td>
                     <td className="text-blue-700 font-black text-[12px] ">400.0</td>
                     <td className="font-bold ">520.0</td><td className="font-bold ">600.0</td>
                     <td className="text-blue-900 font-black text-[12.5px] ">700.0</td>
                   </tr>
                   <tr className="border-b border-slate-100">
-                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅱ. 매출원가 합계</td>
+                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 break-keep">Ⅱ. 매출원가 합계</td>
                     <td className="break-keep">358.2</td><td className="break-keep">312.7</td><td className="break-keep">332.0</td><td className="break-keep">431.6</td><td className="break-keep">498.0</td><td className="break-keep">581.0</td>
                   </tr>
                   <tr className="border-b border-slate-200 bg-emerald-50/60 font-bold text-emerald-950">
-                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 truncate">Ⅲ. 매출총이익 (17.0%)</td>
+                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 break-keep">Ⅲ. 매출총이익 (17.0%)</td>
                     <td className="break-keep">40.4 (10.1%)</td><td className="break-keep">37.8 (10.8%)</td>
                     <td className="text-emerald-700 font-black ">68.0 (17.0%)</td>
                     <td className="font-bold ">88.4 (17.0%)</td>
@@ -1050,11 +1050,11 @@ export default function TemscoDeckPage() {
                     <td className="text-emerald-900 font-black ">119.0 (17.0%)</td>
                   </tr>
                   <tr className="border-b border-slate-100">
-                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅳ. 판매비와관리비 합계</td>
+                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 break-keep">Ⅳ. 판매비와관리비 합계</td>
                     <td className="break-keep">19.8</td><td className="text-red-600 font-bold ">89.7 (상각포함)</td><td className="break-keep">28.5</td><td className="break-keep">33.1</td><td className="break-keep">36.6</td><td className="break-keep">40.1</td>
                   </tr>
                   <tr className="border-b-2 border-slate-300 bg-blue-100/60 font-bold text-blue-950">
-                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 text-blue-900 text-[11.5px] truncate">Ⅴ. 영업이익 (Operating Profit)</td>
+                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 text-blue-900 text-[11.5px] break-keep">Ⅴ. 영업이익 (Operating Profit)</td>
                     <td className="text-slate-800 ">20.6</td>
                     <td className="text-red-500 font-bold ">-51.9</td>
                     <td className="text-blue-700 font-black bg-blue-200/50 text-[12.5px] ">39.5</td>
@@ -1063,7 +1063,7 @@ export default function TemscoDeckPage() {
                     <td className="font-black text-blue-950 bg-blue-200/60 text-[13px] ">78.9</td>
                   </tr>
                   <tr className="border-b border-slate-100 bg-slate-50 font-bold text-slate-700">
-                    <td className="py-1 text-left pl-4 border-r border-slate-200 truncate">   영업이익률 (OPM)</td>
+                    <td className="py-1 text-left pl-4 border-r border-slate-200 break-keep">   영업이익률 (OPM)</td>
                     <td className="break-keep">5.2%</td><td className="text-red-500 ">-14.8%</td>
                     <td className="text-blue-700 font-black ">9.9%</td>
                     <td className="font-bold text-blue-800 ">10.6%</td>
@@ -1071,15 +1071,15 @@ export default function TemscoDeckPage() {
                     <td className="font-black text-blue-900 ">11.3%</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
-                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅵ. 영업외손익(순) 및 금융비용</td>
+                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 break-keep">Ⅵ. 영업외손익(순) 및 금융비용</td>
                     <td className="break-keep">0.5</td><td className="break-keep">-31.0</td><td className="break-keep">-6.0</td><td className="break-keep">-6.0</td><td className="break-keep">-6.0</td><td className="break-keep">-6.0</td>
                   </tr>
                   <tr className="border-b border-slate-100 text-slate-600">
-                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 truncate">Ⅶ. 법인세비용</td>
+                    <td className="py-1 font-bold text-left pl-4 border-r border-slate-200 break-keep">Ⅶ. 법인세비용</td>
                     <td className="break-keep">5.0</td><td className="break-keep">0.8</td><td className="break-keep">7.4</td><td className="break-keep">10.8</td><td className="break-keep">13.1</td><td className="break-keep">16.0</td>
                   </tr>
                   <tr className="hover:bg-slate-50 font-bold bg-indigo-50/80 text-indigo-950 border-t border-indigo-200">
-                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 text-indigo-900 text-[11.5px] truncate">Ⅷ. 당기순이익 (Net Income)</td>
+                    <td className="py-1.5 text-left pl-4 border-r border-slate-200 text-indigo-900 text-[11.5px] break-keep">Ⅷ. 당기순이익 (Net Income)</td>
                     <td className="break-keep">16.1</td><td className="text-red-500 font-bold ">-83.7</td>
                     <td className="text-indigo-700 font-black text-[12px] ">26.1</td>
                     <td className="font-bold text-indigo-800 ">38.4</td>
@@ -1087,7 +1087,7 @@ export default function TemscoDeckPage() {
                     <td className="text-indigo-900 font-black text-[12.5px] ">56.8</td>
                   </tr>
                   <tr className="bg-indigo-50/30 text-indigo-800 text-[10.5px] font-bold">
-                    <td className="py-0.5 text-left pl-4 border-r border-slate-200 truncate">   당기순이익률 (NPM)</td>
+                    <td className="py-0.5 text-left pl-4 border-r border-slate-200 break-keep">   당기순이익률 (NPM)</td>
                     <td className="break-keep">4.0%</td><td className="text-red-500 ">-23.9%</td>
                     <td className="text-indigo-700 font-bold ">6.5%</td>
                     <td className="font-bold ">7.4%</td>
