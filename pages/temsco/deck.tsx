@@ -172,7 +172,8 @@ export default function TemscoDeckPage() {
               background: #ffffff !important;
               padding: 0 !important; 
               margin: 0 !important; 
-              width: 297mm !important;
+              width: 100% !important;
+              max-width: 297mm !important;
               height: auto !important;
               -webkit-print-color-adjust: exact !important;
               print-color-adjust: exact !important;
@@ -207,7 +208,8 @@ export default function TemscoDeckPage() {
               height: auto !important;
               min-height: 0 !important;
               max-height: none !important;
-              width: 297mm !important;
+              width: 100% !important;
+              max-width: 297mm !important;
               margin: 0 !important;
               padding: 0 !important;
               position: static !important;
@@ -227,14 +229,15 @@ export default function TemscoDeckPage() {
               display: block !important;
               visibility: visible !important;
               opacity: 1 !important;
-              width: 297mm !important; 
+              width: 100% !important; 
+              max-width: 297mm !important;
               height: 209mm !important; 
               min-height: 209mm !important;
               max-height: 209mm !important;
               box-shadow: none !important; 
               border: none !important;
               border-radius: 0 !important;
-              margin: 0 !important; 
+              margin: 0 auto !important; 
               page-break-inside: avoid !important;
               break-inside: avoid !important;
               page-break-after: always !important; 
