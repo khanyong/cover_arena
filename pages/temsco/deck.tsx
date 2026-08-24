@@ -1191,15 +1191,15 @@ export default function TemscoDeckPage() {
                   </div>
                   <div className="text-4xl text-blue-400"><i className="fa-solid fa-arrow-right-long"></i></div>
                   <div className="flex flex-col items-center w-[40%]">
-                    <h4 className="font-bold text-blue-700 mb-3 bg-blue-50 px-3 py-1 border border-blue-200 rounded text-xs whitespace-nowrap">투자 유치 후 (50억 자본 전입)</h4>
+                    <h4 className="font-bold text-blue-700 mb-3 bg-blue-50 px-3 py-1 border border-blue-200 rounded text-xs whitespace-nowrap">투자 유치 후 (70억 자본 전입)</h4>
                     <div className="w-full max-w-[190px] border border-blue-400 rounded overflow-hidden shadow-md transform scale-105">
                       <div className="bg-red-400 text-white text-center py-3 font-bold text-sm border-b border-white">부채 328억 (유지)</div>
-                      <div className="bg-blue-600 text-white text-center py-3.5 font-bold text-base">자본 71억 (+50억)</div>
+                      <div className="bg-blue-600 text-white text-center py-3.5 font-bold text-base">자본 91억 (+70억)</div>
                     </div>
                     <div className="mt-3 text-center">
                       <p className="text-xs text-blue-700 font-bold">자본 확충시 부채비율</p>
-                      <p className="text-3xl font-black text-blue-700">461% <i className="fa-solid fa-arrow-trend-down text-lg"></i></p>
-                      <p className="text-xs text-slate-500 mt-1 font-medium">26년 순이익 가산시 300%대 진입</p>
+                      <p className="text-3xl font-black text-blue-700">360% <i className="fa-solid fa-arrow-trend-down text-lg"></i></p>
+                      <p className="text-xs text-slate-500 mt-1 font-medium">26년 순이익 가산시 200%대 진입</p>
                     </div>
                   </div>
                 </div>
@@ -1217,7 +1217,7 @@ export default function TemscoDeckPage() {
               <div className="bg-slate-50 p-6 rounded-2xl shadow-sm border border-slate-300 flex flex-col justify-between">
                 <div>
                   <div className="bg-blue-600 text-white inline-block px-3.5 py-1 rounded-md font-bold text-xs mb-2.5 shadow-xs">Target Funding</div>
-                  <h3 className="text-[38px] font-black text-blue-900 leading-tight mb-3">30억 ~ 50억 원</h3>
+                  <h3 className="text-[38px] font-black text-blue-900 leading-tight mb-3">70억 원</h3>
                   <p className="text-slate-700 font-medium border-b border-slate-300 pb-4 text-[14.5px] leading-relaxed break-keep">
                     당사는 재무구조 개선과 26~27년 폭발적 수주 대응을 위해 자금을 조달하며, 투자 기관의 펀드 성격에 맞춘 <b>유연한 투자 구조(Tailor-made)</b> 설계가 가능합니다.
                   </p>
@@ -1251,7 +1251,7 @@ export default function TemscoDeckPage() {
                   {/* Robust SVG Donut Chart */}
                   <div className="relative w-36 h-36 flex items-center justify-center filter drop-shadow-sm">
                     <svg viewBox="0 0 160 160" className="w-full h-full transform -rotate-90">
-                      {/* Segment 1: 설비 투자 40% (약 20억) - #1e3a8a */}
+                      {/* Segment 1: 설비 투자 57% (40억) - #1e3a8a */}
                       <circle
                         cx="80"
                         cy="80"
@@ -1259,10 +1259,10 @@ export default function TemscoDeckPage() {
                         fill="transparent"
                         stroke="#1e3a8a"
                         strokeWidth="26"
-                        strokeDasharray="145.77 218.66"
+                        strokeDasharray="208.23 156.19"
                         strokeDashoffset="0"
                       />
-                      {/* Segment 2: 운영 자금 40% (약 20억) - #3b82f6 */}
+                      {/* Segment 2: 운영 자금 29% (20억) - #3b82f6 */}
                       <circle
                         cx="80"
                         cy="80"
@@ -1270,10 +1270,10 @@ export default function TemscoDeckPage() {
                         fill="transparent"
                         stroke="#3b82f6"
                         strokeWidth="26"
-                        strokeDasharray="145.77 218.66"
-                        strokeDashoffset="-145.77"
+                        strokeDasharray="104.12 260.30"
+                        strokeDashoffset="-208.23"
                       />
-                      {/* Segment 3: R&D 및 신사업 20% (약 10억) - #9ca3af */}
+                      {/* Segment 3: R&D 및 신사업 14% (10억) - #9ca3af */}
                       <circle
                         cx="80"
                         cy="80"
@@ -1281,13 +1281,13 @@ export default function TemscoDeckPage() {
                         fill="transparent"
                         stroke="#9ca3af"
                         strokeWidth="26"
-                        strokeDasharray="72.88 291.55"
-                        strokeDashoffset="-291.55"
+                        strokeDasharray="52.07 312.35"
+                        strokeDashoffset="-312.35"
                       />
                     </svg>
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-center pointer-events-none">
                       <span className="text-[10px] font-black text-slate-400 leading-none">TOTAL</span>
-                      <span className="text-[15px] font-black text-slate-800 leading-tight">50억</span>
+                      <span className="text-[15px] font-black text-slate-800 leading-tight">70억</span>
                     </div>
                   </div>
                 </div>
