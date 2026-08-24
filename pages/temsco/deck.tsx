@@ -1297,21 +1297,21 @@ export default function TemscoDeckPage() {
                   <div className="flex items-start bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
                     <div className="w-3.5 h-3.5 bg-[#1e3a8a] rounded-sm mt-0.5 mr-3 flex-shrink-0"></div>
                     <div>
-                      <p className="font-black text-slate-900 text-[13.5px]">설비 투자 (CAPEX) <span className="text-blue-800 ml-2 font-black">40% (약 20억)</span></p>
+                      <p className="font-black text-slate-900 text-[13.5px]">설비 투자 (CAPEX) <span className="text-blue-800 ml-2 font-black">57% (40억)</span></p>
                       <p className="text-[12px] text-slate-600 mt-0.5 font-medium leading-snug break-keep">1차 벤더 양산 물량 대응을 위한 메탈마스크 정밀 가공 설비 고도화 및 라인 증설.</p>
                     </div>
                   </div>
                   <div className="flex items-start bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
                     <div className="w-3.5 h-3.5 bg-[#3b82f6] rounded-sm mt-0.5 mr-3 flex-shrink-0"></div>
                     <div>
-                      <p className="font-black text-slate-900 text-[13.5px]">운영 자금 (Working Capital) <span className="text-blue-600 ml-2 font-black">40% (약 20억)</span></p>
+                      <p className="font-black text-slate-900 text-[13.5px]">운영 자금 (Working Capital) <span className="text-blue-600 ml-2 font-black">29% (20억)</span></p>
                       <p className="text-[12px] text-slate-600 mt-0.5 font-medium leading-snug break-keep">26년 삼성/LG디스플레이 및 비전옥스 신모델 수주 물량 급증에 따른 선제적 원소재 매입 대금.</p>
                     </div>
                   </div>
                   <div className="flex items-start bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
                     <div className="w-3.5 h-3.5 bg-[#9ca3af] rounded-sm mt-0.5 mr-3 flex-shrink-0"></div>
                     <div>
-                      <p className="font-black text-slate-900 text-[13.5px]">연구 개발 (R&amp;D 및 신사업) <span className="text-slate-600 ml-2 font-black">20% (약 10억)</span></p>
+                      <p className="font-black text-slate-900 text-[13.5px]">연구 개발 (R&amp;D 및 신사업) <span className="text-slate-600 ml-2 font-black">14% (10억)</span></p>
                       <p className="text-[12px] text-slate-600 mt-0.5 font-medium leading-snug break-keep">디스플레이를 넘어 반도체(HF가스 봄베, CuMn 타겟) 및 전력반도체 구리기판 양산 테스트 비용.</p>
                     </div>
                   </div>
