@@ -238,6 +238,14 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             📖 FULL CONTINUOUS READER
           </span>
           
+          <a
+            href="/The_Resonance_of_Space.pdf"
+            download="The_Resonance_of_Space.pdf"
+            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 px-3 py-1.5 rounded-lg font-bold text-xs transition-colors"
+          >
+            📚 책으로 다운받기
+          </a>
+
           {/* View Mode Toggle */}
           <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 ml-1">
             <button
