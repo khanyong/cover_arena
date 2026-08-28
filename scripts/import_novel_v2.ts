@@ -24,7 +24,7 @@ const V_DATE = new Date().toISOString();
 
 async function run() {
   const directory = path.join(process.cwd(), 'docs/novel_v2');
-  const files = ['prologue.md', 'act0.md', 'act1.md', 'act2.md', 'act3.md', 'act4.md', 'epilogue.md'];
+  const files = ['prologue.md', 'act0.md', 'act1.md', 'act2.md', 'act3.md', 'act4.md', 'epilogue.md', 'appendix.md'];
 
   const acts: any[] = [];
   let currentAct: any = null;
@@ -49,7 +49,7 @@ async function run() {
       line = line.trim();
       if (!line) continue;
 
-      if (line.startsWith('# ACT ') || line.startsWith('# PROLOGUE') || line.startsWith('# EPILOGUE')) {
+      if (line.startsWith('# ACT ') || line.startsWith('# PROLOGUE') || line.startsWith('# EPILOGUE') || line.startsWith('# APPENDIX')) {
         if (currentAct) continue; // Ignore duplicate ACT headers in the same file
         
         const title = line.replace(/^#\s*/, '').trim();
