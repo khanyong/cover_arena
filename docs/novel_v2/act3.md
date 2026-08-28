@@ -16378,7 +16378,7 @@ Sarah looked at Ian.
 
 Ian looked between them.
 
-# ACT 2.
+ACT 2.
 
 *Reversible loss versus irreversible delay.*
 
@@ -16441,8 +16441,6 @@ It had not received an answer.
 It had received something more useful.
 
 A boundary between what was known and what was merely feared.
-
-# ACT 3: WHEN THE SKY LOSES ITS RULES
 
 ### [Scene 2: The Mandate]
 
