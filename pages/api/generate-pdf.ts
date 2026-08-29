@@ -9,11 +9,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    console.log('Generating PDF from DB...');
+    const slug = req.body.slug || 'quantum-vibration-novel-en';
+    console.log('Generating PDF from DB for slug:', slug);
     
     // Run the generation script
     await new Promise((resolve, reject) => {
-      exec('npx tsx scripts/build_db_pdf.ts', (error, stdout, stderr) => {
+      exec(`npx tsx scripts/build_db_pdf.ts ${slug}`, (error, stdout, stderr) => {
         if (error) {
           console.error(`exec error: ${error}`);
           console.error(stderr);

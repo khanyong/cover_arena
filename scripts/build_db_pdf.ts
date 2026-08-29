@@ -11,7 +11,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const slug = 'quantum-vibration-novel-en';
+const slug = process.argv[2] || 'quantum-vibration-novel-en';
 
 async function main() {
   console.log('Fetching novel data from DB...');

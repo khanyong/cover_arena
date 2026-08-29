@@ -712,7 +712,7 @@ export default function NovelStudioPage() {
                 {novel.acts.map((act) => (
                   <div key={act.number} className="space-y-2">
                     <div className="font-bold text-amber-300 flex items-center gap-1.5">
-                      <span>🎬</span> {act.title}
+                      <span>🎬</span> {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
                     </div>
                     <div className="pl-3 space-y-1 border-l border-zinc-800">
                       {act.chapters.map((ch) => {
@@ -874,7 +874,7 @@ export default function NovelStudioPage() {
                       >
                         {novel.acts.map(act => (
                           <option key={act.number} value={act.number}>
-                            {act.title}
+                            {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
                           </option>
                         ))}
                       </select>
@@ -1054,7 +1054,7 @@ export default function NovelStudioPage() {
                             className="bg-zinc-950/60 border border-zinc-800/80 rounded-xl p-3 flex flex-col md:flex-row gap-3 md:items-center justify-between"
                           >
                             <div className="font-bold text-amber-300 min-w-[140px]">
-                              🎬 {act.title}
+                              🎬 {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
                             </div>
                             <div className="flex-1 space-y-1 text-[11px]">
                               {act.theory && (
@@ -1083,7 +1083,7 @@ export default function NovelStudioPage() {
                   <div className="bg-zinc-900/90 border border-amber-500/20 rounded-2xl p-5 shadow-lg">
                     <div className="flex items-center justify-between">
                       <h2 className="text-2xl font-black text-amber-400 tracking-tight">
-                        {act.title}
+                        {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
                       </h2>
                       <span className="text-xs font-mono text-zinc-500">
                         {act.chapters.length}개 장 수록

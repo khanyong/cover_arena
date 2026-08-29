@@ -245,7 +245,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
               setIsGeneratingPDF(true);
               setToastMessage('⏳ 서버에서 LaTeX PDF를 조판 중입니다... (10~20초 소요)');
               try {
-                const response = await fetch('/api/generate-pdf', { method: 'POST' });
+                const response = await fetch('/api/generate-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: novel.id }) });
                 const result = await response.json();
                 if (result.success) {
                   window.open(result.url, '_blank');
@@ -426,7 +426,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
               ) : (
                 <>
                   <h2 className={`text-2xl font-black flex items-center gap-2 ${viewMode === 'book' ? 'text-amber-500/90 font-serif' : 'text-amber-400'}`}>
-                    <span>🎬</span> {act.title}
+                    <span>🎬</span> {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
                     <button
                       onClick={() => {
                         setEditingAct(act.number);
