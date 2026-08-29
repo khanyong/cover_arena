@@ -235,28 +235,95 @@ export const novels = {
     return { data, error };
   },
 
-  // 특정 slug의 소설 불러오기
+  // 특정 slug의 소설 불러오기 (파편화 지원)
   async getNovelBySlug(slug) {
-    const { data, error } = await supabase
+    const { data: mainData, error: mainError } = await supabase
       .from('novel_documents')
       .select('data')
       .eq('slug', slug)
       .single();
     
-    return { data: data?.data, error };
+    if (mainError || !mainData) {
+      return { data: null, error: mainError };
+    }
+
+    const novel = mainData.data;
+
+    // 만약 novel.acts가 존재하고 길이가 1 이상이라면, 파편화된 행들을 불러와 합친다.
+    if (novel && novel.acts && novel.acts.length > 0) {
+      const actSlugs = novel.acts.map(act => `${slug}-act-${act.number}`);
+      
+      const { data: actRows, error: actError } = await supabase
+        .from('novel_documents')
+        .select('slug, data')
+        .in('slug', actSlugs);
+
+      if (actRows && actRows.length > 0) {
+        novel.acts = novel.acts.map(actStub => {
+          const row = actRows.find(r => r.slug === `${slug}-act-${actStub.number}`);
+          // 만약 DB에서 행을 찾으면 그것을 반환하고, 아니면 껍데기(stub) 유지
+          return row ? row.data : actStub;
+        });
+      }
+    }
+    
+    return { data: novel, error: null };
   },
 
-  // 소설 덮어쓰기 (업데이트)
+  // 소설 덮어쓰기 (업데이트 - 파편화 지원)
   async saveNovel(novelDetails) {
-    const { data, error } = await supabase
+    // 1. 소설 객체에서 acts 분리
+    const fullActs = novelDetails.acts || [];
+    
+    // 메인 문서에는 acts의 껍데기(메타데이터)만 남겨서 용량을 최소화
+    const mainNovel = {
+      ...novelDetails,
+      acts: fullActs.map(act => ({
+        id: act.id,
+        number: act.number,
+        title: act.title,
+        synopsis: act.synopsis || ''
+      }))
+    };
+
+    // 2. 메인 문서 저장 (업데이트)
+    const { data: mainResult, error: mainError } = await supabase
       .from('novel_documents')
       .update({ 
-        data: novelDetails,
-        title: novelDetails.title,
+        data: mainNovel,
+        title: mainNovel.title,
         updated_at: new Date().toISOString()
       })
-      .eq('slug', novelDetails.slug);
+      .eq('slug', mainNovel.slug);
+      
+    if (mainError) {
+      console.error("Main novel save error:", mainError);
+      return { data: null, error: mainError };
+    }
+
+    // 3. 분리된 Acts들을 각각의 행으로 병렬 저장 (upsert)
+    // 15초 타임아웃을 우회하기 위해 Act별로 별도의 Row를 가짐
+    if (fullActs.length > 0) {
+      const actPromises = fullActs.map(act => {
+        const actSlug = `${mainNovel.slug}-act-${act.number}`;
+        return supabase
+          .from('novel_documents')
+          .upsert({
+            id: actSlug, // primary key
+            slug: actSlug,
+            title: `${mainNovel.title} - Act ${act.number}`,
+            data: act,
+            updated_at: new Date().toISOString()
+          }, { onConflict: 'id' });
+      });
+
+      try {
+        await Promise.all(actPromises);
+      } catch (e) {
+        console.error("Act save error:", e);
+      }
+    }
     
-    return { data, error };
+    return { data: mainResult, error: null };
   }
 }

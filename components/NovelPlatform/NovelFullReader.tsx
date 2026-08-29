@@ -56,6 +56,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   // 현재 클릭해서 편집 중인 단락 상태
   const [editingParagraph, setEditingParagraph] = useState<NovelParagraph | null>(null);
   const [editContent, setEditContent] = useState('');
+  const [editingParagraphId, setEditingParagraphId] = useState<string | null>(null);
+  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [editVersionTag, setEditVersionTag] = useState('');
   const [editNote, setEditNote] = useState('');
   const [editAiPrompt, setEditAiPrompt] = useState('');
@@ -238,13 +240,36 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             📖 FULL CONTINUOUS READER
           </span>
           
-          <a
-            href="/The_Resonance_of_Space.pdf"
-            download="The_Resonance_of_Space.pdf"
-            className="flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-zinc-950 px-3 py-1.5 rounded-lg font-bold text-xs transition-colors"
+          <button
+            onClick={async () => {
+              setIsGeneratingPDF(true);
+              setToastMessage('⏳ 서버에서 LaTeX PDF를 조판 중입니다... (10~20초 소요)');
+              try {
+                const response = await fetch('/api/generate-pdf', { method: 'POST' });
+                const result = await response.json();
+                if (result.success) {
+                  window.open(result.url, '_blank');
+                  setToastMessage('🎉 PDF 조판이 완료되었습니다!');
+                } else {
+                  alert('PDF 생성 실패: ' + result.error);
+                  setToastMessage('❌ PDF 조판 실패');
+                }
+              } catch (e) {
+                alert('PDF 생성 중 오류 발생');
+                setToastMessage('❌ 시스템 오류');
+              }
+              setIsGeneratingPDF(false);
+              setTimeout(() => setToastMessage(null), 3000);
+            }}
+            disabled={isGeneratingPDF}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg font-bold text-xs transition-colors ${
+              isGeneratingPDF 
+                ? 'bg-emerald-700 text-emerald-200 cursor-not-allowed opacity-70' 
+                : 'bg-emerald-500 hover:bg-emerald-400 text-zinc-950'
+            }`}
           >
-            📚 책으로 다운받기
-          </a>
+            {isGeneratingPDF ? '⏳ 조판 중...' : '📚 책으로 다운받기'}
+          </button>
 
           {/* View Mode Toggle */}
           <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 ml-1">
@@ -530,7 +555,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 {/* Paragraphs Continuous Text Container */}
                 <div className={`transition-all duration-700 ${
                   viewMode === 'book' 
-                    ? 'font-serif text-[#d6caba] md:columns-2 md:gap-16 [column-rule:1px_solid_rgba(58,53,44,0.5)] space-y-0 text-justify' 
+                    ? 'font-serif text-[#d6caba] max-w-3xl mx-auto space-y-4 text-justify leading-loose' 
                     : 'font-sans text-zinc-200 space-y-8'
                 }`}>
                   {(ch.scenes || []).map((scene) => (
@@ -550,7 +575,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
-                      <div className="space-y-4">
+                      <div className={viewMode === 'book' ? "space-y-0" : "space-y-2"}>
                       {(scene.paragraphs || []).map((p) => {
                     const activeVerKey = customVersionMap[p.id] || p.activeVersion;
                     let content = getParagraphText(p, activeVerKey);
@@ -559,12 +584,12 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     
                     let bgClass = isMatch 
                       ? 'bg-amber-900/30 border-amber-500/80 shadow-[0_0_15px_rgba(245,158,11,0.2)]' 
-                      : 'border-transparent hover:border-amber-500/40 hover:bg-amber-500/5';
+                      : 'border-transparent hover:bg-amber-500/5';
                       
                     if (viewMode === 'book') {
                       bgClass = isMatch
-                        ? 'bg-amber-900/10 border-amber-800/40 shadow-[0_0_10px_rgba(245,158,11,0.05)]'
-                        : 'border-transparent hover:border-[#3a352c] hover:bg-[#201d19]';
+                        ? 'bg-amber-900/20 border-amber-800/40 shadow-[0_0_10px_rgba(245,158,11,0.05)]'
+                        : 'border-transparent hover:bg-[#201d19]/40';
                     }
 
                     let displayContent = content;
@@ -581,16 +606,20 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         id={`paragraph-${p.id}`}
                         key={p.id}
                         onClick={() => handleParagraphClick(p)}
-                        className={`group relative p-4 rounded-2xl transition-all cursor-pointer border break-inside-avoid ${bgClass} ${getFontSizeClass()} ${viewMode === 'book' ? 'mb-4' : ''}`}
+                        className={
+                          viewMode === 'book'
+                            ? `group relative px-2 py-1 transition-all cursor-pointer break-inside-avoid mb-2 rounded ${bgClass} ${getFontSizeClass()}`
+                            : `group relative px-3 py-1.5 transition-all cursor-pointer break-inside-avoid mb-1 rounded-lg border-transparent ${bgClass} ${getFontSizeClass()}`
+                        }
                         title="클릭하여 이 단락 수정 & 새 버전 생성"
                       >
                         {/* Hover Quick Edit Badge */}
-                        <div className="absolute top-2 right-3 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-xs px-2.5 py-1 rounded-md font-bold shadow-lg flex items-center gap-1 font-sans z-10">
-                          <span>✏️</span> 클릭해서 단락 수정 ({activeVerKey})
+                        <div className="absolute top-0 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-[10px] px-2 py-0.5 rounded font-bold shadow-lg flex items-center gap-1 font-sans z-10">
+                          <span>✏️</span> 수정
                         </div>
 
-                        {/* Version Indicator Tag and AI Prompt */}
-                        <div className="flex items-center gap-2 mb-1.5 flex-wrap font-sans">
+                        {/* Version Indicator Tag and AI Prompt (hidden unless hovered) */}
+                        <div className="flex items-center gap-2 flex-wrap font-sans opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all group-hover:mb-1">
                           <div className="inline-block text-[11px] font-mono text-amber-400/80 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800 select-none">
                             {activeVerKey}
                           </div>
@@ -610,32 +639,36 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
                         {/* Paragraph Content with Paragraph Breaks */}
                         <div className="whitespace-pre-wrap leading-relaxed prose prose-invert max-w-none novel-math-prose">
-                          <ReactMarkdown
-                            remarkPlugins={[remarkMath]}
-                            rehypePlugins={[rehypeKatex]}
-                            components={{
-                              code({node, className, children, ...props}) {
-                                const match = /language-(\w+)/.exec(className || '');
-                                if (!match) {
+                          {(!displayContent.match(/[*_#$\[\]`~]/)) ? (
+                            <span>{displayContent}</span>
+                          ) : (
+                            <ReactMarkdown
+                              remarkPlugins={[remarkMath]}
+                              rehypePlugins={[rehypeKatex]}
+                              components={{
+                                code({node, className, children, ...props}) {
+                                  const match = /language-(\w+)/.exec(className || '');
+                                  if (!match) {
+                                    return (
+                                      <mark
+                                        className="bg-amber-500/30 text-amber-200 px-1 py-0.5 rounded shadow-sm font-semibold mx-0.5"
+                                        {...props}
+                                      >
+                                        {children}
+                                      </mark>
+                                    );
+                                  }
                                   return (
-                                    <mark
-                                      className="bg-amber-500/30 text-amber-200 px-1 py-0.5 rounded shadow-sm font-semibold mx-0.5"
-                                      {...props}
-                                    >
+                                    <code className={className} {...props}>
                                       {children}
-                                    </mark>
+                                    </code>
                                   );
                                 }
-                                return (
-                                  <code className={className} {...props}>
-                                    {children}
-                                  </code>
-                                );
-                              }
-                            }}
-                          >
-                            {displayContent}
-                          </ReactMarkdown>
+                              }}
+                            >
+                              {displayContent}
+                            </ReactMarkdown>
+                          )}
                         </div>
                       </div>
                     );

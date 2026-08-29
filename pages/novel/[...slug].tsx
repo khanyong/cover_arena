@@ -95,6 +95,9 @@ export default function NovelStudioPage() {
       if (!dbSlug || typeof dbSlug !== 'string') return;
       
       setIsLoading(true);
+
+
+
       const { data, error } = await novels.getNovelBySlug(dbSlug);
       
       // 마이그레이션 로직: act -> chapter -> paragraphs 구조를 act -> chapter -> scenes -> paragraphs 구조로 변환
@@ -107,14 +110,14 @@ export default function NovelStudioPage() {
           for (const act of migrated.acts) {
             if (act.chapters) {
               for (const ch of act.chapters) {
-                // 기존 paragraphs가 있다면 scene 1을 만들어서 넣는다
+                // 기존 paragraphs가 있다면 scene 1을 하나 만들어서 모두 넣는다
                 if (ch.paragraphs && ch.paragraphs.length > 0 && (!ch.scenes || ch.scenes.length === 0)) {
-                  ch.scenes = ch.paragraphs.map((p, idx) => ({
-                    id: `scene-${act.number}-${ch.number}-${idx + 1}`,
-                    number: idx + 1,
-                    title: `SCENE ${idx + 1}`,
-                    paragraphs: [p]
-                  }));
+                  ch.scenes = [{
+                    id: `scene-${act.number}-${ch.number}-1`,
+                    number: 1,
+                    title: `SCENE 1`,
+                    paragraphs: ch.paragraphs
+                  }];
                   delete ch.paragraphs;
                 } else if (!ch.scenes || ch.scenes.length === 0) {
                   // If scenes are completely empty and paragraphs are missing (corrupted state), try to recover from initialNovelData
