@@ -268,7 +268,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 : 'bg-emerald-500 hover:bg-emerald-400 text-zinc-950'
             }`}
           >
-            {isGeneratingPDF ? '⏳ 조판 중...' : '📚 책으로 다운받기'}
+            {isGeneratingPDF ? '⏳ 조판 중...' : '📚 책으로 다운받기 (Mac_로컬 only)'}
           </button>
 
           {/* View Mode Toggle */}
