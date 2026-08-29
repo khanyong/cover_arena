@@ -154,13 +154,13 @@ export default function NovelDashboard() {
             <div className="text-center text-zinc-400 py-20 animate-pulse">
               Loading data...
             </div>
-          ) : novelList.filter(n => !n.slug.endsWith('-en')).length === 0 ? (
+          ) : novelList.filter(n => !(n.slug?.endsWith('-en'))).length === 0 ? (
             <div className="text-center text-zinc-400 py-20 bg-zinc-900/50 rounded-2xl border border-zinc-800">
               No projects created yet. Click '+ Create New Volume' to begin.
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {novelList.filter(n => !n.slug.endsWith('-en')).map((novel) => (
+            {novelList.filter(n => !(n.slug?.endsWith('-en'))).map((novel) => (
               <div
                 key={novel.id}
                 className="bg-zinc-900 border border-zinc-800 hover:border-amber-500/40 rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between group"

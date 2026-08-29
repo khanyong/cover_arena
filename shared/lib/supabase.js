@@ -213,6 +213,7 @@ export const novels = {
     const { data, error } = await supabase
       .from('novel_documents')
       .select('id, slug, title, data')
+      .not('slug', 'like', '%-act-%')
       .order('id', { ascending: true });
     
     return { data, error };
@@ -325,5 +326,96 @@ export const novels = {
     }
     
     return { data: mainResult, error: null };
+  },
+
+  // 에이전트 매직 링크 발급
+  async createAgentToken(agentId, novelSlug) {
+    // 32-character random hex for token
+    const crypto = globalThis.crypto || require('crypto');
+    const array = new Uint8Array(16);
+    if (crypto.getRandomValues) {
+        crypto.getRandomValues(array);
+    } else {
+        // Fallback for node
+        const r = crypto.randomBytes(16);
+        for(let i=0; i<16; i++) array[i] = r[i];
+    }
+    const token = Array.from(array).map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    const expiresAt = new Date();
+    expiresAt.setMonth(expiresAt.getMonth() + 1); // 1개월 뒤 만료
+
+    const { data, error } = await supabase
+      .from('agent_access_tokens')
+      .insert([
+        {
+          agent_id: agentId,
+          novel_slug: novelSlug,
+          token: token,
+          expires_at: expiresAt.toISOString(),
+          is_active: true
+        }
+      ])
+      .select()
+      .single();
+
+    return { data, error };
+  },
+
+  // 에이전트 토큰 검증
+  async validateAgentToken(token) {
+    const { data, error } = await supabase
+      .from('agent_access_tokens')
+      .select('*')
+      .eq('token', token)
+      .eq('is_active', true)
+      .single();
+
+    if (error || !data) return { data: null, error: error || new Error('Invalid token') };
+
+    const expiresAt = new Date(data.expires_at);
+    if (expiresAt < new Date()) {
+      return { data: null, error: new Error('Token expired') };
+    }
+
+    return { data, error: null };
+  },
+
+  // 읽음 시간 업데이트
+  async updateTokenAccessTime(token) {
+    const { error } = await supabase
+      .from('agent_access_tokens')
+      .update({ last_accessed_at: new Date().toISOString() })
+      .eq('token', token);
+    return { error };
+  },
+
+  // 활성 토큰 확인 (UI 표시용)
+  async checkActiveAgentToken(agentId) {
+    const { data, error } = await supabase
+      .from('agent_access_tokens')
+      .select('*')
+      .eq('agent_id', agentId)
+      .eq('is_active', true)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
+    
+    // 유효기간 지났으면 비활성 취급
+    if (data && new Date(data.expires_at) < new Date()) {
+      return { data: null, error: null };
+    }
+    return { data, error };
+  },
+
+  // 링크 파기 (비활성화)
+  async revokeAgentToken(agentId) {
+    const { data, error } = await supabase
+      .from('agent_access_tokens')
+      .update({ is_active: false })
+      .eq('agent_id', agentId)
+      .eq('is_active', true)
+      .select();
+    return { data, error };
   }
 }

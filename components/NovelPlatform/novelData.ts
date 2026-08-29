@@ -72,6 +72,17 @@ export interface SceneDetails {
   narrative: string;
 }
 
+export interface AgentQuery {
+  id: string;
+  agentName: string;
+  agency?: string;
+  targetNotes?: string;
+  customIntro?: string;
+  status?: 'Draft' | 'Sent' | 'Rejected' | 'Full Request';
+  isOverride?: boolean;
+  fullQueryOverride?: string;
+}
+
 export interface NovelDetails {
   id: string;
   slug: string;
@@ -86,6 +97,8 @@ export interface NovelDetails {
   acts: NovelAct[];
   versionHistory: string[];
   updatedAt: string;
+  defaultQuery?: string;
+  agentQueries?: AgentQuery[];
 }
 
 export const initialNovelData: NovelDetails = {

@@ -40,6 +40,7 @@ import { NovelSideBySideDiff } from '../../components/NovelPlatform/NovelSideByS
 import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGlossary';
 import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
 import { LocationGlossary } from '../../components/NovelPlatform/LocationGlossary';
+import { QueryManager } from '../../components/NovelPlatform/QueryManager';
 import { novels, auth } from '../../shared/lib/supabase';
 
 export default function NovelStudioPage() {
@@ -81,7 +82,7 @@ export default function NovelStudioPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   // 현재 선택된 메인 탭
-  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations' | 'diff'>('story');
+  const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations' | 'diff' | 'queries'>('story');
 
   // 버전 비교 탭용 상태
   const [diffActNumber, setDiffActNumber] = useState<number>(1);
@@ -418,6 +419,11 @@ export default function NovelStudioPage() {
     novels.saveNovel(updatedNovel);
   };
 
+  const handleUpdateNovel = (newNovel: NovelDetails) => {
+    setNovel(newNovel);
+    novels.saveNovel(newNovel);
+  };
+
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
   const handleImportDraft = (e: React.FormEvent) => {
     e.preventDefault();
@@ -598,6 +604,16 @@ export default function NovelStudioPage() {
               }`}
             >
               🌍 장소 구상
+            </button>
+            <button
+              onClick={() => setMainTab('queries')}
+              className={`px-4 py-1.5 text-sm font-bold rounded-md transition-colors ${
+                mainTab === 'queries' 
+                  ? 'bg-indigo-500 text-white shadow-sm' 
+                  : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
+              }`}
+            >
+              ✉️ 에이전트 쿼리
             </button>
             <button
               onClick={() => setMainTab('diff')}
@@ -785,6 +801,13 @@ export default function NovelStudioPage() {
               onAddLocation={handleAddLocation}
               onUpdateLocation={handleUpdateLocation}
               onDeleteLocation={handleDeleteLocation}
+            />
+          )}
+
+          {mainTab === 'queries' && (
+            <QueryManager
+              novel={novel}
+              onUpdateNovel={handleUpdateNovel}
             />
           )}
 
