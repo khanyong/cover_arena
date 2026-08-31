@@ -6,7 +6,7 @@ import rehypeKatex from 'rehype-katex';
 
 import { useRouter } from 'next/router';
 import { novels } from '../../shared/lib/supabase';
-import { NovelDetails } from '../../components/NovelPlatform/novelData';
+import { NovelDetails, getSceneTitle } from '../../components/NovelPlatform/novelData';
 
 export default function AgentReaderPage() {
   const router = useRouter();
@@ -352,8 +352,16 @@ export default function AgentReaderPage() {
                           {chapter.title}
                         </h3>
                       )}
-                      {chapter.scenes?.map((scene) => (
+                      {chapter.scenes?.map((scene) => {
+                        const sceneTitle = getSceneTitle(scene, {});
+                        const isPlaceholder = !scene.title || scene.title === '새 장면' || scene.title.startsWith('SCENE ');
+                        return (
                         <div key={scene.id} className="mb-10">
+                          {!isPlaceholder && (
+                            <h4 className="text-center font-bold text-zinc-400 mb-6 font-sans tracking-widest text-sm uppercase">
+                              {sceneTitle}
+                            </h4>
+                          )}
                           <div className="text-lg text-zinc-300 text-justify">
                             {scene.paragraphs?.map(p => {
                               const ver = p.versions[p.activeVersion];
