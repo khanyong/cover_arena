@@ -385,7 +385,8 @@ export default function AgentReaderPage() {
                             <div className="text-center text-zinc-600 my-10 opacity-50 tracking-[1em]">***</div>
                           )}
                         </div>
-                      ))}
+                      );
+                    })}
                     </section>
                   </div>
                 </article>
