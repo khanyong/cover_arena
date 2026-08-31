@@ -210,7 +210,7 @@ export default function NovelDashboard() {
                 <div>
                   <div className="flex items-center justify-between text-xs text-zinc-400 pb-4 mb-4 border-b border-zinc-800">
                     <span>Author: {novel.author}</span>
-                    <span>Structure: {novel.acts ? novel.acts.length : 0} Acts / {novel.acts ? novel.acts.reduce((acc: number, a: any) => acc + (a.chapters ? a.chapters.length : 0), 0) : 0} Chapters</span>
+                    <span>Structure: {novel.acts ? novel.acts.length : 0} Acts / {novel.chapterCount ? novel.chapterCount : (novel.acts ? novel.acts.reduce((acc: number, a: any) => acc + (a.chapters ? a.chapters.length : 0), 0) : 0)} Chapters</span>
                   </div>
 
                   <div className="flex gap-2">

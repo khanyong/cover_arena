@@ -561,7 +561,19 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                   {(ch.scenes || []).map((scene) => (
                     <div key={scene.id} id={`scene-${scene.id}`} className="relative group/scene">
                       <div className="flex items-center gap-2 mb-3">
-                        <h4 className="text-sm font-semibold text-zinc-500 font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1">
+                        <h4 
+                          className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${onUpdateSceneMetadata ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-500'}`}
+                          onClick={() => {
+                            if (onUpdateSceneMetadata) {
+                              const currentTitle = getSceneTitle(scene, customVersionMap);
+                              const newTitle = window.prompt('씬 제목을 수정하세요:', currentTitle);
+                              if (newTitle !== null && newTitle.trim() !== '') {
+                                onUpdateSceneMetadata(act.number, ch.number, scene.id, newTitle.trim());
+                              }
+                            }
+                          }}
+                          title={onUpdateSceneMetadata ? "클릭하여 씬 제목 수정" : ""}
+                        >
                           {getSceneTitle(scene, customVersionMap)}
                         </h4>
                         {onDeleteScene && (
