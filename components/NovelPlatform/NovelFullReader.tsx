@@ -66,6 +66,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
   // 뷰 모드 (스크롤 vs 양면 책)
   const [viewMode, setViewMode] = useState<'scroll' | 'book'>('scroll');
+  const [editingSceneId, setEditingSceneId] = useState<string | null>(null);
+  const [editingSceneTitle, setEditingSceneTitle] = useState<string>('');
 
   // 폰트 크기 조절 (독서 편의용)
   const [fontSize, setFontSize] = useState<'sm' | 'base' | 'lg' | 'xl'>('lg');
@@ -561,21 +563,44 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                   {(ch.scenes || []).map((scene) => (
                     <div key={scene.id} id={`scene-${scene.id}`} className="relative group/scene">
                       <div className="flex items-center gap-2 mb-3">
-                        <h4 
-                          className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${onUpdateSceneMetadata ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-500'}`}
-                          onClick={() => {
-                            if (onUpdateSceneMetadata) {
-                              const currentTitle = getSceneTitle(scene, customVersionMap);
-                              const newTitle = window.prompt('씬 제목을 수정하세요:', currentTitle);
-                              if (newTitle !== null && newTitle.trim() !== '') {
-                                onUpdateSceneMetadata(act.number, ch.number, scene.id, newTitle.trim());
+                        {editingSceneId === scene.id ? (
+                          <input 
+                            autoFocus
+                            type="text"
+                            value={editingSceneTitle}
+                            onChange={(e) => setEditingSceneTitle(e.target.value)}
+                            onBlur={() => {
+                              if (editingSceneTitle.trim() !== '') {
+                                onUpdateSceneMetadata?.(act.number, ch.number, scene.id, editingSceneTitle.trim());
                               }
-                            }
-                          }}
-                          title={onUpdateSceneMetadata ? "클릭하여 씬 제목 수정" : ""}
-                        >
-                          {getSceneTitle(scene, customVersionMap)}
-                        </h4>
+                              setEditingSceneId(null);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') {
+                                if (editingSceneTitle.trim() !== '') {
+                                  onUpdateSceneMetadata?.(act.number, ch.number, scene.id, editingSceneTitle.trim());
+                                }
+                                setEditingSceneId(null);
+                              } else if (e.key === 'Escape') {
+                                setEditingSceneId(null);
+                              }
+                            }}
+                            className="text-sm font-semibold font-sans tracking-wider border-b border-amber-500/50 pb-1 flex-1 bg-transparent text-amber-400 outline-none w-full"
+                          />
+                        ) : (
+                          <h4 
+                            className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${onUpdateSceneMetadata ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-500'}`}
+                            onClick={() => {
+                              if (onUpdateSceneMetadata) {
+                                setEditingSceneTitle(getSceneTitle(scene, customVersionMap));
+                                setEditingSceneId(scene.id);
+                              }
+                            }}
+                            title={onUpdateSceneMetadata ? "클릭하여 씬 제목 수정" : ""}
+                          >
+                            {getSceneTitle(scene, customVersionMap)}
+                          </h4>
+                        )}
                         {onDeleteScene && (
                           <button
                             onClick={() => onDeleteScene(act.number, ch.number, scene.id)}
