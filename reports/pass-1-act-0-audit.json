@@ -1,0 +1,173 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_ACT0_001",
+    "id": "e78201e5-3b0a-4aba-97e7-ce1f609bc184",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "ACT 0: THE BROKEN VARIABLE",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "d0b38bde09b6395d368af1c105b23d7baa6fe86d51597e316ef5654769dd18ee"
+  },
+  "amendment_run_a01": {
+    "code": "B1_PASS1_ACT0_001_A01",
+    "id": "595f60e6-173b-4c0e-b910-88e3cbdcbb51",
+    "parent_audit": "B1_PASS1_ACT0_001",
+    "status": "locked",
+    "audit_hash": "ec5419752d634f2e449b1a9fa4649b120319b936a1f8e2b2109511428df22b93",
+    "amendment_reason": "Epistemic-boundary corrections, protected text precision, and series-continuity additions"
+  },
+  "amendment_run_a02": {
+    "code": "B1_PASS1_ACT0_001_A02",
+    "id": "51f0efaf-4863-407a-ae7b-9eedc2a241d0",
+    "parent_audit": "B1_PASS1_ACT0_001_A01",
+    "status": "locked",
+    "audit_hash": "fd5de68680af92a2cfdd85fbf59cc74fb8c5d6cd30f7e2735418ac1705f4cca5",
+    "amendment_reason": "WIM model-derived estimate, body presentation identity vs biological verification, Scene 7 & 8 UUID attribution, Family Name Canon, preferred range 22,500-24,650, Chapter 2 combined 18.0%"
+  },
+  "canon_decision": {
+    "code": "CANON_DECISION_FAMILY_NAMES_001",
+    "status": "locked",
+    "scope": "BOOKS_1_TO_4",
+    "family": "Yoo Ji-man (Father) / Jeon Seo-yeon (Mother) / Ian Yoo (Son)"
+  },
+  "metrics": {
+    "baseline_total_words": 29438,
+    "target_total_words": 24630,
+    "total_word_delta": -4808,
+    "total_compression_percent": 16.3,
+    "target_tolerance_percent": 5.0,
+    "chapter_2_combined_compression_percent": 18.0,
+    "review_word_range": "22500-24650",
+    "canonical_scenes_count": 8,
+    "chapter_gates_count": 4,
+    "series_debts_count": 5
+  },
+  "series_debts": [
+    "SERIES_DEBT_A0_B2_URN_001",
+    "SERIES_DEBT_A0_B2_BODY_IDENTITY_001",
+    "SERIES_DEBT_A0_B2_MASS_PROOF_001",
+    "CONTINUITY_DEBT_FAMILY_NAME_001",
+    "CHARACTER_DEBT_SEOYEON_METHOD_001"
+  ],
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "3c72e09c-e060-5756-8c71-5bde34cfbc54",
+      "title": "[Scene 1: The Silver Compass]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2589,
+      "target_words": 2250,
+      "delta": -339,
+      "compression_percent": 13.1,
+      "tolerance_percent": 5.0,
+      "protected_status": "Canon"
+    },
+    {
+      "scene_number": 2,
+      "id": "9d37d99c-9471-5a3c-9cd0-edf60c36bb24",
+      "title": "[Scene 2: The Collapse]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3017,
+      "target_words": 2530,
+      "delta": -487,
+      "compression_percent": 16.1,
+      "tolerance_percent": 5.0,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 3,
+      "id": "9da3ac4e-d7ab-5fae-94d2-5a4713b59b6e",
+      "title": "[Scene 1: The Raid]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3909,
+      "target_words": 3250,
+      "delta": -659,
+      "compression_percent": 16.9,
+      "tolerance_percent": 5.0,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 4,
+      "id": "ba701488-a4da-52c1-9ac8-33f60adccdb9",
+      "title": "[Scene 2: The Official Verdict]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4751,
+      "target_words": 3850,
+      "delta": -901,
+      "compression_percent": 19.0,
+      "tolerance_percent": 5.0,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 5,
+      "id": "897cef16-f551-501c-858d-4c74e5add72c",
+      "title": "[Scene 1: The Thermal Timeline]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3462,
+      "target_words": 2980,
+      "delta": -482,
+      "compression_percent": 13.9,
+      "tolerance_percent": 5.0,
+      "protected_status": "Canon"
+    },
+    {
+      "scene_number": 6,
+      "id": "4d4f7754-aff7-5887-ac2f-36ceb02921c8",
+      "title": "[Scene 2: The Inverted Logistics]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4709,
+      "target_words": 3900,
+      "delta": -809,
+      "compression_percent": 17.2,
+      "tolerance_percent": 5.0,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 7,
+      "id": "63e8557e-16c2-509b-a3f6-067a1aa257bc",
+      "title": "[Scene 1: Departure Horizon]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3236,
+      "target_words": 2750,
+      "delta": -486,
+      "compression_percent": 15.0,
+      "tolerance_percent": 5.0,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 8,
+      "id": "3d005e08-1f42-521b-be86-b6fb3efe0326",
+      "title": "[Scene 2: The Absolute Boundary]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 3765,
+      "target_words": 3120,
+      "delta": -645,
+      "compression_percent": 17.1,
+      "tolerance_percent": 5.0,
+      "protected_status": "Canon"
+    }
+  ],
+  "chapter_gates": [
+    {
+      "chapter": "Chapter 1: The Architectural Flaw",
+      "verdict": "PASS",
+      "notes": "PASS — protected emotional core and engineering imperfection philosophy. Target 14.7% compression (±5% tolerance)."
+    },
+    {
+      "chapter": "Chapter 2: The Shadow Quarantine",
+      "verdict": "PASS",
+      "notes": "PASS — substantial repetition compression required (19% target with ±5% tolerance on media briefings and raid debates)."
+    },
+    {
+      "chapter": "Chapter 3: The Contradictions of the Ledger",
+      "verdict": "PASS",
+      "notes": "PASS — protected epistemic boundary. Thermal timeline and invoice carbon copies protected."
+    },
+    {
+      "chapter": "Chapter 4: Escape Velocity",
+      "verdict": "PASS",
+      "notes": "PASS — clean departure preserved. Transition to psychologically motivated determinism canonized."
+    }
+  ]
+}

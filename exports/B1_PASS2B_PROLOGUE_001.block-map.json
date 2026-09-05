@@ -1,0 +1,192 @@
+{
+  "audit_code": "B1_PASS2B_PROLOGUE_001",
+  "parent_plan": "B1_PASS1_GLOBAL_001",
+  "immediate_baseline": "B1_PASS2A_CANON_NORMALIZED_LOCKED",
+  "working_draft": "B1_v1.1_STRUCT_DRAFT",
+  "status": "NEEDS_SOURCE_REMAP",
+  "total_baseline_words": 10428,
+  "total_target_words": 8780,
+  "planned_reduction_words": 1648,
+  "planned_reduction_percent": 15.8,
+  "scenes_count": 5,
+  "total_blocks_count": 15,
+  "repetition_debt_resolution": "REPETITION_DEBT_PRO_S5_ACT1_S1_001",
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+      "title": "Scene 1: The Architecture of Consensus",
+      "baseline_words": 1842,
+      "target_words": 1610,
+      "delta": -232,
+      "compression_percent": 12.6,
+      "blocks": [
+        {
+          "block_order": 1,
+          "label": "Block 1.1: CERN Molasse & Infrastructure Establishing",
+          "action": "COMPRESS",
+          "target_words": 340,
+          "function": "Atmospheric establishment of underground ring and consensus-driven physics.",
+          "rationale": "Tighten repetitive physical description of subterranean architecture."
+        },
+        {
+          "block_order": 2,
+          "label": "Block 1.2: Committee Chamber & Administrative Politics",
+          "action": "COMPRESS",
+          "target_words": 520,
+          "function": "Institutional politics, committee hierarchy, and defensive bureaucracy.",
+          "rationale": "Reduce list-like recitation of committee attendees; emphasize political rigidity."
+        },
+        {
+          "block_order": 3,
+          "label": "Block 1.3: Sarah & Ian Clash on Theoretical Framework",
+          "action": "KEEP",
+          "target_words": 750,
+          "function": "Core character dynamic and epistemic debate on anomaly dismissal.",
+          "rationale": "Protected dialogue and character beats defining early conflict."
+        }
+      ]
+    },
+    {
+      "scene_number": 2,
+      "id": "d08d2485-7457-522e-b928-e4067b535080",
+      "title": "Scene 2: The Accumulating Residual",
+      "baseline_words": 2104,
+      "target_words": 1788,
+      "delta": -316,
+      "compression_percent": 15,
+      "blocks": [
+        {
+          "block_order": 1,
+          "label": "Block 2.1: Calibration Data and Drift Logs",
+          "action": "COMPRESS",
+          "target_words": 450,
+          "function": "Detector telemetry and anomalous baseline shift.",
+          "rationale": "Compress technical sensor calibration lists while retaining mathematical drift."
+        },
+        {
+          "block_order": 2,
+          "label": "Block 2.2: Late-Night Sector 4 Investigation",
+          "action": "KEEP",
+          "target_words": 820,
+          "function": "Solo investigation of physical tunnel and persistent baseline shift.",
+          "rationale": "Atmospheric tension and physical engagement with hardware."
+        },
+        {
+          "block_order": 3,
+          "label": "Block 2.3: Initial Discovery of A-173 Anomaly Pattern",
+          "action": "COMPRESS",
+          "target_words": 518,
+          "function": "Initial mathematical recognition of non-random noise signature.",
+          "rationale": "Streamline intermediate data processing paragraphs."
+        }
+      ]
+    },
+    {
+      "scene_number": 3,
+      "id": "ac0e469c-713c-536d-a29c-2ca833aad7d1",
+      "title": "Scene 3: Local Execution",
+      "baseline_words": 3118,
+      "target_words": 2650,
+      "delta": -468,
+      "compression_percent": 15,
+      "blocks": [
+        {
+          "block_order": 1,
+          "label": "Block 3.1: Pre-Run Safety Briefing and Cold Commissioning",
+          "action": "COMPRESS",
+          "target_words": 620,
+          "function": "Operational setup and protocol constraints before high-field ramp.",
+          "rationale": "Trim redundant safety checklist details; preserve Tier-5 authorization ladder."
+        },
+        {
+          "block_order": 2,
+          "label": "Block 3.2: High-Field Ramp and Thermal Signature Anomaly",
+          "action": "KEEP",
+          "target_words": 1250,
+          "function": "Primary scientific anomaly occurrence; protected sensor sequences.",
+          "rationale": "Protected core physics sequence (Paper I physics and magnet telemetry)."
+        },
+        {
+          "block_order": 3,
+          "label": "Block 3.3: Emergency Quench and Control Room Confrontation",
+          "action": "COMPRESS",
+          "target_words": 780,
+          "function": "Immediate institutional reaction, cover-up initiation, and Ian dismissal.",
+          "rationale": "Tighten post-quench procedural arguments; heighten dramatic momentum."
+        }
+      ]
+    },
+    {
+      "scene_number": 4,
+      "id": "7f4ea026-c161-5929-884e-aa03c9a2fa53",
+      "title": "Scene 4: The Official Record",
+      "baseline_words": 1682,
+      "target_words": 1387,
+      "delta": -295,
+      "compression_percent": 17.5,
+      "blocks": [
+        {
+          "block_order": 1,
+          "label": "Block 4.1: Report Sanitization and Bureaucratic Erasure",
+          "action": "COMPRESS",
+          "target_words": 480,
+          "function": "Institutional silencing and deletion of raw anomaly telemetry.",
+          "rationale": "Cut bureaucratic document formatting fluff; focus on deliberate erasure."
+        },
+        {
+          "block_order": 2,
+          "label": "Block 4.2: Sarah Quiet Delivery of Raw Logs",
+          "action": "KEEP",
+          "target_words": 550,
+          "function": "Subtle institutional dissent and handover of evidence packet.",
+          "rationale": "Protected character trust beat between Sarah and Ian."
+        },
+        {
+          "block_order": 3,
+          "label": "Block 4.3: Final Institutional Repudiation",
+          "action": "COMPRESS",
+          "target_words": 357,
+          "function": "Formal severance of Ian credentials and academic exile order.",
+          "rationale": "Condense administrative exit procedures into sharp dramatic break."
+        }
+      ]
+    },
+    {
+      "scene_number": 5,
+      "id": "a91813d6-bc60-56b8-86d7-114fee4c761e",
+      "title": "Scene 5: Exile and the Geometric Boundary",
+      "baseline_words": 1682,
+      "target_words": 1345,
+      "delta": -337,
+      "compression_percent": 20,
+      "blocks": [
+        {
+          "block_order": 1,
+          "label": "Block 5.1: Arrival in Scotland & Emotional Cost of Exile",
+          "action": "COMPRESS",
+          "target_words": 380,
+          "function": "Direct human and professional cost of exile; physical displacement.",
+          "rationale": "Strictly focus on human cost; remove mature observatory operational setup."
+        },
+        {
+          "block_order": 2,
+          "label": "Block 5.2: Establishing the Research Boundary & Epistemic Tags",
+          "action": "KEEP",
+          "target_words": 580,
+          "function": "Decision to construct independent model; anchoring CAUSE UNKNOWN and TEST REQUIRED.",
+          "rationale": "Protected philosophical and epistemic foundation of Ian entire arc."
+        },
+        {
+          "block_order": 3,
+          "label": "Block 5.3: The Realization of Impossible Isolation",
+          "action": "COMPRESS",
+          "target_words": 385,
+          "function": "Realization that Earth background noise cannot be filtered out.",
+          "rationale": "Trim Coats technical equipment details; defer mature telemetry to Act 1."
+        }
+      ]
+    }
+  ],
+  "execution_permission": "NOT_APPROVED_FOR_EXECUTION"
+}

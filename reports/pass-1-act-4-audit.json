@@ -1,0 +1,231 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_ACT4_001",
+    "id": "a0eb3025-7bac-4ed4-98d5-a749c85248f7",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "ACT 4: THE CANCELLATION HORIZON",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "7a978331e44edadca2230b4d6f005f46236b6944eed154bd3e57d2655394e5d3"
+  },
+  "amendment_run_a01": {
+    "code": "B1_PASS1_ACT4_001_A01",
+    "id": "bd3ad08c-b2b4-4d09-8cf3-659218a00a22",
+    "parent_audit": "B1_PASS1_ACT4_001",
+    "status": "locked",
+    "audit_hash": "43073e8bd05e95c600a56e5b63f394293e8696d19b330166c1a0bb8c08ebc9f5",
+    "amendment_reason": "G-DCL subterranean Geneva lattice definition, central latency chain clarification, separation of G-4A timing failure from centralized optimizer failure, Twenty-Three Minutes elapsed time distinction, Node Four protected offline status, Bounded Local Response Control claim precision, 4-level causal hierarchy, and reassigning 'I must control it' to Epilogue."
+  },
+  "repetition_debts": [
+    "REPETITION_DEBT_ACT4_POST_EVENT_ANALYSIS_001"
+  ],
+  "series_debts": [
+    "BOOK1_NARRATIVE_UNIT_SCOPE_001",
+    "EPISTEMIC_DEBT_ACT4_G4A_G4B_001",
+    "NARRATIVE_LABEL_AUDIT_ACT4_EXACT_CANCELLATION_001",
+    "HARDWARE_STATE_AUDIT_ACT4_NODE4_001",
+    "CAUSAL_HIERARCHY_ACT4_001",
+    "CHARACTER_ARC_BOUNDARY_ACT4_001"
+  ],
+  "metrics": {
+    "baseline_total_words": 55222,
+    "target_total_words": 45280,
+    "total_word_delta": -9942,
+    "total_compression_percent": 18.0,
+    "aggregate_scene_range": "43,700-47,050",
+    "act_editorial_range": "43,500-47,000",
+    "target_tolerance_percent": 5.0,
+    "canonical_narrative_scenes_count": 10,
+    "chapter_gates_count": 4,
+    "text_mutation": 0,
+    "structure_mutation": 0
+  },
+  "scope_clarification": {
+    "database_scene_units": 59,
+    "canonical_narrative_scenes": 52,
+    "audited_narrative_scenes": 51,
+    "remaining_narrative_scenes": 1,
+    "non_narrative_units": 7,
+    "narrative_scene_progress": "51 / 52 = 98.1%",
+    "target_word_scope": "narrative_body_only",
+    "narrative_body_target_words": 180000,
+    "front_matter_and_appendix": "separately_tracked"
+  },
+  "cumulative_pacing": {
+    "prologue_target": 8780,
+    "act0_target": 24630,
+    "act1_target": 27910,
+    "act2_target": 32150,
+    "act3_target": 38000,
+    "act4_target": 45280,
+    "cumulative_target_words": 176750,
+    "epilogue_reserved_budget": 3250,
+    "grand_total_planned_words": 180000,
+    "percent_of_narrative_target": "98.2% (Act 4 cumulative) / 100.0% (with Epilogue)"
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "49916110-98cb-511f-9c6f-6a9552fe7c17",
+      "chapter": "Chapter 1: The Return to Geneva",
+      "title": "[Scene 1: The Machine They Left Behind]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 6460,
+      "target_words": 5100,
+      "delta": -1360,
+      "compression_percent": 21.1,
+      "editorial_range": "4,900-5,250",
+      "protected_status": "Structural",
+      "focus": "Subterranean 12-node Geneva lattice around bounded volume; central latency chain (measurement -> timestamp -> reconstruction -> request -> validation -> execution -> response)."
+    },
+    {
+      "scene_number": 2,
+      "id": "4059051c-6515-5881-9e38-f50c32f5fd77",
+      "chapter": "Chapter 1: The Return to Geneva",
+      "title": "[Scene 2: Every Node Gets to Disagree]",
+      "action": "KEEP_PROTECTED_LOCAL_AUTHORITY",
+      "baseline_words": 4413,
+      "target_words": 3800,
+      "delta": -613,
+      "compression_percent": 13.9,
+      "editorial_range": "3,700-3,950",
+      "protected_status": "Canon",
+      "focus": "Distributed local safety and veto principle; 5 execution states; Node Seven wrong-state commissioning."
+    },
+    {
+      "scene_number": 3,
+      "id": "01389b2b-d9fc-5a63-b516-c9c7400ae336",
+      "chapter": "Chapter 2: The Prediction Window",
+      "title": "[Scene 1: The First Warning]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 5989,
+      "target_words": 4850,
+      "delta": -1139,
+      "compression_percent": 19.0,
+      "editorial_range": "4,650-5,050",
+      "protected_status": "Canon",
+      "focus": "G-4A prospective timing failure preserved (macroscopic transition at ~45m vs 15-40m window)."
+    },
+    {
+      "scene_number": 4,
+      "id": "2caba919-0064-5339-8b2c-a64213ed3ca8",
+      "chapter": "Chapter 2: The Prediction Window",
+      "title": "[Scene 2: Twenty-Three Minutes]",
+      "action": "KEEP_PROTECTED_PREDICTION",
+      "baseline_words": 4519,
+      "target_words": 3700,
+      "delta": -819,
+      "compression_percent": 18.1,
+      "editorial_range": "3,550-3,850",
+      "protected_status": "Structural",
+      "focus": "Twenty-three minutes eleven seconds: elapsed time from G-4B sustained threshold (10:47:26) to Criterion B satisfaction (11:10:37); title is rounded narrative label."
+    },
+    {
+      "scene_number": 5,
+      "id": "c6f9393a-87c8-5a1a-bad3-83e957529282",
+      "chapter": "Chapter 3: Exact Cancellation",
+      "title": "[Scene 1: The Wrong Solution]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 6709,
+      "target_words": 5200,
+      "delta": -1509,
+      "compression_percent": 22.5,
+      "editorial_range": "5,000-5,400",
+      "protected_status": "Canon",
+      "focus": "Centralized global control optimization failure (optimizing outdated global state, degrading gradient margin), separated from G-4A."
+    },
+    {
+      "scene_number": 6,
+      "id": "d85c990f-cf14-5fc7-b8f7-a69b7604e2cc",
+      "chapter": "Chapter 3: Exact Cancellation",
+      "title": "[Scene 2: Local Execution]",
+      "action": "KEEP_PROTECTED_EXECUTION",
+      "baseline_words": 5137,
+      "target_words": 4400,
+      "delta": -737,
+      "compression_percent": 14.3,
+      "editorial_range": "4,300-4,550",
+      "protected_status": "Canon",
+      "focus": "Node Four protective quench: contribution lost for event, placed PROTECTED OFFLINE; coil assembly survived (later repaired in Epilogue under restricted envelope)."
+    },
+    {
+      "scene_number": 7,
+      "id": "94a9a8c3-f6ce-5ddb-8d5c-a474e52586f0",
+      "chapter": "Chapter 3: Exact Cancellation",
+      "title": "[Scene 3: The Boundary Holds]",
+      "action": "KEEP_PROTECTED_HARDWARE",
+      "baseline_words": 4760,
+      "target_words": 4200,
+      "delta": -560,
+      "compression_percent": 11.8,
+      "editorial_range": "4,100-4,350",
+      "protected_status": "Canon",
+      "focus": "External ~98° vs Internal ~13-14° separated measurement sectors; Southeast sector ~15.1° held within emergency envelope; BOUNDED LOCAL RESPONSE CONTROL."
+    },
+    {
+      "scene_number": 8,
+      "id": "60aad8d4-2589-59a8-ac55-bc42605db7ae",
+      "chapter": "Chapter 4: The Resonance of Space",
+      "title": "[Scene 1: What Changed When We Acted]",
+      "action": "KEEP_COMPRESS_CAUSAL_AUDIT",
+      "baseline_words": 6007,
+      "target_words": 4750,
+      "delta": -1257,
+      "compression_percent": 20.9,
+      "editorial_range": "4,550-4,950",
+      "protected_status": "Canon",
+      "focus": "Four-level causal hierarchy: Level 2 Strongly Supported Inference (intervention altered local physical response); Level 4 Not Established (cosmic cause)."
+    },
+    {
+      "scene_number": 9,
+      "id": "c5df358b-d927-523e-b8f5-f7c256cfcf9b",
+      "chapter": "Chapter 4: The Resonance of Space",
+      "title": "[Scene 2: The First Thing We Can Say]",
+      "action": "KEEP_COMPRESS_PROTECTED_CLAIM",
+      "baseline_words": 4766,
+      "target_words": 3750,
+      "delta": -1016,
+      "compression_percent": 21.3,
+      "editorial_range": "3,550-3,900",
+      "protected_status": "Canon",
+      "focus": "Strict observable-based public communique; refusal of spacetime torsion, gravity cancellation, or approaching front claims."
+    },
+    {
+      "scene_number": 10,
+      "id": "50b43df2-df3b-5165-99a7-e52f63814e43",
+      "chapter": "Chapter 4: The Resonance of Space",
+      "title": "[Scene 3: The Cost of Control]",
+      "action": "KEEP_PROTECTED_ARC",
+      "baseline_words": 6462,
+      "target_words": 5530,
+      "delta": -932,
+      "compression_percent": 14.4,
+      "editorial_range": "5,400-5,800",
+      "protected_status": "Canon",
+      "focus": "Act 4 terminal sentence: 'Someone would have to decide what reality was allowed to become.'; Truth -> Control threshold; 'I must control it' reassigned to Epilogue."
+    }
+  ],
+  "chapter_gates": [
+    {
+      "chapter": "Chapter 1: The Return to Geneva",
+      "verdict": "PASS — KEEP_REFRAME_COMPRESS",
+      "notes": "PASS — Subterranean 12-node lattice, central latency chain, local execution & veto rules (Target: 8,900 words, -18.1%)."
+    },
+    {
+      "chapter": "Chapter 2: The Prediction Window",
+      "verdict": "PASS — PREDICTION ATTRIBUTION AMENDMENT REQUIRED",
+      "notes": "PASS — G-4A prospective timing failure, G-4B 23m 11s elapsed time, Twenty-Three Minutes narrative label (Target: 8,550 words, -18.6%)."
+    },
+    {
+      "chapter": "Chapter 3: Exact Cancellation",
+      "verdict": "PASS — REMOVE G-4A CONFLATION / NODE DESTRUCTION / DIRECT NODAL CANCELLATION",
+      "notes": "PASS — Centralized optimizer failure separated, Node 4 protected offline, Bounded Local Response Control (Target: 13,800 words, -16.9%)."
+    },
+    {
+      "chapter": "Chapter 4: The Resonance of Space",
+      "verdict": "PASS — CAUSAL HIERARCHY PROTECTED / FINAL ARC LINE REASSIGNED TO EPILOGUE",
+      "notes": "PASS — Level 2 causal inference, restrained communique, terminal sentence allocated to Act 4 vs Epilogue (Target: 14,030 words, -18.6%)."
+    }
+  ]
+}

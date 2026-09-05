@@ -1,0 +1,2810 @@
+{
+  "version": "PRO-CH1-SC1-RESTART-D1",
+  "mapping": {
+    "reader": {
+      "id": "quantum-vibration-novel-en-act-2",
+      "act": "PROLOGUE: THE NODE",
+      "slug": "quantum-vibration-novel-en-act-2",
+      "chapters": [
+        {
+          "id": null,
+          "title": "Opening Chapter",
+          "number": 1,
+          "scenes": [
+            {
+              "id": "d9766afa",
+              "keys": [
+                "id",
+                "title",
+                "number",
+                "paragraphs"
+              ],
+              "title": "Opening",
+              "number": 3,
+              "paragraphs": null
+            }
+          ]
+        },
+        {
+          "id": null,
+          "title": "Chapter 1: The Cathedral in the Molasse",
+          "number": 2,
+          "scenes": [
+            {
+              "id": "b48a4f04",
+              "keys": [
+                "id",
+                "title",
+                "number",
+                "paragraphs"
+              ],
+              "title": "[Scene 1: The Architecture of Consensus]",
+              "number": 1,
+              "paragraphs": [
+                {
+                  "id": "f2f4cd7a",
+                  "versions": {
+                    "v_en": {
+                      "content": "At 07:45 Central European Time, the NGC Central Control Center operated under a regime of procedural discipline.\\n\\nSeveral kilometers away, beneath the molasse formations of the Geneva basin, the fourteen-thousand-metric-ton NGC-Alpha detector occupied its own cavern, separated from the surface control infrastructure by shielding and redundant fiber-optic trunks.\\n\\nInside the control center, shadowless 5000-Kelvin light washed across tiered consoles and matte instrument panels. Dry air carried the faint odors of warmed polymer insulation and machine oil.\\n\\nDozens of operators and postdoctoral researchers occupied the lower tiers, converting raw telemetry into decisions the machine could execute.\\n\\nAt the apex of the command floor stood Professor Arthur Sterling.\\n\\nAs General Director of the Geneva Next-Generation Collider, Sterling had spent decades learning that high-energy physics was not practiced in chalk alone. At this scale, science was an industrial system: sovereign funding, cryogenic plants, procurement schedules, radiation protocols, political oversight, and machines whose tolerances were measured in micrometers while their budgets were measured in hundreds of billions.\\n\\nA theory did not survive because it was elegant.\\n\\nIt survived because it predicted what the instruments would see.\\n\\nSterling had built his career around that distinction.\\n\\nThe framework carrying his name—the Epsilon regularization scheme—was not a fundamental theory of the vacuum. Sterling would have rejected such a description. It was a phenomenological model: a controlled representation of how an otherwise divergent effective interaction should saturate before reaching a physically inaccessible regime.\\n\\nIn the NGC numerical models, certain effective spatial terms steepened as the interaction coordinate approached a limiting radius. Sterling introduced a regulated form:\\n\\n$$ V_{\\epsilon}(r) \\sim \\frac{1}{r^2+\\epsilon^2} $$\\n\\nThe parameter epsilon represented the assumed finite response scale of the underlying vacuum.\\n\\nThe mathematics alone did nothing to the collider.\\n\\nThe machine did.\\n\\nThe Epsilon scheme had been translated into an active control architecture governing successive bunch crossings. The NGC's maximum-energy experiment was not a single collision but a five-hundred-millisecond train containing millions of proton-proton interactions. A crossing already recorded could not be altered. Later crossings could.\\n\\nDetector telemetry from the earliest interactions was reconstructed in real time. If the diagnostic layer inferred that the experiment was approaching the regulated boundary, the controller adjusted the conditions experienced by subsequent bunches: RF phase, beam focus, crossing geometry, and the currents in the dedicated correction magnets surrounding the interaction region.\\n\\nThe superconducting quadrupoles established the slowly varying focusing bias. Fast pulsed correctors and RF phase shifters modified the conditions seen by later bunch crossings on microsecond timescales.\\n\\nThe system was designed to push the experiment toward the edge of Sterling's model without allowing the machine to cross it.\\n\\nDown in the primary operations tier, Sarah Hayes watched the control loop work.\\n\\nAs Chief Engineer of Beam Operations, Sarah had little interest in whether a theory was philosophically satisfying. Her universe consisted of latency, stored magnetic energy, cryogenic margin, sensor confidence, actuator authority, and the uncomfortable interval between a fault being detected and the hardware being able to respond.\\n\\nA mathematical prediction mattered only if the machine survived long enough to measure it.\\n\\nHer primary display tracked beam orbit and luminosity. A secondary screen carried the health of the fast-control architecture: local timing, magnet current margin, RF synchronization, quench-protection state, and the execution latency between diagnostic nodes and the experimental inserts around Sector Four.\\n\\nThe local optical timing system remained phase-locked. A stabilized fiber network distributed the master oscillator across the facility, while a rubidium reference provided long-term frequency stability.\\n\\nEverything was nominal.\\n\\nThat did not reassure her.\\n\\nSix months earlier, during an internal NGC symposium, a twenty-six-year-old topological physicist named Ian Yoo had challenged the assumption on which Sterling's control system depended.\\n\\nIan had not argued that one hundred tera-electron-volts of collision energy should somehow produce dramatic gravitational effects by itself. Standard physics predicted nothing of the kind.\\n\\nHis concern lay elsewhere.\\n\\nThe dangerous variable, he argued, was not energy alone but the gradient of a collective spatial phase that could emerge under a highly coherent sequence of interactions. If that phase gradient crossed a critical threshold, the vacuum response might not saturate smoothly.\\n\\nIt might shear.\\n\\nSterling had considered the proposal speculative.\\n\\nSarah had considered it dangerous.\\n\\nThen she had read the code.\\n\\nIan's model did not treat a proton bunch containing billions of particles as one microscopic wavefunction. Instead, he introduced a coarse-grained MSV order parameter defined over the collective phase-space distribution of the circulating beam:\\n\\n$$ \\Psi_{\\mathrm{MSV}} = R e^{iS/\\hbar} $$\\n\\nThe distinction mattered.\\n\\nFor an imposed azimuthal phase,\\n\\n$$ S = n\\hbar\\phi $$\\n\\nthe corresponding phase-kinetic contribution scaled as:\\n\\n$$ \\frac{(\\nabla S)^2}{2m} \\propto \\frac{1}{r^2} $$\\n\\nIan proposed using a dedicated experimental insert—skew-quadrupole correctors, a solenoidal section, and RF phase shifters acting together—to impose that winding on the collective field.\\n\\nHis claim was simple enough to sound impossible.\\n\\nIf the native MSV potential developed a leading attractive divergence proportional to -1/r^2, he could generate a controlled phase contribution with the same asymptotic structure and the opposite sign.\\n\\nNot suppression.\\n\\nCancellation.\\n\\nSterling had rejected deployment.\\n\\nThe objection had been scientifically defensible. Ian's model had no independent experimental confirmation, and activating an untested phase-winding architecture inside a one-hundred-tera-electron-volt machine would itself introduce risk.\\n\\nSterling prohibited the solver from the central operational network.\\n\\nSarah agreed with the prohibition.\\n\\nWhat she did not agree with was deleting the option entirely.\\n\\nShe had spent three weeks auditing Ian's implementation line by line. She found assumptions she disliked. She found philosophy she considered rigid. She found no obvious defect in the control logic translating his phase model into hardware commands.\\n\\nSo she made a compromise Sterling had never authorized.\\n\\nIan's counter-field solver was not connected to the central control system. It could not take command of the collider. But Sarah had preserved a compiled build inside an isolated FPGA sandbox physically attached to the Sector Four experimental insert.\\n\\nDormant.\\n\\nLocal.\\n\\nInaccessible from the central network without her authorization.\\n\\nA fire extinguisher for a fire she did not believe existed.\\n\\nSterling's voice broke through the quiet operational noise.\\n\\n\"Status.\"\\n\\nSarah brought the machine-health panel to the foreground.\\n\\n\"Cryogenics nominal. Cold mass stable. Sixteen-tesla niobium-tin dipoles are within operating margin. Optical timing is locked. Beam orbit is inside tolerance. Epsilon feedback is armed.\"\\n\\nA junior beam technician at the neighboring console checked the luminosity ramp.\\n\\n\"Approaching one hundred tera-electron-volts center-of-mass at the primary interaction point.\"\\n\\nSterling stepped closer to the railing overlooking the operations floor.\\n\\nToday's run had one purpose: drive the machine deep enough into the regulated regime to determine whether the predicted saturation boundary appeared in the data.\\n\\nHe had authorized a five-hundred-millisecond high-luminosity window.\\n\\nLong enough for the experiment to approach the model's edge.\\n\\nShort enough, according to every accepted simulation, for the controller to keep it there.\\n\\n\"The reconstructed residuals should remain inside the finite envelope throughout the bunch train,\" Sterling said. \"If the model is correct, the response will saturate before the machine reaches an undefined regime.\"\\n\\nSarah glanced once more at the Sector Four local-control panel.\\n\\nSANDBOX: INACTIVE\\n\\nIan's solver was still there.\\n\\nShe returned her attention to the primary console.\\n\\n\"Final injection sequence ready.\"\\n\\nSterling nodded.\\n\\n\"Proceed.\"\\n\\nSarah authorized the ramp.\\n\\n\"RF cavities at operational voltage.\"\\n\\nThe automated collision sequence took control.\\n\\n\"Crossing in three.\"\\n\\nOn the primary displays, the two beam trajectories converged.\\n\\n\"Two.\"\\n\\nThe Epsilon controller entered monitoring mode.\\n\\n\"One.\"\\n\\nSarah watched the latency counters.\\n\\n\"Mark.\"\\n\\n"
+                    }
+                  },
+                  "activeVersion": "v_en"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": null,
+          "title": "Chapter 2: The Feedback and the Quench",
+          "number": 3,
+          "scenes": [
+            {
+              "id": "3b301af5",
+              "keys": [
+                "id",
+                "title",
+                "number",
+                "paragraphs"
+              ],
+              "title": "[Scene 1: The Accumulating Residual]",
+              "number": 1,
+              "paragraphs": null
+            },
+            {
+              "id": "30ad0834",
+              "keys": [
+                "id",
+                "title",
+                "number",
+                "paragraphs"
+              ],
+              "title": "[Scene 2: Local Execution]",
+              "number": 2,
+              "paragraphs": null
+            }
+          ]
+        },
+        {
+          "id": null,
+          "title": "Chapter 3: The Interpretive Monopoly",
+          "number": 4,
+          "scenes": [
+            {
+              "id": "2212e1af",
+              "keys": [
+                "id",
+                "title",
+                "number",
+                "paragraphs"
+              ],
+              "title": "[Scene 1: The Official Record]",
+              "number": 1,
+              "paragraphs": null
+            },
+            {
+              "id": "fb17794c",
+              "keys": [
+                "id",
+                "title",
+                "number",
+                "paragraphs"
+              ],
+              "title": "[Scene 2: Exile and the Geometric Boundary]",
+              "number": 2,
+              "paragraphs": null
+            }
+          ]
+        }
+      ]
+    },
+    "working": [
+      {
+        "body": "At 07:45 Central European Time, the NGC Central Control Center operated under a regime of procedural discipline.",
+        "unit_id": "adfee7c0-a7cd-51a2-8ae7-c991459b1993",
+        "position": 1,
+        "version_id": "58195185-a376-4af3-9dcb-2352b71b616a"
+      },
+      {
+        "body": "Several kilometers away, beneath the molasse formations of the Geneva basin, the fourteen-thousand-metric-ton NGC-Alpha detector occupied its own cavern, separated from the surface control infrastructure by shielding and redundant fiber-optic trunks.",
+        "unit_id": "ff38d6d2-42e2-5936-9e6c-b0dc2d3d476c",
+        "position": 2,
+        "version_id": "3edd58e8-7c5f-4637-ba6a-944648ea1a8c"
+      },
+      {
+        "body": "Inside the control center, shadowless 5000-Kelvin light washed across tiered consoles and matte instrument panels. Dry air carried the faint odors of warmed polymer insulation and machine oil.",
+        "unit_id": "acb54c2a-9ccf-5a6e-bca1-b280e987cf55",
+        "position": 3,
+        "version_id": "196eeb14-b5fd-4060-a0f5-4ab92421d714"
+      },
+      {
+        "body": "Dozens of operators and postdoctoral researchers occupied the lower tiers, converting raw telemetry into decisions the machine could execute.",
+        "unit_id": "56e797f8-85b5-5fdc-bb13-05c20c95f891",
+        "position": 4,
+        "version_id": "c91899f4-cf6a-49d1-8dbf-b686d952b233"
+      },
+      {
+        "body": "At the apex of the command floor stood Professor Arthur Sterling.",
+        "unit_id": "d5b86f9f-0b7a-5415-8f7e-cb5ee8826df2",
+        "position": 5,
+        "version_id": "f3b658fa-4ca5-4d0d-bfd2-93e4abd90f1c"
+      },
+      {
+        "body": "As General Director of the Geneva Next-Generation Collider, Sterling had spent decades learning that high-energy physics was not practiced in chalk alone. At this scale, science was an industrial system: sovereign funding, cryogenic plants, procurement schedules, radiation protocols, political oversight, and machines whose tolerances were measured in micrometers while their budgets were measured in hundreds of billions.",
+        "unit_id": "57df8982-356b-520f-92aa-a1121b989e3e",
+        "position": 6,
+        "version_id": "e1d54afd-e2bc-4523-83af-4f5e3b2f671c"
+      },
+      {
+        "body": "A theory did not survive because it was elegant.",
+        "unit_id": "6da615ef-05f0-5c45-a6e5-e436d2f7e639",
+        "position": 7,
+        "version_id": "c2ca133c-462d-406c-8065-8e627dedf33f"
+      },
+      {
+        "body": "It survived because it predicted what the instruments would see.",
+        "unit_id": "0cc54b6f-9025-5ed7-af67-07a94be4e5e3",
+        "position": 8,
+        "version_id": "86513758-dcba-4565-8aaf-f23de0b664ee"
+      },
+      {
+        "body": "Sterling had built his career around that distinction.",
+        "unit_id": "29a9f0d5-9f14-5c31-9680-1929631392df",
+        "position": 9,
+        "version_id": "19ae4253-0065-4a87-aa34-cc25d478c1a2"
+      },
+      {
+        "body": "The framework carrying his name—the Epsilon regularization scheme—was not a fundamental theory of the vacuum. Sterling would have rejected such a description. It was a phenomenological model: a controlled representation of how an otherwise divergent effective interaction should saturate before reaching a physically inaccessible regime.",
+        "unit_id": "39d2858e-e06d-55cc-b01b-728497e7965f",
+        "position": 10,
+        "version_id": "0b91db2e-ddc4-43b4-b724-698e01bd0355"
+      },
+      {
+        "body": "In the NGC numerical models, certain effective spatial terms steepened as the interaction coordinate approached a limiting radius. Sterling introduced a regulated form:",
+        "unit_id": "db7f6bb6-bfc8-5694-ba8b-3d739242b0b9",
+        "position": 11,
+        "version_id": "e3211f15-aff8-4950-b35f-4dfac9b6d8d6"
+      },
+      {
+        "body": "$$ V_{\\epsilon}(r) \\sim \\frac{1}{r^2+\\epsilon^2} $$",
+        "unit_id": "393b2060-b7b6-5900-bcc8-e13df7ccbfb2",
+        "position": 12,
+        "version_id": "3645f434-1e06-4a2b-96eb-ad3fa345da1c"
+      },
+      {
+        "body": "The parameter epsilon represented the assumed finite response scale of the underlying vacuum.",
+        "unit_id": "53f8d7bc-d475-5e85-a94b-be15aa13f01a",
+        "position": 13,
+        "version_id": "58f95ac1-3f85-4bc0-9e7c-8a2b3e01e658"
+      },
+      {
+        "body": "The mathematics alone did nothing to the collider.",
+        "unit_id": "8ec8038c-795f-5b6a-8435-74ce4ea4ef17",
+        "position": 14,
+        "version_id": "1f486bbe-001b-4d50-9e9f-6f31b886ff20"
+      },
+      {
+        "body": "The machine did.",
+        "unit_id": "4ead67e4-6d10-51cb-a9d7-594059864dcc",
+        "position": 15,
+        "version_id": "59877cae-b007-45ed-a208-e70d95736eac"
+      },
+      {
+        "body": "The Epsilon scheme had been translated into an active control architecture governing successive bunch crossings. The NGC's maximum-energy experiment was not a single collision but a five-hundred-millisecond train containing millions of proton-proton interactions. A crossing already recorded could not be altered. Later crossings could.",
+        "unit_id": "2d57319d-af88-50fc-bedc-7fdcf53bb7db",
+        "position": 16,
+        "version_id": "46a38a69-e37b-5409-af87-37d78ce8e788"
+      },
+      {
+        "body": "Detector telemetry from the earliest interactions was reconstructed in real time. If the diagnostic layer inferred that the experiment was approaching the regulated boundary, the controller adjusted the conditions experienced by subsequent bunches: RF phase, beam focus, crossing geometry, and the currents in the dedicated correction magnets surrounding the interaction region.",
+        "unit_id": "cbd904b5-2cd6-5d1a-9d72-0def42ba2932",
+        "position": 17,
+        "version_id": "86e62f42-c8f8-50be-86a7-2d471ad32b2c"
+      },
+      {
+        "body": "The superconducting quadrupoles established the slowly varying focusing bias. Fast pulsed correctors and RF phase shifters modified the conditions seen by later bunch crossings on microsecond timescales.",
+        "unit_id": "849f3dcd-0c61-5462-8eb6-0621dcbc0d70",
+        "position": 18,
+        "version_id": "e1c3ed31-fa6d-504f-b384-8b21c67da127"
+      },
+      {
+        "body": "The system was designed to push the experiment toward the edge of Sterling's model without allowing the machine to cross it.",
+        "unit_id": "e2fbbf47-018a-5c12-a6f9-c3fdcb0eb89b",
+        "position": 19,
+        "version_id": "1fdaa9ee-c6cf-5665-a84a-d8c3d711358e"
+      },
+      {
+        "body": "Down in the primary operations tier, Sarah Hayes watched the control loop work.",
+        "unit_id": "dcf5e9ea-ea40-58ff-b960-2b7e1428760e",
+        "position": 20,
+        "version_id": "60f7cafb-4575-5081-8200-33bb62083aba"
+      },
+      {
+        "body": "As Chief Engineer of Beam Operations, Sarah had little interest in whether a theory was philosophically satisfying. Her universe consisted of latency, stored magnetic energy, cryogenic margin, sensor confidence, actuator authority, and the uncomfortable interval between a fault being detected and the hardware being able to respond.",
+        "unit_id": "d92e0392-d03f-5a13-93f8-71b927fd0b84",
+        "position": 21,
+        "version_id": "f556ab4d-892c-5ba8-a19e-d5f7e1396e35"
+      },
+      {
+        "body": "A mathematical prediction mattered only if the machine survived long enough to measure it.",
+        "unit_id": "d66e4c0b-6f6a-5e6d-99ee-a29171b0f40f",
+        "position": 22,
+        "version_id": "6b8d22c2-186a-52da-b83f-93a3c2ab834f"
+      },
+      {
+        "body": "Her primary display tracked beam orbit and luminosity. A secondary screen carried the health of the fast-control architecture: local timing, magnet current margin, RF synchronization, quench-protection state, and the execution latency between diagnostic nodes and the experimental inserts around Sector Four.",
+        "unit_id": "2f96d61e-4190-5c96-b9f0-8abb2c082c37",
+        "position": 23,
+        "version_id": "95cc38d7-29e5-558f-b3cf-8a64e7e204f3"
+      },
+      {
+        "body": "The local optical timing system remained phase-locked. A stabilized fiber network distributed the master oscillator across the facility, while a rubidium reference provided long-term frequency stability.",
+        "unit_id": "06161b3c-d634-5cdc-82b5-eecc42ca67bc",
+        "position": 24,
+        "version_id": "96408047-b100-5942-9cb9-05dfdcf57e49"
+      },
+      {
+        "body": "Everything was nominal.",
+        "unit_id": "26946cc6-83d0-5bd3-bde4-7306aeac6666",
+        "position": 25,
+        "version_id": "c92eef7d-425c-53df-8c44-0fe99cc11802"
+      },
+      {
+        "body": "That did not reassure her.",
+        "unit_id": "f0582951-1be1-5719-aa90-32ba2c3cdf54",
+        "position": 26,
+        "version_id": "7b7504a8-87e6-5f6e-a99e-b18ff52f3069"
+      },
+      {
+        "body": "Six months earlier, during an internal NGC symposium, a twenty-six-year-old topological physicist named Ian Yoo had challenged the assumption on which Sterling's control system depended.",
+        "unit_id": "b7da8754-d442-5ba4-9d33-5e9f513faf79",
+        "position": 27,
+        "version_id": "cfc68692-34cf-559a-a418-6b7f7bef0608"
+      },
+      {
+        "body": "Ian had not argued that one hundred tera-electron-volts of collision energy should somehow produce dramatic gravitational effects by itself. Standard physics predicted nothing of the kind.",
+        "unit_id": "0fca7915-65fd-5ef8-9da2-fc251e075663",
+        "position": 28,
+        "version_id": "790ed4d8-f9af-5248-8e27-c34c235c8ffb"
+      },
+      {
+        "body": "His concern lay elsewhere.",
+        "unit_id": "fb7d2cb5-64aa-5111-8c4b-34c8799bfb09",
+        "position": 29,
+        "version_id": "96f202fe-6fa2-5661-90a9-af4227c9a733"
+      },
+      {
+        "body": "The dangerous variable, he argued, was not energy alone but the gradient of a collective spatial phase that could emerge under a highly coherent sequence of interactions. If that phase gradient crossed a critical threshold, the vacuum response might not saturate smoothly.",
+        "unit_id": "e22fe500-0bfa-5924-b526-d954c66c7449",
+        "position": 30,
+        "version_id": "653a2157-1c47-501f-99c6-0fe52a567bc6"
+      },
+      {
+        "body": "It might shear.",
+        "unit_id": "fa40daeb-9c87-56b3-848c-4cd6ab0d10df",
+        "position": 31,
+        "version_id": "7d107e93-59dc-585c-a3a9-6e3d48c3b4f6"
+      },
+      {
+        "body": "Sterling had considered the proposal speculative.",
+        "unit_id": "dd020bc7-108d-5625-b097-961e79cf3e9c",
+        "position": 32,
+        "version_id": "8f7dda68-b925-5578-87cd-5d2e860effa2"
+      },
+      {
+        "body": "Sarah had considered it dangerous.",
+        "unit_id": "5fe0e96e-3e50-5615-a582-85d865162609",
+        "position": 33,
+        "version_id": "268ba300-a1a8-5d5e-b72a-6e59b22562ac"
+      },
+      {
+        "body": "Then she had read the code.",
+        "unit_id": "cd8a1438-6c1f-550e-82d4-e9ece381b832",
+        "position": 34,
+        "version_id": "38180b47-1f6a-5043-9e58-3a54b3e382e5"
+      },
+      {
+        "body": "Ian's model did not treat a proton bunch containing billions of particles as one microscopic wavefunction. Instead, he introduced a coarse-grained MSV order parameter defined over the collective phase-space distribution of the circulating beam:",
+        "unit_id": "f73574ee-c630-5313-af9c-5c1358733108",
+        "position": 35,
+        "version_id": "d434ff2d-e88d-5fb5-8c27-0808209de326"
+      },
+      {
+        "body": "$$ \\Psi_{\\mathrm{MSV}} = R e^{iS/\\hbar} $$",
+        "unit_id": "2aac45f3-d446-5b7e-8c53-51420b721a9d",
+        "position": 36,
+        "version_id": "c74fa058-726c-5bef-ae68-ca8f04259e2b"
+      },
+      {
+        "body": "The distinction mattered.",
+        "unit_id": "356c6b88-3256-51cb-a3e0-4562caef770b",
+        "position": 37,
+        "version_id": "b6a33c69-61a0-5713-8729-775166db323d"
+      },
+      {
+        "body": "For an imposed azimuthal phase,",
+        "unit_id": "a8018b9c-5f63-597d-aaff-294f94b3d667",
+        "position": 38,
+        "version_id": "14aad220-a0ad-5a0d-b437-9aeee06e6fcf"
+      },
+      {
+        "body": "$$ S = n\\hbar\\phi $$",
+        "unit_id": "9a89e64e-51ba-5fdd-b7f4-80318ef42261",
+        "position": 39,
+        "version_id": "253259ad-ab08-5d72-8585-b7e4946e8b22"
+      },
+      {
+        "body": "the corresponding phase-kinetic contribution scaled as:",
+        "unit_id": "487fe498-36d5-5cb4-a091-2e89cc83c638",
+        "position": 40,
+        "version_id": "d08cefef-233c-598f-b505-6eebbac1df85"
+      },
+      {
+        "body": "$$ \\frac{(\\nabla S)^2}{2m} \\propto \\frac{1}{r^2} $$",
+        "unit_id": "2064be29-8a1a-57e6-901e-2857a72c369b",
+        "position": 41,
+        "version_id": "77738a8c-bd6b-569e-846a-2369deff8b88"
+      },
+      {
+        "body": "Ian proposed using a dedicated experimental insert—skew-quadrupole correctors, a solenoidal section, and RF phase shifters acting together—to impose that winding on the collective field.",
+        "unit_id": "38116b89-5957-5d0e-a7c9-8e5be9b3a025",
+        "position": 42,
+        "version_id": "f1fc998c-6347-5991-9fd8-132d1a6102fc"
+      },
+      {
+        "body": "His claim was simple enough to sound impossible.",
+        "unit_id": "60c654a4-9ed1-5c75-bb92-07e80fbcfacc",
+        "position": 43,
+        "version_id": "29ffa383-71aa-5b8f-8114-4eb40e7df724"
+      },
+      {
+        "body": "If the native MSV potential developed a leading attractive divergence proportional to -1/r^2, he could generate a controlled phase contribution with the same asymptotic structure and the opposite sign.",
+        "unit_id": "346b796e-0908-5749-8df6-bda8bbde9fe0",
+        "position": 44,
+        "version_id": "eaee51bf-3cc7-5e4a-9494-eab5b6a4f005"
+      },
+      {
+        "body": "Not suppression.",
+        "unit_id": "ecbf8b45-b872-5bfe-b205-75ac8198112e",
+        "position": 45,
+        "version_id": "954e0ea6-fa72-5179-b0eb-393158fab95f"
+      },
+      {
+        "body": "Cancellation.",
+        "unit_id": "743c10b8-65f0-5729-b11d-044e3b0486ff",
+        "position": 46,
+        "version_id": "481ed781-2e6d-5eb4-a362-9ae9507e9b58"
+      },
+      {
+        "body": "Sterling had rejected deployment.",
+        "unit_id": "59ad5490-7000-537d-93a1-8a991546d1bf",
+        "position": 47,
+        "version_id": "3cc086ed-9cb6-5066-9c50-6f71d7af4823"
+      },
+      {
+        "body": "The objection had been scientifically defensible. Ian's model had no independent experimental confirmation, and activating an untested phase-winding architecture inside a one-hundred-tera-electron-volt machine would itself introduce risk.",
+        "unit_id": "3bfad606-54c7-5037-bd6b-97faf6a28d76",
+        "position": 48,
+        "version_id": "b86696c1-e1a7-5cec-b89c-4e6f426441bd"
+      },
+      {
+        "body": "Sterling prohibited the solver from the central operational network.",
+        "unit_id": "26cfb273-9245-51fe-a0dd-576521da5d46",
+        "position": 49,
+        "version_id": "ecb50802-999b-5e75-81b1-51c83c853f01"
+      },
+      {
+        "body": "Sarah agreed with the prohibition.",
+        "unit_id": "7e42a389-0e44-5406-ac5c-06e2f3e1226b",
+        "position": 50,
+        "version_id": "27ed112c-3fef-5984-bd41-65c090afc28c"
+      },
+      {
+        "body": "What she did not agree with was deleting the option entirely.",
+        "unit_id": "d9f69ed8-0c74-5a23-b693-ab40f19a452d",
+        "position": 51,
+        "version_id": "182299b3-bf1a-569f-a8f4-68690a792b9b"
+      },
+      {
+        "body": "She had spent three weeks auditing Ian's implementation line by line. She found assumptions she disliked. She found philosophy she considered rigid. She found no obvious defect in the control logic translating his phase model into hardware commands.",
+        "unit_id": "1e4260be-119b-5427-b9c1-bedd99ba2e05",
+        "position": 52,
+        "version_id": "d29d8357-8db2-532c-a894-14cb17efcbda"
+      },
+      {
+        "body": "So she made a compromise Sterling had never authorized.",
+        "unit_id": "2ec91275-f9dc-579f-bce2-3714301a4dbb",
+        "position": 53,
+        "version_id": "b48a3194-6ae3-5797-adef-a4f11424d923"
+      },
+      {
+        "body": "Ian's counter-field solver was not connected to the central control system. It could not take command of the collider. But Sarah had preserved a compiled build inside an isolated FPGA sandbox physically attached to the Sector Four experimental insert.",
+        "unit_id": "4ad57ede-4588-5a40-96a8-198779d90142",
+        "position": 54,
+        "version_id": "3e1ef99e-de01-5583-9c17-96d14b43998c"
+      },
+      {
+        "body": "Dormant.",
+        "unit_id": "ad5c72d2-906c-50dd-b994-7dcdecb4ee0f",
+        "position": 55,
+        "version_id": "80afc972-3412-55d5-bc2f-b4926812aa7e"
+      },
+      {
+        "body": "Local.",
+        "unit_id": "51bb31ad-5401-5bff-96fc-e7c23a1c8ef6",
+        "position": 56,
+        "version_id": "96cf3d70-d381-5842-befb-6f8b6f5d6279"
+      },
+      {
+        "body": "Inaccessible from the central network without her authorization.",
+        "unit_id": "a88917e6-b100-52de-b5c1-1b73f8c71708",
+        "position": 57,
+        "version_id": "e2428797-f4fe-528c-98d9-1047b8d3f907"
+      },
+      {
+        "body": "A fire extinguisher for a fire she did not believe existed.",
+        "unit_id": "1cff7c09-4a2b-5ac3-a5d0-11acb28203ec",
+        "position": 58,
+        "version_id": "8251d0f0-32a5-5271-98e9-7501a69db028"
+      },
+      {
+        "body": "Sterling's voice broke through the quiet operational noise.",
+        "unit_id": "ec8c6949-2604-563e-ba1b-8216a2bcd89d",
+        "position": 59,
+        "version_id": "d1f334e3-de6e-5b09-a419-86eb914daf43"
+      },
+      {
+        "body": "\"Status.\"",
+        "unit_id": "96cd12f0-a854-5c11-8971-d46fec62dd13",
+        "position": 60,
+        "version_id": "26ad8fa3-401b-5abc-94ad-e3bb2266f1d5"
+      },
+      {
+        "body": "Sarah brought the machine-health panel to the foreground.",
+        "unit_id": "a57713ee-ba5c-554a-b696-8f0879325d15",
+        "position": 61,
+        "version_id": "0784a598-e512-5b31-95c6-7950db2bff43"
+      },
+      {
+        "body": "\"Cryogenics nominal. Cold mass stable. Sixteen-tesla niobium-tin dipoles are within operating margin. Optical timing is locked. Beam orbit is inside tolerance. Epsilon feedback is armed.\"",
+        "unit_id": "0e03951e-0927-5db6-827d-361b852348bc",
+        "position": 62,
+        "version_id": "536a7928-86c9-5e63-b582-8ca4b696064f"
+      },
+      {
+        "body": "A junior beam technician at the neighboring console checked the luminosity ramp.",
+        "unit_id": "fd9d9291-817f-557f-a089-8308e2d1ef4f",
+        "position": 63,
+        "version_id": "e1b8f3e4-79d6-5454-bd41-0e7261d4fa3a"
+      },
+      {
+        "body": "\"Approaching one hundred tera-electron-volts center-of-mass at the primary interaction point.\"",
+        "unit_id": "3261a097-3100-5849-9a78-e66441b7d86d",
+        "position": 64,
+        "version_id": "971e520a-cd48-5fb2-8fba-f4a25e6fdec5"
+      },
+      {
+        "body": "Sterling stepped closer to the railing overlooking the operations floor.",
+        "unit_id": "a3061736-6048-58d1-aaa7-d0a4fa44e6d0",
+        "position": 65,
+        "version_id": "e7f1b7e6-fa13-541a-9a3e-58a6a7ecf82d"
+      },
+      {
+        "body": "Today's run had one purpose: drive the machine deep enough into the regulated regime to determine whether the predicted saturation boundary appeared in the data.",
+        "unit_id": "bef311c0-5a29-5ac2-9b30-63ae4cff2367",
+        "position": 66,
+        "version_id": "91a325f7-bf5e-595d-a94d-3f19fd05a61b"
+      },
+      {
+        "body": "He had authorized a five-hundred-millisecond high-luminosity window.",
+        "unit_id": "4fed83d8-eb9a-59cf-b1e3-c4ed7fcae711",
+        "position": 67,
+        "version_id": "bdb9120e-dc8b-5916-b8f8-1a17d5175628"
+      },
+      {
+        "body": "Long enough for the experiment to approach the model's edge.",
+        "unit_id": "9f301a03-45b5-543b-add8-047b98971861",
+        "position": 68,
+        "version_id": "bfda0a66-146f-5977-989b-881fe0852a04"
+      },
+      {
+        "body": "Short enough, according to every accepted simulation, for the controller to keep it there.",
+        "unit_id": "301ebc2e-285d-5dd3-aecf-837eb4a64a24",
+        "position": 69,
+        "version_id": "5892e116-90e2-50bd-b766-6450adfc56f0"
+      },
+      {
+        "body": "\"The reconstructed residuals should remain inside the finite envelope throughout the bunch train,\" Sterling said. \"If the model is correct, the response will saturate before the machine reaches an undefined regime.\"",
+        "unit_id": "04c635ff-3cd7-5cfb-ba97-76035c9b37ea",
+        "position": 70,
+        "version_id": "176afec5-edaf-5c2a-bd14-525d1a4b4f2a"
+      },
+      {
+        "body": "Sarah glanced once more at the Sector Four local-control panel.",
+        "unit_id": "f3af30cc-03ad-51ec-b8f9-49d48ecdd2b2",
+        "position": 71,
+        "version_id": "da9a33a5-4505-5fef-b426-e3b9a60a24a6"
+      },
+      {
+        "body": "SANDBOX: INACTIVE",
+        "unit_id": "e9effa13-3a64-5585-a9fa-b383615e2bab",
+        "position": 72,
+        "version_id": "bf564a6e-ee99-5f55-9aab-9d80c47bddb9"
+      },
+      {
+        "body": "Ian's solver was still there.",
+        "unit_id": "4b73ef6d-ffc7-5cd9-9727-0c8a4efe19ec",
+        "position": 73,
+        "version_id": "e6fd4d22-eff2-5d16-a54f-a62faa64f592"
+      },
+      {
+        "body": "She returned her attention to the primary console.",
+        "unit_id": "77473296-22bf-5056-afa7-1a103d141b89",
+        "position": 74,
+        "version_id": "72d5c6cc-b6a6-5edf-ad37-9712df246cdd"
+      },
+      {
+        "body": "\"Final injection sequence ready.\"",
+        "unit_id": "8df02aca-907d-5b75-842e-6f2da1b9164e",
+        "position": 75,
+        "version_id": "2fca9eff-747d-510b-90a7-792e0e923a40"
+      },
+      {
+        "body": "Sterling nodded.",
+        "unit_id": "6af960ec-3d47-5f58-9385-8f4822d6e123",
+        "position": 76,
+        "version_id": "2ef8a593-bc1a-587c-b327-18ae4bfc6b24"
+      },
+      {
+        "body": "\"Proceed.\"",
+        "unit_id": "0a267454-b96d-5571-88a4-c2e3ebd1d7be",
+        "position": 77,
+        "version_id": "e570a57d-cc05-5560-855c-53242802dcbb"
+      },
+      {
+        "body": "Sarah authorized the ramp.",
+        "unit_id": "2326540e-b382-5b2a-a939-73bc76d3999a",
+        "position": 78,
+        "version_id": "f47e07c1-c140-5e90-a88c-fcb30a657249"
+      },
+      {
+        "body": "\"RF cavities at operational voltage.\"",
+        "unit_id": "7b0bb846-250b-550f-84c3-b6f032ec427e",
+        "position": 79,
+        "version_id": "e65078d6-fb83-5ec3-9114-8de2c7a99cca"
+      },
+      {
+        "body": "The automated collision sequence took control.",
+        "unit_id": "2437d970-3c49-565f-b103-70c6578f8fe3",
+        "position": 80,
+        "version_id": "23a237e9-d786-5c22-a3a8-cfedb1d1f652"
+      },
+      {
+        "body": "\"Crossing in three.\"",
+        "unit_id": "10b8bd9f-5d3a-5364-8e5c-441e677a0851",
+        "position": 81,
+        "version_id": "45107eaa-2b87-5398-91d1-1962581c732b"
+      },
+      {
+        "body": "On the primary displays, the two beam trajectories converged.",
+        "unit_id": "e8bad7b0-cd15-5d73-859e-fe0c933d6075",
+        "position": 82,
+        "version_id": "e12d5604-7e51-5b4a-badf-3902ba90abe9"
+      },
+      {
+        "body": "\"Two.\"",
+        "unit_id": "c831cb8d-93c4-58bb-b0a7-07d5a555b9ae",
+        "position": 83,
+        "version_id": "272c8274-258f-50d0-8e4b-0324c6c42fc8"
+      },
+      {
+        "body": "The Epsilon controller entered monitoring mode.",
+        "unit_id": "680b3247-6815-5e61-a5a8-bc781fb82315",
+        "position": 84,
+        "version_id": "1e69cccf-e4c7-5715-8777-f20233efc422"
+      },
+      {
+        "body": "\"One.\"",
+        "unit_id": "93360e17-78e2-5a12-86b5-3da76756b317",
+        "position": 85,
+        "version_id": "86d47ca5-925f-5450-98d0-dadf4414ca38"
+      },
+      {
+        "body": "Sarah watched the latency counters.",
+        "unit_id": "f18e40d8-b71b-5f79-ad4f-3cdffe8208fb",
+        "position": 86,
+        "version_id": "f3380660-a994-559b-8fbb-a4ae16aa6392"
+      },
+      {
+        "body": "\"Mark.\"",
+        "unit_id": "06995691-c14c-5da2-9b73-2bf2a81f2898",
+        "position": 87,
+        "version_id": "260d6537-cc47-5dd7-a061-528c14f4fd34"
+      }
+    ]
+  },
+  "preimage": {
+    "scene": {
+      "unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+      "position": 1,
+      "is_included": true,
+      "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+      "parent_unit_id": "c8804e60-e63d-5f39-92e5-e232ab9f9216",
+      "title_override": null,
+      "metadata_override": null,
+      "paragraph_version_id": null
+    },
+    "snapshot": {
+      "id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+      "code": "B1_v1.1_STRUCT_DRAFT",
+      "name": "Book 1 v1.1 Structural Revision Draft",
+      "state": "draft",
+      "locked_at": null,
+      "locked_by": null,
+      "created_at": "2026-09-03T03:51:20.430952+00:00",
+      "project_id": "707e3ae1-0817-467a-bb42-5401c646151e",
+      "updated_at": "2026-09-03T05:50:29.861116+00:00",
+      "word_count": 217976,
+      "description": "Working draft cloned from B1_v1.0_LOCKED",
+      "is_canonical": true,
+      "manifest_hash": "889ae5c488a9e1a4de0576b6de38fc8b1081529681ba17ea5577046227202824",
+      "snapshot_kind": "formal",
+      "base_snapshot_id": "1f54a517-1921-5d5d-8a16-048597a41a93",
+      "is_current_release": false,
+      "is_primary_working": true
+    },
+    "scene_map": [
+      {
+        "unit_id": "adfee7c0-a7cd-51a2-8ae7-c991459b1993",
+        "position": 1,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "58195185-a376-4af3-9dcb-2352b71b616a"
+      },
+      {
+        "unit_id": "ff38d6d2-42e2-5936-9e6c-b0dc2d3d476c",
+        "position": 2,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "3edd58e8-7c5f-4637-ba6a-944648ea1a8c"
+      },
+      {
+        "unit_id": "acb54c2a-9ccf-5a6e-bca1-b280e987cf55",
+        "position": 3,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "196eeb14-b5fd-4060-a0f5-4ab92421d714"
+      },
+      {
+        "unit_id": "56e797f8-85b5-5fdc-bb13-05c20c95f891",
+        "position": 4,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "c91899f4-cf6a-49d1-8dbf-b686d952b233"
+      },
+      {
+        "unit_id": "d5b86f9f-0b7a-5415-8f7e-cb5ee8826df2",
+        "position": 5,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "f3b658fa-4ca5-4d0d-bfd2-93e4abd90f1c"
+      },
+      {
+        "unit_id": "57df8982-356b-520f-92aa-a1121b989e3e",
+        "position": 6,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e1d54afd-e2bc-4523-83af-4f5e3b2f671c"
+      },
+      {
+        "unit_id": "6da615ef-05f0-5c45-a6e5-e436d2f7e639",
+        "position": 7,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "c2ca133c-462d-406c-8065-8e627dedf33f"
+      },
+      {
+        "unit_id": "0cc54b6f-9025-5ed7-af67-07a94be4e5e3",
+        "position": 8,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "86513758-dcba-4565-8aaf-f23de0b664ee"
+      },
+      {
+        "unit_id": "29a9f0d5-9f14-5c31-9680-1929631392df",
+        "position": 9,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "19ae4253-0065-4a87-aa34-cc25d478c1a2"
+      },
+      {
+        "unit_id": "39d2858e-e06d-55cc-b01b-728497e7965f",
+        "position": 10,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "0b91db2e-ddc4-43b4-b724-698e01bd0355"
+      },
+      {
+        "unit_id": "db7f6bb6-bfc8-5694-ba8b-3d739242b0b9",
+        "position": 11,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e3211f15-aff8-4950-b35f-4dfac9b6d8d6"
+      },
+      {
+        "unit_id": "393b2060-b7b6-5900-bcc8-e13df7ccbfb2",
+        "position": 12,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "3645f434-1e06-4a2b-96eb-ad3fa345da1c"
+      },
+      {
+        "unit_id": "53f8d7bc-d475-5e85-a94b-be15aa13f01a",
+        "position": 13,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "58f95ac1-3f85-4bc0-9e7c-8a2b3e01e658"
+      },
+      {
+        "unit_id": "8ec8038c-795f-5b6a-8435-74ce4ea4ef17",
+        "position": 14,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "1f486bbe-001b-4d50-9e9f-6f31b886ff20"
+      },
+      {
+        "unit_id": "4ead67e4-6d10-51cb-a9d7-594059864dcc",
+        "position": 15,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "59877cae-b007-45ed-a208-e70d95736eac"
+      },
+      {
+        "unit_id": "2d57319d-af88-50fc-bedc-7fdcf53bb7db",
+        "position": 16,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "46a38a69-e37b-5409-af87-37d78ce8e788"
+      },
+      {
+        "unit_id": "cbd904b5-2cd6-5d1a-9d72-0def42ba2932",
+        "position": 17,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "86e62f42-c8f8-50be-86a7-2d471ad32b2c"
+      },
+      {
+        "unit_id": "849f3dcd-0c61-5462-8eb6-0621dcbc0d70",
+        "position": 18,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e1c3ed31-fa6d-504f-b384-8b21c67da127"
+      },
+      {
+        "unit_id": "e2fbbf47-018a-5c12-a6f9-c3fdcb0eb89b",
+        "position": 19,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "1fdaa9ee-c6cf-5665-a84a-d8c3d711358e"
+      },
+      {
+        "unit_id": "dcf5e9ea-ea40-58ff-b960-2b7e1428760e",
+        "position": 20,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "60f7cafb-4575-5081-8200-33bb62083aba"
+      },
+      {
+        "unit_id": "d92e0392-d03f-5a13-93f8-71b927fd0b84",
+        "position": 21,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "f556ab4d-892c-5ba8-a19e-d5f7e1396e35"
+      },
+      {
+        "unit_id": "d66e4c0b-6f6a-5e6d-99ee-a29171b0f40f",
+        "position": 22,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "6b8d22c2-186a-52da-b83f-93a3c2ab834f"
+      },
+      {
+        "unit_id": "2f96d61e-4190-5c96-b9f0-8abb2c082c37",
+        "position": 23,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "95cc38d7-29e5-558f-b3cf-8a64e7e204f3"
+      },
+      {
+        "unit_id": "06161b3c-d634-5cdc-82b5-eecc42ca67bc",
+        "position": 24,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "96408047-b100-5942-9cb9-05dfdcf57e49"
+      },
+      {
+        "unit_id": "26946cc6-83d0-5bd3-bde4-7306aeac6666",
+        "position": 25,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "c92eef7d-425c-53df-8c44-0fe99cc11802"
+      },
+      {
+        "unit_id": "f0582951-1be1-5719-aa90-32ba2c3cdf54",
+        "position": 26,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "7b7504a8-87e6-5f6e-a99e-b18ff52f3069"
+      },
+      {
+        "unit_id": "b7da8754-d442-5ba4-9d33-5e9f513faf79",
+        "position": 27,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "cfc68692-34cf-559a-a418-6b7f7bef0608"
+      },
+      {
+        "unit_id": "0fca7915-65fd-5ef8-9da2-fc251e075663",
+        "position": 28,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "790ed4d8-f9af-5248-8e27-c34c235c8ffb"
+      },
+      {
+        "unit_id": "fb7d2cb5-64aa-5111-8c4b-34c8799bfb09",
+        "position": 29,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "96f202fe-6fa2-5661-90a9-af4227c9a733"
+      },
+      {
+        "unit_id": "e22fe500-0bfa-5924-b526-d954c66c7449",
+        "position": 30,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "653a2157-1c47-501f-99c6-0fe52a567bc6"
+      },
+      {
+        "unit_id": "fa40daeb-9c87-56b3-848c-4cd6ab0d10df",
+        "position": 31,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "7d107e93-59dc-585c-a3a9-6e3d48c3b4f6"
+      },
+      {
+        "unit_id": "dd020bc7-108d-5625-b097-961e79cf3e9c",
+        "position": 32,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "8f7dda68-b925-5578-87cd-5d2e860effa2"
+      },
+      {
+        "unit_id": "5fe0e96e-3e50-5615-a582-85d865162609",
+        "position": 33,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "268ba300-a1a8-5d5e-b72a-6e59b22562ac"
+      },
+      {
+        "unit_id": "cd8a1438-6c1f-550e-82d4-e9ece381b832",
+        "position": 34,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "38180b47-1f6a-5043-9e58-3a54b3e382e5"
+      },
+      {
+        "unit_id": "f73574ee-c630-5313-af9c-5c1358733108",
+        "position": 35,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "d434ff2d-e88d-5fb5-8c27-0808209de326"
+      },
+      {
+        "unit_id": "2aac45f3-d446-5b7e-8c53-51420b721a9d",
+        "position": 36,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "c74fa058-726c-5bef-ae68-ca8f04259e2b"
+      },
+      {
+        "unit_id": "356c6b88-3256-51cb-a3e0-4562caef770b",
+        "position": 37,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "b6a33c69-61a0-5713-8729-775166db323d"
+      },
+      {
+        "unit_id": "a8018b9c-5f63-597d-aaff-294f94b3d667",
+        "position": 38,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "14aad220-a0ad-5a0d-b437-9aeee06e6fcf"
+      },
+      {
+        "unit_id": "9a89e64e-51ba-5fdd-b7f4-80318ef42261",
+        "position": 39,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "253259ad-ab08-5d72-8585-b7e4946e8b22"
+      },
+      {
+        "unit_id": "487fe498-36d5-5cb4-a091-2e89cc83c638",
+        "position": 40,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "d08cefef-233c-598f-b505-6eebbac1df85"
+      },
+      {
+        "unit_id": "2064be29-8a1a-57e6-901e-2857a72c369b",
+        "position": 41,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "77738a8c-bd6b-569e-846a-2369deff8b88"
+      },
+      {
+        "unit_id": "38116b89-5957-5d0e-a7c9-8e5be9b3a025",
+        "position": 42,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "f1fc998c-6347-5991-9fd8-132d1a6102fc"
+      },
+      {
+        "unit_id": "60c654a4-9ed1-5c75-bb92-07e80fbcfacc",
+        "position": 43,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "29ffa383-71aa-5b8f-8114-4eb40e7df724"
+      },
+      {
+        "unit_id": "346b796e-0908-5749-8df6-bda8bbde9fe0",
+        "position": 44,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "eaee51bf-3cc7-5e4a-9494-eab5b6a4f005"
+      },
+      {
+        "unit_id": "ecbf8b45-b872-5bfe-b205-75ac8198112e",
+        "position": 45,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "954e0ea6-fa72-5179-b0eb-393158fab95f"
+      },
+      {
+        "unit_id": "743c10b8-65f0-5729-b11d-044e3b0486ff",
+        "position": 46,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "481ed781-2e6d-5eb4-a362-9ae9507e9b58"
+      },
+      {
+        "unit_id": "59ad5490-7000-537d-93a1-8a991546d1bf",
+        "position": 47,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "3cc086ed-9cb6-5066-9c50-6f71d7af4823"
+      },
+      {
+        "unit_id": "3bfad606-54c7-5037-bd6b-97faf6a28d76",
+        "position": 48,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "b86696c1-e1a7-5cec-b89c-4e6f426441bd"
+      },
+      {
+        "unit_id": "26cfb273-9245-51fe-a0dd-576521da5d46",
+        "position": 49,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "ecb50802-999b-5e75-81b1-51c83c853f01"
+      },
+      {
+        "unit_id": "7e42a389-0e44-5406-ac5c-06e2f3e1226b",
+        "position": 50,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "27ed112c-3fef-5984-bd41-65c090afc28c"
+      },
+      {
+        "unit_id": "d9f69ed8-0c74-5a23-b693-ab40f19a452d",
+        "position": 51,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "182299b3-bf1a-569f-a8f4-68690a792b9b"
+      },
+      {
+        "unit_id": "1e4260be-119b-5427-b9c1-bedd99ba2e05",
+        "position": 52,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "d29d8357-8db2-532c-a894-14cb17efcbda"
+      },
+      {
+        "unit_id": "2ec91275-f9dc-579f-bce2-3714301a4dbb",
+        "position": 53,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "b48a3194-6ae3-5797-adef-a4f11424d923"
+      },
+      {
+        "unit_id": "4ad57ede-4588-5a40-96a8-198779d90142",
+        "position": 54,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "3e1ef99e-de01-5583-9c17-96d14b43998c"
+      },
+      {
+        "unit_id": "ad5c72d2-906c-50dd-b994-7dcdecb4ee0f",
+        "position": 55,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "80afc972-3412-55d5-bc2f-b4926812aa7e"
+      },
+      {
+        "unit_id": "51bb31ad-5401-5bff-96fc-e7c23a1c8ef6",
+        "position": 56,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "96cf3d70-d381-5842-befb-6f8b6f5d6279"
+      },
+      {
+        "unit_id": "a88917e6-b100-52de-b5c1-1b73f8c71708",
+        "position": 57,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e2428797-f4fe-528c-98d9-1047b8d3f907"
+      },
+      {
+        "unit_id": "1cff7c09-4a2b-5ac3-a5d0-11acb28203ec",
+        "position": 58,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "8251d0f0-32a5-5271-98e9-7501a69db028"
+      },
+      {
+        "unit_id": "ec8c6949-2604-563e-ba1b-8216a2bcd89d",
+        "position": 59,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "d1f334e3-de6e-5b09-a419-86eb914daf43"
+      },
+      {
+        "unit_id": "96cd12f0-a854-5c11-8971-d46fec62dd13",
+        "position": 60,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "26ad8fa3-401b-5abc-94ad-e3bb2266f1d5"
+      },
+      {
+        "unit_id": "a57713ee-ba5c-554a-b696-8f0879325d15",
+        "position": 61,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "0784a598-e512-5b31-95c6-7950db2bff43"
+      },
+      {
+        "unit_id": "0e03951e-0927-5db6-827d-361b852348bc",
+        "position": 62,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "536a7928-86c9-5e63-b582-8ca4b696064f"
+      },
+      {
+        "unit_id": "fd9d9291-817f-557f-a089-8308e2d1ef4f",
+        "position": 63,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e1b8f3e4-79d6-5454-bd41-0e7261d4fa3a"
+      },
+      {
+        "unit_id": "3261a097-3100-5849-9a78-e66441b7d86d",
+        "position": 64,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "971e520a-cd48-5fb2-8fba-f4a25e6fdec5"
+      },
+      {
+        "unit_id": "a3061736-6048-58d1-aaa7-d0a4fa44e6d0",
+        "position": 65,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e7f1b7e6-fa13-541a-9a3e-58a6a7ecf82d"
+      },
+      {
+        "unit_id": "bef311c0-5a29-5ac2-9b30-63ae4cff2367",
+        "position": 66,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "91a325f7-bf5e-595d-a94d-3f19fd05a61b"
+      },
+      {
+        "unit_id": "4fed83d8-eb9a-59cf-b1e3-c4ed7fcae711",
+        "position": 67,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "bdb9120e-dc8b-5916-b8f8-1a17d5175628"
+      },
+      {
+        "unit_id": "9f301a03-45b5-543b-add8-047b98971861",
+        "position": 68,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "bfda0a66-146f-5977-989b-881fe0852a04"
+      },
+      {
+        "unit_id": "301ebc2e-285d-5dd3-aecf-837eb4a64a24",
+        "position": 69,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "5892e116-90e2-50bd-b766-6450adfc56f0"
+      },
+      {
+        "unit_id": "04c635ff-3cd7-5cfb-ba97-76035c9b37ea",
+        "position": 70,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "176afec5-edaf-5c2a-bd14-525d1a4b4f2a"
+      },
+      {
+        "unit_id": "f3af30cc-03ad-51ec-b8f9-49d48ecdd2b2",
+        "position": 71,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "da9a33a5-4505-5fef-b426-e3b9a60a24a6"
+      },
+      {
+        "unit_id": "e9effa13-3a64-5585-a9fa-b383615e2bab",
+        "position": 72,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "bf564a6e-ee99-5f55-9aab-9d80c47bddb9"
+      },
+      {
+        "unit_id": "4b73ef6d-ffc7-5cd9-9727-0c8a4efe19ec",
+        "position": 73,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e6fd4d22-eff2-5d16-a54f-a62faa64f592"
+      },
+      {
+        "unit_id": "77473296-22bf-5056-afa7-1a103d141b89",
+        "position": 74,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "72d5c6cc-b6a6-5edf-ad37-9712df246cdd"
+      },
+      {
+        "unit_id": "8df02aca-907d-5b75-842e-6f2da1b9164e",
+        "position": 75,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "2fca9eff-747d-510b-90a7-792e0e923a40"
+      },
+      {
+        "unit_id": "6af960ec-3d47-5f58-9385-8f4822d6e123",
+        "position": 76,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "2ef8a593-bc1a-587c-b327-18ae4bfc6b24"
+      },
+      {
+        "unit_id": "0a267454-b96d-5571-88a4-c2e3ebd1d7be",
+        "position": 77,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e570a57d-cc05-5560-855c-53242802dcbb"
+      },
+      {
+        "unit_id": "2326540e-b382-5b2a-a939-73bc76d3999a",
+        "position": 78,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "f47e07c1-c140-5e90-a88c-fcb30a657249"
+      },
+      {
+        "unit_id": "7b0bb846-250b-550f-84c3-b6f032ec427e",
+        "position": 79,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e65078d6-fb83-5ec3-9114-8de2c7a99cca"
+      },
+      {
+        "unit_id": "2437d970-3c49-565f-b103-70c6578f8fe3",
+        "position": 80,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "23a237e9-d786-5c22-a3a8-cfedb1d1f652"
+      },
+      {
+        "unit_id": "10b8bd9f-5d3a-5364-8e5c-441e677a0851",
+        "position": 81,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "45107eaa-2b87-5398-91d1-1962581c732b"
+      },
+      {
+        "unit_id": "e8bad7b0-cd15-5d73-859e-fe0c933d6075",
+        "position": 82,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "e12d5604-7e51-5b4a-badf-3902ba90abe9"
+      },
+      {
+        "unit_id": "c831cb8d-93c4-58bb-b0a7-07d5a555b9ae",
+        "position": 83,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "272c8274-258f-50d0-8e4b-0324c6c42fc8"
+      },
+      {
+        "unit_id": "680b3247-6815-5e61-a5a8-bc781fb82315",
+        "position": 84,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "1e69cccf-e4c7-5715-8777-f20233efc422"
+      },
+      {
+        "unit_id": "93360e17-78e2-5a12-86b5-3da76756b317",
+        "position": 85,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "86d47ca5-925f-5450-98d0-dadf4414ca38"
+      },
+      {
+        "unit_id": "f18e40d8-b71b-5f79-ad4f-3cdffe8208fb",
+        "position": 86,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "f3380660-a994-559b-8fbb-a4ae16aa6392"
+      },
+      {
+        "unit_id": "06995691-c14c-5da2-9b73-2bf2a81f2898",
+        "position": 87,
+        "is_included": true,
+        "snapshot_id": "66cda81f-6a3a-4c8b-a226-c7169ffd2710",
+        "parent_unit_id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+        "title_override": null,
+        "metadata_override": null,
+        "paragraph_version_id": "260d6537-cc47-5dd7-a061-528c14f4fd34"
+      }
+    ],
+    "reader_hash": "2baab05607d70d29816c425e4a57a1e1",
+    "max_versions": {
+      "04c635ff-3cd7-5cfb-ba97-76035c9b37ea": 1,
+      "06161b3c-d634-5cdc-82b5-eecc42ca67bc": 1,
+      "06995691-c14c-5da2-9b73-2bf2a81f2898": 1,
+      "0a267454-b96d-5571-88a4-c2e3ebd1d7be": 1,
+      "0cc54b6f-9025-5ed7-af67-07a94be4e5e3": 3,
+      "0e03951e-0927-5db6-827d-361b852348bc": 1,
+      "0fca7915-65fd-5ef8-9da2-fc251e075663": 1,
+      "10b8bd9f-5d3a-5364-8e5c-441e677a0851": 1,
+      "1cff7c09-4a2b-5ac3-a5d0-11acb28203ec": 1,
+      "1e4260be-119b-5427-b9c1-bedd99ba2e05": 1,
+      "2064be29-8a1a-57e6-901e-2857a72c369b": 1,
+      "2326540e-b382-5b2a-a939-73bc76d3999a": 1,
+      "2437d970-3c49-565f-b103-70c6578f8fe3": 1,
+      "26946cc6-83d0-5bd3-bde4-7306aeac6666": 1,
+      "26cfb273-9245-51fe-a0dd-576521da5d46": 1,
+      "29a9f0d5-9f14-5c31-9680-1929631392df": 3,
+      "2aac45f3-d446-5b7e-8c53-51420b721a9d": 1,
+      "2d57319d-af88-50fc-bedc-7fdcf53bb7db": 1,
+      "2ec91275-f9dc-579f-bce2-3714301a4dbb": 1,
+      "2f96d61e-4190-5c96-b9f0-8abb2c082c37": 1,
+      "301ebc2e-285d-5dd3-aecf-837eb4a64a24": 1,
+      "3261a097-3100-5849-9a78-e66441b7d86d": 1,
+      "346b796e-0908-5749-8df6-bda8bbde9fe0": 1,
+      "356c6b88-3256-51cb-a3e0-4562caef770b": 1,
+      "38116b89-5957-5d0e-a7c9-8e5be9b3a025": 1,
+      "393b2060-b7b6-5900-bcc8-e13df7ccbfb2": 3,
+      "39d2858e-e06d-55cc-b01b-728497e7965f": 3,
+      "3bfad606-54c7-5037-bd6b-97faf6a28d76": 1,
+      "487fe498-36d5-5cb4-a091-2e89cc83c638": 1,
+      "4ad57ede-4588-5a40-96a8-198779d90142": 1,
+      "4b73ef6d-ffc7-5cd9-9727-0c8a4efe19ec": 1,
+      "4ead67e4-6d10-51cb-a9d7-594059864dcc": 3,
+      "4fed83d8-eb9a-59cf-b1e3-c4ed7fcae711": 1,
+      "51bb31ad-5401-5bff-96fc-e7c23a1c8ef6": 1,
+      "53f8d7bc-d475-5e85-a94b-be15aa13f01a": 3,
+      "56e797f8-85b5-5fdc-bb13-05c20c95f891": 3,
+      "57df8982-356b-520f-92aa-a1121b989e3e": 3,
+      "59ad5490-7000-537d-93a1-8a991546d1bf": 1,
+      "5fe0e96e-3e50-5615-a582-85d865162609": 1,
+      "60c654a4-9ed1-5c75-bb92-07e80fbcfacc": 1,
+      "680b3247-6815-5e61-a5a8-bc781fb82315": 1,
+      "6af960ec-3d47-5f58-9385-8f4822d6e123": 1,
+      "6da615ef-05f0-5c45-a6e5-e436d2f7e639": 3,
+      "743c10b8-65f0-5729-b11d-044e3b0486ff": 1,
+      "77473296-22bf-5056-afa7-1a103d141b89": 1,
+      "7b0bb846-250b-550f-84c3-b6f032ec427e": 1,
+      "7e42a389-0e44-5406-ac5c-06e2f3e1226b": 1,
+      "849f3dcd-0c61-5462-8eb6-0621dcbc0d70": 1,
+      "8df02aca-907d-5b75-842e-6f2da1b9164e": 1,
+      "8ec8038c-795f-5b6a-8435-74ce4ea4ef17": 3,
+      "93360e17-78e2-5a12-86b5-3da76756b317": 1,
+      "96cd12f0-a854-5c11-8971-d46fec62dd13": 1,
+      "9a89e64e-51ba-5fdd-b7f4-80318ef42261": 1,
+      "9f301a03-45b5-543b-add8-047b98971861": 1,
+      "a3061736-6048-58d1-aaa7-d0a4fa44e6d0": 1,
+      "a57713ee-ba5c-554a-b696-8f0879325d15": 1,
+      "a8018b9c-5f63-597d-aaff-294f94b3d667": 1,
+      "a88917e6-b100-52de-b5c1-1b73f8c71708": 1,
+      "acb54c2a-9ccf-5a6e-bca1-b280e987cf55": 3,
+      "ad5c72d2-906c-50dd-b994-7dcdecb4ee0f": 1,
+      "adfee7c0-a7cd-51a2-8ae7-c991459b1993": 4,
+      "b7da8754-d442-5ba4-9d33-5e9f513faf79": 1,
+      "bef311c0-5a29-5ac2-9b30-63ae4cff2367": 1,
+      "c831cb8d-93c4-58bb-b0a7-07d5a555b9ae": 1,
+      "cbd904b5-2cd6-5d1a-9d72-0def42ba2932": 1,
+      "cd8a1438-6c1f-550e-82d4-e9ece381b832": 1,
+      "d5b86f9f-0b7a-5415-8f7e-cb5ee8826df2": 3,
+      "d66e4c0b-6f6a-5e6d-99ee-a29171b0f40f": 1,
+      "d92e0392-d03f-5a13-93f8-71b927fd0b84": 1,
+      "d9f69ed8-0c74-5a23-b693-ab40f19a452d": 1,
+      "db7f6bb6-bfc8-5694-ba8b-3d739242b0b9": 3,
+      "dcf5e9ea-ea40-58ff-b960-2b7e1428760e": 1,
+      "dd020bc7-108d-5625-b097-961e79cf3e9c": 1,
+      "e22fe500-0bfa-5924-b526-d954c66c7449": 1,
+      "e2fbbf47-018a-5c12-a6f9-c3fdcb0eb89b": 1,
+      "e8bad7b0-cd15-5d73-859e-fe0c933d6075": 1,
+      "e9effa13-3a64-5585-a9fa-b383615e2bab": 1,
+      "ec8c6949-2604-563e-ba1b-8216a2bcd89d": 1,
+      "ecbf8b45-b872-5bfe-b205-75ac8198112e": 1,
+      "f0582951-1be1-5719-aa90-32ba2c3cdf54": 1,
+      "f18e40d8-b71b-5f79-ad4f-3cdffe8208fb": 1,
+      "f3af30cc-03ad-51ec-b8f9-49d48ecdd2b2": 1,
+      "f73574ee-c630-5313-af9c-5c1358733108": 1,
+      "fa40daeb-9c87-56b3-848c-4cd6ab0d10df": 1,
+      "fb7d2cb5-64aa-5111-8c4b-34c8799bfb09": 1,
+      "fd9d9291-817f-557f-a089-8308e2d1ef4f": 1,
+      "ff38d6d2-42e2-5936-9e6c-b0dc2d3d476c": 3
+    },
+    "reader_updated": "2026-08-30T01:13:13.684+00:00"
+  },
+  "plan": [
+    {
+      "position": 1,
+      "unit_id": "adfee7c0-a7cd-51a2-8ae7-c991459b1993",
+      "body": "At 07:45 Central European Time, dozens of operators and postdoctoral researchers at the NGC Central Control Center were turning raw telemetry into decisions the machine could execute.",
+      "reuse": false,
+      "previous_version_id": "58195185-a376-4af3-9dcb-2352b71b616a",
+      "parent_version_ids": [
+        "58195185-a376-4af3-9dcb-2352b71b616a",
+        "c91899f4-cf6a-49d1-8dbf-b686d952b233"
+      ],
+      "old_positions": [
+        1,
+        4
+      ],
+      "change_type": "merge"
+    },
+    {
+      "position": 2,
+      "unit_id": "ff38d6d2-42e2-5936-9e6c-b0dc2d3d476c",
+      "body": "Several kilometers away, beneath the molasse formations of the Geneva basin, the fourteen-thousand-metric-ton NGC-Alpha detector occupied a shielded cavern. Redundant fiber-optic trunks linked it to the surface control infrastructure.",
+      "reuse": false,
+      "previous_version_id": "3edd58e8-7c5f-4637-ba6a-944648ea1a8c",
+      "parent_version_ids": [
+        "3edd58e8-7c5f-4637-ba6a-944648ea1a8c"
+      ],
+      "old_positions": [
+        2
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 3,
+      "unit_id": "acb54c2a-9ccf-5a6e-bca1-b280e987cf55",
+      "body": "Shadowless light washed across the tiered consoles and matte instrument panels. The dry air smelled faintly of warmed polymer insulation and machine oil.",
+      "reuse": false,
+      "previous_version_id": "196eeb14-b5fd-4060-a0f5-4ab92421d714",
+      "parent_version_ids": [
+        "196eeb14-b5fd-4060-a0f5-4ab92421d714"
+      ],
+      "old_positions": [
+        3
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 4,
+      "unit_id": "d5b86f9f-0b7a-5415-8f7e-cb5ee8826df2",
+      "body": "At the apex of the command floor stood Professor Arthur Sterling.",
+      "reuse": true,
+      "previous_version_id": "f3b658fa-4ca5-4d0d-bfd2-93e4abd90f1c",
+      "parent_version_ids": [
+        "f3b658fa-4ca5-4d0d-bfd2-93e4abd90f1c"
+      ],
+      "old_positions": [
+        5
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 5,
+      "unit_id": "57df8982-356b-520f-92aa-a1121b989e3e",
+      "body": "As General Director of the Geneva Next-Generation Collider, he had spent decades learning that high-energy physics was not practiced in chalk alone. Science at this scale required sovereign funding, cryogenic plants, procurement schedules, radiation protocols, and political oversight. The machines demanded micrometer tolerances and budgets in the hundreds of billions.",
+      "reuse": false,
+      "previous_version_id": "e1d54afd-e2bc-4523-83af-4f5e3b2f671c",
+      "parent_version_ids": [
+        "e1d54afd-e2bc-4523-83af-4f5e3b2f671c"
+      ],
+      "old_positions": [
+        6
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 6,
+      "unit_id": "6da615ef-05f0-5c45-a6e5-e436d2f7e639",
+      "body": "A theory did not survive because it was elegant.",
+      "reuse": true,
+      "previous_version_id": "c2ca133c-462d-406c-8065-8e627dedf33f",
+      "parent_version_ids": [
+        "c2ca133c-462d-406c-8065-8e627dedf33f"
+      ],
+      "old_positions": [
+        7
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 7,
+      "unit_id": "0cc54b6f-9025-5ed7-af67-07a94be4e5e3",
+      "body": "It survived because it predicted what the instruments would see.",
+      "reuse": true,
+      "previous_version_id": "86513758-dcba-4565-8aaf-f23de0b664ee",
+      "parent_version_ids": [
+        "86513758-dcba-4565-8aaf-f23de0b664ee"
+      ],
+      "old_positions": [
+        8
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 8,
+      "unit_id": "29a9f0d5-9f14-5c31-9680-1929631392df",
+      "body": "Sterling had built his career around that distinction.",
+      "reuse": true,
+      "previous_version_id": "19ae4253-0065-4a87-aa34-cc25d478c1a2",
+      "parent_version_ids": [
+        "19ae4253-0065-4a87-aa34-cc25d478c1a2"
+      ],
+      "old_positions": [
+        9
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 9,
+      "unit_id": "39d2858e-e06d-55cc-b01b-728497e7965f",
+      "body": "His Epsilon regularization scheme was not a fundamental theory of the vacuum. He would have rejected that description. It was a phenomenological model of how an otherwise divergent effective interaction should saturate before reaching a physically inaccessible regime.",
+      "reuse": false,
+      "previous_version_id": "0b91db2e-ddc4-43b4-b724-698e01bd0355",
+      "parent_version_ids": [
+        "0b91db2e-ddc4-43b4-b724-698e01bd0355"
+      ],
+      "old_positions": [
+        10
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 10,
+      "unit_id": "db7f6bb6-bfc8-5694-ba8b-3d739242b0b9",
+      "body": "In the NGC models, certain effective spatial terms steepened as the interaction coordinate approached a limiting radius. Sterling introduced a regulated form:",
+      "reuse": false,
+      "previous_version_id": "e3211f15-aff8-4950-b35f-4dfac9b6d8d6",
+      "parent_version_ids": [
+        "e3211f15-aff8-4950-b35f-4dfac9b6d8d6"
+      ],
+      "old_positions": [
+        11
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 11,
+      "unit_id": "393b2060-b7b6-5900-bcc8-e13df7ccbfb2",
+      "body": "$$ V_{\\epsilon}(r) \\sim \\frac{1}{r^2+\\epsilon^2} $$",
+      "reuse": true,
+      "previous_version_id": "3645f434-1e06-4a2b-96eb-ad3fa345da1c",
+      "parent_version_ids": [
+        "3645f434-1e06-4a2b-96eb-ad3fa345da1c"
+      ],
+      "old_positions": [
+        12
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 12,
+      "unit_id": "53f8d7bc-d475-5e85-a94b-be15aa13f01a",
+      "body": "Epsilon represented the assumed finite response scale of the underlying vacuum.",
+      "reuse": false,
+      "previous_version_id": "58f95ac1-3f85-4bc0-9e7c-8a2b3e01e658",
+      "parent_version_ids": [
+        "58f95ac1-3f85-4bc0-9e7c-8a2b3e01e658"
+      ],
+      "old_positions": [
+        13
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 13,
+      "unit_id": "8ec8038c-795f-5b6a-8435-74ce4ea4ef17",
+      "body": "The mathematics alone did nothing to the collider.",
+      "reuse": true,
+      "previous_version_id": "1f486bbe-001b-4d50-9e9f-6f31b886ff20",
+      "parent_version_ids": [
+        "1f486bbe-001b-4d50-9e9f-6f31b886ff20"
+      ],
+      "old_positions": [
+        14
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 14,
+      "unit_id": "4ead67e4-6d10-51cb-a9d7-594059864dcc",
+      "body": "The machine did.",
+      "reuse": true,
+      "previous_version_id": "59877cae-b007-45ed-a208-e70d95736eac",
+      "parent_version_ids": [
+        "59877cae-b007-45ed-a208-e70d95736eac"
+      ],
+      "old_positions": [
+        15
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 15,
+      "unit_id": "2d57319d-af88-50fc-bedc-7fdcf53bb7db",
+      "body": "The scheme had been translated into an active control architecture for successive bunch crossings. The maximum-energy experiment would be a five-hundred-millisecond train containing millions of proton-proton interactions. A crossing already recorded could not be altered. Only the conditions of later crossings could.",
+      "reuse": false,
+      "previous_version_id": "46a38a69-e37b-5409-af87-37d78ce8e788",
+      "parent_version_ids": [
+        "46a38a69-e37b-5409-af87-37d78ce8e788"
+      ],
+      "old_positions": [
+        16
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 16,
+      "unit_id": "cbd904b5-2cd6-5d1a-9d72-0def42ba2932",
+      "body": "Detector telemetry from the first interactions would be reconstructed in real time. If the diagnostic layer inferred an approach to the regulated boundary, the controller would adjust conditions for subsequent bunches: RF phase, beam focus, crossing geometry, and currents in the dedicated correction magnets around the interaction region.",
+      "reuse": false,
+      "previous_version_id": "86e62f42-c8f8-50be-86a7-2d471ad32b2c",
+      "parent_version_ids": [
+        "86e62f42-c8f8-50be-86a7-2d471ad32b2c"
+      ],
+      "old_positions": [
+        17
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 17,
+      "unit_id": "849f3dcd-0c61-5462-8eb6-0621dcbc0d70",
+      "body": "The superconducting quadrupoles supplied the slowly varying focusing bias. Fast pulsed correctors and RF phase shifters would alter conditions for later crossings on microsecond timescales. The system was designed to push the experiment toward the edge of Sterling's model without letting the machine cross it.",
+      "reuse": false,
+      "previous_version_id": "e1c3ed31-fa6d-504f-b384-8b21c67da127",
+      "parent_version_ids": [
+        "e1c3ed31-fa6d-504f-b384-8b21c67da127",
+        "1fdaa9ee-c6cf-5665-a84a-d8c3d711358e"
+      ],
+      "old_positions": [
+        18,
+        19
+      ],
+      "change_type": "merge"
+    },
+    {
+      "position": 18,
+      "unit_id": "dcf5e9ea-ea40-58ff-b960-2b7e1428760e",
+      "body": "Down in the primary operations tier, Sarah Hayes monitored the control loop.",
+      "reuse": false,
+      "previous_version_id": "60f7cafb-4575-5081-8200-33bb62083aba",
+      "parent_version_ids": [
+        "60f7cafb-4575-5081-8200-33bb62083aba"
+      ],
+      "old_positions": [
+        20
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 19,
+      "unit_id": "d92e0392-d03f-5a13-93f8-71b927fd0b84",
+      "body": "As Chief Engineer of Beam Operations, she had little interest in a theory's philosophical appeal. Her universe was latency, stored magnetic energy, cryogenic margin, sensor confidence, actuator authority—and the uncomfortable interval between fault detection and hardware response.",
+      "reuse": false,
+      "previous_version_id": "f556ab4d-892c-5ba8-a19e-d5f7e1396e35",
+      "parent_version_ids": [
+        "f556ab4d-892c-5ba8-a19e-d5f7e1396e35"
+      ],
+      "old_positions": [
+        21
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 20,
+      "unit_id": "d66e4c0b-6f6a-5e6d-99ee-a29171b0f40f",
+      "body": "A mathematical prediction mattered only if the machine survived long enough to measure it.",
+      "reuse": true,
+      "previous_version_id": "6b8d22c2-186a-52da-b83f-93a3c2ab834f",
+      "parent_version_ids": [
+        "6b8d22c2-186a-52da-b83f-93a3c2ab834f"
+      ],
+      "old_positions": [
+        22
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 21,
+      "unit_id": "2f96d61e-4190-5c96-b9f0-8abb2c082c37",
+      "body": "Her primary display tracked beam orbit and luminosity. The secondary showed the fast-control system's status: local timing, magnet current margin, RF synchronization, quench-protection state, and execution latency between diagnostic nodes and the Sector Four experimental inserts.",
+      "reuse": false,
+      "previous_version_id": "95cc38d7-29e5-558f-b3cf-8a64e7e204f3",
+      "parent_version_ids": [
+        "95cc38d7-29e5-558f-b3cf-8a64e7e204f3"
+      ],
+      "old_positions": [
+        23
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 22,
+      "unit_id": "06161b3c-d634-5cdc-82b5-eecc42ca67bc",
+      "body": "Local optical timing remained phase-locked. A stabilized fiber network distributed the master oscillator's signal across the facility; a rubidium reference provided long-term frequency stability.",
+      "reuse": false,
+      "previous_version_id": "96408047-b100-5942-9cb9-05dfdcf57e49",
+      "parent_version_ids": [
+        "96408047-b100-5942-9cb9-05dfdcf57e49"
+      ],
+      "old_positions": [
+        24
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 23,
+      "unit_id": "26946cc6-83d0-5bd3-bde4-7306aeac6666",
+      "body": "Everything was nominal.",
+      "reuse": true,
+      "previous_version_id": "c92eef7d-425c-53df-8c44-0fe99cc11802",
+      "parent_version_ids": [
+        "c92eef7d-425c-53df-8c44-0fe99cc11802"
+      ],
+      "old_positions": [
+        25
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 24,
+      "unit_id": "f0582951-1be1-5719-aa90-32ba2c3cdf54",
+      "body": "That did not reassure her.",
+      "reuse": true,
+      "previous_version_id": "7b7504a8-87e6-5f6e-a99e-b18ff52f3069",
+      "parent_version_ids": [
+        "7b7504a8-87e6-5f6e-a99e-b18ff52f3069"
+      ],
+      "old_positions": [
+        26
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 25,
+      "unit_id": "b7da8754-d442-5ba4-9d33-5e9f513faf79",
+      "body": "Six months earlier, at an internal NGC symposium, Ian Yoo—a twenty-six-year-old topological physicist—had challenged the assumption on which Sterling's control system depended.",
+      "reuse": false,
+      "previous_version_id": "cfc68692-34cf-559a-a418-6b7f7bef0608",
+      "parent_version_ids": [
+        "cfc68692-34cf-559a-a418-6b7f7bef0608"
+      ],
+      "old_positions": [
+        27
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 26,
+      "unit_id": "0fca7915-65fd-5ef8-9da2-fc251e075663",
+      "body": "Ian had not argued that one hundred tera-electron-volts of collision energy should produce dramatic gravitational effects by itself. Standard physics predicted nothing of the kind.",
+      "reuse": false,
+      "previous_version_id": "790ed4d8-f9af-5248-8e27-c34c235c8ffb",
+      "parent_version_ids": [
+        "790ed4d8-f9af-5248-8e27-c34c235c8ffb"
+      ],
+      "old_positions": [
+        28
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 27,
+      "unit_id": "fb7d2cb5-64aa-5111-8c4b-34c8799bfb09",
+      "body": "His concern was not energy alone but the gradient of a collective spatial phase that could emerge under a highly coherent sequence of interactions. If that gradient crossed a critical threshold, the vacuum response might not saturate smoothly.",
+      "reuse": false,
+      "previous_version_id": "96f202fe-6fa2-5661-90a9-af4227c9a733",
+      "parent_version_ids": [
+        "96f202fe-6fa2-5661-90a9-af4227c9a733",
+        "653a2157-1c47-501f-99c6-0fe52a567bc6"
+      ],
+      "old_positions": [
+        29,
+        30
+      ],
+      "change_type": "merge"
+    },
+    {
+      "position": 28,
+      "unit_id": "fa40daeb-9c87-56b3-848c-4cd6ab0d10df",
+      "body": "It might shear.",
+      "reuse": true,
+      "previous_version_id": "7d107e93-59dc-585c-a3a9-6e3d48c3b4f6",
+      "parent_version_ids": [
+        "7d107e93-59dc-585c-a3a9-6e3d48c3b4f6"
+      ],
+      "old_positions": [
+        31
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 29,
+      "unit_id": "dd020bc7-108d-5625-b097-961e79cf3e9c",
+      "body": "Sterling had considered the proposal speculative.",
+      "reuse": true,
+      "previous_version_id": "8f7dda68-b925-5578-87cd-5d2e860effa2",
+      "parent_version_ids": [
+        "8f7dda68-b925-5578-87cd-5d2e860effa2"
+      ],
+      "old_positions": [
+        32
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 30,
+      "unit_id": "5fe0e96e-3e50-5615-a582-85d865162609",
+      "body": "Sarah had considered it dangerous.",
+      "reuse": true,
+      "previous_version_id": "268ba300-a1a8-5d5e-b72a-6e59b22562ac",
+      "parent_version_ids": [
+        "268ba300-a1a8-5d5e-b72a-6e59b22562ac"
+      ],
+      "old_positions": [
+        33
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 31,
+      "unit_id": "cd8a1438-6c1f-550e-82d4-e9ece381b832",
+      "body": "Then she had read the code.",
+      "reuse": true,
+      "previous_version_id": "38180b47-1f6a-5043-9e58-3a54b3e382e5",
+      "parent_version_ids": [
+        "38180b47-1f6a-5043-9e58-3a54b3e382e5"
+      ],
+      "old_positions": [
+        34
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 32,
+      "unit_id": "f73574ee-c630-5313-af9c-5c1358733108",
+      "body": "Ian's model did not treat a proton bunch containing billions of particles as a single microscopic wavefunction. It used a coarse-grained MSV order parameter over the circulating beam's collective phase-space distribution:",
+      "reuse": false,
+      "previous_version_id": "d434ff2d-e88d-5fb5-8c27-0808209de326",
+      "parent_version_ids": [
+        "d434ff2d-e88d-5fb5-8c27-0808209de326"
+      ],
+      "old_positions": [
+        35
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 33,
+      "unit_id": "2aac45f3-d446-5b7e-8c53-51420b721a9d",
+      "body": "$$ \\Psi_{\\mathrm{MSV}} = R e^{iS/\\hbar} $$",
+      "reuse": true,
+      "previous_version_id": "c74fa058-726c-5bef-ae68-ca8f04259e2b",
+      "parent_version_ids": [
+        "c74fa058-726c-5bef-ae68-ca8f04259e2b"
+      ],
+      "old_positions": [
+        36
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 34,
+      "unit_id": "a8018b9c-5f63-597d-aaff-294f94b3d667",
+      "body": "For an imposed azimuthal phase,",
+      "reuse": true,
+      "previous_version_id": "14aad220-a0ad-5a0d-b437-9aeee06e6fcf",
+      "parent_version_ids": [
+        "14aad220-a0ad-5a0d-b437-9aeee06e6fcf"
+      ],
+      "old_positions": [
+        38
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 35,
+      "unit_id": "9a89e64e-51ba-5fdd-b7f4-80318ef42261",
+      "body": "$$ S = n\\hbar\\phi $$",
+      "reuse": true,
+      "previous_version_id": "253259ad-ab08-5d72-8585-b7e4946e8b22",
+      "parent_version_ids": [
+        "253259ad-ab08-5d72-8585-b7e4946e8b22"
+      ],
+      "old_positions": [
+        39
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 36,
+      "unit_id": "487fe498-36d5-5cb4-a091-2e89cc83c638",
+      "body": "the phase-kinetic contribution scaled as:",
+      "reuse": false,
+      "previous_version_id": "d08cefef-233c-598f-b505-6eebbac1df85",
+      "parent_version_ids": [
+        "d08cefef-233c-598f-b505-6eebbac1df85"
+      ],
+      "old_positions": [
+        40
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 37,
+      "unit_id": "2064be29-8a1a-57e6-901e-2857a72c369b",
+      "body": "$$ \\frac{(\\nabla S)^2}{2m} \\propto \\frac{1}{r^2} $$",
+      "reuse": true,
+      "previous_version_id": "77738a8c-bd6b-569e-846a-2369deff8b88",
+      "parent_version_ids": [
+        "77738a8c-bd6b-569e-846a-2369deff8b88"
+      ],
+      "old_positions": [
+        41
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 38,
+      "unit_id": "38116b89-5957-5d0e-a7c9-8e5be9b3a025",
+      "body": "To impose that winding on the collective field, Ian proposed a dedicated experimental insert combining skew-quadrupole correctors, a solenoidal section, and RF phase shifters.",
+      "reuse": false,
+      "previous_version_id": "f1fc998c-6347-5991-9fd8-132d1a6102fc",
+      "parent_version_ids": [
+        "f1fc998c-6347-5991-9fd8-132d1a6102fc"
+      ],
+      "old_positions": [
+        42
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 39,
+      "unit_id": "346b796e-0908-5749-8df6-bda8bbde9fe0",
+      "body": "If the native MSV potential developed a leading attractive divergence proportional to -1/r^2, he proposed a controlled phase contribution with matching asymptotic structure and amplitude, but the opposite sign.",
+      "reuse": false,
+      "previous_version_id": "eaee51bf-3cc7-5e4a-9494-eab5b6a4f005",
+      "parent_version_ids": [
+        "eaee51bf-3cc7-5e4a-9494-eab5b6a4f005"
+      ],
+      "old_positions": [
+        44
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 40,
+      "unit_id": "ecbf8b45-b872-5bfe-b205-75ac8198112e",
+      "body": "Not suppression.",
+      "reuse": true,
+      "previous_version_id": "954e0ea6-fa72-5179-b0eb-393158fab95f",
+      "parent_version_ids": [
+        "954e0ea6-fa72-5179-b0eb-393158fab95f"
+      ],
+      "old_positions": [
+        45
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 41,
+      "unit_id": "743c10b8-65f0-5729-b11d-044e3b0486ff",
+      "body": "Cancellation.",
+      "reuse": true,
+      "previous_version_id": "481ed781-2e6d-5eb4-a362-9ae9507e9b58",
+      "parent_version_ids": [
+        "481ed781-2e6d-5eb4-a362-9ae9507e9b58"
+      ],
+      "old_positions": [
+        46
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 42,
+      "unit_id": "59ad5490-7000-537d-93a1-8a991546d1bf",
+      "body": "Sterling had rejected deployment. Ian's model had no independent experimental confirmation, and activating an untested phase-winding architecture inside a one-hundred-tera-electron-volt machine would introduce risks of its own.",
+      "reuse": false,
+      "previous_version_id": "3cc086ed-9cb6-5066-9c50-6f71d7af4823",
+      "parent_version_ids": [
+        "3cc086ed-9cb6-5066-9c50-6f71d7af4823",
+        "b86696c1-e1a7-5cec-b89c-4e6f426441bd"
+      ],
+      "old_positions": [
+        47,
+        48
+      ],
+      "change_type": "merge"
+    },
+    {
+      "position": 43,
+      "unit_id": "26cfb273-9245-51fe-a0dd-576521da5d46",
+      "body": "He prohibited the solver from the central operational network.",
+      "reuse": false,
+      "previous_version_id": "ecb50802-999b-5e75-81b1-51c83c853f01",
+      "parent_version_ids": [
+        "ecb50802-999b-5e75-81b1-51c83c853f01"
+      ],
+      "old_positions": [
+        49
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 44,
+      "unit_id": "7e42a389-0e44-5406-ac5c-06e2f3e1226b",
+      "body": "Sarah agreed with the prohibition.",
+      "reuse": true,
+      "previous_version_id": "27ed112c-3fef-5984-bd41-65c090afc28c",
+      "parent_version_ids": [
+        "27ed112c-3fef-5984-bd41-65c090afc28c"
+      ],
+      "old_positions": [
+        50
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 45,
+      "unit_id": "d9f69ed8-0c74-5a23-b693-ab40f19a452d",
+      "body": "She was not willing to discard the option.",
+      "reuse": false,
+      "previous_version_id": "182299b3-bf1a-569f-a8f4-68690a792b9b",
+      "parent_version_ids": [
+        "182299b3-bf1a-569f-a8f4-68690a792b9b"
+      ],
+      "old_positions": [
+        51
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 46,
+      "unit_id": "1e4260be-119b-5427-b9c1-bedd99ba2e05",
+      "body": "She had spent three weeks auditing Ian's implementation line by line. She disliked some of its assumptions and found his philosophy rigid. She found no obvious defect in the control logic translating his phase model into hardware commands.",
+      "reuse": false,
+      "previous_version_id": "d29d8357-8db2-532c-a894-14cb17efcbda",
+      "parent_version_ids": [
+        "d29d8357-8db2-532c-a894-14cb17efcbda"
+      ],
+      "old_positions": [
+        52
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 47,
+      "unit_id": "2ec91275-f9dc-579f-bce2-3714301a4dbb",
+      "body": "So she made a compromise Sterling had never authorized.",
+      "reuse": true,
+      "previous_version_id": "b48a3194-6ae3-5797-adef-a4f11424d923",
+      "parent_version_ids": [
+        "b48a3194-6ae3-5797-adef-a4f11424d923"
+      ],
+      "old_positions": [
+        53
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 48,
+      "unit_id": "4ad57ede-4588-5a40-96a8-198779d90142",
+      "body": "Sarah kept Ian's counter-field solver off the central operational network. The compiled build remained in an isolated FPGA sandbox physically attached to the Sector Four experimental insert. It could not take command of the collider.",
+      "reuse": false,
+      "previous_version_id": "3e1ef99e-de01-5583-9c17-96d14b43998c",
+      "parent_version_ids": [
+        "3e1ef99e-de01-5583-9c17-96d14b43998c"
+      ],
+      "old_positions": [
+        54
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 49,
+      "unit_id": "ad5c72d2-906c-50dd-b994-7dcdecb4ee0f",
+      "body": "Dormant.",
+      "reuse": true,
+      "previous_version_id": "80afc972-3412-55d5-bc2f-b4926812aa7e",
+      "parent_version_ids": [
+        "80afc972-3412-55d5-bc2f-b4926812aa7e"
+      ],
+      "old_positions": [
+        55
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 50,
+      "unit_id": "51bb31ad-5401-5bff-96fc-e7c23a1c8ef6",
+      "body": "Local.",
+      "reuse": true,
+      "previous_version_id": "96cf3d70-d381-5842-befb-6f8b6f5d6279",
+      "parent_version_ids": [
+        "96cf3d70-d381-5842-befb-6f8b6f5d6279"
+      ],
+      "old_positions": [
+        56
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 51,
+      "unit_id": "a88917e6-b100-52de-b5c1-1b73f8c71708",
+      "body": "Inaccessible from the central network without her authorization.",
+      "reuse": true,
+      "previous_version_id": "e2428797-f4fe-528c-98d9-1047b8d3f907",
+      "parent_version_ids": [
+        "e2428797-f4fe-528c-98d9-1047b8d3f907"
+      ],
+      "old_positions": [
+        57
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 52,
+      "unit_id": "1cff7c09-4a2b-5ac3-a5d0-11acb28203ec",
+      "body": "A fire extinguisher for a fire she did not believe existed.",
+      "reuse": true,
+      "previous_version_id": "8251d0f0-32a5-5271-98e9-7501a69db028",
+      "parent_version_ids": [
+        "8251d0f0-32a5-5271-98e9-7501a69db028"
+      ],
+      "old_positions": [
+        58
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 53,
+      "unit_id": "ec8c6949-2604-563e-ba1b-8216a2bcd89d",
+      "body": "Sterling's voice broke through the quiet operational noise.",
+      "reuse": true,
+      "previous_version_id": "d1f334e3-de6e-5b09-a419-86eb914daf43",
+      "parent_version_ids": [
+        "d1f334e3-de6e-5b09-a419-86eb914daf43"
+      ],
+      "old_positions": [
+        59
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 54,
+      "unit_id": "96cd12f0-a854-5c11-8971-d46fec62dd13",
+      "body": "\"Status.\"",
+      "reuse": true,
+      "previous_version_id": "26ad8fa3-401b-5abc-94ad-e3bb2266f1d5",
+      "parent_version_ids": [
+        "26ad8fa3-401b-5abc-94ad-e3bb2266f1d5"
+      ],
+      "old_positions": [
+        60
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 55,
+      "unit_id": "a57713ee-ba5c-554a-b696-8f0879325d15",
+      "body": "Sarah brought the machine-health panel to the foreground.",
+      "reuse": true,
+      "previous_version_id": "0784a598-e512-5b31-95c6-7950db2bff43",
+      "parent_version_ids": [
+        "0784a598-e512-5b31-95c6-7950db2bff43"
+      ],
+      "old_positions": [
+        61
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 56,
+      "unit_id": "0e03951e-0927-5db6-827d-361b852348bc",
+      "body": "\"Cryogenics nominal. Cold mass stable. Sixteen-tesla niobium-tin dipoles within operating margin. Optical timing locked. Beam orbit within tolerance. Epsilon feedback armed.\"",
+      "reuse": false,
+      "previous_version_id": "536a7928-86c9-5e63-b582-8ca4b696064f",
+      "parent_version_ids": [
+        "536a7928-86c9-5e63-b582-8ca4b696064f"
+      ],
+      "old_positions": [
+        62
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 57,
+      "unit_id": "fd9d9291-817f-557f-a089-8308e2d1ef4f",
+      "body": "At the neighboring console, a junior beam technician checked the luminosity ramp.",
+      "reuse": false,
+      "previous_version_id": "e1b8f3e4-79d6-5454-bd41-0e7261d4fa3a",
+      "parent_version_ids": [
+        "e1b8f3e4-79d6-5454-bd41-0e7261d4fa3a"
+      ],
+      "old_positions": [
+        63
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 58,
+      "unit_id": "3261a097-3100-5849-9a78-e66441b7d86d",
+      "body": "\"Approaching one hundred tera-electron-volts center-of-mass at the primary interaction point.\"",
+      "reuse": true,
+      "previous_version_id": "971e520a-cd48-5fb2-8fba-f4a25e6fdec5",
+      "parent_version_ids": [
+        "971e520a-cd48-5fb2-8fba-f4a25e6fdec5"
+      ],
+      "old_positions": [
+        64
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 59,
+      "unit_id": "a3061736-6048-58d1-aaa7-d0a4fa44e6d0",
+      "body": "Sterling stepped to the railing. The run would test whether the predicted saturation boundary appeared in the data. He had authorized a five-hundred-millisecond high-luminosity window.",
+      "reuse": false,
+      "previous_version_id": "e7f1b7e6-fa13-541a-9a3e-58a6a7ecf82d",
+      "parent_version_ids": [
+        "e7f1b7e6-fa13-541a-9a3e-58a6a7ecf82d",
+        "91a325f7-bf5e-595d-a94d-3f19fd05a61b",
+        "bdb9120e-dc8b-5916-b8f8-1a17d5175628"
+      ],
+      "old_positions": [
+        65,
+        66,
+        67
+      ],
+      "change_type": "merge"
+    },
+    {
+      "position": 60,
+      "unit_id": "9f301a03-45b5-543b-add8-047b98971861",
+      "body": "Long enough to approach the model's edge.",
+      "reuse": false,
+      "previous_version_id": "bfda0a66-146f-5977-989b-881fe0852a04",
+      "parent_version_ids": [
+        "bfda0a66-146f-5977-989b-881fe0852a04"
+      ],
+      "old_positions": [
+        68
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 61,
+      "unit_id": "301ebc2e-285d-5dd3-aecf-837eb4a64a24",
+      "body": "Short enough, according to every accepted simulation, for the controller to keep it there.",
+      "reuse": true,
+      "previous_version_id": "5892e116-90e2-50bd-b766-6450adfc56f0",
+      "parent_version_ids": [
+        "5892e116-90e2-50bd-b766-6450adfc56f0"
+      ],
+      "old_positions": [
+        69
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 62,
+      "unit_id": "04c635ff-3cd7-5cfb-ba97-76035c9b37ea",
+      "body": "\"The reconstructed residuals should remain inside the finite envelope throughout the bunch train,\" Sterling said. \"If the model is correct, the response will saturate before the machine reaches an undefined regime.\"",
+      "reuse": true,
+      "previous_version_id": "176afec5-edaf-5c2a-bd14-525d1a4b4f2a",
+      "parent_version_ids": [
+        "176afec5-edaf-5c2a-bd14-525d1a4b4f2a"
+      ],
+      "old_positions": [
+        70
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 63,
+      "unit_id": "f3af30cc-03ad-51ec-b8f9-49d48ecdd2b2",
+      "body": "Sarah glanced at the Sector Four local-control panel.",
+      "reuse": false,
+      "previous_version_id": "da9a33a5-4505-5fef-b426-e3b9a60a24a6",
+      "parent_version_ids": [
+        "da9a33a5-4505-5fef-b426-e3b9a60a24a6"
+      ],
+      "old_positions": [
+        71
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 64,
+      "unit_id": "e9effa13-3a64-5585-a9fa-b383615e2bab",
+      "body": "SANDBOX: INACTIVE",
+      "reuse": true,
+      "previous_version_id": "bf564a6e-ee99-5f55-9aab-9d80c47bddb9",
+      "parent_version_ids": [
+        "bf564a6e-ee99-5f55-9aab-9d80c47bddb9"
+      ],
+      "old_positions": [
+        72
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 65,
+      "unit_id": "4b73ef6d-ffc7-5cd9-9727-0c8a4efe19ec",
+      "body": "Ian's solver was still there.",
+      "reuse": true,
+      "previous_version_id": "e6fd4d22-eff2-5d16-a54f-a62faa64f592",
+      "parent_version_ids": [
+        "e6fd4d22-eff2-5d16-a54f-a62faa64f592"
+      ],
+      "old_positions": [
+        73
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 66,
+      "unit_id": "77473296-22bf-5056-afa7-1a103d141b89",
+      "body": "She returned to the primary console.",
+      "reuse": false,
+      "previous_version_id": "72d5c6cc-b6a6-5edf-ad37-9712df246cdd",
+      "parent_version_ids": [
+        "72d5c6cc-b6a6-5edf-ad37-9712df246cdd"
+      ],
+      "old_positions": [
+        74
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 67,
+      "unit_id": "8df02aca-907d-5b75-842e-6f2da1b9164e",
+      "body": "\"Final injection sequence ready.\"",
+      "reuse": true,
+      "previous_version_id": "2fca9eff-747d-510b-90a7-792e0e923a40",
+      "parent_version_ids": [
+        "2fca9eff-747d-510b-90a7-792e0e923a40"
+      ],
+      "old_positions": [
+        75
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 68,
+      "unit_id": "6af960ec-3d47-5f58-9385-8f4822d6e123",
+      "body": "Sterling nodded.",
+      "reuse": true,
+      "previous_version_id": "2ef8a593-bc1a-587c-b327-18ae4bfc6b24",
+      "parent_version_ids": [
+        "2ef8a593-bc1a-587c-b327-18ae4bfc6b24"
+      ],
+      "old_positions": [
+        76
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 69,
+      "unit_id": "0a267454-b96d-5571-88a4-c2e3ebd1d7be",
+      "body": "\"Proceed.\"",
+      "reuse": true,
+      "previous_version_id": "e570a57d-cc05-5560-855c-53242802dcbb",
+      "parent_version_ids": [
+        "e570a57d-cc05-5560-855c-53242802dcbb"
+      ],
+      "old_positions": [
+        77
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 70,
+      "unit_id": "2326540e-b382-5b2a-a939-73bc76d3999a",
+      "body": "Sarah authorized the ramp.",
+      "reuse": true,
+      "previous_version_id": "f47e07c1-c140-5e90-a88c-fcb30a657249",
+      "parent_version_ids": [
+        "f47e07c1-c140-5e90-a88c-fcb30a657249"
+      ],
+      "old_positions": [
+        78
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 71,
+      "unit_id": "7b0bb846-250b-550f-84c3-b6f032ec427e",
+      "body": "\"RF cavities at operational voltage.\"",
+      "reuse": true,
+      "previous_version_id": "e65078d6-fb83-5ec3-9114-8de2c7a99cca",
+      "parent_version_ids": [
+        "e65078d6-fb83-5ec3-9114-8de2c7a99cca"
+      ],
+      "old_positions": [
+        79
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 72,
+      "unit_id": "2437d970-3c49-565f-b103-70c6578f8fe3",
+      "body": "The automated collision sequence took control.",
+      "reuse": true,
+      "previous_version_id": "23a237e9-d786-5c22-a3a8-cfedb1d1f652",
+      "parent_version_ids": [
+        "23a237e9-d786-5c22-a3a8-cfedb1d1f652"
+      ],
+      "old_positions": [
+        80
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 73,
+      "unit_id": "10b8bd9f-5d3a-5364-8e5c-441e677a0851",
+      "body": "\"Crossing in three.\"",
+      "reuse": true,
+      "previous_version_id": "45107eaa-2b87-5398-91d1-1962581c732b",
+      "parent_version_ids": [
+        "45107eaa-2b87-5398-91d1-1962581c732b"
+      ],
+      "old_positions": [
+        81
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 74,
+      "unit_id": "e8bad7b0-cd15-5d73-859e-fe0c933d6075",
+      "body": "On the primary displays, the two beam trajectories converged.",
+      "reuse": true,
+      "previous_version_id": "e12d5604-7e51-5b4a-badf-3902ba90abe9",
+      "parent_version_ids": [
+        "e12d5604-7e51-5b4a-badf-3902ba90abe9"
+      ],
+      "old_positions": [
+        82
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 75,
+      "unit_id": "c831cb8d-93c4-58bb-b0a7-07d5a555b9ae",
+      "body": "\"Two.\"",
+      "reuse": true,
+      "previous_version_id": "272c8274-258f-50d0-8e4b-0324c6c42fc8",
+      "parent_version_ids": [
+        "272c8274-258f-50d0-8e4b-0324c6c42fc8"
+      ],
+      "old_positions": [
+        83
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 76,
+      "unit_id": "680b3247-6815-5e61-a5a8-bc781fb82315",
+      "body": "The Epsilon controller entered monitoring mode.",
+      "reuse": true,
+      "previous_version_id": "1e69cccf-e4c7-5715-8777-f20233efc422",
+      "parent_version_ids": [
+        "1e69cccf-e4c7-5715-8777-f20233efc422"
+      ],
+      "old_positions": [
+        84
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 77,
+      "unit_id": "93360e17-78e2-5a12-86b5-3da76756b317",
+      "body": "\"One.\"",
+      "reuse": true,
+      "previous_version_id": "86d47ca5-925f-5450-98d0-dadf4414ca38",
+      "parent_version_ids": [
+        "86d47ca5-925f-5450-98d0-dadf4414ca38"
+      ],
+      "old_positions": [
+        85
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 78,
+      "unit_id": "f18e40d8-b71b-5f79-ad4f-3cdffe8208fb",
+      "body": "Sarah watched the latency counters.",
+      "reuse": true,
+      "previous_version_id": "f3380660-a994-559b-8fbb-a4ae16aa6392",
+      "parent_version_ids": [
+        "f3380660-a994-559b-8fbb-a4ae16aa6392"
+      ],
+      "old_positions": [
+        86
+      ],
+      "change_type": "rewrite"
+    },
+    {
+      "position": 79,
+      "unit_id": "06995691-c14c-5da2-9b73-2bf2a81f2898",
+      "body": "\"Mark.\"",
+      "reuse": true,
+      "previous_version_id": "260d6537-cc47-5dd7-a061-528c14f4fd34",
+      "parent_version_ids": [
+        "260d6537-cc47-5dd7-a061-528c14f4fd34"
+      ],
+      "old_positions": [
+        87
+      ],
+      "change_type": "rewrite"
+    }
+  ],
+  "omitted": [
+    {
+      "unit_id": "56e797f8-85b5-5fdc-bb13-05c20c95f891",
+      "old_position": 4,
+      "version_id": "c91899f4-cf6a-49d1-8dbf-b686d952b233",
+      "reason": "merged_into_approved_block"
+    },
+    {
+      "unit_id": "e2fbbf47-018a-5c12-a6f9-c3fdcb0eb89b",
+      "old_position": 19,
+      "version_id": "1fdaa9ee-c6cf-5665-a84a-d8c3d711358e",
+      "reason": "merged_into_approved_block"
+    },
+    {
+      "unit_id": "e22fe500-0bfa-5924-b526-d954c66c7449",
+      "old_position": 30,
+      "version_id": "653a2157-1c47-501f-99c6-0fe52a567bc6",
+      "reason": "merged_into_approved_block"
+    },
+    {
+      "unit_id": "356c6b88-3256-51cb-a3e0-4562caef770b",
+      "old_position": 37,
+      "version_id": "b6a33c69-61a0-5713-8729-775166db323d",
+      "reason": "omitted_by_approved_scene"
+    },
+    {
+      "unit_id": "60c654a4-9ed1-5c75-bb92-07e80fbcfacc",
+      "old_position": 43,
+      "version_id": "29ffa383-71aa-5b8f-8114-4eb40e7df724",
+      "reason": "omitted_by_approved_scene"
+    },
+    {
+      "unit_id": "3bfad606-54c7-5037-bd6b-97faf6a28d76",
+      "old_position": 48,
+      "version_id": "b86696c1-e1a7-5cec-b89c-4e6f426441bd",
+      "reason": "merged_into_approved_block"
+    },
+    {
+      "unit_id": "bef311c0-5a29-5ac2-9b30-63ae4cff2367",
+      "old_position": 66,
+      "version_id": "91a325f7-bf5e-595d-a94d-3f19fd05a61b",
+      "reason": "merged_into_approved_block"
+    },
+    {
+      "unit_id": "4fed83d8-eb9a-59cf-b1e3-c4ed7fcae711",
+      "old_position": 67,
+      "version_id": "bdb9120e-dc8b-5916-b8f8-1a17d5175628",
+      "reason": "merged_into_approved_block"
+    }
+  ]
+}

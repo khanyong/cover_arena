@@ -1,0 +1,60 @@
+{
+  "phase": "Phase A1 Closure Record",
+  "status": "PASSED",
+  "evaluated_at": "2026-09-03T03:44:06.581Z",
+  "criteria_summary": {
+    "legacy_data_preserved": true,
+    "relational_migration_complete": true,
+    "database_level_lock_enforced": true,
+    "paragraph_version_immutability_enforced": true,
+    "copy_on_write_verified": true,
+    "lineage_graph_verified": true,
+    "optimistic_concurrency_verified": true,
+    "scene_matrix_snapshot_isolated": true,
+    "matrix_workspace_ui_verified": true,
+    "whole_manuscript_roundtrip_100_percent_pass": true
+  },
+  "canonical_counts": {
+    "acts": 9,
+    "chapters": 30,
+    "scenes": 59,
+    "paragraphs": 45549,
+    "total_units": 45647,
+    "baseline_paragraph_versions": 45549,
+    "pilot_created_paragraph_versions": 1,
+    "current_paragraph_versions": 45550,
+    "total_words": 217976
+  },
+  "prologue_structure_audit": {
+    "canonical_scenes_count": 5,
+    "raw_json_nodes_count": 6,
+    "explanation": "Node 1 is the opening epigraph quotation (\"Science is ruthless with obsolete theories...\") imported as a synthetic chapter/scene stub in legacy parser. The 5 canonical scenes start at Chapter 1: The Cathedral in the Molasse.",
+    "canonical_scenes": [
+      {
+        "position": 1,
+        "title": "The Architecture of Consensus",
+        "source_path": "act-2/ch-2/sc-1"
+      },
+      {
+        "position": 2,
+        "title": "The Accumulating Residual",
+        "source_path": "act-2/ch-3/sc-1"
+      },
+      {
+        "position": 3,
+        "title": "Local Execution",
+        "source_path": "act-2/ch-3/sc-2"
+      },
+      {
+        "position": 4,
+        "title": "The Official Record",
+        "source_path": "act-2/ch-4/sc-1"
+      },
+      {
+        "position": 5,
+        "title": "Exile and the Geometric Boundary",
+        "source_path": "act-2/ch-4/sc-2"
+      }
+    ]
+  }
+}

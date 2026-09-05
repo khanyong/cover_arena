@@ -1,0 +1,29 @@
+{
+  "execution_run": {
+    "code": "B1_PASS2A_CANON_NORMALIZATION_001",
+    "id": "12550861-23b0-4398-ad20-b4217b791831",
+    "status": "LOCKED",
+    "audit_hash": "6ae5fecdfeaabbae093498699d78e897a9caec57db2f4af7dea1e7d7ac723cf1",
+    "parent_plan": "B1_PASS1_GLOBAL_001",
+    "canon_decision": "CANON_DECISION_FAMILY_NAMES_001"
+  },
+  "metrics": {
+    "expected_changed_paragraphs": 35,
+    "actual_changed_paragraphs": 35,
+    "total_name_replacements": 37,
+    "structural_mismatches": 0,
+    "unauthorized_changes": 0,
+    "deprecated_parental_aliases_remaining": 0,
+    "protected_asset_conflicts": 0,
+    "baseline_total_rows": 45647,
+    "draft_total_rows": 45647,
+    "checkpoint_mappings": 45647,
+    "checkpoint_snapshot_code": "B1_PASS2A_CANON_NORMALIZED_LOCKED"
+  },
+  "canon_entities": {
+    "father": "Yoo Ji-man (유지만)",
+    "mother": "Jeon Seo-yeon (전서연)",
+    "son": "Ian Yoo (유이안, preserved)",
+    "author": "Kwang Yong Yoo (유광용, protected)"
+  }
+}

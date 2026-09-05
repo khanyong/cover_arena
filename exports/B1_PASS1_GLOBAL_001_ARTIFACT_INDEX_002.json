@@ -1,0 +1,45 @@
+{
+  "artifact_index_code": "B1_PASS1_GLOBAL_001_ARTIFACT_INDEX_002",
+  "global_audit_code": "B1_PASS1_GLOBAL_001",
+  "global_audit_hash": "a2dacaee592820b6ed6fc25a68f5e92679da1b67bd40d276cd96b03287dc436d",
+  "git_commit": "437885fc505a4aa19685dc02d7ba3a116faaca0c",
+  "status": "LOCKED",
+  "update_reason": "Updated relative paths and refined debt taxonomy wording per architect closure note",
+  "artifacts": [
+    {
+      "repository_path": "docs/revision-platform/pass-1-global-lock.md",
+      "artifact_type": "report",
+      "sha256": "027161086b82b0d2ef8fa06646c1537e8b0ee3106a54be4ff074605589eff77f"
+    },
+    {
+      "repository_path": "reports/pass-1-global-audit.json",
+      "artifact_type": "report",
+      "sha256": "6be4b2cd7375b8c06e75b21948cd71f47dfece5fe2bcfc5a78db3b4157027bfe"
+    },
+    {
+      "repository_path": "exports/B1_PASS1_GLOBAL_001.manifest.json",
+      "artifact_type": "manifest",
+      "sha256": "7f41f84a736ba1ba65dc685453c9a778c09549489244cc2dabed102e3941d343"
+    },
+    {
+      "repository_path": "exports/B1_PASS1_GLOBAL_001.child-audits.json",
+      "artifact_type": "child_audits_snapshot",
+      "sha256": "654f28c51e9875a92af3f76d077f0586e68712c39e4e6a911fe894d8e2edbfe2"
+    },
+    {
+      "repository_path": "exports/B1_PASS1_GLOBAL_001.debt-snapshot.json",
+      "artifact_type": "debt_snapshot",
+      "sha256": "9c15cb81279d1228199c0f022e188ff614c95a13156041da39a890f8fcd2731a"
+    },
+    {
+      "repository_path": "exports/B1_PASS1_GLOBAL_001.protected-assets.json",
+      "artifact_type": "protected_asset_snapshot",
+      "sha256": "9479bee46a58defb108aed8b5f7596f0293dd92b463417e415699fbb33769dc6"
+    },
+    {
+      "repository_path": "exports/B1_PASS1_GLOBAL_001.word-budget.json",
+      "artifact_type": "word_budget_snapshot",
+      "sha256": "a399e7ba23807cded742b83d374fcd60472c354bbf772dbcb750fcdde0d5e822"
+    }
+  ]
+}

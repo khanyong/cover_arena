@@ -1,0 +1,32 @@
+{
+  "global_audit_code": "B1_PASS1_GLOBAL_001",
+  "global_audit_hash": "a2dacaee592820b6ed6fc25a68f5e92679da1b67bd40d276cd96b03287dc436d",
+  "status": "LOCKED",
+  "audit_semantics": "PLAN_LOCK",
+  "pass1_diagnostic_coverage": "100%",
+  "manuscript_revision_completeness": "0% (at Global Lock)",
+  "pass1_global_blockers": 0,
+  "unclassified_debts": 0,
+  "debts_without_acceptance_criteria": 0,
+  "registered_execution_debts": 33,
+  "manuscript_defects_resolved": "not applicable in Pass 1",
+  "debt_taxonomy": {
+    "debt_total": 33,
+    "debt_open": 31,
+    "debt_superseded": 1,
+    "debt_repaired": 1,
+    "open_pass1_global_blockers": 0
+  },
+  "narrative_scenes_audited": "52 / 52",
+  "non_narrative_source_units": 7,
+  "logical_publication_blocks": 9,
+  "baseline_narrative_words": 217463,
+  "target_narrative_budget": 180000,
+  "planned_reduction_words": 37463,
+  "actual_text_reduction_at_lock": 0,
+  "zero_diff_at_lock": "45,647 / 45,647 (PASS)",
+  "child_audits_count": 15,
+  "family_name_canon": "LOCKED",
+  "terminal_asset": "“I must control it.” (LOCKED)",
+  "artifact_index": "exports/B1_PASS1_GLOBAL_001_ARTIFACT_INDEX_001.json"
+}

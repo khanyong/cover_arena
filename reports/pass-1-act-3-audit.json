@@ -1,0 +1,187 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_ACT3_001",
+    "id": "29c2f823-c31a-43d4-8e27-b853a62adae2",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "4e31f442dd14b77b471286fb9fdd3daa8f7901527e69326ec8f140a3b36f0439"
+  },
+  "amendment_run_a01": {
+    "code": "B1_PASS1_ACT3_001_A01",
+    "id": "e86f7b30-e43c-42b5-bdfd-f111567db09a",
+    "parent_audit": "B1_PASS1_ACT3_001",
+    "status": "locked",
+    "audit_hash": "84f99fb9831c5ae34213707ca0c446affc334ee2b337c1c04dc32fbb40a75edd",
+    "amendment_reason": "Acoustic travel-time vs distance separation, removal of Seoul critical saturation, gradient vs peak angle damage correlation, Flight 702 recorded onboard continuity vs surveillance gap, narrative labels separation, power shift governance metadata, and compression rebalancing."
+  },
+  "repetition_debts": [
+    "REPETITION_DEBT_ACT3_DISASTER_PATTERN_001"
+  ],
+  "series_debts": [
+    "EPISTEMIC_DEBT_ACT3_ACOUSTIC_RANGE_001",
+    "EPISTEMIC_DEBT_ACT3_FRAME_TRANSPORT_001",
+    "EPISTEMIC_DEBT_ACT3_MISSING_MILLISECOND_001",
+    "NARRATIVE_LABEL_AUDIT_ACT3_001",
+    "CHARACTER_ARC_BOUNDARY_ACT3_001",
+    "GOVERNANCE_PROTECTION_ACT3_MANDATE_001"
+  ],
+  "metrics": {
+    "baseline_total_words": 46159,
+    "target_total_words": 38000,
+    "total_word_delta": -8159,
+    "total_compression_percent": 17.7,
+    "target_tolerance_percent": 5.0,
+    "review_word_range": "36500-39500",
+    "canonical_scenes_count": 8,
+    "chapter_gates_count": 4,
+    "text_mutation": 0,
+    "structure_mutation": 0
+  },
+  "progress_metrics": {
+    "scene_count_progress": "41 / 59 = 69.5%",
+    "baseline_word_coverage": "158,284 / 217,976 = 72.6%",
+    "target_budget_consumption": "131,470 / 180,000 = 73.0%",
+    "remaining_baseline_words": "59,692 words",
+    "remaining_target_budget": "48,530 words",
+    "required_remaining_compression_percent": "18.70%"
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "3cd61722-ba44-519a-ab74-931c9cd4be48",
+      "chapter": "Chapter 1: The Soaring Sea",
+      "title": "[Scene 1: The Acoustic Void]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 6189,
+      "target_words": 5050,
+      "delta": -1139,
+      "compression_percent": 18.4,
+      "editorial_range": "4,900-5,150",
+      "protected_status": "Canon",
+      "focus": "Acoustic travel-time failure vs model-inferred effective path shortening; Cause: UNKNOWN."
+    },
+    {
+      "scene_number": 2,
+      "id": "a2322291-b735-5e33-a216-2d7d7ce34efa",
+      "chapter": "Chapter 1: The Soaring Sea",
+      "title": "[Scene 2: The Water That Fell Upward]",
+      "action": "KEEP_COMPRESS_PROTECTED_VISUAL",
+      "baseline_words": 6045,
+      "target_words": 5050,
+      "delta": -995,
+      "compression_percent": 16.5,
+      "editorial_range": "4,950-5,150",
+      "protected_status": "Canon",
+      "focus": "Mori observation ethics and fluid ascent observation; title is public metaphor, NOT a mechanism claim."
+    },
+    {
+      "scene_number": 3,
+      "id": "16754633-1e03-53c3-94cf-ebfec4095244",
+      "chapter": "Chapter 2: Topological Torsion",
+      "title": "[Scene 1: The Rotating Vertical]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 7126,
+      "target_words": 5550,
+      "delta": -1576,
+      "compression_percent": 22.1,
+      "editorial_range": "5,400-5,700",
+      "protected_status": "Structural",
+      "focus": "Apparent vertical deflection vs unrotated material frame; aggressive compression on repetitive floor ascent."
+    },
+    {
+      "scene_number": 4,
+      "id": "e14e31b9-b61a-5675-a7e7-bea56b657e21",
+      "chapter": "Chapter 2: Topological Torsion",
+      "title": "[Scene 2: One Hundred Eighty Degrees]",
+      "action": "KEEP_COMPRESS_PROTECTED_MODEL",
+      "baseline_words": 5716,
+      "target_words": 4750,
+      "delta": -966,
+      "compression_percent": 16.9,
+      "editorial_range": "4,650-4,900",
+      "protected_status": "Canon",
+      "focus": "Best-instrumented maximum reached ~177.8 degrees (no common 180° instant); damage correlated with spatial gradient; Model C frame-transport."
+    },
+    {
+      "scene_number": 5,
+      "id": "b21394bd-4deb-5709-bdef-68bfe608c0b0",
+      "chapter": "Chapter 3: Flight 702",
+      "title": "[Scene 1: The Missing Millisecond]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 5341,
+      "target_words": 4350,
+      "delta": -991,
+      "compression_percent": 18.6,
+      "editorial_range": "4,250-4,500",
+      "protected_status": "Canon",
+      "focus": "Recorded onboard temporal and dynamical continuity within resolution; 475 ms surveillance gap and <1 ms GNSS solution window are NOT transit times."
+    },
+    {
+      "scene_number": 6,
+      "id": "e19c5aa4-489b-58f4-987c-0d47986fca73",
+      "chapter": "Chapter 3: Flight 702",
+      "title": "[Scene 2: Mont Blanc]",
+      "action": "KEEP_PROTECTED_COMPRESS",
+      "baseline_words": 4376,
+      "target_words": 3900,
+      "delta": -476,
+      "compression_percent": 10.9,
+      "editorial_range": "3,800-4,000",
+      "protected_status": "Structural",
+      "focus": "Human/aviation operational survival climax; approximate dynamical-state continuity; post-landing airframe serial confirmation."
+    },
+    {
+      "scene_number": 7,
+      "id": "0716d7fd-9261-546f-bcef-53d4b734f388",
+      "chapter": "Chapter 4: The World Listens",
+      "title": "[Scene 1: I Don't Know]",
+      "action": "KEEP_COMPRESS_PROTECTED_ARC",
+      "baseline_words": 5475,
+      "target_words": 4750,
+      "delta": -725,
+      "compression_percent": 13.2,
+      "editorial_range": "4,650-4,900",
+      "protected_status": "Canon",
+      "focus": "Ian Yoo's 'I don’t know' as epistemic restraint in service of a stronger future control architecture (Truth -> Control)."
+    },
+    {
+      "scene_number": 8,
+      "id": "d0eff232-cc3f-5e60-980d-5dfe8a993a7f",
+      "chapter": "Chapter 4: The World Listens",
+      "title": "[Scene 2: The Mandate]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 5891,
+      "target_words": 4600,
+      "delta": -1291,
+      "compression_percent": 21.9,
+      "editorial_range": "4,500-4,750",
+      "protected_status": "Canon",
+      "focus": "Strict 5 Mandate workstreams (observation, replication, prototypes, industry, study); Sarah validation co-chair; science/procurement separation."
+    }
+  ],
+  "chapter_gates": [
+    {
+      "chapter": "Chapter 1: The Soaring Sea",
+      "verdict": "PASS — CLAIM PRECISION AMENDMENT REQUIRED",
+      "notes": "PASS — Observed travel time vs model-inferred effective path shortening; altered force balance vs gravity inversion."
+    },
+    {
+      "chapter": "Chapter 2: Topological Torsion",
+      "verdict": "PASS — REMOVE SATURATION CLAIM / PROTECT GRADIENT RESULT",
+      "notes": "PASS — Reached ~177.8° (not exact 180° saturation); unrotated material frame; damage correlated with spatial gradient."
+    },
+    {
+      "chapter": "Chapter 3: Flight 702",
+      "verdict": "PASS — REMOVE 'PERFECT CONTINUITY'",
+      "notes": "PASS — Onboard temporal/dynamical continuity within resolution; 475ms surveillance gap and <1ms GNSS window are not transit times."
+    },
+    {
+      "chapter": "Chapter 4: The World Listens",
+      "verdict": "PASS — GOVERNANCE AND POWER-SHIFT METADATA REQUIRED",
+      "notes": "PASS — Staged 5 workstreams; Sarah validation authority; Sterling science/procurement split; Vance industrial leverage."
+    }
+  ]
+}

@@ -8,11 +8,12 @@
 ### 1. API 키 관리
 ```javascript
 const YOUTUBE_API_KEYS = {
-  KEY_1: 'AIzaSyB-lpxpfzGhjpw3_qB1QU-wgR4pS3Uu8tQ'
+  KEY_1: 'YOUR_YOUTUBE_API_KEY'
 };
 ```
 - 단일 API 키 사용
-- 하드코딩된 키 (보안상 환경변수 사용 권장)
+- 위 값은 문서용 자리표시자이며 실제 키를 입력하지 않는다.
+- 저장소의 실행 예제는 서버 측 `$env.YOUTUBE_API_KEY`를 참조한다. 키가 없거나 환경변수 접근이 차단되어 있으면 중단하며, 이 문서는 환경변수 접근 제한 해제나 실제 Workflow 실행을 승인하지 않는다.
 
 ### 2. 입력 데이터 처리
 

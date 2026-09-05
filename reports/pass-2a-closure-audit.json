@@ -1,0 +1,34 @@
+{
+  "closure_code": "B1_PASS2A_CLOSURE_001",
+  "closure_hash": "84a97c3cde9b88f9253c151a2af00fe4a5c870155e1ce89607979e5a887d2d07",
+  "status": "LOCKED",
+  "details": {
+    "closure_code": "B1_PASS2A_CLOSURE_001",
+    "parent_run": "B1_PASS2A_CANON_NORMALIZATION_001",
+    "parent_plan": "B1_PASS1_GLOBAL_001",
+    "canon_decision": "CANON_DECISION_FAMILY_NAMES_001",
+    "execution_mode": "resumable_idempotent_batch",
+    "snapshots": {
+      "historical_baseline": "B1_v1.0_LOCKED",
+      "immutable_checkpoint": "B1_PASS2A_CANON_NORMALIZED_LOCKED",
+      "working_draft": "B1_v1.1_STRUCT_DRAFT"
+    },
+    "verification_results": {
+      "expected_changed_paragraphs": 35,
+      "authorized_changed_paragraphs": 35,
+      "unauthorized_changed_paragraphs": 0,
+      "total_replacement_operations": 37,
+      "deprecated_aliases_remaining": 0,
+      "protected_asset_conflicts": 0,
+      "checkpoint_vs_working_diff": 0,
+      "baseline_vs_checkpoint_text_diff": 35,
+      "baseline_vs_checkpoint_struct_diff": 0,
+      "active_canon_versions": 35,
+      "orphan_canon_versions": 0,
+      "duplicate_active_versions": 0,
+      "checkpoint_manifest_hash": "889ae5c488a9e1a4de0576b6de38fc8b1081529681ba17ea5577046227202824",
+      "locked_snapshot_unlock_test": "REJECTED",
+      "locked_snapshot_mutation_test": "REJECTED"
+    }
+  }
+}

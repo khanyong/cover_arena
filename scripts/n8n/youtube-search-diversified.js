@@ -2,10 +2,13 @@
 // 페이지네이션 대신 다양한 검색 전략으로 중복 최소화
 
 const YOUTUBE_API_KEYS = {
-  KEY_1: 'AIzaSyB-lpxpfzGhjpw3_qB1QU-wgR4pS3Uu8tQ'  // 실제 API 키로 변경
+  KEY_1: typeof $env === 'undefined' ? undefined : $env.YOUTUBE_API_KEY
 };
 
 try {
+  if (typeof YOUTUBE_API_KEYS.KEY_1 !== 'string' || !YOUTUBE_API_KEYS.KEY_1.trim()) {
+    throw new Error('YOUTUBE_API_KEY is not configured for this n8n runtime.');
+  }
   console.log('=== YouTube 검색 다양화 버전 시작 ===');
   console.log('Input items:', items.length);
   

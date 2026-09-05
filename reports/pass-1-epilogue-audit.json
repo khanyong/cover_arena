@@ -1,0 +1,65 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_EPILOGUE_001",
+    "id": "017b2299-f13f-464a-96d0-c3b99e959217",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "EPILOGUE: THE OWNER OF THE BOUNDARY",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "01bfe31a0e762c654ec5f73ca4743a1ca432e832395139315b4fc16a05c828e4"
+  },
+  "amendment_run_a01": {
+    "code": "B1_PASS1_EPILOGUE_001_A01",
+    "id": "9e9f8963-2b1a-48a9-ac62-1be42fad9006",
+    "parent_audit": "B1_PASS1_EPILOGUE_001",
+    "status": "locked",
+    "audit_hash": "d4d2ac502c8437f54d42d6a55866e4ae76b7b478b2b68392530a8173ee4fa9b6",
+    "amendment_reason": "Precision corrections to Epilogue epistemic claims (no Geneva/Seoul recurrence, later Pacific disturbances ordinary but original event unresolved, no destructive front observed approaching Earth, persistence of A-173 and PTA residuals), classification of Ian rationalization ladder as semantic summary, and exact text protection for terminal declaration."
+  },
+  "metrics": {
+    "baseline_words": 3957,
+    "target_words": 3250,
+    "word_delta": -707,
+    "compression_percent": 17.9,
+    "editorial_range": "3,200-3,550",
+    "target_tolerance_percent": 5.0,
+    "canonical_narrative_scenes_count": 1,
+    "chapter_gates_count": 1,
+    "text_mutation": 0,
+    "structure_mutation": 0
+  },
+  "target_budget_semantics": {
+    "narrative_baseline_words": 217463,
+    "narrative_target_words": 180000,
+    "planned_reduction_words": 37463,
+    "planned_reduction_percent": 17.23,
+    "actual_reduction_words": 0,
+    "actual_revised_narrative_words": 217463,
+    "target_status": "allocated_planning_budget_only",
+    "execution_status": "not_started",
+    "non_narrative_reserve_words": 513,
+    "total_baseline_words": 217976
+  },
+  "scene": {
+    "scene_number": 1,
+    "id": "e2799232-0787-5d97-841d-d0705712559e",
+    "chapter": "Opening Chapter",
+    "title": "Opening",
+    "action": "KEEP_REFRAME_COMPRESS_PROTECTED",
+    "baseline_words": 3957,
+    "target_words": 3250,
+    "delta": -707,
+    "compression_percent": 17.9,
+    "editorial_range": "3,200-3,550",
+    "protected_status": "Exact Text",
+    "terminal_asset": "“I must control it.” (Exact Text Protected Asset / Terminal Line of Book 1)",
+    "focus": "Ian's personal rationalization ladder leading to the terrifying commitment to control the boundary."
+  },
+  "chapter_gate": {
+    "chapter": "Opening Chapter",
+    "verdict": "PASS — KEEP_REFRAME_COMPRESS_PROTECTED",
+    "local_question": "인간이 국소적 bounded control의 가능성을 입증한 뒤, 누가 target state와 boundary의 안팎을 결정할 권리를 가져야 하는가?",
+    "larger_question": "Ian이 정당한 책임감을 더 큰 통제권의 근거로 바꾸었을 때, 그 권력은 Book II에서 누구를 보호하고 누구를 배제하게 되는가?"
+  }
+}

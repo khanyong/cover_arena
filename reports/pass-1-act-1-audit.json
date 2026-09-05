@@ -1,0 +1,227 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_ACT1_001",
+    "id": "b2cd3be6-2456-41eb-9f7e-1a3932c4c290",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "ACT 1 — THE RETURNING SIGNATURE",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "398ac6e3da9e6c8df30e9ec1140ab08dcd67f811be6cf6eced54c51f82bd022f",
+    "zero_diff_verified": true,
+    "zero_diff_report": "reports/b1-v10-v11-zero-diff.json"
+  },
+  "amendment_run_a01": {
+    "code": "B1_PASS1_ACT1_001_A01",
+    "id": "f54fa6b2-4c98-448e-88c9-0060acdb6a51",
+    "parent_audit": "B1_PASS1_ACT1_001",
+    "status": "locked",
+    "audit_hash": "f4f28a309dee2f84ff92ca368713fad850f4ef4392066d430f77c8dd826942e8",
+    "amendment_reason": "Sarah Hayes name & systems authority role correction, institutional validation reframe, three observational domains definition, elimination of Betti/Euler invariants, 0.23c/9.6y reattribution to Scene 9, measured vs unmeasured causal arrows in Scene 10, protected failure assets registration."
+  },
+  "incident_reference": {
+    "code": "PLATFORM_INCIDENT_SNAPSHOT_CLONE_001",
+    "status": "REPAIRED",
+    "resolved_by": "fn_complete_snapshot_copy",
+    "zero_diff_result": "45647/45647 identical (0/0/0/0)"
+  },
+  "provenance_reference": {
+    "code": "B1_PASS1_PROVENANCE_001",
+    "statement": "All prior Pass 1 audits are analytically grounded in B1_v1.0_LOCKED. The repaired target snapshot has been independently verified via PostgreSQL zero-diff as fully identical to the locked source."
+  },
+  "repetition_debts": [
+    {
+      "code": "REPETITION_DEBT_PRO_S5_ACT1_S1_001",
+      "status": "OPEN",
+      "source": "Prologue / Chapter 3 / Scene 5: Exile and the Geometric Boundary",
+      "target": "Act 1 / Chapter 1 / Scene 1: The Calculus of Isolation"
+    }
+  ],
+  "metrics": {
+    "baseline_total_words": 33608,
+    "target_total_words": 27910,
+    "total_word_delta": -5698,
+    "total_compression_percent": 17.0,
+    "target_tolerance_percent": 5.0,
+    "review_word_range": "26500-28500",
+    "canonical_scenes_count": 10,
+    "chapter_gates_count": 4,
+    "text_mutation": 0,
+    "structure_mutation": 0
+  },
+  "canonical_characters": {
+    "father": "유지만 / Yoo Ji-man / YOO, JI-MAN (source_alias: Kim Ji-man)",
+    "mother": "전서연 / Jeon Seo-yeon / JEON, SEO-YEON (source_alias: Yoo Seo-yeon)",
+    "son": "유이안 / Ian Yoo / YOO, IAN",
+    "systems_authority": "새라 헤이스 / Sarah Hayes (Systems / Safety / Data Integrity Authority)"
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "a0e5b198-48d4-5b0c-95aa-1c5f746379d0",
+      "chapter": "Atmospheric Exile",
+      "title": "[Scene 1: The Calculus of Isolation]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3314,
+      "target_words": 2750,
+      "delta": -564,
+      "compression_percent": 17.0,
+      "protected_status": "Semantic",
+      "repetition_debt": "REPETITION_DEBT_PRO_S5_ACT1_S1_001"
+    },
+    {
+      "scene_number": 2,
+      "id": "981c9fd1-0e36-539b-b48c-078f16870729",
+      "chapter": "Atmospheric Exile",
+      "title": "[Scene 2: The Six-Month Correlation]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2721,
+      "target_words": 2320,
+      "delta": -401,
+      "compression_percent": 14.7,
+      "protected_status": "Canon"
+    },
+    {
+      "scene_number": 3,
+      "id": "ae93c354-6b25-5549-a266-51d7cd9da5cd",
+      "chapter": "The Epistemological Wall",
+      "title": "[Scene 1: Bureaucratic Suppression]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 3604,
+      "target_words": 2950,
+      "delta": -654,
+      "compression_percent": 18.1,
+      "protected_status": "Structural",
+      "audit_focus": "Delayed institutional validation, not simple suppression ('They delayed it to test it')"
+    },
+    {
+      "scene_number": 4,
+      "id": "ca209ef9-e5bc-5517-8987-6139ea13a846",
+      "chapter": "The Epistemological Wall",
+      "title": "[Scene 2: Arrival and the Hidden Node]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4745,
+      "target_words": 3880,
+      "delta": -865,
+      "compression_percent": 18.2,
+      "protected_status": "Structural",
+      "character_lens": "Sarah Hayes: Systems / Safety / Data Integrity Authority"
+    },
+    {
+      "scene_number": 5,
+      "id": "21c57800-c4ac-5883-ac40-70c38dd0c673",
+      "chapter": "Two Clocks",
+      "title": "[Scene 1: Verification and Decimation]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2847,
+      "target_words": 2380,
+      "delta": -467,
+      "compression_percent": 16.4,
+      "protected_status": "Canon"
+    },
+    {
+      "scene_number": 6,
+      "id": "625fd20e-619e-57b9-92ca-67ab3a62fb54",
+      "chapter": "Two Clocks",
+      "title": "[Scene 2: The Second Clock]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2597,
+      "target_words": 2200,
+      "delta": -397,
+      "compression_percent": 15.3,
+      "protected_status": "Canon",
+      "epistemic_boundary": "PTA is a validation domain, not high-resolution fingerprint domain. 0.23c / 9.6y reattributed to Scene 9."
+    },
+    {
+      "scene_number": 7,
+      "id": "34fdc60b-0382-5797-ada8-bee911f1d0a6",
+      "chapter": "Two Clocks",
+      "title": "[Scene 3: The Third Clock and Decomposition]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3749,
+      "target_words": 3080,
+      "delta": -669,
+      "compression_percent": 17.8,
+      "protected_status": "Structural",
+      "protected_failure_assets": [
+        "SOLUTION NOT IDENTIFIABLE UNDER CURRENT PARAMETERIZATION",
+        "The first comparison failed."
+      ]
+    },
+    {
+      "scene_number": 8,
+      "id": "a02f4623-d146-58ad-a297-9dfce8f29035",
+      "chapter": "The Rupture Front",
+      "title": "[Scene 1: Topological Invariants Match]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2867,
+      "target_words": 2420,
+      "delta": -447,
+      "compression_percent": 15.6,
+      "protected_status": "Canon",
+      "protected_assets": [
+        "It is data consistent with winding.",
+        "It was not a true continuum line integral. It was a finite-sampling proxy."
+      ]
+    },
+    {
+      "scene_number": 9,
+      "id": "dd878a38-c82a-508a-9ce5-93c82a764b8c",
+      "chapter": "The Rupture Front",
+      "title": "[Scene 2: The Calculus of Rupture]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4202,
+      "target_words": 3450,
+      "delta": -752,
+      "compression_percent": 17.9,
+      "protected_status": "Canon",
+      "protected_assets": [
+        "MODEL-INFERRED NONLINEAR BRANCH",
+        "IF INWARD-PROPAGATING BRANCH MODEL IS CORRECT",
+        "MODEL-PROJECTED EARTH INTERCEPT",
+        "~0.23c nonlinear-branch pattern speed (Model-Derived)",
+        "~9.6-year model-projected Earth intercept (Conditional Projection)"
+      ]
+    },
+    {
+      "scene_number": 10,
+      "id": "74633433-4c73-5fa9-a7b5-335d7dc13482",
+      "chapter": "The Rupture Front",
+      "title": "[Scene 3: The Causal Limit]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2962,
+      "target_words": 2480,
+      "delta": -482,
+      "compression_percent": 16.3,
+      "protected_status": "Canon",
+      "protected_assets": [
+        "Which arrow have you measured?",
+        "Direction of causation: unknown.",
+        "Measured arrow: R -> O (arriving photons & astrometry) + PTA timing residual",
+        "Unmeasured arrows: G -> R, R -> G, X -> G, X -> R"
+      ]
+    }
+  ],
+  "chapter_gates": [
+    {
+      "chapter": "Chapter 1: Atmospheric Exile",
+      "verdict": "PASS — KEEP_COMPRESS",
+      "notes": "PASS — candidate residual survives external reduction and prospective epochs; tested conventional systematics weakened but not exhausted."
+    },
+    {
+      "chapter": "Chapter 2: The Epistemological Wall",
+      "verdict": "PASS — KEEP_REFRAME_COMPRESS",
+      "notes": "PASS — Sarah Hayes preserves frozen PTA inputs; delayed institutional validation, not simple suppression."
+    },
+    {
+      "chapter": "Chapter 3: Two Clocks",
+      "verdict": "PASS — PROTECTED FAILURE RECORD",
+      "notes": "PASS — Astrometry, PTA, Geneva machine clock. Initial waveform match failed; underidentified solve preserved."
+    },
+    {
+      "chapter": "Chapter 4: The Rupture Front",
+      "verdict": "PASS — CLAIM REATTRIBUTION REQUIRED",
+      "notes": "PASS — Circulation proxy and winding-like index; ~0.23c and ~9.6y conditional on preferred inward branch; measured arrow is R -> O only."
+    }
+  ]
+}

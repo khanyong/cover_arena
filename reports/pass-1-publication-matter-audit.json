@@ -1,0 +1,103 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_FRONTMATTER_APPENDIX_001",
+    "id": "588f10d0-7093-4f29-837d-5faf7d14609e",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "PUBLICATION MATTER: FRONT MATTER, EPIGRAPH & APPENDICES",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "e5799d458ae02d5ee768fca469f3f15d8794b1b7776e3663c081ad8024a81916"
+  },
+  "metrics": {
+    "source_units_count": 7,
+    "logical_publication_blocks_count": 9,
+    "text_mutation": 0,
+    "structure_mutation": 0
+  },
+  "publication_blocks": [
+    {
+      "number": 1,
+      "name": "Front Cover",
+      "source_path": "act-1/ch-2/sc-1",
+      "action": "KEEP_REFRAME_CLAIMS",
+      "status": "PUBLICATION_METADATA_ALIGNED",
+      "guidelines": "Genre label: A HARD SCIENCE-FICTION NOVEL; Research origin: Developed from speculative framework of Mechanics of Spatial Vibration I-V; Literary tagline: A NOVEL OF TOPOLOGY, MEMORY, AND THE FRACTURE OF REALITY (literary tagline, not scientific claim); Author name Kwang Yong Yoo protected."
+    },
+    {
+      "number": 2,
+      "name": "Half-title / Title Page",
+      "source_path": "act-1/ch-1/sc-1",
+      "action": "KEEP_NORMALIZE_METADATA",
+      "status": "METADATA_NORMALIZED",
+      "guidelines": "Normalize title and subtitle; associate research origin note clearly separating speculative framework from fictional engineering."
+    },
+    {
+      "number": 3,
+      "name": "Copyright Page",
+      "source_path": "act-1/ch-2/sc-2",
+      "action": "KEEP_PRODUCTION_CLEANUP",
+      "status": "PRODUCTION_CLEANUP_ALIGNED",
+      "guidelines": "Mark 'Printed manuscript copy' as production-only scaffolding; exclude author name Kwang Yong Yoo / 유광용 from character name canonization."
+    },
+    {
+      "number": 4,
+      "name": "Table of Contents",
+      "source_path": "nested/generated",
+      "action": "REGENERATE_AFTER_PASS2",
+      "status": "STALE_UNTIL_PASS9_LAYOUT",
+      "guidelines": "Strip internal bracketed scene scaffolding and UUIDs in reader export; page numbers dynamically regenerate in Pass 9."
+    },
+    {
+      "number": 5,
+      "name": "Prologue Epigraph",
+      "source_path": "act-2/ch-1/sc-3",
+      "action": "KEEP_PROTECTED_EPIGRAPH",
+      "status": "EXACT_TEXT_PROTECTED",
+      "guidelines": "“Science is ruthless with obsolete theories...” Authorial/fictional epigraph. Exact text preserved."
+    },
+    {
+      "number": 6,
+      "name": "Appendix A: In-Universe Working Terminology",
+      "source_path": "act-9/ch-1/sc-1",
+      "action": "REWRITE_EPISTEMIC_GLOSSARY",
+      "status": "EPISTEMIC_GLOSSARY_CLASSIFIED",
+      "guidelines": "Rename to In-Universe Working Terminology; add scope note; assign epistemic statuses (Tensor Fluid, Cosmic Shear, Matched Singularity Cancellation); neutralize Epsilon; remove or future-label Comoving Metric Neighborhood; strip Standing Wave Node of gravity nullification claims; add Book 1 established terms."
+    },
+    {
+      "number": 7,
+      "name": "Appendix B: Selected Source-Model Equations and Fictional Control Relations",
+      "source_path": "act-9/ch-2/sc-1",
+      "action": "REWRITE_EQUATION_INTEGRITY",
+      "status": "EQUATION_INTEGRITY_VERIFIED",
+      "guidelines": "Rename; remove q0+c0->0; retain finite residual q0+c0; define probability density continuity (rho=R^2, v=grad S / m); fix h to hbar; separate Bianchi identity from phenomenological stress-energy conservation."
+    },
+    {
+      "number": 8,
+      "name": "Appendix C: Research Origins and References",
+      "source_path": "act-9/ch-3/sc-1",
+      "action": "VERIFY_AND_REWRITE_REFERENCES",
+      "status": "DOI_AND_SCOPE_VERIFIED",
+      "guidelines": "Categorize Zenodo concept DOIs vs version DOIs; add scope note separating theoretical framework from novel fiction; demarcate Paper IV (hadronic knots) and Paper V (cuprate GL analogy, not magnet authority)."
+    },
+    {
+      "number": 9,
+      "name": "Back Cover Copy",
+      "source_path": "nested/after_appendix_c",
+      "action": "REWRITE_MARKETING_CLAIMS",
+      "status": "MARKETING_COPY_ALIGNED",
+      "guidelines": "Adopt verified copy: 'When space begins to remember, reality becomes the equation... Human intervention can change part of reality’s local response. The next question is no longer only what is true. It is who gets to choose the boundary.'"
+    }
+  ],
+  "registered_debts": [
+    "EPISTEMIC_DEBT_APPENDIX_GLOSSARY_001",
+    "EQUATION_INTEGRITY_DEBT_APPENDIX_001",
+    "REFERENCE_INTEGRITY_DEBT_APPENDIX_001",
+    "PAPER_SCOPE_DEBT_APPENDIX_V_001",
+    "PRODUCTION_DEBT_BROKEN_GLYPHS_001",
+    "PUBLICATION_DEBT_TOC_SCENE_LABELS_001",
+    "MARKETING_CLAIM_DEBT_BACK_COVER_001",
+    "PRODUCTION_DEBT_COPYRIGHT_001",
+    "PUBLICATION_DECISION_ACT0_LABEL_001"
+  ]
+}

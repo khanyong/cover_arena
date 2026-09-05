@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { NovelDetails, getParagraphText } from './novelData';
+import { NovelDetails, getParagraphText, getSceneTitle } from './novelData';
 
 interface NovelMosaicMixerProps {
   novel: NovelDetails;
@@ -31,6 +31,10 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
           fullText += `${ch.synopsis}\n\n`;
         }
         for (const scene of ch.scenes || []) {
+          const sceneTitle = getSceneTitle(scene, customVersionMap);
+          if (sceneTitle) {
+            fullText += `### ${sceneTitle}\n\n`;
+          }
           for (const p of scene.paragraphs || []) {
             const versionKey = customVersionMap[p.id] || p.activeVersion;
             const pText = getParagraphText(p, versionKey);
@@ -71,6 +75,10 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
         actText += `${ch.synopsis}\n\n`;
       }
       for (const scene of ch.scenes || []) {
+        const sceneTitle = getSceneTitle(scene, customVersionMap);
+        if (sceneTitle) {
+          actText += `### ${sceneTitle}\n\n`;
+        }
         for (const p of scene.paragraphs || []) {
           const versionKey = customVersionMap[p.id] || p.activeVersion;
           const pText = getParagraphText(p, versionKey);
@@ -185,13 +193,26 @@ export const NovelMosaicMixer: React.FC<NovelMosaicMixerProps> = ({
                     })()}
                   </span>
                 </h4>
-                {(ch.scenes || []).flatMap(s => s.paragraphs || []).map(p => {
-                  const verKey = customVersionMap[p.id] || p.activeVersion;
-                  const text = getParagraphText(p, verKey);
+                {(ch.scenes || []).map(scene => {
+                  const sTitle = getSceneTitle(scene, customVersionMap);
                   return (
-                    <p key={p.id} className="text-zinc-100 text-sm leading-relaxed whitespace-pre-wrap pl-2 border-l-2 border-amber-500/30">
-                      {text}
-                    </p>
+                    <div key={scene.id} className="space-y-3 pt-2">
+                      {sTitle && (
+                        <h5 className="text-xs font-bold text-amber-400 flex items-center gap-1.5 pt-2 pb-1 border-t border-zinc-800/80">
+                          <span className="text-[10px] text-zinc-500 font-mono">SCENE</span>
+                          {sTitle}
+                        </h5>
+                      )}
+                      {(scene.paragraphs || []).map(p => {
+                        const verKey = customVersionMap[p.id] || p.activeVersion;
+                        const text = getParagraphText(p, verKey);
+                        return (
+                          <p key={p.id} className="text-zinc-100 text-sm leading-relaxed whitespace-pre-wrap pl-2 border-l-2 border-amber-500/30">
+                            {text}
+                          </p>
+                        );
+                      })}
+                    </div>
                   );
                 })}
               </div>

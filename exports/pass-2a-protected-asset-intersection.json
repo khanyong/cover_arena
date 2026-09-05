@@ -1,0 +1,292 @@
+{
+  "affected_paragraphs_count": 35,
+  "type_a_count": 35,
+  "type_b_count": 0,
+  "type_c_count": 0,
+  "protected_asset_conflicts_unresolved": 0,
+  "conflicts": [],
+  "affected_paragraphs": [
+    {
+      "unit_id": "0963637f-82b9-564d-af01-8a2413b42188",
+      "pv_id": "fe126543-3a6d-514e-8e98-ffe591f298ed",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Was Mr. Kim working with a foreign intelligence service?\"..."
+    },
+    {
+      "unit_id": "0ec00f2e-3e21-5c58-8347-f6a1b99adddb",
+      "pv_id": "2c82c6b7-0da8-5e4e-a203-f13b82ef98d6",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"A written document was recovered among Mr. Kim's personal effects.\"..."
+    },
+    {
+      "unit_id": "198f3ef8-340c-5598-8366-add66746f75d",
+      "pv_id": "f7b1a914-448c-5061-a016-8e7a0e189985",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Based on currently available evidence, investigators have found no indication of third-party involv..."
+    },
+    {
+      "unit_id": "1bb807fb-c47b-5893-8ca0-cda9cb93e27f",
+      "pv_id": "d319087b-8e12-573c-b4d1-00ad9631993b",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Following the Helios incident and the recovery of additional evidence, Mr. Kim's status was elevate..."
+    },
+    {
+      "unit_id": "26576680-6264-5271-a044-d8b6da6558cd",
+      "pv_id": "2fe0c8ee-fecc-520f-82f9-6d13e6a23414",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"The circumstances of Mr. Kim's death are being investigated separately by the Seoul Metropolitan Po..."
+    },
+    {
+      "unit_id": "27dc84c9-f1d1-56f6-b68f-bddce3e17e0b",
+      "pv_id": "214cb516-e43f-538c-a368-eaa186c6ed11",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "At 16:09, the government stopped calling Kim Ji-man a material witness...."
+    },
+    {
+      "unit_id": "2a93eeb4-0e12-5301-bac2-e163403a2a72",
+      "pv_id": "2dcd490b-9c4d-5cf2-8d45-326bd89ea596",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "\"Was Kim Ji-man suspected of planning sabotage before 14:17 yesterday?\"..."
+    },
+    {
+      "unit_id": "2c4a2b59-8a85-5725-9c54-54473e740356",
+      "pv_id": "a4dc1b2a-e689-5490-85ee-c3220d38e2f1",
+      "changes": [
+        "Kim Ji-man (1x)",
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Mr. Kim Ji-man, forty-eight, a structural engineering consultant associated with the Helios review ..."
+    },
+    {
+      "unit_id": "2d84474b-bdb2-50fc-b636-316f9f91c888",
+      "pv_id": "19fb5218-2fb2-518d-9594-6ac2b9392a01",
+      "changes": [
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"Mrs. Yoo, we need you and your son available for follow-up interviews tomorrow.\"..."
+    },
+    {
+      "unit_id": "3fd13b62-f2e9-5248-a5e1-ff361c07449c",
+      "pv_id": "90ac3322-6086-53af-b984-7866029d329c",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Mr. Kim was pronounced deceased at 15:47.\"..."
+    },
+    {
+      "unit_id": "43a634f0-d397-5421-b51a-4df52bfb0b79",
+      "pv_id": "3eb163a2-4dcf-5b0e-97dd-8d6cf1797e87",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "\"Are you saying Kim Ji-man was involved in the bombing?\"..."
+    },
+    {
+      "unit_id": "4a94fdeb-89da-5583-b2ce-329d494b4ef7",
+      "pv_id": "5e25546f-2add-562e-9666-c0730f825afb",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"That is privileged pending clarification of Mr. Kim's custody status.\"..."
+    },
+    {
+      "unit_id": "4b26b3d9-96b3-553f-a5ce-8c6f76f180c4",
+      "pv_id": "af036e34-228f-5676-8285-e7496b3d55a7",
+      "changes": [
+        "KIM JI-MAN (1x)"
+      ],
+      "sample_text": "URN BARCODE SCAN — KIM JI-MAN..."
+    },
+    {
+      "unit_id": "4d19c9d9-6d78-5379-945e-e95914590eb6",
+      "pv_id": "ba536ced-6a46-5568-b149-8e83441aaee2",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"At approximately 15:22 this afternoon, Mr. Kim was found unresponsive at a secure medical evaluatio..."
+    },
+    {
+      "unit_id": "53d68d6b-53fb-5c97-bbc6-279c48dfede7",
+      "pv_id": "eca45643-749a-50b7-b3ce-0332641dc110",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"There has been a development concerning Mr. Kim.\"..."
+    },
+    {
+      "unit_id": "56467651-f4e5-5b16-9a64-d88fc93e1160",
+      "pv_id": "4a412ae4-2542-5741-912a-720f365b892b",
+      "changes": [
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"Mrs. Yoo, I strongly recommend that you and your son remain reachable.\"..."
+    },
+    {
+      "unit_id": "60dff5a8-dd26-503a-be48-55727a9c124d",
+      "pv_id": "600dd038-5a9c-5cdf-8e2e-143ea0d2902b",
+      "changes": [
+        "Yoo Seo-yeon (1x)"
+      ],
+      "sample_text": "Yoo Seo-yeon set the bags on the kitchen counter...."
+    },
+    {
+      "unit_id": "61fb517a-c1e8-5e62-8048-d5a1830d0b79",
+      "pv_id": "14e4b3bd-bf11-5b30-b452-38b3981aa754",
+      "changes": [
+        "KIM JI-MAN (1x)"
+      ],
+      "sample_text": "DECEDENT: KIM JI-MAN..."
+    },
+    {
+      "unit_id": "6dec8fc1-9a03-5927-ac10-021d77b58d04",
+      "pv_id": "607db227-4380-5ffc-b961-eee4ead560a1",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Mr. Kim was not under arrest at the time of initial contact.\"..."
+    },
+    {
+      "unit_id": "7e3ca60a-6c15-5382-a02a-2d1b61fc266d",
+      "pv_id": "a833c843-c744-5ad5-8259-c76dd2b7ab76",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "For the first time since Helios, no one around them knew who Kim Ji-man was...."
+    },
+    {
+      "unit_id": "89658820-267c-50ef-b8c6-84cb33c3d560",
+      "pv_id": "c333ded9-6426-5424-8547-e3eec6c45c1f",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "The document stated that Kim Ji-man was being held as a material witness and person of investigative..."
+    },
+    {
+      "unit_id": "8d730904-4324-5d0c-a60b-3b4c8b5e2243",
+      "pv_id": "49680e26-93d6-5a37-a786-097d2dcabb9a",
+      "changes": [
+        "KIM JI-MAN (1x)"
+      ],
+      "sample_text": "POLICE AUTHENTICATE DOCUMENT RECOVERED FROM KIM JI-MAN..."
+    },
+    {
+      "unit_id": "9143fbba-5e86-5d85-be86-045161f68fa7",
+      "pv_id": "b8fc4973-490b-592f-8128-36b0aadf4a77",
+      "changes": [
+        "Yoo Seo-yeon (1x)"
+      ],
+      "sample_text": "At 06:18 on the sixth morning after they reconstructed the national logistics timeline, Yoo Seo-yeon..."
+    },
+    {
+      "unit_id": "9e5e03c4-d300-5589-a3be-ecafd9e5cf53",
+      "pv_id": "7a9bfe41-46b1-51cc-8b59-a1d8b22fd6de",
+      "changes": [
+        "Yoo Seo-yeon (1x)",
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"Mrs. Yoo Seo-yeon?\"..."
+    },
+    {
+      "unit_id": "a05a8973-c29c-5a25-aa27-1a0361cdd93f",
+      "pv_id": "8840a186-6eba-5fb5-9b14-ed281cc92de7",
+      "changes": [
+        "Yoo Seo-yeon (1x)"
+      ],
+      "sample_text": "At 08:07 the next morning, Yoo Seo-yeon placed three documents side by side on the hotel conference ..."
+    },
+    {
+      "unit_id": "a4f1b019-a700-53be-9aac-13da05f88d9e",
+      "pv_id": "8958d9de-03a3-564a-add0-bde2dc7d1fe9",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Mr. Kim was under controlled movement restrictions.\"..."
+    },
+    {
+      "unit_id": "a970bc3e-26c6-5515-b348-7ca4ffdd6925",
+      "pv_id": "979b8023-b3f2-5303-9da1-71c214a5b1d0",
+      "changes": [
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"We have an order to interview Mrs. Yoo and secure digital devices relevant to the Helios investigat..."
+    },
+    {
+      "unit_id": "b3344cc1-e57d-5d06-b49f-e50756d36c0b",
+      "pv_id": "af7040e9-cd32-5835-bcee-6760c1d90936",
+      "changes": [
+        "Mr. Kim (1x)"
+      ],
+      "sample_text": "\"Investigators recovered encrypted files associated with Mr. Kim's professional accounts containing ..."
+    },
+    {
+      "unit_id": "ba65200b-1848-57a4-acfa-6ea9c043fb17",
+      "pv_id": "a102ecfa-a4ec-5fc4-a706-6f3fbc0f1cc5",
+      "changes": [
+        "KIM JI-MAN (1x)"
+      ],
+      "sample_text": "KIM JI-MAN LEFT NOTE ADMITTING \"IRREPARABLE MISTAKE\" BEFORE SUICIDE..."
+    },
+    {
+      "unit_id": "bd32fc4f-5bbf-58a1-86b3-4fdd16149dfc",
+      "pv_id": "51de259b-c5a4-592f-b2be-f06a9153a311",
+      "changes": [
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"Mrs. Yoo, given the ongoing national-security investigation, leaving the country at this stage may ..."
+    },
+    {
+      "unit_id": "c54655c2-aba3-57d0-b8f6-17ff17e848f6",
+      "pv_id": "4d44c23e-16ee-542a-af68-0acf65fed841",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "Kim Ji-man had brought home a roll of structural drawings from the office because a design review ha..."
+    },
+    {
+      "unit_id": "c7449dd1-a54d-5ab4-8b37-a649813d4f35",
+      "pv_id": "a7e398f2-6b9e-5a0a-a4bf-fe994f37005d",
+      "changes": [
+        "Kim Ji-man (1x)"
+      ],
+      "sample_text": "\"Kim Ji-man's spouse.\"..."
+    },
+    {
+      "unit_id": "f1482416-73d9-549d-9b95-9d3f1f841de0",
+      "pv_id": "14a8ea01-349a-5566-83e8-776634869e1f",
+      "changes": [
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"Mrs. Yoo, we need your cooperation.\"..."
+    },
+    {
+      "unit_id": "f2cf438e-2d22-5ba5-b638-1b48362469e0",
+      "pv_id": "21f5b9f2-1bac-5fa7-8dd4-ffdfaed7828f",
+      "changes": [
+        "Yoo Seo-yeon (1x)"
+      ],
+      "sample_text": "\"Yes. Yoo Seo-yeon.\"..."
+    },
+    {
+      "unit_id": "f466506b-00a2-5145-9057-242ac6c1a3e2",
+      "pv_id": "4e9f4439-d4b5-5f4c-973b-0ab91a4692f0",
+      "changes": [
+        "Mrs. Yoo (1x)"
+      ],
+      "sample_text": "\"Mrs. Yoo, I'm very sorry for your loss.\"..."
+    }
+  ]
+}

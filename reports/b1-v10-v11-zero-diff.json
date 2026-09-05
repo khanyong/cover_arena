@@ -1,0 +1,14 @@
+{
+  "verified_at": "2026-09-03T05:50:37.681842+00:00",
+  "is_identical": true,
+  "text_mutation": 0,
+  "mismatched_rows": 0,
+  "only_in_working": 0,
+  "difference_count": 0,
+  "only_in_baseline": 0,
+  "working_snapshot": "B1_v1.1_STRUCT_DRAFT",
+  "baseline_snapshot": "B1_v1.0_LOCKED",
+  "structure_mutation": 0,
+  "working_total_rows": 45647,
+  "baseline_total_rows": 45647
+}

@@ -1,0 +1,94 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_PROLOGUE_001",
+    "id": "7de72ba4-afa8-46a3-99ba-c8e32d1870e9",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "PROLOGUE",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "94512fa1c6b59803b946cbbbeb5f8b7fa8292ae4e604de7a210c71d8a0a83d68"
+  },
+  "metrics": {
+    "baseline_total_words": 10428,
+    "target_total_words": 8780,
+    "total_word_delta": -1648,
+    "total_compression_percent": 15.8,
+    "canonical_scenes_count": 5,
+    "chapter_gates_count": 3
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "55b46292-0335-5fbc-ab9e-baa44d3bea70",
+      "title": "[Scene 1: The Architecture of Consensus]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 1842,
+      "target_words": 1610,
+      "delta": -232,
+      "compression_percent": 12.6,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 2,
+      "id": "d08d2485-7457-522e-b928-e4067b535080",
+      "title": "[Scene 1: The Accumulating Residual]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2104,
+      "target_words": 1788,
+      "delta": -316,
+      "compression_percent": 15.0,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 3,
+      "id": "ac0e469c-713c-536d-a29c-2ca833aad7d1",
+      "title": "[Scene 2: Local Execution]",
+      "action": "KEEP_COMPRESS_PROTECTED",
+      "baseline_words": 3118,
+      "target_words": 2650,
+      "delta": -468,
+      "compression_percent": 15.0,
+      "protected_status": "Canon"
+    },
+    {
+      "scene_number": 4,
+      "id": "7f4ea026-c161-5929-884e-aa03c9a2fa53",
+      "title": "[Scene 1: The Official Record]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 1682,
+      "target_words": 1387,
+      "delta": -295,
+      "compression_percent": 17.5,
+      "protected_status": "Structural"
+    },
+    {
+      "scene_number": 5,
+      "id": "a91813d6-bc60-56b8-86d7-114fee4c761e",
+      "title": "[Scene 2: Exile and the Geometric Boundary]",
+      "action": "KEEP_REFRAME_COMPRESS",
+      "baseline_words": 1682,
+      "target_words": 1345,
+      "delta": -337,
+      "compression_percent": 20.0,
+      "protected_status": "Structural"
+    }
+  ],
+  "chapter_gates": [
+    {
+      "chapter": "Chapter 1: The Cathedral in the Molasse",
+      "verdict": "PASS",
+      "notes": "PASS — compression required (10~15% compression required on organizational and theoretical repetition)."
+    },
+    {
+      "chapter": "Chapter 2: The Feedback and the Quench",
+      "verdict": "PASS",
+      "notes": "PASS — protected scientific and engineering core (Paper I physics and 5-tier authority envelope protected)."
+    },
+    {
+      "chapter": "Chapter 3: The Interpretive Monopoly",
+      "verdict": "PASS",
+      "notes": "PASS — substantial repetition compression required (18~22% reduction on administrative lists and infrastructure details)."
+    }
+  ]
+}

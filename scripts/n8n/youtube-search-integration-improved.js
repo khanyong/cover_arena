@@ -1,11 +1,14 @@
 // === YouTube 검색 통합 노드 (개선된 버전) ===
 
-// API 키 관리 (환경변수에서 가져오기를 권장하지만, n8n에서는 직접 설정)
+// Server-side n8n environment only; never paste an API key into this file.
 const YOUTUBE_API_KEYS = {
-  KEY_1: 'AIzaSyB-lpxpfzGhjpw3_qB1QU-wgR4pS3Uu8tQ'  // 실제 API 키로 변경
+  KEY_1: typeof $env === 'undefined' ? undefined : $env.YOUTUBE_API_KEY
 };
 
 try {
+  if (typeof YOUTUBE_API_KEYS.KEY_1 !== 'string' || !YOUTUBE_API_KEYS.KEY_1.trim()) {
+    throw new Error('YOUTUBE_API_KEY is not configured for this n8n runtime.');
+  }
   console.log('=== YouTube 검색 통합 시작 (개선된 버전) ===');
   console.log('Input items:', items.length);
   

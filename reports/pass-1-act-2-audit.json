@@ -1,0 +1,200 @@
+{
+  "audit_run": {
+    "code": "B1_PASS1_ACT2_001",
+    "id": "3126fd4b-995a-46e1-8bbe-5191c82dd2d9",
+    "status": "locked",
+    "pass_number": 1,
+    "scope": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "source_snapshot": "B1_v1.0_LOCKED",
+    "target_snapshot": "B1_v1.1_STRUCT_DRAFT",
+    "audit_hash": "65d5183465999226bdb95f1ad41fa3091857e0b9739db5f9463c0b8b65b52c2c"
+  },
+  "amendment_run_a01": {
+    "code": "B1_PASS1_ACT2_001_A01",
+    "id": "d9d8602c-714b-40a5-9e55-6dd6ed3283b1",
+    "parent_audit": "B1_PASS1_ACT2_001",
+    "status": "locked",
+    "audit_hash": "11386efdb0c02a52463a08246d00215a014d8ba21b5cec399f79935170cc0ab6",
+    "amendment_reason": "Remove HFT/arbitrage framing, replace vacuum tunnel with 1km SMF-28 fiber, remove 14.8 ps erroneous collision, reassign Test 42 to 1999.6kg tungsten support load (19.61 kN -> <=0.08 kN), register Test 14 prediction debt (11-14% vs 141 ps), controlled quench, ordinary inertial response with 1 kJ damper dissipation, twelve nodes as architecture hypothesis only."
+  },
+  "series_debts": [
+    "SCIENCE_DEBT_ACT2_TEST14_PREDICTION_001",
+    "EPISTEMIC_DEBT_ACT2_PHASE_FOLD_ONTOLOGY_001",
+    "FUTURE_CAPABILITY_DEBT_ACT2_TWELVE_NODES_001",
+    "AUDIT_SOURCE_INTEGRITY_ACT2_001"
+  ],
+  "metrics": {
+    "baseline_total_words": 38651,
+    "target_total_words": 32150,
+    "total_word_delta": -6501,
+    "total_compression_percent": 16.8,
+    "target_tolerance_percent": 5.0,
+    "review_word_range": "30500-33000",
+    "canonical_scenes_count": 10,
+    "chapter_gates_count": 4,
+    "text_mutation": 0,
+    "structure_mutation": 0
+  },
+  "cumulative_pacing": {
+    "prologue_target": 8780,
+    "act0_target": 24630,
+    "act1_target": 27910,
+    "act2_target": 32150,
+    "cumulative_target_words": 93470,
+    "percent_of_180k_novel": "51.9%"
+  },
+  "scenes": [
+    {
+      "scene_number": 1,
+      "id": "a5e4bb6e-b810-5e9d-aac3-2f142996253a",
+      "chapter": "Chapter 1: The Predator of Logistics",
+      "title": "[Scene 1: The Man Who Owns Delay]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4500,
+      "target_words": 3750,
+      "delta": -750,
+      "compression_percent": 16.7,
+      "protected_status": "Structural",
+      "focus": "Supply chain map and industrial capacity reservation; three latencies (physics, control, industrial); reversible loss vs irreversible delay."
+    },
+    {
+      "scene_number": 2,
+      "id": "f53d41ed-51ad-5d2e-b76c-f7e6d7aff1a7",
+      "chapter": "Chapter 1: The Predator of Logistics",
+      "title": "[Scene 2: Apocalypse and Latency]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3194,
+      "target_words": 2680,
+      "delta": -514,
+      "compression_percent": 16.1,
+      "protected_status": "Canon",
+      "focus": "Reversible manufacturing option reservation; no twelve-node construction contract."
+    },
+    {
+      "scene_number": 3,
+      "id": "73a67014-cd4a-5b6b-a04d-b871dd914f24",
+      "chapter": "Chapter 2: The Optical Delay Line",
+      "title": "[Scene 1: The Sealed Kilometer]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3410,
+      "target_words": 2850,
+      "delta": -560,
+      "compression_percent": 16.4,
+      "protected_status": "Structural",
+      "focus": "Sealed, thermally controlled 1 km commercial SMF-28 optical fiber system wound on mandrel; independent optical bench and timing chains."
+    },
+    {
+      "scene_number": 4,
+      "id": "61c8f2ab-e98a-5179-9de3-106312c64c3e",
+      "chapter": "Chapter 2: The Optical Delay Line",
+      "title": "[Scene 2: The Phase Fold]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 2722,
+      "target_words": 2320,
+      "delta": -402,
+      "compression_percent": 14.8,
+      "protected_status": "Canon",
+      "focus": "Reversible field-correlated delay reduction (~60 ps validated, ~12.3 mm equivalent optical length); no physical contraction or superluminal claims."
+    },
+    {
+      "scene_number": 5,
+      "id": "984b038a-3d0a-525b-afb5-1e90d948beab",
+      "chapter": "Chapter 3: Math vs Metal",
+      "title": "[Scene 1: Test Fourteen]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4245,
+      "target_words": 3500,
+      "delta": -745,
+      "compression_percent": 17.5,
+      "protected_status": "Canon",
+      "focus": "Frozen quantitative prediction (11-14% increase) vs ~141 ps observed (~19.5%); controlled quench with localized conductor damage (SCIENCE_DEBT_ACT2_TEST14_PREDICTION_001)."
+    },
+    {
+      "scene_number": 6,
+      "id": "f69327d2-29d5-5118-aa1a-32ceac117618",
+      "chapter": "Chapter 3: Math vs Metal",
+      "title": "[Scene 2: The Current-Sharing Boundary]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3796,
+      "target_words": 3180,
+      "delta": -616,
+      "compression_percent": 16.2,
+      "protected_status": "Structural",
+      "focus": "Current-sharing boundary (전류 분배 한계) in superconducting architecture; Mark II CICC redesign."
+    },
+    {
+      "scene_number": 7,
+      "id": "ab3816ac-7ba0-5dc7-a779-26ddf714fb0e",
+      "chapter": "Chapter 3: Math vs Metal",
+      "title": "[Scene 3: Test Forty-Two]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4277,
+      "target_words": 3520,
+      "delta": -757,
+      "compression_percent": 17.7,
+      "protected_status": "Canon",
+      "focus": "Support-load reduction for 1999.6 kg tungsten test mass (19.61 kN baseline to <=0.08 kN); 14.8 ps removed; no direct gravitational mass claims."
+    },
+    {
+      "scene_number": 8,
+      "id": "dbd87850-5f27-5640-89d9-27d2f2115fd2",
+      "chapter": "Chapter 4: Inertial Resistance",
+      "title": "[Scene 1: The Weightless Block]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 3143,
+      "target_words": 2650,
+      "delta": -493,
+      "compression_percent": 15.7,
+      "protected_status": "Canon",
+      "focus": "Support-decoupled mass: ordinary inertial response (F/a ≈ 2000 kg) maintained despite >99% support-load reduction; no equivalence-principle violation."
+    },
+    {
+      "scene_number": 9,
+      "id": "8a430f33-e32a-57b4-a1dc-9f4da25a5fcb",
+      "chapter": "Chapter 4: Inertial Resistance",
+      "title": "[Scene 2: The Mass That Remained]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4429,
+      "target_words": 3650,
+      "delta": -779,
+      "compression_percent": 17.6,
+      "protected_status": "Canon",
+      "focus": "Controlled boundary exit; ~1 kJ mechanical dissipation through hydraulic/crush cradle; no unresolved energy/momentum discontinuity."
+    },
+    {
+      "scene_number": 10,
+      "id": "629127c5-400f-57ba-8bd8-d9463ae1255f",
+      "chapter": "Chapter 4: Inertial Resistance",
+      "title": "[Scene 3: Twelve Nodes]",
+      "action": "KEEP_COMPRESS",
+      "baseline_words": 4935,
+      "target_words": 4050,
+      "delta": -885,
+      "compression_percent": 17.9,
+      "protected_status": "Canon",
+      "focus": "Twelve nodes as architecture hypothesis only (12 = engineering minimum for study); physical G-DCL commissioning is Act 4 (FUTURE_CAPABILITY_DEBT_ACT2_TWELVE_NODES_001)."
+    }
+  ],
+  "chapter_gates": [
+    {
+      "chapter": "Chapter 1: The Predator of Logistics",
+      "verdict": "PASS — KEEP_COMPRESS",
+      "notes": "PASS — Reversible manufacturing capacity reservation; physics latency vs control latency vs industrial latency."
+    },
+    {
+      "chapter": "Chapter 2: The Optical Delay Line",
+      "verdict": "PASS — CLAIM-STRENGTH CORRECTION REQUIRED",
+      "notes": "PASS — 1 km SMF-28 fiber system; ~60 ps validated delay reduction; no literal contraction or metric modification claims."
+    },
+    {
+      "chapter": "Chapter 3: Math vs Metal",
+      "verdict": "PASS — PROTECTED FAILURE / PREDICTION DEBT",
+      "notes": "PASS — Test 14 prediction debt registered; controlled quench with localized conductor damage; Test 42 1999.6 kg support load reduction."
+    },
+    {
+      "chapter": "Chapter 4: Inertial Resistance",
+      "verdict": "PASS — FUTURE-CAPABILITY BOUNDARY PROTECTED",
+      "notes": "PASS — Ordinary inertial response maintained; 1 kJ cradle dissipation; twelve nodes as study hypothesis only."
+    }
+  ]
+}

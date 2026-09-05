@@ -2,10 +2,13 @@
 // 이 버전은 n8n의 Loop 노드와 함께 사용하여 실제 페이지네이션을 구현합니다
 
 const YOUTUBE_API_KEYS = {
-  KEY_1: 'AIzaSyB-lpxpfzGhjpw3_qB1QU-wgR4pS3Uu8tQ'  // 실제 API 키로 변경
+  KEY_1: typeof $env === 'undefined' ? undefined : $env.YOUTUBE_API_KEY
 };
 
 try {
+  if (typeof YOUTUBE_API_KEYS.KEY_1 !== 'string' || !YOUTUBE_API_KEYS.KEY_1.trim()) {
+    throw new Error('YOUTUBE_API_KEY is not configured for this n8n runtime.');
+  }
   console.log('=== YouTube 검색 (페이지네이션 버전) ===');
   
   // 입력 데이터 확인

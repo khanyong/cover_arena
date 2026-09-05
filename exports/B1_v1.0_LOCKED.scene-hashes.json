@@ -1,0 +1,592 @@
+{
+  "fdbb38b1-0f2d-55df-834a-d62a7e1e87f7": {
+    "title": "Opening",
+    "source_path": "act-1/ch-1/sc-1",
+    "act": "Unknown Act",
+    "chapter": "Opening Chapter",
+    "paragraph_count": 1,
+    "word_count": 3,
+    "sha256": "ac6ad4ebf9388f9f45a096a8884606dd1261d62984aa88e48d35a85822e7feb4",
+    "md5": "451f87bd49a699d1f70734a5a765c83f"
+  },
+  "1fdc864a-a826-589a-b37b-5509a240edca": {
+    "title": "[Scene 1: Front Cover]",
+    "source_path": "act-1/ch-2/sc-1",
+    "act": "Unknown Act",
+    "chapter": "Chapter 1: The Resonance of Space",
+    "paragraph_count": 5,
+    "word_count": 31,
+    "sha256": "8213f53f8336835c2bc30f274b3788d534878e5d381559a466f8f774c322ddce",
+    "md5": "1fcb8af059597d93808cd3cf32b62541"
+  },
+  "997e900d-80fe-58e5-828d-e79e34a224d4": {
+    "title": "[Scene 2: Copyright]",
+    "source_path": "act-1/ch-2/sc-2",
+    "act": "Unknown Act",
+    "chapter": "Chapter 1: The Resonance of Space",
+    "paragraph_count": 2,
+    "word_count": 12,
+    "sha256": "c0f9d6831f40b35fa49d8fddff625aa0c6013d17f267a7cd2b5ca68d83f90ed3",
+    "md5": "7a7fdf390a724e921c0c84b9114c750f"
+  },
+  "bae8fe68-32e4-5325-85a0-c586e01bb24f": {
+    "title": "Opening",
+    "source_path": "act-2/ch-1/sc-3",
+    "act": "PROLOGUE: THE NODE",
+    "chapter": "Opening Chapter",
+    "paragraph_count": 1,
+    "word_count": 31,
+    "sha256": "3d4cc48ccc069a9e2bd56c4f9062be7d75b86c7c657e916117b9d0222b28ab46",
+    "md5": "a350c133ca7ab414af2fa41d3d53bbe9"
+  },
+  "55b46292-0335-5fbc-ab9e-baa44d3bea70": {
+    "title": "[Scene 1: The Architecture of Consensus]",
+    "source_path": "act-2/ch-2/sc-1",
+    "act": "PROLOGUE: THE NODE",
+    "chapter": "Chapter 1: The Cathedral in the Molasse",
+    "paragraph_count": 87,
+    "word_count": 1267,
+    "sha256": "e18ecbb74206b87923f40efd1627380f8b51ce1aaeed6d9a62d95d7e3af71f38",
+    "md5": "d69554f8ceb497021df38ec35d2a7497"
+  },
+  "d08d2485-7457-522e-b928-e4067b535080": {
+    "title": "[Scene 1: The Accumulating Residual]",
+    "source_path": "act-2/ch-3/sc-1",
+    "act": "PROLOGUE: THE NODE",
+    "chapter": "Chapter 2: The Feedback and the Quench",
+    "paragraph_count": 207,
+    "word_count": 1623,
+    "sha256": "9c824947e431520db34c1dd4698732d590a2962289b25850656213fe3662b363",
+    "md5": "808c0e55803b7cca48f608aa028a9784"
+  },
+  "ac0e469c-713c-536d-a29c-2ca833aad7d1": {
+    "title": "[Scene 2: Local Execution]",
+    "source_path": "act-2/ch-3/sc-2",
+    "act": "PROLOGUE: THE NODE",
+    "chapter": "Chapter 2: The Feedback and the Quench",
+    "paragraph_count": 439,
+    "word_count": 2962,
+    "sha256": "2fd98b7d56bca7f0ebe94a4fdd0fbab3ffa4f819b6758dc2a017cd5336d0c499",
+    "md5": "e677769dc96884fe2e4fe077586119d0"
+  },
+  "7f4ea026-c161-5929-884e-aa03c9a2fa53": {
+    "title": "[Scene 1: The Official Record]",
+    "source_path": "act-2/ch-4/sc-1",
+    "act": "PROLOGUE: THE NODE",
+    "chapter": "Chapter 3: The Interpretive Monopoly",
+    "paragraph_count": 378,
+    "word_count": 2580,
+    "sha256": "4e17ac02cec6bab6635049295e21702aece7057d66ec00e8f1bebcdbf7d550af",
+    "md5": "1ee7ad82cbbe73337b7ad0a2eda8f4fc"
+  },
+  "a91813d6-bc60-56b8-86d7-114fee4c761e": {
+    "title": "[Scene 2: Exile and the Geometric Boundary]",
+    "source_path": "act-2/ch-4/sc-2",
+    "act": "PROLOGUE: THE NODE",
+    "chapter": "Chapter 3: The Interpretive Monopoly",
+    "paragraph_count": 292,
+    "word_count": 2000,
+    "sha256": "b08314fd160bb98f56f510e85acf98ae96b052a91ae657f74c639d091082c66f",
+    "md5": "975a57a892703fd061521090d2c1e53a"
+  },
+  "3c72e09c-e060-5756-8c71-5bde34cfbc54": {
+    "title": "[Scene 1: The Silver Compass]",
+    "source_path": "act-3/ch-1/sc-1",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "제1장: 건축적 결함 (The Architectural Flaw)",
+    "paragraph_count": 404,
+    "word_count": 2589,
+    "sha256": "27f2ec2fcce90e5005c5469a192f1e7bd252acf5187437b4ef83079fe6e9690a",
+    "md5": "434b5fb225091fa697fb555ec995b77a"
+  },
+  "9d37d99c-9471-5a3c-9cd0-edf60c36bb24": {
+    "title": "[Scene 2: The Collapse]",
+    "source_path": "act-3/ch-1/sc-2",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "제1장: 건축적 결함 (The Architectural Flaw)",
+    "paragraph_count": 615,
+    "word_count": 3017,
+    "sha256": "b7a0765565630cba595b49b039aacfcdf860e373e3ed7dfb5485d7a68ebba66a",
+    "md5": "5772d845e3b8b5d953f76aca52b34851"
+  },
+  "9da3ac4e-d7ab-5fae-94d2-5a4713b59b6e": {
+    "title": "[Scene 1: The Raid]",
+    "source_path": "act-3/ch-2/sc-1",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "Chapter 1: The Architectural Flaw",
+    "paragraph_count": 779,
+    "word_count": 3909,
+    "sha256": "b43112b5c8099867f2bc087471d31a9d0c4b364d3bac7efa23191d7f4795c60c",
+    "md5": "6a317b1ccd1d7f8f388e43beb19964b4"
+  },
+  "ba701488-a4da-52c1-9ac8-33f60adccdb9": {
+    "title": "[Scene 2: The Official Verdict]",
+    "source_path": "act-3/ch-2/sc-2",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "Chapter 1: The Architectural Flaw",
+    "paragraph_count": 895,
+    "word_count": 4751,
+    "sha256": "353296b9b7cf1707fff042c4c7b3ed5143bbecec7edefba51ae6118030ff69d8",
+    "md5": "107b5f8466be7968d241b82b55c783fd"
+  },
+  "897cef16-f551-501c-858d-4c74e5add72c": {
+    "title": "[Scene 1: The Thermal Timeline]",
+    "source_path": "act-3/ch-3/sc-1",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "Chapter 2: The Shadow Quarantine",
+    "paragraph_count": 687,
+    "word_count": 3462,
+    "sha256": "abd60a2fc14c468bfa970a826a6ba6bab5ef86b28b96a44f454d68c8e634b60e",
+    "md5": "5fc9f82fc0f09abbd6f19edfbb3c0e94"
+  },
+  "4d4f7754-aff7-5887-ac2f-36ceb02921c8": {
+    "title": "[Scene 2: The Inverted Logistics]",
+    "source_path": "act-3/ch-3/sc-2",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "Chapter 2: The Shadow Quarantine",
+    "paragraph_count": 954,
+    "word_count": 4709,
+    "sha256": "c6a753a8fd34bced501510220d3fceef83f8a80802af85a9eb47ab71e21b1d68",
+    "md5": "f5a4234bd8d661bde9874a9ad0bbfc27"
+  },
+  "63e8557e-16c2-509b-a3f6-067a1aa257bc": {
+    "title": "[Scene 1: Departure Horizon]",
+    "source_path": "act-3/ch-4/sc-1",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "Chapter 4: Escape Velocity",
+    "paragraph_count": 644,
+    "word_count": 3236,
+    "sha256": "dc13af0eb5fbc1d68f7cbc11857ef63429155388097aa63bd652c16acd1fc4b2",
+    "md5": "bf7e5b3224d29ebcf6168c4303ca8e35"
+  },
+  "3d005e08-1f42-521b-be86-b6fb3efe0326": {
+    "title": "[Scene 2: The Absolute Boundary]",
+    "source_path": "act-3/ch-4/sc-2",
+    "act": "제0막: 부서진 변수 (ACT 0: THE BROKEN VARIABLE)",
+    "chapter": "Chapter 4: Escape Velocity",
+    "paragraph_count": 738,
+    "word_count": 3765,
+    "sha256": "106b5c2a446c0669f26a211823fd9cb57e56c30a79051b1eb9e82e8da140cfdf",
+    "md5": "0d96a6909af011705f076f779783ef5d"
+  },
+  "a0e5b198-48d4-5b0c-95aa-1c5f746379d0": {
+    "title": "[Scene 1: The Calculus of Isolation]",
+    "source_path": "act-4/ch-1/sc-1",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 1: Atmospheric Exile",
+    "paragraph_count": 581,
+    "word_count": 3314,
+    "sha256": "eca9514857fd2c4dfd280eb3cb6053a108c2dd2abee27ba38f34577c4be017a6",
+    "md5": "00ea897144bbccc8ff550b3a33e77612"
+  },
+  "981c9fd1-0e36-539b-b48c-078f16870729": {
+    "title": "[Scene 2: The Six-Month Correlation]",
+    "source_path": "act-4/ch-1/sc-2",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 1: Atmospheric Exile",
+    "paragraph_count": 533,
+    "word_count": 2721,
+    "sha256": "c94d9cadd911b2a733fc60aec51db6170b6796b336cd74ba99e4626c9ab457e1",
+    "md5": "261bbca008b930af1ec74f94f9a17d86"
+  },
+  "ae93c354-6b25-5549-a266-51d7cd9da5cd": {
+    "title": "[Scene 1: Bureaucratic Suppression]",
+    "source_path": "act-4/ch-2/sc-1",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 2: The Epistemological Wall",
+    "paragraph_count": 773,
+    "word_count": 3604,
+    "sha256": "8fd065d1379b488fe99fee5724a66557483b90e91c05eb5d2220296231b3fac7",
+    "md5": "6388b8012732378107dae0ac77f53c84"
+  },
+  "ca209ef9-e5bc-5517-8987-6139ea13a846": {
+    "title": "[Scene 2: Arrival and the Hidden Node]",
+    "source_path": "act-4/ch-2/sc-2",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 2: The Epistemological Wall",
+    "paragraph_count": 1036,
+    "word_count": 4745,
+    "sha256": "cc3a0ddce3f0f46030fff8fe15910e00512bd3a6ca397ae2e85112e0e8fe3433",
+    "md5": "74302fb86ff542f34e4ede2773e75acc"
+  },
+  "21c57800-c4ac-5883-ac40-70c38dd0c673": {
+    "title": "[Scene 1: Verification and Decimation]",
+    "source_path": "act-4/ch-3/sc-1",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 3: Two Clocks",
+    "paragraph_count": 605,
+    "word_count": 2847,
+    "sha256": "cd55d8a876ec638663b253caa3a714874bdaa1f4afcf981dff587061a8265dbf",
+    "md5": "98ecf2ea07329b4361e1dcacc53221a3"
+  },
+  "625fd20e-619e-57b9-92ca-67ab3a62fb54": {
+    "title": "[Scene 2: The Second Clock]",
+    "source_path": "act-4/ch-3/sc-2",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 3: Two Clocks",
+    "paragraph_count": 513,
+    "word_count": 2597,
+    "sha256": "ec24d62b9dbab98e87e7bc9b43f89e7d752d03e8184aa6ddb974bce41e53742e",
+    "md5": "174d415f64dfd425932970d49b35c4cf"
+  },
+  "34fdc60b-0382-5797-ada8-bee911f1d0a6": {
+    "title": "[Scene 3: The Third Clock and Decomposition]",
+    "source_path": "act-4/ch-3/sc-3",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 3: Two Clocks",
+    "paragraph_count": 784,
+    "word_count": 3749,
+    "sha256": "3f69c9ce3a79282f93f2e886d134abbce2488c4b8a9c69eb9e04f8eadecd9730",
+    "md5": "beb9267e4f677412576f6f70ed9d8789"
+  },
+  "a02f4623-d146-58ad-a297-9dfce8f29035": {
+    "title": "[Scene 1: Topological Invariants Match]",
+    "source_path": "act-4/ch-4/sc-1",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 4: The Rupture Front",
+    "paragraph_count": 561,
+    "word_count": 2867,
+    "sha256": "a9c75dcc8fda094e462cad4bdc52480f34fb2f905f0c945ab8f70e0b8704fa4f",
+    "md5": "dce3398e804693974743960dd14598b6"
+  },
+  "dd878a38-c82a-508a-9ce5-93c82a764b8c": {
+    "title": "[Scene 2: The Calculus of Rupture]",
+    "source_path": "act-4/ch-4/sc-2",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 4: The Rupture Front",
+    "paragraph_count": 779,
+    "word_count": 4202,
+    "sha256": "c943b4ddbbda37af0274b2b49ad213c879edce6fbf74ff65592258619f844887",
+    "md5": "d42e4627839e4c06f42f48f6f16e6c6c"
+  },
+  "74633433-4c73-5fa9-a7b5-335d7dc13482": {
+    "title": "[Scene 3: The Causal Limit]",
+    "source_path": "act-4/ch-4/sc-3",
+    "act": "ACT 1: THE RETURNING SIGNATURE",
+    "chapter": "Chapter 4: The Rupture Front",
+    "paragraph_count": 594,
+    "word_count": 2962,
+    "sha256": "88bdb1b475e2c1b19f90ce91ee5165ff6bb4cc93d638547a7c0b8981994af942",
+    "md5": "8f9a87cffff3c4004bc1d84180fb107a"
+  },
+  "a5e4bb6e-b810-5e9d-aac3-2f142996253a": {
+    "title": "[Scene 1: The Man Who Owns Delay]",
+    "source_path": "act-5/ch-1/sc-1",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 1: The Predator of Logistics",
+    "paragraph_count": 951,
+    "word_count": 4500,
+    "sha256": "b0f5ea0b0f9c0f6b94c021d0a4f650d3c9f9e5fff781c23eaea6d2d2ce935d54",
+    "md5": "10cba3d07594ab613d0e0fa7c2ea9e57"
+  },
+  "f53d41ed-51ad-5d2e-b76c-f7e6d7aff1a7": {
+    "title": "[Scene 2: Apocalypse and Latency]",
+    "source_path": "act-5/ch-1/sc-2",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 1: The Predator of Logistics",
+    "paragraph_count": 698,
+    "word_count": 3194,
+    "sha256": "586a04184c1a6c71ad8b0212c828bf6681e75acd4a5f62987c81b10f08622575",
+    "md5": "688473d43e5881c8f484615f44fde4c0"
+  },
+  "73a67014-cd4a-5b6b-a04d-b871dd914f24": {
+    "title": "[Scene 1: The Sealed Kilometer]",
+    "source_path": "act-5/ch-2/sc-1",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 2: The Optical Delay Line",
+    "paragraph_count": 725,
+    "word_count": 3410,
+    "sha256": "f442d533e046d452babffdb3073d1a08beace305fb76402314ef3678d08a78d4",
+    "md5": "29e551b5a3164f5e1446de1ca932cea7"
+  },
+  "61c8f2ab-e98a-5179-9de3-106312c64c3e": {
+    "title": "[Scene 2: The Phase Fold]",
+    "source_path": "act-5/ch-2/sc-2",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 2: The Optical Delay Line",
+    "paragraph_count": 573,
+    "word_count": 2722,
+    "sha256": "cf49ba532722802f9746caa01c159d976a7a446fb136b98794e8d1495f1f0062",
+    "md5": "b10c9bbd9a4db2a1d53585f4c450a957"
+  },
+  "984b038a-3d0a-525b-afb5-1e90d948beab": {
+    "title": "[Scene 1: Test Fourteen]",
+    "source_path": "act-5/ch-3/sc-1",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 3: Math vs Metal",
+    "paragraph_count": 931,
+    "word_count": 4245,
+    "sha256": "e2b7a300cd90a3f7b80a31fd51fe997da73b108bfde02b8b50b3903403f01d50",
+    "md5": "941a3b2dd1147e5bfd287e35e61e37e3"
+  },
+  "f69327d2-29d5-5118-aa1a-32ceac117618": {
+    "title": "[Scene 2: The Current-Sharing Boundary]",
+    "source_path": "act-5/ch-3/sc-2",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 3: Math vs Metal",
+    "paragraph_count": 815,
+    "word_count": 3796,
+    "sha256": "0b87fa70160480d751a45bbdaa059fb60fe910ad008aa80adf080231a2c24c53",
+    "md5": "135d9660fd9fa8f3fcba9a3e3c1f52b2"
+  },
+  "ab3816ac-7ba0-5dc7-a779-26ddf714fb0e": {
+    "title": "[Scene 3: Test Forty-Two]",
+    "source_path": "act-5/ch-3/sc-3",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 3: Math vs Metal",
+    "paragraph_count": 942,
+    "word_count": 4277,
+    "sha256": "6fba5a168b897ce03703dc58d04c9f03d12664a075aec206a5e2b9da3507eaa0",
+    "md5": "7b5944bfc03693c57f5348873fd5d476"
+  },
+  "dbd87850-5f27-5640-89d9-27d2f2115fd2": {
+    "title": "[Scene 1: The Weightless Block]",
+    "source_path": "act-5/ch-4/sc-1",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 4: Inertial Resistance",
+    "paragraph_count": 645,
+    "word_count": 3143,
+    "sha256": "e5a05fc85300fae7f3cd457a017e74f77f48c886e55f918405e1614c24137857",
+    "md5": "8fcd95e650f33f97994c6708fe2a7e32"
+  },
+  "8a430f33-e32a-57b4-a1dc-9f4da25a5fcb": {
+    "title": "[Scene 2: The Mass That Remained]",
+    "source_path": "act-5/ch-4/sc-2",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 4: Inertial Resistance",
+    "paragraph_count": 844,
+    "word_count": 4429,
+    "sha256": "7c2b74c0b00da5bd8d1ab96fe1a1e857f7ab2f8a41cfcd73b1818bd8570b99ee",
+    "md5": "db8184ff3eea5633815ccb7d6f4dd9e2"
+  },
+  "629127c5-400f-57ba-8bd8-d9463ae1255f": {
+    "title": "[Scene 3: Twelve Nodes]",
+    "source_path": "act-5/ch-4/sc-3",
+    "act": "ACT 2: THE IMPOSSIBLE INVESTMENT",
+    "chapter": "Chapter 4: Inertial Resistance",
+    "paragraph_count": 1111,
+    "word_count": 4935,
+    "sha256": "b193e218a7664e3da23367b9c3927ca1c7399fec54050b4b7a0fd674e36d4b32",
+    "md5": "154aff22d5b5c72bd2097a547cd055c2"
+  },
+  "3cd61722-ba44-519a-ab74-931c9cd4be48": {
+    "title": "[Scene 1: The Acoustic Void]",
+    "source_path": "act-6/ch-1/sc-1",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 1: The Soaring Sea",
+    "paragraph_count": 1363,
+    "word_count": 6189,
+    "sha256": "d81e51c8da081b287e936c466e95e0121c2c34868dae8f42473f1497461d6033",
+    "md5": "3de949817e17a8d074c778567c35c2cb"
+  },
+  "a2322291-b735-5e33-a216-2d7d7ce34efa": {
+    "title": "[Scene 2: The Water That Fell Upward]",
+    "source_path": "act-6/ch-1/sc-2",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 1: The Soaring Sea",
+    "paragraph_count": 1171,
+    "word_count": 6045,
+    "sha256": "64db8ea42c5b86363166828fd0c8fb122a7fbd39b1245850d097906536ab822e",
+    "md5": "c192363b08b922d9ef40d86ce17c85fe"
+  },
+  "16754633-1e03-53c3-94cf-ebfec4095244": {
+    "title": "[Scene 1: The Rotating Vertical]",
+    "source_path": "act-6/ch-2/sc-1",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 2: Topological Torsion",
+    "paragraph_count": 1455,
+    "word_count": 7126,
+    "sha256": "2f87d82bd72a6b84cffe5b00b384b7c2ce04f20496e5ae26dc5c1881359970b4",
+    "md5": "566fb63f5c8a4b019b3815659a87d927"
+  },
+  "e14e31b9-b61a-5675-a7e7-bea56b657e21": {
+    "title": "[Scene 2: One Hundred Eighty Degrees]",
+    "source_path": "act-6/ch-2/sc-2",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 2: Topological Torsion",
+    "paragraph_count": 1111,
+    "word_count": 5716,
+    "sha256": "f43720c39c9c4241a6dd986c34bacbc9dbe7174f4ba0860b1b3bab5d4e9c427b",
+    "md5": "27744c2e75f0c7a4cf5f6de4c57ef0bd"
+  },
+  "b21394bd-4deb-5709-bdef-68bfe608c0b0": {
+    "title": "[Scene 1: The Missing Millisecond]",
+    "source_path": "act-6/ch-3/sc-1",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 3: Flight 702",
+    "paragraph_count": 1094,
+    "word_count": 5341,
+    "sha256": "a0fc910b1fca9a563bfede0de1017730d3bf7524f39bcfb414d78e58a0fb5598",
+    "md5": "416133d367b644b7709b7832803006f5"
+  },
+  "e19c5aa4-489b-58f4-987c-0d47986fca73": {
+    "title": "[Scene 2: Mont Blanc]",
+    "source_path": "act-6/ch-3/sc-2",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 3: Flight 702",
+    "paragraph_count": 933,
+    "word_count": 4376,
+    "sha256": "a5511a7632dc3b12ab253c27306be18f13d1a0f45ed6f66c3c3bc87271c67f99",
+    "md5": "b73185505646aa2c1ce30505935d60f0"
+  },
+  "0716d7fd-9261-546f-bcef-53d4b734f388": {
+    "title": "[Scene 1: I Don't Know]",
+    "source_path": "act-6/ch-4/sc-1",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 4: The World Listens",
+    "paragraph_count": 1083,
+    "word_count": 5475,
+    "sha256": "6a6e815c8cc31569d2c3df0be182a577d3179740d325f81f4c0e57a7891245be",
+    "md5": "ad3d73c484e5524272fecc7fed8a1cf7"
+  },
+  "d0eff232-cc3f-5e60-980d-5dfe8a993a7f": {
+    "title": "[Scene 2: The Mandate]",
+    "source_path": "act-6/ch-4/sc-2",
+    "act": "ACT 3: WHEN THE SKY LOSES ITS RULES",
+    "chapter": "Chapter 4: The World Listens",
+    "paragraph_count": 1378,
+    "word_count": 5891,
+    "sha256": "713b9bcca9b88043e98dbee8d687328b7c3eecd6171c9f3869f99075fd86d29e",
+    "md5": "f854986f5b4a9dc2f0a879ddb234f3f4"
+  },
+  "49916110-98cb-511f-9c6f-6a9552fe7c17": {
+    "title": "[Scene 1: The Machine They Left Behind]",
+    "source_path": "act-7/ch-1/sc-1",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 1: The Return to Geneva",
+    "paragraph_count": 1492,
+    "word_count": 6460,
+    "sha256": "9e69de9e86607f9d797a0795e8ce325d1b61f4e1cfac27d5a6030869a634ad34",
+    "md5": "2af3b8275fa44866f3ef7afd99b4e53a"
+  },
+  "4059051c-6515-5881-9e38-f50c32f5fd77": {
+    "title": "[Scene 2: Every Node Gets to Disagree]",
+    "source_path": "act-7/ch-1/sc-2",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 1: The Return to Geneva",
+    "paragraph_count": 943,
+    "word_count": 4413,
+    "sha256": "62811019ec03bc8977fa1b1dd0fb722c10eba635760562b94edfd4acd263daf1",
+    "md5": "98dc51ec2b57ace344858ca0148046c2"
+  },
+  "01389b2b-d9fc-5a63-b516-c9c7400ae336": {
+    "title": "[Scene 1: The First Warning]",
+    "source_path": "act-7/ch-2/sc-1",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 2: The Prediction Window",
+    "paragraph_count": 1535,
+    "word_count": 5989,
+    "sha256": "f57d61187695c1f47e7daab30b3309813dbc037ba59dab1f6fb8f44bb8b03ab3",
+    "md5": "dabd9f25461ea2408598ec0baa19a00b"
+  },
+  "2caba919-0064-5339-8b2c-a64213ed3ca8": {
+    "title": "[Scene 2: Twenty-Three Minutes]",
+    "source_path": "act-7/ch-2/sc-2",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 2: The Prediction Window",
+    "paragraph_count": 1071,
+    "word_count": 4519,
+    "sha256": "41dc475ec509aa3ddd514daa83fbc64a8be8e615733417711ce3e5442780d7cd",
+    "md5": "3c6bf8aea4540c265843ad7a58bcafdf"
+  },
+  "c6f9393a-87c8-5a1a-bad3-83e957529282": {
+    "title": "[Scene 1: The Wrong Solution]",
+    "source_path": "act-7/ch-3/sc-1",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 3: Exact Cancellation",
+    "paragraph_count": 1650,
+    "word_count": 6709,
+    "sha256": "f8f67d58a87af92b6eb465825a88c5f04af5917a954bd304620752938990a0f9",
+    "md5": "bfdb878618cf66167a39c7df26521cda"
+  },
+  "d85c990f-cf14-5fc7-b8f7-a69b7604e2cc": {
+    "title": "[Scene 2: Local Execution]",
+    "source_path": "act-7/ch-3/sc-2",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 3: Exact Cancellation",
+    "paragraph_count": 1193,
+    "word_count": 5137,
+    "sha256": "b3439703626e577f9be29f5f9247c0295314e215ddb736f0bae5f6fb36d4de85",
+    "md5": "c0a3c4bc20ce2f08729c303347b86b52"
+  },
+  "94a9a8c3-f6ce-5ddb-8d5c-a474e52586f0": {
+    "title": "[Scene 3: The Boundary Holds]",
+    "source_path": "act-7/ch-3/sc-3",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 3: Exact Cancellation",
+    "paragraph_count": 1127,
+    "word_count": 4760,
+    "sha256": "aac0eb8c7dc3d49c02f1e676f088b9ffe88a706a1a76cc22f0b64c473d02d795",
+    "md5": "12be1b4f80d326e14fc01d78ecdd0627"
+  },
+  "60aad8d4-2589-59a8-ac55-bc42605db7ae": {
+    "title": "[Scene 1: What Changed When We Acted]",
+    "source_path": "act-7/ch-4/sc-1",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 4: The Resonance of Space",
+    "paragraph_count": 1185,
+    "word_count": 6007,
+    "sha256": "3b41876f34df2143718efa977b3c89a67c36a2b58ebe7f14b58473284bb4b667",
+    "md5": "7e344070a7e9e6dcbcceb0b8d560e5f2"
+  },
+  "c5df358b-d927-523e-b8f5-f7c256cfcf9b": {
+    "title": "[Scene 2: The First Thing We Can Say]",
+    "source_path": "act-7/ch-4/sc-2",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 4: The Resonance of Space",
+    "paragraph_count": 1048,
+    "word_count": 4766,
+    "sha256": "a182a65c9029d3c83791d60ab6bad662886dae548fb185ec965448208e47357b",
+    "md5": "027822ed4781a4c45829c644cc8968ff"
+  },
+  "50b43df2-df3b-5165-99a7-e52f63814e43": {
+    "title": "[Scene 3: The Cost of Control]",
+    "source_path": "act-7/ch-4/sc-3",
+    "act": "ACT 4: THE CANCELLATION HORIZON",
+    "chapter": "Chapter 4: The Resonance of Space",
+    "paragraph_count": 1632,
+    "word_count": 6462,
+    "sha256": "da18ab9410355ed00beb53909e6d255bda90ca1417d22e800cbc5d4536e814b8",
+    "md5": "09d9c70348fee887ea16d73f3f66b605"
+  },
+  "e2799232-0787-5d97-841d-d0705712559e": {
+    "title": "Opening",
+    "source_path": "act-8/ch-1/sc-4",
+    "act": "EPILOGUE: THE OWNER OF THE BOUNDARY",
+    "chapter": "Opening Chapter",
+    "paragraph_count": 930,
+    "word_count": 3957,
+    "sha256": "cda66da0f089fca3e507de5b4a3f5af7c6f31af15dfc9a16bbd2aebe5d32c473",
+    "md5": "ad03f7829553c6072a4a517aff409283"
+  },
+  "128c6328-ada4-5d22-8d0f-674b699b4664": {
+    "title": "Opening",
+    "source_path": "act-9/ch-1/sc-1",
+    "act": "APPENDIX",
+    "chapter": "Appendix A: Glossary of Terminology",
+    "paragraph_count": 13,
+    "word_count": 233,
+    "sha256": "89c610441659a110b1a7efc302e4fe2622ec12a25a6731ec21a6bd5f054e2179",
+    "md5": "05ac5e895df88a875add56125b3b0797"
+  },
+  "9e0f6234-f9f9-5623-a490-1e1116fa32ea": {
+    "title": "Opening",
+    "source_path": "act-9/ch-2/sc-1",
+    "act": "APPENDIX",
+    "chapter": "Appendix B: Key Governing Equations",
+    "paragraph_count": 13,
+    "word_count": 129,
+    "sha256": "1094b5f7a7d8cf43e4c78f78a55cf97651c9925872489ccaa4c3a7cae5bfc068",
+    "md5": "d17bdd355b8b173dc88317d801263878"
+  },
+  "e7a7ed8a-a663-5bf3-9a96-8e8cd0cd046b": {
+    "title": "Opening",
+    "source_path": "act-9/ch-3/sc-1",
+    "act": "APPENDIX",
+    "chapter": "Appendix C: Research Origins & References",
+    "paragraph_count": 7,
+    "word_count": 70,
+    "sha256": "69d8549c3ed8c1d7dcf65a045b07c3d9fd7021db6a14eca4b889390f28b20e9a",
+    "md5": "a4b28725ff6b19eeb956dbd8aa759a51"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "baseline_snapshot": "B1_PASS2A_CANON_NORMALIZED_LOCKED",
+  "working_snapshot": "B1_v1.1_STRUCT_DRAFT",
+  "checkpoint_mappings_count": 45647,
+  "working_mappings_count": 45647,
+  "only_in_checkpoint": 0,
+  "only_in_working": 0,
+  "structural_mismatches": 0,
+  "paragraph_version_mismatches": 0,
+  "difference_count": 0,
+  "is_identical_zero_diff": true,
+  "verified_at": "2026-09-03T15:01:34.397Z"
+}
