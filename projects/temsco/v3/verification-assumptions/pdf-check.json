@@ -1,0 +1,19 @@
+{
+  "pdf": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/output/TEMSCO-IR-v3-assumptions-draft-20260909.pdf",
+  "sha256": "56229ab012e5f3a95814581663f75f0ee39e98b44c3da9c1e6e47fdca87a6ffe",
+  "pages": 44,
+  "dividerPages": [
+    3,
+    11,
+    18,
+    35,
+    43
+  ],
+  "allPageSizesLandscape": true,
+  "allPagesHaveExtractableText": true,
+  "tocNavigationPassed": true,
+  "proseEndingMatches": 0,
+  "geometryIssues": 0,
+  "typecheck": "PASS",
+  "renderDirectory": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/verification-assumptions/render"
+}

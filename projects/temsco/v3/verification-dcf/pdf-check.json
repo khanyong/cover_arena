@@ -1,0 +1,22 @@
+{
+  "pdf": "projects/temsco/v3/output/TEMSCO-IR-v3-DCF-draft-20260908.pdf",
+  "sha256": "2cfa7b093d3032ee5320774778d1a25482d5908d2a740d4095b2ecbb46e2c32c",
+  "pages": 31,
+  "allPageSizesLandscape": true,
+  "allPagesHaveExtractableText": true,
+  "renderDirectory": "projects/temsco/v3/verification-dcf/render-final",
+  "browserGeometryIssues": [],
+  "keyboard": {
+    "home": "0",
+    "right": "1",
+    "down": "2",
+    "left": "1",
+    "end": "30",
+    "pass": true
+  },
+  "fontLoaded": true,
+  "typecheck": "PASS — targeted TypeScript check, exit 0",
+  "finance": "finance-check.json",
+  "preservation": "preservation.json",
+  "knownConsoleNote": "favicon.ico 404 only; no page runtime errors"
+}

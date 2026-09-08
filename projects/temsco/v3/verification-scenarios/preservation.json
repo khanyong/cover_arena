@@ -1,0 +1,36 @@
+{
+  "protectedCode": {
+    "components/TemscoV3/companyForecast.json": true,
+    "components/TemscoV3/financials.ts": true,
+    "components/TemscoV3/valuation.ts": true,
+    "components/TemscoV3/marketInputs.ts": true,
+    "components/TemscoV3/marketResearch.json": true,
+    "components/TemscoV3/deck.module.css": true,
+    "components/TemscoV3/FinancialLayouts.tsx": true,
+    "components/TemscoV3/EvidenceLayouts.tsx": true
+  },
+  "sourceFiles": {
+    "S01": true,
+    "S02": true,
+    "S03": true,
+    "S04": true,
+    "S05": true,
+    "S06": true,
+    "S07": true,
+    "S08": true
+  },
+  "olderVersions": {
+    "pages/temsco/original.tsx": {
+      "sha256": "90813a85aba1365d20195032384d79000d3dcd36c2533b2ceeb40070516c296f",
+      "unchanged": true
+    },
+    "pages/temsco/deck.tsx": {
+      "sha256": "a4eb4fc50993432914b9d69b23036f172d47dfeba48f68e02cb04719cf6b686e",
+      "unchanged": true
+    }
+  },
+  "previousPdfRetained": {
+    "sha256": "802a0fa2f856b1116a7682b26c3045776877440dd5ed27f725aa9690840306de",
+    "unchanged": true
+  }
+}

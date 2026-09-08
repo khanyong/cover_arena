@@ -1,0 +1,12 @@
+# Local source handoffs and reproducible visual-review artifacts.
+# Runtime images are tracked separately under public/images/temsco/.
+source-materials/
+*.png
+*.jpg
+*.jpeg
+verification*/before/
+verification*/preview.pdf
+
+# Verbatim source extraction remains local with the original handoffs.
+analysis/S*.txt
+analysis/S*.json

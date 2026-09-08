@@ -65,6 +65,30 @@ export default function TemscoLandingPage() {
         </div>
       </header>
 
+      <section aria-labelledby="proposal-versions" className="px-6 py-8 border-b border-slate-800 bg-slate-900/60">
+        <div className="max-w-6xl mx-auto">
+          <h2 id="proposal-versions" className="text-xl font-bold text-white mb-2">투자제안서 버전 선택</h2>
+          <p className="text-sm text-slate-400 mb-5">초기원본, 최종본, 작성 중인 제3안을 각각 열어볼 수 있습니다.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Link href="/temsco/original" className="rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+              <span className="text-xs font-bold text-slate-400">VERSION 01</span>
+              <h3 className="text-lg font-bold text-white mt-2">초기원본</h3>
+              <p className="text-sm text-slate-400 mt-2">최초 투자제안서</p>
+            </Link>
+            <Link href="/temsco/deck" className="rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+              <span className="text-xs font-bold text-blue-400">VERSION 02</span>
+              <h3 className="text-lg font-bold text-white mt-2">최종본</h3>
+              <p className="text-sm text-slate-400 mt-2">기존 최종 투자제안서 · 11장</p>
+            </Link>
+            <Link href="/temsco/deck-v3" className="rounded-xl border border-blue-500/60 bg-blue-950/30 p-5 hover:border-blue-400 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+              <span className="text-xs font-bold text-blue-400">VERSION 03 · 작성 중</span>
+              <h3 className="text-lg font-bold text-white mt-2">제3안 투자제안서</h3>
+              <p className="text-sm text-slate-300 mt-2">과거 실적·DCF·멀티플·3개 시나리오·후속 투자유치 · 간지 포함 44장 초안</p>
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative pt-20 pb-16 px-6 overflow-hidden border-b border-slate-800/80 bg-gradient-to-b from-slate-900 via-slate-950 to-slate-950">
         {/* Background glow & grid */}

@@ -1,0 +1,144 @@
+{
+  "title": "TEMSCO 산업 R&D 강도 기반 개발투자 분석 가정의 근거",
+  "valuationCutoff": "2026-09-08",
+  "retrievedDate": "2026-09-09",
+  "status": "산업 R&D/Sales 직접 확보; 산업의 실제 회계상 개발비 자산화율 미확보",
+  "industryMetrics": [
+    {
+      "industry": "Electronics (General)",
+      "geography": "Global",
+      "firms": 1481,
+      "rdToRevenue": 0.04250308100037906,
+      "displayPercent": 4.250308100037906,
+      "marginCell": "'Industry Averages'!P38",
+      "rdCell": "'Industry Averages'!F37",
+      "rdLtmUSDMillion": 56788.23400000001,
+      "capitalizedResearchAssetEstimateUSDMillion": 164545.24060000005,
+      "capitalizedResearchAssetToInvestedCapitalEstimate": 0.18184548586209612,
+      "actualAccountingCapitalizationRatio": null,
+      "analystIllustration": {
+        "capitalizationShare": 0.2,
+        "capitalizationShareStatus": "20% illustrative analyst assumption, NOT observed industry ratio",
+        "capitalizedDevelopmentToSales": 0.008500616200075813,
+        "annualCostForRevenue414_62759896Eok": 3.524590084717913,
+        "residual2026Cost114Over365": 1.1008308757749097
+      }
+    },
+    {
+      "industry": "Chemical (Specialty)",
+      "geography": "Global",
+      "firms": 952,
+      "rdToRevenue": 0.023456015426006248,
+      "displayPercent": 2.3456015426006247,
+      "marginCell": "'Industry Averages'!P27",
+      "rdCell": "'Industry Averages'!F26",
+      "rdLtmUSDMillion": 21130.731999999975,
+      "capitalizedResearchAssetEstimateUSDMillion": 61965.730599999995,
+      "capitalizedResearchAssetToInvestedCapitalEstimate": 0.06857271480194864,
+      "actualAccountingCapitalizationRatio": null,
+      "analystIllustration": {
+        "capitalizationShare": 0.2,
+        "capitalizationShareStatus": "20% illustrative analyst assumption, NOT observed industry ratio",
+        "capitalizedDevelopmentToSales": 0.00469120308520125,
+        "annualCostForRevenue414_62759896Eok": 1.9451022714507387,
+        "residual2026Cost114Over365": 0.6075113943709156
+      }
+    }
+  ],
+  "sources": [
+    {
+      "id": "NYU_GLOBAL_MARGIN",
+      "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/marginGlobal.xls",
+      "author": "Aswath Damodaran, NYU Stern",
+      "dateUpdated": "2026-01-05",
+      "datasetVintage": "January 2026",
+      "lastSavedMetadataUTC": "2026-01-07T19:17:32Z",
+      "sha256": "89fe631c20f3494bb8afbd6f4407bc2000e3c94e58603da1f2d1f3acd1113e79",
+      "definition": "Aggregated R&D expenses as percent of aggregated revenues across firms; not median individual firm ratio",
+      "retrievedDate": "2026-09-09"
+    },
+    {
+      "id": "NYU_GLOBAL_RD",
+      "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/R%26DGlobal.xls",
+      "author": "Aswath Damodaran, NYU Stern",
+      "dateUpdated": "2026-01-05",
+      "datasetVintage": "January 2026",
+      "lastSavedMetadataUTC": "2026-01-07T19:25:43Z",
+      "sha256": "20dc8270b1a198c367dda12a38c7922c47217f0ef2ee9ea87a5652e0c53f7327",
+      "definition": "R&D Capitalized is author estimate using five-year straight-line amortization, aggregated across firms; stock of reconstructed research asset, not period accounting development additions",
+      "faqCell": "'Variables & FAQ'!B5",
+      "retrievedDate": "2026-09-09"
+    },
+    {
+      "id": "NYU_INDEX",
+      "url": "https://pages.stern.nyu.edu/~adamodar/pc/datacurrent.html",
+      "retrievedDate": "2026-09-09",
+      "definition": "Issuer index links Global margins and R&D workbooks"
+    },
+    {
+      "id": "IAS38",
+      "url": "https://www.ifrs.org/content/dam/ifrs/publications/pdf-standards/english/2022/issued/part-a/ias-38-intangible-assets.pdf?bypass=on",
+      "summaryUrl": "https://www.ifrs.org/issued-standards/list-of-standards/ias-38-intangible-assets/",
+      "vintage": "2022 issued standard; recognition distinction predates cutoff",
+      "retrievedDate": "2026-09-09",
+      "definition": "Research expensed; development recognition only after applicable criteria; finite-life amortization. Not evidence of TEMSCO eligibility or a five-year mandatory useful life."
+    }
+  ],
+  "negativeFinding": {
+    "actualIndustryCapitalizationRatioFound": false,
+    "scope": "이번 한정 조사에서 NYU Global margins/R&D 원본 및 IAS38 확인. BOK 또는 회계기준 일치 peer의 실제 자산화율 평균 확보 완료로 주장하지 않음",
+    "whyNYUNumberNotTheRatio": [
+      "자산화 연구자산은 누적 잔액 stock, 당기 개발비 자산화 지출은 flow",
+      "NYU는 모든 R&D의 경제적 자산 재구성을 위한 연구자 추정; 공시상 자산인식비중이 아님",
+      "자산화 R&D/투하자본은 R&D/매출 또는 당기개발비/총R&D와 다른 분모"
+    ]
+  },
+  "recommendedAssumptionStructure": {
+    "rdIntensityPrimary": 0.04250308100037906,
+    "rdIntensityAlternative": 0.023456015426006248,
+    "primarySelectionReason": "기존 WACC 전자부품 참고 분류와 일관된 broad proxy. TEMSCO 자체 실측비율 또는 순수 sputter/mask peer 평균 아님",
+    "capitalizationShare": 0.2,
+    "capitalizationShareMustBe": "Explicit analyst assumption; example20% is illustrative only",
+    "amortizationYearsReference": 5,
+    "amortizationYearsStatus": "NYU analytical convention, not observed TEMSCO useful life or mandatory accounting rule",
+    "existingEbitExpenseShare": 0,
+    "existingExpenseShareMustBe": "Explicit fraction of modeled capitalized spending already expensed in source EBIT; not established by industry data",
+    "applyRevenueScope": "Consolidated external revenue after intercompany elimination",
+    "doubleCountGuard": "기존 10억 R&D 자금사용 배분 및 계획 CAPEX의 5억 R&D 설비와 프로젝트별 대사; 5억 설비는 유형투자이며 개발비와 임의 중복가산 금지"
+  },
+  "modelBridge": {
+    "symbols": {
+      "C": "modeled capitalized development cash spend",
+      "r": "industry R&D intensity",
+      "c": "analyst capitalization share",
+      "e": "fraction of C already expensed in source EBIT",
+      "A": "new development amortization for current period"
+    },
+    "spend": "C = externalRevenue * r * c",
+    "ebit": "EBIT_adjusted = EBIT_source + e*C - A",
+    "da": "DA_adjusted = DA_source + A",
+    "fcff": "FCFF = EBIT_adjusted - cashOperatingTax + DA_adjusted - otherCAPEX - C - deltaNWC",
+    "pretaxInvariant": "Delta(pre-tax FCFF) = -(1-e)*C; e=1 pure reclassification has zero pre-tax cash-flow impact",
+    "cashTax": "Keep a separately justified cash-tax path; do not assume adjusted accounting EBIT*22% automatically reflects tax cash flows. Pure valuation reclassification alone must not change tax paid. Tax deductibility/timing unverified.",
+    "period": "2026 residual cash114/365 only as explicit even-spending assumption; historical amortization inventory and commissioning dates not verified",
+    "terminal": "g=0 still requires recurring C. In fully mature steady state, A=C under constant spend; explicitly bridge first five years of cohort amortization before assuming steady state.",
+    "multiple": "Capitalized-R&D-adjusted TEMSCO EBIT is not directly comparable to DNP reported EBIT. Preserve reported-basis Exit EBIT or adjust peer earnings under the identical policy; avoid mechanical valuation uplift."
+  },
+  "limits": [
+    "Current industry R&D is expensed reported R&D and may not cover all development spending already capitalized under different local standards",
+    "Electronics includes broader electronics; specialty chemicals includes businesses outside TEMSCO products; no arbitrary weighting into a fictitious pure-industry average",
+    "Industry values are aggregate ratios, not medians or selected profitable-peers only",
+    "Actual accounting capitalization eligibility, development completion dates, opening development assets, useful life and tax treatment remain unverified"
+  ],
+  "adoptedAnalystAssumptions": {
+    "rdIntensity": 0.04250308100037906,
+    "capitalizationShare": 0.2,
+    "capitalizationShareStatus": "분석 가정; 산업 실제 자산화율 아님",
+    "existingEbitExpenseShare": 0,
+    "existingExpenseStatus": "기존 비용과 별도 추가 개발예산 가정; 중복 부재 확인 아님",
+    "amortizationYears": 5,
+    "tax": "장부상각과 세무공제 시점 일치 가정; 즉시 공제 및 크레딧 없음",
+    "fullyMatureTerminal": "매년 C지출 유지, A=C인 완전 비용부담 정상 EBIT 사용",
+    "companyTotalRdRatioClaimAllowed": false
+  }
+}

@@ -1,0 +1,456 @@
+{
+  "title": "TEMSCO V3 한국 비교기업 시장배수 조사",
+  "cutoffDate": "2026-09-08",
+  "retrievedDate": "2026-09-09",
+  "unit": "KRW unless stated; multiples x",
+  "status": "나노신소재 조건부 시장관측 앵커 확보; 두 마스크사의 EV/이익배수 제외",
+  "methodology": [
+    "기준일 이후 공시·가격 제외",
+    "연결 실적만 사용; LTM=2025FY+2026H1−2025H1",
+    "EV용주주가치는자기주식제외·최신공시잔액 전제; 거래소발표시총 별도 보존",
+    "원자료와가정 분리: 관측가격/공시실적 확정값, 금융상품초과자산 취급·권면채무 대용은 분석가정",
+    "단일혼합기업배수는 TEMSCO 최종적용배수·피어중앙값·적정가치결론 아님"
+  ],
+  "comparables": [
+    {
+      "id": "nano",
+      "name": "나노신소재",
+      "ticker": "121600",
+      "exchange": "KOSDAQ",
+      "currency": "KRW",
+      "consolidated": true,
+      "role": "보조 관측 앵커; TEMSCO 최종 적용배수 아님",
+      "products": "TCO 스퍼터링 타깃·CMP slurry·CNT 도전재·기능성 소재",
+      "businessMixH1_2026": {
+        "batteryCNT": 0.583,
+        "displayMaterials": 0.051,
+        "semiconductorCMP": 0.1,
+        "solarMaterials": 0.002,
+        "otherFunctionalMaterials": 0.264
+      },
+      "businessMixCaveat": "디스플레이·태양전지·기타 구분에 TCO와 다른 제품 혼합. 타깃 단독 매출·이익·기업가치 미공시. CNT 58.3%인 혼합기업 배수.",
+      "price": {
+        "date": "2026-09-08",
+        "closeKRW": 46250,
+        "publishedMarketCapKRW": 567126333750,
+        "sourceId": "NANO_KRX",
+        "rawExchangeDateLabel": "2026-09-08 종가 기준"
+      },
+      "shares": {
+        "issuedReported": 12262191,
+        "treasuryReported": 220206,
+        "outstandingExTreasury": 12041985,
+        "reportedDate": "2026-06-30",
+        "issuedSharesImpliedBySep8KRXMarketCap": 12262191,
+        "equityValueExTreasuryKRW": 556941806250,
+        "sourceId": "NANO_SHARES",
+        "assumption": "9/8 시가총액/주가로 발행주식수 일치 확인. 자사주는 최신 반기 잔액 사용; 6/30 이후 변동 전체의 별도 확인 미완료. 계획상 소각·처분을 실제 실행으로 선반영하지 않음."
+      },
+      "financials": {
+        "FY2025": {
+          "revenueKRW": 111745369751,
+          "ebitKRW": 4681087390,
+          "netIncomeKRW": 1634979902,
+          "ebitdaKRW": null
+        },
+        "H1_2026": {
+          "revenueKRW": 69275114376,
+          "ebitKRW": 8095106964,
+          "netIncomeKRW": 12549263203,
+          "ebitdaKRW": null
+        },
+        "H1_2025": {
+          "revenueKRW": 51704915790,
+          "ebitKRW": 2139326727,
+          "netIncomeKRW": -1193421133,
+          "ebitdaKRW": null
+        },
+        "LTM": {
+          "revenueKRW": 129315568337,
+          "ebitKRW": 10636867627,
+          "netIncomeKRW": 15377664238,
+          "ebitdaKRW": null,
+          "periodStart": "2025-07-01",
+          "periodEnd": "2026-06-30",
+          "formula": "FY2025 + H1_2026 - H1_2025",
+          "ebitMargin": 0.08225512027507798
+        },
+        "sourceId": "NANO_FIN",
+        "ebitdaStatus": "완전한 LTM D&A 재구성 미수행; 임의 EBITDA 미산출"
+      },
+      "balance": {
+        "date": "2026-06-30",
+        "cashEquivalentsKRW": 73208146998,
+        "shortTermFinancialProductsKRW": 85830000000,
+        "bankBorrowingKRW": 10000000000,
+        "leaseCurrentKRW": 596061230,
+        "leaseNoncurrentKRW": 581225557,
+        "leaseTotalKRW": 1177286787,
+        "convertibleBondFaceKRW": 62000000000,
+        "bondWithWarrantsFaceKRW": 33500000000,
+        "convertibleBondCarryingKRW": 53419670733,
+        "bondWithWarrantsCarryingKRW": 28863854350,
+        "embeddedDerivativeLiabilitiesKRW": 14176306500,
+        "nciBookKRW": 0,
+        "nciBasis": "연결 자회사 4개 지분 각100%, 연결BS 비지배지분0",
+        "nonoperatingDerivativeAssetNotDeductedKRW": 35504440,
+        "conversionAndExercisePriceKRW": 109198,
+        "sourceId": "NANO_FIN"
+      },
+      "anchor": {
+        "metric": "EV / LTM EBIT",
+        "type": "market_price_with_reported_balance_proxy",
+        "equityValueKRW": 556941806250,
+        "debtFacePlusLeasesKRW": 106677286787,
+        "cashAndFinancialProductsDeductionKRW": 159038146998,
+        "netDebtKRW": -52360860211,
+        "enterpriseValueKRW": 504580946039,
+        "ltmEbitKRW": 10636867627,
+        "multiple": 47.4369865013833,
+        "formula": "(close × (issued − treasury) + bank borrowing + CB face + BW face + lease liabilities − cash − short-term financial products) / (FY2025 EBIT + H1_2026 EBIT − H1_2025 EBIT)",
+        "assumptions": [
+          "6/30 현금·채무 장부 기준 + 9/8 보통주 가격: 9/8 실제 대차대조표 재구성 아님",
+          "CB·BW 잔존 권면 총955억원을 채무 청구액 대용. 내재파생부채141.763065억원 별도 가산 제외: 권면 기준 브리지와 장부+파생 기준의 혼합·중복 회피",
+          "주가46,250원 < 전환·행사가109,198원. 현재 기준 채무 취급; 만기 주식전환 불가능 또는 옵션가치0 확정 아님",
+          "현금732.08146998억원+단기금융858.30억원 전액을 차감 가능한 초과·비영업자산으로 가정. 운영필수현금·제한예금·세금 별도 확인 미완료",
+          "자사주220,206주 차감: 거래소 발표 시총과 구분",
+          "시장 NCI가치0 가정 아님: 100% 지분 자회사와 BS NCI0 확인",
+          "TEMSCO에 적용할 비상장·규모·수익성·지배력 할인율 미확정. 임의할인·피어평균 산출 제외"
+        ]
+      },
+      "bridgeChecks": {
+        "bookBondPlusDerivativeAlternative": {
+          "enterpriseValueKRW": 505540777622,
+          "multiple": 47.527222801829836,
+          "formula": "equity + bank + leases + CB carrying + BW carrying + embedded derivative liabilities − cash − short-term financial products",
+          "note": "장부채무와 별도파생부채 합산 대안. 권면CB/BW 추가 가산 금지."
+        },
+        "noShortTermFinancialProductDeduction": {
+          "enterpriseValueKRW": 590410946039,
+          "multiple": 55.506091336544934,
+          "note": "단기금융 차감 제외시 브리지 민감도. 시장 거래배수 관측 범위 또는 가치평가 시나리오 아님."
+        }
+      },
+      "comparabilityToTemsco": [
+        "공통점: 증착용 소재·타깃 제조 및 B2B 고객 인증",
+        "차이: 나노 CNT58.3%·해외전지생산시설, TEMSCO 금속 타깃·마스크/프레임 및 자회사 구조",
+        "나노 LTM EBIT마진8.2255%와 TEMSCO2029 회사계획마진22.3324%의 수익성·시점 차이",
+        "나노 LTM흑자 vs TEMSCO2025 연결적자: 과거EBIT 배수를 TEMSCO2025 음수이익에 적용 불가",
+        "2029 EBIT 적용시 명칭: 2026 관측배수 유지 가정의 2029 exit EV. 2026 현재가치와 구분 및 할인기간 명시"
+      ]
+    },
+    {
+      "id": "pims",
+      "name": "핌스",
+      "ticker": "347770",
+      "currency": "KRW",
+      "consolidated": true,
+      "role": "OLED 마스크 직접 제품 비교; 이익배수 제외",
+      "products": "OLED 공통층·보조·봉지 마스크 및 프레임; RGB FMM과 구분",
+      "price": {
+        "date": "2026-09-08",
+        "closeKRW": 916,
+        "publishedMarketCapKRW": 20756287032,
+        "sourceId": "PIMS_KRX"
+      },
+      "financials": {
+        "FY2025": {
+          "revenueKRW": 63383012048,
+          "ebitKRW": -6113556216,
+          "netIncomeKRW": -8327087064,
+          "ebitdaKRW": null
+        },
+        "H1_2026": {
+          "revenueKRW": 32892128831,
+          "ebitKRW": -1335601491,
+          "netIncomeKRW": -605577350,
+          "ebitdaKRW": null
+        },
+        "H1_2025": {
+          "revenueKRW": 38091682065,
+          "ebitKRW": 219018279,
+          "netIncomeKRW": -752480124,
+          "ebitdaKRW": null
+        },
+        "LTM": {
+          "revenueKRW": 58183458814,
+          "ebitKRW": -7668175986,
+          "netIncomeKRW": -8180184290,
+          "ebitdaKRW": null,
+          "periodStart": "2025-07-01",
+          "periodEnd": "2026-06-30",
+          "formula": "FY2025 + H1_2026 - H1_2025",
+          "ebitMargin": -0.1317930584105271
+        },
+        "sourceIds": [
+          "PIMS_FY",
+          "PIMS_FIN"
+        ]
+      },
+      "balance": {
+        "date": "2026-06-30",
+        "cashKRW": 5623696344,
+        "bankDebtKRW": 27025000000,
+        "leaseDebtKRW": 1161544976,
+        "nciBookKRW": -1380051935,
+        "nciMarketValueKRW": null,
+        "sourceId": "PIMS_FIN"
+      },
+      "shares": {
+        "reportedDate": "2026-06-30",
+        "issued": 22857042,
+        "treasury": 0,
+        "sourceId": "PIMS_SHARES",
+        "sep8KRXMarketCapImpliedShares": 22659702.0,
+        "reconciliationStatus": "H1 주식수×9/8 종가와 거래소 발표시총 불일치. 원인 확정 전 자기주식·소각·기타 차이를 임의 추정하지 않음."
+      },
+      "evEbit": null,
+      "evEbitda": null,
+      "exclusions": [
+        "LTM EBIT -76.68175986억원: 양의 EV/EBIT 표본 제외",
+        "LTM EBITDA 전체 D&A 확인 미완료: EBITDA값·배수 임의 생성 제외",
+        "NCI 장부액 -13.80051935억원: 음수 값을 EV에서 차감 금지; 시장가치 미확보",
+        "6/30주식수와9/8시총 불일치: EV브리지 확정 제외"
+      ]
+    },
+    {
+      "id": "poongwon",
+      "name": "풍원정밀",
+      "ticker": "371950",
+      "currency": "KRW",
+      "consolidated": true,
+      "role": "오픈메탈마스크·FMM 개발 직접 비교; 이익배수 제외",
+      "products": "OMM·FMM·SBM·마스크 및 프레임; 제품별 상용화 단계 구분",
+      "price": {
+        "date": "2026-09-08",
+        "closeKRW": 2900,
+        "publishedMarketCapKRW": 68338529000,
+        "sourceId": "PW_KRX"
+      },
+      "financials": {
+        "FY2025": {
+          "revenueKRW": 32363366118,
+          "ebitKRW": -19933760853,
+          "netIncomeKRW": -23583226913,
+          "ebitdaKRW": null
+        },
+        "H1_2026": {
+          "revenueKRW": 19189322062,
+          "ebitKRW": -7552504701,
+          "netIncomeKRW": -7984420401,
+          "ebitdaKRW": null
+        },
+        "H1_2025": {
+          "revenueKRW": 14596087238,
+          "ebitKRW": -7583385002,
+          "netIncomeKRW": -9303691367,
+          "ebitdaKRW": null
+        },
+        "LTM": {
+          "revenueKRW": 36956600942,
+          "ebitKRW": -19902880552,
+          "netIncomeKRW": -22263955947,
+          "ebitdaKRW": null,
+          "periodStart": "2025-07-01",
+          "periodEnd": "2026-06-30",
+          "formula": "FY2025 + H1_2026 - H1_2025",
+          "ebitMargin": -0.5385473784030016
+        },
+        "sourceIds": [
+          "PW_FY",
+          "PW_FIN"
+        ]
+      },
+      "balance": {
+        "date": "2026-06-30",
+        "cashKRW": 658856844,
+        "currentBorrowingsKRW": 13600000000,
+        "noncurrentBorrowingsKRW": 3528588041,
+        "currentLongTermPayablesKRW": 11823225959,
+        "convertiblePreferredLiabilityKRW": 843597318,
+        "embeddedDerivativeLiabilitiesKRW": 10441544310,
+        "currentConvertibleBondKRW": 18177452576,
+        "nciBookKRW": 0,
+        "sourceId": "PW_FIN"
+      },
+      "shares": {
+        "reportedDate": "2026-06-30",
+        "common": 22662548,
+        "preferred": 81987,
+        "treasury": 0,
+        "preferredConversionDate": "2026-07-27",
+        "commonSharesAddedOnConversion": 117122,
+        "commonAfterDisclosedConversion": 22779670,
+        "sep8KRXMarketCapImpliedShares": 23565010.0,
+        "sourceId": "PW_SHARES",
+        "reconciliationStatus": "7/27 우선주전환만 반영한 보통주수와9/8 거래소 시총 역산주식수 불일치. 이후 자본거래 전체·차입현금 변동 재구성 미완료."
+      },
+      "evEbit": null,
+      "evEbitda": null,
+      "exclusions": [
+        "LTM EBIT -199.02880552억원: 양의 EV/EBIT 표본 제외",
+        "LTM EBITDA 전체 D&A 확인 미완료: EBITDA값·배수 임의 생성 제외",
+        "7/27 우선주전환으로6/30 우선주부채·파생·주식수 조정 필요; 이후 증자등 미완료",
+        "6/30 금융청구권 전액을9/8시총에 단순 가산하면 전환항목 중복 위험"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "id": "NANO_H1",
+      "title": "나노신소재 반기보고서(2026.06)",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814001307",
+      "publicationDate": "2026-08-14",
+      "section": "III.1 요약연결재무정보 / III.2 연결재무제표 / III.3 연결주석",
+      "publisherType": "issuer_filing"
+    },
+    {
+      "id": "NANO_FIN",
+      "title": "나노신소재 반기보고서 재무에 관한 사항",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814001307&dcmNo=11529630&eleId=17&offset=236675&length=3568920&dtd=dart4.xsd",
+      "publicationDate": "2026-08-14",
+      "section": "2025FY·2026H1·2025H1 연결 손익, 6/30 연결 재무상태표, 주석1·16·29, 미상환 사채 현황",
+      "publisherType": "issuer_filing",
+      "responseSha256": "b63407c6d335ff57138039ac47743e8c39ba84c48ee278275e061d0a428f14b3"
+    },
+    {
+      "id": "NANO_SHARES",
+      "title": "나노신소재 주식의 총수 등",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814001307&dcmNo=11529630&eleId=7&offset=41013&length=70266&dtd=dart4.xsd",
+      "publicationDate": "2026-08-14",
+      "section": "6/30 발행주식·자기주식·유통주식, 처분 이행현황",
+      "publisherType": "issuer_filing",
+      "responseSha256": "8021a2dd90ae53567e6042badcb8d6448747cbf0da66a53c0e3f370134da7cac"
+    },
+    {
+      "id": "NANO_BIZ",
+      "title": "나노신소재 사업의 내용",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814001307&dcmNo=11529630&eleId=9&offset=127170&length=109501&dtd=dart4.xsd",
+      "publicationDate": "2026-08-14",
+      "section": "주요 제품 및 서비스, 2026H1 매출 구분, 자본위험관리",
+      "publisherType": "issuer_filing",
+      "responseSha256": "d6ec8775dc2042305271d52a8b8ade8eec9c153539e37ec5eba187460e5da492"
+    },
+    {
+      "id": "NANO_KRX",
+      "title": "KIND 나노신소재 시세",
+      "url": "https://kind.krx.co.kr/common/stockprices.do?isurCd=12160&method=searchStockPricesMain",
+      "publicationDate": "2026-09-08",
+      "section": "직접 HTTP 응답: 2026-09-08 종가·시가총액",
+      "publisherType": "exchange_primary_market_data",
+      "responseSha256": "c4e5aec6bf50197a817d1874552eca236d2f56dc05ea4b07cc5b3055b3e554ad"
+    },
+    {
+      "id": "PIMS_H1",
+      "title": "핌스 반기보고서(2026.06)",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002498",
+      "publicationDate": "2026-08-14",
+      "section": "2026H1 및 2025H1 연결재무제표",
+      "publisherType": "issuer_filing"
+    },
+    {
+      "id": "PIMS_FIN",
+      "title": "핌스 반기보고서 재무에 관한 사항",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814002498&dcmNo=11533550&eleId=17&offset=185297&length=744731&dtd=dart4.xsd",
+      "publicationDate": "2026-08-14",
+      "section": "2026H1 연결손익 및 6/30 차입금·리스·현금·비지배지분",
+      "publisherType": "issuer_filing",
+      "responseSha256": "cb762f8f79394143d9510c382693533baf4eba0999fe8c72a2971d8266e30ed1"
+    },
+    {
+      "id": "PIMS_FY",
+      "title": "핌스 2025 사업보고서",
+      "url": "https://kind.krx.co.kr/external/2026/03/20/000786/20260320003100/11011.htm",
+      "publicationDate": "2026-03-20",
+      "section": "2025 연결 손익",
+      "publisherType": "issuer_filing"
+    },
+    {
+      "id": "PIMS_SHARES",
+      "title": "핌스 주식의 총수 등",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814002498&dcmNo=11533550&eleId=7&offset=40768&length=29548&dtd=dart4.xsd",
+      "publicationDate": "2026-08-14",
+      "section": "6/30 발행22,857,042주·자기주식0주",
+      "publisherType": "issuer_filing",
+      "responseSha256": "21032631d7954dc2c5577979e529e6f33e031266842b68c8b645a480ec7ef4fa"
+    },
+    {
+      "id": "PIMS_KRX",
+      "title": "KIND 핌스 시세",
+      "url": "https://kind.krx.co.kr/common/stockprices.do?isurCd=34777&method=searchStockPricesMain",
+      "publicationDate": "2026-09-08",
+      "section": "직접 HTTP 응답: 2026-09-08 종가·시가총액",
+      "publisherType": "exchange_primary_market_data",
+      "responseSha256": "d5aa34cdf15061de94b1f20eb3c38c6b72645918e09511a70c4ff25e8493fe8b"
+    },
+    {
+      "id": "PW_H1",
+      "title": "풍원정밀 정정 반기보고서(2026.06)",
+      "url": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260824000174",
+      "publicationDate": "2026-08-24",
+      "section": "정정본 연결 재무제표",
+      "publisherType": "issuer_filing"
+    },
+    {
+      "id": "PW_FIN",
+      "title": "풍원정밀 정정 반기보고서 재무에 관한 사항",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260824000174&dcmNo=11548095&eleId=19&offset=183823&length=924229&dtd=dart4.xsd",
+      "publicationDate": "2026-08-24",
+      "section": "2026H1 및 2025H1 연결손익·6/30 자본구조",
+      "publisherType": "issuer_filing",
+      "responseSha256": "9794e735b1c3b283442f5eee45c3d6309ef4e29fb863f0083fdaf5548f21894c"
+    },
+    {
+      "id": "PW_FY",
+      "title": "풍원정밀 2025 사업보고서 연결재무제표",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260323001475&dcmNo=11167958&eleId=19&offset=161151&length=130649&dtd=dart4.xsd",
+      "publicationDate": "2026-03-23",
+      "section": "2025 연결 손익",
+      "publisherType": "issuer_filing"
+    },
+    {
+      "id": "PW_SHARES",
+      "title": "풍원정밀 주식의 총수 등",
+      "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260824000174&dcmNo=11548095&eleId=9&offset=63546&length=23807&dtd=dart4.xsd",
+      "publicationDate": "2026-08-24",
+      "section": "6/30 주식수 및 7/27 우선주 전환",
+      "publisherType": "issuer_filing",
+      "responseSha256": "818cef1df2c398b6731d1a99e10b33b39d258296028c7736df621503bff2751d"
+    },
+    {
+      "id": "PW_KRX",
+      "title": "KIND 풍원정밀 시세",
+      "url": "https://kind.krx.co.kr/common/stockprices.do?isurCd=37195&method=searchStockPricesMain",
+      "publicationDate": "2026-09-08",
+      "section": "직접 HTTP 응답: 2026-09-08 종가·시가총액",
+      "publisherType": "exchange_primary_market_data",
+      "responseSha256": "53816be94d6cc7ab6163e53603763ad34917eac27bf33b89eb2ad4387fbc87e9"
+    }
+  ],
+  "exchangeResponseEvidence": [
+    {
+      "sourceId": "NANO_KRX",
+      "sourceTextSummary": "현재가 46250 전일대비 1,050 전일가 47300 등락율(%) -2.22 거래량(주) 30982 시가 47400 거래대금(원) 1455110400 고가 48150 시가총액(원) 567126333750 저가 46150 상한가 61400 하한가 33150 * 2026-09-08 종가 기준 본 정보는 20분 지연 제공됩니다.",
+      "responseDateLabelVerified": true
+    },
+    {
+      "sourceId": "PIMS_KRX",
+      "sourceTextSummary": "현재가 916 전일대비 22 전일가 938 등락율(%) -2.35 거래량(주) 44675 시가 912 거래대금(원) 40979544 고가 946 시가총액(원) 20756287032 저가 901 상한가 1219 하한가 657 * 2026-09-08 종가 기준 본 정보는 20분 지연 제공됩니다.",
+      "responseDateLabelVerified": true
+    },
+    {
+      "sourceId": "PW_KRX",
+      "sourceTextSummary": "현재가 2900 전일대비 0 전일가 2900 등락율(%) 0.00 거래량(주) 184695 시가 2930 거래대금(원) 540349664 고가 2975 시가총액(원) 68338529000 저가 2860 상한가 3770 하한가 2030 * 2026-09-08 종가 기준 본 정보는 20분 지연 제공됩니다.",
+      "responseDateLabelVerified": true
+    }
+  ],
+  "temScoComparison": {
+    "sourceFile": "components/TemscoV3/financials.ts",
+    "FY2025ConsolidatedRevenueEok": 342.61655569,
+    "FY2025ConsolidatedEbitEok": -73.2410528,
+    "companyPlan2029RevenueEok": 852.5134325,
+    "companyPlan2029EbitEok": 190.38668058,
+    "companyPlan2029Margin": 0.22332396572531424,
+    "note": "회사계획값이며 외부검증 실적 또는 당연히실현될 추정 아님. 2025연결수치 출처 S03은 기존analysis/result.md 참조."
+  }
+}

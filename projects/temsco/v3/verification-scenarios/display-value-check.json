@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "scenarioComparisons": [
+    {
+      "scenario": "낙관안",
+      "roundedValues": [
+        "974.9",
+        "1,664.5",
+        "689.6",
+        "70.7",
+        "5,551.4"
+      ],
+      "allPresentInSlide33": true
+    },
+    {
+      "scenario": "중도안",
+      "roundedValues": [
+        "676.7",
+        "1,252.1",
+        "575.5",
+        "85.0",
+        "4,326.2"
+      ],
+      "allPresentInSlide33": true
+    },
+    {
+      "scenario": "비관안",
+      "roundedValues": [
+        "310.7",
+        "642.5",
+        "331.8",
+        "106.8",
+        "2,415.0"
+      ],
+      "allPresentInSlide33": true
+    }
+  ],
+  "annualPlValues": "All four years × nine principal P&L rows × three scenarios found in corresponding slide text",
+  "navigation": "keyboard, contents, hash, full screen, all-slides, mobile and print PASS"
+}

@@ -1,0 +1,19 @@
+{
+  "pdf": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/output/TEMSCO-IR-v3-scenarios-draft-20260909.pdf",
+  "sha256": "794ecd1720ce36acbaf70c4eeac4737bdb8337643bdb0fb0c39ee94b5b100566",
+  "pages": 44,
+  "dividerPages": [
+    3,
+    11,
+    18,
+    35,
+    43
+  ],
+  "allPageSizesLandscape": true,
+  "allPagesHaveExtractableText": true,
+  "tocNavigationPassed": true,
+  "proseEndingMatches": 0,
+  "geometryIssues": 0,
+  "typecheck": "PASS",
+  "renderDirectory": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/verification-scenarios/render"
+}

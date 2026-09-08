@@ -1,0 +1,34 @@
+{
+  "status": "PASS",
+  "assertions": 1013,
+  "basis": "2026-09-08 conditional analyst assumptions; monetary unit KRW 100 million",
+  "scenarios": [
+    {
+      "id": "optimistic",
+      "wacc": 0.10929419642018683,
+      "conditionalEnterpriseValue": 974.8637448359094,
+      "presentExplicitFcff": 162.94119855964612,
+      "presentTerminalValue": 810.4548028362722,
+      "presentNwcTransition": 1.467743439991106,
+      "terminalMargin": 0.18787245029489227
+    },
+    {
+      "id": "base",
+      "wacc": 0.11467576805897109,
+      "conditionalEnterpriseValue": 676.6564042469333,
+      "presentExplicitFcff": 65.77431116291598,
+      "presentTerminalValue": 610.8820930840174,
+      "presentNwcTransition": 0,
+      "terminalMargin": 0.17322948256969747
+    },
+    {
+      "id": "pessimistic",
+      "wacc": 0.11467576805897109,
+      "conditionalEnterpriseValue": 310.70906723405454,
+      "presentExplicitFcff": -41.52511870946667,
+      "presentTerminalValue": 352.2341859435212,
+      "presentNwcTransition": 0,
+      "terminalMargin": 0.11714245096086062
+    }
+  ]
+}

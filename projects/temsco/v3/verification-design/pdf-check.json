@@ -1,0 +1,19 @@
+{
+  "pdf": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/output/TEMSCO-IR-v3-design-draft-20260909.pdf",
+  "sha256": "802a0fa2f856b1116a7682b26c3045776877440dd5ed27f725aa9690840306de",
+  "pages": 36,
+  "dividerPages": [
+    3,
+    11,
+    18,
+    27,
+    35
+  ],
+  "allPageSizesLandscape": true,
+  "allPagesHaveExtractableText": true,
+  "tocNavigationPassed": true,
+  "proseEndingMatches": 0,
+  "geometryIssues": 0,
+  "typecheck": "PASS",
+  "renderDirectory": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/verification-design/render"
+}

@@ -1,0 +1,26 @@
+{
+  "method": "Whitespace ignored only for PDF extraction check; no artifact text normalization",
+  "pages": 36,
+  "checks": [
+    {
+      "page": 4,
+      "phrase": "2027년 위폼스 흑자 전망",
+      "present": true
+    },
+    {
+      "page": 22,
+      "phrase": "감가상각·무형상각 가산",
+      "present": true
+    },
+    {
+      "page": 33,
+      "phrase": "2026E 유지",
+      "present": true
+    },
+    {
+      "page": 36,
+      "phrase": "고객 FCST·발주·단가·CAPA 검증",
+      "present": true
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "passed": true,
+  "marketWacc": [
+    {
+      "industry": "Electronics (General)",
+      "debtProxy": "AA− / 10년",
+      "wacc": 0.10929419642018683
+    },
+    {
+      "industry": "Electronics (General)",
+      "debtProxy": "BBB− / 10년",
+      "wacc": 0.11467576805897109
+    },
+    {
+      "industry": "Chemical (Specialty)",
+      "debtProxy": "AA− / 10년",
+      "wacc": 0.08731884499751238
+    },
+    {
+      "industry": "Chemical (Specialty)",
+      "debtProxy": "BBB− / 10년",
+      "wacc": 0.09557525613740876
+    }
+  ],
+  "terminalGrowth": 0,
+  "sourcePeriodsMatch": true,
+  "checked": [
+    "FCFF signs and missing-data propagation",
+    "g0 perpetuity and discounted timing",
+    "calendar-date validation",
+    "WACC industry metadata compatibility",
+    "non-finite/negative input rejection",
+    "financing shortfall",
+    "round dilution"
+  ],
+  "currentEnterpriseValue": null,
+  "reason": "valuation-date stub/full D&A/operating tax/maintenance capex/NWC unresolved",
+  "referenceSources": 9
+}

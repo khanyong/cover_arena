@@ -1,0 +1,65 @@
+{
+  "sourceFiles": [
+    {
+      "id": "S01",
+      "name": "ir 내용정리.xlsx",
+      "sha256": "8c2d637d1ec430fecdf643142a18720c5467f9d20f70a84cb5be5ed222918170",
+      "unchanged": true
+    },
+    {
+      "id": "S02",
+      "name": "모회사_자회사_연결_추정손익_양식_2023-2030_v2.xlsx",
+      "sha256": "d5f016e3183155cf1ced34747777b539f5f2bf7427174f933d922ad4023b1160",
+      "unchanged": true
+    },
+    {
+      "id": "S03",
+      "name": "비상장주식_DCF평가_모델(템스코)_수정.xlsx",
+      "sha256": "70e666be1a30093bc50b64f86ca9e9e4279bc9514f446cd6e0f990020d84357d",
+      "unchanged": true
+    },
+    {
+      "id": "S04",
+      "name": "위폼스_추정손익.xlsx",
+      "sha256": "ce780d52a3e05911521b4c28db16c002af89d927b6caa8e8647a9c38328c353b",
+      "unchanged": true
+    },
+    {
+      "id": "S05",
+      "name": "켐코제안서_오정석.docx",
+      "sha256": "703d56105b04dbf11e2da6efa79e1ea4e2594f162e3ad630f8902b68931e16f8",
+      "unchanged": true
+    },
+    {
+      "id": "S06",
+      "name": "템스코_추정손익  _20260908_최종.xlsx",
+      "sha256": "e5db8a90003f98522bdcee8a91e41fb81944e519df3cf00b301e8634a06e5486",
+      "unchanged": true
+    },
+    {
+      "id": "S07",
+      "name": "투자자요구사항.txt",
+      "sha256": "d62ffeb8ad23fbc028e748191e7b587e51e27cc5eaef89db1279b3d0c9360250",
+      "unchanged": true
+    },
+    {
+      "id": "S08",
+      "name": "파인원 주식회사 IR_250907.pdf",
+      "sha256": "f0b0d1ae3f19bcd74decb10e36348ee8f5ff8f8efa2154324eaaf0e5902d3833",
+      "unchanged": true
+    }
+  ],
+  "priorVersions": [
+    {
+      "path": "pages/temsco/original.tsx",
+      "sha256": "90813a85aba1365d20195032384d79000d3dcd36c2533b2ceeb40070516c296f",
+      "unchanged": true
+    },
+    {
+      "path": "pages/temsco/deck.tsx",
+      "sha256": "a4eb4fc50993432914b9d69b23036f172d47dfeba48f68e02cb04719cf6b686e",
+      "unchanged": true
+    }
+  ],
+  "passed": true
+}

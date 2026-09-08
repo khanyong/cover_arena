@@ -1,0 +1,38 @@
+{
+  "components/TemscoV3/valuation.ts": {
+    "sha256": "6f3d1d51a203cf16970c4c31eac44c9b0194303683817fa376032412507b0267",
+    "unchanged": true
+  },
+  "components/TemscoV3/outline.ts": {
+    "sha256": "c62c6828c2076b82b91487581d3b16fd210a33d84c873294d1a3570ecab53522",
+    "unchanged": true
+  },
+  "components/TemscoV3/FinancialCharts.tsx": {
+    "sha256": "16cdc9147bb33ed3796018c12ae7cdc9bec99e48fce7476de85bf12164b43d05",
+    "unchanged": true
+  },
+  "components/TemscoV3/companyForecast.json": {
+    "sha256": "be6aa146c9079e8e5eec36d09cf2fe8016a9d49fee4c3f2432e9e4ed988e4f4e",
+    "unchanged": true
+  },
+  "components/TemscoV3/marketResearch.json": {
+    "sha256": "5280deeb13355fa9ad2f9a8a24428bb653b4895d0d47e175003130408cf6314a",
+    "unchanged": true
+  },
+  "components/TemscoV3/financials.ts": {
+    "sha256": "d6b4115ee783b4b36698642dcde852b543f1761b4435a95a7f19b4f403e75083",
+    "unchanged": true
+  },
+  "components/TemscoV3/marketInputs.ts": {
+    "sha256": "6f9f32d8a0e60143c71596c55b2f7780b8c0d3679eb25e82f54fafcdd55a13f1",
+    "unchanged": true
+  },
+  "pages/temsco/original.tsx": {
+    "sha256": "90813a85aba1365d20195032384d79000d3dcd36c2533b2ceeb40070516c296f",
+    "unchanged": true
+  },
+  "pages/temsco/deck.tsx": {
+    "sha256": "a4eb4fc50993432914b9d69b23036f172d47dfeba48f68e02cb04719cf6b686e",
+    "unchanged": true
+  }
+}

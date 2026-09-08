@@ -1,0 +1,313 @@
+{
+  "peers": [
+    {
+      "name": "핌스 / PIMS",
+      "ticker": "347770",
+      "products": [
+        "OLED common-layer / auxiliary / encapsulation-process metal masks",
+        "frame",
+        "coating"
+      ],
+      "comparison_role": "closer mask product comparator; F-Mask is not synonymous with RGB FMM",
+      "latest": {
+        "period": "2026-01-01/2026-06-30",
+        "published_on": "2026-08-14",
+        "basis": "consolidated",
+        "currency": "KRW",
+        "unit": "ones",
+        "revenue": 32892128831,
+        "operating_profit": -1335601491,
+        "operating_margin_pct": -4.06055,
+        "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002498",
+        "status": "primary_filing_verified"
+      },
+      "annual": {
+        "period": "2025-01-01/2025-12-31",
+        "published_on": "2026-03-20",
+        "basis": "consolidated",
+        "currency": "KRW",
+        "unit": "ones",
+        "revenue": 63383012048,
+        "operating_profit": -6113556216,
+        "operating_margin_pct": -9.645418,
+        "source": "https://kind.krx.co.kr/external/2026/03/20/000786/20260320003100/11011.htm",
+        "status": "primary_filing_verified"
+      },
+      "beta_eligible": "candidate only; losses, customer geography, liquidity and business mix must be tested",
+      "beta": null
+    },
+    {
+      "name": "풍원정밀 / Poongwon Precision",
+      "ticker": "371950",
+      "products": [
+        "OMM",
+        "SBM",
+        "accessory sticks",
+        "FMM-related development/business"
+      ],
+      "comparison_role": "closer mask comparator; match actual commercialized product, generation and customer",
+      "latest": {
+        "period": "2026-01-01/2026-06-30",
+        "published_on": "2026-08-24",
+        "basis": "consolidated",
+        "currency": "KRW",
+        "unit": "ones",
+        "revenue": 19189322062,
+        "operating_profit": -7552504701,
+        "operating_margin_pct": -39.357851,
+        "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260824000174",
+        "status": "primary_filing_verified"
+      },
+      "annual": {
+        "period": "2025-01-01/2025-12-31",
+        "published_on": "2026-03-23",
+        "basis": "consolidated",
+        "currency": "KRW",
+        "unit": "ones",
+        "revenue": 32363366118,
+        "operating_profit": -19933760853,
+        "operating_margin_pct": -61.593596,
+        "source": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260323001475",
+        "status": "primary_filing_verified"
+      },
+      "beta_eligible": "candidate only; R&D losses, capital structure and financing effects require review",
+      "beta": null,
+      "data_reconciliation": "KIND earlier accessed annual contained revenue33064669281/OP-19334511226; these were rejected in favor of directly fetched DART linked here."
+    },
+    {
+      "name": "Dai Nippon Printing / DNP",
+      "ticker": "7912.T",
+      "products": [
+        "OLED RGB metal masks",
+        "optical films",
+        "semiconductor photomasks",
+        "multiple other businesses"
+      ],
+      "comparison_role": "FMM technology comparator, not pure WEforms OMM peer",
+      "latest": {
+        "period": "2026-04-01/2026-06-30",
+        "published_on": "2026-08-07",
+        "basis": "consolidated",
+        "currency": "JPY",
+        "unit": "millions",
+        "revenue": 372946,
+        "operating_profit": 27876,
+        "operating_margin_pct": 7.474541,
+        "source": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/result/dnp_e_26Q1fin.pdf",
+        "status": "primary_filing_verified"
+      },
+      "annual": {
+        "period": "2025-04-01/2026-03-31",
+        "published_on": "2026-05-13",
+        "basis": "consolidated",
+        "currency": "JPY",
+        "unit": "millions",
+        "revenue": 1512571,
+        "operating_profit": 101039,
+        "operating_margin_pct": 6.679951,
+        "source": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/result/dnp_e_25Q4fin.pdf",
+        "status": "primary_filing_verified"
+      },
+      "segment_latest": {
+        "segment": "Electronics",
+        "external_revenue": 71331,
+        "operating_profit": 17899,
+        "currency": "JPY",
+        "unit": "millions",
+        "pure_mask_segment": false,
+        "source": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/result/dnp_e_26Q1fin.pdf"
+      },
+      "beta_eligible": "not automatic; listed equity beta includes diversified non-mask businesses",
+      "beta": null
+    },
+    {
+      "name": "JX Advanced Metals",
+      "ticker": "5016.T",
+      "products": [
+        "semiconductor sputtering targets",
+        "tantalum/niobium materials",
+        "metals",
+        "recycling",
+        "resource interests"
+      ],
+      "comparison_role": "target technology/competition reference, product and material scope must match",
+      "latest": {
+        "period": "2026-04-01/2026-06-30",
+        "published_on": "2026-08-06",
+        "basis": "consolidated",
+        "currency": "JPY",
+        "unit": "millions",
+        "revenue": 260604,
+        "operating_profit": 81446,
+        "operating_margin_pct": 31.252782,
+        "source": "https://contents.xj-storage.jp/xcontents/AS82809/d14f78a3/a4cf/4d7c/bcfe/04adedb3340a/140120260805510541.pdf",
+        "status": "primary_filing_verified"
+      },
+      "annual": {
+        "period": "2025-04-01/2026-03-31",
+        "published_on": "2026-05-11",
+        "basis": "consolidated",
+        "currency": "JPY",
+        "unit": "millions",
+        "revenue": 884638,
+        "operating_profit": 174967,
+        "operating_margin_pct": 19.778373,
+        "source": "https://contents.xj-storage.jp/xcontents/AS82809/982ed71e/1136/42be/95bb/eb5fce11f6a2/140120260510521174.pdf",
+        "status": "primary_filing_verified"
+      },
+      "segment_latest": {
+        "segment": "Semiconductor Materials",
+        "external_revenue": 51956,
+        "operating_profit": 14412,
+        "currency": "JPY",
+        "unit": "millions",
+        "pure_target_segment": false,
+        "source": "https://contents.xj-storage.jp/xcontents/AS82809/d14f78a3/a4cf/4d7c/bcfe/04adedb3340a/140120260805510541.pdf"
+      },
+      "earnings_caveat": "Group operating earnings include effects of resource holdings/equity-method income and are not a pure target manufacturing margin.",
+      "beta_eligible": "not automatic; diversified commodity/resource exposure and consistent usable trading history must be assessed",
+      "beta": null
+    }
+  ],
+  "sources": {
+    "pims_h1": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814002498",
+    "pims_h1_body": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814002498&dcmNo=11533550&eleId=19&offset=208881&length=79353&dtd=dart4.xsd",
+    "pims_fy": "https://kind.krx.co.kr/external/2026/03/20/000786/20260320003100/11011.htm",
+    "pw_h1": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260824000174",
+    "pw_h1_body": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260824000174&dcmNo=11548095&eleId=21&offset=184605&length=111485&dtd=dart4.xsd",
+    "pw_fy": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260323001475",
+    "pw_fy_body": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260323001475&dcmNo=11167958&eleId=19&offset=161151&length=130649&dtd=dart4.xsd",
+    "dnp_q1": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/result/dnp_e_26Q1fin.pdf",
+    "dnp_fy": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/result/dnp_e_25Q4fin.pdf",
+    "jx_q1": "https://contents.xj-storage.jp/xcontents/AS82809/d14f78a3/a4cf/4d7c/bcfe/04adedb3340a/140120260805510541.pdf",
+    "jx_fy": "https://contents.xj-storage.jp/xcontents/AS82809/982ed71e/1136/42be/95bb/eb5fce11f6a2/140120260510521174.pdf",
+    "omdia_2026": "https://omdia.tech.informa.com/pr/2026/july/large-area-oled-shipments-to-increase-18point8percent-yoy-in-2026-despite-economic-uncertainty-and-component-price-hike",
+    "sdc": "https://news.samsungdisplay.com/34177",
+    "jxcapa": "https://www.jx-nmm.com/english/newsrelease/fy2026/20260723_02.html",
+    "maskreport": "https://omdia.tech.informa.com/om146052/oled--flexible-display-technology-tracker--3q26-shadow-mask"
+  },
+  "facts": [
+    {
+      "id": "O01",
+      "type": "external_forecast",
+      "publisher": "Omdia",
+      "published_on": "2026-07-15",
+      "forecast_period": "2026",
+      "metric": "large_area_OLED_shipments",
+      "value": 38.8,
+      "unit": "million_units",
+      "yoy_pct": 18.8,
+      "source": "https://omdia.tech.informa.com/pr/2026/july/large-area-oled-shipments-to-increase-18point8percent-yoy-in-2026-despite-economic-uncertainty-and-component-price-hike",
+      "is_temsco_tam": false
+    },
+    {
+      "id": "O02",
+      "type": "external_forecast",
+      "publisher": "Omdia",
+      "published_on": "2026-07-15",
+      "forecast_period": "2026",
+      "metric": "OLED_notebook_shipments_yoy",
+      "value": 66.0,
+      "unit": "percent",
+      "source": "https://omdia.tech.informa.com/pr/2026/july/large-area-oled-shipments-to-increase-18point8percent-yoy-in-2026-despite-economic-uncertainty-and-component-price-hike",
+      "is_temsco_tam": false
+    },
+    {
+      "id": "O03",
+      "type": "external_forecast",
+      "publisher": "Omdia",
+      "published_on": "2026-07-15",
+      "forecast_period": "2026",
+      "metric": "OLED_monitor_shipments_yoy",
+      "value": 34.0,
+      "unit": "percent",
+      "source": "https://omdia.tech.informa.com/pr/2026/july/large-area-oled-shipments-to-increase-18point8percent-yoy-in-2026-despite-economic-uncertainty-and-component-price-hike",
+      "is_temsco_tam": false
+    },
+    {
+      "id": "O04",
+      "type": "external_forecast_scope_warning",
+      "publisher": "Omdia",
+      "published_on": "2026-07-15",
+      "forecast_period": "2026",
+      "metric": "all_large_area_display_revenue_including_LCD",
+      "value": 69.9,
+      "currency": "USD",
+      "unit": "billions",
+      "source": "https://omdia.tech.informa.com/pr/2026/july/large-area-oled-shipments-to-increase-18point8percent-yoy-in-2026-despite-economic-uncertainty-and-component-price-hike",
+      "is_temsco_tam": false,
+      "is_OLED_only": false
+    },
+    {
+      "id": "S01",
+      "type": "historically_published_external_forecast",
+      "publisher": "Samsung Display quoting Omdia",
+      "published_on": "2024-03-10",
+      "market_definition": "IT OLED panels",
+      "start_year": 2024,
+      "start_value": 2.534,
+      "end_year": 2029,
+      "end_value": 8.913,
+      "currency": "USD",
+      "unit": "billions",
+      "reported_cagr_pct": 28.6,
+      "source": "https://news.samsungdisplay.com/34177",
+      "is_temsco_tam": false,
+      "caveat": "Not a 2026 refreshed forecast or observed 2024 actual; not mask/target revenue."
+    },
+    {
+      "id": "S02",
+      "type": "customer_announced_plan",
+      "publisher": "Samsung Display",
+      "published_on": "2024-03-10",
+      "metric": "IT_OLED_investment_plan_through_2026",
+      "value": 4.1,
+      "currency": "KRW",
+      "unit": "trillions",
+      "associated_annual_notebook_panel_capacity_millions": 10,
+      "source": "https://news.samsungdisplay.com/34177",
+      "is_temsco_tam": false,
+      "caveat": "Plan as announced; not independent confirmation of completed investment, achieved yield or TEMSCO orders."
+    },
+    {
+      "id": "J01",
+      "type": "competitor_announced_capex",
+      "publisher": "JX Advanced Metals",
+      "published_on": "2026-07-23",
+      "metric": "Korea_semiconductor_target_processing_capacity_expansion",
+      "value": 4,
+      "currency": "JPY",
+      "unit": "billions",
+      "source": "https://www.jx-nmm.com/english/newsrelease/fy2026/20260723_02.html",
+      "is_temsco_tam": false
+    },
+    {
+      "id": "M01",
+      "type": "source_identified_data_unavailable",
+      "publisher": "Omdia",
+      "published_on": "2026-09-02",
+      "title": "OLED & Flexible Display Technology Tracker – 3Q26: Shadow Mask",
+      "source": "https://omdia.tech.informa.com/om146052/oled--flexible-display-technology-tracker--3q26-shadow-mask",
+      "data_verified": false,
+      "tam": null,
+      "sam": null,
+      "caveat": "Public product page identifies relevant report; paid market tables were not accessible. No report figures used."
+    },
+    {
+      "id": "I01",
+      "type": "company_statement_unverified_externally",
+      "source": "../analysis/S05.txt",
+      "metric": "Visionox_allocation_discussion",
+      "value": 30,
+      "unit": "percent",
+      "is_global_market_share": false,
+      "required_confirmation": [
+        "product",
+        "period",
+        "customer_purchase_budget_denominator",
+        "binding_order_or_allocation_evidence",
+        "realized_shipments"
+      ]
+    }
+  ]
+}

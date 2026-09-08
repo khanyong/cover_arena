@@ -1,0 +1,110 @@
+{
+  "status": "PASS",
+  "files": [
+    {
+      "path": "components/TemscoV3/companyForecast.json",
+      "sha256": "be6aa146c9079e8e5eec36d09cf2fe8016a9d49fee4c3f2432e9e4ed988e4f4e",
+      "preserved": true
+    },
+    {
+      "path": "components/TemscoV3/financials.ts",
+      "sha256": "d6b4115ee783b4b36698642dcde852b543f1761b4435a95a7f19b4f403e75083",
+      "preserved": true
+    },
+    {
+      "path": "components/TemscoV3/marketInputs.ts",
+      "sha256": "6f9f32d8a0e60143c71596c55b2f7780b8c0d3679eb25e82f54fafcdd55a13f1",
+      "preserved": true
+    },
+    {
+      "path": "components/TemscoV3/multiplesInputs.ts",
+      "sha256": "ed6fdbfc94059eb60943841756fcca6eb75f6f2e270a28603767f1f4e0ba1dad",
+      "preserved": true
+    },
+    {
+      "path": "components/TemscoV3/marketResearch.json",
+      "sha256": "5280deeb13355fa9ad2f9a8a24428bb653b4895d0d47e175003130408cf6314a",
+      "preserved": true
+    },
+    {
+      "path": "components/TemscoV3/valuation.ts",
+      "sha256": "6f3d1d51a203cf16970c4c31eac44c9b0194303683817fa376032412507b0267",
+      "preserved": true
+    },
+    {
+      "path": "components/TemscoV3/FinancialLayouts.tsx",
+      "sha256": "ff6a2a9a0f7c421e384857ad957536545bff62a8a4804a0d9d4d20995216a507",
+      "preserved": true
+    },
+    {
+      "path": "pages/temsco/deck-v3.tsx",
+      "sha256": "b119e608b3be3204e815d2c51de2caf093ba8da50387811be6981c9f96c12664",
+      "preserved": true
+    },
+    {
+      "path": "pages/temsco/index.tsx",
+      "sha256": "53c6848e6d6990dc5d52870568774636098eca824f15b754d821094e187213cb",
+      "preserved": true
+    },
+    {
+      "path": "pages/temsco/original.tsx",
+      "sha256": "90813a85aba1365d20195032384d79000d3dcd36c2533b2ceeb40070516c296f",
+      "preserved": true
+    },
+    {
+      "path": "pages/temsco/deck.tsx",
+      "sha256": "a4eb4fc50993432914b9d69b23036f172d47dfeba48f68e02cb04719cf6b686e",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/output/TEMSCO-IR-v3-scenarios-draft-20260909.pdf",
+      "sha256": "794ecd1720ce36acbaf70c4eeac4737bdb8337643bdb0fb0c39ee94b5b100566",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/output/TEMSCO-IR-v3-design-draft-20260909.pdf",
+      "sha256": "802a0fa2f856b1116a7682b26c3045776877440dd5ed27f725aa9690840306de",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/ir 내용정리.xlsx",
+      "sha256": "8c2d637d1ec430fecdf643142a18720c5467f9d20f70a84cb5be5ed222918170",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/모회사_자회사_연결_추정손익_양식_2023-2030_v2.xlsx",
+      "sha256": "d5f016e3183155cf1ced34747777b539f5f2bf7427174f933d922ad4023b1160",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/비상장주식_DCF평가_모델(템스코)_수정.xlsx",
+      "sha256": "70e666be1a30093bc50b64f86ca9e9e4279bc9514f446cd6e0f990020d84357d",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/위폼스_추정손익.xlsx",
+      "sha256": "ce780d52a3e05911521b4c28db16c002af89d927b6caa8e8647a9c38328c353b",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/켐코제안서_오정석.docx",
+      "sha256": "703d56105b04dbf11e2da6efa79e1ea4e2594f162e3ad630f8902b68931e16f8",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/템스코_추정손익  _20260908_최종.xlsx",
+      "sha256": "e5db8a90003f98522bdcee8a91e41fb81944e519df3cf00b301e8634a06e5486",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/투자자요구사항.txt",
+      "sha256": "d62ffeb8ad23fbc028e748191e7b587e51e27cc5eaef89db1279b3d0c9360250",
+      "preserved": true
+    },
+    {
+      "path": "projects/temsco/v3/source-materials/파인원 주식회사 IR_250907.pdf",
+      "sha256": "f0b0d1ae3f19bcd74decb10e36348ee8f5ff8f8efa2154324eaaf0e5902d3833",
+      "preserved": true
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "status": "PASS",
+  "checks": 2350,
+  "openingIndustryNwc2025": 63.11796362172708,
+  "valuationOpeningNwcProxy": 72.24068883928345,
+  "scenarios": [
+    {
+      "id": "optimistic",
+      "enterpriseValue": 943.6496581236313,
+      "presentExplicitFcff": 130.34040460544117,
+      "presentTerminalValue": 813.3092535181901,
+      "normalizedEbit": 160.16378747239628,
+      "normalizedFcff": 125.36775422846908
+    },
+    {
+      "id": "base",
+      "enterpriseValue": 614.3863757738333,
+      "presentExplicitFcff": 39.772095311948426,
+      "presentTerminalValue": 574.6142804618848,
+      "normalizedEbit": 120.51081330908798,
+      "normalizedFcff": 94.43843438108863
+    },
+    {
+      "id": "pessimistic",
+      "enterpriseValue": 283.066668422198,
+      "presentExplicitFcff": -37.31615727066662,
+      "presentTerminalValue": 320.3828256928646,
+      "normalizedEbit": 66.94261452757557,
+      "normalizedFcff": 52.65523933150894
+    }
+  ]
+}

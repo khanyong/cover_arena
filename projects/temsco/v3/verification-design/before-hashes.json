@@ -1,0 +1,13 @@
+{
+  "components/TemscoV3/ChapterDivider.tsx": "3dc019b946762a2be7016a036d8f3526371854f3ce4a9162de28ad35e0adc416",
+  "components/TemscoV3/deck.module.css": "a53c92fbd8ee6b3ae07cf54b56f2feabec10f059c498eec14e64fe0e844b9d00",
+  "components/TemscoV3/valuation.ts": "6f3d1d51a203cf16970c4c31eac44c9b0194303683817fa376032412507b0267",
+  "components/TemscoV3/outline.ts": "c62c6828c2076b82b91487581d3b16fd210a33d84c873294d1a3570ecab53522",
+  "components/TemscoV3/FinancialCharts.tsx": "16cdc9147bb33ed3796018c12ae7cdc9bec99e48fce7476de85bf12164b43d05",
+  "components/TemscoV3/companyForecast.json": "be6aa146c9079e8e5eec36d09cf2fe8016a9d49fee4c3f2432e9e4ed988e4f4e",
+  "components/TemscoV3/marketResearch.json": "5280deeb13355fa9ad2f9a8a24428bb653b4895d0d47e175003130408cf6314a",
+  "components/TemscoV3/financials.ts": "d6b4115ee783b4b36698642dcde852b543f1761b4435a95a7f19b4f403e75083",
+  "components/TemscoV3/marketInputs.ts": "6f9f32d8a0e60143c71596c55b2f7780b8c0d3679eb25e82f54fafcdd55a13f1",
+  "components/TemscoV3/dcfSlides.tsx": "21e10e5c215e558449859bd1e48faa9a21c2c1296f203164d0cdd1c0b2b2e2ba",
+  "pages/temsco/deck-v3.tsx": "700e7a4cd00d2defc9f55748640eaaec6044f663099b458486a3a9f31f759f52"
+}

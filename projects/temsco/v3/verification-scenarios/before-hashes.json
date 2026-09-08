@@ -1,0 +1,23 @@
+{
+  "pages/temsco/deck-v3.tsx": "c52a350097fd22e14079794633c3f81bb8126da57bf9100273cc7c9aaa55973f",
+  "pages/temsco/index.tsx": "c80e474dc304563f0e13c648ce768f16e36b7fc65fb49521e88ef88fc8b5afff",
+  "components/TemscoV3/researchLayouts.module.css": "6f5678477dae3f9fa35c61cdeb152202ceda3b1be5726948eabe25870d22b3d5",
+  "components/TemscoV3/ChapterDivider.tsx": "62a5df57ed77dcc760875934d134ce587bad748263ded2051e05965a33ec375d",
+  "components/TemscoV3/deck.module.css": "3939bce28033a6f296e40e792968b88bb5897cc80010a71373cd15f99f94e120",
+  "components/TemscoV3/FinancialLayouts.tsx": "ff6a2a9a0f7c421e384857ad957536545bff62a8a4804a0d9d4d20995216a507",
+  "components/TemscoV3/valuation.ts": "6f3d1d51a203cf16970c4c31eac44c9b0194303683817fa376032412507b0267",
+  "components/TemscoV3/EvidenceLayouts.tsx": "108e8fa3b910453ed4217aecbd6cc4631f7d622f700e3d9f23dcec5b9ced572c",
+  "components/TemscoV3/outline.ts": "c62c6828c2076b82b91487581d3b16fd210a33d84c873294d1a3570ecab53522",
+  "components/TemscoV3/FinancialCharts.tsx": "16cdc9147bb33ed3796018c12ae7cdc9bec99e48fce7476de85bf12164b43d05",
+  "components/TemscoV3/companyForecast.json": "be6aa146c9079e8e5eec36d09cf2fe8016a9d49fee4c3f2432e9e4ed988e4f4e",
+  "components/TemscoV3/ResearchLayouts.tsx": "243438363db1cafeadcc5deebbe91ed52b353d873e24c9662f75fa5bc22b33c9",
+  "components/TemscoV3/marketResearch.json": "5280deeb13355fa9ad2f9a8a24428bb653b4895d0d47e175003130408cf6314a",
+  "components/TemscoV3/evidenceLayouts.module.css": "2547c56e437a6806566eb0520d51884583fd8d9f803f492c61d2f59347b60474",
+  "components/TemscoV3/financials.ts": "d6b4115ee783b4b36698642dcde852b543f1761b4435a95a7f19b4f403e75083",
+  "components/TemscoV3/marketInputs.ts": "6f9f32d8a0e60143c71596c55b2f7780b8c0d3679eb25e82f54fafcdd55a13f1",
+  "components/TemscoV3/financialLayouts.module.css": "9ec547ee2bf4d216fe9435ad8adb3014c8f6331264b1ec08a16f94fc9b2cfd86",
+  "components/TemscoV3/dcfSlides.tsx": "68b92d86db05729775a2f275d4865d49a8d398e26f8f5ac6d20998b3cc0df535",
+  "projects/temsco/v3/AUTHORING.md": "6fd5a04a100c87a590227843ae13d1c75ad01611f9d8c566e05b0325e6c39922",
+  "projects/temsco/v3/README.md": "49aeca00d07c3eac5acbc46da7faabc20c902e6c55d9931f8be531709fc60bd0",
+  "projects/temsco/v3/valuation-analysis.md": "b70943aec51736c9a927b252c066716726cdb7928eaa937f3ea03941824a74f9"
+}

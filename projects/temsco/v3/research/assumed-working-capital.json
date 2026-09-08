@@ -1,0 +1,486 @@
+{
+  "title": "TEMSCO V3 산업평균 운전자본 가정",
+  "valuationCutoff": "2026-09-08",
+  "retrievedDate": "2026-09-09",
+  "source": {
+    "provider": "Aswath Damodaran, NYU Stern",
+    "title": "Working Capital Requirements by Industry Sector — Global",
+    "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/wcdataGlobal.xls",
+    "indexUrl": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datacurrent.html",
+    "fileUpdateDate": "2026-01-05",
+    "fileUpdateCell": "Industry Averages!B1",
+    "portalLastFullUpdate": "2026-01-09",
+    "dataTiming": "연초 당시 확보 가능한 최신 기업자료; 포털 설명상 대체로 전년3분기까지의 최근12개월 자료. 모든 기업의2025연간결산 또는2026예상치 아님.",
+    "sourceDataServices": "Multiple data services, NYU가 직접 집계·공개",
+    "sha256": "2308b3b9efb91e7d42601a214d262b56c4a783ac6fe6f6e0e77fb702a39f2023",
+    "definitionSourceSheet": "Variables & FAQ",
+    "definitionCells": "B5:B8",
+    "readOnly": true
+  },
+  "definitions": {
+    "aggregation": "Aggregated numerator divided by aggregated sales across all companies in industry group. 회사별 비율 단순평균 또는 중앙값 아님.",
+    "nonCashWc": "(Current Assets - Cash) - (Current liabilities - ST Interest-bearing Debt)",
+    "ratio": "Aggregated non-cash working capital / aggregated sales",
+    "coreThreeAccounts": "Accounts receivable + inventory - accounts payable",
+    "otherNetCurrentAccounts": "Non-cash WC ratio - AR/Sales - Inventory/Sales + AP/Sales; 별도공시항목 아닌3계정외순액의 역산값",
+    "financialDebt": "이자부단기채무 제외; 이자부채·현금조달을 영업NWC에 중복 반영 금지",
+    "units": "소스비율은무차원; 회사매출이억 원이면NWC·ΔNWC도억 원",
+    "sourceDefinitionNotes": "NCWC에3계정외유동항목 포함. 순수영업항목으로의한국회계계정 매핑은추가확인 필요."
+  },
+  "sectors": [
+    {
+      "industry": "Electronics (General)",
+      "region": "Global",
+      "numberOfFirms": 1481,
+      "arToSales": 0.22660278612939705,
+      "inventoryToSales": 0.18182541047199252,
+      "apToSales": 0.25897565862293437,
+      "nonCashWcToSales": 0.18422333239155061,
+      "coreThreeAccountWcToSales": 0.1494525379784552,
+      "otherNetCurrentAccountsToSalesDerived": 0.03477079441309541,
+      "sheet": "Industry Averages",
+      "row": 37,
+      "sourceCells": {
+        "industry": "A37",
+        "numberOfFirms": "B37",
+        "arToSales": "C37",
+        "inventoryToSales": "D37",
+        "apToSales": "E37",
+        "nonCashWcToSales": "F37"
+      }
+    },
+    {
+      "industry": "Chemical (Specialty)",
+      "region": "Global",
+      "numberOfFirms": 952,
+      "arToSales": 0.1762259679883968,
+      "inventoryToSales": 0.17947179509190234,
+      "apToSales": 0.14820457215455463,
+      "nonCashWcToSales": 0.18885179047150497,
+      "coreThreeAccountWcToSales": 0.20749319092574448,
+      "otherNetCurrentAccountsToSalesDerived": -0.01864140045423951,
+      "sheet": "Industry Averages",
+      "row": 26,
+      "sourceCells": {
+        "industry": "A26",
+        "numberOfFirms": "B26",
+        "arToSales": "C26",
+        "inventoryToSales": "D26",
+        "apToSales": "E26",
+        "nonCashWcToSales": "F26"
+      }
+    },
+    {
+      "industry": "Metals & Mining",
+      "region": "Global",
+      "numberOfFirms": 1874,
+      "arToSales": 0.08158743502312592,
+      "inventoryToSales": 0.16307748178861997,
+      "apToSales": 0.091443575887572,
+      "nonCashWcToSales": 0.1276850013196309,
+      "coreThreeAccountWcToSales": 0.1532213409241739,
+      "otherNetCurrentAccountsToSalesDerived": -0.02553633960454299,
+      "sheet": "Industry Averages",
+      "row": 60,
+      "sourceCells": {
+        "industry": "A60",
+        "numberOfFirms": "B60",
+        "arToSales": "C60",
+        "inventoryToSales": "D60",
+        "apToSales": "E60",
+        "nonCashWcToSales": "F60"
+      }
+    },
+    {
+      "industry": "Steel",
+      "region": "Global",
+      "numberOfFirms": 719,
+      "arToSales": 0.11662599702516288,
+      "inventoryToSales": 0.20126965559639567,
+      "apToSales": 0.15945612490008165,
+      "nonCashWcToSales": 0.1413357605410273,
+      "coreThreeAccountWcToSales": 0.1584395277214769,
+      "otherNetCurrentAccountsToSalesDerived": -0.01710376718044959,
+      "sheet": "Industry Averages",
+      "row": 93,
+      "sourceCells": {
+        "industry": "A93",
+        "numberOfFirms": "B93",
+        "arToSales": "C93",
+        "inventoryToSales": "D93",
+        "apToSales": "E93",
+        "nonCashWcToSales": "F93"
+      }
+    }
+  ],
+  "selection": {
+    "selectedIndustry": "Electronics (General)",
+    "selectedRatio": 0.18422333239155061,
+    "reason": "전자·디스플레이 관련 B2B 소재·부품 공급과 기존 WACC업종선정의 일관성. Global 표본 사용으로 미국지역 한정통계와 구분.",
+    "secondaryIndustry": "Chemical (Specialty)",
+    "secondaryRatio": 0.18885179047150497,
+    "secondaryReason": "코팅·특수소재 사업의 인접 산업 민감도. 두 산업은 실제회사매출 가중치 없이 혼합평균하지 않음.",
+    "notSelected": [
+      "Metals & Mining: 자원개발·광산과 제조소재의 사업모형 차이",
+      "Steel: 제강·압연 표본과 고부가 전자소재의 차이"
+    ],
+    "limitation": "국내 동일세부업종 표본 아님. TEMSCO 실제운전자본이 아닌 공개글로벌산업비율 대용. 산업간 동일한 평균법이나 구성이라는주장 제외."
+  },
+  "implementation": {
+    "closingBalance": "NCWC_t = consolidated external revenue_t × assumed NCWC/Sales_t",
+    "annualCashInvestment": "ΔNCWC_t = closing NCWC_t - opening NCWC_t",
+    "cashFlowSign": "FCFF에서 양의ΔNCWC 차감; 음의ΔNCWC는자금회수",
+    "consolidation": "내부매출제거후연결외부매출에1회 적용; 자회사·모회사매출합계에중복적용금지",
+    "replacement": "기존 DSO/DIO/DPO 기반 NWC모형을 대체. 기존ΔNWC·기타NWC·정상전환Δ를 추가로가산하지 않음.",
+    "terminal": "명목g=0, 정상매출·NCWC비율 고정이면NCWC잔액유지·ΔNCWC=0. 계속기업의기존잔액전액회수는가정하지 않음.",
+    "marginNormalization": "매출비율모형에서마진정상화만으로NCWC변동 발생하지 않음. 기존원가기반정상NWC전환조정 제거 또는동일정의로재계산 필요.",
+    "residual2026": "연간ΔNCWC×114/365는기중자료미확인 상태의선형안분 분석가정. 산업통계에서제공된관측값 아님."
+  },
+  "openingBalanceAlternatives": {
+    "historicalRevenue2025Eok": 342.61655569,
+    "historicalCoreThreeAccounts2025Eok": 22.63781766,
+    "historicalCoreSource": "기존 scenarioValuation.ts openingCoreNwc2025 / 회사자료 S03; 총NCWC와구분",
+    "A_industryNormalizedOpening": {
+      "openingNcwc2025Eok": 63.11796362172708,
+      "formula": "2025 consolidated revenue × Global Electronics NCWC/Sales",
+      "meaning": "기초부터산업수준의총NCWC를사용하는완전산업대용. 실제2025총NCWC로표시금지.",
+      "limitation": "회사실제핵심운전자본과산업정상수준간전환투자차이를회수·추가투자로별도포착하지 않음."
+    },
+    "B_actualCorePlusAssumedOther": {
+      "openingOtherNet2025Eok": 11.913049820419845,
+      "openingNcwc2025Eok": 34.550867480419846,
+      "formula": "2025 actual core AR+inventory−AP + 2025 revenue × (industry NCWC/Sales − industry core3/Sales)",
+      "meaning": "핵심3계정회사실적 보존 + 미확정기타유동순액만산업차이비율로대용.",
+      "limitation": "기타계정의실제성격·잔액미확인. 2026말산업총NCWC로의전환을명시적첫해투자에포함하는분석가정."
+    },
+    "recommendation": "핵심실적을보존하는B를기본후보로제시. 사용자승인된산업평균가정과계산근거를본문에명시. A는초기정상화가정민감도로구분.",
+    "noMixedScopeComparison": "2025핵심3계정잔액을총NCWC기초로설명없이취급금지."
+  },
+  "revenueScenarioExamples": [
+    {
+      "scenario": "optimistic",
+      "companyRevenueIncrementRealizationFactor": 1,
+      "nwcRatioScenarioAdjustment": 1,
+      "rows": [
+        {
+          "year": 2026,
+          "revenueEok": 414.62759896,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 76.38407798191862,
+          "annualDeltaFromIndustryOpeningA": 13.266114360191544,
+          "annualDeltaFromCorePlusOtherOpeningB": 41.833210501498776,
+          "dcfCashDeltaA": 4.143389142635167,
+          "dcfCashDeltaB": 13.065715060742082
+        },
+        {
+          "year": 2027,
+          "revenueEok": 602.9449372142253,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 111.07652558221885,
+          "annualDeltaFromIndustryOpeningA": 34.69244760030023,
+          "annualDeltaFromCorePlusOtherOpeningB": 34.69244760030023,
+          "dcfCashDeltaA": 34.69244760030023,
+          "dcfCashDeltaB": 34.69244760030023
+        },
+        {
+          "year": 2028,
+          "revenueEok": 746.3444639763381,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 137.4940642657066,
+          "annualDeltaFromIndustryOpeningA": 26.417538683487763,
+          "annualDeltaFromCorePlusOtherOpeningB": 26.417538683487763,
+          "dcfCashDeltaA": 26.417538683487763,
+          "dcfCashDeltaB": 26.417538683487763
+        },
+        {
+          "year": 2029,
+          "revenueEok": 852.513432496338,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 157.05286544303462,
+          "annualDeltaFromIndustryOpeningA": 19.558801177328007,
+          "annualDeltaFromCorePlusOtherOpeningB": 19.558801177328007,
+          "dcfCashDeltaA": 19.558801177328007,
+          "dcfCashDeltaB": 19.558801177328007
+        }
+      ],
+      "terminalDeltaNcwcEok": 0
+    },
+    {
+      "scenario": "base",
+      "companyRevenueIncrementRealizationFactor": 0.75,
+      "nwcRatioScenarioAdjustment": 1,
+      "rows": [
+        {
+          "year": 2026,
+          "revenueEok": 414.62759896,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 76.38407798191862,
+          "annualDeltaFromIndustryOpeningA": 13.266114360191544,
+          "annualDeltaFromCorePlusOtherOpeningB": 41.833210501498776,
+          "dcfCashDeltaA": 4.143389142635167,
+          "dcfCashDeltaB": 13.065715060742082
+        },
+        {
+          "year": 2027,
+          "revenueEok": 555.865602650669,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 102.40341368214379,
+          "annualDeltaFromIndustryOpeningA": 26.01933570022517,
+          "annualDeltaFromCorePlusOtherOpeningB": 26.01933570022517,
+          "dcfCashDeltaA": 26.01933570022517,
+          "dcfCashDeltaB": 26.01933570022517
+        },
+        {
+          "year": 2028,
+          "revenueEok": 663.4152477222536,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 122.21656769475962,
+          "annualDeltaFromIndustryOpeningA": 19.813154012615826,
+          "annualDeltaFromCorePlusOtherOpeningB": 19.813154012615826,
+          "dcfCashDeltaA": 19.813154012615826,
+          "dcfCashDeltaB": 19.813154012615826
+        },
+        {
+          "year": 2029,
+          "revenueEok": 743.0419741122536,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 136.88566857775564,
+          "annualDeltaFromIndustryOpeningA": 14.66910088299602,
+          "annualDeltaFromCorePlusOtherOpeningB": 14.66910088299602,
+          "dcfCashDeltaA": 14.66910088299602,
+          "dcfCashDeltaB": 14.66910088299602
+        }
+      ],
+      "terminalDeltaNcwcEok": 0
+    },
+    {
+      "scenario": "pessimistic",
+      "companyRevenueIncrementRealizationFactor": 0.5,
+      "nwcRatioScenarioAdjustment": 1,
+      "rows": [
+        {
+          "year": 2026,
+          "revenueEok": 414.62759896,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 76.38407798191862,
+          "annualDeltaFromIndustryOpeningA": 13.266114360191544,
+          "annualDeltaFromCorePlusOtherOpeningB": 41.833210501498776,
+          "dcfCashDeltaA": 4.143389142635167,
+          "dcfCashDeltaB": 13.065715060742082
+        },
+        {
+          "year": 2027,
+          "revenueEok": 508.78626808711266,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 93.73030178206874,
+          "annualDeltaFromIndustryOpeningA": 17.346223800150113,
+          "annualDeltaFromCorePlusOtherOpeningB": 17.346223800150113,
+          "dcfCashDeltaA": 17.346223800150113,
+          "dcfCashDeltaB": 17.346223800150113
+        },
+        {
+          "year": 2028,
+          "revenueEok": 580.4860314681691,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 106.93907112381264,
+          "annualDeltaFromIndustryOpeningA": 13.208769341743903,
+          "annualDeltaFromCorePlusOtherOpeningB": 13.208769341743903,
+          "dcfCashDeltaA": 13.208769341743903,
+          "dcfCashDeltaB": 13.208769341743903
+        },
+        {
+          "year": 2029,
+          "revenueEok": 633.5705157281691,
+          "ncwcRatio": 0.18422333239155061,
+          "endNcwcEok": 116.71847171247664,
+          "annualDeltaFromIndustryOpeningA": 9.779400588664004,
+          "annualDeltaFromCorePlusOtherOpeningB": 9.779400588664004,
+          "dcfCashDeltaA": 9.779400588664004,
+          "dcfCashDeltaB": 9.779400588664004
+        }
+      ],
+      "terminalDeltaNcwcEok": 0
+    }
+  ],
+  "optionalScenarioAdjustments": {
+    "status": "미채택분석민감도후보; 산업관측값아님",
+    "base": 1,
+    "efficiencyImprovement": 0.8,
+    "collectionInventoryStress": 1.2,
+    "note": "18.4223%×0.8/1.0/1.2의효율성조정은분석가정. 실제산업25/50/75분위·확률분포로표시금지. 위예시는3시나리오모두관측비율1.0공통."
+  },
+  "comparisonToUsHtml": {
+    "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/wcdata.html",
+    "region": "US",
+    "dataAsOf": "January 2026",
+    "electronicsGeneralFirms": 114,
+    "electronicsGeneralNcwcToSalesRounded": 0.2092,
+    "chemicalSpecialtyFirms": 59,
+    "chemicalSpecialtyNcwcToSalesRounded": 0.238,
+    "note": "HTML은US전용. 글로벌18.4223%/18.8852%와혼용금지."
+  },
+  "selectedImplementationStatus": {
+    "status": "implemented_first_pass_assumption",
+    "effectiveDate": "2026-09-09",
+    "modelFiles": [
+      "components/TemscoV3/firstPassAssumptions.ts",
+      "components/TemscoV3/scenarioValuation.ts"
+    ],
+    "selectedOpeningAlternative": "A_industryNormalizedOpening",
+    "sourceIndustryNcwcToSales": 0.18422333239155061,
+    "openingIndustryNcwc2025Eok": 63.11796362172708,
+    "baseEndNcwc2026Eok": 76.38407798191862,
+    "valuationDate": "2026-09-08",
+    "elapsed2026Fraction": 0.6876712328767123,
+    "elapsed2026Days": 251,
+    "commonValuationDateOpeningNcwcEok": 72.24068883928345,
+    "openingFormula": "2025매출×산업율 + (중도2026말NCWC−2025산업NCWC)×251/365",
+    "openingRule": "평가일기초는모든시나리오·단일변수민감도에공통고정. 시나리오별배율을기초에다시적용하지 않음.",
+    "adoptedScenarioMultipliers": {
+      "optimistic": 0.8,
+      "base": 1,
+      "pessimistic": 1.2
+    },
+    "multiplierNature": "낙관0.8·중도1.0·비관1.2의분석가정. 실제산업평균은18.4223%단일관측값,배율은실제분위·관측분포 아님.",
+    "firstForecastDeltaRule": "2026잔여ΔNCWC = 시나리오2026말NCWC − 공통평가일기초. 이미평가일잔액을보간했으므로114/365재곱셈금지.",
+    "futureDeltaRule": "2027이후ΔNCWC = 해당연말−직전연말. 각시나리오산업배율유지.",
+    "terminalRule": "g0·매출 및산업율·배율고정 → ΔNCWC0. 마진정상화만으로NWC변동없음.",
+    "historicalCoreThreeAccountsTreatment": "22.63781766억핵심3계정회사실적은보존하되채택총NCWC기초에는미사용. 범위가다른실제핵심잔액과추정포괄NCWC의단순차감제외.",
+    "supersededOrAlternativeOnly": [
+      "openingBalanceAlternatives.B_actualCorePlusAssumedOther: 초기대안, 현재미채택",
+      "openingBalanceAlternatives.recommendation: 초기조사당시B제안, 현재선택상태로대체",
+      "revenueScenarioExamples: 초기B기초/배율1.0/연간Δ안분예시, 현재모델결과로사용금지",
+      "optionalScenarioAdjustments: 당시미채택후보; .8/1/1.2를현재구현에서는채택",
+      "implementation.residual2026: 초기연간Δ×114/365설명, 현재선택모형에서는공통평가일기초차감으로대체"
+    ],
+    "currentScenarioNcwcSchedule": [
+      {
+        "scenario": "optimistic",
+        "rows": [
+          {
+            "year": 2026,
+            "revenueEok": 414.62759896,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 0.8,
+            "endNcwcEok": 61.1072623855349,
+            "openingNcwcEok": 72.24068883928345,
+            "deltaNcwcCashEok": -11.133426453748548
+          },
+          {
+            "year": 2027,
+            "revenueEok": 602.9449372142253,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 0.8,
+            "endNcwcEok": 88.86122046577509,
+            "openingNcwcEok": 61.1072623855349,
+            "deltaNcwcCashEok": 27.75395808024019
+          },
+          {
+            "year": 2028,
+            "revenueEok": 746.3444639763381,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 0.8,
+            "endNcwcEok": 109.9952514125653,
+            "openingNcwcEok": 88.86122046577509,
+            "deltaNcwcCashEok": 21.134030946790205
+          },
+          {
+            "year": 2029,
+            "revenueEok": 852.513432496338,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 0.8,
+            "endNcwcEok": 125.6422923544277,
+            "openingNcwcEok": 109.9952514125653,
+            "deltaNcwcCashEok": 15.6470409418624
+          }
+        ],
+        "terminalDeltaNcwcEok": 0
+      },
+      {
+        "scenario": "base",
+        "rows": [
+          {
+            "year": 2026,
+            "revenueEok": 414.62759896,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1,
+            "endNcwcEok": 76.38407798191862,
+            "openingNcwcEok": 72.24068883928345,
+            "deltaNcwcCashEok": 4.143389142635172
+          },
+          {
+            "year": 2027,
+            "revenueEok": 555.865602650669,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1,
+            "endNcwcEok": 102.40341368214379,
+            "openingNcwcEok": 76.38407798191862,
+            "deltaNcwcCashEok": 26.01933570022517
+          },
+          {
+            "year": 2028,
+            "revenueEok": 663.4152477222536,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1,
+            "endNcwcEok": 122.21656769475962,
+            "openingNcwcEok": 102.40341368214379,
+            "deltaNcwcCashEok": 19.813154012615826
+          },
+          {
+            "year": 2029,
+            "revenueEok": 743.0419741122536,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1,
+            "endNcwcEok": 136.88566857775564,
+            "openingNcwcEok": 122.21656769475962,
+            "deltaNcwcCashEok": 14.66910088299602
+          }
+        ],
+        "terminalDeltaNcwcEok": 0
+      },
+      {
+        "scenario": "pessimistic",
+        "rows": [
+          {
+            "year": 2026,
+            "revenueEok": 414.62759896,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1.2,
+            "endNcwcEok": 91.66089357830235,
+            "openingNcwcEok": 72.24068883928345,
+            "deltaNcwcCashEok": 19.4202047390189
+          },
+          {
+            "year": 2027,
+            "revenueEok": 508.78626808711266,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1.2,
+            "endNcwcEok": 112.47636213848249,
+            "openingNcwcEok": 91.66089357830235,
+            "deltaNcwcCashEok": 20.815468560180136
+          },
+          {
+            "year": 2028,
+            "revenueEok": 580.4860314681691,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1.2,
+            "endNcwcEok": 128.32688534857516,
+            "openingNcwcEok": 112.47636213848249,
+            "deltaNcwcCashEok": 15.850523210092675
+          },
+          {
+            "year": 2029,
+            "revenueEok": 633.5705157281691,
+            "industryRatio": 0.18422333239155061,
+            "scenarioMultiplier": 1.2,
+            "endNcwcEok": 140.06216605497195,
+            "openingNcwcEok": 128.32688534857516,
+            "deltaNcwcCashEok": 11.735280706396793
+          }
+        ],
+        "terminalDeltaNcwcEok": 0
+      }
+    ],
+    "assumptionLimit": "2025및평가일총NCWC는산업비율로추정한가정값. 실제회사총NCWC·실제기중집행확인과구분."
+  }
+}

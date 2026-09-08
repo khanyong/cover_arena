@@ -1,0 +1,333 @@
+{
+  "schemaVersion": 1,
+  "valuationCutoffDate": "2026-09-08",
+  "researchDate": "2026-09-09",
+  "currency": "JPY",
+  "financialAmountUnit": "JPY million",
+  "sharePriceUnit": "JPY per share",
+  "method": "Historical observed listed consolidated EV/EBIT and EV/EBITDA reconstruction; conditional reference only, not TEMSCO selected comparable multiple",
+  "sourcePolicy": "Issuer financial statements and JPX exchange data; latest quotations separately observed on securities-firm official screens; no aggregator multiple used",
+  "commonFormulas": {
+    "netShares": "issuedShares - treasuryShares",
+    "marketCapitalizationJPYMillion": "closePriceJPY * netShares / 1000000",
+    "enterpriseValueJPYMillion": "marketCapitalization + interestBearingDebtIncludingFinanceLeases + bookNCI - cashAndCashEquivalents",
+    "EBIT": "consolidated reported operating income/profit, with company-specific inclusions disclosed",
+    "EBITDA": "EBIT + consolidated depreciationAndAmortization + separately reported goodwillAmortization (no double counting)",
+    "evEbit": "enterpriseValue / EBIT",
+    "evEbitda": "enterpriseValue / EBITDA"
+  },
+  "sources": {
+    "jpx_march": {
+      "title": "JPX/TSE Stock Quotations — March 2026",
+      "url": "https://www.jpx.co.jp/markets/statistics-equities/price/t13vrt000000xpuw-att/st_202603-2.pdf",
+      "observationDate": "2026-03-31",
+      "publicationDate": null,
+      "publicationDateNote": "월간표 발행일 원문 미표기; 2026-09-08 이전 기간의 역사적 종가",
+      "pdfPages": {
+        "DNP": 90,
+        "JX": 50
+      },
+      "localSha256": "9fb65e860e5b754d0649b20d001703c56a0d2f602ba5ad0533f4966a0a1da2aa",
+      "retrievedDate": "2026-09-09"
+    },
+    "dnp_fy": {
+      "title": "DNP Detailed Consolidated Financial Statements, March 31, 2026 and 2025, with independent auditors report",
+      "url": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/consolidated/dnp_e_FinancialStatements_2025.pdf",
+      "publicationDate": "2026-06-23",
+      "periodStart": "2025-04-01",
+      "periodEnd": "2026-03-31",
+      "balanceSheetDate": "2026-03-31",
+      "pdfPages": {
+        "balanceAssets": 3,
+        "balanceLiabilitiesEquity": 4,
+        "income": 5,
+        "cashFlow": 10,
+        "cashDefinition": 17,
+        "debtLease": 21,
+        "fairValueDebt": 34,
+        "segment": 45
+      },
+      "localSha256": "9d65a348367c6530ac7a4fa15840daa4c5b738e55313240cea198cb4dad98d99",
+      "retrievedDate": "2026-09-09"
+    },
+    "dnp_q1": {
+      "title": "DNP FY2026 first quarter financial results",
+      "url": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/result/dnp_e_26Q1fin.pdf",
+      "publicationDate": "2026-08-07",
+      "periodStart": "2026-04-01",
+      "periodEnd": "2026-06-30",
+      "retrievedDate": "2026-09-09"
+    },
+    "dnp_sep8_quote": {
+      "title": "Nomura Securities DNP 7912/T exchange quotation",
+      "url": "https://quote.nomura.co.jp/nomura/cgi-bin/parser.pl?MKTN=T&QCODE=7912&TEMPLATE=nomura_tp_kabu_01",
+      "observationDateTime": "2026-09-08T15:30:00+09:00",
+      "priceJPY": 3035,
+      "use": "확인용; 역사적 기준 배수 계산에 미사용",
+      "provenance": "증권사 공식 화면의 거래소 시세; JPX 원본의 3월 관측값과 별도",
+      "retrievedDate": "2026-09-09"
+    },
+    "jx_fy": {
+      "title": "JX Consolidated Financial Results for Fiscal Year Ended March 31, 2026 (IFRS)",
+      "url": "https://contents.xj-storage.jp/xcontents/AS82809/982ed71e/1136/42be/95bb/eb5fce11f6a2/140120260510521174.pdf",
+      "publicationDate": "2026-05-11",
+      "periodStart": "2025-04-01",
+      "periodEnd": "2026-03-31",
+      "balanceSheetDate": "2026-03-31",
+      "pdfPages": {
+        "shareCount": 3,
+        "balanceAssets": 5,
+        "balanceLiabilitiesEquity": 6,
+        "income": 7,
+        "cashFlow": 10
+      },
+      "localSha256": "7f5426b9ea53f4a46cff9387e9559aa815cd5c02d92dc87dd06524b91e81448c",
+      "retrievedDate": "2026-09-09"
+    },
+    "jx_q1": {
+      "title": "JX FY2026 First Quarter Consolidated Financial Results (IFRS)",
+      "url": "https://contents.xj-storage.jp/xcontents/AS82809/d14f78a3/a4cf/4d7c/bcfe/04adedb3340a/140120260805510541.pdf",
+      "publicationDate": "2026-08-06",
+      "periodStart": "2026-04-01",
+      "periodEnd": "2026-06-30",
+      "pdfPages": {
+        "balanceAssets": 8,
+        "balanceLiabilitiesEquity": 9,
+        "income": 10,
+        "buybackSettlementNote": 14,
+        "DA": 15
+      },
+      "localSha256": "396f11b9485ef2f8f59e59edfcd6db1d4c7854dd98ec161511e785e9f84cb01f",
+      "retrievedDate": "2026-09-09"
+    },
+    "jx_sep8_quote": {
+      "title": "SBI Securities JX 5016 Tokyo exchange quotation",
+      "url": "https://www.sbisec.co.jp/ETGate/WPLETsiR001Control/WPLETsiR001Ilst10/getDetailOfStockPriceJP?stock_sec_code_mul=5016",
+      "observationDateTime": "2026-09-08T15:30:00+09:00",
+      "priceJPY": 3726,
+      "use": "도쿄시장 종가; 같은 화면의 시간외 PTS 시세 제외",
+      "provenance": "증권사 공식 화면의 거래소 시세",
+      "retrievedDate": "2026-09-09"
+    },
+    "jx_feed": {
+      "title": "JX official IR filing feed, linked from issuer results page",
+      "url": "https://www.xj-storage.jp/public-list/GetList2.aspx?company=AS82809&len=10000&output=json",
+      "issuerIndexUrl": "https://www.jx-nmm.com/english/ir/results.html",
+      "loaderUrl": "https://www.xj-storage.jp/resources/AS82809/XjStorageLoaderLibrary01_En.js",
+      "queryParameters": {
+        "company": "AS82809",
+        "len": "10000",
+        "output": "json"
+      },
+      "retrievedDate": "2026-09-09"
+    }
+  },
+  "comparables": [
+    {
+      "id": "dnp-7912-historical",
+      "company": "Dai Nippon Printing Co., Ltd.",
+      "ticker": "7912",
+      "exchange": "Tokyo Prime",
+      "accountingStandard": "JGAAP",
+      "status": "historical_reference_only",
+      "eligibleForAutomaticPeerMedian": false,
+      "conditionalCrossCheckAnchor": true,
+      "marketObservationDate": "2026-03-31",
+      "financialPeriodStart": "2025-04-01",
+      "financialPeriodEnd": "2026-03-31",
+      "balanceSheetDate": "2026-03-31",
+      "informationAvailableAtValuationCutoff": true,
+      "pointInTimeMarch31KnownResults": false,
+      "lookaheadNote": "3/31 종가와 3/31 결산 수치를 9/8 현재 공시된 자료로 재구성; 3/31 당시에 알려진 trailing multiple로 표시하지 않음",
+      "sourceIds": [
+        "jpx_march",
+        "dnp_fy"
+      ],
+      "inputs": {
+        "closePriceJPY": 2827.5,
+        "issuedShares": 439480692,
+        "treasuryShares": 8047828,
+        "shortTermBankLoans": 32964,
+        "currentPortionLongTermDebt": 6569,
+        "noncurrentLongTermDebt": 224029,
+        "financeLeaseCurrent": 5469,
+        "financeLeaseNoncurrent": 12696,
+        "financeLeaseTotal": 18165,
+        "interestBearingDebtIncludingFinanceLeases": 281727,
+        "NCIbook": 76602,
+        "cashAndCashEquivalents": 243565,
+        "revenue": 1512571,
+        "EBIT": 101039,
+        "depreciationAndAmortization": 52816,
+        "goodwillAmortizationSeparate": 1953
+      },
+      "calculated": {
+        "netShares": 431432864,
+        "marketCapitalizationJPYMillion": 1219876.42296,
+        "enterpriseValueJPYMillion": 1334640.42296,
+        "EBITDAJPYMillion": 155808,
+        "evEbit": 13.209161046328646,
+        "evEbitda": 8.565930009755597
+      },
+      "operatingMargin": 0.06679950891561454,
+      "EBITDAMargin": 0.10300871826843169,
+      "debtFairValueAlternative": {
+        "longTermDebtIncludingCurrentCarryingValue": 230598,
+        "longTermDebtIncludingCurrentFairValue": 211999,
+        "difference": -18599,
+        "otherDebtAndNCIUnchanged": true,
+        "enterpriseValueJPYMillion": 1316041.42296,
+        "evEbit": 13.025083610882927,
+        "evEbitda": 8.446558732285892,
+        "note": "공시 장기부채 공정가치 적용 대안; 기본 13.20916x는 비교 재현용 장부부채 기준임을 표시"
+      },
+      "cashDefinition": {
+        "issuerPolicy": "원래 만기 대체로 3개월 이하, 알려진 현금금액으로 전환 가능하고 가치변동 위험이 경미한 고유동성 투자 포함",
+        "note6": "3개월 초과 정기예금과 단기유가증권 제외 잔액 243565",
+        "timeDepositsExcluded": 54570,
+        "unrestrictedExcessCashVerified": false,
+        "rationale": "현금+예금 전체를 현금성자산으로 임의 합산하지 않고 감사 CF/주석과 동일한 243565 사용; 필수 운영현금 및 제한예금 별도 정밀평가 미완"
+      },
+      "unadjustedAssetReview": {
+        "investmentSecuritiesBook": 179612,
+        "nonconsolidatedSubsidiariesAndAssociatedCompaniesBook": 218015,
+        "combinedBookNotDeducted": 397627,
+        "timeDepositsSeparateNotDeducted": 54570,
+        "netDefinedBenefitAssetNotDeducted": 255584,
+        "note": "앞의 두 잔액은 서로 다른 BS 계정. 영업외자산 공정가치·세금·제약 검토 전 장부값 임의 차감 금지. 397627 전체를 확정 처분가능 비영업가치로 주장하지 않음. 순수 영업가치 EV가 아니라 해당 투자잔액이 남은 단순 보고수치 기반 EV."
+      },
+      "leaseComparability": {
+        "financeLeaseIncluded": 18165,
+        "undiscountedOperatingLeaseCommitmentsNotAdded": 26959,
+        "reason": "미할인 약정액은 현재 리스부채와 다른 개념. 일본기준 운영리스의 비용처리 및 해외 자회사 IFRS16/ASC842 혼재로 TEMSCO와 완전한 lease-neutral 비교 아님"
+      },
+      "businessMix": {
+        "externalRevenue": {
+          "smartCommunication": 748674,
+          "lifeAndHealthcare": 512093,
+          "electronics": 251804
+        },
+        "electronicsRevenueShare": 0.16647416881587707,
+        "electronicsSegmentIncome": 50702,
+        "electronicsSegmentMargin": 0.20135502216009277,
+        "warning": "FMM·포토마스크·광학필름 등을 포함하는 Electronics는 그룹 외부매출 16.65%; 그룹 EV를 이 부문의 영업이익으로 나누지 않음"
+      },
+      "comparabilityLimitations": [
+        "TEMSCO 타깃/특수금속 및 WEforms OMM·CVD·프레임·코팅과 DNP FMM 제품·공정 차이",
+        "DNP 전사 다각화·규모·성숙도·기업위험 차이",
+        "연결 EBIT에는 관계사 지분법이익 12561 및 증권매각이익 44498 미포함; EV에는 관련 자산 가치가 남아 단순 EV/EBIT 상향 요인",
+        "NCI 76602는 시장가치 미확보에 따른 장부가 대용",
+        "신규 발행·전환가능 주식, 필수 운영현금, 비영업 투자자산, 연금자산/부채의 완전한 시장가치 조정 미완",
+        "3/31 역사적 주가; 9/8 현재 거래배수로 표현 금지"
+      ],
+      "latestObservationNotUsed": {
+        "sourceId": "dnp_sep8_quote",
+        "priceJPY": 3035,
+        "date": "2026-09-08",
+        "reason": "Q1 요약은 유동성 장기부채와 리스 분리 공시 생략, 진행 중 자사주 매입에 따른 최신 순주식수 조정 미완; 역사적 입력과 혼합하지 않음"
+      }
+    },
+    {
+      "id": "jx-5016-historical-excluded",
+      "company": "JX Advanced Metals Corporation",
+      "ticker": "5016",
+      "exchange": "Tokyo Prime",
+      "accountingStandard": "IFRS",
+      "status": "reported_basis_reference_excluded_from_TEMSCO_anchor",
+      "eligibleForAutomaticPeerMedian": false,
+      "conditionalCrossCheckAnchor": false,
+      "marketObservationDate": "2026-03-31",
+      "financialPeriodStart": "2025-04-01",
+      "financialPeriodEnd": "2026-03-31",
+      "balanceSheetDate": "2026-03-31",
+      "informationAvailableAtValuationCutoff": true,
+      "pointInTimeMarch31KnownResults": false,
+      "sourceIds": [
+        "jpx_march",
+        "jx_fy"
+      ],
+      "inputs": {
+        "closePriceJPY": 3312,
+        "issuedShares": 928463102,
+        "treasuryShares": 2337181,
+        "currentBorrowings": 145976,
+        "noncurrentBorrowings": 178274,
+        "leaseCurrent": 2820,
+        "leaseNoncurrent": 14774,
+        "interestBearingDebtIncludingFinanceLeases": 341844,
+        "NCIbook": 111770,
+        "cashAndCashEquivalents": 66306,
+        "revenue": 884638,
+        "EBITreported": 174967,
+        "depreciationAndAmortization": 44679,
+        "equityMethodIncomeIncludedInOperatingProfit": 114491,
+        "otherIncome": 3719,
+        "otherExpenses": 37444
+      },
+      "calculated": {
+        "netShares": 926125921,
+        "marketCapitalizationJPYMillion": 3067329.050352,
+        "enterpriseValueJPYMillion": 3454637.050352,
+        "EBITDAJPYMillion": 219646,
+        "evEbit": 19.74450639464585,
+        "evEbitda": 15.728203793158082
+      },
+      "operatingMarginReported": 0.19778372622473825,
+      "equityMethodIncomeFractionOfReportedOperatingProfit": 0.6543576788765881,
+      "exclusionReasons": [
+        "보고 영업이익 174967 중 지분법이익 114491(65.44%) 포함. 연결 EBIT와 관계회사 세후이익 혼합으로 TEMSCO 영업이익과 정의 불일치",
+        "스퍼터링 타깃의 사업 관련성은 높지만 자원·제련·ICT·관계회사 이익을 포함하는 전사 가치",
+        "관계회사 및 비영업자산 가치의 SOTP와 정상화 EBIT 미확정. 전체 EV를 타깃 부문 EBIT에 적용 금지",
+        "JX 보고 EBIT/EBITDA 배수는 산술 참고로만 표시; 저·중·고 배수 또는 중앙값에 자동 포함 금지"
+      ],
+      "septemberProformaDiagnostic": {
+        "status": "not_observed_enterprise_value_not_anchor",
+        "sourceIds": [
+          "jx_fy",
+          "jx_q1",
+          "jx_sep8_quote"
+        ],
+        "marketObservationDate": "2026-09-08",
+        "balanceDate": "2026-06-30",
+        "shareAdjustmentEventDate": "2026-07-09",
+        "issuedSharesJune30": 953183210,
+        "treasurySharesJune30": 2288019,
+        "sharesRepurchasedJuly9": 57300112,
+        "cashPaidJuly9": 194877,
+        "cashJune30": 218978,
+        "cashAfterKnownBuybackOnly": 24101,
+        "debtJune30IncludingLeases": 453226,
+        "NCIJune30": 83072,
+        "LTMPeriodStart": "2025-07-01",
+        "LTMPeriodEnd": "2026-06-30",
+        "LTMEBIT": 226855,
+        "LTMDA": 46566,
+        "LTMEquityMethodIncome": 133702,
+        "calculated": {
+          "netShares": 893595079,
+          "marketCapitalizationJPYMillion": 3329535.264354,
+          "enterpriseValueJPYMillion": 3841732.264354,
+          "EBITDAJPYMillion": 273421,
+          "evEbit": 16.934748030036808,
+          "evEbitda": 14.050611563683843
+        },
+        "limitations": [
+          "주가만 실제 9/8; 순주식수·현금은 6/30 잔액에 알려진 7/9 매입만 반영한 진단용 pro forma",
+          "6/30 이미 다른 금융부채로 인식한 자기주식 매입 의무 194877은 결제 후 현금 차감과 동시에 소멸; 해당 의무를 다시 EV에 더하지 않음",
+          "7/1 이후 영업·투자·배당·전환·기타 자금흐름 미반영; 실제 9/8 EV가 아님",
+          "CB의 전환권/희석 공정가치 미조정",
+          "Q1 기타이익의 광산지분 처분 이익과 LTM 지분법이익으로 정상영업 분모 불일치 유지"
+        ]
+      }
+    }
+  ],
+  "TEMSCOUse": {
+    "recommendedDisplayedLabel": "DNP 2026-03-31 보고수치 기반 EV/EBIT 13.21x — 역사적 외부 참고",
+    "notSelectedCompanyMultiple": true,
+    "primaryObservedReferenceEvEbit": 13.209161046328646,
+    "independentValuationClaimAllowed": false,
+    "useAsExitCrossCheck": "현재 FCFF를 그대로 사용하고 2029년 정상화 EBIT × 관측 참고배수로 잔존가치를 바꾼 비교는 같은 현금흐름 가정을 공유하는 terminal cross-check. 독립 검증·독립 가치평가 결과로 주장 금지. 날짜·분모·비영업자산 미조정 제한 병기.",
+    "scenarioRule": "낙관·기준·비관은 근거 있는 운영가정으로 분리; DNP·나노신소재·JX를 동질 peer로 묶어 임의 최저·중앙·최고 부여 금지",
+    "g0DCFNote": "무성장 DCF TV=FCFF_stable/WACC와 별도 참고. 영구성장률을 배수에서 암묵적으로 가져와 DCF g=0 제약을 변경하지 않음"
+  }
+}

@@ -1,0 +1,195 @@
+import Head from 'next/head'
+import Link from 'next/link'
+import { useEffect, useState, type ReactNode } from 'react'
+import s from '../../components/TemscoV3/deck.module.css'
+import { Waterfall, TrendChart } from '../../components/TemscoV3/FinancialCharts'
+import { financials as f, historicalBalance as bs, closingBalance as post, investment, addBack, normalizedOp, outsourcingSensitivity, fmt, signed } from '../../components/TemscoV3/financials'
+
+const titles = ['자본 확충과 연결 수익성 회복', '투자 검토의 핵심', '위폼스 인수 당시의 사업 판단', '인수 전후 실적', '위폼스 적자 전환의 원인', '대손 조정 후의 수익성', '연결 매출의 구성', '연결 손익 전망', '위폼스 회복의 주요 가정', '재무구조와 유동성', '70억 투자금 사용안', '신주 납입 직후의 재무 효과', '투자금의 연결 현금흐름 전환', '자회사 수익성 민감도', '기업가치와 주주가치', '투자조건과 집행 기준']
+const n = (value: number) => <span className={value < 0 ? s.negative : undefined}>{fmt(value)}</span>
+
+function Metric({ label, value, unit = '억 원', detail, negative = false }: { label: string; value: string; unit?: string; detail: string; negative?: boolean }) {
+  return <div className={s.metric}><p className={s.metricLabel}>{label}</p><div className={`${s.metricValue} ${negative ? s.negative : ''}`}>{value}<small>{unit}</small></div><p className={s.metricDetail}>{detail}</p></div>
+}
+function Editorial({ rows }: { rows: [string, string][] }) {
+  return <div className={s.editorial}>{rows.map(([title, body], i) => <div key={title} className={s.editorialRow}><span>{String(i + 1).padStart(2, '0')}</span><div><h3>{title}</h3><p>{body}</p></div></div>)}</div>
+}
+function Matrix({ heads, rows }: { heads: string[]; rows: ReactNode[][] }) {
+  return <table className={`${s.table} ${s.matrix}`}><thead><tr>{heads.map(h => <th key={h} scope="col">{h}</th>)}</tr></thead><tbody>{rows.map((row, i) => <tr key={i}>{row.map((cell, j) => <td key={j}>{cell}</td>)}</tr>)}</tbody></table>
+}
+
+export default function TemscoDeckV3Page() {
+  const [mode, setMode] = useState<'presentation' | 'scroll'>('presentation')
+  const [current, setCurrent] = useState(0)
+  const [scale, setScale] = useState(1)
+  const [fullscreen, setFullscreen] = useState(false)
+  const [fullscreenError, setFullscreenError] = useState('')
+  const navigate = (index: number) => {
+    const next = Math.max(0, Math.min(titles.length - 1, index))
+    setCurrent(next)
+    window.history.replaceState(null, '', `#slide-${next + 1}`)
+    if (mode === 'scroll') document.getElementById(`slide-${next + 1}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  }
+  const toggleFullscreen = async () => {
+    try {
+      setFullscreenError('')
+      if (document.fullscreenElement) await document.exitFullscreen()
+      else await document.documentElement.requestFullscreen()
+    } catch { setFullscreenError('이 브라우저에서는 전체화면을 열 수 없습니다.') }
+  }
+  useEffect(() => {
+    const readHash = () => {
+      const match = window.location.hash.match(/^#slide-(\d+)$/)
+      if (match) setCurrent(Math.max(0, Math.min(titles.length - 1, Number(match[1]) - 1)))
+    }
+    readHash()
+    window.addEventListener('hashchange', readHash)
+    const change = () => setFullscreen(Boolean(document.fullscreenElement))
+    document.addEventListener('fullscreenchange', change)
+    return () => { window.removeEventListener('hashchange', readHash); document.removeEventListener('fullscreenchange', change) }
+  }, [])
+  useEffect(() => {
+    const update = () => setScale(Math.max(.15, Math.min((window.innerWidth - 28) / 1123, mode === 'scroll' ? 1 : (window.innerHeight - (fullscreen ? 130 : 175)) / 794, 1.4)))
+    update(); window.addEventListener('resize', update)
+    return () => window.removeEventListener('resize', update)
+  }, [mode, fullscreen])
+  useEffect(() => {
+    const keydown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement
+      if (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT|BUTTON|A)$/.test(target.tagName)) return
+      if (mode === 'scroll') return
+      if (['ArrowRight', 'PageDown', ' ', 'ArrowLeft', 'PageUp', 'Home', 'End'].includes(event.key)) {
+        event.preventDefault()
+        navigate(event.key === 'Home' ? 0 : event.key === 'End' ? titles.length - 1 : current + (['ArrowLeft', 'PageUp'].includes(event.key) ? -1 : 1))
+      } else if (event.key.toLowerCase() === 'f') { event.preventDefault(); void toggleFullscreen() }
+    }
+    window.addEventListener('keydown', keydown)
+    return () => window.removeEventListener('keydown', keydown)
+  }, [current, mode])
+
+  const slide = (index: number, section: string, title: string, subtitle: string, source: string, children: ReactNode) => <div key={index} id={`slide-${index + 1}`} className={`${s.frame} ${mode === 'presentation' && current !== index ? s.hidden : ''}`} style={{ width: 1123 * scale, height: 794 * scale }}>
+    <section className={`${s.slide} temsco-slide`} style={{ transform: `scale(${scale})` }} aria-labelledby={`title-${index}`}>
+      <div className={s.slideHead}><strong>TEMSCO</strong><span>{section}</span><span>제3안 · 검토용 초안</span></div>
+      <h2 id={`title-${index}`}>{title}</h2><p className={s.deck}>{subtitle}</p>
+      <div className={s.content}>{children}</div>
+      <footer className={s.foot}><span>{source}</span><b>{String(index + 1).padStart(2, '0')}</b></footer>
+    </section>
+  </div>
+
+  return <div className={s.root}>
+    <Head><title>템스코 | 제3안 투자제안서</title><meta name="description" content="템스코 제3안 투자제안서: 인수 전후 실적, 연결 손익 및 투자자금의 재무 효과" /><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></Head>
+    <header className={s.toolbar}><div><Link href="/temsco" className={s.brand}>TEMSCO</Link><span className={s.toolbarTitle}>제3안 투자제안서 · 재무 중심 초안</span></div><div className={s.controls}>
+      <select aria-label="슬라이드 선택" value={current} onChange={e => navigate(Number(e.target.value))}>{titles.map((title, i) => <option key={title} value={i}>{String(i + 1).padStart(2, '0')}. {title}</option>)}</select>
+      <button onClick={() => setMode(mode === 'presentation' ? 'scroll' : 'presentation')}>{mode === 'presentation' ? '전체 보기' : '발표 보기'}</button>
+      <button onClick={() => void toggleFullscreen()}>{fullscreen ? '전체화면 종료' : '전체화면'}</button><button onClick={() => window.print()}>인쇄 / PDF</button><Link href="/temsco/deck">기존 최종본</Link>
+    </div></header>
+    {fullscreenError && <p role="status" style={{ color: '#fff', padding: '8px 24px' }}>{fullscreenError}</p>}
+    <main className={s.stage}>
+      <div id="slide-1" className={`${s.frame} ${mode === 'presentation' && current !== 0 ? s.hidden : ''}`} style={{ width: 1123 * scale, height: 794 * scale }}>
+        <section className={`${s.slide} ${s.cover} temsco-slide`} style={{ transform: `scale(${scale})` }} aria-labelledby="cover-title">
+          <div className={s.coverMain}><div className={s.coverBrand}>TEMSCO</div><div className={s.coverKicker}>INVESTMENT PROPOSAL / 2026.09</div><h1 id="cover-title">자본 확충과<br />연결 수익성 회복</h1><p>템스코와 위폼스의 과거 실적,<br />인수 판단과 신규 투자금의 재무 효과</p><div className={s.coverBottom}>주식회사 템스코<br />전문 투자자 검토용 · 제3안 초안<br />회사 제공자료 기준 / 2026년 9월 8일</div></div>
+          <aside className={s.coverAside}><span>FINANCIAL REVIEW</span><div className={s.coverIndex}><p><b>01</b>인수 전후 실적</p><p><b>02</b>연결 수익성과 유동성</p><p><b>03</b>자금 투입과 회복 조건</p></div><small>과거 수록값과 추정치를 구분했습니다.<br />투자조건 및 가치평가는 협의 대상입니다.</small></aside>
+        </section>
+      </div>
+      {slide(1, 'Investment overview', '투자 검토의 핵심', '자본 확충의 즉시 효과와 영업 회복의 실행 조건을 함께 검토합니다.', '자료: 연결 추정손익(S02), 위폼스 추정손익(S04), 기존 최종 제안안. E는 회사 추정이며 확정 실적이 아닙니다.', <>
+        <div className={s.metrics}><Metric label="2026E 연결 매출" value={fmt(f.group.revenue[2])} detail="내부매출 125.4억 제거 후" /><Metric label="2026E 위폼스 영업손익" value={fmt(f.subsidiary.op[2])} detail="연결 수익성 회복의 핵심 과제" negative /><Metric label="기존 제안 기준 투자금" value="70" detail="최종 금액·증권 조건 협의 대상" /></div>
+        <Editorial rows={[
+          ['과거 손실의 성격', '2025년 대손과 제조 원가 증가를 분리합니다. 대손만 조정해도 연결 영업손실 8.7억이 남습니다.'],
+          ['인수자산의 수익 전환', '위폼스의 2027년 흑자 전망은 매출 증가와 원가율 개선을 함께 전제합니다. 공정별 생산능력과 실적 검증이 중요합니다.'],
+          ['신규 자금의 회수 가능성', '자본 확충 효과를 먼저 보여주고, 설비와 운전자금의 집행이 연결 현금흐름으로 전환되는 조건을 제시합니다.'],
+        ]} />
+      </>)}
+      {slide(2, 'Acquisition rationale', '위폼스 인수 당시의 사업 판단', '소재 공급에 정밀부품 제조기능을 결합하고 고객 직접 공급의 범위를 넓히려는 투자였습니다.', '자료: 회사 설명(S05), 투자자 요구사항(S07). 현재 설명으로 재구성한 인수 목적이며 당시 투자심의서·가격산정·자금조달 내역은 미제공.', <>
+        <div className={s.timeline}><div><b>2010.10</b><h3>템스코 설립</h3><p>박막코팅소재 및 특수강·비철소재 사업</p></div><div><b>2024.03</b><h3>위폼스 인수</h3><p>진공증착용 메탈마스크 제조 역량 확보</p></div><div><b>2025.09</b><h3>주요 거래처 신용사건</h3><p>파인원 관련 채권 미회수. 인수 이후 발생</p></div></div>
+        <Matrix heads={['인수 목적', '기대했던 경제적 효과', '투자 판단의 확인 근거']} rows={[
+          ['소재와 부품의 결합', '원소재 조달과 정밀 제조를 연결해 제품당 부가가치 확대', '구매단가·수율·외주비의 인수 전후 비교'],
+          ['고객 직접 공급', '2차 공급 중심 사업에서 1차 공급 기회로 확장', '당시 고객 평가 단계·공급 계획·후속 계약'],
+          ['사업 포트폴리오 확대', '박막소재와 메탈마스크의 고객 접점 공유', '인수 시 사업계획·대안 검토·통합 실행계획'],
+        ]} />
+        <p className={s.fine}>투자자 메모에는 인수 투자금 약 90억이 언급됩니다. 취득 지분, 구주·신주 구성, 지급 내역과 조달 원천은 계약자료 확인이 필요합니다.</p>
+      </>)}
+      {slide(3, 'Acquisition performance', '매출 확대 이후 수익성이 다시 하락했습니다', '위폼스의 연간 실적은 인수 첫해 개선됐지만, 2025년부터 매출 증가가 이익으로 이어지지 않았습니다.', '자료: S04 추정손익. 2024년은 연간 실적으로 인수 후 기간만의 성과가 아닙니다. 개선의 인과관계는 구매·수율·원가 자료로 별도 확인해야 합니다.', <>
+        <div className={s.legend}><span>매출</span><span>영업이익</span></div>
+        <TrendChart years={['2023A', '2024A', '2025A', '2026E']} label="위폼스 매출과 영업이익, 억 원" series={[{ name: '매출', values: [50.41167105, ...f.subsidiary.revenue.slice(0, 3)] }, { name: '영업이익', values: [-14.09592079, ...f.subsidiary.op.slice(0, 3)], color: '#148579' }]} />
+        <div className={s.columns}><div className={s.callout}>2024년 매출 성장 <strong>+83.7%</strong><br />영업손익 -14.1억에서 +15.2억</div><div className={s.callout}>2025년 매출 성장 <strong>+35.9%</strong><br />영업손익은 -17.9억으로 하락</div></div>
+        <p className={s.fine}>관찰 가능한 매출 성장과 인수 시너지의 실현은 구분합니다. 가격·제품 구성·원가분류 변화까지 대사해야 조달력과 수율의 기여를 확인할 수 있습니다.</p>
+      </>)}
+      {slide(4, 'Earnings bridge', '위폼스 적자의 주요 원인은 제조 원가 증가입니다', '2024년 영업이익에서 2025년 영업손실까지의 변동 요인입니다. 단위: 억 원', '자료: S04 추정손익 D/E열. 외주비의 2024년 행은 공란이므로 별도 계상액을 0으로 본 비교입니다. 실제 비용 발생·계정 재분류 여부는 확인 필요.', <>
+        <Waterfall label="위폼스 2024~2025 영업손익 변동" steps={[
+          { label: '2024 영업익', value: 15.22689367, total: true }, { label: '매출 증가', value: 33.20265881 }, { label: '재료비', value: -9.68330245 }, { label: '외주비', value: -22.99726160 }, { label: '인건비', value: -6.49089981 }, { label: '감가상각', value: -12.40056078 }, { label: '제조경비', value: -9.60548535 }, { label: '판관비', value: -5.16630443 }, { label: '2025 영업익', value: -17.91426194, total: true },
+        ]} />
+        <div className={s.columns}><div><p className={s.sectionLabel}>매출보다 빠르게 증가한 원가</p><p style={{ fontSize: 19, lineHeight: 1.7 }}>매출은 33.2억 증가했으나<br />매출원가는 약 61.2억 증가했습니다.</p></div><div><p className={s.sectionLabel}>대손만으로 설명되지 않는 손실</p><p style={{ fontSize: 19, lineHeight: 1.7 }}>위폼스의 판관 대손은 0.84억입니다.<br />외주·상각·인력의 부담을 함께 봐야 합니다.</p></div></div>
+      </>)}
+      {slide(5, 'Quality of earnings', '대손 조정 후에도 연결 영업손실이 남습니다', '2025년 판관 대손만 가산한 비교입니다. 회계상 확정된 정상화 이익을 의미하지 않습니다.', '자료: S02 연결, S06 템스코 추정손익, S04 위폼스 추정손익. 대손의 비경상성 인정·재발 가능성은 별도 검토 대상. 단위: 억 원.', <>
+        <div className={s.metrics}><Metric label="2025 연결 영업손익" value={fmt(f.group.op[1], 2)} detail="현재 연결 모델의 수록값" negative /><Metric label="양사 판관 대손 가산" value={signed(addBack.group, 2)} detail="모회사 63.70억 + 위폼스 0.84억" /><Metric label="대손 조정 후 연결 손익" value={fmt(normalizedOp.group, 2)} detail="제조 원가와 기타 조정의 부담 잔존" negative /></div>
+        <table className={s.table}><thead><tr><th scope="col">구분</th><th scope="col">2024 영업이익</th><th scope="col">2025 영업손익</th><th scope="col">판관 대손 가산</th><th scope="col">가산 후 손익</th></tr></thead><tbody><tr><td>템스코 별도</td><td>{n(f.parent.op[0])}</td><td>{n(f.parent.op[1])}</td><td>{fmt(addBack.parent)}</td><td>{n(normalizedOp.parent)}</td></tr><tr className={s.total}><td>연결</td><td>{n(f.group.op[0])}</td><td>{n(f.group.op[1])}</td><td>{fmt(addBack.group)}</td><td>{n(normalizedOp.group)}</td></tr></tbody></table>
+        <div className={s.callout}>모회사의 대손 조정 후 영업이익은 <strong>11.8억</strong>으로,<br />2024년 20.6억보다 낮습니다. 회복은 매출의 질과 제조 원가 개선을 함께 요구합니다.</div>
+        <p className={s.fine}>회사 설명의 미회수채권 약 80억과 손익계산서 대손은 범위가 다릅니다. 채권 잔액·충당금·상각·회수액의 대사가 필요합니다.</p>
+      </>)}
+      {slide(6, 'Consolidation', '2026년 연결 매출은 내부거래 제거 후 414.6억입니다', '양사 매출을 단순 합산하지 않습니다. 내부 매출과 매입을 상계한 그룹 외부 매출을 기준으로 평가합니다.', '자료: S02 연결·연결조정 내역, S04 추정손익. 현재 모델은 내부 매출과 원가를 동일액 차감합니다. 미실현손익 등 추가 연결조정은 별도 대사 대상.', <>
+        <Waterfall height={246} label="2026년 연결 매출 조정, 억 원" steps={[{ label: '템스코', value: 400, total: true }, { label: '위폼스', value: 140 }, { label: '내부거래 제거', value: -125.37240104 }, { label: '연결 매출', value: f.group.revenue[2], total: true }]} />
+        <table className={`${s.table} ${s.dense}`}><thead><tr><th scope="col">억 원</th><th scope="col">2026E</th><th scope="col">2027E</th><th scope="col">2028E</th><th scope="col">2029E</th></tr></thead><tbody>{[['템스코 매출', f.parent.revenue.slice(2)], ['위폼스 매출', f.subsidiary.revenue.slice(2)], ['내부매출 차감', f.group.revenue.slice(2).map((v, i) => v - f.parent.revenue[i + 2] - f.subsidiary.revenue[i + 2])], ['연결 매출', f.group.revenue.slice(2)]].map(([label, values], row) => <tr key={label as string} className={row === 3 ? s.total : undefined}><td>{label as string}</td>{(values as number[]).map((value, i) => <td key={i}>{n(value)}</td>)}</tr>)}</tbody></table>
+        <p className={s.fine}>2026 내부매출은 위폼스의 템스코향 91.56억, 템스코의 위폼스향 33.81억입니다. 내부거래 제거 자체가 연결 이익을 늘리지는 않습니다.</p>
+      </>)}
+      {slide(7, 'Financial outlook', '연결 영업이익 회복은 위폼스의 흑자 전환을 전제합니다', '2027년 연결 증익 70.8억 중 템스코 26.6억, 위폼스 44.2억입니다. 단위: 억 원', '자료: S02·S04·S06. A는 제공 파일의 실적 구분, E는 회사 추정입니다. 연결 과거 손익은 확정 재무제표 대사가 남아 있으며, 전망을 신규 투자금의 순증 효과로 볼 수 없습니다.', <>
+        <table className={`${s.table} ${s.dense}`}><thead><tr><th scope="col">구분</th>{f.years.map(y => <th key={y} scope="col" className={y.endsWith('E') ? s.forecast : undefined}>{y}</th>)}</tr></thead><tbody>{[
+          ['템스코 매출', f.parent.revenue], ['영업이익', f.parent.op], ['위폼스 매출', f.subsidiary.revenue], ['영업이익', f.subsidiary.op], ['연결 매출', f.group.revenue], ['연결 영업이익', f.group.op], ['연결 순이익', f.group.net], ['연결 영업이익률', f.group.op.map((v, i) => v / f.group.revenue[i] * 100)],
+        ].map(([label, values], row) => <tr key={row} className={row >= 4 ? s.total : undefined}><td>{label as string}</td>{(values as number[]).map((value, i) => <td key={i}>{n(value)}{row === 7 ? '%' : ''}</td>)}</tr>)}</tbody></table>
+        <div className={s.callout}>2026년 연결 영업이익 <strong>13.3억</strong>, 순손실 <span className={s.negative}>5.6억</span>.<br />영업 흑자와 현금 여력, 주주에게 귀속되는 이익은 각각 확인해야 합니다.</div>
+      </>)}
+      {slide(8, 'Operating assumptions', '위폼스의 회복 가정은 매출 규모와 원가율입니다', '회사 전망의 주요 전제를 실제 수율·외주비·고객별 판매량으로 연결해야 합니다.', '자료: S04 추정손익·Drivers·CAPEX. 직접재료비율은 템스코향 매출에만 적용됩니다. 외부 고객 재료비 처리 및 생산능력 근거는 확인 필요.', <>
+        <table className={s.table}><thead><tr><th scope="col">위폼스 주요 가정</th><th scope="col">2026E</th><th scope="col">2027E</th><th scope="col">2028E</th><th scope="col">2029E</th></tr></thead><tbody><tr><td>매출, 억 원</td>{f.subsidiary.revenue.slice(2).map((v, i) => <td key={i}>{fmt(v)}</td>)}</tr><tr><td>외주비 / 전체 매출</td>{[40, 30, 30, 30].map((v, i) => <td key={i}>{v}%</td>)}</tr><tr><td>직접재료비 / 템스코향 매출</td><td>23.55%</td><td>20%</td><td>14%</td><td>10%</td></tr><tr><td>신규 CAPEX, 억 원</td><td>2.5</td><td>11.5</td><td>0.0</td><td>0.0</td></tr><tr className={s.total}><td>영업손익, 억 원</td>{f.subsidiary.op.slice(2).map((v, i) => <td key={i}>{n(v)}</td>)}</tr></tbody></table>
+        <div className={s.columns}><div className={s.callout}>2027 매출 229.5억 중<br /><strong>템스코향 184.2억</strong><br />외부 고객 45.2억</div><div className={s.callout}>2029 매출은 2026의 <strong>2.76배</strong><br />2028~29 신규 설비투자 0원 가정<br />공정별 양품 CAPA 검증 필요</div></div>
+        <p className={s.fine}>2027년 위폼스 외부 고객 매출은 2026년 48.4억보다 감소합니다. 회복을 외부 고객 매출 확대만으로 설명하지 않습니다.</p>
+      </>)}
+      {slide(9, 'Capital structure', '현재 투자 판단에는 유동성 검토가 우선입니다', '2025년 연결 재무상태 수록값입니다. 최근 월별 현금수지와 차입 만기로 갱신해야 합니다.', '자료: S03 재무상태표(T) 연결 수록값. 2025년 말 기준이며 2026년 현재 잔액이 아닙니다. 단위: 억 원.', <>
+        <div className={s.metrics}><Metric label="연결 현금·현금성자산" value={fmt(bs.cash)} detail="위폼스 별도 현금 0.31억" /><Metric label="연결 부채 / 자본" value={fmt(bs.liabilities / bs.equity * 100)} unit="%" detail="부채 389.54억 / 자본 34.37억" /><Metric label="연결 유동비율" value={fmt(bs.currentAssets / bs.currentLiabilities * 100)} unit="%" detail="유동자산 105.49억 / 유동부채 247.84억" /></div>
+        <p className={s.chartLabel}>연결 자산 423.91억의 조달 구성</p><div className={s.balanceBar} role="img" aria-label="2025 연결 부채389.54억, 자본34.37억"><div style={{ width: `${bs.liabilities / bs.assets * 100}%` }}>부채 389.54</div><div style={{ flex: 1 }}>34.37</div></div><div className={s.caption}><span>부채</span><span>자본</span></div>
+        <div className={s.callout}>손실 인식 후에도 현금 부족이 자동으로 해소되지는 않습니다.<br />채권 회수, 재고, 차입 상환과 신규 투자 집행을 월별로 함께 관리해야 합니다.</div>
+      </>)}
+      {slide(10, 'Use of proceeds', '70억 투자금의 사용과 성과 측정', '기존 제안의 배분안을 유지했습니다. 법인별 수혜와 집행 시점은 설비·수주 계획에 맞춰 확정합니다.', '자료: 기존 최종본의 CAPEX 40억·운전자금 20억·R&D 10억 배분. 아래 성과 지표는 집행 검토 기준 제안이며 회사의 확정 목표가 아닙니다.', <>
+        <div className={s.allocationLabel}><strong>70<span>억 원</span></strong><span>기존 제안 기준 / 투자조건 협의 대상</span></div><div className={s.allocation} role="img" aria-label="투자금70억원, CAPEX40억원, 운전자금20억원, 연구개발10억원"><div style={{ width: `${40 / 70 * 100}%` }}>CAPEX 40</div><div style={{ width: `${20 / 70 * 100}%` }}>운전자금 20</div><div style={{ flex: 1 }}>R&amp;D 10</div></div>
+        <Matrix heads={['용도', '모회사·자회사에 기대하는 효과', '집행 후 확인할 지표']} rows={[
+          ['설비투자 40억', '위폼스 등 병목 공정의 생산능력 확보와 외주 의존도 개선', '공정별 양품 CAPA, 외주비 절감액, 신규 상각비'],
+          ['운전자금 20억', '템스코의 소재 매입과 양사 양산 준비에 필요한 현금 확보', '재고일수, 채권 회수일수, 매입채무와 현금 잔액'],
+          ['연구개발 10억', '소재·부품 개발 및 고객 평가의 진행', '고객 평가 통과, 개발 지출, 상업화 일정'],
+        ]} />
+        <p className={s.fine}>별도 Excel의 2026 CAPEX는 템스코 110억·위폼스 2.5억입니다. 40억 배분안과 대상·시기가 다를 수 있어 이미 집행한 금액 및 다른 조달원을 대사해야 합니다.</p>
+      </>)}
+      {slide(11, 'Illustrative pro forma', '70억 신주 납입은 자본과 현금을 확충합니다', '2025년 연결 수록값에 70억 전액 자본성 신주 현금납입만 반영한 예시입니다.', '산식: S03의 2025 연결 자산·현금·자본에 각각 70억 가산, 부채 유지. 발행비용·이후 손익·집행 미반영. 실제 증권 조건에 따라 결과가 달라집니다.', <>
+        <div className={s.wideRight}><div className={s.numberPanel}><p className={s.metricLabel}>납입 직후 연결 자본</p><div className={s.metricValue}>{fmt(post.equity)}<small>억 원</small></div><p className={s.metricDetail}>2025 수록값 34.4억 대비<br />신주대금 70억 증가</p><div className={s.formula}>1,133.4%<br /><strong style={{ color: '#2358cf' }}>373.2%</strong><small>부채 / 자본 비율의 산술 변화</small></div><p className={s.fine}>부채 원금은 그대로입니다.<br />이자비용 절감은 이 계산에 포함되지 않습니다.</p></div><div><table className={s.table}><thead><tr><th scope="col">억 원</th><th scope="col">2025 수록값</th><th scope="col">납입 직후 예시</th></tr></thead><tbody>{[['현금', bs.cash, post.cash], ['자산', bs.assets, post.assets], ['부채', bs.liabilities, post.liabilities], ['자본', bs.equity, post.equity]].map(([label, a, b]) => <tr key={label as string} className={label === '자본' ? s.total : undefined}><td>{label as string}</td><td>{fmt(a as number)}</td><td>{fmt(b as number)}</td></tr>)}<tr><td>유동비율</td><td>{fmt(bs.currentAssets / bs.currentLiabilities * 100)}%</td><td>{fmt((bs.currentAssets + investment.total) / bs.currentLiabilities * 100)}%</td></tr></tbody></table><div className={s.callout}>납입 직후의 개선과 자금 사용 이후의<br />재무상태는 구분합니다.<br />최종 효과는 집행·영업현금·상환에 달려 있습니다.</div></div></div>
+      </>)}
+      {slide(12, 'Capital deployment', '투자금의 현금 회수는 영업 성과와 재투자에 달려 있습니다', '모회사에서 자회사로의 내부 자금 이동을 그룹의 추가 현금 유입으로 중복 계산하지 않습니다.', '투자금 사용 경로의 검토 틀. 법인별 출자·대여·구매 형태, 신규 상각, 운전자금 및 세금 자료가 없어 투자 유무별 현금흐름은 아직 산출하지 않았습니다.', <>
+        <Matrix heads={['집행', '법인별 실행과 연결 효과', '현금흐름에 반영할 항목']} rows={[
+          ['설비투자', '법인별 설비 취득과 병목 해소. 외부 지급이 발생하고 생산능력·외주비가 변화', 'CAPEX 지출, 신규 감가상각, 양품 생산량, 외주비 절감'],
+          ['운전자금', '양사 재고와 매출채권의 증가를 지원. 내부 채권·채무는 연결에서 제거', '외부 매출채권 + 재고 − 외부 매입채무의 증감'],
+          ['개발·고객 평가', '소재·부품의 평가 통과 후 판매 확대 가능. 시기와 실현 여부는 불확실', '개발 현금지출, 비용·자산 구분, 상업화 후 현금회수'],
+        ]} />
+        <div className={s.formula}>연결 영업이익 + 비현금 영업비용 − 영업 기준 현금 법인세<br />− 영업운전자금 증가 − 유형자산·자산화 개발비 투자<small>영업자산의 잉여현금흐름 산식. 비용 처리한 개발비는 영업이익에 반영되므로 다시 차감하지 않습니다. 이자효과를 제외한 영업 기준 세금을 적용합니다.</small></div>
+        <p className={s.fine}>현재 연결 전망은 미투자 비교안을 포함하지 않습니다. 2027년 연결 증익 70.8억 전체를 70억 투자금의 순증 효과로 귀속할 수 없습니다.</p>
+      </>)}
+      {slide(13, 'Operating sensitivity', '외주비율 1%p는 위폼스 영업이익 약 2.3억입니다', '2027년 매출 229.47억을 고정하고 외주비율만 바꾼 부분 민감도입니다.', '산식: S04 2027 매출 × 외주비율 차이. 매출·다른 원가·감가상각·세금·CAPEX는 고정. 전체 하방 전망이나 투자수익률이 아닙니다.', <>
+        <div className={s.wideRight}><div><p className={s.metricLabel}>외주비율 1%p 개선 시</p><div className={s.metricValue}>+{fmt(outsourcingSensitivity, 2)}<small>억 원</small></div><p className={s.metricDetail}>영업이익의 산술 변화<br />연결 내부거래 제거 외 추가 조정은 미반영</p><div className={s.callout}>비용 절감이 설비의 추가 상각과<br />유지비를 웃돌아야<br />투자가 이익으로 전환됩니다.</div></div><div><table className={s.table}><thead><tr><th scope="col">2027 외주비율</th><th scope="col">영업손익, 억 원</th><th scope="col">기준 대비</th></tr></thead><tbody>{[29, 30, 31, 40].map(rate => { const delta = (30 - rate) * outsourcingSensitivity; return <tr key={rate} className={rate === 30 ? s.total : undefined}><td>{rate}% {rate === 30 ? '(회사 기준)' : rate === 40 ? '(2026 비율 유지)' : ''}</td><td>{n(f.subsidiary.op[3] + delta)}</td><td className={delta < 0 ? s.negative : undefined}>{signed(delta, 2)}</td></tr> })}</tbody></table><p className={s.fine}>40% 유지 시의 -7.0억은 외주비율만 바꾼 결과입니다. 실제 하방에서는 물량·단가·수율·고정비도 함께 변할 수 있습니다.</p></div></div>
+        <div className={s.callout}>투자안의 검증 기준은 <strong>설비 견적, 공정별 처리량, 양품률, 외주 발주액</strong>입니다.<br />매출 증가와 원가율 하락에 같은 개선 효과가 중복 반영되지 않아야 합니다.</div>
+      </>)}
+      {slide(14, 'Valuation framework', '기업가치와 주주에게 귀속되는 가치를 구분합니다', '제공 DCF는 재무 전망·투자계획과의 대사가 필요한 검토 모델입니다. 투자 가격을 확정한 평가의견이 아닙니다.', '자료: S03 평가요약·FCF전망. EV 949.42억, WACC 13.74%, g 2%. 최신 원가·CAPEX와 불일치하며 평가기준일·순차입금·비지배지분 조정의 확인이 필요합니다.', <>
+        <div className={s.columns}><div><p className={s.sectionLabel}>제공 DCF의 가치 구성 / 억 원</p><div className={s.valuationBar} role="img" aria-label="DCF EV949.42억원 중 예측기간233.17억원, 잔존가치716.24억원"><span style={{ width: '24.56%' }}>233.2</span><span style={{ flex: 1 }}>716.2</span></div><div className={s.caption}><span>예측기간 FCF 현재가치</span><span>잔존가치 현재가치</span></div><div className={s.callout}>잔존가치 비중 <strong>75.4%</strong><br />장기 원가율·성장률과 재투자 가정에<br />가치가 크게 좌우됩니다.</div><p className={s.fine}>DCF는 CAPEX와 감가상각을 매년 15.23억씩 동일하게 놓습니다. 별도 설비계획을 연결한 재계산이 필요합니다.</p></div><div><p className={s.sectionLabel}>투자 가격의 계산 순서</p><Editorial rows={[
+          ['영업자산의 기업가치', '매출·원가·세금·운전자금·CAPEX를 연결한 현금흐름 평가'],
+          ['지배기업 주주가치', '기업가치에서 순차입금과 비지배지분 등을 조정하고 비영업자산을 검토'],
+          ['투자자 지분과 회수', 'Pre-money·신주 투자금·주식수·희석을 반영하고 조건별 회수 구조 비교'],
+        ]} /></div></div>
+      </>)}
+      {slide(15, 'Investment terms', '투자조건과 집행 기준', '재무 확인과 운영 성과를 연결한 조건 협의가 필요합니다. 아래는 협의 구조의 제안입니다.', '투자조건·집행 기준은 확정되지 않았습니다. 근거: 투자자 요구사항(S07) 및 S02·S03·S04·S06 분석. 원금 보장·확정 수익률을 전제하지 않습니다.', <>
+        <Matrix heads={['검토 단계', '핵심 확인사항', '조건 협의에 반영할 항목']} rows={[
+          ['가격·증권 조건', '확정 연결 손익, 순차입금, 취득 지분, 주주명부와 가치평가', '투자금, Pre-money, 지분·희석, 증권별 권리'],
+          ['납입·초기 집행', '월별 현금수지, 차입 만기, CAPEX 견적과 다른 조달원', '법인별 용도, 집행 일정, 자금 사용 보고'],
+          ['양산·회복 단계', '고객 발주, 공정 CAPA, 수율, 외주비, 채권 회수', '성과 확인 시점, 추가 집행 조건, 정기 재무보고'],
+          ['회수 검토', '연결 현금 창출력, 잔여 차입, 배당·매각 가능성', '조건별 회수 경로 및 하방 시나리오'],
+        ]} />
+        <div className={s.callout}>투자의 설득력은 인수자산이 만드는 <strong>외부 매출과 현금</strong>,<br />그리고 그 성과를 확인할 수 있는 <strong>집행 기준</strong>에서 나옵니다.</div>
+        <p className={s.fine}>자료 기준: S02 연결 추정손익, S03 DCF·재무상태, S04 위폼스, S05 회사 설명, S06 템스코 최신 추정, S07 투자자 요구사항. 모든 금액은 별도 표기가 없으면 억 원입니다.</p>
+      </>)}
+    </main>
+    <nav className={`${s.bottom} ${s.controls}`} aria-label="발표 이동"><button disabled={current === 0} onClick={() => navigate(current - 1)}>이전</button><span aria-live="polite">{current + 1} / {titles.length}</span><progress max={titles.length} value={current + 1} aria-label="발표 진행" /><button disabled={current === titles.length - 1} onClick={() => navigate(current + 1)}>다음</button><span>방향키로 이동 · F 전체화면</span></nav>
+  </div>
+}

@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "page": 30,
+      "label": "EV",
+      "value": 943.6496581236313,
+      "display": "943.6",
+      "pass": true
+    },
+    {
+      "page": 30,
+      "label": "2029매출",
+      "value": 852.513432496338,
+      "display": "852.5",
+      "pass": true
+    },
+    {
+      "page": 30,
+      "label": "2029FCFF",
+      "value": 125.39293874090563,
+      "display": "125.4",
+      "pass": true
+    },
+    {
+      "page": 30,
+      "label": "2026개발비",
+      "value": 1.10083087577491,
+      "display": "1.1",
+      "pass": true
+    },
+    {
+      "page": 31,
+      "label": "EV",
+      "value": 614.3863757738333,
+      "display": "614.4",
+      "pass": true
+    },
+    {
+      "page": 31,
+      "label": "2029매출",
+      "value": 743.0419741122536,
+      "display": "743.0",
+      "pass": true
+    },
+    {
+      "page": 31,
+      "label": "2029FCFF",
+      "value": 79.12982925877147,
+      "display": "79.1",
+      "pass": true
+    },
+    {
+      "page": 31,
+      "label": "2026개발비",
+      "value": 1.10083087577491,
+      "display": "1.1",
+      "pass": true
+    },
+    {
+      "page": 32,
+      "label": "EV",
+      "value": 283.066668422198,
+      "display": "283.1",
+      "pass": true
+    },
+    {
+      "page": 32,
+      "label": "2029매출",
+      "value": 633.570515728169,
+      "display": "633.6",
+      "pass": true
+    },
+    {
+      "page": 32,
+      "label": "2029FCFF",
+      "value": 40.416081483700964,
+      "display": "40.4",
+      "pass": true
+    },
+    {
+      "page": 32,
+      "label": "2026개발비",
+      "value": 1.10083087577491,
+      "display": "1.1",
+      "pass": true
+    }
+  ],
+  "assumptionRegisterMatches": true,
+  "valueComparisonMatches": true
+}

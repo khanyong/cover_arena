@@ -1,0 +1,251 @@
+{
+  "title": "TEMSCO market-reference WACC research",
+  "status": "provisional references; final company WACC not established",
+  "inputs": {
+    "valuationDate": "2026-09-08",
+    "currency": "KRW",
+    "governmentBondYield10y": 0.0439,
+    "governmentBondObservationDate": "2026-09-07",
+    "sovereignDefaultSpread": 0.003930214513416281,
+    "sovereignSpreadObservationDate": "2026-07-01",
+    "sovereignSpreadCorrectionDate": "2026-07-09",
+    "matureMarketErp": 0.0414,
+    "matureMarketErpObservationDate": "2026-09-01",
+    "countryRiskPremium": 0.00610950087834357,
+    "countryRiskPremiumObservationDate": "2026-07-01",
+    "countryRiskLambda": 1,
+    "countryRiskLambdaStatus": "reference convention; company geographic exposure not yet established",
+    "marginalTaxRate": 0.22,
+    "taxEffectiveDate": "2026-01-01",
+    "taxAssumption": "normal profitable company taxable-income bracket KRW 0.2bn–20bn: national 20% + local 2%; actual cash tax and interest tax shield require NOL schedule",
+    "sizePremium": null,
+    "companySpecificPremium": null,
+    "terminalGrowth": 0
+  },
+  "sectors": [
+    {
+      "id": "electronics_general",
+      "name": "Electronics (General)",
+      "firmCount": 1481,
+      "unleveredBetaCashAdjusted": 1.57,
+      "debtToEquityMarket": 0.1417,
+      "observationDate": "2026-01",
+      "precision": "rounded values displayed by source HTML",
+      "fit": "electronic components broad proxy; display materials/metalmasks pure-play basket not established"
+    },
+    {
+      "id": "chemical_specialty",
+      "name": "Chemical (Specialty)",
+      "firmCount": 952,
+      "unleveredBetaCashAdjusted": 1.04,
+      "debtToEquityMarket": 0.2352,
+      "observationDate": "2026-01",
+      "precision": "rounded values displayed by source HTML",
+      "fit": "specialty materials broad proxy; physical metal distribution and manufacturing mix not identical"
+    }
+  ],
+  "debtProxies": [
+    {
+      "rating": "AA-",
+      "tenorYears": 10,
+      "yield": 0.05899,
+      "code": "7010123"
+    },
+    {
+      "rating": "BBB-",
+      "tenorYears": 10,
+      "yield": 0.11458,
+      "code": "7010213"
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "electronics_general_AAminus",
+      "sector": "Electronics (General)",
+      "debtRatingExample": "AA-",
+      "riskFreeRate": 0.03996978548658372,
+      "leveredBeta": 1.74352582,
+      "debtToEquityMarket": 0.1417,
+      "equityWeight": 0.8758868354208637,
+      "debtWeight": 0.12411316457913638,
+      "costOfEquity": 0.11826125531292729,
+      "costOfDebtPretax": 0.05899,
+      "costOfDebtAfterTax": 0.0460122,
+      "wacc": 0.10929419642018683,
+      "waccDebtTaxShieldZeroKeepingBetaFixed": 0.11090491224746195,
+      "status": "market-reference scenario; not TEMSCO credit rating or final WACC"
+    },
+    {
+      "id": "electronics_general_BBBminus",
+      "sector": "Electronics (General)",
+      "debtRatingExample": "BBB-",
+      "riskFreeRate": 0.03996978548658372,
+      "leveredBeta": 1.74352582,
+      "debtToEquityMarket": 0.1417,
+      "equityWeight": 0.8758868354208637,
+      "debtWeight": 0.12411316457913638,
+      "costOfEquity": 0.11826125531292729,
+      "costOfDebtPretax": 0.11458,
+      "costOfDebtAfterTax": 0.0893724,
+      "wacc": 0.1146757680589711,
+      "waccDebtTaxShieldZeroKeepingBetaFixed": 0.11780436306641613,
+      "status": "market-reference scenario; not TEMSCO credit rating or final WACC"
+    },
+    {
+      "id": "chemical_specialty_AAminus",
+      "sector": "Chemical (Specialty)",
+      "debtRatingExample": "AA-",
+      "riskFreeRate": 0.03996978548658372,
+      "leveredBeta": 1.23079424,
+      "debtToEquityMarket": 0.2352,
+      "equityWeight": 0.8095854922279793,
+      "debtWeight": 0.1904145077720207,
+      "costOfEquity": 0.0970341679009273,
+      "costOfDebtPretax": 0.05899,
+      "costOfDebtAfterTax": 0.0460122,
+      "wacc": 0.08731884499751238,
+      "waccDebtTaxShieldZeroKeepingBetaFixed": 0.08979000639647612,
+      "status": "market-reference scenario; not TEMSCO credit rating or final WACC"
+    },
+    {
+      "id": "chemical_specialty_BBBminus",
+      "sector": "Chemical (Specialty)",
+      "debtRatingExample": "BBB-",
+      "riskFreeRate": 0.03996978548658372,
+      "leveredBeta": 1.23079424,
+      "debtToEquityMarket": 0.2352,
+      "equityWeight": 0.8095854922279793,
+      "debtWeight": 0.1904145077720207,
+      "costOfEquity": 0.0970341679009273,
+      "costOfDebtPretax": 0.11458,
+      "costOfDebtAfterTax": 0.0893724,
+      "wacc": 0.09557525613740876,
+      "waccDebtTaxShieldZeroKeepingBetaFixed": 0.10037514888352275,
+      "status": "market-reference scenario; not TEMSCO credit rating or final WACC"
+    }
+  ],
+  "formulas": {
+    "rf": "governmentBondYield10y - sovereignDefaultSpread",
+    "betaL": "betaU_cash_adjusted * (1 + (1-taxRate)*marketDE)",
+    "ke": "rf + betaL*matureMarketERP + countryRiskLambda*countryRiskPremium",
+    "wacc": "ke/(1+marketDE) + kd*(1-taxRate)*marketDE/(1+marketDE)",
+    "terminalValue": "normalizedSustainableFCFF_next / terminalWACC; g=0"
+  },
+  "sources": [
+    {
+      "id": "KIS_20260907",
+      "title": "KIS YTM Matrix, Sep 7 2026",
+      "sourceUrl": "https://www.bond.co.kr/conts/10075",
+      "queryUrl": "https://www.bond.co.kr/kisnet/500?baseDate=2026.09.07",
+      "observationDate": "2026-09-07",
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "국고채 code1013000; 공모무보증 회사채AA- code7010123; BBB- code7010213; value12=10Y; value08=3Y; value10=5Y",
+      "note": "Official public page JavaScript calls same read-only endpoint. Publication clock not displayed. KIS evaluated yields, not KOFIA final quote."
+    },
+    {
+      "id": "KIS_CROSSCHECK",
+      "title": "KIS Weekly 1202, Sep 4 2026",
+      "sourceUrl": "https://www.bond.co.kr/post/dawn/36898",
+      "observationDate": "2026-09-04",
+      "publicationDate": "2026-09-07",
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "PDF p9 table1: KIS10y4.350%; page8 narrative separately quotes KOFIA final10y4.360%",
+      "note": "Sep4 public API returns4.350 matching KIS own table; confirms date-query mapping. Website lists publicationSep7 while document coverSep4."
+    },
+    {
+      "id": "NYU_ERP_SEP",
+      "title": "Damodaran current ERP, Sep 1 2026",
+      "sourceUrl": "https://pages.stern.nyu.edu/adamodar/New_Home_Page/home.htm",
+      "observationDate": "2026-09-01",
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "Equity Risk Premiums: trailing12-month adjusted payout ERP4.14%; UST4.75%; USdefaultspread0.22%",
+      "note": "Mature ERP convention consistent with current summary: (4.14%+0.22%)−0.22%=4.14%. This is an implied market estimate, not observed realized excess return."
+    },
+    {
+      "id": "NYU_CRP_JUL",
+      "title": "Damodaran Country Risk Premiums, Jul 2026 correctedJul9",
+      "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/ctrypremJuly26.xlsx",
+      "observationDate": "2026-07-01",
+      "publicationDate": "2026-07-01",
+      "correctionDate": "2026-07-09",
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "ERPs by country!B2,C2,D86:F86; E3 July matureERP4.20%",
+      "note": "Korea Aa2 spread0.3930214513%; CRP0.6109500878%; published July totalERP4.8109500878%. Workbook FAQ and update-note wording differ on USCRP subtraction; calculation uses current update-note/defaultspread convention explicitly."
+    },
+    {
+      "id": "NYU_BETA_GLOBAL",
+      "title": "Damodaran Betas by Sector (Global), Jan2026",
+      "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/BetasGlobal.html",
+      "downloadUrl": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/betaGlobal.xls",
+      "observationDate": "2026-01",
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "Electronics (General) and Chemical (Specialty) rows; cash-adjusted unleveredbeta and D/E columns",
+      "note": "HTML rounded inputs used consistently. Broad global industry groups; not a verified TEMSCO pure-play peer set."
+    },
+    {
+      "id": "NYU_METHOD",
+      "title": "Damodaran valuation formulas and country risk treatment",
+      "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/Seminars/postseminar.html",
+      "observationDate": null,
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "Riskfree Rate, Expected Return, Beta, Pre-tax Cost of Debt rows",
+      "note": "Historical illustrative rates on this teaching page are not current market inputs."
+    },
+    {
+      "id": "NYU_DEFINITIONS",
+      "title": "Damodaran Financial measures & ratios",
+      "sourceUrl": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/definitions.html",
+      "observationDate": null,
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "Debt, Debt(Market value), Debt Ratio(Market Value), Unlevered beta corrected for cash",
+      "note": "Debt means interest-bearing debt plus lease obligations, not total liabilities. Market-value ratio; nontradeddebt commonly proxied bybookvalue subject to default-risk adjustment."
+    },
+    {
+      "id": "NTS_TAX",
+      "title": "국세청 법인세 세율(2026년 이후)",
+      "sourceUrl": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746",
+      "effectiveDate": "2026-01-01",
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "영리법인 각사업연도 소득:2억초과200억이하20%"
+    },
+    {
+      "id": "LOCAL_TAX",
+      "title": "안양시 2026년 달라지는 지방세",
+      "sourceUrl": "https://www.anyang.go.kr/main/contents.do?key=482",
+      "effectiveDate": "2026-01-01",
+      "publicationDate": null,
+      "retrievedAt": "2026-09-08T14:42:50Z",
+      "locator": "법인지방소득세 세율환원; 지방세법103조의20;2억원~200억원2.0%"
+    }
+  ],
+  "evidence": [
+    {
+      "file": "evidence/ctrypremJuly26.xlsx",
+      "sha256": "8d7237c432bca23cd680f149395aa518a465d0b77bec1fdf788edc7a1748c60a",
+      "bytes": 380887
+    },
+    {
+      "file": "evidence/kis-ytm-20260904.json",
+      "sha256": "de690d50a6a6844447b5a05e240c01712164dae3442f1cce41760f19b219a7d5",
+      "bytes": 16345
+    },
+    {
+      "file": "evidence/kis-ytm-20260907.json",
+      "sha256": "306bd5fd87e0579d4b92aca67c382ea39b686b940751e164f5fcaa9d2c978e00",
+      "bytes": 16346
+    }
+  ],
+  "selection": {
+    "defaultCompanyWacc": null,
+    "reason": "Pure-play beta/market capital structure and TEMSCO marginalborrowing rate not yet evidenced",
+    "sectorBlend": null,
+    "creditRatingAssignedToTemsco": null,
+    "note": "Show all4 reference scenarios separately. Do not call min/max confidencebounds."
+  }
+}

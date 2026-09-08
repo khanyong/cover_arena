@@ -1,0 +1,347 @@
+{
+  "route": "/temsco/deck-v3",
+  "httpStatus": 200,
+  "errors": [],
+  "title": "템스코 | 제3안 투자제안서",
+  "slides": 16,
+  "bodyWidth": 1440,
+  "viewportWidth": 1440,
+  "headings": [
+    "자본 확충과연결 수익성 회복",
+    "투자 검토의 핵심",
+    "위폼스 인수 당시의 사업 판단",
+    "매출 확대 이후 수익성이 다시 하락했습니다",
+    "위폼스 적자의 주요 원인은 제조 원가 증가입니다",
+    "대손 조정 후에도 연결 영업손실이 남습니다",
+    "2026년 연결 매출은 내부거래 제거 후 414.6억입니다",
+    "연결 영업이익 회복은 위폼스의 흑자 전환을 전제합니다",
+    "위폼스의 회복 가정은 매출 규모와 원가율입니다",
+    "현재 투자 판단에는 유동성 검토가 우선입니다",
+    "70억 투자금의 사용과 성과 측정",
+    "70억 신주 납입은 자본과 현금을 확충합니다",
+    "투자금의 현금 회수는 영업 성과와 재투자에 달려 있습니다",
+    "외주비율 1%p는 위폼스 영업이익 약 2.3억입니다",
+    "기업가치와 주주에게 귀속되는 가치를 구분합니다",
+    "투자조건과 집행 기준"
+  ],
+  "bodyFont": "Inter, -apple-system, \"system-ui\", \"Segoe UI\", Roboto, sans-serif",
+  "slideFont": "\"Noto Sans KR\", \"Apple SD Gothic Neo\", \"Malgun Gothic\", sans-serif",
+  "notoSansKRReady": true,
+  "fontStatus": "loaded",
+  "pageText": "TEMSCO제3안 투자제안서 · 재무 중심 초안\n01. 자본 확충과 연결 수익성 회복\n02. 투자 검토의 핵심\n03. 위폼스 인수 당시의 사업 판단\n04. 인수 전후 실적\n05. 위폼스 적자 전환의 원인\n06. 대손 조정 후의 수익성\n07. 연결 매출의 구성\n08. 연결 손익 전망\n09. 위폼스 회복의 주요 가정\n10. 재무구조와 유동성\n11. 70억 투자금 사용안\n12. 신주 납입 직후의 재무 효과\n13. 투자금의 연결 현금흐름 전환\n14. 자회사 수익성 민감도\n15. 기업가치와 주주가치\n16. 투자조건과 집행 기준\n전체 보기\n전체화면\n인쇄 / PDF\n기존 최종본\nTEMSCO\nINVESTMENT PROPOSAL / 2026.09\n자본 확충과\n연결 수익성 회복\n\n템스코와 위폼스의 과거 실적,\n인수 판단과 신규 투자금의 재무 효과\n\n주식회사 템스코\n전문 투자자 검토용 · 제3안 초안\n회사 제공자료 기준 / 2026년 9월 8일\nFINANCIAL REVIEW\n\n01인수 전후 실적\n\n02연결 수익성과 유동성\n\n03자금 투입과 회복 조건\n\n과거 수록값과 추정치를 구분했습니다.\n투자조건 및 가치평가는 협의 대상입니다.\n이전\n1 / 16\n다음\n방향키로 이동 · F 전체화면",
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ],
+  "consoleErrorDetails": [
+    {
+      "text": "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "location": {
+        "url": "http://localhost:3000/favicon.ico",
+        "line": 0,
+        "column": 0,
+        "lineNumber": 0,
+        "columnNumber": 0
+      }
+    }
+  ],
+  "failedResponses": [],
+  "slideChecks": [
+    {
+      "number": 1,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 2,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 867.0966186523438,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 3,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 823.718994140625,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 4,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 879.0923461914062,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 5,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 833.4757690429688,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 6,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 836.0969848632812,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 7,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 926.3653564453125,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 8,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 878.8010864257812,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 9,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 839.1732788085938,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 10,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 823.518798828125,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 11,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 848.42041015625,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 12,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 859.03271484375,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 13,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 933.6646728515625,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 14,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 749.2508544921875,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 15,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 736.672607421875,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    },
+    {
+      "number": 16,
+      "width": 1308.2808837890625,
+      "height": 925.0000610351562,
+      "contentBottom": 926.383544921875,
+      "deepestChildBottom": 819.1500854492188,
+      "footerTop": 942.693359375,
+      "contentIntrudesFooter": false,
+      "overflowText": [],
+      "footerOverlap": []
+    }
+  ],
+  "keyboard": {
+    "home": "0",
+    "right": "1",
+    "down": "2",
+    "left": "1",
+    "end": "15",
+    "pass": true
+  },
+  "scrollMode": {
+    "visibleSlides": 16
+  },
+  "directHash": {
+    "selection": "11",
+    "visibleSlides": 1,
+    "slide12Visible": true
+  },
+  "fullscreen": true,
+  "print": {
+    "visibleSlides": 16,
+    "footerValues": [
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15",
+      "16"
+    ],
+    "slideBounds": [
+      {
+        "width": 1122.4384765625,
+        "height": 793.6029663085938,
+        "top": 0
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 793.3125
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 1586.625
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 2379.9375
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 3173.25
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 3966.5625
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 4759.875
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 5553.1875
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 6346.5
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.60302734375,
+        "top": 7139.8125
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.6025390625,
+        "top": 7933.125
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.6025390625,
+        "top": 8726.4375
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.6025390625,
+        "top": 9519.75
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.6025390625,
+        "top": 10313.0625
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.6025390625,
+        "top": 11106.375
+      },
+      {
+        "width": 1122.4384765625,
+        "height": 793.6025390625,
+        "top": 11899.6875
+      }
+    ]
+  },
+  "mobile": {
+    "scrollWidth": 390,
+    "viewportWidth": 390
+  },
+  "checkedAt": "2026-09-08T14:34:19.511Z"
+}

@@ -1,0 +1,65 @@
+{
+  "source": "projects/temsco/v3/verification-dcf/preview.pdf",
+  "source_sha256": "2679acbec1c07dd1da0c8d4e5be0c2f50ddc4ecc167b8802acefdfdbf87665a3",
+  "source_unchanged_during_review": true,
+  "page_count": 31,
+  "render_count": 31,
+  "review_method": "pypdfium2 full-page PNG render at scale1.5; visual review of all31 pages in contact sheets; full-page review of pages11,13,14,17,18,19,20,21,22,23,26",
+  "overall": "No clipped content, broken glyphs, table collisions or missing/blank pages observed. Two minor formula-caption layout issues recommended for improvement.",
+  "requested_pages": {
+    "14": {
+      "readable": true,
+      "clipping_observed": false,
+      "table_overlap_observed": false
+    },
+    "17": {
+      "readable": true,
+      "clipping_observed": false,
+      "table_overlap_observed": false
+    },
+    "18": {
+      "readable": true,
+      "clipping_observed": false,
+      "table_overlap_observed": false
+    },
+    "19": {
+      "readable": true,
+      "clipping_observed": false,
+      "table_overlap_observed": false
+    },
+    "21": {
+      "readable": true,
+      "clipping_observed": false,
+      "table_overlap_observed": false
+    },
+    "23": {
+      "readable": true,
+      "clipping_observed": false,
+      "table_overlap_observed": false
+    }
+  },
+  "findings": [
+    {
+      "page": 13,
+      "severity": "minor_layout",
+      "description": "Formula caption begins inline immediately after large formula and wraps to a second line; render as a separate paragraph below the formula."
+    },
+    {
+      "page": 26,
+      "severity": "minor_layout",
+      "description": "Funding formula caption begins inline immediately after large formula and wraps to a second line; render as a separate paragraph below the formula."
+    },
+    {
+      "page": 13,
+      "severity": "clarify_units",
+      "description": "The min formula compares accessible market×share, approved demand, and good-output capacity then multiplies by ASP. Explicitly specify market quantity, not monetary SAM, so terms use consistent units."
+    }
+  ],
+  "contacts": [
+    "projects/temsco/v3/verification-dcf/render-review/contact-01-08.jpg",
+    "projects/temsco/v3/verification-dcf/render-review/contact-09-16.jpg",
+    "projects/temsco/v3/verification-dcf/render-review/contact-17-24.jpg",
+    "projects/temsco/v3/verification-dcf/render-review/contact-25-31.jpg"
+  ],
+  "note": "Read-only original; only render-review PNG/JPEG/JSON verification artifacts generated. Financial-model completeness was not separately audited in this visual task."
+}

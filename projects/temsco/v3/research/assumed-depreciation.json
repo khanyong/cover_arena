@@ -1,0 +1,640 @@
+{
+  "basisDate": "2025-12-31",
+  "analysisDate": "2026-09-09",
+  "unit": "KRW; display Eok=KRW/100000000",
+  "sourceReadMode": "openpyxl read-only cached values and formulas; original workbooks never saved",
+  "assets": [
+    {
+      "company": "parent",
+      "assetClass": "land",
+      "label": "토지",
+      "reportedAmountKrw": 10091660492,
+      "accumulatedDepreciationKrw": null,
+      "netBookValueKrw": 10091660492,
+      "netBookValueEok": 100.91660492,
+      "sourceCells": [
+        "S03:재무상태표(T)!B23"
+      ],
+      "remainingLifeYearsAssumption": null,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "building",
+      "label": "건물",
+      "reportedAmountKrw": 2101563751,
+      "accumulatedDepreciationKrw": -196036521,
+      "netBookValueKrw": 1905527230,
+      "netBookValueEok": 19.0552723,
+      "sourceCells": [
+        "S03:재무상태표(T)!B24",
+        "S03:재무상태표(T)!B25"
+      ],
+      "remainingLifeYearsAssumption": 40,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "equipment",
+      "label": "기계장치",
+      "reportedAmountKrw": 5272000000,
+      "accumulatedDepreciationKrw": -1576851476,
+      "netBookValueKrw": 3695148524,
+      "netBookValueEok": 36.95148524,
+      "sourceCells": [
+        "S03:재무상태표(T)!B26",
+        "S03:재무상태표(T)!B27"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "equipment",
+      "label": "차량운반구",
+      "reportedAmountKrw": 427191212,
+      "accumulatedDepreciationKrw": -158124193,
+      "netBookValueKrw": 269067019,
+      "netBookValueEok": 2.69067019,
+      "sourceCells": [
+        "S03:재무상태표(T)!B28",
+        "S03:재무상태표(T)!B29"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "equipment",
+      "label": "공구와기구",
+      "reportedAmountKrw": 69150000,
+      "accumulatedDepreciationKrw": -39233620,
+      "netBookValueKrw": 29916380,
+      "netBookValueEok": 0.2991638,
+      "sourceCells": [
+        "S03:재무상태표(T)!B30",
+        "S03:재무상태표(T)!B31"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "equipment",
+      "label": "비품",
+      "reportedAmountKrw": 120202368,
+      "accumulatedDepreciationKrw": -89334112,
+      "netBookValueKrw": 30868256,
+      "netBookValueEok": 0.30868256,
+      "sourceCells": [
+        "S03:재무상태표(T)!B32",
+        "S03:재무상태표(T)!B33"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "equipment",
+      "label": "시설장치",
+      "reportedAmountKrw": 23840000,
+      "accumulatedDepreciationKrw": -20878923,
+      "netBookValueKrw": 2961077,
+      "netBookValueEok": 0.02961077,
+      "sourceCells": [
+        "S03:재무상태표(T)!B34",
+        "S03:재무상태표(T)!B35"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "parent",
+      "assetClass": "finiteIntangible",
+      "label": "산업재산권",
+      "reportedAmountKrw": 23041607,
+      "accumulatedDepreciationKrw": null,
+      "netBookValueKrw": 23041607,
+      "netBookValueEok": 0.23041607,
+      "sourceCells": [
+        "S03:재무상태표(T)!B38"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "label": "기계장치",
+      "reportedAmountKrw": 11798284568,
+      "accumulatedDepreciationKrw": -2775534174,
+      "netBookValueKrw": 9022750394,
+      "netBookValueEok": 90.22750394,
+      "sourceCells": [
+        "S03:재무상태표(W)!B21",
+        "S03:재무상태표(W)!B22"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "label": "차량운반구",
+      "reportedAmountKrw": 78534326,
+      "accumulatedDepreciationKrw": -47709442,
+      "netBookValueKrw": 30824884,
+      "netBookValueEok": 0.30824884,
+      "sourceCells": [
+        "S03:재무상태표(W)!B23",
+        "S03:재무상태표(W)!B24"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "label": "공구와기구",
+      "reportedAmountKrw": 599440971,
+      "accumulatedDepreciationKrw": -423248852,
+      "netBookValueKrw": 176192119,
+      "netBookValueEok": 1.76192119,
+      "sourceCells": [
+        "S03:재무상태표(W)!B25",
+        "S03:재무상태표(W)!B26"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "label": "비품",
+      "reportedAmountKrw": 193799764,
+      "accumulatedDepreciationKrw": -94031722,
+      "netBookValueKrw": 99768042,
+      "netBookValueEok": 0.99768042,
+      "sourceCells": [
+        "S03:재무상태표(W)!B27",
+        "S03:재무상태표(W)!B28"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "label": "시설장치",
+      "reportedAmountKrw": 66800000,
+      "accumulatedDepreciationKrw": -3713332,
+      "netBookValueKrw": 63086668,
+      "netBookValueEok": 0.63086668,
+      "sourceCells": [
+        "S03:재무상태표(W)!B30",
+        "S03:재무상태표(W)!B31"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "cip",
+      "label": "건설중인자산",
+      "reportedAmountKrw": 924000,
+      "accumulatedDepreciationKrw": null,
+      "netBookValueKrw": 924000,
+      "netBookValueEok": 0.00924,
+      "sourceCells": [
+        "S03:재무상태표(W)!B29"
+      ],
+      "remainingLifeYearsAssumption": null,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "finiteIntangible",
+      "label": "산업재산권",
+      "reportedAmountKrw": 13267786,
+      "accumulatedDepreciationKrw": null,
+      "netBookValueKrw": 13267786,
+      "netBookValueEok": 0.13267786,
+      "sourceCells": [
+        "S03:재무상태표(W)!B33"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    },
+    {
+      "company": "subsidiary",
+      "assetClass": "finiteIntangible",
+      "label": "소프트웨어",
+      "reportedAmountKrw": 23344518,
+      "accumulatedDepreciationKrw": null,
+      "netBookValueKrw": 23344518,
+      "netBookValueEok": 0.23344518,
+      "sourceCells": [
+        "S03:재무상태표(W)!B34"
+      ],
+      "remainingLifeYearsAssumption": 5,
+      "residualValueAssumptionKrw": 0,
+      "assumptionStatus": "analyst_remaining_life_not_verified_asset_register"
+    }
+  ],
+  "basePoolsKrw": {
+    "parent": {
+      "land": 10091660492,
+      "building": 1905527230,
+      "equipment": 4027961256,
+      "finiteIntangible": 23041607,
+      "cip": 0
+    },
+    "subsidiary": {
+      "land": 0,
+      "building": 0,
+      "equipment": 9392622107,
+      "finiteIntangible": 36612304,
+      "cip": 924000
+    }
+  },
+  "basePoolsEok": {
+    "parent": {
+      "land": 100.91660492,
+      "building": 19.0552723,
+      "equipment": 40.27961256,
+      "finiteIntangible": 0.23041607,
+      "cip": 0.0
+    },
+    "subsidiary": {
+      "land": 0.0,
+      "building": 0.0,
+      "equipment": 93.92622107,
+      "finiteIntangible": 0.36612304,
+      "cip": 0.00924
+    }
+  },
+  "growthAdditions": [
+    {
+      "year": 2026,
+      "company": "parent",
+      "assetClass": "land",
+      "costKrw": 6000000000,
+      "costEok": 60.0,
+      "lifeYearsAssumption": null,
+      "firstYearFraction": 0,
+      "sourceCell": "S06:CAPEX!C7"
+    },
+    {
+      "year": 2026,
+      "company": "parent",
+      "assetClass": "building",
+      "costKrw": 5000000000,
+      "costEok": 50.0,
+      "lifeYearsAssumption": 40,
+      "firstYearFraction": 0.5,
+      "sourceCell": "S06:CAPEX!C8"
+    },
+    {
+      "year": 2026,
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "costKrw": 250000000,
+      "costEok": 2.5,
+      "lifeYearsAssumption": 10,
+      "firstYearFraction": 0.5,
+      "sourceCell": "S04:CAPEX_감가상각!E7"
+    },
+    {
+      "year": 2027,
+      "company": "parent",
+      "assetClass": "equipment",
+      "costKrw": 500000000,
+      "costEok": 5.0,
+      "lifeYearsAssumption": 10,
+      "firstYearFraction": 0.5,
+      "sourceCell": "S06:CAPEX!D6"
+    },
+    {
+      "year": 2027,
+      "company": "subsidiary",
+      "assetClass": "equipment",
+      "costKrw": 1150000000,
+      "costEok": 11.5,
+      "lifeYearsAssumption": 10,
+      "firstYearFraction": 0.5,
+      "sourceCell": "S04:CAPEX_감가상각!F7"
+    },
+    {
+      "year": 2028,
+      "company": "parent",
+      "assetClass": "equipment",
+      "costKrw": 500000000,
+      "costEok": 5.0,
+      "lifeYearsAssumption": 10,
+      "firstYearFraction": 0.5,
+      "sourceCell": "S06:CAPEX!E6"
+    }
+  ],
+  "consolidatedGoodwillKrw": 3482075792,
+  "assumptions": {
+    "existingEquipmentRemainingYears": 5,
+    "existingFiniteIntangibleRemainingYears": 5,
+    "existingBuildingRemainingYears": 40,
+    "newEquipmentYears": 10,
+    "newBuildingYears": 40,
+    "newDevelopmentYears": 5,
+    "newAssetFirstYearFraction": 0.5,
+    "landDepreciation": 0,
+    "cipPolicy": "not in service; depreciation 0 until specified in-service date",
+    "assetBookValueFloor": 0,
+    "goodwillPolicy": "excluded from finite tangible/intangible assumption pools; separate accounting policy/impairment review",
+    "buildingCaveat": "new S06 building gross cost/40 is source formula; existing NBV/40 is separate analyst remaining-life assumption, not source accounting life confirmation",
+    "maintenanceCohortLifeYears": 10,
+    "maintenanceCohortFirstYearFraction": 0.5,
+    "maintenanceFixedPointAtZeroOverlap": "nonDevelopmentDA = beforeCurrentMaintenanceDA/(1-.5/10)",
+    "maintenanceOverlap": "newMaintenanceAsset = maintenanceBudget - overlapCash; never create duplicate cohort for overlap already in growth plan",
+    "developmentProgram": "new capitalized development asset cohort 5 years with half-year first amortization; do not capitalize company R&D expense without explicit adjustment"
+  },
+  "notSeparatelyIdentified": {
+    "parentSoftware": "current-year cell blank; zero identified balance is an assumption, not proof of absence",
+    "parentCip": "current-year cell blank; no identified amount",
+    "separateDevelopmentAssets": "no separate development asset row in provided balance sheets",
+    "rightOfUseAssets": "no separate right-of-use asset row; lease details unavailable",
+    "subsidiaryLandBuilding": "no separate land/building row in provided balance sheet"
+  },
+  "reconciliations": {
+    "parentPpeDiffKrw": 0,
+    "subsidiaryPpeDiffKrw": 0,
+    "parentFiniteIntangibleDiffKrw": 0,
+    "subsidiaryFiniteIntangibleDiffKrw": 0
+  },
+  "evidence": {
+    "S03:재무상태표(T)!B23": {
+      "value": 10091660492,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B24": {
+      "value": 2101563751,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B25": {
+      "value": -196036521,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B26": {
+      "value": 5272000000,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B27": {
+      "value": -1576851476,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B28": {
+      "value": 427191212,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B29": {
+      "value": -158124193,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B30": {
+      "value": 69150000,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B31": {
+      "value": -39233620,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B32": {
+      "value": 120202368,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B33": {
+      "value": -89334112,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B34": {
+      "value": 23840000,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B35": {
+      "value": -20878923,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B38": {
+      "value": 23041607,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B21": {
+      "value": 11798284568,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B22": {
+      "value": -2775534174,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B23": {
+      "value": 78534326,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B24": {
+      "value": -47709442,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B25": {
+      "value": 599440971,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B26": {
+      "value": -423248852,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B27": {
+      "value": 193799764,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B28": {
+      "value": -94031722,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B30": {
+      "value": 66800000,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B31": {
+      "value": -3713332,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B29": {
+      "value": 924000,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B33": {
+      "value": 13267786,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B34": {
+      "value": 23344518,
+      "formula": null
+    },
+    "S06:CAPEX!C7": {
+      "value": 6000000000,
+      "formula": null
+    },
+    "S06:CAPEX!C8": {
+      "value": 5000000000,
+      "formula": null
+    },
+    "S06:CAPEX!C6": {
+      "value": null,
+      "formula": null
+    },
+    "S04:CAPEX_감가상각!E7": {
+      "value": 250000000,
+      "formula": "=SUM(E5:E6)"
+    },
+    "S06:CAPEX!D7": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!D8": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!D6": {
+      "value": 500000000,
+      "formula": null
+    },
+    "S04:CAPEX_감가상각!F7": {
+      "value": 1150000000,
+      "formula": "=SUM(F5:F6)"
+    },
+    "S06:CAPEX!E7": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!E8": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!E6": {
+      "value": 500000000,
+      "formula": null
+    },
+    "S04:CAPEX_감가상각!G7": {
+      "value": 0,
+      "formula": "=SUM(G5:G6)"
+    },
+    "S06:CAPEX!F7": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!F8": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!F6": {
+      "value": null,
+      "formula": null
+    },
+    "S04:CAPEX_감가상각!H7": {
+      "value": 0,
+      "formula": "=SUM(H5:H6)"
+    },
+    "S06:CAPEX!C15": {
+      "value": 125000000,
+      "formula": "=C8/40"
+    },
+    "S06:CAPEX!D14": {
+      "value": 50000000,
+      "formula": "=D6/10"
+    },
+    "S06:CAPEX!E14": {
+      "value": 100000000,
+      "formula": "=(D6+E6)/10"
+    },
+    "S04:CAPEX_감가상각!E11": {
+      "value": 25000000,
+      "formula": "=E7/10"
+    },
+    "S04:CAPEX_감가상각!F11": {
+      "value": 115000000,
+      "formula": "=F7/10"
+    },
+    "S03:재무상태표(T)!C22": {
+      "value": 16025148978,
+      "formula": null
+    },
+    "S03:재무상태표(T)!C37": {
+      "value": 23041607,
+      "formula": null
+    },
+    "S03:재무상태표(T)!J22": {
+      "value": 25418695085,
+      "formula": null
+    },
+    "S03:재무상태표(T)!J37": {
+      "value": 3541729703,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I40": {
+      "value": 3482075792,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B36": {
+      "value": null,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B39": {
+      "value": null,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B40": {
+      "value": null,
+      "formula": null
+    },
+    "S03:재무상태표(W)!C20": {
+      "value": 9393546107,
+      "formula": null
+    },
+    "S03:재무상태표(W)!C32": {
+      "value": 36612304,
+      "formula": null
+    }
+  },
+  "sources": [
+    {
+      "id": "S03",
+      "name": "비상장주식_DCF평가_모델(템스코)_수정.xlsx",
+      "sha256": "70e666be1a30093bc50b64f86ca9e9e4279bc9514f446cd6e0f990020d84357d",
+      "matchesManifest": true
+    },
+    {
+      "id": "S04",
+      "name": "위폼스_추정손익.xlsx",
+      "sha256": "ce780d52a3e05911521b4c28db16c002af89d927b6caa8e8647a9c38328c353b",
+      "matchesManifest": true
+    },
+    {
+      "id": "S06",
+      "name": "템스코_추정손익  _20260908_최종.xlsx",
+      "sha256": "e5db8a90003f98522bdcee8a91e41fb81944e519df3cf00b301e8634a06e5486",
+      "matchesManifest": true
+    }
+  ]
+}

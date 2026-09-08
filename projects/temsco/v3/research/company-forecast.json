@@ -1,0 +1,2720 @@
+{
+  "generatedDate": "2026-09-08",
+  "unit": "KRW",
+  "displayUnitDivisorForEokKrw": 100000000,
+  "valueType": "Excel saved cached values; original formulas retained as evidence; no Excel-engine recalculation",
+  "nullMeaning": "not separately available / not confirmed; never silently substitute zero",
+  "sourceFiles": [
+    {
+      "id": "S02",
+      "name": "모회사_자회사_연결_추정손익_양식_2023-2030_v2.xlsx",
+      "path": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/source-materials/모회사_자회사_연결_추정손익_양식_2023-2030_v2.xlsx",
+      "sha256": "d5f016e3183155cf1ced34747777b539f5f2bf7427174f933d922ad4023b1160",
+      "sheets": [
+        "모회사",
+        "자회사",
+        "연결조정",
+        "연결",
+        "연결조정 내역"
+      ],
+      "currentSha256": "d5f016e3183155cf1ced34747777b539f5f2bf7427174f933d922ad4023b1160"
+    },
+    {
+      "id": "S03",
+      "name": "비상장주식_DCF평가_모델(템스코)_수정.xlsx",
+      "path": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/source-materials/비상장주식_DCF평가_모델(템스코)_수정.xlsx",
+      "sha256": "70e666be1a30093bc50b64f86ca9e9e4279bc9514f446cd6e0f990020d84357d",
+      "sheets": [
+        "입력가정",
+        "WACC",
+        "FCF전망",
+        "평가요약",
+        "==>과거FS",
+        "과거실적",
+        "재무상태표(T)",
+        "손익계산서(T)",
+        "재무상태표(W)",
+        "손익계산서(W)",
+        "내부거래"
+      ],
+      "currentSha256": "70e666be1a30093bc50b64f86ca9e9e4279bc9514f446cd6e0f990020d84357d"
+    },
+    {
+      "id": "S04",
+      "name": "위폼스_추정손익.xlsx",
+      "path": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/source-materials/위폼스_추정손익.xlsx",
+      "sha256": "ce780d52a3e05911521b4c28db16c002af89d927b6caa8e8647a9c38328c353b",
+      "sheets": [
+        "추정손익",
+        "IR_핵심지표 (Key Metrics)",
+        "통합_추정가정 (Drivers)",
+        "CAPEX_감가상각",
+        "Historical_3Y"
+      ],
+      "currentSha256": "ce780d52a3e05911521b4c28db16c002af89d927b6caa8e8647a9c38328c353b"
+    },
+    {
+      "id": "S06",
+      "name": "템스코_추정손익  _20260908_최종.xlsx",
+      "path": "/Users/M2proMini/Documents/khanyong_projects/projects/temsco/v3/source-materials/템스코_추정손익  _20260908_최종.xlsx",
+      "sha256": "e5db8a90003f98522bdcee8a91e41fb81944e519df3cf00b301e8634a06e5486",
+      "sheets": [
+        "가정",
+        "CAPEX",
+        "추정손익 (이전)",
+        "추정손익",
+        "매출가정"
+      ],
+      "currentSha256": "e5db8a90003f98522bdcee8a91e41fb81944e519df3cf00b301e8634a06e5486"
+    }
+  ],
+  "periods": [
+    {
+      "year": 2024,
+      "status": "company_historical_unreconciled",
+      "parent": {
+        "revenue": 39858957704,
+        "cogs": 35817076609,
+        "grossProfit": 4041881095,
+        "sgaPayroll": 913927002,
+        "sgaDa": 129525863,
+        "sgaBadDebt": null,
+        "sgaOther": 940633588,
+        "sga": 1984086453,
+        "ebit": 2057794642,
+        "interestIncome": 9969973,
+        "equityMethodResult": null,
+        "nonOperatingBadDebt": null,
+        "interestExpenseSigned": -888960220,
+        "otherNonOperating": 930203791,
+        "netNonOperating": 51213544,
+        "ebt": 2109008186,
+        "taxExpense": 496600138,
+        "netIncome": 1612408048
+      },
+      "subsidiary": {
+        "revenue": 9260937083,
+        "toParentAsLabelled": 9260937083,
+        "externalAsLabelled": null,
+        "cogs": 6899998368,
+        "directMaterials": 1994673645,
+        "outsourcing": null,
+        "manufacturingPayroll": 1862154247,
+        "manufacturingDa": 1250804109,
+        "manufacturingOther": 1792366367,
+        "grossProfit": 2360938715,
+        "sga": 838249348,
+        "sgaPayroll": 749018045,
+        "sgaDa": 18150004,
+        "sgaOther": 173787049,
+        "sgaBadDebt": -102705750,
+        "ebit": 1522689367,
+        "ebitda": 2791643480,
+        "netNonOperating": 11522669,
+        "netInterestExpenseSigned": -26378692,
+        "otherNonOperating": 37901361,
+        "ebt": 1534212036,
+        "taxExpense": null,
+        "netIncome": 1534212036,
+        "totalDa": 1268954113
+      },
+      "consolidated": {
+        "revenue": 40324731206,
+        "cogs": 33941971396,
+        "grossProfit": 6382759810,
+        "sgaPayroll": 1662945047,
+        "sgaDa": 147675867,
+        "sgaBadDebt": -102705750,
+        "sgaOther": 1114420637,
+        "sga": 2822335801,
+        "ebit": 3560424009,
+        "interestIncome": 9969973,
+        "equityMethodResult": 0,
+        "nonOperatingBadDebt": 0,
+        "interestExpenseSigned": -915338912,
+        "otherNonOperating": 968105152,
+        "netNonOperating": 62736213,
+        "ebt": 3623160222,
+        "taxExpense": 496600138,
+        "netIncome": 3126560084,
+        "daDisclosedSubtotal": 1398479976,
+        "totalDa": null,
+        "nopat": null,
+        "operatingCashTax": null,
+        "deltaNwc": null,
+        "fcff": null,
+        "salesGrowth": null,
+        "grossMargin": 0.1582840013835057,
+        "ebitMargin": 0.08829380636938348
+      },
+      "segments": {
+        "parentMaskGrossRevenue": 10062974500,
+        "parentMaterialsGrossRevenue": 29795983204,
+        "subsidiaryToParentAsLabelled": 9260937083,
+        "subsidiaryExternalAsLabelled": null,
+        "historicalSubsidiaryCustomerLabelsReliable": false,
+        "intercompanyRevenueElimination": -8795163581
+      },
+      "capex": {
+        "parent": null,
+        "subsidiary": null,
+        "combinedPlannedAdditions": null,
+        "cashPaymentSchedule": null,
+        "maintenanceVsGrowthSplitConfirmed": false
+      },
+      "sourceColumns": {
+        "parent": "S06:추정손익!F",
+        "subsidiary": "S04:추정손익!D",
+        "consolidated": "S02:연결!I"
+      }
+    },
+    {
+      "year": 2025,
+      "status": "company_historical_unreconciled",
+      "parent": {
+        "revenue": 35058443364,
+        "cogs": 31274265735,
+        "grossProfit": 3784177629,
+        "sgaPayroll": 1277062518,
+        "sgaDa": 195014933,
+        "sgaBadDebt": 6369547050,
+        "sgaOther": 1132691907,
+        "sga": 8974316408,
+        "ebit": -5190138779,
+        "interestIncome": 2015305,
+        "equityMethodResult": -1864477018,
+        "nonOperatingBadDebt": -450000000,
+        "interestExpenseSigned": -851483342,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -3100569448,
+        "ebt": -8290708227,
+        "taxExpense": 78338542,
+        "netIncome": -8369046769
+      },
+      "subsidiary": {
+        "revenue": 12581202964,
+        "toParentAsLabelled": 12581202964,
+        "externalAsLabelled": null,
+        "cogs": 13017749367,
+        "directMaterials": 2963003890,
+        "outsourcing": 2299726160,
+        "manufacturingPayroll": 2511244228,
+        "manufacturingDa": 2490860187,
+        "manufacturingOther": 2752914902,
+        "grossProfit": -436546403,
+        "sga": 1354879791,
+        "sgaPayroll": 917725512,
+        "sgaDa": 19095128,
+        "sgaOther": 333858541,
+        "sgaBadDebt": 84200610,
+        "ebit": -1791426194,
+        "ebitda": 718529121,
+        "netNonOperating": -185587141,
+        "netInterestExpenseSigned": -207646540,
+        "otherNonOperating": 22059399,
+        "ebt": -1977013335,
+        "taxExpense": null,
+        "netIncome": -1977013335,
+        "totalDa": 2509955315
+      },
+      "consolidated": {
+        "revenue": 34261655569,
+        "cogs": 31070930450,
+        "grossProfit": 3190725119,
+        "sgaPayroll": 2194788030,
+        "sgaDa": 214110061,
+        "sgaBadDebt": 6453747660,
+        "sgaOther": 1466550448,
+        "sga": 10514830399,
+        "ebit": -7324105280,
+        "interestIncome": 2015305,
+        "equityMethodResult": 0,
+        "nonOperatingBadDebt": -450000000,
+        "interestExpenseSigned": -1059129882,
+        "otherNonOperating": 85435006,
+        "netNonOperating": -1421679571,
+        "ebt": -8745784851,
+        "taxExpense": 78338542,
+        "netIncome": -8824123393,
+        "daDisclosedSubtotal": 2704970248,
+        "totalDa": null,
+        "nopat": null,
+        "operatingCashTax": null,
+        "deltaNwc": null,
+        "fcff": null,
+        "salesGrowth": -0.15035625671071706,
+        "grossMargin": 0.0931281651750353,
+        "ebitMargin": -0.21376974224873307
+      },
+      "segments": {
+        "parentMaskGrossRevenue": 12000000000,
+        "parentMaterialsGrossRevenue": 23058443364,
+        "subsidiaryToParentAsLabelled": 12581202964,
+        "subsidiaryExternalAsLabelled": null,
+        "historicalSubsidiaryCustomerLabelsReliable": false,
+        "intercompanyRevenueElimination": -13377990759
+      },
+      "capex": {
+        "parent": null,
+        "subsidiary": null,
+        "combinedPlannedAdditions": null,
+        "cashPaymentSchedule": null,
+        "maintenanceVsGrowthSplitConfirmed": false
+      },
+      "sourceColumns": {
+        "parent": "S06:추정손익!I",
+        "subsidiary": "S04:추정손익!E",
+        "consolidated": "S02:연결!M"
+      }
+    },
+    {
+      "year": 2026,
+      "status": "company_annual_forecast",
+      "parent": {
+        "revenue": 40000000000,
+        "cogs": 33200000000,
+        "grossProfit": 6800000000,
+        "sgaPayroll": 1328145018.72,
+        "sgaDa": 320014933,
+        "sgaBadDebt": null,
+        "sgaOther": 1000000000,
+        "sga": 2648159951.7200003,
+        "ebit": 4151840048.2799997,
+        "interestIncome": 2015305,
+        "equityMethodResult": null,
+        "nonOperatingBadDebt": null,
+        "interestExpenseSigned": -1051483342,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -986092430,
+        "ebt": 3165747618.2799997,
+        "taxExpense": 696464476.0215999,
+        "netIncome": 2469283142.2584,
+        "newDaFromCapex": 125000000,
+        "totalDa": null,
+        "existingDaAccumulatedBalanceChangeProxy2025": 1296078992,
+        "totalDaIllustrativeProxy": 1421078992
+      },
+      "subsidiary": {
+        "revenue": 14000000000,
+        "toParentAsLabelled": 9156298904,
+        "externalAsLabelled": 4843701096,
+        "cogs": 15595163681,
+        "directMaterials": 2156403434,
+        "outsourcing": 5600000000,
+        "manufacturingPayroll": 2586581555,
+        "manufacturingDa": 2515860187,
+        "manufacturingOther": 2736318505,
+        "grossProfit": -1595163681,
+        "sga": 1227070817,
+        "sgaPayroll": 945257277,
+        "sgaDa": 19095128,
+        "sgaOther": 262718412,
+        "sgaBadDebt": 0,
+        "ebit": -2822234498,
+        "ebitda": -287279183,
+        "netNonOperating": -207646540,
+        "netInterestExpenseSigned": -207646540,
+        "otherNonOperating": null,
+        "ebt": -3029881038,
+        "taxExpense": null,
+        "netIncome": -3029881038,
+        "totalDa": 2534955315
+      },
+      "consolidated": {
+        "revenue": 41462759896,
+        "cogs": 36257923577,
+        "grossProfit": 5204836319,
+        "sgaPayroll": 2273402295.7200003,
+        "sgaDa": 339110061,
+        "sgaBadDebt": 0,
+        "sgaOther": 1262718412,
+        "sga": 3875230768.7200003,
+        "ebit": 1329605550.2799997,
+        "interestIncome": 2015305,
+        "equityMethodResult": 0,
+        "nonOperatingBadDebt": 0,
+        "interestExpenseSigned": -1259129882,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -1193738970,
+        "ebt": 135866580.27999973,
+        "taxExpense": 696464476.0215999,
+        "netIncome": -560597895.7416002,
+        "daDisclosedSubtotal": 2854970248,
+        "totalDa": null,
+        "nopat": null,
+        "operatingCashTax": null,
+        "deltaNwc": null,
+        "fcff": null,
+        "salesGrowth": 0.21017969527180624,
+        "grossMargin": 0.12553038755874332,
+        "ebitMargin": 0.03206746375820172,
+        "totalDaIllustrativeProxy": 3956034307
+      },
+      "segments": {
+        "parentMaskGrossRevenue": 16000000000,
+        "parentMaterialsGrossRevenue": 24000000000,
+        "subsidiaryToParentAsLabelled": 9156298904,
+        "subsidiaryExternalAsLabelled": 4843701096,
+        "historicalSubsidiaryCustomerLabelsReliable": true,
+        "subsidiaryToParentRevenue": 9156298904,
+        "parentToSubsidiaryRevenue": 3380941200,
+        "intercompanyRevenueElimination": -12537240104
+      },
+      "capex": {
+        "parent": 11000000000,
+        "subsidiary": 250000000,
+        "combinedPlannedAdditions": 11250000000,
+        "cashPaymentSchedule": null,
+        "maintenanceVsGrowthSplitConfirmed": false,
+        "parentLand": 6000000000,
+        "parentBuilding": 5000000000,
+        "parentRAndDEquipment": null
+      },
+      "sourceColumns": {
+        "parent": "S06:추정손익!L",
+        "subsidiary": "S04:추정손익!G",
+        "consolidated": "S02:연결!Q"
+      }
+    },
+    {
+      "year": 2027,
+      "status": "company_annual_forecast",
+      "parent": {
+        "revenue": 59087117851,
+        "cogs": 49042307816.329994,
+        "grossProfit": 10044810034.670006,
+        "sgaPayroll": 1381270819.4688,
+        "sgaDa": 370014933,
+        "sgaBadDebt": null,
+        "sgaOther": 1477177946.275,
+        "sga": 3228463698.7438,
+        "ebit": 6816346335.926206,
+        "interestIncome": 2015305,
+        "equityMethodResult": null,
+        "nonOperatingBadDebt": null,
+        "interestExpenseSigned": -1051483342,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -986092430,
+        "ebt": 5830253905.926206,
+        "taxExpense": 1282655859.3037653,
+        "netIncome": 4547598046.62244,
+        "newDaFromCapex": 175000000,
+        "totalDa": null,
+        "existingDaAccumulatedBalanceChangeProxy2025": 1296078992,
+        "totalDaIllustrativeProxy": 1471078992
+      },
+      "subsidiary": {
+        "revenue": 22947035070.422535,
+        "toParentAsLabelled": 18423440000,
+        "externalAsLabelled": 4523595070.422536,
+        "cogs": 19929833672,
+        "directMaterials": 3684688000,
+        "outsourcing": 6884110521,
+        "manufacturingPayroll": 2829179002,
+        "manufacturingDa": 2630860187,
+        "manufacturingOther": 3900995962,
+        "grossProfit": 3017201398.422535,
+        "sga": 1423325024,
+        "sgaPayroll": 973614995,
+        "sgaDa": 19095128,
+        "sgaOther": 430614901,
+        "sgaBadDebt": 0,
+        "ebit": 1593876374.422535,
+        "ebitda": 4243831689.422535,
+        "netNonOperating": -207646540,
+        "netInterestExpenseSigned": -207646540,
+        "otherNonOperating": null,
+        "ebt": 1386229834.422535,
+        "taxExpense": null,
+        "netIncome": 1386229834.422535,
+        "totalDa": 2649955315
+      },
+      "consolidated": {
+        "revenue": 60294493721.42253,
+        "cogs": 47232482288.32999,
+        "grossProfit": 13062011433.092545,
+        "sgaPayroll": 2354885814.4688,
+        "sgaDa": 389110061,
+        "sgaBadDebt": 0,
+        "sgaOther": 1907792847.275,
+        "sga": 4651788722.7438,
+        "ebit": 8410222710.348744,
+        "interestIncome": 2015305,
+        "equityMethodResult": 0,
+        "nonOperatingBadDebt": 0,
+        "interestExpenseSigned": -1259129882,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -1193738970,
+        "ebt": 7216483740.348744,
+        "taxExpense": 1282655859.3037653,
+        "netIncome": 5933827881.044979,
+        "daDisclosedSubtotal": 3019970248,
+        "totalDa": null,
+        "nopat": null,
+        "operatingCashTax": null,
+        "deltaNwc": null,
+        "fcff": null,
+        "salesGrowth": 0.45418428181475856,
+        "grossMargin": 0.21663688716655788,
+        "ebitMargin": 0.1394857505430982,
+        "totalDaIllustrativeProxy": 4121034307
+      },
+      "segments": {
+        "parentMaskGrossRevenue": 26319200000,
+        "parentMaterialsGrossRevenue": 32767917851,
+        "subsidiaryToParentAsLabelled": 18423440000,
+        "subsidiaryExternalAsLabelled": 4523595070.422536,
+        "historicalSubsidiaryCustomerLabelsReliable": true,
+        "subsidiaryToParentRevenue": 18423440000,
+        "parentToSubsidiaryRevenue": 3316219200,
+        "intercompanyRevenueElimination": -21739659200
+      },
+      "capex": {
+        "parent": 500000000,
+        "subsidiary": 1150000000,
+        "combinedPlannedAdditions": 1650000000,
+        "cashPaymentSchedule": null,
+        "maintenanceVsGrowthSplitConfirmed": false,
+        "parentLand": null,
+        "parentBuilding": null,
+        "parentRAndDEquipment": 500000000
+      },
+      "sourceColumns": {
+        "parent": "S06:추정손익!O",
+        "subsidiary": "S04:추정손익!H",
+        "consolidated": "S02:연결!U"
+      }
+    },
+    {
+      "year": 2028,
+      "status": "company_annual_forecast",
+      "parent": {
+        "revenue": 68687284212.00001,
+        "cogs": 57010445895.96001,
+        "grossProfit": 11676838316.04,
+        "sgaPayroll": 1436521652.2475522,
+        "sgaDa": 420014933,
+        "sgaBadDebt": null,
+        "sgaOther": 1717182105.3000002,
+        "sga": 3573718690.547552,
+        "ebit": 8103119625.492449,
+        "interestIncome": 2015305,
+        "equityMethodResult": null,
+        "nonOperatingBadDebt": null,
+        "interestExpenseSigned": -1051483342,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -986092430,
+        "ebt": 7117027195.492449,
+        "taxExpense": 1565745983.0083387,
+        "netIncome": 5551281212.48411,
+        "newDaFromCapex": 225000000,
+        "totalDa": null,
+        "existingDaAccumulatedBalanceChangeProxy2025": 1296078992,
+        "totalDaIllustrativeProxy": 1521078992
+      },
+      "subsidiary": {
+        "revenue": 30785787605.63381,
+        "toParentAsLabelled": 22059170000.000004,
+        "externalAsLabelled": 8726617605.633804,
+        "cogs": 23267518534,
+        "directMaterials": 3088283800,
+        "outsourcing": 9235736282,
+        "manufacturingPayroll": 3079054372,
+        "manufacturingDa": 2630860187,
+        "manufacturingOther": 5233583893,
+        "grossProfit": 7518269071.633808,
+        "sga": 1599632376,
+        "sgaPayroll": 1002823445,
+        "sgaDa": 19095128,
+        "sgaOther": 577713803,
+        "sgaBadDebt": 0,
+        "ebit": 5918636695.633808,
+        "ebitda": 8568592010.633808,
+        "netNonOperating": -207646540,
+        "netInterestExpenseSigned": -207646540,
+        "otherNonOperating": null,
+        "ebt": 5710990155.633808,
+        "taxExpense": 1256417834.2394378,
+        "netIncome": 4454572321.39437,
+        "totalDa": 2649955315
+      },
+      "consolidated": {
+        "revenue": 74634446397.63382,
+        "cogs": 55439339009.96001,
+        "grossProfit": 19195107387.673813,
+        "sgaPayroll": 2439345097.247552,
+        "sgaDa": 439110061,
+        "sgaBadDebt": 0,
+        "sgaOther": 2294895908.3,
+        "sga": 5173351066.547552,
+        "ebit": 14021756321.12626,
+        "interestIncome": 2015305,
+        "equityMethodResult": 0,
+        "nonOperatingBadDebt": 0,
+        "interestExpenseSigned": -1259129882,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -1193738970,
+        "ebt": 12828017351.12626,
+        "taxExpense": 2822163817.2477765,
+        "netIncome": 10005853533.878485,
+        "daDisclosedSubtotal": 3069970248,
+        "totalDa": null,
+        "nopat": null,
+        "operatingCashTax": null,
+        "deltaNwc": null,
+        "fcff": null,
+        "salesGrowth": 0.23783187802298977,
+        "grossMargin": 0.25718831336146103,
+        "ebitMargin": 0.18787245029489227,
+        "totalDaIllustrativeProxy": 4171034307
+      },
+      "segments": {
+        "parentMaskGrossRevenue": 31513100000.000008,
+        "parentMaterialsGrossRevenue": 37174184212,
+        "subsidiaryToParentAsLabelled": 22059170000.000004,
+        "subsidiaryExternalAsLabelled": 8726617605.633804,
+        "historicalSubsidiaryCustomerLabelsReliable": true,
+        "subsidiaryToParentRevenue": 22059170000.000004,
+        "parentToSubsidiaryRevenue": 2779455420,
+        "intercompanyRevenueElimination": -24838625420.000004
+      },
+      "capex": {
+        "parent": 500000000,
+        "subsidiary": 0,
+        "combinedPlannedAdditions": 500000000,
+        "cashPaymentSchedule": null,
+        "maintenanceVsGrowthSplitConfirmed": false,
+        "parentLand": null,
+        "parentBuilding": null,
+        "parentRAndDEquipment": 500000000
+      },
+      "sourceColumns": {
+        "parent": "S06:추정손익!R",
+        "subsidiary": "S04:추정손익!I",
+        "consolidated": "S02:연결!Y"
+      }
+    },
+    {
+      "year": 2029,
+      "status": "company_annual_forecast",
+      "parent": {
+        "revenue": 74428744844,
+        "cogs": 61775858220.52,
+        "grossProfit": 12652886623.480003,
+        "sgaPayroll": 1493982518.3374543,
+        "sgaDa": 420014933,
+        "sgaBadDebt": null,
+        "sgaOther": 1860718621.1000001,
+        "sga": 3774716072.437454,
+        "ebit": 8878170551.04255,
+        "interestIncome": 2015305,
+        "equityMethodResult": null,
+        "nonOperatingBadDebt": null,
+        "interestExpenseSigned": -1051483342,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -986092430,
+        "ebt": 7892078121.042549,
+        "taxExpense": 1736257186.629361,
+        "netIncome": 6155820934.413188,
+        "newDaFromCapex": 225000000,
+        "totalDa": null,
+        "existingDaAccumulatedBalanceChangeProxy2025": 1296078992,
+        "totalDaIllustrativeProxy": 1521078992
+      },
+      "subsidiary": {
+        "revenue": 38586947605.633804,
+        "toParentAsLabelled": 25471880000,
+        "externalAsLabelled": 13115067605.633802,
+        "cogs": 26650339565,
+        "directMaterials": 2547188000,
+        "outsourcing": 11576084282,
+        "manufacturingPayroll": 3336426003,
+        "manufacturingDa": 2630860187,
+        "manufacturingOther": 6559781093,
+        "grossProfit": 11936608040.633804,
+        "sga": 1776110534,
+        "sgaPayroll": 1032908148,
+        "sgaDa": 19095128,
+        "sgaOther": 724107258,
+        "sgaBadDebt": 0,
+        "ebit": 10160497506.633804,
+        "ebitda": 12810452821.633804,
+        "netNonOperating": -207646540,
+        "netInterestExpenseSigned": -207646540,
+        "otherNonOperating": null,
+        "ebt": 9952850966.633804,
+        "taxExpense": 2189627212.659437,
+        "netIncome": 7763223753.974367,
+        "totalDa": 2649955315
+      },
+      "consolidated": {
+        "revenue": 85251343249.6338,
+        "cogs": 60661848585.51999,
+        "grossProfit": 24589494664.113815,
+        "sgaPayroll": 2526890666.3374543,
+        "sgaDa": 439110061,
+        "sgaBadDebt": 0,
+        "sgaOther": 2584825879.1000004,
+        "sga": 5550826606.437454,
+        "ebit": 19038668057.67636,
+        "interestIncome": 2015305,
+        "equityMethodResult": 0,
+        "nonOperatingBadDebt": 0,
+        "interestExpenseSigned": -1259129882,
+        "otherNonOperating": 63375607,
+        "netNonOperating": -1193738970,
+        "ebt": 17844929087.67636,
+        "taxExpense": 3925884399.2887983,
+        "netIncome": 13919044688.387562,
+        "daDisclosedSubtotal": 3069970248,
+        "totalDa": null,
+        "nopat": null,
+        "operatingCashTax": null,
+        "deltaNwc": null,
+        "fcff": null,
+        "salesGrowth": 0.14225196761607628,
+        "grossMargin": 0.28843527534939384,
+        "ebitMargin": 0.22332396572247723,
+        "totalDaIllustrativeProxy": 4171034307
+      },
+      "segments": {
+        "parentMaskGrossRevenue": 36388400000,
+        "parentMaterialsGrossRevenue": 38040344844,
+        "subsidiaryToParentAsLabelled": 25471880000,
+        "subsidiaryExternalAsLabelled": 13115067605.633802,
+        "historicalSubsidiaryCustomerLabelsReliable": true,
+        "subsidiaryToParentRevenue": 25471880000,
+        "parentToSubsidiaryRevenue": 2292469200,
+        "intercompanyRevenueElimination": -27764349200
+      },
+      "capex": {
+        "parent": 0,
+        "subsidiary": 0,
+        "combinedPlannedAdditions": 0,
+        "cashPaymentSchedule": null,
+        "maintenanceVsGrowthSplitConfirmed": false,
+        "parentLand": null,
+        "parentBuilding": null,
+        "parentRAndDEquipment": null
+      },
+      "sourceColumns": {
+        "parent": "S06:추정손익!U",
+        "subsidiary": "S04:추정손익!J",
+        "consolidated": "S02:연결!AC"
+      }
+    }
+  ],
+  "extension2030": {
+    "year": 2030,
+    "status": "company_source_has_broken_references",
+    "revenue": null,
+    "ebit": null,
+    "cashFlow": null,
+    "requiredControls": [
+      "external market/volume/price/share forecast",
+      "steady-state cost ratios",
+      "asset useful lives and replacement capex",
+      "DSO/DIO/DPO and opening balances",
+      "operating tax and NOL by legal entity"
+    ],
+    "noAutomaticTenPercentRevenueGrowth": true,
+    "terminalG": 0,
+    "terminalGrowthMandateAppliesAfterExplicitForecast": true
+  },
+  "balances2025": {
+    "parent": {
+      "tradeReceivablesGross": 7994916485,
+      "tradeAllowanceRaw": -3857331150,
+      "inventory": 777608890,
+      "tradePayables": 9713472741,
+      "otherReceivables": 185937199,
+      "prepayments": 24413342,
+      "prepaidExpenses": 10123759,
+      "otherPayables": 29706829,
+      "accruals": 146515708,
+      "customerAdvances": 352773540,
+      "cash": 3440084170,
+      "currentAssets": 8784266766,
+      "currentLiabilities": 19392734521,
+      "tradeReceivablesNet": 4137585335,
+      "coreTradeNwc": -4798278516,
+      "closingBalanceProxyDsoDays": 43.07717349555167,
+      "closingBalanceProxyDioDays": 9.075424735947042,
+      "closingBalanceProxyDpoDays": 113.36533303473256,
+      "coreTradeNwcToRevenue": -0.13686513306312809,
+      "sources": {
+        "tradeReceivablesGross": "S03:재무상태표(T)!B8",
+        "tradeAllowanceRaw": "S03:재무상태표(T)!B9",
+        "inventory": "S03:재무상태표(T)!C17",
+        "tradePayables": "S03:재무상태표(T)!B50",
+        "otherReceivables": "S03:재무상태표(T)!B14",
+        "prepayments": "S03:재무상태표(T)!B15",
+        "prepaidExpenses": "S03:재무상태표(T)!B13",
+        "otherPayables": "S03:재무상태표(T)!B51",
+        "accruals": "S03:재무상태표(T)!B56",
+        "customerAdvances": "S03:재무상태표(T)!B53",
+        "cash": "S03:재무상태표(T)!B6",
+        "currentAssets": "S03:재무상태표(T)!C4",
+        "currentLiabilities": "S03:재무상태표(T)!C49"
+      }
+    },
+    "subsidiary": {
+      "tradeReceivablesGross": 6506829385,
+      "tradeAllowanceRaw": -84200610,
+      "inventory": 2094012107,
+      "tradePayables": 1303317393,
+      "otherReceivables": 51193390,
+      "prepayments": 6250000,
+      "otherPayables": 4208299413,
+      "accruals": 96465849,
+      "customerAdvances": "-",
+      "cash": 30716499,
+      "currentAssets": 8605755317,
+      "currentLiabilities": 12098569643,
+      "tradeReceivablesNet": 6422628775,
+      "coreTradeNwc": 7213323489,
+      "closingBalanceProxyDsoDays": 186.33031432549743,
+      "closingBalanceProxyDioDays": 58.71325353617096,
+      "closingBalanceProxyDpoDays": 36.54324837832008,
+      "coreTradeNwcToRevenue": 0.573341317967788,
+      "sources": {
+        "tradeReceivablesGross": "S03:재무상태표(W)!B6",
+        "tradeAllowanceRaw": "S03:재무상태표(W)!B7",
+        "inventory": "S03:재무상태표(W)!C13",
+        "tradePayables": "S03:재무상태표(W)!B40",
+        "otherReceivables": "S03:재무상태표(W)!B9",
+        "prepayments": "S03:재무상태표(W)!B10",
+        "otherPayables": "S03:재무상태표(W)!B41",
+        "accruals": "S03:재무상태표(W)!B45",
+        "customerAdvances": "S03:재무상태표(W)!B43",
+        "cash": "S03:재무상태표(W)!B5",
+        "currentAssets": "S03:재무상태표(W)!C3",
+        "currentLiabilities": "S03:재무상태표(W)!C39"
+      }
+    },
+    "consolidated": {
+      "tradeReceivablesGross": 7953599927,
+      "tradeAllowanceRaw": 3941531760,
+      "inventory": 2738470390,
+      "tradePayables": 4486756791,
+      "otherReceivables": 77740589,
+      "prepayments": 30663342,
+      "prepaidExpenses": 10123759,
+      "otherPayables": 4060503642,
+      "accruals": 242981557,
+      "customerAdvances": 352773540,
+      "cash": 3470800669,
+      "currentAssets": 10549335533,
+      "currentLiabilities": 24783768221,
+      "tradeReceivablesNet": 4012068167,
+      "coreTradeNwc": 2263781766,
+      "closingBalanceProxyDsoDays": 42.74180148725784,
+      "closingBalanceProxyDioDays": 32.16967364265076,
+      "closingBalanceProxyDpoDays": 52.707344292452625,
+      "coreTradeNwcToRevenue": 0.06607333266312657,
+      "sources": {
+        "tradeReceivablesGross": "S03:재무상태표(T)!I8",
+        "tradeAllowanceRaw": "S03:재무상태표(T)!I9",
+        "inventory": "S03:재무상태표(T)!J17",
+        "tradePayables": "S03:재무상태표(T)!I50",
+        "otherReceivables": "S03:재무상태표(T)!I14",
+        "prepayments": "S03:재무상태표(T)!I15",
+        "prepaidExpenses": "S03:재무상태표(T)!I13",
+        "otherPayables": "S03:재무상태표(T)!I51",
+        "accruals": "S03:재무상태표(T)!I56",
+        "customerAdvances": "S03:재무상태표(T)!I53",
+        "cash": "S03:재무상태표(T)!I6",
+        "currentAssets": "S03:재무상태표(T)!J4",
+        "currentLiabilities": "S03:재무상태표(T)!J49"
+      }
+    }
+  },
+  "legacyDcfNwc": {
+    "incrementalRevenueRatio": 0.2,
+    "formula": "deltaNwc = 0.20 * (Revenue_t - Revenue_t-1)",
+    "historicalValidation": "No supporting DSO/DIO/DPO calibration; not market-sourced evidence"
+  },
+  "evToEquityHistoricalReference2025": {
+    "debt": 26980419930,
+    "cash": 3470800669,
+    "netDebt": 23509619261,
+    "nciBookValue": 1329580572,
+    "nciFairValue": null,
+    "currentNetDebt20260908": null,
+    "note": "2025 book NCI is not automatically fair-value deduction. Confirm parent-shareholder scope, debt-like items, leases and operating/nonoperating cash."
+  },
+  "valuationTiming": {
+    "requestedAnalysisDate": "2026-09-08",
+    "latestBalanceSheetDate": "2025-12-31",
+    "annualForecastYears": [
+      2026,
+      2027,
+      2028,
+      2029
+    ],
+    "remaining2026Fcff": null,
+    "currentEnterpriseValue": null,
+    "note": "Annual 2026 cash flow includes pre-valuation cash flows; require actual YTD and remaining-period cash schedule before computing current EV. Do not prorate annual cash flow without evidence."
+  },
+  "terminalPolicy": {
+    "growthRate": 0,
+    "formula": "TV_at_terminal_date = sustainable_FCFF_next_year / WACC",
+    "sustainableFcff": "normalized EBIT - normalized unlevered cash tax + sustainable D&A - maintenance/replacement CAPEX - normalized deltaNWC",
+    "steadyStateDeltaNwcAssumption": 0,
+    "maintenanceCapexEqualDa": "Allowed only as separately disclosed simplifying proxy after productive asset base and useful lives are checked; source 2029 CAPEX zero is not sustainable reinvestment evidence.",
+    "nopatOverWaccShortcut": "Only when maintenance capex equals D&A, deltaNWC=0 and normalized cash tax applies. No automatic shortcut from reported NI."
+  },
+  "fundraisingPolicy": {
+    "previousIrRaiseReferenceKrw": 7000000000,
+    "raiseReferenceSource": "Existing IR funding proposal; not a signed commitment or a derived requirement from the supplied cash-flow schedule",
+    "seriesBAmount": null,
+    "seriesCAmount": null,
+    "requiredRaiseFormula": "max(0, required minimum cash - lowest forecast cash before financing) plus transaction fees, less committed funding",
+    "preFinancingCashFormula": "opening unrestricted cash + operating cash receipts/payments - tax - cash capex - debt principal + committed debt draws",
+    "triggers": [
+      "verified orders and utilization",
+      "yield and margin milestones",
+      "capacity expansion lead time",
+      "minimum cash buffer and debt maturities"
+    ],
+    "newInvestorOwnershipFormula": "new equity / (pre-money equity value + new equity)",
+    "existingInvestorRetentionFormula": "prior ownership * product(1 - subsequent new-money ownership)",
+    "note": "Equity proceeds are financing flows, not FCFF. If financed assets/revenue are already in forecasts, do not add equity proceeds again to operating EV. Different security terms, NCI funding and preferences need a cap table."
+  },
+  "reconciliations": [
+    {
+      "year": 2024,
+      "revenueLessCogsLessGrossProfit": 0,
+      "grossProfitLessSgaLessEbit": 0,
+      "ebitPlusNetNonOperatingLessEbt": 0,
+      "ebtLessTaxLessNetIncome": 0,
+      "parentPlusSubsidiaryPlusEliminationLessRevenue": 0
+    },
+    {
+      "year": 2025,
+      "revenueLessCogsLessGrossProfit": 0,
+      "grossProfitLessSgaLessEbit": 0,
+      "ebitPlusNetNonOperatingLessEbt": 0,
+      "ebtLessTaxLessNetIncome": 0,
+      "parentPlusSubsidiaryPlusEliminationLessRevenue": 0
+    },
+    {
+      "year": 2026,
+      "revenueLessCogsLessGrossProfit": 0,
+      "grossProfitLessSgaLessEbit": 0.0,
+      "ebitPlusNetNonOperatingLessEbt": 0.0,
+      "ebtLessTaxLessNetIncome": 0.0,
+      "parentPlusSubsidiaryPlusEliminationLessRevenue": 0
+    },
+    {
+      "year": 2027,
+      "revenueLessCogsLessGrossProfit": 0.0,
+      "grossProfitLessSgaLessEbit": 0.0,
+      "ebitPlusNetNonOperatingLessEbt": 0.0,
+      "ebtLessTaxLessNetIncome": 0.0,
+      "parentPlusSubsidiaryPlusEliminationLessRevenue": 0.0
+    },
+    {
+      "year": 2028,
+      "revenueLessCogsLessGrossProfit": 0.0,
+      "grossProfitLessSgaLessEbit": 0.0,
+      "ebitPlusNetNonOperatingLessEbt": 0.0,
+      "ebtLessTaxLessNetIncome": 0.0,
+      "parentPlusSubsidiaryPlusEliminationLessRevenue": 0.0
+    },
+    {
+      "year": 2029,
+      "revenueLessCogsLessGrossProfit": 0.0,
+      "grossProfitLessSgaLessEbit": 0.0,
+      "ebitPlusNetNonOperatingLessEbt": 0.0,
+      "ebtLessTaxLessNetIncome": 0.0,
+      "parentPlusSubsidiaryPlusEliminationLessRevenue": 0.0
+    }
+  ],
+  "evidence": {
+    "S06:추정손익!F7": {
+      "value": 39858957704,
+      "formula": "=SUM(F5:F6)"
+    },
+    "S06:추정손익!F11": {
+      "value": 35817076609,
+      "formula": "=SUM(F9:F10)"
+    },
+    "S06:추정손익!F12": {
+      "value": 4041881095,
+      "formula": "=F7-F11"
+    },
+    "S06:추정손익!F15": {
+      "value": 913927002,
+      "formula": null
+    },
+    "S06:추정손익!F16": {
+      "value": 129525863,
+      "formula": null
+    },
+    "S06:추정손익!F17": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!F18": {
+      "value": 940633588,
+      "formula": null
+    },
+    "S06:추정손익!F19": {
+      "value": 1984086453,
+      "formula": "=SUM(F15:F18)"
+    },
+    "S06:추정손익!F20": {
+      "value": 2057794642,
+      "formula": "=F12-F19"
+    },
+    "S06:추정손익!F23": {
+      "value": 9969973,
+      "formula": null
+    },
+    "S06:추정손익!F24": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!F25": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!F26": {
+      "value": -888960220,
+      "formula": null
+    },
+    "S06:추정손익!F27": {
+      "value": 930203791,
+      "formula": "=F28-SUM(F23:F26)"
+    },
+    "S06:추정손익!F28": {
+      "value": 51213544,
+      "formula": "=1239933538-1188719994"
+    },
+    "S06:추정손익!F29": {
+      "value": 2109008186,
+      "formula": "=F20+F28"
+    },
+    "S06:추정손익!F30": {
+      "value": 496600138,
+      "formula": null
+    },
+    "S06:추정손익!F31": {
+      "value": 1612408048,
+      "formula": "=F29-F30"
+    },
+    "S04:추정손익!D5": {
+      "value": 9260937083,
+      "formula": "=SUM(D6:D8)"
+    },
+    "S04:추정손익!D6": {
+      "value": 9260937083,
+      "formula": "=Historical_3Y!C6"
+    },
+    "S04:추정손익!D7": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!D9": {
+      "value": 6899998368,
+      "formula": "=SUM(D10:D14)"
+    },
+    "S04:추정손익!D10": {
+      "value": 1994673645,
+      "formula": "=Historical_3Y!C10"
+    },
+    "S04:추정손익!D11": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!D12": {
+      "value": 1862154247,
+      "formula": "=Historical_3Y!C11"
+    },
+    "S04:추정손익!D13": {
+      "value": 1250804109,
+      "formula": "=Historical_3Y!C12"
+    },
+    "S04:추정손익!D14": {
+      "value": 1792366367,
+      "formula": "=Historical_3Y!C14"
+    },
+    "S04:추정손익!D15": {
+      "value": 2360938715,
+      "formula": "=D5-D9"
+    },
+    "S04:추정손익!D17": {
+      "value": 838249348,
+      "formula": "=SUM(D18:D21)"
+    },
+    "S04:추정손익!D18": {
+      "value": 749018045,
+      "formula": "=Historical_3Y!C17"
+    },
+    "S04:추정손익!D19": {
+      "value": 18150004,
+      "formula": "=Historical_3Y!C18"
+    },
+    "S04:추정손익!D20": {
+      "value": 173787049,
+      "formula": "=Historical_3Y!C20"
+    },
+    "S04:추정손익!D21": {
+      "value": -102705750,
+      "formula": "=Historical_3Y!C19"
+    },
+    "S04:추정손익!D22": {
+      "value": 1522689367,
+      "formula": "=D15-D17"
+    },
+    "S04:추정손익!D24": {
+      "value": 2791643480,
+      "formula": "=D22+D13+D19"
+    },
+    "S04:추정손익!D25": {
+      "value": 11522669,
+      "formula": "=SUM(D26:D28)"
+    },
+    "S04:추정손익!D27": {
+      "value": -26378692,
+      "formula": "=Historical_3Y!C24"
+    },
+    "S04:추정손익!D28": {
+      "value": 37901361,
+      "formula": "=Historical_3Y!C25"
+    },
+    "S04:추정손익!D29": {
+      "value": 1534212036,
+      "formula": "=D22+D25"
+    },
+    "S04:추정손익!D30": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!D31": {
+      "value": 1534212036,
+      "formula": "=D29-D30"
+    },
+    "S02:연결!I10": {
+      "value": 40324731206,
+      "formula": "=SUM(F10:H10)"
+    },
+    "S02:연결!I14": {
+      "value": 33941971396,
+      "formula": "=SUM(F14:H14)"
+    },
+    "S02:연결!I15": {
+      "value": 6382759810,
+      "formula": "=I10-I14"
+    },
+    "S02:연결!I18": {
+      "value": 1662945047,
+      "formula": "=SUM(F18:H18)"
+    },
+    "S02:연결!I19": {
+      "value": 147675867,
+      "formula": "=SUM(F19:H19)"
+    },
+    "S02:연결!I20": {
+      "value": -102705750,
+      "formula": "=SUM(F20:H20)"
+    },
+    "S02:연결!I21": {
+      "value": 1114420637,
+      "formula": "=SUM(F21:H21)"
+    },
+    "S02:연결!I22": {
+      "value": 2822335801,
+      "formula": "=SUM(F22:H22)"
+    },
+    "S02:연결!I23": {
+      "value": 3560424009,
+      "formula": "=I15-I22"
+    },
+    "S02:연결!I26": {
+      "value": 9969973,
+      "formula": "=SUM(F26:H26)"
+    },
+    "S02:연결!I27": {
+      "value": 0,
+      "formula": "=SUM(F27:H27)"
+    },
+    "S02:연결!I28": {
+      "value": 0,
+      "formula": "=SUM(F28:H28)"
+    },
+    "S02:연결!I29": {
+      "value": -915338912,
+      "formula": "=SUM(F29:H29)"
+    },
+    "S02:연결!I30": {
+      "value": 968105152,
+      "formula": "=SUM(F30:H30)"
+    },
+    "S02:연결!I31": {
+      "value": 62736213,
+      "formula": "=SUM(I26:I30)"
+    },
+    "S02:연결!I32": {
+      "value": 3623160222,
+      "formula": "=I23+I31"
+    },
+    "S02:연결!I33": {
+      "value": 496600138,
+      "formula": "=SUM(F33:H33)"
+    },
+    "S02:연결!I34": {
+      "value": 3126560084,
+      "formula": "=I32-I33"
+    },
+    "S06:추정손익!G7": {
+      "value": 10062974500,
+      "formula": "=SUM(G5:G6)"
+    },
+    "S06:추정손익!H7": {
+      "value": 29795983204,
+      "formula": "=F7-G7"
+    },
+    "S06:추정손익!I7": {
+      "value": 35058443364,
+      "formula": "=SUM(I5:I6)"
+    },
+    "S06:추정손익!I11": {
+      "value": 31274265735,
+      "formula": "=SUM(I9:I10)"
+    },
+    "S06:추정손익!I12": {
+      "value": 3784177629,
+      "formula": "=I7-I11"
+    },
+    "S06:추정손익!I15": {
+      "value": 1277062518,
+      "formula": null
+    },
+    "S06:추정손익!I16": {
+      "value": 195014933,
+      "formula": null
+    },
+    "S06:추정손익!I17": {
+      "value": 6369547050,
+      "formula": null
+    },
+    "S06:추정손익!I18": {
+      "value": 1132691907,
+      "formula": null
+    },
+    "S06:추정손익!I19": {
+      "value": 8974316408,
+      "formula": "=SUM(I15:I18)"
+    },
+    "S06:추정손익!I20": {
+      "value": -5190138779,
+      "formula": "=I12-I19"
+    },
+    "S06:추정손익!I23": {
+      "value": 2015305,
+      "formula": null
+    },
+    "S06:추정손익!I24": {
+      "value": -1864477018,
+      "formula": null
+    },
+    "S06:추정손익!I25": {
+      "value": -450000000,
+      "formula": null
+    },
+    "S06:추정손익!I26": {
+      "value": -851483342,
+      "formula": null
+    },
+    "S06:추정손익!I27": {
+      "value": 63375607,
+      "formula": "=I28-SUM(I23:I26)"
+    },
+    "S06:추정손익!I28": {
+      "value": -3100569448,
+      "formula": "=424082271-3524651719"
+    },
+    "S06:추정손익!I29": {
+      "value": -8290708227,
+      "formula": "=I20+I28"
+    },
+    "S06:추정손익!I30": {
+      "value": 78338542,
+      "formula": null
+    },
+    "S06:추정손익!I31": {
+      "value": -8369046769,
+      "formula": "=I29-I30"
+    },
+    "S04:추정손익!E5": {
+      "value": 12581202964,
+      "formula": "=SUM(E6:E8)"
+    },
+    "S04:추정손익!E6": {
+      "value": 12581202964,
+      "formula": "=Historical_3Y!D6"
+    },
+    "S04:추정손익!E7": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!E9": {
+      "value": 13017749367,
+      "formula": "=SUM(E10:E14)"
+    },
+    "S04:추정손익!E10": {
+      "value": 2963003890,
+      "formula": "=Historical_3Y!D10"
+    },
+    "S04:추정손익!E11": {
+      "value": 2299726160,
+      "formula": "=Historical_3Y!D13"
+    },
+    "S04:추정손익!E12": {
+      "value": 2511244228,
+      "formula": "=Historical_3Y!D11"
+    },
+    "S04:추정손익!E13": {
+      "value": 2490860187,
+      "formula": "=Historical_3Y!D12"
+    },
+    "S04:추정손익!E14": {
+      "value": 2752914902,
+      "formula": "=Historical_3Y!D14"
+    },
+    "S04:추정손익!E15": {
+      "value": -436546403,
+      "formula": "=E5-E9"
+    },
+    "S04:추정손익!E17": {
+      "value": 1354879791,
+      "formula": "=SUM(E18:E21)"
+    },
+    "S04:추정손익!E18": {
+      "value": 917725512,
+      "formula": "=Historical_3Y!D17"
+    },
+    "S04:추정손익!E19": {
+      "value": 19095128,
+      "formula": "=Historical_3Y!D18"
+    },
+    "S04:추정손익!E20": {
+      "value": 333858541,
+      "formula": "=Historical_3Y!D20"
+    },
+    "S04:추정손익!E21": {
+      "value": 84200610,
+      "formula": "=Historical_3Y!D19"
+    },
+    "S04:추정손익!E22": {
+      "value": -1791426194,
+      "formula": "=E15-E17"
+    },
+    "S04:추정손익!E24": {
+      "value": 718529121,
+      "formula": "=E22+E13+E19"
+    },
+    "S04:추정손익!E25": {
+      "value": -185587141,
+      "formula": "=SUM(E26:E28)"
+    },
+    "S04:추정손익!E27": {
+      "value": -207646540,
+      "formula": "=Historical_3Y!D24"
+    },
+    "S04:추정손익!E28": {
+      "value": 22059399,
+      "formula": "=Historical_3Y!D25"
+    },
+    "S04:추정손익!E29": {
+      "value": -1977013335,
+      "formula": "=E22+E25"
+    },
+    "S04:추정손익!E30": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!E31": {
+      "value": -1977013335,
+      "formula": "=E29-E30"
+    },
+    "S02:연결!M10": {
+      "value": 34261655569,
+      "formula": "=SUM(J10:L10)"
+    },
+    "S02:연결!M14": {
+      "value": 31070930450,
+      "formula": "=SUM(J14:L14)"
+    },
+    "S02:연결!M15": {
+      "value": 3190725119,
+      "formula": "=M10-M14"
+    },
+    "S02:연결!M18": {
+      "value": 2194788030,
+      "formula": "=SUM(J18:L18)"
+    },
+    "S02:연결!M19": {
+      "value": 214110061,
+      "formula": "=SUM(J19:L19)"
+    },
+    "S02:연결!M20": {
+      "value": 6453747660,
+      "formula": "=SUM(J20:L20)"
+    },
+    "S02:연결!M21": {
+      "value": 1466550448,
+      "formula": "=SUM(J21:L21)"
+    },
+    "S02:연결!M22": {
+      "value": 10514830399,
+      "formula": "=SUM(J22:L22)"
+    },
+    "S02:연결!M23": {
+      "value": -7324105280,
+      "formula": "=M15-M22"
+    },
+    "S02:연결!M26": {
+      "value": 2015305,
+      "formula": "=SUM(J26:L26)"
+    },
+    "S02:연결!M27": {
+      "value": 0,
+      "formula": "=SUM(J27:L27)"
+    },
+    "S02:연결!M28": {
+      "value": -450000000,
+      "formula": "=SUM(J28:L28)"
+    },
+    "S02:연결!M29": {
+      "value": -1059129882,
+      "formula": "=SUM(J29:L29)"
+    },
+    "S02:연결!M30": {
+      "value": 85435006,
+      "formula": "=SUM(J30:L30)"
+    },
+    "S02:연결!M31": {
+      "value": -1421679571,
+      "formula": "=SUM(M26:M30)"
+    },
+    "S02:연결!M32": {
+      "value": -8745784851,
+      "formula": "=M23+M31"
+    },
+    "S02:연결!M33": {
+      "value": 78338542,
+      "formula": "=SUM(J33:L33)"
+    },
+    "S02:연결!M34": {
+      "value": -8824123393,
+      "formula": "=M32-M33"
+    },
+    "S06:추정손익!J7": {
+      "value": 12000000000,
+      "formula": "=SUM(J5:J6)"
+    },
+    "S06:추정손익!K7": {
+      "value": 23058443364,
+      "formula": "=I7-J7"
+    },
+    "S06:추정손익!L7": {
+      "value": 40000000000,
+      "formula": "=SUM(L5:L6)"
+    },
+    "S06:추정손익!L11": {
+      "value": 33200000000,
+      "formula": "=SUM(L9:L10)"
+    },
+    "S06:추정손익!L12": {
+      "value": 6800000000,
+      "formula": "=L7-L11"
+    },
+    "S06:추정손익!L15": {
+      "value": 1328145018.72,
+      "formula": "=I15*(1+가정!$B$5)"
+    },
+    "S06:추정손익!L16": {
+      "value": 320014933,
+      "formula": "=$I$16+CAPEX!C14+CAPEX!C15"
+    },
+    "S06:추정손익!L17": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!L18": {
+      "value": 1000000000,
+      "formula": "=L7*가정!$B$8"
+    },
+    "S06:추정손익!L19": {
+      "value": 2648159951.7200003,
+      "formula": "=SUM(L15:L18)"
+    },
+    "S06:추정손익!L20": {
+      "value": 4151840048.2799997,
+      "formula": "=L12-L19"
+    },
+    "S06:추정손익!L23": {
+      "value": 2015305,
+      "formula": "=I23"
+    },
+    "S06:추정손익!L24": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!L25": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!L26": {
+      "value": -1051483342,
+      "formula": "=I26-200000000"
+    },
+    "S06:추정손익!L27": {
+      "value": 63375607,
+      "formula": "=I27"
+    },
+    "S06:추정손익!L28": {
+      "value": -986092430,
+      "formula": "=SUM(L23:L27)"
+    },
+    "S06:추정손익!L29": {
+      "value": 3165747618.2799997,
+      "formula": "=L20+L28"
+    },
+    "S06:추정손익!L30": {
+      "value": 696464476.0215999,
+      "formula": "=MAX(L29*가정!$B$12,0)"
+    },
+    "S06:추정손익!L31": {
+      "value": 2469283142.2584,
+      "formula": "=L29-L30"
+    },
+    "S04:추정손익!G5": {
+      "value": 14000000000,
+      "formula": null
+    },
+    "S04:추정손익!G6": {
+      "value": 9156298904,
+      "formula": null
+    },
+    "S04:추정손익!G7": {
+      "value": 4843701096,
+      "formula": "=G5-G6"
+    },
+    "S04:추정손익!G9": {
+      "value": 15595163681,
+      "formula": "=SUM(G10:G14)"
+    },
+    "S04:추정손익!G10": {
+      "value": 2156403434,
+      "formula": "=ROUND(G6*'통합_추정가정 (Drivers)'!F$10, 0)"
+    },
+    "S04:추정손익!G11": {
+      "value": 5600000000,
+      "formula": "=ROUND(G5*'통합_추정가정 (Drivers)'!F$11, 0)"
+    },
+    "S04:추정손익!G12": {
+      "value": 2586581555,
+      "formula": "=ROUND(F12+F12*'통합_추정가정 (Drivers)'!F$20, 0)"
+    },
+    "S04:추정손익!G13": {
+      "value": 2515860187,
+      "formula": "=CAPEX_감가상각!E$13"
+    },
+    "S04:추정손익!G14": {
+      "value": 2736318505,
+      "formula": "=ROUND((G8*'통합_추정가정 (Drivers)'!F$12)+(G5*'통합_추정가정 (Drivers)'!F$13), 0)"
+    },
+    "S04:추정손익!G15": {
+      "value": -1595163681,
+      "formula": "=G5-G9"
+    },
+    "S04:추정손익!G17": {
+      "value": 1227070817,
+      "formula": "=SUM(G18:G21)"
+    },
+    "S04:추정손익!G18": {
+      "value": 945257277,
+      "formula": "=ROUND(F18+F18*'통합_추정가정 (Drivers)'!F$27, 0)"
+    },
+    "S04:추정손익!G19": {
+      "value": 19095128,
+      "formula": "=CAPEX_감가상각!E$14"
+    },
+    "S04:추정손익!G20": {
+      "value": 262718412,
+      "formula": "=ROUND(G5*'통합_추정가정 (Drivers)'!F$29, 0)"
+    },
+    "S04:추정손익!G21": {
+      "value": 0,
+      "formula": null
+    },
+    "S04:추정손익!G22": {
+      "value": -2822234498,
+      "formula": "=G15-G17"
+    },
+    "S04:추정손익!G24": {
+      "value": -287279183,
+      "formula": "=G22+G13+G19"
+    },
+    "S04:추정손익!G25": {
+      "value": -207646540,
+      "formula": "=SUM(G26:G28)"
+    },
+    "S04:추정손익!G27": {
+      "value": -207646540,
+      "formula": "=F27"
+    },
+    "S04:추정손익!G28": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!G29": {
+      "value": -3029881038,
+      "formula": "=G22+G25"
+    },
+    "S04:추정손익!G30": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!G31": {
+      "value": -3029881038,
+      "formula": "=G29-G30"
+    },
+    "S02:연결!Q10": {
+      "value": 41462759896,
+      "formula": "=SUM(N10:P10)"
+    },
+    "S02:연결!Q14": {
+      "value": 36257923577,
+      "formula": "=SUM(N14:P14)"
+    },
+    "S02:연결!Q15": {
+      "value": 5204836319,
+      "formula": "=Q10-Q14"
+    },
+    "S02:연결!Q18": {
+      "value": 2273402295.7200003,
+      "formula": "=SUM(N18:P18)"
+    },
+    "S02:연결!Q19": {
+      "value": 339110061,
+      "formula": "=SUM(N19:P19)"
+    },
+    "S02:연결!Q20": {
+      "value": 0,
+      "formula": "=SUM(N20:P20)"
+    },
+    "S02:연결!Q21": {
+      "value": 1262718412,
+      "formula": "=SUM(N21:P21)"
+    },
+    "S02:연결!Q22": {
+      "value": 3875230768.7200003,
+      "formula": "=SUM(N22:P22)"
+    },
+    "S02:연결!Q23": {
+      "value": 1329605550.2799997,
+      "formula": "=Q15-Q22"
+    },
+    "S02:연결!Q26": {
+      "value": 2015305,
+      "formula": "=SUM(N26:P26)"
+    },
+    "S02:연결!Q27": {
+      "value": 0,
+      "formula": "=SUM(N27:P27)"
+    },
+    "S02:연결!Q28": {
+      "value": 0,
+      "formula": "=SUM(N28:P28)"
+    },
+    "S02:연결!Q29": {
+      "value": -1259129882,
+      "formula": "=SUM(N29:P29)"
+    },
+    "S02:연결!Q30": {
+      "value": 63375607,
+      "formula": "=SUM(N30:P30)"
+    },
+    "S02:연결!Q31": {
+      "value": -1193738970,
+      "formula": "=SUM(Q26:Q30)"
+    },
+    "S02:연결!Q32": {
+      "value": 135866580.27999973,
+      "formula": "=Q23+Q31"
+    },
+    "S02:연결!Q33": {
+      "value": 696464476.0215999,
+      "formula": "=SUM(N33:P33)"
+    },
+    "S02:연결!Q34": {
+      "value": -560597895.7416002,
+      "formula": "=Q32-Q33"
+    },
+    "S06:추정손익!M7": {
+      "value": 16000000000,
+      "formula": "=SUM(M5:M6)"
+    },
+    "S06:추정손익!N7": {
+      "value": 24000000000,
+      "formula": "=L7-M7"
+    },
+    "S02:연결조정 내역!G7": {
+      "value": -9156298904,
+      "formula": "=-9156298904"
+    },
+    "S02:연결조정 내역!G9": {
+      "value": -3380941200,
+      "formula": "=-3380941200"
+    },
+    "S06:CAPEX!C11": {
+      "value": 11000000000,
+      "formula": "=SUM(C6:C10)"
+    },
+    "S04:CAPEX_감가상각!E7": {
+      "value": 250000000,
+      "formula": "=SUM(E5:E6)"
+    },
+    "S06:CAPEX!C7": {
+      "value": 6000000000,
+      "formula": null
+    },
+    "S06:CAPEX!C8": {
+      "value": 5000000000,
+      "formula": null
+    },
+    "S06:CAPEX!C6": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!C14": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!C15": {
+      "value": 125000000,
+      "formula": "=C8/40"
+    },
+    "S03:과거실적!J12": {
+      "value": 1296078992,
+      "formula": "=(-('재무상태표(T)'!B25+'재무상태표(T)'!B27+'재무상태표(T)'!B29+'재무상태표(T)'!B31+'재무상태표(T)'!B33+'재무상태표(T)'!B35)+('재무상태표(T)'!D25+'재무상태표(T)'!D27+'재무상태표(T)'!D29+'재무상태표(T)'!D31+'재무상태표(T)'!D33+'재무상태표(T)'!D35))"
+    },
+    "S06:추정손익!O7": {
+      "value": 59087117851,
+      "formula": "=SUM(O5:O6)"
+    },
+    "S06:추정손익!O11": {
+      "value": 49042307816.329994,
+      "formula": "=SUM(O9:O10)"
+    },
+    "S06:추정손익!O12": {
+      "value": 10044810034.670006,
+      "formula": "=O7-O11"
+    },
+    "S06:추정손익!O15": {
+      "value": 1381270819.4688,
+      "formula": "=L15*(1+가정!$B$5)"
+    },
+    "S06:추정손익!O16": {
+      "value": 370014933,
+      "formula": "=$I$16+CAPEX!D14+CAPEX!D15"
+    },
+    "S06:추정손익!O17": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!O18": {
+      "value": 1477177946.275,
+      "formula": "=O7*가정!$B$8"
+    },
+    "S06:추정손익!O19": {
+      "value": 3228463698.7438,
+      "formula": "=SUM(O15:O18)"
+    },
+    "S06:추정손익!O20": {
+      "value": 6816346335.926206,
+      "formula": "=O12-O19"
+    },
+    "S06:추정손익!O23": {
+      "value": 2015305,
+      "formula": "=I23"
+    },
+    "S06:추정손익!O24": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!O25": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!O26": {
+      "value": -1051483342,
+      "formula": "=L26"
+    },
+    "S06:추정손익!O27": {
+      "value": 63375607,
+      "formula": "=I27"
+    },
+    "S06:추정손익!O28": {
+      "value": -986092430,
+      "formula": "=SUM(O23:O27)"
+    },
+    "S06:추정손익!O29": {
+      "value": 5830253905.926206,
+      "formula": "=O20+O28"
+    },
+    "S06:추정손익!O30": {
+      "value": 1282655859.3037653,
+      "formula": "=MAX(O29*가정!$B$12,0)"
+    },
+    "S06:추정손익!O31": {
+      "value": 4547598046.62244,
+      "formula": "=O29-O30"
+    },
+    "S04:추정손익!H5": {
+      "value": 22947035070.422535,
+      "formula": "=SUM(H6:H8)"
+    },
+    "S04:추정손익!H6": {
+      "value": 18423440000,
+      "formula": "=[1]추정손익!$P$5*H3"
+    },
+    "S04:추정손익!H7": {
+      "value": 4523595070.422536,
+      "formula": "=('[2]3개년 매출FCST 검토안'!$M$21+'[2]3개년 매출FCST 검토안'!$M$25)*1000000"
+    },
+    "S04:추정손익!H9": {
+      "value": 19929833672,
+      "formula": "=SUM(H10:H14)"
+    },
+    "S04:추정손익!H10": {
+      "value": 3684688000,
+      "formula": "=ROUND(H6*'통합_추정가정 (Drivers)'!G$10, 0)"
+    },
+    "S04:추정손익!H11": {
+      "value": 6884110521,
+      "formula": "=ROUND(H5*'통합_추정가정 (Drivers)'!G$11, 0)"
+    },
+    "S04:추정손익!H12": {
+      "value": 2829179002,
+      "formula": "=ROUND(G12+G12*'통합_추정가정 (Drivers)'!G$20, 0)+('통합_추정가정 (Drivers)'!G15*'통합_추정가정 (Drivers)'!G18)"
+    },
+    "S04:추정손익!H13": {
+      "value": 2630860187,
+      "formula": "=CAPEX_감가상각!F$13"
+    },
+    "S04:추정손익!H14": {
+      "value": 3900995962,
+      "formula": "=ROUND((H8*'통합_추정가정 (Drivers)'!G$12)+(H5*'통합_추정가정 (Drivers)'!G$13), 0)"
+    },
+    "S04:추정손익!H15": {
+      "value": 3017201398.422535,
+      "formula": "=H5-H9"
+    },
+    "S04:추정손익!H17": {
+      "value": 1423325024,
+      "formula": "=SUM(H18:H21)"
+    },
+    "S04:추정손익!H18": {
+      "value": 973614995,
+      "formula": "=ROUND(G18+G18*'통합_추정가정 (Drivers)'!G$27, 0)"
+    },
+    "S04:추정손익!H19": {
+      "value": 19095128,
+      "formula": "=CAPEX_감가상각!F$14"
+    },
+    "S04:추정손익!H20": {
+      "value": 430614901,
+      "formula": "=ROUND(H5*'통합_추정가정 (Drivers)'!G$29, 0)"
+    },
+    "S04:추정손익!H21": {
+      "value": 0,
+      "formula": null
+    },
+    "S04:추정손익!H22": {
+      "value": 1593876374.422535,
+      "formula": "=H15-H17"
+    },
+    "S04:추정손익!H24": {
+      "value": 4243831689.422535,
+      "formula": "=H22+H13+H19"
+    },
+    "S04:추정손익!H25": {
+      "value": -207646540,
+      "formula": "=SUM(H26:H28)"
+    },
+    "S04:추정손익!H27": {
+      "value": -207646540,
+      "formula": "=G27"
+    },
+    "S04:추정손익!H28": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!H29": {
+      "value": 1386229834.422535,
+      "formula": "=H22+H25"
+    },
+    "S04:추정손익!H30": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!H31": {
+      "value": 1386229834.422535,
+      "formula": "=H29-H30"
+    },
+    "S02:연결!U10": {
+      "value": 60294493721.42253,
+      "formula": "=SUM(R10:T10)"
+    },
+    "S02:연결!U14": {
+      "value": 47232482288.32999,
+      "formula": "=SUM(R14:T14)"
+    },
+    "S02:연결!U15": {
+      "value": 13062011433.092545,
+      "formula": "=U10-U14"
+    },
+    "S02:연결!U18": {
+      "value": 2354885814.4688,
+      "formula": "=SUM(R18:T18)"
+    },
+    "S02:연결!U19": {
+      "value": 389110061,
+      "formula": "=SUM(R19:T19)"
+    },
+    "S02:연결!U20": {
+      "value": 0,
+      "formula": "=SUM(R20:T20)"
+    },
+    "S02:연결!U21": {
+      "value": 1907792847.275,
+      "formula": "=SUM(R21:T21)"
+    },
+    "S02:연결!U22": {
+      "value": 4651788722.7438,
+      "formula": "=SUM(R22:T22)"
+    },
+    "S02:연결!U23": {
+      "value": 8410222710.348744,
+      "formula": "=U15-U22"
+    },
+    "S02:연결!U26": {
+      "value": 2015305,
+      "formula": "=SUM(R26:T26)"
+    },
+    "S02:연결!U27": {
+      "value": 0,
+      "formula": "=SUM(R27:T27)"
+    },
+    "S02:연결!U28": {
+      "value": 0,
+      "formula": "=SUM(R28:T28)"
+    },
+    "S02:연결!U29": {
+      "value": -1259129882,
+      "formula": "=SUM(R29:T29)"
+    },
+    "S02:연결!U30": {
+      "value": 63375607,
+      "formula": "=SUM(R30:T30)"
+    },
+    "S02:연결!U31": {
+      "value": -1193738970,
+      "formula": "=SUM(U26:U30)"
+    },
+    "S02:연결!U32": {
+      "value": 7216483740.348744,
+      "formula": "=U23+U31"
+    },
+    "S02:연결!U33": {
+      "value": 1282655859.3037653,
+      "formula": "=SUM(R33:T33)"
+    },
+    "S02:연결!U34": {
+      "value": 5933827881.044979,
+      "formula": "=U32-U33"
+    },
+    "S06:추정손익!P7": {
+      "value": 26319200000,
+      "formula": "=SUM(P5:P6)"
+    },
+    "S06:추정손익!Q7": {
+      "value": 32767917851,
+      "formula": "=O7-P7"
+    },
+    "S02:연결조정 내역!G15": {
+      "value": -18423440000,
+      "formula": "=-[3]추정손익!$H$6"
+    },
+    "S02:연결조정 내역!G17": {
+      "value": -3316219200,
+      "formula": "=-[3]추정손익!$H$10*90%"
+    },
+    "S06:CAPEX!D11": {
+      "value": 500000000,
+      "formula": "=SUM(D6:D10)"
+    },
+    "S04:CAPEX_감가상각!F7": {
+      "value": 1150000000,
+      "formula": "=SUM(F5:F6)"
+    },
+    "S06:CAPEX!D7": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!D8": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!D6": {
+      "value": 500000000,
+      "formula": null
+    },
+    "S06:CAPEX!D14": {
+      "value": 50000000,
+      "formula": "=D6/10"
+    },
+    "S06:CAPEX!D15": {
+      "value": 125000000,
+      "formula": "=C15"
+    },
+    "S06:추정손익!R7": {
+      "value": 68687284212.00001,
+      "formula": "=SUM(R5:R6)"
+    },
+    "S06:추정손익!R11": {
+      "value": 57010445895.96001,
+      "formula": "=SUM(R9:R10)"
+    },
+    "S06:추정손익!R12": {
+      "value": 11676838316.04,
+      "formula": "=R7-R11"
+    },
+    "S06:추정손익!R15": {
+      "value": 1436521652.2475522,
+      "formula": "=O15*(1+가정!$B$5)"
+    },
+    "S06:추정손익!R16": {
+      "value": 420014933,
+      "formula": "=$I$16+CAPEX!E14+CAPEX!E15"
+    },
+    "S06:추정손익!R17": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!R18": {
+      "value": 1717182105.3000002,
+      "formula": "=R7*가정!$B$8"
+    },
+    "S06:추정손익!R19": {
+      "value": 3573718690.547552,
+      "formula": "=SUM(R15:R18)"
+    },
+    "S06:추정손익!R20": {
+      "value": 8103119625.492449,
+      "formula": "=R12-R19"
+    },
+    "S06:추정손익!R23": {
+      "value": 2015305,
+      "formula": "=O23"
+    },
+    "S06:추정손익!R24": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!R25": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!R26": {
+      "value": -1051483342,
+      "formula": "=O26"
+    },
+    "S06:추정손익!R27": {
+      "value": 63375607,
+      "formula": "=O27"
+    },
+    "S06:추정손익!R28": {
+      "value": -986092430,
+      "formula": "=SUM(R23:R27)"
+    },
+    "S06:추정손익!R29": {
+      "value": 7117027195.492449,
+      "formula": "=R20+R28"
+    },
+    "S06:추정손익!R30": {
+      "value": 1565745983.0083387,
+      "formula": "=MAX(R29*가정!$B$12,0)"
+    },
+    "S06:추정손익!R31": {
+      "value": 5551281212.48411,
+      "formula": "=R29-R30"
+    },
+    "S04:추정손익!I5": {
+      "value": 30785787605.63381,
+      "formula": "=SUM(I6:I8)"
+    },
+    "S04:추정손익!I6": {
+      "value": 22059170000.000004,
+      "formula": "=[1]추정손익!$S$5*H3"
+    },
+    "S04:추정손익!I7": {
+      "value": 8726617605.633804,
+      "formula": "=('[2]3개년 매출FCST 검토안'!$O$21+'[2]3개년 매출FCST 검토안'!$O$25)*1000000"
+    },
+    "S04:추정손익!I9": {
+      "value": 23267518534,
+      "formula": "=SUM(I10:I14)"
+    },
+    "S04:추정손익!I10": {
+      "value": 3088283800,
+      "formula": "=ROUND(I6*'통합_추정가정 (Drivers)'!H$10, 0)"
+    },
+    "S04:추정손익!I11": {
+      "value": 9235736282,
+      "formula": "=ROUND(I5*'통합_추정가정 (Drivers)'!H$11, 0)"
+    },
+    "S04:추정손익!I12": {
+      "value": 3079054372,
+      "formula": "=ROUND(H12+H12*'통합_추정가정 (Drivers)'!H$20, 0)+('통합_추정가정 (Drivers)'!H15*'통합_추정가정 (Drivers)'!H18)"
+    },
+    "S04:추정손익!I13": {
+      "value": 2630860187,
+      "formula": "=CAPEX_감가상각!G$13"
+    },
+    "S04:추정손익!I14": {
+      "value": 5233583893,
+      "formula": "=ROUND((I8*'통합_추정가정 (Drivers)'!H$12)+(I5*'통합_추정가정 (Drivers)'!H$13), 0)"
+    },
+    "S04:추정손익!I15": {
+      "value": 7518269071.633808,
+      "formula": "=I5-I9"
+    },
+    "S04:추정손익!I17": {
+      "value": 1599632376,
+      "formula": "=SUM(I18:I21)"
+    },
+    "S04:추정손익!I18": {
+      "value": 1002823445,
+      "formula": "=ROUND(H18+H18*'통합_추정가정 (Drivers)'!H$27, 0)"
+    },
+    "S04:추정손익!I19": {
+      "value": 19095128,
+      "formula": "=CAPEX_감가상각!G$14"
+    },
+    "S04:추정손익!I20": {
+      "value": 577713803,
+      "formula": "=ROUND(I5*'통합_추정가정 (Drivers)'!H$29, 0)"
+    },
+    "S04:추정손익!I21": {
+      "value": 0,
+      "formula": null
+    },
+    "S04:추정손익!I22": {
+      "value": 5918636695.633808,
+      "formula": "=I15-I17"
+    },
+    "S04:추정손익!I24": {
+      "value": 8568592010.633808,
+      "formula": "=I22+I13+I19"
+    },
+    "S04:추정손익!I25": {
+      "value": -207646540,
+      "formula": "=SUM(I26:I28)"
+    },
+    "S04:추정손익!I27": {
+      "value": -207646540,
+      "formula": "=H27"
+    },
+    "S04:추정손익!I28": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!I29": {
+      "value": 5710990155.633808,
+      "formula": "=I22+I25"
+    },
+    "S04:추정손익!I30": {
+      "value": 1256417834.2394378,
+      "formula": "=I29*22%"
+    },
+    "S04:추정손익!I31": {
+      "value": 4454572321.39437,
+      "formula": "=I29-I30"
+    },
+    "S02:연결!Y10": {
+      "value": 74634446397.63382,
+      "formula": "=SUM(V10:X10)"
+    },
+    "S02:연결!Y14": {
+      "value": 55439339009.96001,
+      "formula": "=SUM(V14:X14)"
+    },
+    "S02:연결!Y15": {
+      "value": 19195107387.673813,
+      "formula": "=Y10-Y14"
+    },
+    "S02:연결!Y18": {
+      "value": 2439345097.247552,
+      "formula": "=SUM(V18:X18)"
+    },
+    "S02:연결!Y19": {
+      "value": 439110061,
+      "formula": "=SUM(V19:X19)"
+    },
+    "S02:연결!Y20": {
+      "value": 0,
+      "formula": "=SUM(V20:X20)"
+    },
+    "S02:연결!Y21": {
+      "value": 2294895908.3,
+      "formula": "=SUM(V21:X21)"
+    },
+    "S02:연결!Y22": {
+      "value": 5173351066.547552,
+      "formula": "=SUM(V22:X22)"
+    },
+    "S02:연결!Y23": {
+      "value": 14021756321.12626,
+      "formula": "=Y15-Y22"
+    },
+    "S02:연결!Y26": {
+      "value": 2015305,
+      "formula": "=SUM(V26:X26)"
+    },
+    "S02:연결!Y27": {
+      "value": 0,
+      "formula": "=SUM(V27:X27)"
+    },
+    "S02:연결!Y28": {
+      "value": 0,
+      "formula": "=SUM(V28:X28)"
+    },
+    "S02:연결!Y29": {
+      "value": -1259129882,
+      "formula": "=SUM(V29:X29)"
+    },
+    "S02:연결!Y30": {
+      "value": 63375607,
+      "formula": "=SUM(V30:X30)"
+    },
+    "S02:연결!Y31": {
+      "value": -1193738970,
+      "formula": "=SUM(Y26:Y30)"
+    },
+    "S02:연결!Y32": {
+      "value": 12828017351.12626,
+      "formula": "=Y23+Y31"
+    },
+    "S02:연결!Y33": {
+      "value": 2822163817.2477765,
+      "formula": "=SUM(V33:X33)"
+    },
+    "S02:연결!Y34": {
+      "value": 10005853533.878485,
+      "formula": "=Y32-Y33"
+    },
+    "S06:추정손익!S7": {
+      "value": 31513100000.000008,
+      "formula": "=SUM(S5:S6)"
+    },
+    "S06:추정손익!T7": {
+      "value": 37174184212,
+      "formula": "=R7-S7"
+    },
+    "S02:연결조정 내역!G23": {
+      "value": -22059170000.000004,
+      "formula": "=-[3]추정손익!$I$6"
+    },
+    "S02:연결조정 내역!G25": {
+      "value": -2779455420,
+      "formula": "=-[3]추정손익!$I$10*90%"
+    },
+    "S06:CAPEX!E11": {
+      "value": 500000000,
+      "formula": "=SUM(E6:E10)"
+    },
+    "S04:CAPEX_감가상각!G7": {
+      "value": 0,
+      "formula": "=SUM(G5:G6)"
+    },
+    "S06:CAPEX!E7": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!E8": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!E6": {
+      "value": 500000000,
+      "formula": null
+    },
+    "S06:CAPEX!E14": {
+      "value": 100000000,
+      "formula": "=(D6+E6)/10"
+    },
+    "S06:CAPEX!E15": {
+      "value": 125000000,
+      "formula": "=D15"
+    },
+    "S06:추정손익!U7": {
+      "value": 74428744844,
+      "formula": "=SUM(U5:U6)"
+    },
+    "S06:추정손익!U11": {
+      "value": 61775858220.52,
+      "formula": "=SUM(U9:U10)"
+    },
+    "S06:추정손익!U12": {
+      "value": 12652886623.480003,
+      "formula": "=U7-U11"
+    },
+    "S06:추정손익!U15": {
+      "value": 1493982518.3374543,
+      "formula": "=R15*(1+가정!$B$5)"
+    },
+    "S06:추정손익!U16": {
+      "value": 420014933,
+      "formula": "=$I$16+CAPEX!F14+CAPEX!F15"
+    },
+    "S06:추정손익!U17": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!U18": {
+      "value": 1860718621.1000001,
+      "formula": "=U7*가정!$B$8"
+    },
+    "S06:추정손익!U19": {
+      "value": 3774716072.437454,
+      "formula": "=SUM(U15:U18)"
+    },
+    "S06:추정손익!U20": {
+      "value": 8878170551.04255,
+      "formula": "=U12-U19"
+    },
+    "S06:추정손익!U23": {
+      "value": 2015305,
+      "formula": "=R23"
+    },
+    "S06:추정손익!U24": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!U25": {
+      "value": null,
+      "formula": null
+    },
+    "S06:추정손익!U26": {
+      "value": -1051483342,
+      "formula": "=R26"
+    },
+    "S06:추정손익!U27": {
+      "value": 63375607,
+      "formula": "=R27"
+    },
+    "S06:추정손익!U28": {
+      "value": -986092430,
+      "formula": "=SUM(U23:U27)"
+    },
+    "S06:추정손익!U29": {
+      "value": 7892078121.042549,
+      "formula": "=U20+U28"
+    },
+    "S06:추정손익!U30": {
+      "value": 1736257186.629361,
+      "formula": "=MAX(U29*가정!$B$12,0)"
+    },
+    "S06:추정손익!U31": {
+      "value": 6155820934.413188,
+      "formula": "=U29-U30"
+    },
+    "S04:추정손익!J5": {
+      "value": 38586947605.633804,
+      "formula": "=SUM(J6:J8)"
+    },
+    "S04:추정손익!J6": {
+      "value": 25471880000,
+      "formula": "=[1]추정손익!$V$5*70%"
+    },
+    "S04:추정손익!J7": {
+      "value": 13115067605.633802,
+      "formula": "=('[2]3개년 매출FCST 검토안'!$Q$21+'[2]3개년 매출FCST 검토안'!$Q$25)*1000000"
+    },
+    "S04:추정손익!J9": {
+      "value": 26650339565,
+      "formula": "=SUM(J10:J14)"
+    },
+    "S04:추정손익!J10": {
+      "value": 2547188000,
+      "formula": "=ROUND(J6*'통합_추정가정 (Drivers)'!I$10, 0)"
+    },
+    "S04:추정손익!J11": {
+      "value": 11576084282,
+      "formula": "=ROUND(J5*'통합_추정가정 (Drivers)'!I$11, 0)"
+    },
+    "S04:추정손익!J12": {
+      "value": 3336426003,
+      "formula": "=ROUND(I12+I12*'통합_추정가정 (Drivers)'!I$20, 0)+('통합_추정가정 (Drivers)'!I15*'통합_추정가정 (Drivers)'!I18)"
+    },
+    "S04:추정손익!J13": {
+      "value": 2630860187,
+      "formula": "=CAPEX_감가상각!H$13"
+    },
+    "S04:추정손익!J14": {
+      "value": 6559781093,
+      "formula": "=ROUND((J8*'통합_추정가정 (Drivers)'!I$12)+(J5*'통합_추정가정 (Drivers)'!I$13), 0)"
+    },
+    "S04:추정손익!J15": {
+      "value": 11936608040.633804,
+      "formula": "=J5-J9"
+    },
+    "S04:추정손익!J17": {
+      "value": 1776110534,
+      "formula": "=SUM(J18:J21)"
+    },
+    "S04:추정손익!J18": {
+      "value": 1032908148,
+      "formula": "=ROUND(I18+I18*'통합_추정가정 (Drivers)'!I$27, 0)"
+    },
+    "S04:추정손익!J19": {
+      "value": 19095128,
+      "formula": "=CAPEX_감가상각!H$14"
+    },
+    "S04:추정손익!J20": {
+      "value": 724107258,
+      "formula": "=ROUND(J5*'통합_추정가정 (Drivers)'!I$29, 0)"
+    },
+    "S04:추정손익!J21": {
+      "value": 0,
+      "formula": null
+    },
+    "S04:추정손익!J22": {
+      "value": 10160497506.633804,
+      "formula": "=J15-J17"
+    },
+    "S04:추정손익!J24": {
+      "value": 12810452821.633804,
+      "formula": "=J22+J13+J19"
+    },
+    "S04:추정손익!J25": {
+      "value": -207646540,
+      "formula": "=SUM(J26:J28)"
+    },
+    "S04:추정손익!J27": {
+      "value": -207646540,
+      "formula": "=I27"
+    },
+    "S04:추정손익!J28": {
+      "value": null,
+      "formula": null
+    },
+    "S04:추정손익!J29": {
+      "value": 9952850966.633804,
+      "formula": "=J22+J25"
+    },
+    "S04:추정손익!J30": {
+      "value": 2189627212.659437,
+      "formula": "=J29*22%"
+    },
+    "S04:추정손익!J31": {
+      "value": 7763223753.974367,
+      "formula": "=J29-J30"
+    },
+    "S02:연결!AC10": {
+      "value": 85251343249.6338,
+      "formula": "=SUM(Z10:AB10)"
+    },
+    "S02:연결!AC14": {
+      "value": 60661848585.51999,
+      "formula": "=SUM(Z14:AB14)"
+    },
+    "S02:연결!AC15": {
+      "value": 24589494664.113815,
+      "formula": "=AC10-AC14"
+    },
+    "S02:연결!AC18": {
+      "value": 2526890666.3374543,
+      "formula": "=SUM(Z18:AB18)"
+    },
+    "S02:연결!AC19": {
+      "value": 439110061,
+      "formula": "=SUM(Z19:AB19)"
+    },
+    "S02:연결!AC20": {
+      "value": 0,
+      "formula": "=SUM(Z20:AB20)"
+    },
+    "S02:연결!AC21": {
+      "value": 2584825879.1000004,
+      "formula": "=SUM(Z21:AB21)"
+    },
+    "S02:연결!AC22": {
+      "value": 5550826606.437454,
+      "formula": "=SUM(Z22:AB22)"
+    },
+    "S02:연결!AC23": {
+      "value": 19038668057.67636,
+      "formula": "=AC15-AC22"
+    },
+    "S02:연결!AC26": {
+      "value": 2015305,
+      "formula": "=SUM(Z26:AB26)"
+    },
+    "S02:연결!AC27": {
+      "value": 0,
+      "formula": "=SUM(Z27:AB27)"
+    },
+    "S02:연결!AC28": {
+      "value": 0,
+      "formula": "=SUM(Z28:AB28)"
+    },
+    "S02:연결!AC29": {
+      "value": -1259129882,
+      "formula": "=SUM(Z29:AB29)"
+    },
+    "S02:연결!AC30": {
+      "value": 63375607,
+      "formula": "=SUM(Z30:AB30)"
+    },
+    "S02:연결!AC31": {
+      "value": -1193738970,
+      "formula": "=SUM(AC26:AC30)"
+    },
+    "S02:연결!AC32": {
+      "value": 17844929087.67636,
+      "formula": "=AC23+AC31"
+    },
+    "S02:연결!AC33": {
+      "value": 3925884399.2887983,
+      "formula": "=SUM(Z33:AB33)"
+    },
+    "S02:연결!AC34": {
+      "value": 13919044688.387562,
+      "formula": "=AC32-AC33"
+    },
+    "S06:추정손익!V7": {
+      "value": 36388400000,
+      "formula": "=SUM(V5:V6)"
+    },
+    "S06:추정손익!W7": {
+      "value": 38040344844,
+      "formula": "=U7-V7"
+    },
+    "S02:연결조정 내역!G31": {
+      "value": -25471880000,
+      "formula": "=-[3]추정손익!$J$6"
+    },
+    "S02:연결조정 내역!G33": {
+      "value": -2292469200,
+      "formula": "=-[3]추정손익!$J$10*90%"
+    },
+    "S06:CAPEX!F11": {
+      "value": 0,
+      "formula": "=SUM(F6:F10)"
+    },
+    "S04:CAPEX_감가상각!H7": {
+      "value": 0,
+      "formula": "=SUM(H5:H6)"
+    },
+    "S06:CAPEX!F7": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!F8": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!F6": {
+      "value": null,
+      "formula": null
+    },
+    "S06:CAPEX!F14": {
+      "value": 100000000,
+      "formula": "=E14"
+    },
+    "S06:CAPEX!F15": {
+      "value": 125000000,
+      "formula": "=E15"
+    },
+    "S03:재무상태표(T)!B8": {
+      "value": 7994916485,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B9": {
+      "value": -3857331150,
+      "formula": null
+    },
+    "S03:재무상태표(T)!C17": {
+      "value": 777608890,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B50": {
+      "value": 9713472741,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B14": {
+      "value": 185937199,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B15": {
+      "value": 24413342,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B13": {
+      "value": 10123759,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B51": {
+      "value": 29706829,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B56": {
+      "value": 146515708,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B53": {
+      "value": 352773540,
+      "formula": null
+    },
+    "S03:재무상태표(T)!B6": {
+      "value": 3440084170,
+      "formula": null
+    },
+    "S03:재무상태표(T)!C4": {
+      "value": 8784266766,
+      "formula": null
+    },
+    "S03:재무상태표(T)!C49": {
+      "value": 19392734521,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B6": {
+      "value": 6506829385,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B7": {
+      "value": -84200610,
+      "formula": null
+    },
+    "S03:재무상태표(W)!C13": {
+      "value": 2094012107,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B40": {
+      "value": 1303317393,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B9": {
+      "value": 51193390,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B10": {
+      "value": 6250000,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B41": {
+      "value": 4208299413,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B45": {
+      "value": 96465849,
+      "formula": null
+    },
+    "S03:재무상태표(W)!B43": {
+      "value": "-",
+      "formula": null
+    },
+    "S03:재무상태표(W)!B5": {
+      "value": 30716499,
+      "formula": null
+    },
+    "S03:재무상태표(W)!C3": {
+      "value": 8605755317,
+      "formula": null
+    },
+    "S03:재무상태표(W)!C39": {
+      "value": 12098569643,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I8": {
+      "value": 7953599927,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I9": {
+      "value": 3941531760,
+      "formula": null
+    },
+    "S03:재무상태표(T)!J17": {
+      "value": 2738470390,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I50": {
+      "value": 4486756791,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I14": {
+      "value": 77740589,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I15": {
+      "value": 30663342,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I13": {
+      "value": 10123759,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I51": {
+      "value": 4060503642,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I56": {
+      "value": 242981557,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I53": {
+      "value": 352773540,
+      "formula": null
+    },
+    "S03:재무상태표(T)!I6": {
+      "value": 3470800669,
+      "formula": null
+    },
+    "S03:재무상태표(T)!J4": {
+      "value": 10549335533,
+      "formula": null
+    },
+    "S03:재무상태표(T)!J49": {
+      "value": 24783768221,
+      "formula": null
+    },
+    "S03:입력가정!B15": {
+      "value": 0.2,
+      "formula": null
+    },
+    "S03:과거실적!M14": {
+      "value": 26980419930,
+      "formula": "=J14+K14"
+    },
+    "S03:과거실적!M15": {
+      "value": 3470800669,
+      "formula": "=J15+K15"
+    },
+    "S03:과거실적!M16": {
+      "value": 23509619261,
+      "formula": "=M14-M15"
+    },
+    "S03:재무상태표(T)!J74": {
+      "value": 1329580572,
+      "formula": null
+    }
+  }
+}

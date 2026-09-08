@@ -1,0 +1,93 @@
+.root { color: #172d4f; font-size: 14px; line-height: 1.45; font-variant-numeric: tabular-nums; }
+.root * { box-sizing: border-box; }
+.root p, .root h3, .root dl, .root dd { margin: 0; }
+.note { margin-top: 12px !important; color: #66758b; font-size: 12px; line-height: 1.6; }
+.label { font-size: 12px; color: #2358cf; font-weight: 600; letter-spacing: .04em; }
+.negative { color: #b65353; }
+.table { width: 100%; table-layout: fixed; border-collapse: collapse; }
+.table th, .table td { padding: 8px 9px; border-bottom: 1px solid #dce3ec; vertical-align: middle; }
+.table thead { border-top: 2px solid #172d4f; border-bottom: 1px solid #9cacc2; }
+.table thead th { color: #66758b; font-size: 12px; font-weight: 500; }
+.table th { text-align: left; font-weight: 400; }
+.table td { text-align: right; font-family: Arial, 'Noto Sans KR', sans-serif; font-size: 15px; }
+.table .total > * { background: #eef3fc; font-weight: 700; }
+.table .closing > * { border-top: 2px solid #172d4f; border-bottom: 2px solid #172d4f; font-weight: 700; }
+.peerTable { font-size: 13px; }
+.peerTable th, .peerTable td { padding: 10px 9px; }
+.peerTable td { text-align: left; font-family: inherit; font-size: 13px; }
+.peerTable td b { display: block; color: #2358cf; margin-bottom: 3px; }
+.peerTable small { display: block; color: #66758b; font-size: 11px; margin-top: 3px; }
+.peerTable .target > * { background: #eef3fc; }
+.peerTable col:first-child { width: 140px; }
+.peerTable col:nth-child(2) { width: 235px; }
+.peerTable col:nth-child(3) { width: 200px; }
+.peerRule { margin-top: 16px; padding-top: 13px; border-top: 1px solid #172d4f; display: grid; grid-template-columns: 190px 1fr; gap: 20px; }
+.peerRule strong { font-size: 20px; }
+.bridgeGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+.bridge { border-top: 3px solid #2358cf; }
+.bridge:last-child { border-top-color: #148579; }
+.bridge header { display: flex; align-items: baseline; justify-content: space-between; padding: 12px 0; }
+.bridge h3 { font-size: 19px; }
+.bridge header span { color: #66758b; font-size: 12px; }
+.bridge .table th, .bridge .table td { padding: 6px 8px; font-size: 14px; }
+.bridgeMultiple { display: flex; align-items: baseline; justify-content: space-between; margin-top: 9px; }
+.bridgeMultiple strong { color: #2358cf; font-family: Arial,sans-serif; font-size: 40px; }
+.bridge:last-child .bridgeMultiple strong { color: #148579; }
+.bridgeMultiple span { font-size: 13px; }
+.observation { margin-top: 9px !important; color: #66758b; font-size: 12px; line-height: 1.55; }
+.scenarioAssumptions { font-size: 14px; }
+.scenarioAssumptions col:first-child { width: 286px; }
+.scenarioAssumptions td { font-size: 15px; }
+.scenarioAssumptions thead th:not(:first-child) { text-align: right; color: #172d4f; font-size: 17px; font-weight: 700; }
+.assumptionStrip { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 15px; padding-top: 14px; border-top: 2px solid #172d4f; }
+.assumptionStrip p { font-size: 13px; line-height: 1.6; }
+.assumptionStrip b { color: #2358cf; }
+.forecastTop { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; padding: 0 0 12px; }
+.forecastTop > div { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 2px solid #dce3ec; padding-bottom: 8px; }
+.forecastTop span { font-size: 13px; color: #66758b; }
+.forecastTop strong { font-family: Arial,sans-serif; font-size: 28px; font-weight: 600; }
+.forecastGrid { display: grid; grid-template-columns: 1.07fr 1fr; gap: 28px; }
+.forecastGrid h3 { font-size: 15px; margin: 1px 0 9px; }
+.forecastGrid .table th, .forecastGrid .table td { padding: 4px 6px; font-size: 12px; }
+.forecastGrid .table td { font-size: 13px; }
+.forecastGrid .table col:first-child { width: 132px; }
+.forecastGrid .table thead th:not(:first-child) { text-align: right; }
+.forecastGrid .table .subrow > * { color: #66758b; font-size: 11px; }
+.scenarioTail { display: flex; gap: 24px; padding: 8px 0; border-bottom: 1px solid #dce3ec; margin-top: 8px; }
+.scenarioTail span { font-size: 12px; color: #66758b; }
+.scenarioTail b { color: #172d4f; margin-left: 6px; }
+.valueGrid { display: grid; grid-template-columns: 1.04fr 1fr; gap: 30px; }
+.valueChart { width: 100%; height: 253px; }
+.chartLegend { display: flex; gap: 20px; font-size: 12px; color: #66758b; margin-bottom: 7px; }
+.chartLegend i { display: inline-block; width: 16px; height: 5px; margin-right: 6px; vertical-align: middle; }
+.valueTable th, .valueTable td { padding: 10px 7px; font-size: 13px; }
+.valueTable td { font-size: 16px; }
+.valueTable thead th:not(:first-child) { text-align: right; }
+.valueTable col:first-child { width: 120px; }
+.alternate { margin-top: 16px; border-top: 1px solid #172d4f; padding-top: 12px; }
+.alternate header { display: flex; justify-content: space-between; align-items: baseline; }
+.alternate h3 { font-size: 15px; }
+.alternate header span { font-size: 12px; color: #66758b; }
+.alternateValues { display: flex; justify-content: space-between; margin-top: 8px; }
+.alternateValues span { color: #66758b; font-size: 12px; }
+.alternateValues b { color: #172d4f; font-family: Arial,sans-serif; font-size: 19px; margin-left: 10px; }
+.valueFormula { padding: 13px 17px; margin-top: 19px; background: #eef3fc; font-size: 14px; line-height: 1.7; }
+.sensitivityGrid { display: grid; grid-template-columns: 330px 1fr; gap: 30px; }
+.gapPanel { background: #172d4f; color: white; padding: 21px; }
+.gapPanel .label { color: #a6c0f0; }
+.gapPanel > strong { display: block; font-family: Arial,sans-serif; font-size: 39px; margin: 12px 0 2px; }
+.gapPanel > p { color: #c2d1e6; font-size: 13px; line-height: 1.6; }
+.gapPanel dl { margin-top: 16px; }
+.gapPanel dl div { display: flex; justify-content: space-between; padding: 8px 0; border-top: 1px solid #425773; }
+.gapPanel dt { font-size: 12px; color: #c2d1e6; }
+.gapPanel dd { font-family: Arial,sans-serif; font-size: 17px; }
+.gapPanel small { display: block; color: #b5c6df; font-size: 11px; margin-top: 13px; line-height: 1.6; }
+.oatTitle { display: flex; justify-content: space-between; margin-bottom: 7px; }
+.oatTitle h3 { font-size: 16px; }
+.oatTitle span { font-size: 11px; color: #66758b; }
+.oatTable { font-size: 12px; }
+.oatTable th, .oatTable td { padding: 6px 7px; }
+.oatTable td { font-size: 13px; }
+.oatTable col:first-child { width: 177px; }
+.oatTable thead th:not(:first-child) { text-align: right; }
+.oatTable tbody th small { display: block; color: #66758b; font-size: 11px; }
