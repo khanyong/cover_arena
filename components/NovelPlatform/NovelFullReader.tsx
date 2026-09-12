@@ -1,9 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { NovelDetails, NovelParagraph, getParagraphText, getSceneTitle } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
+import { SceneRevisionBadge } from './SceneRevisionBadge';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+
+// Some legacy whole-chapter records contain escaped paragraph separators.
+// Decode only consecutive escaped newlines so LaTeX commands such as `\nabla`
+// remain untouched and the stored manuscript text is never mutated.
+export const normalizeEscapedParagraphBreaks = (content: string): string =>
+  content.replace(/(?:(?:\\r)?\\n){2,}/g, (escapedBreaks) => {
+    const breakCount = escapedBreaks.match(/\\n/g)?.length ?? 0;
+    return '\n'.repeat(breakCount);
+  });
 
 interface NovelFullReaderProps {
   novel: NovelDetails;
@@ -598,6 +608,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             }}
                             title={onUpdateSceneMetadata ? "클릭하여 씬 제목 수정" : ""}
                           >
+                            <SceneRevisionBadge scene={scene} />
                             {getSceneTitle(scene, customVersionMap)}
                           </h4>
                         )}
@@ -636,6 +647,13 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       displayContent = content.replace(regex, '`$1`');
                       // 기존 백틱과 중첩되는 경우 방지 (``` -> `)
                       displayContent = displayContent.replace(/```/g, '`');
+                    }
+
+                    const isEnglishPrologueChapter1Scene1 =
+                      novel.slug === 'quantum-vibration-novel-en' && scene.id === 'b48a4f04';
+
+                    if (isEnglishPrologueChapter1Scene1) {
+                      displayContent = normalizeEscapedParagraphBreaks(displayContent);
                     }
 
                     return (

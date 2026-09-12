@@ -2,7 +2,14 @@
 
 try {
   const SUPABASE_URL = 'https://iklsghevdtqqkjuaympc.supabase.co';
-  const SUPABASE_SERVICE_ROLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlrbHNnaGV2ZHRxcWtqdWF5bXBjIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTIxNjQwOCwiZXhwIjoyMDYwNzkyNDA4fQ.W6uhuskvC_gWRRhpWs9tgsZMLrVwvCgGDALFY7y7nsM';
+  // Server-side n8n environment only; never paste a key into this file.
+  // If environment access is blocked, leave it blocked and fail closed.
+  const SUPABASE_SERVICE_ROLE_KEY = typeof $env === 'undefined'
+    ? undefined
+    : $env.SUPABASE_SERVICE_ROLE_KEY;
+  if (typeof SUPABASE_SERVICE_ROLE_KEY !== 'string' || !SUPABASE_SERVICE_ROLE_KEY.trim()) {
+    throw new Error('SUPABASE_SERVICE_ROLE_KEY is not configured for this n8n runtime.');
+  }
 
   function safeParseInt(value, defaultValue = 0) {
     if (value === null || value === undefined || value === '') return defaultValue;
@@ -390,4 +397,4 @@ try {
       success: false
     }
   }];
-} 
+}

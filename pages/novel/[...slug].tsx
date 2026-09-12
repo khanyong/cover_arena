@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { SceneRevisionBadge } from '../../components/NovelPlatform/SceneRevisionBadge';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -758,7 +759,7 @@ export default function NovelStudioPage() {
                                     }}
                                     className="block transition-all py-1 px-2 rounded-md truncate duration-150 text-[11px] text-zinc-500 hover:text-amber-200 hover:bg-zinc-800/50"
                                   >
-                                    🎬 {getSceneTitle(scene, customVersionMap)}
+                                    🎬 <SceneRevisionBadge scene={scene} />{getSceneTitle(scene, customVersionMap)}
                                   </a>
                                 ))}
                               </div>

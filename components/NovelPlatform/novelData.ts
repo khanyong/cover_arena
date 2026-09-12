@@ -1,4 +1,5 @@
 // Novel Platform Data Schema & Versioning Store
+import type { SceneRevisionMetadata } from './sceneRevision';
 
 export interface NovelParagraphVersion {
   version: string;
@@ -24,7 +25,7 @@ export interface NovelParagraph {
   aiPrompts?: AiComment[];
 }
 
-export interface NovelScene {
+export interface NovelScene extends SceneRevisionMetadata {
   id: string;
   number: number;
   title?: string;
