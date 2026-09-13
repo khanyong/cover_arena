@@ -1,0 +1,325 @@
+{
+  "pageCount": 40,
+  "pages": [
+    {
+      "page": 1,
+      "title": "표지",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-01.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "316fa244bf249148952f915dacf1096490dfa0daf09c79f2dd13011b7ee660c1"
+    },
+    {
+      "page": 2,
+      "title": "목차",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-02.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "cdd32e20279c7413074c1a47222517527786dc24f2db5d7c0f7056ab1bc00f4c"
+    },
+    {
+      "page": 3,
+      "title": "회사 현황",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-03.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "2369fed7853749b176166e082a6bded43d754210b99bf540c5709bbb2e5170db"
+    },
+    {
+      "page": 4,
+      "title": "핵심 투자 하이라이트",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-04.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "a598d2a919fb4ca6fd13ff5e4f7de951a7f8734692bb2300494d1b77a54915e7"
+    },
+    {
+      "page": 5,
+      "title": "회사 개요 및 기술 리더십",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-05.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "0ff0025c2709b7e6f16e473b25ef1d908901ffe1784786a248852d272ca5fd2b"
+    },
+    {
+      "page": 6,
+      "title": "인수 전략",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-06.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "c354a808296edd0ba405c7729c356f87b8e4ed573d7b3ba99eed0605f2037c82"
+    },
+    {
+      "page": 7,
+      "title": "위폼스 인수 및 시너지",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-07.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "1862b7ba75ebb74d4b271552c7ecd353e3c993e96f1ea0d2f37e0338b5474392"
+    },
+    {
+      "page": 8,
+      "title": "거래별 수익 및 법인별 손익",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-08.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "153820e87f4640d2875f0dc2170548bf1284fcd96be3b24d93a77af8d07a511f"
+    },
+    {
+      "page": 9,
+      "title": "공정 연계 및 사업 시너지",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-09.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "03689144864d90fcf457f1c9e6f0913c55ee7ade50dc4fc8944a9b79068c7456"
+    },
+    {
+      "page": 10,
+      "title": "기술 경쟁력",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-10.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "fa3f09f5e5b7590741105ac4f9427306556f0d5912b531c0bd423ec09aeac597"
+    },
+    {
+      "page": 11,
+      "title": "소재 공급 및 박막 코팅 기술",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-11.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "9ac52366046fe49ffcd7c6f195e03963aafde05019dadf78b4de76f051dc4e29"
+    },
+    {
+      "page": 12,
+      "title": "오픈 메탈 마스크 구조 및 적용 공정",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-12.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "286f6788b4186829499005a45a6c54a2c715bf9743a72595bbc1ec01b4a14fbf"
+    },
+    {
+      "page": 13,
+      "title": "정밀 마스크 제조 및 검사 공정",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-13.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "77cae9f31348472fd6f0339db928f1bebe4d3d748a02e2613b870500849d7042"
+    },
+    {
+      "page": 14,
+      "title": "단면 가공 및 코팅 품질 측정",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-14.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "11fe466072b069af4ade181d2ce9b3740984a3e85b196f8c6738a7f946d9c428"
+    },
+    {
+      "page": 15,
+      "title": "대면적 마스크 개발 및 생산 기반",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-15.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "ddc5f6bd9001b5624747768764ee432bc1159bb238199a9d34ce998e88c94a7d"
+    },
+    {
+      "page": 16,
+      "title": "사업 환경 및 성장 전략",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-16.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "960cb0857d84109524b82c703454175b0b9ed4a31116c206148a0781452476b7"
+    },
+    {
+      "page": 17,
+      "title": "채권 손상 및 재무구조",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-17.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "6f23d774ef13e7fad4b7c1cda75fd4643a49777d54d75a82f371f1f61ff1b0d1"
+    },
+    {
+      "page": 18,
+      "title": "주요 고객사별 공급 현황",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-18.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "19e8c9824e9ba76e3b31550d2fddda43cf8f5d32f449cb240bfe08ca458576fb"
+    },
+    {
+      "page": 19,
+      "title": "재무 실적",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-19.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "290ae77b2e0c4f593e4edd9d766d4ab36650dedc852b61f149ea260b831734b7"
+    },
+    {
+      "page": 20,
+      "title": "별도 및 연결 손익 추이",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-20.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "714fac9fbd2e50b75e070950ed0f253f91aaa8d300b1680dac578969c52c2179"
+    },
+    {
+      "page": 21,
+      "title": "법인별 매출 및 연결 조정",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-21.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "b3d456672eab2bb99c32e5694f04247bffe2d5b5a86504af52fad014dad7d104"
+    },
+    {
+      "page": 22,
+      "title": "추정손익계산서",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-22.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "8ad019874f8c4929c4ae2cf482771e167f4285d67d7d0470ff5111be840dda0c"
+    },
+    {
+      "page": 23,
+      "title": "기업가치 평가",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-23.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "763a19d650ff68826ab3b0c347dd65b3f3bcd883a259df14eb66c0a3bd623fba"
+    },
+    {
+      "page": 24,
+      "title": "평가 체계 및 지분가치",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-24.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "aa8f4815ba727048cb1c5b4eeea0fcfb74bb8922c090b0d573ab5d471d61a543"
+    },
+    {
+      "page": 25,
+      "title": "템스코 별도 추정손익 및 FCFF",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-25.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "4256781b59df92a368b8ffd1f25e77770b67348494c5b1fbc30c9da8b9e6aa6f"
+    },
+    {
+      "page": 26,
+      "title": "연결 추정손익 및 FCFF",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-26.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "d9e5653c2d7ba25aabe2e7e489a6e0f67b66b06814a615bdb7c36509bbdc99c3"
+    },
+    {
+      "page": 27,
+      "title": "영구무성장 잔여가치",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-27.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "022f2a4906ce9607d66155b524e1b313bc158bbca272cf87af401052ad870a57"
+    },
+    {
+      "page": 28,
+      "title": "OMM 비교기업 검토",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-28.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "21ffcd56b25ef97b9981c1152389362231faa475b089a08cd69ffbb1c201eef0"
+    },
+    {
+      "page": 29,
+      "title": "DCF 가치 및 OMM 배수 검토",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-29.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "83bb87c76b83d2197dfda8773c4184a9e8bba1c4ffea12f9e4a0e5bb3a522df5"
+    },
+    {
+      "page": 30,
+      "title": "비관·중도·낙관 시나리오별 가치",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-30.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "9796357fbeda2518ff7fff99a9d5e18461e72cd96629f53f830712e7bbeca5a5"
+    },
+    {
+      "page": 31,
+      "title": "가치평가 민감도",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-31.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "e53fdb0a6ee06863508911c0d5d32cfcbf4e0d6cc543fe169b07bd5f46cccc9b"
+    },
+    {
+      "page": 32,
+      "title": "영업가치 및 지분가치 연결",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-32.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "bb8ea896112a39e3739fba836e3cbe0d72b876098f4718a4aa465bb556ba097e"
+    },
+    {
+      "page": 33,
+      "title": "증자 및 재무구조 개선 효과",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-33.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "c09e6876fa02ed8c90554a37e582e302193f3e6c4128098ae1b9b6f2f2153b9f"
+    },
+    {
+      "page": 34,
+      "title": "자금 조달 및 투자자 회수",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-34.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "09332f2ba8e3a54527610b76bf04316a32cf4506f678a3e9e7765ac12de98684"
+    },
+    {
+      "page": 35,
+      "title": "투자금 활용 계획",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-35.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "48a496b5967794152dd61aeb9ad3a3269e2517ab463921173826d057f8ee3611"
+    },
+    {
+      "page": 36,
+      "title": "투자자 Exit Plan",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-36.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "2161877f91e97caea339bd722ebd50246193c03a6a499ec7b970aee6fb2b0c5e"
+    },
+    {
+      "page": 37,
+      "title": "별첨",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-37.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "fe3bc324a99b18cb00c5e3bc3f88b560b192f05b32a1f4b2bc5d58a1f9e7e558"
+    },
+    {
+      "page": 38,
+      "title": "재무 원본 대사",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-38.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "751808d741271e960d977c96b218ddfe0a74e774194c94f82a3481cf0f36db78"
+    },
+    {
+      "page": 39,
+      "title": "시장 지표 기반 WACC",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-39.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "fd04f9d9db5fbda168e25028d4ecc38259591a79f85324ad53a6c30b948714f2"
+    },
+    {
+      "page": 40,
+      "title": "상각·재투자·운전자본 가정",
+      "url": "/temsco/pre-nda/editions/8c1f3dce43c4/page-40.png",
+      "width": 1684,
+      "height": 1190,
+      "sha256": "ea1f4388dd7fed9e7e7325b8a97ef8465ae6865f85fe4b48ab678980b77fb75e"
+    }
+  ]
+}

@@ -7,6 +7,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
+    "temsco:pdf": "node scripts/temsco/export-v4-pdf.mjs",
+    "temsco:pdf:check": "node scripts/temsco/export-v4-pdf.mjs --check",
+    "temsco:pdf:pre-nda": "node scripts/temsco/export-pre-nda-pdf.mjs",
+    "temsco:pdf:pre-nda:check": "node scripts/temsco/export-pre-nda-pdf.mjs --check",
+    "temsco:pdf:all": "npm run temsco:pdf && npm run temsco:pdf:pre-nda",
+    "temsco:pdf:all:check": "npm run temsco:pdf:check && npm run temsco:pdf:pre-nda:check",
     "lint": "next lint",
     "sync-en": "tsx scripts/build_public_json.ts"
   },

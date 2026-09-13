@@ -65,7 +65,7 @@ export default function TemscoDeckV3Page() {
     const index = pageForContent(contentIndex)
     return <div key={index} id={`slide-${index + 1}`} className={`${s.frame} ${mode === 'presentation' && current !== index ? s.hidden : ''}`} style={{ width: 1123 * scale, height: 794 * scale }}>
     <section className={`${s.slide} temsco-slide`} style={{ transform: `scale(${scale})` }} aria-labelledby={`title-${index}`}>
-      <div className={s.slideHead}><strong>TEMSCO</strong><span>{section}</span><span>제3안 · 검토용 초안</span></div>
+      <div className={s.slideHead}><strong>TEMSCO</strong><span>{section}</span><span>3안 · 검토용 초안</span></div>
       <h2 id={`title-${index}`}>{title}</h2><p className={s.deck}>{subtitle}</p>
       <div className={s.content}>{children}</div>
       <footer className={s.foot}><span>{source}</span><b>{String(index + 1).padStart(2, '0')}</b></footer>
@@ -79,11 +79,11 @@ export default function TemscoDeckV3Page() {
   }
 
   return <div className={s.root}>
-    <Head><title>템스코 | 제3안 투자제안서</title><meta name="description" content="템스코 제3안 투자제안서: 인수 전후 실적, 연결 손익 및 투자자금의 재무 효과" /><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></Head>
-    <header className={s.toolbar}><div><Link href="/temsco" className={s.brand}>TEMSCO</Link><span className={s.toolbarTitle}>제3안 투자제안서 · DCF·멀티플 시나리오</span></div><div className={s.controls}>
+    <Head><title>템스코 | 3안 투자제안서</title><meta name="description" content="템스코 3안 투자제안서: 인수 전후 실적, 연결 손익 및 투자자금의 재무 효과" /><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" /></Head>
+    <header className={s.toolbar}><div><Link href="/temsco" className={s.brand}>TEMSCO</Link><span className={s.toolbarTitle}>3안 투자제안서 · DCF·멀티플 시나리오</span></div><div className={s.controls}>
       <select aria-label="슬라이드 선택" value={current} onChange={e => navigate(Number(e.target.value))}>{titles.map((title, i) => <option key={title} value={i}>{String(i + 1).padStart(2, '0')}. {title}</option>)}</select>
       <button onClick={() => setMode(mode === 'presentation' ? 'scroll' : 'presentation')}>{mode === 'presentation' ? '전체 보기' : '발표 보기'}</button>
-      <button onClick={() => void toggleFullscreen()}>{fullscreen ? '전체화면 종료' : '전체화면'}</button><button onClick={() => window.print()}>인쇄 / PDF</button><Link href="/temsco/deck">기존 최종본</Link>
+      <button onClick={() => void toggleFullscreen()}>{fullscreen ? '전체화면 종료' : '전체화면'}</button><button onClick={() => window.print()}>인쇄 / PDF</button><Link href="/temsco/deck">2안 투자제안서</Link>
     </div></header>
     {fullscreenError && <p role="status" style={{ color: '#fff', padding: '8px 24px' }}>{fullscreenError}</p>}
     <main className={s.stage}>
@@ -95,7 +95,7 @@ export default function TemscoDeckV3Page() {
             <h1 id="cover-title">자본 확충 및<br />연결 수익성 회복</h1>
             <p>템스코·위폼스의 인수 전후 실적<br />신규 투자금의 재무 효과 및 미래가치 분석</p>
             <div className={s.coverIndex}><p><b>01</b>과거 실적</p><p><b>02</b>미래 손익</p><p><b>03</b>가치추정</p></div>
-            <div className={s.coverBottom}><span>주식회사 템스코<br />전문 투자자 검토용 · 제3안 초안</span><span>회사 제공자료 기준 / 2026.09.08<br />투자조건·가치평가 협의 대상</span></div>
+            <div className={s.coverBottom}><span>주식회사 템스코<br />전문 투자자 검토용 · 3안 초안</span><span>회사 제공자료 기준 / 2026.09.08<br />투자조건·가치평가 협의 대상</span></div>
           </div>
         </section>
       </div>

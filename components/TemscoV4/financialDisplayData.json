@@ -1,0 +1,2184 @@
+{
+  "sources": {
+    "X01": {
+      "nameNFC": "모회사_자회사_연결_추정손익_양식_2023-2030_v2.xlsx"
+    },
+    "X02": {
+      "nameNFC": "비상장주식_DCF평가_모델(템스코)_수정.xlsx"
+    },
+    "X03": {
+      "nameNFC": "위폼스_추정손익.xlsx"
+    },
+    "X04": {
+      "nameNFC": "템스코_추정손익  _20260908_최종.xlsx"
+    }
+  },
+  "entities": {
+    "parent": {
+      "incomeStatement": [
+        {
+          "year": 2024,
+          "status": "reported",
+          "revenue": {
+            "eok": 398.58957704,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 358.17076609,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 40.41881095,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 19.84086453,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 9.13927002,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 20.57794642,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": 0.51213544,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 21.09008186,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 4.96600138,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 16.12408048,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": null,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "E18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2025,
+          "status": "reported",
+          "revenue": {
+            "eok": 350.58443364,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 312.74265735,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 37.84177629,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 89.74316408,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 12.77062518,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": -51.90138779,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -31.00569448,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": -82.90708227,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 0.78338542,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": -83.69046769,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 63.6954705,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "H18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 400.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 332.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 68.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 26.481599517200003,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 13.2814501872,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 41.5184004828,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -9.8609243,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 31.657476182799996,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 6.964644760215999,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 24.692831422584,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "K18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2027,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 590.87117851,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 490.4230781632999,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 100.44810034670006,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 32.284636987438,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 13.812708194688,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 68.16346335926205,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -9.8609243,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 58.30253905926206,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 12.826558593037653,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 45.4759804662244,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "N18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2028,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 686.8728421200001,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 570.1044589596002,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 116.7683831604,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 35.73718690547552,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 14.365216522475523,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 81.0311962549245,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -9.8609243,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 71.17027195492449,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 15.657459830083386,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 55.5128121248411,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "Q18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2029,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 744.28744844,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 617.7585822052,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 126.52886623480003,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 37.74716072437454,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 14.939825183374543,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 88.7817055104255,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -9.8609243,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 78.92078121042549,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 17.36257186629361,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 61.55820934413188,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "모회사",
+                "cell": "T18"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "subsidiary": {
+      "incomeStatement": [
+        {
+          "year": 2024,
+          "status": "reported",
+          "revenue": {
+            "eok": 92.60937083,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 68.99998368,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 23.60938715,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 8.38249348,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 7.49018045,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 15.22689367,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": 0.11522669,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 15.34212036,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 0,
+            "sources": [
+              {
+                "fileId": "X02",
+                "sheet": "손익계산서(W)",
+                "cell": "E45"
+              },
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 15.34212036,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": -1.0270575,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "C18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2025,
+          "status": "reported",
+          "revenue": {
+            "eok": 125.81202964,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 130.17749367,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": -4.36546403,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 13.54879791,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 9.17725512,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": -17.91426194,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -1.85587141,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": -19.77013335,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 0,
+            "sources": [
+              {
+                "fileId": "X02",
+                "sheet": "손익계산서(W)",
+                "cell": "C45"
+              },
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": -19.77013335,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.8420061,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "D18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 140.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 155.95163681,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": -15.95163681,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 12.27070817,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 9.45257277,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": -28.22234498,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -2.0764654,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": -30.29881038,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": null,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": -30.29881038,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "E18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2027,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 216.31075070422534,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 190.48140472,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 25.82934598422535,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 13.98630244,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 9.73614995,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 11.84304354422535,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -2.0764654,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 9.76657814422535,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": null,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 9.76657814422535,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "F18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2028,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 292.1013260563381,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 237.00379884,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 55.09752721633808,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 15.70064263,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 10.02823445,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 39.39688458633808,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -2.0764654,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 37.32041918633808,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 8.210492220994379,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 29.109926965343703,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "G18"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2029,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 367.675276056338,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H8"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 283.13466165,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H12"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 84.54061440633804,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H13"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 17.41968024,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H20"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 10.32908148,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H16"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 67.12093416633805,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H21"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -2.0764654,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H29"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 65.04446876633804,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H30"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 14.30978312859437,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H31"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 50.73468563774367,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H32"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "자회사",
+                "cell": "H18"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "consolidated": {
+      "incomeStatement": [
+        {
+          "year": 2024,
+          "status": "reported",
+          "revenue": {
+            "eok": 403.24731206,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I10"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 339.41971396,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I14"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 63.8275981,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I15"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 28.22335801,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I22"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 16.62945047,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I18"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 35.60424009,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I23"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": 0.62736213,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I31"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 36.23160222,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I32"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 4.96600138,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I33"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 31.26560084,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I34"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": -1.0270575,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "I20"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2025,
+          "status": "reported",
+          "revenue": {
+            "eok": 342.61655569,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M10"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 310.7093045,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M14"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 31.90725119,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M15"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 105.14830399,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M22"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 21.9478803,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M18"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": -73.2410528,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M23"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -14.21679571,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M31"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": -87.45784851,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M32"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 0.78338542,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M33"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": -88.24123393,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M34"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 64.5374766,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "M20"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2026,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 414.62759896,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q10"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 362.57923577,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q14"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 52.04836319,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q15"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 38.7523076872,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q22"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 22.734022957200004,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q18"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 13.296055502799996,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q23"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -11.9373897,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q31"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 1.3586658027999974,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q32"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 6.964644760215999,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q33"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": -5.605978957416002,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q34"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Q20"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2027,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 605.3136652142254,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U10"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 479.03621888329997,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U14"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 126.27744633092537,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U15"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 46.270939427438,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U22"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 23.548858144688,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U18"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 80.00650690348736,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U23"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -11.9373897,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U31"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 68.06911720348737,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U32"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 12.826558593037653,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U33"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 55.24255861044971,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U34"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "U20"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2028,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 737.2686911763382,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y10"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 565.4027807996001,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y14"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 171.86591037673813,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y15"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 51.43782953547552,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y22"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 24.39345097247552,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y18"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 120.4280808412626,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y23"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -11.9373897,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y31"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 108.4906911412626,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y32"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 23.867952051077765,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y33"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 84.62273909018484,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y34"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "Y20"
+              }
+            ]
+          }
+        },
+        {
+          "year": 2029,
+          "status": "companyForecast",
+          "revenue": {
+            "eok": 832.863696496338,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC10"
+              }
+            ]
+          },
+          "cogs": {
+            "eok": 621.7942158551999,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC14"
+              }
+            ]
+          },
+          "grossProfit": {
+            "eok": 211.06948064113814,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC15"
+              }
+            ]
+          },
+          "sga": {
+            "eok": 55.16684096437454,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC22"
+              }
+            ]
+          },
+          "sgaSalary": {
+            "eok": 25.268906663374544,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC18"
+              }
+            ]
+          },
+          "ebit": {
+            "eok": 155.9026396767636,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC23"
+              }
+            ]
+          },
+          "nonOperatingNet": {
+            "eok": -11.9373897,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC31"
+              }
+            ]
+          },
+          "ebt": {
+            "eok": 143.9652499767636,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC32"
+              }
+            ]
+          },
+          "tax": {
+            "eok": 31.67235499488798,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC33"
+              }
+            ]
+          },
+          "netIncome": {
+            "eok": 112.29289498187563,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC34"
+              }
+            ]
+          },
+          "badDebtOperating": {
+            "eok": 0.0,
+            "sources": [
+              {
+                "fileId": "X01",
+                "sheet": "연결",
+                "cell": "AC20"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "consolidationAdjustments": [
+    {
+      "year": 2024,
+      "rawAdjustmentLines": {
+        "revenue": {
+          "eok": -87.95163581,
+          "sources": [
+            {
+              "fileId": "X01",
+              "sheet": "연결",
+              "cell": "H10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "year": 2025,
+      "rawAdjustmentLines": {
+        "revenue": {
+          "eok": -133.77990759,
+          "sources": [
+            {
+              "fileId": "X01",
+              "sheet": "연결",
+              "cell": "L10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "year": 2026,
+      "rawAdjustmentLines": {
+        "revenue": {
+          "eok": -125.37240104,
+          "sources": [
+            {
+              "fileId": "X01",
+              "sheet": "연결",
+              "cell": "P10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "year": 2027,
+      "rawAdjustmentLines": {
+        "revenue": {
+          "eok": -201.868264,
+          "sources": [
+            {
+              "fileId": "X01",
+              "sheet": "연결",
+              "cell": "T10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "year": 2028,
+      "rawAdjustmentLines": {
+        "revenue": {
+          "eok": -241.70547700000003,
+          "sources": [
+            {
+              "fileId": "X01",
+              "sheet": "연결",
+              "cell": "X10"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "year": 2029,
+      "rawAdjustmentLines": {
+        "revenue": {
+          "eok": -279.099028,
+          "sources": [
+            {
+              "fileId": "X01",
+              "sheet": "연결",
+              "cell": "AB10"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

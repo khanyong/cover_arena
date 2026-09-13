@@ -1,27 +1,15 @@
 import Head from 'next/head'
 import Link from 'next/link'
 import { useState } from 'react'
+import PdfDownloadControls from '../../components/TemscoV4/PdfDownloadControls'
+import { v4Slides, v4Chapters, v4MainChapters, type V4SlideCategory } from '../../lib/temsco/v4-slide-catalog'
 
 export default function TemscoLandingPage() {
-  const [activeTab, setActiveTab] = useState<'all' | 'highlights' | 'financials' | 'strategy'>('all')
-
-  const slideList = [
-    { num: '01', title: 'Cover & Title', desc: '박막 코팅 소재 × 정밀 메탈마스크 글로벌 TIER-1 소부장 파트너', category: 'highlights', icon: 'fa-shield-halved' },
-    { num: '02', title: 'Executive Summary', desc: '4대 핵심 투자 하이라이트 (수직계열화, 1차벤더, 부실해소, 퀀텀점프)', category: 'highlights', icon: 'fa-chart-line' },
-    { num: '03', title: 'Company Overview', desc: '기업 개요, 핵심 연혁, 위폼스 인수 효과 및 경영진 프로필', category: 'highlights', icon: 'fa-building' },
-    { num: '04', title: 'Market Opportunity', desc: '글로벌 디스플레이 공급망 재편 및 OLED 메탈마스크 시장 기회', category: 'strategy', icon: 'fa-globe' },
-    { num: '05', title: 'Core Solution', desc: '국내 유일 소재-정밀가공-코팅-세정 원스톱 일원화 체계', category: 'strategy', icon: 'fa-layer-group' },
-    { num: '06', title: 'Core Competencies', desc: '초고순도 박막 코팅 기술력 및 정밀 메탈마스크 핵심 해자', category: 'strategy', icon: 'fa-award' },
-    { num: '07', title: 'Expansion Strategy', desc: '삼성/LG디스플레이, AMAT, 비전옥스 1차 벤더 직납 확대 전략', category: 'strategy', icon: 'fa-arrows-split-up-and-left' },
-    { num: '08', title: 'Financial Cleanup', desc: '2025년 파인원 채권 80억 전액 대손상각(Clean Sheet) 및 재무 정상화', category: 'financials', icon: 'fa-receipt' },
-    { num: '09', title: 'Financial Projections', desc: '2026년 400억 ➔ 2029년 700억 원(OPM 11.3%) 퀀텀점프 추정', category: 'financials', icon: 'fa-arrow-trend-up' },
-    { num: '10', title: 'New Growth Drivers', desc: '반도체 HF봄베, CuMn타겟, 전력반도체 Cu기판 등 탈마스크 50.6% 도약', category: 'strategy', icon: 'fa-microchip' },
-    { num: '11', title: 'The Ask & Proceeds', desc: '30억 ~ 50억 원 투자 유치 조건 및 설비/운영/R&D 자금 배분 계획', category: 'financials', icon: 'fa-hand-holding-dollar' },
-  ]
+  const [activeTab, setActiveTab] = useState<'all' | V4SlideCategory>('all')
 
   const filteredSlides = activeTab === 'all' 
-    ? slideList 
-    : slideList.filter(s => s.category === activeTab)
+    ? v4Slides
+    : v4Slides.filter(s => s.category === activeTab)
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-blue-600 selection:text-white flex flex-col">
@@ -53,14 +41,14 @@ export default function TemscoLandingPage() {
             href="/temsco/original"
             className="text-xs font-semibold px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition hidden sm:inline-block"
           >
-            초기 원본 슬라이드
+            1안 투자제안서
           </Link>
           <Link
-            href="/temsco/deck"
+            href="/temsco/deck-v4"
             className="text-xs font-black px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-2 shadow-lg shadow-blue-600/30 hover:scale-[1.02] active:scale-95"
           >
             <i className="fa-solid fa-play text-[10px]"></i>
-            투자제안서 보기
+            4안 투자제안서 보기
           </Link>
         </div>
       </header>
@@ -68,24 +56,53 @@ export default function TemscoLandingPage() {
       <section aria-labelledby="proposal-versions" className="px-6 py-8 border-b border-slate-800 bg-slate-900/60">
         <div className="max-w-6xl mx-auto">
           <h2 id="proposal-versions" className="text-xl font-bold text-white mb-2">투자제안서 버전 선택</h2>
-          <p className="text-sm text-slate-400 mb-5">초기원본, 최종본, 작성 중인 제3안을 각각 열어볼 수 있습니다.</p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <p className="text-sm text-slate-400 mb-5">1~4안 투자제안서를 각각 열어볼 수 있습니다. 4안은 인수 시너지와 별도·연결 가치평가를 반영한 작성 중 버전입니다.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             <Link href="/temsco/original" className="rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
               <span className="text-xs font-bold text-slate-400">VERSION 01</span>
-              <h3 className="text-lg font-bold text-white mt-2">초기원본</h3>
+              <h3 className="text-lg font-bold text-white mt-2">1안 투자제안서</h3>
               <p className="text-sm text-slate-400 mt-2">최초 투자제안서</p>
             </Link>
             <Link href="/temsco/deck" className="rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
               <span className="text-xs font-bold text-blue-400">VERSION 02</span>
-              <h3 className="text-lg font-bold text-white mt-2">최종본</h3>
-              <p className="text-sm text-slate-400 mt-2">기존 최종 투자제안서 · 11장</p>
+              <h3 className="text-lg font-bold text-white mt-2">2안 투자제안서</h3>
+              <p className="text-sm text-slate-400 mt-2">투자 하이라이트·시장·성장 전략 · 11장</p>
             </Link>
-            <Link href="/temsco/deck-v3" className="rounded-xl border border-blue-500/60 bg-blue-950/30 p-5 hover:border-blue-400 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
-              <span className="text-xs font-bold text-blue-400">VERSION 03 · 작성 중</span>
-              <h3 className="text-lg font-bold text-white mt-2">제3안 투자제안서</h3>
-              <p className="text-sm text-slate-300 mt-2">과거 실적·DCF·멀티플·3개 시나리오·후속 투자유치 · 간지 포함 44장 초안</p>
+            <Link href="/temsco/deck-v3" className="rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+              <span className="text-xs font-bold text-slate-400">VERSION 03</span>
+              <h3 className="text-lg font-bold text-white mt-2">3안 투자제안서</h3>
+              <p className="text-sm text-slate-400 mt-2">과거 실적·DCF·멀티플·3개 시나리오·후속 투자유치 · 간지 포함 44장</p>
+            </Link>
+            <Link href="/temsco/deck-v4" className="rounded-xl border border-blue-500/60 bg-blue-950/30 p-5 hover:border-blue-400 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+              <span className="text-xs font-bold text-blue-400">VERSION 04 · 작성 중</span>
+              <h3 className="text-lg font-bold text-white mt-2">4안 · NDA 이후 상세 검토용</h3>
+              <p className="text-sm text-slate-300 mt-2">기술·인수 시너지·별도·연결 DCF · {v4MainChapters.length}개 장·별첨 · 목차·간지 포함 {v4Slides.length}장</p>
             </Link>
           </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="nda-editions" className="px-6 py-9 border-b border-slate-800 bg-slate-950">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex flex-wrap items-end justify-between gap-3 mb-5">
+            <div><p className="text-xs tracking-widest text-blue-400 font-bold mb-2">INVESTOR MATERIALS</p><h2 id="nda-editions" className="text-xl font-bold">투자 검토 단계별 자료</h2></div>
+            <p className="text-xs text-slate-400">검토 단계별 PDF · A4 가로</p>
+          </div>
+          <div className="grid md:grid-cols-2 gap-5 mb-5">
+            <article className="border border-blue-500/50 rounded-xl bg-blue-950/20 p-6 flex flex-col">
+              <p className="text-xs font-bold text-blue-400 tracking-widest">PRE-NDA</p>
+              <h3 className="text-lg font-bold mt-2">NDA 이전 투자 검토용</h3>
+              <p className="text-sm text-slate-300 leading-relaxed mt-3 mb-4">4안 전체 {v4Slides.length}페이지. 민감 수치·자료 CONFIDENTIAL 처리. 목차·도표·설명 유지.</p>
+              <Link className="text-sm text-blue-300 font-bold underline underline-offset-4 mt-auto" href="/temsco/pre-nda">NDA 이전 자료 미리보기 →</Link>
+            </article>
+            <article className="border border-slate-700 rounded-xl bg-slate-900 p-6 flex flex-col">
+              <p className="text-xs font-bold text-slate-400 tracking-widest">POST-NDA · VERSION 04</p>
+              <h3 className="text-lg font-bold mt-2">NDA 이후 상세 검토용</h3>
+              <p className="text-sm text-slate-300 leading-relaxed mt-3 mb-4">기존 4안 전체 {v4Slides.length}페이지. 별도·연결 재무, 인수 시너지, DCF·멀티플, 투자 효과 및 상세 가정.</p>
+              <Link className="text-sm text-blue-300 font-bold underline underline-offset-4 mt-auto" href="/temsco/deck-v4">NDA 이후 자료 미리보기 →</Link>
+            </article>
+          </div>
+          <PdfDownloadControls showPrint={false} />
         </div>
       </section>
 
@@ -116,17 +133,17 @@ export default function TemscoLandingPage() {
           <p className="text-base sm:text-lg md:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed mb-10 text-balance">
             주식회사 템스코(TEMSCO)는 고순도 박막 코팅 소재 기술력과 정밀 메탈마스크 역량을 결합하여 
             업계 유일의 <b className="text-white font-bold">&apos;소재-가공-코팅-세정&apos; 원스톱 솔루션</b>을 구축했습니다.<br className="hidden sm:inline" />
-            삼성·LG디스플레이 및 글로벌 패널사의 핵심 1차 협력사로 퀀텀점프합니다.
+            LG디스플레이 1차 벤더 확정과 중국 판매를 기반으로 사업을 확대하며, 삼성디스플레이와는 가격 협상을 진행 중입니다.
           </p>
 
           {/* Call to Actions */}
           <div className="flex flex-wrap items-center justify-center gap-4 mb-14">
             <Link
-              href="/temsco/deck"
+              href="/temsco/deck-v4"
               className="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-black text-base shadow-xl shadow-blue-600/30 hover:shadow-blue-500/50 hover:scale-[1.03] active:scale-95 transition flex items-center gap-3"
             >
               <i className="fa-solid fa-file-powerpoint text-lg"></i>
-              투자제안서 슬라이드 보기
+              4안 투자제안서 슬라이드 보기
               <i className="fa-solid fa-arrow-right text-sm"></i>
             </Link>
 
@@ -135,7 +152,7 @@ export default function TemscoLandingPage() {
               className="px-6 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white font-bold text-sm transition flex items-center gap-2.5"
             >
               <i className="fa-solid fa-code-compare text-slate-400"></i>
-              초기 원본 보기
+              1안 투자제안서 보기
             </Link>
 
             <a
@@ -145,30 +162,30 @@ export default function TemscoLandingPage() {
               className="px-6 py-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 text-slate-200 hover:text-white font-bold text-sm transition flex items-center gap-2.5"
             >
               <i className="fa-solid fa-file-code text-slate-400"></i>
-              단일 HTML 파일
+              2안 HTML 파일
             </a>
           </div>
 
           {/* Quick Metrics Bar */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             <div className="bg-slate-900/70 border border-slate-800 p-4 rounded-xl text-center backdrop-blur-xs">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">2026E 매출액</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">4안 · 2026E 별도 매출</p>
               <p className="text-2xl sm:text-3xl font-black text-blue-400">400억 원</p>
-              <p className="text-[11px] text-emerald-400 font-semibold mt-1">흑자전환 (OP 39.5억)</p>
+              <p className="text-[11px] text-emerald-400 font-semibold mt-1">영업이익 41.52억 · 회사 계획</p>
             </div>
             <div className="bg-slate-900/70 border border-slate-800 p-4 rounded-xl text-center backdrop-blur-xs">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">2029E 목표 실적</p>
-              <p className="text-2xl sm:text-3xl font-black text-white">700억 원</p>
-              <p className="text-[11px] text-blue-300 font-semibold mt-1">영업이익률 11.3%</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">4안 · 2029E 연결 매출</p>
+              <p className="text-2xl sm:text-3xl font-black text-white">832.86억 원</p>
+              <p className="text-[11px] text-blue-300 font-semibold mt-1">영업이익 155.90억 · 회사 계획</p>
             </div>
             <div className="bg-slate-900/70 border border-slate-800 p-4 rounded-xl text-center backdrop-blur-xs">
-              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">글로벌 벤더 지위</p>
-              <p className="text-2xl sm:text-3xl font-black text-indigo-400">Tier-1</p>
-              <p className="text-[11px] text-slate-300 font-semibold mt-1">삼성·LG·비전옥스 직납</p>
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">고객별 공급 단계</p>
+              <p className="text-2xl sm:text-3xl font-black text-indigo-400">LG Tier-1</p>
+              <p className="text-[11px] text-slate-300 font-semibold mt-1">중국 판매 · 삼성 가격 협상</p>
             </div>
             <div className="bg-slate-900/70 border border-slate-800 p-4 rounded-xl text-center backdrop-blur-xs">
               <p className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">투자 유치 목표</p>
-              <p className="text-2xl sm:text-3xl font-black text-amber-400">30~50억</p>
+              <p className="text-2xl sm:text-3xl font-black text-amber-400">70억 원</p>
               <p className="text-[11px] text-slate-300 font-semibold mt-1">라인 증설 &amp; 원소재 확보</p>
             </div>
           </div>
@@ -200,9 +217,9 @@ export default function TemscoLandingPage() {
             <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
               <i className="fa-solid fa-globe"></i>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">글로벌 Top-tier 1차 벤더(Tier-1) 직납 승격</h3>
+            <h3 className="text-lg font-bold text-white mb-2">LG 1차 벤더 확정 및 고객별 공급 확대</h3>
             <p className="text-sm text-slate-300 leading-relaxed break-keep">
-              기존 2차 벤더 간접 납품 구조에서 탈피하여 <b>삼성디스플레이, LG디스플레이, 미국 AMAT, eMagin, 중국 CSOT 및 비전옥스(Visionox)</b> 등에 1차 벤더 등록을 완료하고 2026년부터 본격 양산 공급을 개시했습니다.
+              <b>LG디스플레이 1차 벤더 등록을 확정</b>하고 중국 고객 대상 판매를 진행하고 있습니다. <b>삼성디스플레이는 가격 협상 중</b>이며, 고객별 공급 단계에 맞춰 사업을 확대하고 있습니다.
             </p>
           </div>
 
@@ -222,9 +239,9 @@ export default function TemscoLandingPage() {
             <div className="w-12 h-12 rounded-xl bg-blue-600/20 border border-blue-500/30 flex items-center justify-center text-blue-400 text-xl mb-4 group-hover:bg-blue-600 group-hover:text-white transition">
               <i className="fa-solid fa-chart-pie"></i>
             </div>
-            <h3 className="text-lg font-bold text-white mb-2">2025년 잠재 부실 완전 해소 &amp; 퀀텀점프 실적</h3>
+            <h3 className="text-lg font-bold text-white mb-2">4안 재무자료 기반 별도·연결 실적 전망</h3>
             <p className="text-sm text-slate-300 leading-relaxed break-keep">
-              2025년 결산 시 회생 관련 채권 <b>약 80억 원을 전액 대손상각 처리하여 부실을 100% 선반영(Clean Sheet)</b>했습니다. 2026년 매출 400억 흑자 전환을 시작으로 2027년 520억, 2029년 700억 원(OPM 11.3%, OP 78.9억)을 실현합니다.
+              2025년 채권 손상 손실 반영. <b>2026E 별도 매출 400.00억·영업이익 41.52억 / 연결 매출 414.63억·영업이익 13.30억.</b> 2029E 연결 매출 832.86억·영업이익 155.90억의 회사 계획.
             </p>
           </div>
         </div>
@@ -235,8 +252,8 @@ export default function TemscoLandingPage() {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
             <span className="text-xs font-black text-blue-400 uppercase tracking-widest bg-blue-950/60 px-3 py-1 rounded border border-blue-800/60">Pitch Deck Slides</span>
-            <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">슬라이드 목차 및 바로가기</h2>
-            <p className="text-sm text-slate-400 mt-1">총 11개 슬라이드로 구성된 전체 투자제안서를 목차별로 열람할 수 있습니다.</p>
+            <h2 className="text-2xl sm:text-3xl font-black text-white mt-2">4안 슬라이드 목차 및 바로가기</h2>
+            <p className="text-sm text-slate-400 mt-1">본문 {v4MainChapters.length}개 장·별첨 · 전체 목차 1장 · 간지 {v4Chapters.length}장 · 총 {v4Slides.length}페이지</p>
           </div>
 
           {/* Filter Pills */}
@@ -245,7 +262,7 @@ export default function TemscoLandingPage() {
               onClick={() => setActiveTab('all')}
               className={`text-xs font-bold px-3 py-1.5 rounded-lg transition ${activeTab === 'all' ? 'bg-blue-600 text-white' : 'text-slate-400 hover:text-white'}`}
             >
-              전체 ({slideList.length})
+              전체 ({v4Slides.length})
             </button>
             <button
               onClick={() => setActiveTab('highlights')}
@@ -272,16 +289,22 @@ export default function TemscoLandingPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {filteredSlides.map((slide) => (
             <Link
-              key={slide.num}
-              href="/temsco/deck"
+              key={slide.id}
+              href={`/temsco/deck-v4?slide=${slide.num}`}
+              data-v4-slide-link={slide.id}
               className="bg-slate-900/50 hover:bg-slate-900 border border-slate-800 hover:border-blue-500/60 p-4 rounded-xl transition flex items-start gap-3.5 group shadow-xs hover:shadow-md"
             >
               <div className="w-10 h-10 rounded-lg bg-blue-600/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-sm font-bold flex-shrink-0 group-hover:bg-blue-600 group-hover:text-white transition">
                 {slide.num}
               </div>
               <div className="flex-1 min-w-0">
+                {(slide.kind === 'contents' || slide.kind === 'divider') && (
+                  <span className="inline-block mb-1 text-[10px] font-bold tracking-wider text-blue-400">
+                    {slide.kind === 'contents' ? '전체 목차' : slide.chapterId === 'appendix' ? '별첨 · 간지' : `CHAPTER ${v4Chapters.find(chapter => chapter.id === slide.chapterId)?.num} · 간지`}
+                  </span>
+                )}
                 <div className="flex items-center justify-between gap-2">
-                  <h4 className="text-sm font-bold text-white group-hover:text-blue-300 transition truncate">
+                  <h4 className="text-sm font-bold text-white group-hover:text-blue-300 transition break-keep leading-snug">
                     {slide.title}
                   </h4>
                   <i className="fa-solid fa-arrow-right text-xs text-slate-600 group-hover:text-blue-400 group-hover:translate-x-0.5 transition"></i>
@@ -296,14 +319,14 @@ export default function TemscoLandingPage() {
 
         {/* View Full Deck Big CTA */}
         <div className="mt-8 text-center bg-gradient-to-r from-blue-900/30 via-slate-900 to-indigo-900/30 border border-blue-800/40 p-6 rounded-2xl">
-          <h3 className="text-lg font-bold text-white mb-2">11개 전체 슬라이드를 고화질 프레젠테이션으로 확인하세요</h3>
+          <h3 className="text-lg font-bold text-white mb-2">4안의 {v4Slides.length}개 전체 슬라이드를 고화질 프레젠테이션으로 확인하세요</h3>
           <p className="text-xs text-slate-400 mb-5">A4 가로 비율 완벽 지원, 브라우저 슬라이드 모드 및 1클릭 PDF 인쇄 다운로드 제공</p>
           <Link
-            href="/temsco/deck"
+            href="/temsco/deck-v4"
             className="inline-flex items-center gap-2.5 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm shadow-lg shadow-blue-600/30 hover:scale-105 active:scale-95 transition"
           >
             <i className="fa-solid fa-desktop"></i>
-            투자제안서 슬라이드 전체 보기 (Deck Viewer)
+            4안 투자제안서 전체 보기 (Deck Viewer)
           </Link>
         </div>
       </section>
@@ -319,11 +342,11 @@ export default function TemscoLandingPage() {
           <div className="flex flex-wrap gap-4 text-slate-400">
             <Link href="/" className="hover:text-white transition">포트폴리오 홈</Link>
             <span>•</span>
-            <Link href="/temsco/deck" className="hover:text-white transition font-semibold text-blue-400">투자제안서 슬라이드</Link>
+            <Link href="/temsco/deck-v4" className="hover:text-white transition font-semibold text-blue-400">4안 투자제안서</Link>
             <span>•</span>
-            <Link href="/temsco/original" className="hover:text-white transition">초기 원본</Link>
+            <Link href="/temsco/original" className="hover:text-white transition">1안 투자제안서</Link>
             <span>•</span>
-            <a href="/temsco/index.html" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">단일 HTML 원문</a>
+            <a href="/temsco/index.html" target="_blank" rel="noopener noreferrer" className="hover:text-white transition">2안 HTML 원문</a>
           </div>
         </div>
         <div className="max-w-6xl mx-auto mt-6 pt-6 border-t border-slate-900 text-center text-slate-600 text-[11px]">

@@ -9,7 +9,7 @@ export default function TemscoOriginalPage() {
   return (
     <div className="min-h-screen bg-slate-900 print:bg-white print:min-h-0 print:block flex flex-col font-sans text-slate-800">
       <Head>
-        <title>주식회사 템스코 (TEMSCO) - IR 투자제안서 (Original)</title>
+        <title>주식회사 템스코 (TEMSCO) - 1안 투자제안서</title>
         <meta name="description" content="주식회사 템스코(TEMSCO) IR 자료 슬라이드 (Original 버전)" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
@@ -153,9 +153,9 @@ export default function TemscoOriginalPage() {
           </Link>
           <div className="h-4 w-px bg-slate-600" />
           <div className="flex items-center gap-2">
-            <span className="bg-amber-600 text-xs px-2.5 py-0.5 rounded font-black tracking-wider uppercase">Original Deck</span>
+            <span className="bg-amber-600 text-xs px-2.5 py-0.5 rounded font-black tracking-wider uppercase">VERSION 01</span>
             <h1 className="text-sm md:text-base font-bold text-white hidden sm:block">
-              주식회사 템스코 투자제안서 <span className="text-amber-400 text-xs font-normal">[초기 원본]</span>
+              주식회사 템스코 투자제안서 <span className="text-amber-400 text-xs font-normal">[1안]</span>
             </h1>
           </div>
         </div>
@@ -167,10 +167,10 @@ export default function TemscoOriginalPage() {
               href="/temsco/deck"
               className="text-xs font-medium px-3 py-1.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition"
             >
-              Latest (수정본)
+              2안 투자제안서
             </Link>
             <span className="text-xs font-bold px-3 py-1.5 rounded-md bg-amber-600 text-white shadow-sm">
-              Original (초기본)
+              1안 투자제안서
             </span>
           </div>
 
@@ -204,9 +204,9 @@ export default function TemscoOriginalPage() {
               <i className="fa-solid fa-clock-rotate-left"></i>
             </div>
             <div>
-              <h3 className="font-bold text-sm text-slate-100">수정 전 초기 원본(Original) 프레젠테이션 뷰</h3>
+              <h3 className="font-bold text-sm text-slate-100">1안 투자제안서</h3>
               <p className="text-xs text-slate-400 mt-0.5">
-                최신 수정본을 확인하시려면 상단 메뉴바의 <b>[Latest (수정본)]</b> 네임칩을 클릭하세요.
+                2안을 확인하시려면 상단 메뉴바의 <b>[2안 투자제안서]</b> 네임칩을 클릭하세요.
               </p>
             </div>
           </div>

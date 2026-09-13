@@ -116,8 +116,8 @@ export default function TemscoDeckPage() {
   return (
     <div className="min-h-screen bg-slate-950 print:bg-white print:min-h-0 print:block flex flex-col font-sans text-slate-800">
       <Head>
-        <title>주식회사 템스코 (TEMSCO) - IR 투자제안서 슬라이드</title>
-        <meta name="description" content="주식회사 템스코(TEMSCO) IR 자료 슬라이드 및 PDF 다운로드" />
+        <title>주식회사 템스코 (TEMSCO) - 2안 투자제안서</title>
+        <meta name="description" content="주식회사 템스코(TEMSCO) 2안 투자제안서 슬라이드 및 PDF 다운로드" />
         <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
         <style>{`
@@ -269,7 +269,7 @@ export default function TemscoDeckPage() {
             href="/temsco"
             className="text-xs font-bold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 hover:text-white transition flex items-center gap-1.5 border border-slate-700 shadow-sm"
           >
-            <span>←</span> 템스코 소개
+            <span>←</span> 템스코 소개 · 2안
           </Link>
           <div className="h-4 w-px bg-slate-700" />
           
@@ -328,7 +328,7 @@ export default function TemscoDeckPage() {
             href="/temsco/original"
             className="text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition hidden sm:inline-block"
           >
-            초기 원본
+            1안 투자제안서
           </Link>
 
           <button

@@ -1,0 +1,947 @@
+{
+  "sourceFiles": {
+    "X01": {
+      "name": "모회사_자회사_연결_추정손익_양식_2023-2030_v2.xlsx",
+      "sha256": "0df20dafe5e4f3e229c94f6918c1e1b48d1cc85c7f53b1bf6d02cecada7a6613"
+    },
+    "X02": {
+      "name": "비상장주식_DCF평가_모델(템스코)_수정.xlsx",
+      "sha256": "166d778aa982ebe588226ea43ef34116630d8885f5efe3dd6e559bdef6d9d8db"
+    },
+    "X03": {
+      "name": "위폼스_추정손익.xlsx",
+      "sha256": "e35c743a121c55b1df8484a290278b922fc60dbf42a8edd37ac61ece694adde6"
+    },
+    "X04": {
+      "name": "템스코_추정손익  _20260908_최종.xlsx",
+      "sha256": "e5db8a90003f98522bdcee8a91e41fb81944e519df3cf00b301e8634a06e5486"
+    }
+  },
+  "entities": {
+    "parent": {
+      "income": [
+        {
+          "year": 2024,
+          "status": "reported",
+          "revenue": 398.58957704,
+          "cogs": 358.17076609,
+          "grossProfit": 40.41881095,
+          "sga": 19.84086453,
+          "sgaSalary": 9.13927002,
+          "ebit": 20.57794642,
+          "nonOperatingNet": 0.51213544,
+          "ebt": 21.09008186,
+          "tax": 4.96600138,
+          "netIncome": 16.12408048,
+          "source": "X01 모회사!E21"
+        },
+        {
+          "year": 2025,
+          "status": "reported",
+          "revenue": 350.58443364,
+          "cogs": 312.74265735,
+          "grossProfit": 37.84177629,
+          "sga": 89.74316408,
+          "sgaSalary": 12.77062518,
+          "ebit": -51.90138779,
+          "nonOperatingNet": -31.00569448,
+          "ebt": -82.90708227,
+          "tax": 0.78338542,
+          "netIncome": -83.69046769,
+          "source": "X01 모회사!H21"
+        },
+        {
+          "year": 2026,
+          "status": "companyForecast",
+          "revenue": 400.0,
+          "cogs": 332.0,
+          "grossProfit": 68.0,
+          "sga": 26.481599517200003,
+          "sgaSalary": 13.2814501872,
+          "ebit": 41.5184004828,
+          "nonOperatingNet": -9.8609243,
+          "ebt": 31.657476182799996,
+          "tax": 6.964644760215999,
+          "netIncome": 24.692831422584,
+          "source": "X01 모회사!K21"
+        },
+        {
+          "year": 2027,
+          "status": "companyForecast",
+          "revenue": 590.87117851,
+          "cogs": 490.4230781632999,
+          "grossProfit": 100.44810034670006,
+          "sga": 32.284636987438,
+          "sgaSalary": 13.812708194688,
+          "ebit": 68.16346335926205,
+          "nonOperatingNet": -9.8609243,
+          "ebt": 58.30253905926206,
+          "tax": 12.826558593037653,
+          "netIncome": 45.4759804662244,
+          "source": "X01 모회사!N21"
+        },
+        {
+          "year": 2028,
+          "status": "companyForecast",
+          "revenue": 686.8728421200001,
+          "cogs": 570.1044589596002,
+          "grossProfit": 116.7683831604,
+          "sga": 35.73718690547552,
+          "sgaSalary": 14.365216522475523,
+          "ebit": 81.0311962549245,
+          "nonOperatingNet": -9.8609243,
+          "ebt": 71.17027195492449,
+          "tax": 15.657459830083386,
+          "netIncome": 55.5128121248411,
+          "source": "X01 모회사!Q21"
+        },
+        {
+          "year": 2029,
+          "status": "companyForecast",
+          "revenue": 744.28744844,
+          "cogs": 617.7585822052,
+          "grossProfit": 126.52886623480003,
+          "sga": 37.74716072437454,
+          "sgaSalary": 14.939825183374543,
+          "ebit": 88.7817055104255,
+          "nonOperatingNet": -9.8609243,
+          "ebt": 78.92078121042549,
+          "tax": 17.36257186629361,
+          "netIncome": 61.55820934413188,
+          "source": "X01 모회사!T21"
+        }
+      ],
+      "balance2025": {
+        "assets": 349.23696613,
+        "liabilities": 328.16208641,
+        "equity": 21.07487972,
+        "cash": 34.4008417,
+        "interestBearingDebt": 196.59259192,
+        "netDebt": 162.19175022
+      },
+      "capex": [
+        {
+          "year": 2026,
+          "amount": 110.0
+        },
+        {
+          "year": 2027,
+          "amount": 5.0
+        },
+        {
+          "year": 2028,
+          "amount": 5.0
+        },
+        {
+          "year": 2029,
+          "amount": 0.0
+        }
+      ]
+    },
+    "subsidiary": {
+      "income": [
+        {
+          "year": 2024,
+          "status": "reported",
+          "revenue": 92.60937083,
+          "cogs": 68.99998368,
+          "grossProfit": 23.60938715,
+          "sga": 8.38249348,
+          "sgaSalary": 7.49018045,
+          "ebit": 15.22689367,
+          "nonOperatingNet": 0.11522669,
+          "ebt": 15.34212036,
+          "tax": 0,
+          "netIncome": 15.34212036,
+          "source": "X01 자회사!C21"
+        },
+        {
+          "year": 2025,
+          "status": "reported",
+          "revenue": 125.81202964,
+          "cogs": 130.17749367,
+          "grossProfit": -4.36546403,
+          "sga": 13.54879791,
+          "sgaSalary": 9.17725512,
+          "ebit": -17.91426194,
+          "nonOperatingNet": -1.85587141,
+          "ebt": -19.77013335,
+          "tax": 0,
+          "netIncome": -19.77013335,
+          "source": "X01 자회사!D21"
+        },
+        {
+          "year": 2026,
+          "status": "companyForecast",
+          "revenue": 140.0,
+          "cogs": 155.95163681,
+          "grossProfit": -15.95163681,
+          "sga": 12.27070817,
+          "sgaSalary": 9.45257277,
+          "ebit": -28.22234498,
+          "nonOperatingNet": -2.0764654,
+          "ebt": -30.29881038,
+          "tax": null,
+          "netIncome": -30.29881038,
+          "source": "X01 자회사!E21"
+        },
+        {
+          "year": 2027,
+          "status": "companyForecast",
+          "revenue": 216.31075070422534,
+          "cogs": 190.48140472,
+          "grossProfit": 25.82934598422535,
+          "sga": 13.98630244,
+          "sgaSalary": 9.73614995,
+          "ebit": 11.84304354422535,
+          "nonOperatingNet": -2.0764654,
+          "ebt": 9.76657814422535,
+          "tax": null,
+          "netIncome": 9.76657814422535,
+          "source": "X01 자회사!F21"
+        },
+        {
+          "year": 2028,
+          "status": "companyForecast",
+          "revenue": 292.1013260563381,
+          "cogs": 237.00379884,
+          "grossProfit": 55.09752721633808,
+          "sga": 15.70064263,
+          "sgaSalary": 10.02823445,
+          "ebit": 39.39688458633808,
+          "nonOperatingNet": -2.0764654,
+          "ebt": 37.32041918633808,
+          "tax": 8.210492220994379,
+          "netIncome": 29.109926965343703,
+          "source": "X01 자회사!G21"
+        },
+        {
+          "year": 2029,
+          "status": "companyForecast",
+          "revenue": 367.675276056338,
+          "cogs": 283.13466165,
+          "grossProfit": 84.54061440633804,
+          "sga": 17.41968024,
+          "sgaSalary": 10.32908148,
+          "ebit": 67.12093416633805,
+          "nonOperatingNet": -2.0764654,
+          "ebt": 65.04446876633804,
+          "tax": 14.30978312859437,
+          "netIncome": 50.73468563774367,
+          "source": "X01 자회사!H21"
+        }
+      ],
+      "balance2025": {
+        "assets": 182.65242992,
+        "liabilities": 129.48569643,
+        "equity": 53.16673349,
+        "cash": 0.30716499,
+        "interestBearingDebt": 73.21160738,
+        "netDebt": 72.90444239
+      },
+      "capex": [
+        {
+          "year": 2026,
+          "amount": 2.5
+        },
+        {
+          "year": 2027,
+          "amount": 11.5
+        },
+        {
+          "year": 2028,
+          "amount": 0.0
+        },
+        {
+          "year": 2029,
+          "amount": 0.0
+        }
+      ]
+    },
+    "consolidated": {
+      "income": [
+        {
+          "year": 2024,
+          "status": "reported",
+          "revenue": 403.24731206,
+          "cogs": 339.41971396,
+          "grossProfit": 63.8275981,
+          "sga": 28.22335801,
+          "sgaSalary": 16.62945047,
+          "ebit": 35.60424009,
+          "nonOperatingNet": 0.62736213,
+          "ebt": 36.23160222,
+          "tax": 4.96600138,
+          "netIncome": 31.26560084,
+          "source": "X01 연결!I23"
+        },
+        {
+          "year": 2025,
+          "status": "reported",
+          "revenue": 342.61655569,
+          "cogs": 310.7093045,
+          "grossProfit": 31.90725119,
+          "sga": 105.14830399,
+          "sgaSalary": 21.9478803,
+          "ebit": -73.2410528,
+          "nonOperatingNet": -14.21679571,
+          "ebt": -87.45784851,
+          "tax": 0.78338542,
+          "netIncome": -88.24123393,
+          "source": "X01 연결!M23"
+        },
+        {
+          "year": 2026,
+          "status": "companyForecast",
+          "revenue": 414.62759896,
+          "cogs": 362.57923577,
+          "grossProfit": 52.04836319,
+          "sga": 38.7523076872,
+          "sgaSalary": 22.734022957200004,
+          "ebit": 13.296055502799996,
+          "nonOperatingNet": -11.9373897,
+          "ebt": 1.3586658027999974,
+          "tax": 6.964644760215999,
+          "netIncome": -5.605978957416002,
+          "source": "X01 연결!Q23"
+        },
+        {
+          "year": 2027,
+          "status": "companyForecast",
+          "revenue": 605.3136652142254,
+          "cogs": 479.03621888329997,
+          "grossProfit": 126.27744633092537,
+          "sga": 46.270939427438,
+          "sgaSalary": 23.548858144688,
+          "ebit": 80.00650690348736,
+          "nonOperatingNet": -11.9373897,
+          "ebt": 68.06911720348737,
+          "tax": 12.826558593037653,
+          "netIncome": 55.24255861044971,
+          "source": "X01 연결!U23"
+        },
+        {
+          "year": 2028,
+          "status": "companyForecast",
+          "revenue": 737.2686911763382,
+          "cogs": 565.4027807996001,
+          "grossProfit": 171.86591037673813,
+          "sga": 51.43782953547552,
+          "sgaSalary": 24.39345097247552,
+          "ebit": 120.4280808412626,
+          "nonOperatingNet": -11.9373897,
+          "ebt": 108.4906911412626,
+          "tax": 23.867952051077765,
+          "netIncome": 84.62273909018484,
+          "source": "X01 연결!Y23"
+        },
+        {
+          "year": 2029,
+          "status": "companyForecast",
+          "revenue": 832.863696496338,
+          "cogs": 621.7942158551999,
+          "grossProfit": 211.06948064113814,
+          "sga": 55.16684096437454,
+          "sgaSalary": 25.268906663374544,
+          "ebit": 155.9026396767636,
+          "nonOperatingNet": -11.9373897,
+          "ebt": 143.9652499767636,
+          "tax": 31.67235499488798,
+          "netIncome": 112.29289498187563,
+          "source": "X01 연결!AC23"
+        }
+      ],
+      "balance2025": {
+        "assets": 423.91401621,
+        "liabilities": 389.54333077,
+        "equity": 34.37068544,
+        "cash": 34.70800669,
+        "interestBearingDebt": 269.8041993,
+        "netDebt": 235.09619261
+      },
+      "capex": [
+        {
+          "year": 2026,
+          "amount": 112.5
+        },
+        {
+          "year": 2027,
+          "amount": 16.5
+        },
+        {
+          "year": 2028,
+          "amount": 5.0
+        },
+        {
+          "year": 2029,
+          "amount": 0.0
+        }
+      ]
+    }
+  },
+  "assetPools": {
+    "parent": {
+      "land": 100.91660492,
+      "building": 19.0552723,
+      "equipment": 40.27961256,
+      "finiteIntangible": 0.23041607
+    },
+    "subsidiary": {
+      "equipment": 93.92622107,
+      "finiteIntangible": 0.36612304,
+      "cip": 0.00924
+    }
+  },
+  "depreciationProxy": [
+    {
+      "year": 2026,
+      "parent": 14.21078992,
+      "subsidiary": 25.34955315
+    },
+    {
+      "year": 2027,
+      "parent": 14.71078992,
+      "subsidiary": 26.49955315
+    },
+    {
+      "year": 2028,
+      "parent": 15.21078992,
+      "subsidiary": 26.49955315
+    },
+    {
+      "year": 2029,
+      "parent": 15.21078992,
+      "subsidiary": 26.49955315
+    }
+  ],
+  "growthAssetPlan": [
+    {
+      "company": "parent",
+      "year": 2026,
+      "assetClass": "land",
+      "cost": 60.0
+    },
+    {
+      "company": "parent",
+      "year": 2026,
+      "assetClass": "building",
+      "cost": 50.0
+    },
+    {
+      "company": "parent",
+      "year": 2027,
+      "assetClass": "equipment",
+      "cost": 5.0
+    },
+    {
+      "company": "parent",
+      "year": 2028,
+      "assetClass": "equipment",
+      "cost": 5.0
+    },
+    {
+      "company": "subsidiary",
+      "year": 2026,
+      "assetClass": "equipment",
+      "cost": 2.5
+    },
+    {
+      "company": "subsidiary",
+      "year": 2027,
+      "assetClass": "equipment",
+      "cost": 11.5
+    }
+  ],
+  "ownership": {
+    "parent": 0.75,
+    "nci": 0.25,
+    "source": "사용자 제공 / 2026-09-13 / 템스코의 위폼스 지분율"
+  },
+  "market": {
+    "wacc": {
+      "currency": "KRW",
+      "inputs": {
+        "governmentYield": 0.0439,
+        "governmentObservationDate": "2026-09-07",
+        "sovereignDefaultSpread": 0.003930214513416281,
+        "countryRiskPremium": 0.00610950087834357,
+        "countryRiskObservationDate": "2026-07-01",
+        "countryRiskCorrectionDate": "2026-07-09",
+        "riskFreeAdjusted": 0.03996978548658372,
+        "matureErp": 0.0414,
+        "erpObservationDate": "2026-09-01",
+        "erpSelectionStatus": "analyst implementation of current NYU country-risk convention applied to September impliedERP; not realized historicalERP",
+        "countryRiskLambda": 1,
+        "lambdaStatus": "analyst proxy, company geographic exposure unverified",
+        "marginalTaxRate": 0.22,
+        "taxStatus": "general corporation normalized bracket2e8–20e9KRW; not actual annual tax-payment rate"
+      },
+      "industryProxies": [
+        {
+          "id": "electronics_general",
+          "name": "Electronics (General)",
+          "firmCount": 1481,
+          "unleveredBetaCashAdjusted": 1.57,
+          "debtToEquityMarket": 0.1417,
+          "observationDate": "2026-01",
+          "precision": "rounded values displayed by source HTML",
+          "fit": "electronic components broad proxy; display materials/metalmasks pure-play basket not established"
+        },
+        {
+          "id": "chemical_specialty",
+          "name": "Chemical (Specialty)",
+          "firmCount": 952,
+          "unleveredBetaCashAdjusted": 1.04,
+          "debtToEquityMarket": 0.2352,
+          "observationDate": "2026-01",
+          "precision": "rounded values displayed by source HTML",
+          "fit": "specialty materials broad proxy; physical metal distribution and manufacturing mix not identical"
+        }
+      ],
+      "debtProxies": [
+        {
+          "rating": "AA-",
+          "tenorYears": 10,
+          "yield": 0.05899,
+          "code": "7010123"
+        },
+        {
+          "rating": "BBB-",
+          "tenorYears": 10,
+          "yield": 0.11458,
+          "code": "7010213"
+        }
+      ],
+      "referenceCalculations": [
+        {
+          "id": "electronics_general_AA-",
+          "industry": "Electronics (General)",
+          "ratingExample": "AA-",
+          "betaL": 1.74352582,
+          "marketDebtEquity": 0.1417,
+          "equityWeight": 0.8758868354208637,
+          "debtWeight": 0.12411316457913638,
+          "ke": 0.11826125531292729,
+          "kdPretax": 0.05899,
+          "kdAfterTax": 0.0460122,
+          "wacc": 0.10929419642018683,
+          "notCompanyCreditRating": true
+        },
+        {
+          "id": "electronics_general_BBB-",
+          "industry": "Electronics (General)",
+          "ratingExample": "BBB-",
+          "betaL": 1.74352582,
+          "marketDebtEquity": 0.1417,
+          "equityWeight": 0.8758868354208637,
+          "debtWeight": 0.12411316457913638,
+          "ke": 0.11826125531292729,
+          "kdPretax": 0.11458,
+          "kdAfterTax": 0.0893724,
+          "wacc": 0.1146757680589711,
+          "notCompanyCreditRating": true
+        },
+        {
+          "id": "chemical_specialty_AA-",
+          "industry": "Chemical (Specialty)",
+          "ratingExample": "AA-",
+          "betaL": 1.23079424,
+          "marketDebtEquity": 0.2352,
+          "equityWeight": 0.8095854922279793,
+          "debtWeight": 0.1904145077720207,
+          "ke": 0.0970341679009273,
+          "kdPretax": 0.05899,
+          "kdAfterTax": 0.0460122,
+          "wacc": 0.08731884499751238,
+          "notCompanyCreditRating": true
+        },
+        {
+          "id": "chemical_specialty_BBB-",
+          "industry": "Chemical (Specialty)",
+          "ratingExample": "BBB-",
+          "betaL": 1.23079424,
+          "marketDebtEquity": 0.2352,
+          "equityWeight": 0.8095854922279793,
+          "debtWeight": 0.1904145077720207,
+          "ke": 0.0970341679009273,
+          "kdPretax": 0.11458,
+          "kdAfterTax": 0.0893724,
+          "wacc": 0.09557525613740876,
+          "notCompanyCreditRating": true
+        }
+      ],
+      "formulas": {
+        "rf": "governmentBondYield10y - sovereignDefaultSpread",
+        "betaL": "betaU_cash_adjusted * (1 + (1-taxRate)*marketDE)",
+        "ke": "rf + betaL*matureMarketERP + countryRiskLambda*countryRiskPremium",
+        "wacc": "ke/(1+marketDE) + kd*(1-taxRate)*marketDE/(1+marketDE)",
+        "terminalValue": "normalizedSustainableFCFF_next / terminalWACC; g=0"
+      },
+      "selectedModelConvention": {
+        "wacc": 0.1146757680589711,
+        "referenceId": "electronics_general_BBB-",
+        "selectionBy": "V4 model plan communicated by root on2026-09-13",
+        "status": "explicit broad-industry and public-rating borrowing-cost proxy; not TEMSCO actual credit rating or actual WACC",
+        "applySameRateAcrossScopes": true,
+        "sameRatePurpose": "hold market discount-rate convention constant while comparing standalone/consolidated cash-flow constructions; not proof of equal business risk",
+        "sensitivityAbsoluteShift": 0.015,
+        "sensitivityWaccValues": [
+          0.0996757680589711,
+          0.1146757680589711,
+          0.1296757680589711
+        ],
+        "sensitivityStatus": "analyst chosen ±1.5 percentage points; not confidence interval or observed market range"
+      },
+      "erpMethod": {
+        "usTreasury": 0.0475,
+        "usDefaultSpread": 0.0022,
+        "usExpectedEquityReturn": 0.0889,
+        "adjustedUsdRf": 0.0453,
+        "usTotalErpAdjustedRf": 0.0436,
+        "matureErpAfterUsRiskRemoval": 0.0414,
+        "directJulyMatureErpAlternative": 0.042,
+        "sourceDocumentationConflict": "July workbook FAQ subtracts default spread times relative equity volatility, whereas current country webpage and actual US workbook formula use default spread alone; selected convention must remain disclosed"
+      },
+      "unverifiedCompanyInputs": [
+        "pure peer beta and market capital structure",
+        "actual marginal borrowing spread/covenants/tenor",
+        "geographic country-risk exposure",
+        "tax shield timing and NOL usage",
+        "terminal capital structure"
+      ]
+    },
+    "industry": {
+      "industry": "Electronics (General)",
+      "region": "Global",
+      "firms": 1481,
+      "observationDate": "2026-01-05",
+      "aggregation": "sum of industry metric divided by sum of industry revenue, not arithmetic mean or median company ratio",
+      "ncwcToRevenue": 0.18422333239155061,
+      "ncwcCell": "wcdataGlobal.xls / Industry Averages!F37",
+      "ncwcDefinition": "(Current Assets - Cash) - (Current Liabilities - Short-Term Interest-Bearing Debt)",
+      "arToRevenue": 0.22660278612939705,
+      "inventoryToRevenue": 0.18182541047199252,
+      "apToRevenue": 0.25897565862293437,
+      "coreThreeAccountsRatioDerived": 0.1494525379784552,
+      "rdToRevenue": 0.04250308100037906,
+      "rdCell": "marginGlobal.xls / Industry Averages!P38",
+      "rdDefinition": "aggregated reported R&D costs / aggregated revenue",
+      "actualIndustryDevelopmentCapitalizationRate": null,
+      "capitalizationShare20PercentIfUsed": "separate analyst assumption, not industry observed capitalization rate",
+      "temScoActualRatiosEstablished": false,
+      "scopeFit": "broader electronic-component manufacturer proxy; weak standalone distributor mapping; replacing with V4 actual operating balances preferred when available",
+      "doubleCountGuards": [
+        "do not add total NCWC proxy to AR+inventory-AP",
+        "do not combine nonoperating cash or financing debt with operating NCWC",
+        "development spend and funding-use allocation must be reconciled; industry R&D is not identical to capitalized development"
+      ]
+    },
+    "tax": {
+      "effectiveDate": "2026-01-01",
+      "corporationScope": "general for-profit corporation, not special small-corporation rule",
+      "thresholdsKRW": [
+        200000000,
+        20000000000,
+        300000000000
+      ],
+      "nationalMarginalRates": [
+        0.1,
+        0.2,
+        0.22,
+        0.25
+      ],
+      "localMarginalRates": [
+        0.01,
+        0.02,
+        0.022,
+        0.025
+      ],
+      "combinedMarginalRates": [
+        0.11,
+        0.22,
+        0.242,
+        0.275
+      ],
+      "sourceIds": [
+        "NTS_TAX",
+        "LOCAL_TAX"
+      ],
+      "application": "progressive brackets by legal entity; source WACC tax22% is normalized bracket assumption; do not offset different legal entities losses against profits without evidence of eligible consolidated-tax treatment"
+    },
+    "dnp": {
+      "id": "dnp",
+      "name": "Dai Nippon Printing",
+      "ticker": "7912 / TSE",
+      "role": "main conditional historical cross-method reference",
+      "marketDate": "2026-03-31",
+      "balanceDate": "2026-03-31",
+      "earningsPeriod": "2025-04-01/2026-03-31",
+      "financialPublicationDate": "2026-06-23",
+      "currency": "JPY",
+      "amountUnit": "millions",
+      "inputs": {
+        "closePriceJPY": 2827.5,
+        "issuedShares": 439480692,
+        "treasuryShares": 8047828,
+        "shortTermBankLoans": 32964,
+        "currentPortionLongTermDebt": 6569,
+        "noncurrentLongTermDebt": 224029,
+        "financeLeaseCurrent": 5469,
+        "financeLeaseNoncurrent": 12696,
+        "financeLeaseTotal": 18165,
+        "interestBearingDebtIncludingFinanceLeases": 281727,
+        "NCIbook": 76602,
+        "cashAndCashEquivalents": 243565,
+        "revenue": 1512571,
+        "EBIT": 101039,
+        "depreciationAndAmortization": 52816,
+        "goodwillAmortizationSeparate": 1953
+      },
+      "calculated": {
+        "netShares": 431432864,
+        "marketCapitalizationJPYMillion": 1219876.42296,
+        "enterpriseValueJPYMillion": 1334640.42296,
+        "EBITDAJPYMillion": 155808,
+        "evEbit": 13.209161046328646,
+        "evEbitda": 8.565930009755597
+      },
+      "nonoperatingAssetsUnadjusted": {
+        "investmentSecuritiesBook": 179612,
+        "nonconsolidatedSubsidiariesAndAssociatedCompaniesBook": 218015,
+        "combinedBookNotDeducted": 397627,
+        "timeDepositsSeparateNotDeducted": 54570,
+        "netDefinedBenefitAssetNotDeducted": 255584,
+        "note": "앞의 두 잔액은 서로 다른 BS 계정. 영업외자산 공정가치·세금·제약 검토 전 장부값 임의 차감 금지. 397627 전체를 확정 처분가능 비영업가치로 주장하지 않음. 순수 영업가치 EV가 아니라 해당 투자잔액이 남은 단순 보고수치 기반 EV."
+      },
+      "businessMix": {
+        "externalRevenue": {
+          "smartCommunication": 748674,
+          "lifeAndHealthcare": 512093,
+          "electronics": 251804
+        },
+        "electronicsRevenueShare": 0.16647416881587707,
+        "electronicsSegmentIncome": 50702,
+        "electronicsSegmentMargin": 0.20135502216009277,
+        "warning": "FMM·포토마스크·광학필름 등을 포함하는 Electronics는 그룹 외부매출 16.65%; 그룹 EV를 이 부문의 영업이익으로 나누지 않음"
+      },
+      "nciStatus": "book-value proxy; market value unverified",
+      "leaseLimitations": {
+        "financeLeaseIncluded": 18165,
+        "undiscountedOperatingLeaseCommitmentsNotAdded": 26959,
+        "reason": "미할인 약정액은 현재 리스부채와 다른 개념. 일본기준 운영리스의 비용처리 및 해외 자회사 IFRS16/ASC842 혼재로 TEMSCO와 완전한 lease-neutral 비교 아님"
+      },
+      "temScoStandaloneFit": "low: diversified Japanese manufacturer versus parent specialty-metals distribution/coating; no pure standalone distribution multiple established",
+      "temScoConsolidatedFit": "limited: OLED mask technology overlaps, but DNP FMM is not a pure OMM/CVD-mask peer and Electronics only16.65% of group revenue",
+      "conditions": [
+        "Not a September13 or September8 current trading multiple",
+        "March31 quote combined with full-year results published afterward; historical reconstruction, not a multiple known on March31",
+        "Not a pure operating EV: investment securities179612 and affiliates218015 remain; do not call this fully normalized operating multiple",
+        "Apply to matching consolidated reported-basis or consistently fully-burdened EBIT, never to segment EBIT with group EV",
+        "Fixed future exit multiple is an analyst assumption; no automatic peer average or minimum/maximum fair value"
+      ]
+    },
+    "nano": {
+      "id": "nano",
+      "name": "나노신소재",
+      "ticker": "121600 / KOSDAQ",
+      "role": "alternative reference only, not optimistic-case bound",
+      "marketDate": "2026-09-08",
+      "balanceDate": "2026-06-30",
+      "earningsPeriod": "2025-07-01/2026-06-30",
+      "financialPublicationDate": "2026-08-14",
+      "currency": "KRW",
+      "amountUnit": "ones",
+      "price": {
+        "date": "2026-09-08",
+        "closeKRW": 46250,
+        "publishedMarketCapKRW": 567126333750,
+        "sourceId": "NANO_KRX",
+        "rawExchangeDateLabel": "2026-09-08 종가 기준"
+      },
+      "shares": {
+        "issuedReported": 12262191,
+        "treasuryReported": 220206,
+        "outstandingExTreasury": 12041985,
+        "reportedDate": "2026-06-30",
+        "issuedSharesImpliedBySep8KRXMarketCap": 12262191,
+        "equityValueExTreasuryKRW": 556941806250,
+        "sourceId": "NANO_SHARES",
+        "assumption": "9/8 시가총액/주가로 발행주식수 일치 확인. 자사주는 최신 반기 잔액 사용; 6/30 이후 변동 전체의 별도 확인 미완료. 계획상 소각·처분을 실제 실행으로 선반영하지 않음."
+      },
+      "financials": {
+        "FY2025": {
+          "revenueKRW": 111745369751,
+          "ebitKRW": 4681087390,
+          "netIncomeKRW": 1634979902,
+          "ebitdaKRW": null
+        },
+        "H1_2026": {
+          "revenueKRW": 69275114376,
+          "ebitKRW": 8095106964,
+          "netIncomeKRW": 12549263203,
+          "ebitdaKRW": null
+        },
+        "H1_2025": {
+          "revenueKRW": 51704915790,
+          "ebitKRW": 2139326727,
+          "netIncomeKRW": -1193421133,
+          "ebitdaKRW": null
+        },
+        "LTM": {
+          "revenueKRW": 129315568337,
+          "ebitKRW": 10636867627,
+          "netIncomeKRW": 15377664238,
+          "ebitdaKRW": null,
+          "periodStart": "2025-07-01",
+          "periodEnd": "2026-06-30",
+          "formula": "FY2025 + H1_2026 - H1_2025",
+          "ebitMargin": 0.08225512027507798
+        },
+        "sourceId": "NANO_FIN",
+        "ebitdaStatus": "완전한 LTM D&A 재구성 미수행; 임의 EBITDA 미산출"
+      },
+      "balance": {
+        "date": "2026-06-30",
+        "cashEquivalentsKRW": 73208146998,
+        "shortTermFinancialProductsKRW": 85830000000,
+        "bankBorrowingKRW": 10000000000,
+        "leaseCurrentKRW": 596061230,
+        "leaseNoncurrentKRW": 581225557,
+        "leaseTotalKRW": 1177286787,
+        "convertibleBondFaceKRW": 62000000000,
+        "bondWithWarrantsFaceKRW": 33500000000,
+        "convertibleBondCarryingKRW": 53419670733,
+        "bondWithWarrantsCarryingKRW": 28863854350,
+        "embeddedDerivativeLiabilitiesKRW": 14176306500,
+        "nciBookKRW": 0,
+        "nciBasis": "연결 자회사 4개 지분 각100%, 연결BS 비지배지분0",
+        "nonoperatingDerivativeAssetNotDeductedKRW": 35504440,
+        "conversionAndExercisePriceKRW": 109198,
+        "sourceId": "NANO_FIN"
+      },
+      "anchor": {
+        "metric": "EV / LTM EBIT",
+        "type": "market_price_with_reported_balance_proxy",
+        "equityValueKRW": 556941806250,
+        "debtFacePlusLeasesKRW": 106677286787,
+        "cashAndFinancialProductsDeductionKRW": 159038146998,
+        "netDebtKRW": -52360860211,
+        "enterpriseValueKRW": 504580946039,
+        "ltmEbitKRW": 10636867627,
+        "multiple": 47.4369865013833,
+        "formula": "(close × (issued − treasury) + bank borrowing + CB face + BW face + lease liabilities − cash − short-term financial products) / (FY2025 EBIT + H1_2026 EBIT − H1_2025 EBIT)",
+        "assumptions": [
+          "6/30 현금·채무 장부 기준 + 9/8 보통주 가격: 9/8 실제 대차대조표 재구성 아님",
+          "CB·BW 잔존 권면 총955억원을 채무 청구액 대용. 내재파생부채141.763065억원 별도 가산 제외: 권면 기준 브리지와 장부+파생 기준의 혼합·중복 회피",
+          "주가46,250원 < 전환·행사가109,198원. 현재 기준 채무 취급; 만기 주식전환 불가능 또는 옵션가치0 확정 아님",
+          "현금732.08146998억원+단기금융858.30억원 전액을 차감 가능한 초과·비영업자산으로 가정. 운영필수현금·제한예금·세금 별도 확인 미완료",
+          "자사주220,206주 차감: 거래소 발표 시총과 구분",
+          "시장 NCI가치0 가정 아님: 100% 지분 자회사와 BS NCI0 확인",
+          "TEMSCO에 적용할 비상장·규모·수익성·지배력 할인율 미확정. 임의할인·피어평균 산출 제외"
+        ]
+      },
+      "businessMix": {
+        "batteryCNT": 0.583,
+        "displayMaterials": 0.051,
+        "semiconductorCMP": 0.1,
+        "solarMaterials": 0.002,
+        "otherFunctionalMaterials": 0.264
+      },
+      "conditions": [
+        "CNT battery business58.3%; display materials5.1%; not a pure target or mask peer",
+        "Price is September8, cash/debt/treasury are June30 reports; not a reconstructed September8 balance sheet",
+        "Cash and short-term financial products assumed fully deductible excess assets; restrictions/operating needs unverified",
+        "CB/BW face principal used instead of carrying amount plus derivatives; do not add both",
+        "No complete LTM D&A; do not label EV/EBIT as EV/EBITDA",
+        "Fixed future application not a market forecast or TEMSCO fair-value multiple"
+      ]
+    },
+    "sources": [
+      {
+        "id": "KIS_20260907",
+        "title": "KIS YTM Matrix, Sep 7 2026",
+        "url": "https://www.bond.co.kr/conts/10075"
+      },
+      {
+        "id": "KIS_CROSSCHECK",
+        "title": "KIS Weekly 1202, Sep 4 2026",
+        "url": "https://www.bond.co.kr/post/dawn/36898"
+      },
+      {
+        "id": "NYU_ERP_SEP",
+        "title": "Damodaran current ERP, Sep 1 2026",
+        "url": "https://pages.stern.nyu.edu/adamodar/New_Home_Page/home.htm"
+      },
+      {
+        "id": "NYU_CRP_JUL",
+        "title": "Damodaran Country Risk Premiums, Jul 2026 correctedJul9",
+        "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/ctrypremJuly26.xlsx"
+      },
+      {
+        "id": "NYU_BETA_GLOBAL",
+        "title": "Damodaran Betas by Sector (Global), Jan2026",
+        "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/datafile/BetasGlobal.html"
+      },
+      {
+        "id": "NYU_METHOD",
+        "title": "Damodaran valuation formulas and country risk treatment",
+        "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/Seminars/postseminar.html"
+      },
+      {
+        "id": "NYU_DEFINITIONS",
+        "title": "Damodaran Financial measures & ratios",
+        "url": "https://pages.stern.nyu.edu/~adamodar/New_Home_Page/definitions.html"
+      },
+      {
+        "id": "NTS_TAX",
+        "title": "국세청 법인세 세율(2026년 이후)",
+        "url": "https://www.nts.go.kr/nts/cm/cntnts/cntntsView.do?cntntsId=7746"
+      },
+      {
+        "id": "LOCAL_TAX",
+        "title": "안양시 2026년 달라지는 지방세",
+        "url": "https://www.anyang.go.kr/main/contents.do?key=482"
+      },
+      {
+        "id": "jpx_march",
+        "title": "JPX/TSE Stock Quotations — March 2026",
+        "url": "https://www.jpx.co.jp/markets/statistics-equities/price/t13vrt000000xpuw-att/st_202603-2.pdf"
+      },
+      {
+        "id": "dnp_fy",
+        "title": "DNP Detailed Consolidated Financial Statements, March 31, 2026 and 2025, with independent auditors report",
+        "url": "https://www.global.dnp/content/dam/dnp-global/pdf/en/ir/library/consolidated/dnp_e_FinancialStatements_2025.pdf"
+      },
+      {
+        "id": "NANO_FIN",
+        "title": "나노신소재 반기보고서 재무에 관한 사항",
+        "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814001307&dcmNo=11529630&eleId=17&offset=236675&length=3568920&dtd=dart4.xsd"
+      },
+      {
+        "id": "NANO_SHARES",
+        "title": "나노신소재 주식의 총수 등",
+        "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814001307&dcmNo=11529630&eleId=7&offset=41013&length=70266&dtd=dart4.xsd"
+      },
+      {
+        "id": "NANO_BIZ",
+        "title": "나노신소재 사업의 내용",
+        "url": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814001307&dcmNo=11529630&eleId=9&offset=127170&length=109501&dtd=dart4.xsd"
+      },
+      {
+        "id": "NANO_KRX",
+        "title": "KIND 나노신소재 시세",
+        "url": "https://kind.krx.co.kr/common/stockprices.do?isurCd=12160&method=searchStockPricesMain"
+      },
+      {
+        "id": "NYU_NCWC",
+        "title": "NYU_NCWC",
+        "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/wcdataGlobal.xls"
+      },
+      {
+        "id": "NYU_RD",
+        "title": "NYU_RD",
+        "url": "https://pages.stern.nyu.edu/~adamodar/pc/datasets/marginGlobal.xls"
+      }
+    ]
+  }
+}
