@@ -98,7 +98,7 @@ export default function AcquisitionSynergySlide() {
       <p><b className="text-slate-800">배부 기준</b> · 템스코 원재료: 소재부문 총이익률 {(model.materialMargin * 100).toFixed(0)}% 적용 · 템스코 판관비: 매출비례 · 위폼스 원가·판관비: 고객별 매출비례(템스코향 {(model.subsidiaryShare * 100).toFixed(2)}%)</p>
       <p><b className="text-amber-800">대사 필요</b> · 원재료 거래 {money(source.rawMaterialSales)} vs 위폼스 직접재료비 {money(source.subsidiary.directMaterialCost)} · 차이 {money(model.materialReconciliationGap)}의 재고·원가 구분 미확인 · 내부재고 미실현이익 조정 명세 미제공</p>
       <p><b className="text-slate-800">해석 범위</b> · ② 템스코: 마스크부문 전체 / 위폼스: 템스코향 매출 · 동일 제품별 원가 추적 및 인수 전후 증분이익과 구분 · 합계: 반올림 전 기준</p>
-      <p className="text-slate-400 mt-1">출처: 템스코 추정손익 L7:L20·M7:N13 / 위폼스 추정손익 G5:G22 / 연결 양식 ‘연결조정 내역’ G7·G9, ‘연결’ N10:Q34</p>
+      <p className="text-slate-400 mt-1">출처: 양사 추정손익 및 연결 손익·내부거래 조정 자료</p>
     </div>
   </div>
 }

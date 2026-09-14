@@ -1,0 +1,13 @@
+{
+  "unit": "KRW",
+  "sources": {
+    "income": "X01 모회사 H18·H26",
+    "balanceSheet": "X02 재무상태표(T) E76·C76·E64·C64"
+  },
+  "equity2024": 10476534741,
+  "equity2025": 2107487972,
+  "debt2024": 33365618448,
+  "debt2025": 32816208641,
+  "operatingBadDebt2025": 6369547050,
+  "nonOperatingBadDebt2025": 450000000
+}

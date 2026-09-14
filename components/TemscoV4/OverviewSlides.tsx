@@ -1,4 +1,5 @@
 import Frame from './CorporateSlideFrame'
+import capital from './capitalSource.json'
 import styles from './OverviewSlides.module.css'
 
 export type OverviewSlideId = 'investment-highlights' | 'company-overview' | 'business-synergy'
@@ -18,7 +19,7 @@ const highlights = [
   },
   {
     number: '04', title: '별도·연결 실적 회복 및 성장 계획',
-    lines: ['2025년 채권 손상에 따른 손실 반영', '2026E 영업이익 회복 및 2029E 매출 확대 계획', '4안 제공 재무제표 기준 · 별도·연결 수치 구분'],
+    lines: ['2025년 채권 손상에 따른 손실 반영', '2026E 영업이익 회복 및 2029E 매출 확대 계획', '회사 제공 재무제표 기준 · 별도·연결 수치 구분'],
   },
 ]
 
@@ -31,7 +32,7 @@ const businesses = [
 const milestones = [
   { date: '2010.10', title: '회사 설립', lines: ['고순도 박막 소재 기반', '2010–2023년 사업 기반 구축'] },
   { date: '2024.03', title: '위폼스 인수', lines: ['인수가격 90억 원', '정밀 메탈마스크 제조 역량 결합'] },
-  { date: '2025.12', title: '채권 손상 결산 반영', lines: ['기존 설명 기준 미회수 채권 80억 원', '전액 대손상각 반영'] },
+  { date: '2025.12', title: '채권 손상 결산 반영', lines: [`별도 총 대손비용 ${((capital.operatingBadDebt2025 + capital.nonOperatingBadDebt2025) / 100_000_000).toFixed(2)}억 원`, '영업·영업외 대손비용 합계'] },
   { date: '2026.01–', title: '고객사 직접 판매 확대', lines: ['LG 1차 벤더 직납 · 중국 판매', '삼성 공급 가격 협상 진행'] },
 ]
 
@@ -40,7 +41,7 @@ function Highlights() {
     title="핵심 투자 하이라이트"
     section="01 / INVESTMENT OVERVIEW"
     subtitle="소재·부품 역량 결합 · 직접 판매 확대 · 별도·연결 실적 회복 계획"
-    note={<>사업·고객 현황: 회사 제공 설명 기준. 재무 수치: 4안 제공 재무제표 · 단위: 억 원 · E: 회사 전망.</>}
+    note={<>사업·고객 현황: 회사 제공 설명 기준. 재무 수치: 회사 제공 재무제표 · 단위: 억 원 · E: 회사 전망.</>}
   >
     <div className={styles.highlightsLayout} data-overview-slide="investment-highlights">
       <div className={styles.highlightRows}>
@@ -83,7 +84,7 @@ function Company() {
     title="회사 개요 및 기술 리더십"
     section="01 / INVESTMENT OVERVIEW"
     subtitle="고순도 박막 소재 기반 · 정밀부품 제조 역량 확장 · 기술 국산화 성과"
-    note={<>수상: 한국산업기술진흥협회 명예의전당 · 세부 분야·공적 및 사업 연혁: 회사 제공. 채권 손상 연혁의 80억 원: 기존 설명 기준.</>}
+    note={<>수상: 한국산업기술진흥협회 명예의전당 · 세부 분야·공적 및 사업 연혁: 회사 제공. 대손비용: 회사 제공 별도 손익계산서의 영업·영업외 비용 합계 · 고객별 귀속 미분리.</>}
   >
     <div className={styles.companyLayout} data-overview-slide="company-overview">
       <div className={styles.companyTop}>

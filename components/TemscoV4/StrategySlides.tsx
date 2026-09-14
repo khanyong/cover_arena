@@ -1,21 +1,28 @@
 import Frame from './CorporateSlideFrame'
+import capital from './capitalSource.json'
 import styles from './StrategySlides.module.css'
 
 export type StrategySlideId = 'risk-resolution' | 'growth-pipeline' | 'use-of-proceeds'
 
 const colors = { navy: '#0f2746', blue: '#2563eb', slate: '#64748b', loss: '#b42332', grid: '#e2e8f0' }
 
+const eok = (value: number) => value / 100_000_000
+const amount = (value: number) => eok(value).toFixed(2)
+const badDebt = capital.operatingBadDebt2025 + capital.nonOperatingBadDebt2025
+const afterBadDebt = capital.equity2024 - badDebt
+const otherNetDecrease = afterBadDebt - capital.equity2025
+
 function CapitalChart() {
   const y = (amount: number) => 287 - amount / 120 * 240
   const steps = [
-    { x: 80, start: 0, end: 104.7, value: '104.7', label: '2024 자본총계', color: colors.navy },
-    { x: 209, start: 104.7, end: 36.5, value: '−68.2', label: '대손상각비', color: colors.loss },
-    { x: 338, start: 36.5, end: 21.1, value: '−15.4', label: '기타·지분법 등', color: colors.loss },
-    { x: 467, start: 0, end: 21, value: '21.0', label: '2025 자본총계', color: colors.blue },
+    { x: 80, start: 0, end: eok(capital.equity2024), value: amount(capital.equity2024), label: '2024 자본총계', color: colors.navy },
+    { x: 209, start: eok(capital.equity2024), end: eok(afterBadDebt), value: `−${amount(badDebt)}`, label: '총 대손비용', color: colors.loss },
+    { x: 338, start: eok(afterBadDebt), end: eok(capital.equity2025), value: `−${amount(otherNetDecrease)}`, label: '기타 순변동', color: colors.loss },
+    { x: 467, start: 0, end: eok(capital.equity2025), value: amount(capital.equity2025), label: '2025 자본총계', color: colors.blue },
   ]
   return <svg viewBox="0 0 590 339" className={styles.capitalChart} role="img" aria-labelledby="v4-capital-chart-title v4-capital-chart-desc">
     <title id="v4-capital-chart-title">2024~2025년 자본총계 및 주요 변동 금액</title>
-    <desc id="v4-capital-chart-desc">단위 억 원. 2024년 자본총계 104.7, 대손상각비 감소 68.2, 기타·지분법 등 감소 15.4, 2025년 자본총계 21.0. 표시 변동 항목의 합산과 기말 자본총계 간 0.1억 원 차이, 원본 세부 조정내역 확인 전.</desc>
+    <desc id="v4-capital-chart-desc">단위 억 원. 2024 자본 {amount(capital.equity2024)}, 총 대손비용 {amount(badDebt)}, 기타 순감소 {amount(otherNetDecrease)}, 2025 자본 {amount(capital.equity2025)}. 반올림 전 금액으로 연결 계산.</desc>
     {[0, 30, 60, 90, 120].map(tick => <g key={tick}>
       <path d={`M43 ${y(tick)} H573`} stroke={tick === 0 ? '#94a3b8' : colors.grid} />
       <text x="32" y={y(tick) + 4} textAnchor="end" fontSize="11" fill={colors.slate}>{tick}</text>
@@ -31,20 +38,20 @@ function CapitalChart() {
 
 function RiskResolution() {
   return <Frame section="04 / BUSINESS & GROWTH" title="채권 손상 및 재무구조 변화" subtitle="2025년 채권손상 반영 · 자본총계 감소 원인 및 고객사 직접 공급 전환"
-    note={<>출처: 기존 투자제안서의 회사 설명 및 재무 요약 · 표시 변동 항목 합계와 기말 자본총계 간 0.1억 원 차이 · 원본 세부 조정내역 확인 전</>}>
+    note={<>출처: 회사 제공 별도 손익계산서·재무상태표 · 기타 순변동: 자본 감소액−총 대손비용 · 반올림 전 계산, 표시 합계 차이 0.01억</>}>
     <div className={styles.risk}>
       <div className={styles.capital}>
         <div className={styles.panelHeading}><h3>자본총계 및 주요 변동</h3><span>단위: 억 원</span></div>
         <CapitalChart />
         <div className={styles.debtStrip}>
-          <div><span>총부채</span><strong>333 <i>→</i> 328<small>억 원</small></strong><p>2024 → 2025</p></div>
-          <div><span>2025 부채비율</span><strong>1,557<small>%</small></strong><p>자본총계 감소에 따른 비율 상승</p></div>
+          <div><span>총부채</span><strong>{amount(capital.debt2024)} <i>→</i> {amount(capital.debt2025)}<small>억 원</small></strong><p>2024 → 2025</p></div>
+          <div><span>2025 부채비율</span><strong>{(capital.debt2025 / capital.equity2025 * 100).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}<small>%</small></strong><p>자본총계 감소에 따른 비율 상승</p></div>
         </div>
       </div>
       <div className={styles.factColumn}>
         <div className={styles.fact}>
           <span className={styles.factNumber}>01</span>
-          <div><h3>채권 회수 불확실성</h3><p>2025년 9월 파인원 부도 발생</p><p>약 75억 원 채권 중 68.2억 원 대손상각 반영</p><p className={styles.secondary}>회사 설명: 제품 불량과 구분 · 고객사 상장 준비 및 선행투자 관련 유동성 문제</p></div>
+          <div><h3>채권 회수 불확실성</h3><p>2025년 9월 파인원 부도 발생</p><p>2025년 별도 총 대손비용 {amount(badDebt)}억 원</p><p className={styles.secondary}>영업 {amount(capital.operatingBadDebt2025)}억 + 영업외 {amount(capital.nonOperatingBadDebt2025)}억 · 고객별 귀속 미분리</p></div>
         </div>
         <div className={styles.fact}>
           <span className={styles.factNumber}>02</span>
@@ -69,7 +76,7 @@ const pipelineRows = [
 
 function GrowthPipeline() {
   return <Frame section="04 / BUSINESS & GROWTH" title="주요 고객사별 공급 현황" subtitle="LG 1차 벤더 직접 판매 · 중국 고객 판매 · 삼성 가격 협상 및 신규 고객 공급 확대"
-    note={<>출처: 기존 투자제안서 및 회사 제공 고객 진행 현황 · YMC와의 경쟁 및 삼성 1차 벤더 진입: 회사 제공 추진 현황, 선정·수주 확정 아님 · 비전옥스 물량 30% 및 일정: 회사 기재 기준</>}>
+    note={<>출처: 회사 제공 고객 진행 현황 · YMC와의 경쟁 및 삼성 1차 벤더 진입: 회사 제공 추진 현황, 선정·수주 확정 아님 · 비전옥스 물량 30% 및 일정: 회사 기재 기준</>}>
     <div className={styles.pipeline}>
       <div className={styles.pipelineLabel}><h3>고객별 공급 범위 및 진행 단계</h3><span>현재 상태와 향후 협의 사항 구분</span></div>
       <table className={styles.pipelineTable} aria-label="주요 고객사별 공급 현황 및 진행 단계">
@@ -94,7 +101,7 @@ const allocations = [
 
 function UseOfProceeds() {
   return <Frame section="07 / FUNDING & INVESTOR EXIT" title="투자 유치 및 자금 활용 계획" subtitle="재무구조 개선 및 2026–2027년 수주 대응 · 투자기관별 투자 구조 및 세부 조건 협의"
-    note={<>출처: 기존 투자제안서 자금 조달 계획 · 조달·배분 금액: 제안 기준 · 비중 반올림 · 투자수단·조건 및 회계상 자본·부채 분류: 계약 조건별 검토</>}>
+    note={<>출처: 회사 제공 자금 조달 계획 · 조달·배분 금액: 제안 기준 · 비중 반올림 · 투자수단·조건 및 회계상 자본·부채 분류: 계약 조건별 검토</>}>
     <div className={styles.funding}>
       <div className={styles.allocationOverview}>
         <div className={styles.fundingLead}><span>목표 조달 금액</span><strong>70<small>억 원</small></strong><p>성장 재원 확보</p></div>

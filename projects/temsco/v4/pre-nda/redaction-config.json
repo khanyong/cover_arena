@@ -1,7 +1,7 @@
 {
-  "edition": "v4-full-40-public-first-five-blur-4",
+  "edition": "v4-final-20260914-investor-editorial",
   "source": "projects/temsco/v4/pre-nda/source/approved-v4.pdf",
-  "sourceSha256": "1fcb2d54ec440e7b84baa4489527d3578044f6060c80f2a557cb6a15ec66f1ad",
+  "sourceSha256": "ab8b687ad48926c551e00f31494fcb292b8eb46bb118fa62587d4a8bbe536fc0",
   "pageCount": 40,
   "financialPages": [
     4,

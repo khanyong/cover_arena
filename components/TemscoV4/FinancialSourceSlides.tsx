@@ -56,8 +56,7 @@ function Frame({ title, subtitle, children, notes, cells }: {
     <div data-valuation-body className="flex-1 min-h-0">{children}</div>
     <div className="shrink-0 border-t border-slate-200 pt-2 mt-3 pr-10 text-[11px] leading-[1.5] text-slate-600" data-financial-source-notes data-valuation-notes>
       {notes}
-      <p className="mt-1 text-[10.5px] text-slate-500">출처: {source.sources.X01.nameNFC} (X01)</p>
-      <p className="text-[10.5px] text-slate-500">셀: {cells}</p>
+      <p className="mt-1 text-[10.5px] text-slate-500">출처: 회사 제공 모회사·자회사·연결 추정손익</p>
     </div>
   </div>
 }

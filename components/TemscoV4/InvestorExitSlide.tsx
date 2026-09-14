@@ -50,7 +50,6 @@ function ReturnSummary({ route, color }: { route: 'ipo' | 'sale'; color: string 
     <p className="text-[10px] text-slate-500 font-bold">회수대금·예상 순이익</p>
     <p className="text-[24px] font-black mt-2" style={{ color }}>산정 보류</p>
     <p className="text-[12px] text-slate-600 mt-2">OMM 비교기업 배수 확인 필요</p>
-    <p className="text-[11px] text-slate-500 mt-1">기존 DNP 기반 금액·MOIC·IRR 적용 철회</p>
   </div>
   return <div data-exit-return={route} className="pl-5 border-l border-slate-200">
     <p className="text-[10px] text-slate-500 font-bold">투자자 총 회수대금 <span className="font-normal">· 비용 차감 전</span></p>
@@ -67,7 +66,7 @@ function TransactionAssumptionsTable({ route }: { route: 'ipo' | 'sale' }) {
     { label: '지분가치', value: isIpo ? low.ipo && high.ipo ? `상장 후 시가총액 ${range(low.ipo.listingMarketCap, high.ipo.listingMarketCap)}억` : '상장 후 시가총액 · 산정 보류' : low.sale && high.sale ? `회사 100% 지분가치 ${range(low.sale.ownerEquity, high.sale.ownerEquity)}억` : '회사 100% 지분가치 · 산정 보류' },
     { label: '거래구조', value: isIpo ? '신주 공모 후 지분 20% 가정 · 공모금액 보류' : 'SI / PE 등 · 보유지분 전량 매각' },
     { label: '투자자 지분', value: isIpo ? `IPO 후 ${percent(postIpoInvestorShare)}` : `매각 대상 ${percent(preIpoInvestorShare)}` },
-    { label: '적용배수', value: 'OMM 비교기업 재검토 · DNP 전사 배수 제외' },
+    { label: '적용배수', value: 'OMM 비교기업 배수 산정 중' },
     { label: '실행조건', value: isIpo ? '상장심사·수요예측·보유제한 해제 후 매각' : '매수자 실사·가격 합의·양도제한 해소' },
   ]
   return <div className="pr-5" data-exit-assumptions={route}>
@@ -82,7 +81,7 @@ function TransactionAssumptionsTable({ route }: { route: 'ipo' | 'sale' }) {
       </tr>)}</tbody>
     </table>
     <p className={`text-[10px] leading-[1.4] mt-1 ${isIpo ? 'text-slate-500' : 'text-amber-800 font-medium'}`}>
-      {isIpo ? '동일 주당 발행가액 · 공모 비중 가정 유지' : '거래가격 미확정 · 원금손실 가능성 포함'}
+      {isIpo ? '동일 주당 발행가액 · 공모 비중 가정' : '거래가격 미확정 · 원금손실 가능성 포함'}
     </p>
   </div>
 }
@@ -139,9 +138,9 @@ export default function InvestorExitSlide() {
     <div data-exit-notes className="shrink-0 border-t border-slate-200 pt-2 mt-2 pr-8 text-[10px] leading-[1.5] text-slate-500">
       <p>¹ 연결 지배주주 DCF 중도값 적용 · ² 후속 조달 누적 희석 20%·추가 납입 없음. 연도·공모비중·비용·옵션 가격률: 분석가 가정.</p>
       <p>회수 지분가치 = 정상 연결 EBIT × 배수 − 순차입금 235.10 − 위폼스 지분가치 × 25%. {terminalCashFlowYear} 정상 EBIT {range(low.normalizedGroupEbit, high.normalizedGroupEbit)}억: 회수연도까지 유지 가정(g=0).</p>
-      <p>배수 재선정: 핌스 우선의 OMM 비교기업 검토. DNP 기반 IPO·매각 금액 및 할인배수의 적용 철회. Buy-back: 회사가치와 독립된 계약 가격 가정.</p>
+      <p>비교기업: 핌스 우선의 OMM 사업 기준. Buy-back: 회사가치와 독립된 계약 가격 가정.</p>
       <p>IPO 신주대금: 회사 유입·시가총액 가산, 발행비용 0 가정. 경로별 중복 회수 제외·투자자 세금 미반영. 옵션: 5년 가격 기준, 지급시점 수익률 변동·범위 밖 손실 가능.</p>
-      <p>근거: 4안 DCF·OMM 비교기업 검토 · <a className="underline" href="https://www.krx.co.kr/contents/LST/04/04010102/LST04010102.jsp" target="_blank" rel="noreferrer">한국거래소</a> · <a className="underline" href="https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1031455411" target="_blank" rel="noreferrer">상법 제341조·제341조의4·제345조</a> / 2026.09.13 확인 · 미상장 및 미매각 시 옵션 선택·회사 소각/RCPS 상환 요건 별도</p>
+      <p>근거: DCF·OMM 비교기업 검토 · <a className="underline" href="https://www.krx.co.kr/contents/LST/04/04010102/LST04010102.jsp" target="_blank" rel="noreferrer">한국거래소</a> · <a className="underline" href="https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1031455411" target="_blank" rel="noreferrer">상법 제341조·제341조의4·제345조</a> / 2026.09.13 확인 · 미상장 및 미매각 시 옵션 선택·회사 소각/RCPS 상환 요건 별도</p>
     </div>
   </div>
 }

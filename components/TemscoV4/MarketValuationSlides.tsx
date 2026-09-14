@@ -35,7 +35,7 @@ function Frame({ kind, title, subtitle, children, notes, sources }: {
     <div data-valuation-body className="flex-1 min-h-0">{children}</div>
     <div className="shrink-0 mt-3 pt-2 border-t border-slate-200 text-[11px] leading-[1.5] text-slate-600" data-market-valuation-notes data-valuation-notes>
       {notes}
-      <p className="mt-1 text-slate-500">출처: {sources} · 원자료 재조회 2026.09.13</p>
+      <p className="mt-1 text-slate-500">출처: {sources} · 자료 기준 2026.09.13</p>
     </div>
   </div>
 }
@@ -74,7 +74,7 @@ function WaccSlide() {
   return <Frame kind="wacc" title="시장지표 기반 할인율 산정" subtitle="원화 명목 FCFF · 글로벌 전자부품 업종과 국내 회사채 수익률의 대용치 조합 · 최신 시장가와 구분"
     notes={<>
       <p><b>¹ ERP 정합성</b> · 미국 국채 4.75% 대비 내재 ERP 4.14% → 무위험 조정 기준 4.36% → 미국 위험 0.22% 차감 · 성숙시장 ERP 4.14% 채택</p>
-      <p><b>방법 한계</b> · NYU 웹·실제 수식 기준의 분석가 적용 · 7월 FAQ의 변동성 배수 방식과 차이 · 한국 위험의 Rf 차감 및 CRP 1회 가산</p>
+      <p><b>국가위험 반영</b> · 무위험수익률에서 국가부도스프레드 차감 · 자기자본비용에 국가위험프리미엄 1회 가산</p>
       <p><b>² 세율 범위</b> · 일반법인 과표 2억 초과–200억 원 구간 · 실제 연도별 납부세율과 구분 · 손실 법인의 즉시 절세효과 미확정</p>
     </>}
     sources={<><SourceLink id="KIS_20260907">KIS</SourceLink> · <SourceLink id="NYU_BETA_GLOBAL">NYU β</SourceLink> / <SourceLink id="NYU_ERP_SEP">ERP</SourceLink> / <SourceLink id="NYU_CRP_JUL">CRP</SourceLink> · <SourceLink id="NTS_TAX">국세청</SourceLink> / <SourceLink id="LOCAL_TAX">지방세</SourceLink></>}>

@@ -25,9 +25,9 @@ function Table({ headers, rows, compact = false, tight = false }: { headers: str
 }
 function Note({ title, children }: { title: string; children: ReactNode }) { return <div className="border-l-[3px] border-blue-500 pl-4 py-1"><h3 className="text-[14px] font-bold mb-1">{title}</h3><div className="text-[12px] leading-[1.65] text-slate-600">{children}</div></div> }
 function Stat({ label, value, detail, color = blue }: { label: string; value: string; detail: string; color?: string }) { return <div className="border-t-[3px] pt-4" style={{ borderColor: color }}><p className="text-[13px] font-bold">{label}</p><p className="text-[43px] font-black tabular-nums my-1" style={{ color }}>{value}<span className="text-[17px] ml-1">억</span></p><p className="text-[11px] text-slate-500">{detail}</p></div> }
-const sourceFoot = '회사 재무: 4안 X01 연결 손익, X02 재무상태표, X03·X04 추정손익·CAPEX / 2024~2025 회사 제공 과거자료, 2026~2029 회사 계획 / 최종 표시만 반올림'
-const terminalFoot = '2030 이후 정상상태 가정: 2029말 손익 정상화·반복 재투자 유지 / 회사 Excel의 2030~2031 손익 입력 미사용'
-const baseFoot = '평가기준일 2026.09.13 / 2026~2029 4개 연도 · 2026 잔여 109/365, 연말 할인 / 2025말 순차입금 유지 대용 / g=0 / 보유지분 75%·NCI 25%: 사용자 제공'
+const sourceFoot = '회사 재무: 회사 제공 연결 손익·재무상태표·양사 추정손익 및 설비투자 계획 / 2024~2025 회사 제공 과거자료, 2026~2029 회사 계획 / 최종 표시만 반올림'
+const terminalFoot = '2030 이후 정상상태 가정: 2029말 손익 정상화·반복 재투자 유지'
+const baseFoot = '평가기준일 2026.09.13 / 2026~2029 4개 연도 · 2026 잔여 109/365, 연말 할인 / 2025말 순차입금 유지 대용 / g=0 / 보유지분 75%·NCI 25%: 회사 제공'
 const lastRow = (valuation: EntityValuation) => valuation.rows[valuation.rows.length - 1]
 const terminalYear = base.parent.terminalYear
 const stableYear = base.parent.terminalCashFlowYear
@@ -74,12 +74,12 @@ function Fcff({ entity }: { entity: 'parent' | 'consolidated' }) {
 }
 export default function ValuationSlide({ kind }: { kind: ValuationSlideKind }) {
   if (kind === 'parent-fcff' || kind === 'consolidated-fcff') return <Fcff entity={kind === 'parent-fcff' ? 'parent' : 'consolidated'}/>
-  if (kind === 'overview') return <Frame title="기업가치 평가 체계 및 지분가치 비교" subtitle="3안의 DCF·멀티플·시나리오 구조 활용 / 4안 Excel 재무수치 신규 적용" note={<>{baseFoot}<br/>신규 투자 유입 전 가치 / 순차입금·운전자본·상각 대용치 반영 참고평가 / 공정가치 확정 또는 투자조건 제시와 구분</>}>
+  if (kind === 'overview') return <Frame title="기업가치 평가 체계 및 지분가치 비교" subtitle="별도·연결 DCF 및 보유지분을 반영한 기업가치 비교" note={<>{baseFoot}<br/>신규 투자 유입 전 가치 / 순차입금·운전자본·상각 대용치 반영 참고평가 / 공정가치 확정 또는 투자조건 제시와 구분</>}>
     <div className="grid grid-cols-2 gap-12"><Stat label="연결 DCF · 지배주주 지분가치" value={f(base.consolidatedEquity)} detail="그룹 영업가치 − 그룹 순차입금 − 위폼스 비지배지분"/><Stat label="별도 DCF + 위폼스 75% · SOTP" value={f(base.parentSotp)} detail="템스코 영업가치 − 별도 순차입금 + 위폼스 보유지분" color={teal}/></div>
     <svg viewBox="0 0 1000 208" className="w-full mt-2" role="img" aria-label="템스코의 위폼스 보유지분 75% 및 연결 가치 산출 체계"><defs><marker id="v4ownershiparrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10" fill={blue}/></marker></defs><rect x="10" y="20" width="275" height="132" rx="5" fill={navy}/><text x="35" y="53" fill="#93c5fd" fontSize="13">PARENT / STANDALONE</text><text x="35" y="89" fill="white" fontSize="24" fontWeight="800">템스코 영업 EV</text><text x="35" y="127" fill="white" fontSize="27">{f(base.parent.ev)}억</text><line x1="287" y1="78" x2="570" y2="78" stroke={blue} strokeWidth="3" markerEnd="url(#v4ownershiparrow)"/><text x="365" y="63" fontSize="19" fontWeight="800" fill={blue}>보유지분 75%</text><text x="342" y="108" fontSize="12" fill="#64748b">지분가치 {f(base.parentHolding)}억</text><rect x="584" y="20" width="300" height="132" rx="5" fill="#eff6ff" stroke="#93c5fd"/><text x="608" y="53" fill={teal} fontSize="13">SUBSIDIARY / 100% VALUE</text><text x="608" y="89" fill={navy} fontSize="24" fontWeight="800">위폼스 지분가치</text><text x="608" y="127" fill={navy} fontSize="27">{f(base.subsidiaryEquity)}억</text><text x="10" y="190" fill="#64748b" fontSize="14">연결 FCFF: 위폼스 100% 포함 / 연결 지분가치: 비지배지분 25% ({f(base.nci)}억) 차감</text></svg>
-    <div className="grid grid-cols-2 gap-7"><Note title={`평가 범위 차이 ${f(base.scopeGap)}억`} >내부거래 운전자본 제거에 따른 차이<br/>별도·연결 지분율 조정의 동일 기준 적용</Note><Note title="주요 검증 항목">원본 수치·평가일 대사 → FCFF·할인율 → 잔여가치<br/>시장배수 교차검토 → 민감도 → 70억 증자 효과</Note></div>
+    <div className="grid grid-cols-2 gap-7"><Note title={`평가 범위 차이 ${f(base.scopeGap)}억`} >내부거래 운전자본 제거에 따른 차이<br/>별도·연결 지분율 조정의 동일 기준 적용</Note><Note title="기업가치 평가 구성">재무자료·평가기준일 → FCFF·할인율 → 잔여가치<br/>시장배수 교차검토 → 민감도 → 70억 증자 효과</Note></div>
   </Frame>
-  if (kind === 'source') return <Frame sectionLabel="별첨 A.1 / FINANCIAL SOURCE" title="재무 원본 대사 및 평가 기준일" subtitle="원본 회사계획 · 원장 미확인 항목 · 평가 가정의 구분" note={<>{sourceFoot}<br/>자료ID: X01 모회사·자회사·연결 추정손익 양식 / X02 제공 DCF 파일 / X03 위폼스 추정손익 / X04 템스코 추정손익 20260908 최종</>}>
+  if (kind === 'source') return <Frame sectionLabel="별첨 A.1 / FINANCIAL SOURCE" title="재무 원본 대사 및 평가 기준일" subtitle="원본 회사계획 · 원장 미확인 항목 · 평가 가정의 구분" note={<>{sourceFoot}</>}>
     <Table headers={['2026E 손익 원본', '템스코 별도', '위폼스 별도', '연결']} rows={[
       {label:'매출액',values: [base.parent,base.subsidiary,base.consolidated].map(v=>f(v.rows[0].sourceRevenue))},
       {label:'회사 영업이익',values:[base.parent,base.subsidiary,base.consolidated].map(v=>f(v.rows[0].sourceEbit)),strong:true},
@@ -87,13 +87,13 @@ export default function ValuationSlide({ kind }: { kind: ValuationSlideKind }) {
       {label:'신규 모델 D&A',values:[base.parent,base.subsidiary,base.consolidated].map(v=>f(v.rows[0].modeledDa))},
       {label:'평가용 EBIT',values:[base.parent,base.subsidiary,base.consolidated].map(v=>f(v.rows[0].ebit)),strong:true},
     ]}/>
-    <div className="grid grid-cols-2 gap-x-8 gap-y-5 mt-2"><Note title="2025말 대차대조표 유지 가정">2026.09.13 순차입금: 별도 {f(base.parent.netDebt)}억 / 연결 {f(base.consolidated.netDebt)}억 대용<br/>기간 중 차입·현금·배당 변동 미반영</Note><Note title="제거 D&A의 제한">부모 제조상각: 2025 누계상각 증감 기반 대용치<br/>기존 무형상각 전체·PPA 내역 미확인</Note><Note title="연결 조정의 범위">2026 이후 제공 연결 영업이익 = 부모 + 자회사<br/>2025 추가 상각·R&D 조정 1.856342억의 반복 미반영</Note><Note title="원본 DCF 결과의 재산출">기존 2% 성장·13.74% 할인율·EV÷주식수 방식 대체<br/>g=0·시장 프록시 할인율·순차입금·NCI 차감 적용</Note></div>
+    <div className="grid grid-cols-2 gap-x-8 gap-y-5 mt-2"><Note title="2025말 대차대조표 유지 가정">2026.09.13 순차입금: 별도 {f(base.parent.netDebt)}억 / 연결 {f(base.consolidated.netDebt)}억 대용<br/>기간 중 차입·현금·배당 변동 미반영</Note><Note title="제거 D&A의 제한">부모 제조상각: 2025 누계상각 증감 기반 대용치<br/>기존 무형상각 전체·PPA 내역 미확인</Note><Note title="연결 조정의 범위">2026 이후 제공 연결 영업이익 = 부모 + 자회사<br/>일회성 연결조정의 전망기간 반복 반영 제외</Note><Note title="지분가치 산정 기준">영구성장률 0% · 시장지표 기반 할인율<br/>영업가치에서 순차입금·비지배지분 차감</Note></div>
   </Frame>
-  if (kind === 'assumptions') return <Frame sectionLabel="별첨 A.3 / REINVESTMENT ASSUMPTIONS" title="상각·재투자·운전자본 가정" subtitle="명시 추정: 2026~2029 회사계획 · 잔여가치: 2030 이후 정상 FCFF·영구무성장" note={<>X02 재무상태표(T/W): 2025말 자산 / X03 CAPEX_감가상각 / X04 CAPEX / NYU Global Electronics 2026.01.05<br/>{terminalFoot}<br/>개발비 추가지출·상각기간·미집행률·유지투자 중복 0%: 분석 가정 / 회사 회계정책 또는 확정 투자집행 내역과 구분</>}>
+  if (kind === 'assumptions') return <Frame sectionLabel="별첨 A.3 / REINVESTMENT ASSUMPTIONS" title="상각·재투자·운전자본 가정" subtitle="명시 추정: 2026~2029 회사계획 · 잔여가치: 2030 이후 정상 FCFF·영구무성장" note={<>양사 재무상태표: 2025말 자산 / 양사 설비투자·감가상각 계획 / NYU Global Electronics 2026.01.05<br/>{terminalFoot}<br/>개발비 추가지출·상각기간·미집행률·유지투자 중복 0%: 분석 가정 / 회사 회계정책 또는 확정 투자집행 내역과 구분</>}>
     <Table compact headers={['구분', '모델 입력', '적용 근거·판단']} rows={[
       {label:'기존 설비 / 신규 설비',values:['잔여 5년 / 내용연수 10년','정액법·잔존가치 0 · 신규 반기 상각']},
       {label:'건물 / 토지',values:['잔여·신규 40년 / 비상각','부모 건물 19.06억 · 토지 100.92억 기초']},
-      {label:'기초 설비 순장부액',values:['부모 40.28억 / 위폼스 93.93억','2025말 X02 유형자산 순액 대사']},
+      {label:'기초 설비 순장부액',values:['부모 40.28억 / 위폼스 93.93억','2025말 유형자산 순장부액 기준']},
       {label:'성장 CAPEX · 2026→2029',values:['연결 112.50 / 16.50 / 5.00 / 0.00','원본 연간계획 · 2026 전액 미집행 가정']},
       {label:'잔존기간 · 2030년 이후',values:['2029말 손익 정상화 · 영구성장률 0%','유지 CAPEX=D&A · 반복 개발비 · ΔNWC 0']},
       {label:'유지 CAPEX',values:['비개발 상각비 수준','성장투자와 대체·중복 0%의 보수적 가정']},
@@ -119,12 +119,12 @@ export default function ValuationSlide({ kind }: { kind: ValuationSlideKind }) {
     ]}/>
     <div className="grid grid-cols-2 gap-7"><Note title={`${stableYear} 정상화 계산`}>min({terminalYear} EBIT + 개발비 상각, {terminalYear} 매출 × 2028 회사 OPM)<br/>− 매년 반복 개발비 = 정상화 EBIT</Note><Note title="무성장 재투자 균형">비개발 상각 = 유지 CAPEX / 개발비 상각 = 반복 개발비<br/>ΔNWC = 0 / 성장 CAPEX = 0 / 정상 FCFF = NOPAT</Note></div>
   </Frame>
-  if (kind === 'methods') return <Frame title="DCF 가치 및 OMM 배수 검토" subtitle="DNP 전사 배수 적용 철회 · 핌스 우선의 OMM 비교기업 재선정 · 배수 가치 및 방법 간 격차 산정 보류" note={<>{baseFoot}<br/>OMM 비교기업의 동일 기준일 EV·LTM 매출·EBITDA 대사 필요 / EV/Sales 적용 시 사업별 매출·수익성 조정 / 소재 유통과 OMM 제조의 범위 구분</>}>
+  if (kind === 'methods') return <Frame title="DCF 가치 및 OMM 배수 검토" subtitle="핌스 우선의 OMM 비교기업 검토 · 배수 가치 및 방법 간 격차 산정 보류" note={<>{baseFoot}<br/>OMM 비교기업의 동일 기준일 EV·LTM 매출·EBITDA 대사 필요 / EV/Sales 적용 시 사업별 매출·수익성 조정 / 소재 유통과 OMM 제조의 범위 구분</>}>
     <div className="flex gap-7 text-[12px] font-bold"><span style={{color:blue}}>■ 무성장 DCF</span><span className="text-amber-700">OMM 배수 · 산정 보류</span></div>
     <ComparisonBars pairs={[{label:'연결 영업가치 EV',dcf:base.consolidated.ev,multiple:base.consolidated.multipleEv},{label:'연결 지배주주',dcf:base.consolidatedEquity,multiple:base.multipleConsolidatedEquity},{label:'별도 + 75% SOTP',dcf:base.parentSotp,multiple:base.multipleParentSotp}]}/>
-    <Note title="비교기업 재선정 기준">핌스 우선 · 풍원정밀·세우인코퍼레이션의 OMM 사업 비교<br/>영업적자 기업도 경쟁 분석에 포함 · 양의 EV/EBIT 산정과 제품 경쟁성의 구분</Note>
+    <Note title="비교기업 선정 기준">핌스 우선 · 풍원정밀·세우인코퍼레이션의 OMM 사업 비교<br/>영업적자 기업도 경쟁 분석에 포함 · 양의 EV/EBIT 산정과 제품 경쟁성의 구분</Note>
   </Frame>
-  if (kind === 'scenarios') return <Frame title="비관·중도·낙관 시나리오별 가치" subtitle={`${terminalYear}E 명시기간 말 손익 및 ${stableYear} 정상가치 비교 · 확률가중 또는 신뢰구간 미설정`} note={<>{baseFoot}<br/>2026 매출 공통 · 2026→2029 회사 매출증분의 75%/100%/115% 적용 · 원본 판관급여 고정·기타 현금비용 매출연동<br/>동일 기초 NWC · DNP 적용 철회로 배수 가치·격차 산정 보류 / DCF·상각·유지투자·개발비 계산 유지</>}>
+  if (kind === 'scenarios') return <Frame title="비관·중도·낙관 시나리오별 가치" subtitle={`${terminalYear}E 명시기간 말 손익 및 ${stableYear} 정상가치 비교 · 확률가중 또는 신뢰구간 미설정`} note={<>{baseFoot}<br/>2026 매출 공통 · 2026→2029 회사 매출증분의 75%/100%/115% 적용 · 원본 판관급여 고정·기타 현금비용 매출연동<br/>동일 기초 운전자본 적용 / OMM 비교기업 배수 미확정으로 배수 가치·격차 산정 보류</>}>
     <Table headers={['주요 입력·산출',...scenarioValuations.map(v=>v.scenario.label)]} compact rows={[
       {label:'회사 매출증분 실현율',values:scenarioValuations.map(v=>pct(v.scenario.growthCapture,0))},
       {label:'WACC / NWC 비율',values:scenarioValuations.map(v=>`${pct(v.scenario.wacc)} / ${pct(ncwcRatio*v.scenario.nwcFactor)}`)},

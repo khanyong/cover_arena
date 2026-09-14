@@ -33,8 +33,8 @@ export function OmmPeersSlide() {
     section="05 / VALUATION & INVESTMENT"
     subtitle="오픈 메탈 마스크 사업 기준 · 핌스 우선 비교 · 소재 경쟁군 별도 구분"
     note={<>
-      출처: <a href="https://pimskorea.com/product/pdt02.php">핌스 제품</a> · <a href="https://kind.krx.co.kr/external/2026/03/20/000786/20260320003100/11011.htm">핌스 공시</a> · <a href="https://kind.krx.co.kr/external/2024/11/14/002400/20241114005412/11013.htm">풍원정밀 공시</a> · <a href="https://www.sewooinc.com/en/company/history.php">세우 연혁</a> · <a href="https://www.cometnet.biz/cbiz0200010.asp">코멧 계열사</a> · <a href="https://kind.krx.co.kr/external/2026/03/13/002056/20260313005055/11011.htm">YMC 공시</a> · <a href="https://www.global.dnp/ir/library/presentation/pdf/dnp_e_25irday_pre_scr.pdf">DNP 사업 설명</a><br />
-      경쟁사 우선순위·삼성 소재 1차벤더 진입 전략: 회사 제공 · 세우: 공식 연혁 검색 확인 · 검토 기준: 2026.09.13
+      출처: <a href="https://pimskorea.com/product/pdt02.php">핌스 제품</a> · <a href="https://kind.krx.co.kr/external/2026/03/20/000786/20260320003100/11011.htm">핌스 공시</a> · <a href="https://kind.krx.co.kr/external/2024/11/14/002400/20241114005412/11013.htm">풍원정밀 공시</a> · <a href="https://www.sewooinc.com/en/company/history.php">세우 연혁</a> · <a href="https://www.cometnet.biz/cbiz0200010.asp">코멧 계열사</a> · <a href="https://kind.krx.co.kr/external/2026/03/13/002056/20260313005055/11011.htm">YMC 공시</a><br />
+      경쟁사 우선순위·삼성 소재 1차벤더 진입 전략: 회사 제공 · 검토 기준: 2026.09.13
     </>}
   >
     <div className="omm-peers" data-omm-peers-slide>
@@ -64,12 +64,12 @@ export function OmmPeersSlide() {
         </section>
 
         <section className="multiple-review">
-          <p className="eyebrow">MULTIPLE REVIEW · 적용 기준 재설정</p>
-          <h3>DNP 전사 EV/EBIT 적용 철회</h3>
+          <p className="eyebrow">MULTIPLE REVIEW · 배수 적용 기준</p>
+          <h3>OMM 비교기업 배수 검토</h3>
           <ol>
-            <li><span>01</span><div><strong>OMM 사업·재무 비교군 재구성</strong><p>핌스 우선 · 소재 부문 별도 비교</p></div></li>
+            <li><span>01</span><div><strong>OMM 사업·재무 비교기업 선정</strong><p>핌스 우선 · 소재 부문 별도 비교</p></div></li>
             <li><span>02</span><div><strong>검증된 양의 EV/EBIT 기준배수 미선정</strong><p>FMM·비관련 사업 및 일회성 손익 구분</p></div></li>
-            <li><span>03</span><div><strong>EV/Sales·EV/EBITDA 입력 대사 후 재산정</strong><p>동일 기준일·회계범위 · 양의 EBITDA 확인</p></div></li>
+            <li><span>03</span><div><strong>EV/Sales·EV/EBITDA 자료 검증 후 산정</strong><p>동일 기준일·회계범위 · 양의 EBITDA 확인</p></div></li>
           </ol>
         </section>
       </div>
