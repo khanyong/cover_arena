@@ -154,7 +154,7 @@ const contentSlides: Omit<V4Slide, 'num' | 'kind' | 'chapterId'>[] = [
   { id: 'valuation-consolidated-fcff', title: '연결 추정손익 및 FCFF', desc: '2026~2029 4개 연도·2026 잔여기간 연결 FCFF·잔여가치·EV 합산', category: 'financials', icon: 'fa-chart-line' },
   { id: 'valuation-terminal', title: '무성장 잔여가치 및 정상 이익', desc: '2029말 잔여가치·2030 정상 FCFF·g=0·유지투자', category: 'financials', icon: 'fa-chart-line' },
   { id: 'valuation-peers', title: 'OMM 경쟁사 및 비교기업 선정', desc: '핌스 우선·풍원정밀·세우인코퍼레이션, 소재 코멧·YMC 구분', category: 'financials', icon: 'fa-chart-line' },
-  { id: 'valuation-methods', title: 'DCF 가치 및 OMM 배수 검토', desc: 'DCF 유지·DNP 적용 철회·OMM 배수 및 가치 격차 산정 보류', category: 'financials', icon: 'fa-chart-line' },
+  { id: 'valuation-methods', title: 'DCF 가치 및 OMM 배수 검토', desc: 'DCF 가치·OMM 비교기업 배수 검토·방법별 가치 비교', category: 'financials', icon: 'fa-chart-line' },
   { id: 'valuation-scenarios', title: '비관·중도·낙관 시나리오별 가치', desc: '2029E 손익·2030 정상가치 및 비관·중도·낙관별 DCF·배수', category: 'financials', icon: 'fa-chart-line' },
   { id: 'valuation-sensitivity', title: '할인율·정상 이익·투자시점 민감도', desc: 'WACC·정상 이익 및 미집행 CAPEX 영향', category: 'financials', icon: 'fa-chart-line' },
   { id: 'valuation-equity', title: '영업가치·지분가치 연결 및 비지배지분', desc: '그룹 순차입금·NCI 차감, 별도 지분가치 합산', category: 'financials', icon: 'fa-chart-line' },
