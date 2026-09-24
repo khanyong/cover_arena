@@ -23,3 +23,19 @@ build/
 
 # Agent Scratch Files
 scratch/
+
+# Generated report bundle: served only after server-side authentication.
+/private/temsco/equity-report.json
+/private/temsco/equity-report.json.tmp
+
+# Private report authoring sources are backed up inside the encrypted artifact.
+/components/TemscoEquity/
+/components/TemscoEquityPrivate/
+/components/TemscoV5/ValuationSlideFrame.tsx
+/components/TemscoV5/CorporateSlideFrame.module.css
+/components/TemscoV5/AccountingValuationSlides.module.css
+/scripts/temsco/test-equity-model.mjs
+/scripts/temsco/test-equity-legal-model.mjs
+/scripts/temsco/test-equity-dividend-model.mjs
+/scripts/temsco/test-equity-reassessment-model.mjs
+/scripts/temsco/fixtures/equity-workbook-calculations.json

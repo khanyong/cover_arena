@@ -3,5 +3,10 @@
   "pdfHash": "0ab52815faae0179c56c7ad00f3ec21f43c9a26874fc593f1c138f3578bc7829",
   "fileName": "TEMSCO-V4-3cd96c2a4db4.pdf",
   "pageCount": 40,
-  "generatedAt": "2026-09-14T01:02:09.581Z"
+  "generatedAt": "2026-09-14T01:02:09.581Z",
+  "buildCompatibility": {
+    "sourceHash": "3a90ff9bc51d8f485adff3690427dbfe1884ec10d0fa9e59fbd2f5ffa0524946",
+    "reason": "Reviewed build-only changes for the authenticated equity report: pinned esbuild 0.28.2, encrypted private bundle build scripts, encrypted API artifact tracing, and this exact-hash compatibility guard. Existing dependencies and all approved deck, style, model, and asset inputs are unchanged.",
+    "baseSourceHash": "3cd96c2a4db457f48ab9c89c273d75643cabbf971e5e3928006bf108929398e4"
+  }
 }

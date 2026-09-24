@@ -82,6 +82,17 @@ export default function TemscoLandingPage() {
         </div>
       </section>
 
+      <section aria-labelledby="equity-review" className="px-6 py-6 border-b border-slate-800 bg-slate-900/40">
+        <Link href="/temsco/equity" className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-5 rounded-xl border border-blue-500/40 bg-blue-950/20 p-6 hover:border-blue-400 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
+          <div>
+            <p className="text-xs font-bold tracking-widest text-blue-400 mb-2">EQUITY &amp; CAPITAL STRUCTURE · 내부 검토</p>
+            <h2 id="equity-review" className="text-xl font-bold text-white">주당가치 산정과 임원 지분 배분 방안</h2>
+            <p className="text-sm text-slate-300 mt-2">주당가치 산정 및 임원 지분 배분 · 로그인 후 열람</p>
+          </div>
+          <span className="text-sm font-bold text-blue-300">주당가치·지분 배분 보고서 열기 →</span>
+        </Link>
+      </section>
+
       <section aria-labelledby="nda-editions" className="px-6 py-9 border-b border-slate-800 bg-slate-950">
         <div className="max-w-6xl mx-auto">
           <div className="flex flex-wrap items-end justify-between gap-3 mb-5">

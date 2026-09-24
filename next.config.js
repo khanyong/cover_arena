@@ -7,6 +7,7 @@ const nextConfig = {
   reactStrictMode: true,
   devIndicators: false,
   outputFileTracingIncludes: {
+    '/api/temsco/equity-report': ['./private/temsco/equity-report.enc.json'],
     '/api/temsco/pre-nda-pdf': ['./public/temsco/pre-nda/pdf/manifest.json'],
   },
 };

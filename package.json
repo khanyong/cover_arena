@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/temsco/dev-with-private-equity.mjs",
     "build": "next build",
     "start": "next start",
     "temsco:pdf": "node scripts/temsco/export-v4-pdf.mjs",
@@ -14,7 +14,10 @@
     "temsco:pdf:all": "npm run temsco:pdf && npm run temsco:pdf:pre-nda",
     "temsco:pdf:all:check": "npm run temsco:pdf:check && npm run temsco:pdf:pre-nda:check",
     "lint": "next lint",
-    "sync-en": "tsx scripts/build_public_json.ts"
+    "sync-en": "tsx scripts/build_public_json.ts",
+    "prebuild": "node scripts/temsco/build-private-equity-report.mjs",
+    "temsco:equity:build": "node scripts/temsco/build-private-equity-report.mjs",
+    "temsco:equity:watch": "node scripts/temsco/build-private-equity-report.mjs --watch"
   },
   "dependencies": {
     "@prisma/client": "^5.0.0",
@@ -56,6 +59,7 @@
     "eslint-config-next": "^14.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "esbuild": "0.28.2"
   }
 }

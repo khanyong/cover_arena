@@ -5,5 +5,10 @@
   "pageCount": 40,
   "generatedAt": "2026-09-13T15:19:18.377Z",
   "previewUrl": "/temsco/pre-nda/editions/7b488cd186b1/preview.json",
-  "previewHash": "010a313a92475c1a9576c637498fd619d92a9883c1977593953c818b9e6b5df2"
+  "previewHash": "010a313a92475c1a9576c637498fd619d92a9883c1977593953c818b9e6b5df2",
+  "buildCompatibility": {
+    "sourceHash": "349ebb7c7b720f75e650a03d6d9665fd4221747540cc209127b066660ab06962",
+    "reason": "Reviewed build-only changes for the authenticated equity report: pinned esbuild 0.28.2, encrypted private bundle build scripts, encrypted API artifact tracing, and this exact-hash compatibility guard. Existing dependencies and all approved deck, style, model, and asset inputs are unchanged.",
+    "baseSourceHash": "7b488cd186b1362ea24e4b30544a65e498f814d940311ca5e5ffda05a418bed4"
+  }
 }

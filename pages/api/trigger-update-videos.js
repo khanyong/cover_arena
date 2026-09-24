@@ -10,7 +10,7 @@ const token = jwt.sign(
   { algorithm: 'HS256', expiresIn: '1h' }
 );
 
-console.log(token);
+// Never write authentication tokens to server logs.
 
 export default async function handler(req, res) {
   if (req.method !== "POST") {

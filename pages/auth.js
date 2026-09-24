@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Head from 'next/head'
 import Link from 'next/link'
 import { auth, supabase } from '../shared/lib/supabase'
+import { getSafeAuthReturnPath } from '../shared/lib/authReturnPath'
 import { useRouter } from 'next/router'
 
 export default function Auth() {
@@ -12,6 +13,7 @@ export default function Auth() {
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
   const router = useRouter()
+  const returnPath = getSafeAuthReturnPath(router.query.next)
 
   useEffect(() => {
     if (router.query.mode === 'signup') {
@@ -20,30 +22,41 @@ export default function Auth() {
   }, [router.query.mode]);
 
   useEffect(() => {
-    // 이미 로그인된 사용자는 메인 페이지로 리다이렉트
+    if (!router.isReady) return
+
+    let cancelled = false
+    // 이미 로그인된 사용자는 검증된 원래 경로로 돌아갑니다.
     const checkUser = async () => {
-      const user = await auth.getCurrentUser()
-      if (user) {
-        router.push('/')
+      try {
+        const user = await auth.getCurrentUser()
+        if (!cancelled && user?.id && !user.is_anonymous) {
+          await router.replace(returnPath)
+        }
+      } catch (error) {
+        if (!cancelled) console.error('로그인 상태 확인 에러:', error)
       }
     }
     checkUser()
-  }, [router])
+    return () => { cancelled = true }
+  }, [router, router.isReady, returnPath])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (!router.isReady) return
     setLoading(true)
     setMessage('')
 
     try {
       if (isLogin) {
         // 로그인
-        const { error } = await auth.signIn(email, password)
+        const { data, error } = await auth.signIn(email, password)
         if (error) {
           setMessage(error.message)
           console.error('로그인 에러:', error)
+        } else if (data?.user?.id && !data.user.is_anonymous) {
+          await router.replace(returnPath)
         } else {
-          router.push('/')
+          setMessage('이메일과 비밀번호로 로그인해주세요.')
         }
       } else {
         // 회원 가입
@@ -147,7 +160,7 @@ export default function Auth() {
           
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || !router.isReady}
             className={`w-full px-4 py-2 rounded-lg font-semibold transition-colors ${
               loading
                 ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
