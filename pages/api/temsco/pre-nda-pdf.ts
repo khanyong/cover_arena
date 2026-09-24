@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import manifest from '../../../public/temsco/pre-nda/pdf/manifest.json'
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Cache-Control', 'no-store')
@@ -8,11 +9,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   }
 
   try {
-    // Production source/artifact checks run before next build. Trace only the manifest.
-    const artifact = await import('../../../lib/temsco/pre-nda-pdf-artifact.mjs')
+    // Full source, PDF and preview checks run before next build. Production
+    // needs only the validated manifest, not the authoring/source scanner.
     const current = process.env.NODE_ENV === 'production'
-      ? artifact.readPreNdaPdfManifest()
-      : artifact.verifyPreNdaPdfArtifact()
+      ? manifest
+      : (await import('../../../lib/temsco/pre-nda-pdf-artifact.mjs')).verifyPreNdaPdfArtifact()
     return res.status(200).json({
       url: `/temsco/pre-nda/pdf/${current.fileName}`,
       pageCount: current.pageCount,

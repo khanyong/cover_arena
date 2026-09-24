@@ -7,8 +7,8 @@
   "previewUrl": "/temsco/pre-nda/editions/7b488cd186b1/preview.json",
   "previewHash": "010a313a92475c1a9576c637498fd619d92a9883c1977593953c818b9e6b5df2",
   "buildCompatibility": {
-    "sourceHash": "349ebb7c7b720f75e650a03d6d9665fd4221747540cc209127b066660ab06962",
-    "reason": "Reviewed build-only changes for the authenticated equity report: pinned esbuild 0.28.2, encrypted private bundle build scripts, encrypted API artifact tracing, and this exact-hash compatibility guard. Existing dependencies and all approved deck, style, model, and asset inputs are unchanged.",
+    "sourceHash": "985e99f328b5b76f1cb3066ec76be10fda72c668543a86e63df1121da4cc8472",
+    "reason": "Reviewed build-only changes for the authenticated equity report: pinned esbuild 0.28.2, encrypted private bundle build scripts, encrypted API artifact tracing, and this exact-hash compatibility guard. Existing dependencies and all approved deck, style, model, and asset inputs are unchanged. The pre-NDA PDF endpoint now imports its validated manifest directly in production; full PDF and preview validation still runs before build and in development.",
     "baseSourceHash": "7b488cd186b1362ea24e4b30544a65e498f814d940311ca5e5ffda05a418bed4"
   }
 }
