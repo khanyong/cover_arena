@@ -1,4 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
+import {
+  buildManagedSceneCopyText,
+  clearManagedRequestId,
+  findSceneById,
+  getOrCreateManagedRequestId,
+  hasManagedScenes,
+  postgresJsonbText,
+  sha256Hex
+} from './rosKoBlockModel'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -15,6 +24,122 @@ export const supabaseAdmin = supabaseServiceKey
       }
     })
   : null
+
+const managedReaderError = (code, message, cause = null) => ({
+  code,
+  message,
+  cause
+});
+
+const getProjectionParagraphText = (paragraph) =>
+  paragraph?.versions?.[paragraph.activeVersion]?.content ?? '';
+
+const applyManagedSceneResult = (scene, managed) => {
+  scene.paragraphs = managed.paragraphs;
+  scene.managedSceneId = managed.managed_scene_id;
+  scene.compositionRevisionId = managed.requested_composition_id;
+  scene.managedReviewCompositionId = managed.review_composition_id;
+  scene.managedViewKey = managed.display_mode === 'legacy' || managed.display_mode === 'legacy_browse'
+    ? 'legacy'
+    : managed.requested_composition_id;
+  scene.generation = managed.generation;
+  scene.canonicalBodySha256 = managed.composition.body_sha256;
+  scene.projectionSha256 = managed.projection_sha256;
+  scene.manifestSha256 = managed.composition.manifest_sha256;
+  scene.terminalLf = managed.composition.terminal_lf;
+  scene.managedReadOnly = Boolean(managed.read_only);
+  scene.managedHistory = (managed.available_compositions || []).map((item) => ({
+    compositionId: item.composition_id,
+    revisionNo: item.revision_no,
+    manuscriptVersion: item.manuscript_version,
+    bodySha256: item.body_sha256,
+    createdAt: item.created_at,
+    isReview: Boolean(item.is_review)
+  }));
+  scene.managedLegacyAvailable = Boolean(managed.legacy_available);
+};
+
+const overlayManagedScenes = async (novel) => {
+  const markedScenes = [];
+  for (const act of novel?.acts || []) {
+    for (const chapter of act.chapters || []) {
+      for (const scene of chapter.scenes || []) {
+        if (scene.storageModel === 'ros-ko-block-v1') markedScenes.push(scene);
+      }
+    }
+  }
+
+  // Before the feature is installed there is no marker and therefore no
+  // managed lookup. Once a marker exists, every managed lookup is strict.
+  if (markedScenes.length === 0) return { data: novel, error: null };
+
+  for (const scene of markedScenes) {
+    if (!scene.managedSceneId) {
+      return {
+        data: null,
+        error: managedReaderError(
+          'MANAGED_SCENE_MARKER_INCOMPLETE',
+          `Managed Scene ${scene.id} has no managedSceneId.`
+        )
+      };
+    }
+
+    const { data: managed, error } = await supabase.rpc('ros_ko_get_scene', {
+      p_managed_scene_id: scene.managedSceneId,
+      p_composition_id: null,
+      p_include_legacy: false
+    });
+    if (error || !managed) {
+      return {
+        data: null,
+        error: managedReaderError(
+          error?.code || 'MANAGED_SCENE_LOAD_FAILED',
+          `Managed Scene ${scene.id} could not be loaded: ${error?.message || 'empty result'}`,
+          error || null
+        )
+      };
+    }
+    if (managed.scene_id !== scene.id || managed.managed_scene_id !== scene.managedSceneId) {
+      return {
+        data: null,
+        error: managedReaderError(
+          'MANAGED_SCENE_IDENTITY_MISMATCH',
+          `Managed Scene identity mismatch for ${scene.id}.`
+        )
+      };
+    }
+    if (!Array.isArray(managed.paragraphs) || managed.paragraphs.length !== managed.composition?.block_count) {
+      return {
+        data: null,
+        error: managedReaderError(
+          'MANAGED_SCENE_BLOCK_COUNT_MISMATCH',
+          `Managed Scene ${scene.id} projection count does not match its composition.`
+        )
+      };
+    }
+
+    const projectionHash = await sha256Hex(postgresJsonbText(managed.paragraphs));
+    const body = buildManagedSceneCopyText(
+      { paragraphs: managed.paragraphs },
+      {},
+      getProjectionParagraphText
+    );
+    const bodyHash = await sha256Hex(body);
+    if (projectionHash !== managed.projection_sha256 || bodyHash !== managed.composition?.body_sha256) {
+      return {
+        data: null,
+        error: managedReaderError(
+          'MANAGED_SCENE_PROJECTION_INTEGRITY_FAILED',
+          `Managed Scene ${scene.id} projection/body hash verification failed.`
+        )
+      };
+    }
+
+    applyManagedSceneResult(scene, managed);
+  }
+
+  return { data: novel, error: null };
+};
 
 // 사용자 인증 관련 함수들
 export const auth = {
@@ -240,15 +365,73 @@ export const novels = {
   async getNovelBySlug(slug) {
     const { data: mainData, error: mainError } = await supabase
       .from('novel_documents')
-      .select('data')
+      .select('id, slug, data')
       .eq('slug', slug)
       .single();
     
     if (mainError || !mainData) {
-      return { data: null, error: mainError };
+      return {
+        data: null,
+        error: mainError || {
+          code: 'NOVEL_DOCUMENT_NOT_FOUND',
+          message: `Reader document not found: ${slug}`
+        },
+        meta: { requestedSlug: slug, loadedSlug: null }
+      };
     }
 
-    const novel = mainData.data;
+    if (mainData.id !== slug || mainData.slug !== slug) {
+      return {
+        data: null,
+        error: {
+          code: 'NOVEL_DOCUMENT_IDENTITY_MISMATCH',
+          message: `Reader row identity mismatch: requested ${slug}, received id=${mainData.id || 'unknown'} slug=${mainData.slug || 'unknown'}`
+        },
+        meta: {
+          requestedSlug: slug,
+          loadedSlug: mainData.slug || null,
+          documentId: mainData.id || null,
+          complete: false
+        }
+      };
+    }
+
+    const novel = mainData.data ? JSON.parse(JSON.stringify(mainData.data)) : null;
+    if (!novel) {
+      return {
+        data: null,
+        error: {
+          code: 'NOVEL_DOCUMENT_EMPTY',
+          message: `Reader document payload is empty: ${slug}`
+        },
+        meta: { requestedSlug: slug, loadedSlug: mainData.slug }
+      };
+    }
+
+    // 일부 구형 권별 문서는 payload.id가 과거 논리 ID를 유지한다.
+    // 행 id/slug와 payload.slug를 언어·문서 식별의 권위값으로 사용하고,
+    // payload.slug가 없는 legacy 문서에서만 payload.id를 보조 식별자로 검사한다.
+    const payloadIdentityMismatch = novel.slug
+      ? novel.slug !== slug
+      : Boolean(novel.id && novel.id !== slug);
+
+    if (payloadIdentityMismatch) {
+      return {
+        data: null,
+        error: {
+          code: 'NOVEL_PAYLOAD_IDENTITY_MISMATCH',
+          message: `Reader payload identity mismatch: requested ${slug}, received id=${novel.id || 'unknown'} slug=${novel.slug || 'unknown'}`
+        },
+        meta: {
+          requestedSlug: slug,
+          loadedSlug: mainData.slug,
+          documentId: mainData.id,
+          payloadId: novel.id || null,
+          payloadSlug: novel.slug || null,
+          complete: false
+        }
+      };
+    }
 
     // 만약 novel.acts가 존재하고 길이가 1 이상이라면, 파편화된 행들을 불러와 합친다.
     if (novel && novel.acts && novel.acts.length > 0) {
@@ -256,23 +439,133 @@ export const novels = {
       
       const { data: actRows, error: actError } = await supabase
         .from('novel_documents')
-        .select('slug, data')
+        .select('id, slug, data')
         .in('slug', actSlugs);
 
-      if (actRows && actRows.length > 0) {
-        novel.acts = novel.acts.map(actStub => {
-          const row = actRows.find(r => r.slug === `${slug}-act-${actStub.number}`);
-          // 만약 DB에서 행을 찾으면 그것을 반환하고, 아니면 껍데기(stub) 유지
-          return row ? row.data : actStub;
-        });
+      if (actError) {
+        return {
+          data: null,
+          error: {
+            ...actError,
+            code: actError.code || 'NOVEL_FRAGMENT_QUERY_FAILED',
+            message: `Reader ACT fragment query failed for ${slug}: ${actError.message || 'unknown error'}`
+          },
+          meta: {
+            requestedSlug: slug,
+            loadedSlug: mainData.slug,
+            documentId: mainData.id,
+            complete: false
+          }
+        };
+      }
+
+      const rowsBySlug = new Map((actRows || []).map(row => [row.slug, row]));
+      const missingRequiredFragments = [];
+      const invalidFragments = [];
+      const duplicateActNumbers = novel.acts
+        .map(act => act.number)
+        .filter((number, index, numbers) => numbers.indexOf(number) !== index);
+
+      if (duplicateActNumbers.length > 0) {
+        return {
+          data: null,
+          error: {
+            code: 'NOVEL_ACT_NUMBER_DUPLICATE',
+            message: `Reader root contains duplicate ACT numbers for ${slug}: ${[...new Set(duplicateActNumbers)].join(', ')}`
+          },
+          meta: {
+            requestedSlug: slug,
+            loadedSlug: mainData.slug,
+            documentId: mainData.id,
+            complete: false
+          }
+        };
+      }
+
+      novel.acts = novel.acts.map(actStub => {
+        const actSlug = `${slug}-act-${actStub.number}`;
+        const row = rowsBySlug.get(actSlug);
+
+        if (!row) {
+          // chapters를 자체 보유한 legacy inline ACT는 fragment 없이도 유효하다.
+          if (!Object.prototype.hasOwnProperty.call(actStub, 'chapters')) {
+            missingRequiredFragments.push(actSlug);
+          }
+          return actStub;
+        }
+
+        if (row.id !== actSlug || row.slug !== actSlug || !row.data || row.data.number !== actStub.number) {
+          invalidFragments.push(actSlug);
+          return actStub;
+        }
+
+        return row.data;
+      });
+
+      if (missingRequiredFragments.length > 0 || invalidFragments.length > 0) {
+        const details = [
+          missingRequiredFragments.length > 0 ? `missing: ${missingRequiredFragments.join(', ')}` : null,
+          invalidFragments.length > 0 ? `invalid: ${invalidFragments.join(', ')}` : null
+        ].filter(Boolean).join('; ');
+
+        return {
+          data: null,
+          error: {
+            code: 'NOVEL_FRAGMENT_INCOMPLETE',
+            message: `Reader ACT fragments are incomplete for ${slug} (${details})`
+          },
+          meta: {
+            requestedSlug: slug,
+            loadedSlug: mainData.slug,
+            documentId: mainData.id,
+            missingRequiredFragments,
+            invalidFragments,
+            complete: false
+          }
+        };
       }
     }
+
+    const managedOverlay = await overlayManagedScenes(novel);
+    if (managedOverlay.error) {
+      return {
+        data: null,
+        error: managedOverlay.error,
+        meta: {
+          requestedSlug: slug,
+          loadedSlug: mainData.slug,
+          documentId: mainData.id,
+          complete: false
+        }
+      };
+    }
     
-    return { data: novel, error: null };
+    return {
+      data: managedOverlay.data,
+      error: null,
+      meta: {
+        requestedSlug: slug,
+        loadedSlug: mainData.slug,
+        documentId: mainData.id,
+        payloadId: novel.id || null,
+        payloadSlug: novel.slug || null,
+        fragmentCount: Array.isArray(novel.acts) ? novel.acts.length : 0,
+        complete: true
+      }
+    };
   },
 
   // 소설 덮어쓰기 (업데이트 - 파편화 지원)
   async saveNovel(novelDetails) {
+    if (hasManagedScenes(novelDetails)) {
+      const error = managedReaderError(
+        'MANAGED_SCENE_REQUIRES_TARGETED_RPC',
+        'This Reader contains a managed block Scene. Whole-novel save is disabled; use the targeted block API.'
+      );
+      console.error(error.message);
+      return { data: null, error };
+    }
+
     // 1. 소설 객체에서 acts 분리
     const fullActs = novelDetails.acts || [];
     
@@ -326,6 +619,86 @@ export const novels = {
     }
     
     return { data: mainResult, error: null };
+  },
+
+  async rewriteManagedBlock({ scene, paragraph, newBody, note }) {
+    if (
+      scene?.storageModel !== 'ros-ko-block-v1' ||
+      paragraph?.storageModel !== 'ros-ko-block-v1' ||
+      !scene.managedSceneId ||
+      !scene.compositionRevisionId ||
+      !scene.projectionSha256 ||
+      !paragraph.revisionVersionId
+    ) {
+      return {
+        data: null,
+        error: managedReaderError(
+          'MANAGED_REWRITE_SCOPE_INCOMPLETE',
+          'Managed block identity or optimistic-concurrency fields are incomplete.'
+        )
+      };
+    }
+
+    const parentBody = getProjectionParagraphText(paragraph);
+    const parentBodySha256 = await sha256Hex(parentBody);
+    const newBodySha256 = await sha256Hex(newBody);
+    const newBodyBytes = new TextEncoder().encode(newBody).length;
+    const retry = await getOrCreateManagedRequestId({
+      managedSceneId: scene.managedSceneId,
+      generation: scene.generation,
+      compositionId: scene.compositionRevisionId,
+      blockUnitId: paragraph.unitId || paragraph.id,
+      parentVersionId: paragraph.revisionVersionId,
+      parentBodySha256,
+      projectionSha256: scene.projectionSha256,
+      newBodyBytes,
+      newBodySha256,
+      note: note || ''
+    });
+
+    const { data, error } = await supabase.rpc('ros_ko_rewrite_block', {
+      p_request_id: retry.requestId,
+      p_managed_scene_id: scene.managedSceneId,
+      p_expected_generation: scene.generation,
+      p_expected_composition_id: scene.compositionRevisionId,
+      p_block_unit_id: paragraph.unitId || paragraph.id,
+      p_expected_parent_version_id: paragraph.revisionVersionId,
+      p_expected_parent_body_sha256: parentBodySha256,
+      p_expected_projection_sha256: scene.projectionSha256,
+      p_new_body: newBody,
+      p_note: note || ''
+    });
+
+    if (error) return { data: null, error, requestId: retry.requestId };
+    clearManagedRequestId(retry.key);
+    return { data, error: null, requestId: retry.requestId };
+  },
+
+  async getManagedSceneRevision(scene, viewKey) {
+    if (scene?.storageModel !== 'ros-ko-block-v1' || !scene.managedSceneId) {
+      return { data: null, error: managedReaderError('MANAGED_SCENE_SCOPE_INCOMPLETE', 'Managed Scene identity is incomplete.') };
+    }
+
+    const request = viewKey === 'legacy'
+      ? supabase.rpc('ros_ko_get_legacy_scene', { p_managed_scene_id: scene.managedSceneId })
+      : supabase.rpc('ros_ko_get_scene', {
+          p_managed_scene_id: scene.managedSceneId,
+          p_composition_id: viewKey,
+          p_include_legacy: false
+        });
+    const { data, error } = await request;
+    if (error || !data) return { data: null, error: error || managedReaderError('MANAGED_SCENE_LOAD_FAILED', 'Empty managed Scene result.') };
+
+    const projectionHash = await sha256Hex(postgresJsonbText(data.paragraphs));
+    const body = buildManagedSceneCopyText({ paragraphs: data.paragraphs }, {}, getProjectionParagraphText);
+    const bodyHash = await sha256Hex(body);
+    if (projectionHash !== data.projection_sha256 || bodyHash !== data.composition?.body_sha256) {
+      return { data: null, error: managedReaderError('MANAGED_SCENE_PROJECTION_INTEGRITY_FAILED', 'Selected managed revision failed integrity verification.') };
+    }
+
+    const nextScene = JSON.parse(JSON.stringify(scene));
+    applyManagedSceneResult(nextScene, data);
+    return { data: nextScene, error: null };
   },
 
   // 에이전트 매직 링크 발급

@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Frame from './CorporateSlideFrame'
 import capital from './capitalSource.json'
 import styles from './StrategySlides.module.css'
@@ -37,58 +38,68 @@ function CapitalChart() {
 }
 
 function RiskResolution() {
-  return <Frame section="04 / BUSINESS & GROWTH" title="채권 손상 및 재무구조 변화" subtitle="2025년 채권손상 반영 · 자본총계 감소 원인 및 고객사 직접 공급 전환"
-    note={<>출처: 회사 제공 별도 손익계산서·재무상태표 · 기타 순변동: 자본 감소액−총 대손비용 · 반올림 전 계산, 표시 합계 차이 0.01억</>}>
-    <div className={styles.risk}>
-      <div className={styles.capital}>
-        <div className={styles.panelHeading}><h3>자본총계 및 주요 변동</h3><span>단위: 억 원</span></div>
-        <CapitalChart />
-        <div className={styles.debtStrip}>
-          <div><span>총부채</span><strong>{amount(capital.debt2024)} <i>→</i> {amount(capital.debt2025)}<small>억 원</small></strong><p>2024 → 2025</p></div>
-          <div><span>2025 부채비율</span><strong>{(capital.debt2025 / capital.equity2025 * 100).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}<small>%</small></strong><p>자본총계 감소에 따른 비율 상승</p></div>
+  return <Frame section="04 / BUSINESS & GROWTH" title="Risk & Resolution: 파인원 사태와 재무 팩트 체크">
+    <div className={styles.riskPage}>
+      <div className={styles.riskSummary}><strong>부채비율 상승의 주요 원인</strong><span>과거 채권의 대손비용 반영에 따른 장부상 자본 감소 · 총부채 증가와 구분</span></div>
+      <div className={styles.risk}>
+        <div className={styles.capital}>
+          <div className={styles.panelHeading}><h3>자본총계 변동 폭포수 차트</h3><span>단위: 억 원</span></div>
+          <CapitalChart />
+          <div className={styles.debtStrip}>
+            <div><span>총부채</span><strong>{amount(capital.debt2024)} <i>→</i> {amount(capital.debt2025)}<small>억 원</small></strong><p>2024 → 2025</p></div>
+            <div><span>2025 부채비율</span><strong>{(capital.debt2025 / capital.equity2025 * 100).toLocaleString('en-US', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}<small>%</small></strong><p>자본총계 감소에 따른 비율 상승</p></div>
+          </div>
         </div>
-      </div>
-      <div className={styles.factColumn}>
-        <div className={styles.fact}>
-          <span className={styles.factNumber}>01</span>
-          <div><h3>채권 회수 불확실성</h3><p>2025년 9월 파인원 부도 발생</p><p>2025년 별도 총 대손비용 {amount(badDebt)}억 원</p><p className={styles.secondary}>영업 {amount(capital.operatingBadDebt2025)}억 + 영업외 {amount(capital.nonOperatingBadDebt2025)}억 · 고객별 귀속 미분리</p></div>
-        </div>
-        <div className={styles.fact}>
-          <span className={styles.factNumber}>02</span>
-          <div><h3>장부상 자본 감소</h3><p>총부채 감소에도 부채비율 상승</p><p>과거 발생 채권의 손상 비용 반영</p><p className={styles.secondary}>대손상각 인식 자체의 당기 현금 유출 없음</p></div>
-        </div>
-        <div className={styles.fact}>
-          <span className={styles.factNumber}>03</span>
-          <div><h3>최종 고객사 직납 전환</h3><p>중간 벤더 경유에서 직접 공급으로 전환</p><p>중국 CSOT·비전옥스 1차 직납 진입</p><p className={styles.secondary}>영업·기술 역량 기반 고객 접점 확대</p></div>
+        <div className={styles.resolutionColumn}>
+          <section className={styles.crisisSection}>
+            <h3>이슈의 발생 <span>CRISIS</span></h3>
+            <ul><li>2025년 9월 고객사 파인원 부도 발생</li><li>회사 설명: 제품 불량이 아닌 고객사의 상장 준비·선행투자에 따른 유동성 문제</li><li>회수 불확실 채권 약 75억 원 중 <strong>68.2억 원 대손비용 반영</strong> — 2025년 결산</li></ul>
+          </section>
+          <section className={styles.resolutionSection}>
+            <h3>팩트 체크 및 기회 <span>RESOLUTION</span></h3>
+            <div><b>01 · 부채 자체의 증가 없음</b><p>총부채 333.66억 → 328.16억 원 감소<br />부채비율 상승의 주요 원인: 분모인 자본 감소</p></div>
+            <div><b>02 · 대손비용 인식 시 추가 현금 유출 없음</b><p>과거 발생 채권의 회수가능성 하락 반영<br />비용 인식과 실제 채권 미회수에 따른 현금 영향 구분</p></div>
+            <div><b>03 · 최종 고객사 직납 기회 창출</b><p>중간 벤더 경유에서 최종 패널사 직접 공급으로 전환<br />중국 CSOT·Visionox 1차 직납 진입</p></div>
+          </section>
         </div>
       </div>
     </div>
   </Frame>
 }
 
-const pipelineRows = [
-  { customer: '삼성디스플레이', english: 'SDC · 국내 디스플레이', status: '1차 벤더 진입 추진', timing: '가격 협상·최종 공급 조건 협의', parts: ['OMM 공급 가격 협상'], materials: ['기존 공급사 YMC와 경쟁', 'LG 레퍼런스 기반 직접 납품 추진'] },
-  { customer: 'LG디스플레이', english: 'LGD · 국내 디스플레이', status: '1차 벤더 · 직납', timing: '직접 판매 전환', parts: ['위폼스 마스크 매입', '템스코의 LG 직접 판매'], materials: ['기존 LG 1차 벤더 경유 판매', 'LG 직접 판매로 전환'] },
-  { customer: 'Visionox · CSOT', english: '중국 · OLED 패널', status: '1차 벤더 승격 완료', timing: '2026년 4분기 직수출 양산 계획', parts: ['비전옥스 전체 메탈마스크', '물량 30% 배정 확정'], materials: ['소재 공급 내역 미기재'] },
-  { customer: 'AMAT · eMagin', english: '미국 · 장비 / 초고해상도 XR', status: '1차 벤더 등록 완료', timing: '고객별 공급 확대 추진', parts: ['글로벌 장비사·XR 고객 기반'], materials: ['품목별 세부 내역 미기재'] },
-  { customer: '반도체 신사업', english: '신규 사업 파이프라인', status: '시제품 평가 전개', timing: '양산 테스트 추진', parts: ['HF 가스 봄베'], materials: ['CuMn 타겟', '전력반도체 구리기판'] },
-]
+function CustomerLogo({ file, name }: { file: string; name: string }) {
+  return <Image className={styles.customerLogo} src={`/temsco/v4/customer-logos/${file}`} alt={`${name} 로고`} width={180} height={42} unoptimized loading="eager" />
+}
 
 function GrowthPipeline() {
-  return <Frame section="04 / BUSINESS & GROWTH" title="주요 고객사별 공급 현황" subtitle="LG 1차 벤더 직접 판매 · 중국 고객 판매 · 삼성 가격 협상 및 신규 고객 공급 확대"
-    note={<>출처: 회사 제공 고객 진행 현황 · YMC와의 경쟁 및 삼성 1차 벤더 진입: 회사 제공 추진 현황, 선정·수주 확정 아님 · 비전옥스 물량 30% 및 일정: 회사 기재 기준</>}>
-    <div className={styles.pipeline}>
-      <div className={styles.pipelineLabel}><h3>고객별 공급 범위 및 진행 단계</h3><span>현재 상태와 향후 협의 사항 구분</span></div>
-      <table className={styles.pipelineTable} aria-label="주요 고객사별 공급 현황 및 진행 단계">
-        <colgroup><col style={{ width: '24%' }} /><col style={{ width: '26%' }} /><col style={{ width: '25%' }} /><col style={{ width: '25%' }} /></colgroup>
-        <thead><tr><th scope="col">고객사 / 시장</th><th scope="col">진행 상태 / 일정</th><th scope="col">부품 / 마스크</th><th scope="col">소재 / 적용 품목</th></tr></thead>
-        <tbody>{pipelineRows.map(row => <tr key={row.customer}>
-          <th scope="row"><strong>{row.customer}</strong><span>{row.english}</span></th>
-          <td><b>{row.status}</b><p>{row.timing}</p></td>
-          <td>{row.parts.map(line => <p key={line}>{line}</p>)}</td>
-          <td>{row.materials.map(line => <p key={line}>{line}</p>)}</td>
-        </tr>)}</tbody>
-      </table>
+  return <Frame section="04 / BUSINESS & GROWTH" title="Growth Pipeline: 주요 고객사별 양산 전개 계획" subtitle="국내외 주요 패널사 및 글로벌 반도체·XR 장비사 직납 양산 라인업">
+    <div className={styles.customerGroups}>
+      <section className={styles.customerGroup}>
+        <h3 className={styles.groupTitle}>국내 메인 고객사 <span>디스플레이</span></h3>
+        <div className={styles.customerCard}>
+          <div className={styles.customerHeading}><h4>삼성디스플레이 <small>SDC</small></h4><span>4개 모델 선정</span></div>
+          <div className={styles.customerLogos}><CustomerLogo file="samsung-display.svg" name="삼성디스플레이" /></div>
+          <ul><li><b>부품</b> · 진공증착용 메탈마스크 2027년 본양산 신규 4개 모델 선정 완료 · 추가 2개 모델 협의 중</li><li><b>소재</b> · 고순도 알루미늄(Al) 타겟 및 Invar 특수 소재 직납 평가 동시 진행</li></ul>
+        </div>
+        <div className={styles.customerCard}>
+          <div className={styles.customerHeading}><h4>LG디스플레이 <small>LGD</small></h4><span>메인 공급사 선정</span></div>
+          <div className={styles.customerLogos}><CustomerLogo file="lg-display.svg" name="LG디스플레이" /></div>
+          <ul><li><b>부품</b> · 메탈마스크 1차 벤더 최우선 협상 대상자 및 메인 공급사 공식 선정</li><li><b>소재</b> · 몰리브덴(Mo)·알루미늄(Al) 타겟 평가 후 은(Ag) 합금 타겟 순차 확대</li></ul>
+        </div>
+      </section>
+      <section className={`${styles.customerGroup} ${styles.globalGroup}`}>
+        <h3 className={styles.groupTitle}>글로벌 패널사 &amp; 반도체·XR 장비사</h3>
+        <div className={styles.customerCard}>
+          <div className={styles.customerHeading}><h4>중국 Visionox &amp; CSOT</h4><span>Visionox 물량 30%</span></div>
+          <div className={`${styles.customerLogos} ${styles.chinaLogos}`}><CustomerLogo file="visionox.webp" name="Visionox" /><CustomerLogo file="tcl-csot.svg" name="TCL CSOT" /></div>
+          <p className={styles.customerCategory}>OLED 패널 글로벌 제조사</p>
+          <ul><li>파인원 대체 1차 벤더 승격 완료</li><li><b>Visionox 전체 메탈마스크 물량의 30% 배정 확정</b></li><li>2026년 4분기부터 직수출 양산 계획</li></ul>
+        </div>
+        <div className={styles.smallCustomers}>
+          <div className={styles.customerCard}><h4>AMAT &amp; eMagin <small>미국</small></h4><div className={`${styles.customerLogos} ${styles.usLogos}`}><CustomerLogo file="applied-materials.png" name="Applied Materials" /><CustomerLogo file="emagin.svg" name="eMagin" /></div><p>글로벌 장비사 · 초고해상도 XR</p><strong className={styles.customerStatus}>1차 벤더 등록 완료</strong></div>
+          <div className={styles.customerCard}><h4>반도체 신사업 파이프라인</h4><p>HF 봄베 · CuMn 타겟 · 구리기판</p><strong className={styles.customerStatus}>시제품 평가 전개</strong></div>
+        </div>
+      </section>
     </div>
   </Frame>
 }
@@ -101,7 +112,7 @@ const allocations = [
 
 function UseOfProceeds() {
   return <Frame section="07 / FUNDING & INVESTOR EXIT" title="투자 유치 및 자금 활용 계획" subtitle="재무구조 개선 및 2026–2027년 수주 대응 · 투자기관별 투자 구조 및 세부 조건 협의"
-    note={<>출처: 회사 제공 자금 조달 계획 · 조달·배분 금액: 제안 기준 · 비중 반올림 · 투자수단·조건 및 회계상 자본·부채 분류: 계약 조건별 검토</>}>
+    note={<>출처: 자금 조달 계획 · 조달·배분 금액: 제안 기준 · 비중 반올림 · 투자수단·조건 및 회계상 자본·부채 분류: 계약 조건별 검토<br/>* RCPS: Redeemable Convertible Preferred Stock(상환전환우선주) · CPS: Convertible Preferred Stock(전환우선주)<br/>* CB: Convertible Bond(전환사채) · BW: Bond with Warrant(신주인수권부사채)</>}>
     <div className={styles.funding}>
       <div className={styles.allocationOverview}>
         <div className={styles.fundingLead}><span>목표 조달 금액</span><strong>70<small>억 원</small></strong><p>성장 재원 확보</p></div>
@@ -119,8 +130,8 @@ function UseOfProceeds() {
         <tbody>{allocations.map(item => <tr key={item.label}><th scope="row">{item.label}<span>{item.english}</span></th><td className={styles.amount}>{item.amount}억</td><td>{item.use}</td><td>{item.goal}</td></tr>)}</tbody>
       </table>
       <div className={styles.instrumentRows}>
-        <div><h3>Equity <span>자본 확충형 제안</span></h3><b>RCPS · CPS · 보통주</b><p>재무구조 개선 및 기업가치 상승 참여 · 투자기관별 조건 협의</p></div>
-        <div><h3>Debt <span>메자닌·부채형 제안</span></h3><b>CB · BW</b><p>상환·전환·신주인수 조건 설계 · 양산 실적 연계 투자 구조 협의</p></div>
+        <div><h3>Equity <span>자본 확충형 제안</span></h3><b>RCPS* · CPS* · 보통주</b><p>재무구조 개선 및 기업가치 상승 참여 · 투자기관별 조건 협의</p></div>
+        <div><h3>Debt <span>메자닌·부채형 제안</span></h3><b>CB* · BW*</b><p>상환·전환·신주인수 조건 설계 · 양산 실적 연계 투자 구조 협의</p></div>
       </div>
     </div>
   </Frame>

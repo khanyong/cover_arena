@@ -1,0 +1,19 @@
+{
+  "rf": 0.05,
+  "erp": 0.15,
+  "peerBeta": 1.5,
+  "peerDebtEquity": 1.5,
+  "targetDebtEquity": 1.5,
+  "taxRate": 0.22,
+  "sizePremium": 0.01,
+  "preTaxDebtCost": 0.05,
+  "unleveredBeta": 0.6912442396313364,
+  "leveredBeta": 1.5,
+  "costOfEquity": 0.285,
+  "afterTaxDebtCost": 0.039,
+  "equityWeight": 0.4,
+  "debtWeight": 0.6,
+  "wacc": 0.1374,
+  "basis": "지정 DCF 평가모델의 입력가정 및 WACC 시트",
+  "marketObservationDate": null
+}

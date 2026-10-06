@@ -11,10 +11,12 @@
     "temsco:pdf:check": "node scripts/temsco/export-v4-pdf.mjs --check",
     "temsco:pdf:pre-nda": "node scripts/temsco/export-pre-nda-pdf.mjs",
     "temsco:pdf:pre-nda:check": "node scripts/temsco/export-pre-nda-pdf.mjs --check",
-    "temsco:pdf:all": "npm run temsco:pdf && npm run temsco:pdf:pre-nda",
-    "temsco:pdf:all:check": "npm run temsco:pdf:check && npm run temsco:pdf:pre-nda:check",
+    "temsco:pdf:all": "npm run temsco:pdf && npm run temsco:pdf:pre-nda && npm run temsco:pdf:abridged",
+    "temsco:pdf:all:check": "npm run temsco:pdf:check && npm run temsco:pdf:pre-nda:check && npm run temsco:pdf:abridged:check",
     "lint": "next lint",
     "sync-en": "tsx scripts/build_public_json.ts",
+    "temsco:pdf:abridged": "node scripts/temsco/export-v4-abridged-pdf.mjs",
+    "temsco:pdf:abridged:check": "node scripts/temsco/export-v4-abridged-pdf.mjs --check",
     "prebuild": "node scripts/temsco/build-private-equity-report.mjs",
     "temsco:equity:build": "node scripts/temsco/build-private-equity-report.mjs",
     "temsco:equity:watch": "node scripts/temsco/build-private-equity-report.mjs --watch"
@@ -55,11 +57,11 @@
     "@types/katex": "^0.16.8",
     "@types/react": "19.2.2",
     "autoprefixer": "^10.0.1",
+    "esbuild": "0.28.2",
     "eslint": "^8",
     "eslint-config-next": "^14.0.0",
     "postcss": "^8",
     "tailwindcss": "^3.3.0",
-    "typescript": "5.9.3",
-    "esbuild": "0.28.2"
+    "typescript": "5.9.3"
   }
 }

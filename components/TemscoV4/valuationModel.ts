@@ -43,7 +43,7 @@ export type ForecastYear = {
 }
 export type EntityValuation = {
   entity: Entity; rows: ForecastYear[]; terminalYear: number; terminalCashFlowYear: number; terminalEbit: number; terminalTax: number; terminalFcff: number;
-  terminalValue: number; pvTerminal: number; pvExplicit: number; ev: number; terminalShare: number;
+  terminalMultipleRevenue: number; terminalValue: number; pvTerminal: number; pvExplicit: number; ev: number; terminalShare: number;
   exitTerminalValue: number | null; exitPvTerminal: number | null; multipleEv: number | null; gap: number | null; gapRate: number | null;
   netDebt: number; rawEquity: number; multipleRawEquity: number | null;
 }
@@ -137,11 +137,15 @@ export function calculateValuation(id: ScenarioId = 'base', overrides: Overrides
     const pvExplicit = rows.reduce((sum, row) => sum + row.pv, 0)
     const ev = pvExplicit + pvTerminal
     // Exit-multiple cross-check shares explicit forecast cash flows with DCF; terminal methods are alternatives.
-    const exitTerminalValue = appliedMultiple === null ? null : terminalEbit * appliedMultiple
+    // Allocate external group sales by gross legal-entity sales weights. Avoid counting intercompany sales twice in SOTP/NCI.
+    const groupRevenue = annual.consolidated[annual.consolidated.length - 1].revenue
+    const grossRevenue = annual.parent[annual.parent.length - 1].revenue + annual.subsidiary[annual.subsidiary.length - 1].revenue
+    const terminalMultipleRevenue = entity === 'consolidated' ? groupRevenue : groupRevenue * last.revenue / grossRevenue
+    const exitTerminalValue = appliedMultiple === null ? null : terminalMultipleRevenue * appliedMultiple
     const exitPvTerminal = exitTerminalValue === null ? null : exitTerminalValue * last.discountFactor
     const multipleEv = exitPvTerminal === null ? null : pvExplicit + exitPvTerminal
     const netDebt = data.entities[entity].balance2025.netDebt
-    valuations[entity] = { entity, rows, terminalYear: forecastEndYear, terminalCashFlowYear, terminalEbit, terminalTax, terminalFcff, terminalValue, pvTerminal, pvExplicit, ev, terminalShare: ev === 0 ? 0 : pvTerminal / ev, exitTerminalValue, exitPvTerminal, multipleEv, gap: multipleEv === null ? null : multipleEv - ev, gapRate: multipleEv === null || ev === 0 ? null : multipleEv / ev - 1, netDebt, rawEquity: ev - netDebt, multipleRawEquity: multipleEv === null ? null : multipleEv - netDebt }
+    valuations[entity] = { entity, rows, terminalYear: forecastEndYear, terminalCashFlowYear, terminalMultipleRevenue, terminalEbit, terminalTax, terminalFcff, terminalValue, pvTerminal, pvExplicit, ev, terminalShare: ev === 0 ? 0 : pvTerminal / ev, exitTerminalValue, exitPvTerminal, multipleEv, gap: multipleEv === null ? null : multipleEv - ev, gapRate: multipleEv === null || ev === 0 ? null : multipleEv / ev - 1, netDebt, rawEquity: ev - netDebt, multipleRawEquity: multipleEv === null ? null : multipleEv - netDebt }
   }
   const { parent, subsidiary, consolidated } = valuations
   const subsidiaryEquity = Math.max(0, subsidiary.rawEquity)

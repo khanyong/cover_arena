@@ -1,0 +1,35 @@
+{
+  "name": "풍원정밀",
+  "ticker": "371950",
+  "priceDate": "2026-09-08",
+  "balanceDate": "2026-06-30",
+  "priceKRW": 2900,
+  "sharesH1": 22662548,
+  "conversionShares": 117122,
+  "newIssueShares": 785340,
+  "issuePriceKRW": 3820,
+  "bankShortDebtKRW": 13600000000,
+  "bankCurrentLongDebtKRW": 11823225959,
+  "bankLongDebtKRW": 3528588041,
+  "convertibleHostKRW": 18177452576,
+  "convertibleDerivativeKRW": 10441544310,
+  "reportedCashKRW": 658856844,
+  "derivativeAssetKRW": 207078554,
+  "issueFeesAssumptionKRW": 0,
+  "nciKRW": 0,
+  "revenue2025KRW": 32363366118,
+  "revenueH12026KRW": 19189322062,
+  "revenueH12025KRW": 14596087238,
+  "sources": {
+    "financials": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260824000174",
+    "issue": "https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260824000154",
+    "price": "https://kind.krx.co.kr/common/stockprices.do?isurCd=37195&method=searchStockPricesMain"
+  },
+  "assumptions": [
+    "6월말 차입금 장부액 및 전환사채 원계약·파생부채 합계 사용; 9월 시장가치 대용치",
+    "7월 우선주 전환 후 우선주 부채 제외; 8월 증자 총액 반영, 발행비용 및 기타 영업현금 변동 0 가정",
+    "7월 단기사채 발행과 현금 유입 및 원금상환은 순차입금 영향 0 가정; 이자 미반영",
+    "전환사채 관련 파생자산 전액 차감; 파생부채와 중복 제외",
+    "OMM·FMM 등 복합사업 연결 배수로 순수 OMM 배수 아님"
+  ]
+}

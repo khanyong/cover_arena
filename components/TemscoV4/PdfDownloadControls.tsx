@@ -2,6 +2,11 @@ import PdfDownloads from '../TemscoIR/PdfDownloads'
 
 const documents = [
   {
+    id: 'abridged', label: '28·29·별첨 제외 PDF', apiUrl: '/api/temsco/v4-abridged-pdf',
+    artifactDirectory: '/temsco/v4/abridged-pdf', filePrefix: 'TEMSCO-V4-ABRIDGED',
+    downloadName: 'TEMSCO_4안_28·29페이지_별첨제외.pdf',
+  },
+  {
     id: 'pre-nda', label: 'NDA 이전 PDF', apiUrl: '/api/temsco/pre-nda-pdf',
     artifactDirectory: '/temsco/pre-nda/pdf', filePrefix: 'TEMSCO-PRE-NDA',
     downloadName: 'TEMSCO_NDA이전_투자검토용.pdf',

@@ -14,28 +14,28 @@ function Photo({ file, alt, height, className = '' }: { file: string; alt: strin
   </div>
 }
 
-function Page({ title, source, children }: { title: string; source: string; children: ReactNode }) {
+function Page({ title, source, children }: { title: string; source?: string; children: ReactNode }) {
   return <article className={styles.slide} data-technology-slide>
     <div className={styles.heading}>
       <p className={styles.eyebrow}>TECHNOLOGY / TEMSCO &amp; WeFOMS</p>
       <h2 className={styles.title}>{title}</h2>
     </div>
     <div className={styles.body}>{children}</div>
-    <div className={styles.source}>{source}</div>
+    {source ? <div data-pdf-source className={styles.source}>{source}</div> : null}
   </article>
 }
 
 function Materials() {
-  return <Page title="소재 공급 및 박막 코팅 기술" source="출처: 템스코 회사소개서(2025.08) p.29·35·36·44 / 공급 소재·장비 사양 기준, 자체 제조 범위·실제 생산능력과 구분">
-    <div className={styles.split}>
+  return <Page title="소재 공급 및 박막 코팅 기술">
+    <div className={`${styles.split} ${styles.materialsLayout}`}>
       <div>
         <h3 className={styles.lead}>마스크용 소재 조달과<br />대면적 박막 코팅의 연계</h3>
         <figure className={styles.figure}>
-          <Photo file="temsco-sputter.jpeg" height={282} alt="템스코 회사소개서에 제시된 인라인 스퍼터 장비" />
+          <Photo file="temsco-sputter.jpeg" height={310} alt="템스코 회사소개서에 제시된 인라인 스퍼터 장비" />
           <figcaption className={styles.caption}>인라인 스퍼터 장비 / 템스코 회사소개서 p.44</figcaption>
         </figure>
         <div className={styles.strip}>
-          <strong>PVD 기반 반응성 스퍼터링</strong>
+          <strong>PVD 기반 반응성 스퍼터링 자체 개발</strong>
           <p>DC·Pulsed DC 방식 / 수직·수평 시스템<br />6GH·8GH Loading 대응 사양 / Al₂O₃ 막 균일도 ±10%</p>
         </div>
       </div>
@@ -49,12 +49,13 @@ function Materials() {
           <Photo file="temsco-invar-frame.jpeg" alt="템스코 INVAR36 소재의 마스크 프레임 적용 이미지" />
           <div><h3>INVAR36</h3><p><b>저열팽창 Ni36 소재</b><br />판재·박판·코일 / 프레임·시트 적용</p></div>
         </div>
-        <table className={styles.table} style={{ marginTop: 21 }}>
-          <thead><tr><th style={{ width: '29%' }}>연계 영역</th><th>기술·사업상 역할</th></tr></thead>
+        <table className={styles.table} >
+          <thead><tr><th style={{ width: '36%' }}>연계 영역</th><th>기술·사업상 역할</th></tr></thead>
           <tbody>
             <tr><td>소재 조달</td><td>글로벌 제조사 거래 / 규격·납기 관리</td></tr>
-            <tr><td>마스크 제조</td><td>위폼스 시트·프레임 공정과 소재 연계</td></tr>
+            <tr><td>마스크 어셈블리 제조</td><td>위폼스 시트·프레임 공정과 소재 연계</td></tr>
             <tr><td>표면 코팅</td><td>진공 내 산화물·금속물질 박막 형성</td></tr>
+            <tr><td>세정</td><td>정밀 세정 내재화로 일괄공정 구축</td></tr>
           </tbody>
         </table>
       </div>
@@ -93,16 +94,28 @@ function Mask() {
   </Page>
 }
 
+function ProcessIcon({ index }: { index: number }) {
+  const paths = [
+    'M12 9h25v34H12z M19 18h10 M19 25h7 M27 37l3-9 12-12 6 6-12 12z M30 28l6 6',
+    'M10 15l18-8 18 8-18 8z M10 25l18 8 18-8 M10 35l18 8 18-8',
+    'M8 10h25v32H8z M14 18h11 M14 25h7 M37 26a10 10 0 1 0 0 20 10 10 0 0 0 0-20 M44 43l7 7 M32 36l3 3 5-6',
+    'M9 12h34v32H9z M16 19h20v18H16z M26 3v12 M20 9l6 6 6-6 M26 53V41 M20 47l6-6 6 6',
+    'M8 10h34v32H8z M14 16v7 M21 16v4 M28 16v7 M35 16v4 M16 30h12 M37 30a9 9 0 1 0 0 18 9 9 0 0 0 0-18 M44 45l7 7',
+    'M22 5C18 12 9 22 9 29a13 13 0 0 0 26 0C35 22 26 12 22 5z M15 29a7 7 0 0 0 7 7 M44 10v12 M38 16h12 M40 37l5 5 8-10',
+  ]
+  return <svg className={styles.processIcon} viewBox="0 0 56 56" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d={paths[index]} /></svg>
+}
+
 function Process() {
   const steps = [
     ['01', '설계', '제품·패턴 설계'], ['02', '시트 제작', '재단·노광·에칭'],
     ['03', '시트 검사', '치수·형상 확인'], ['04', '인장·용접', '시트·프레임 조립'],
     ['05', '측정·검사', '측정·이물 검사'], ['06', '세정·출하', '세정·최종 검사'],
   ]
-  return <Page title="정밀 마스크 제조 및 검사 공정" source="출처: 위폼스 회사소개서(2026.04) p.10·13–17 / 공정도 요약 / p.10 세정 단계 외주 표기와 p.15·17 사내 설비 설명 병존, 제품·시점별 운영 범위 확인 필요">
+  return <Page title="정밀 마스크 제조 및 검사 공정">
     <h3 className={styles.subhead}>설계부터 출하까지의 공정별 관리</h3>
     <div className={styles.flow} role="list" aria-label="마스크 제조 공정 순서">
-      {steps.map(([n, title, detail]) => <div className={styles.step} key={n} role="listitem"><span>{n}</span><b>{title}</b><p>{detail}</p></div>)}
+      {steps.map(([n, title, detail], index) => <div className={styles.step} key={n} role="listitem"><span>{n}</span><b>{title}</b><p>{detail}</p><ProcessIcon index={index} /></div>)}
     </div>
     <div className={styles.photoGrid}>
       <figure className={styles.figure}>
@@ -119,7 +132,7 @@ function Process() {
       </figure>
     </div>
     <div className={styles.processNote}>
-      <b>CVD Mask 코팅</b><span>별도 코팅 공정 적용 / PVD 반응성 스퍼터링 방식<br />공정별 수율·Cycle Time·외주 범위와 원가 절감액의 연결 필요</span>
+      <b>CVD Mask 코팅</b><span>별도 코팅 공정 적용 / PVD 반응성 스퍼터링 방식</span>
     </div>
   </Page>
 }
@@ -169,7 +182,7 @@ function Development() {
       <div>
         <h3 className={styles.subhead}>제품별 공급·개발 단계</h3>
         <div className={styles.track}><h3>G6H</h3><div><strong>양산 공급 기반</strong><p>2022.10 국내외 양산 공급<br />2024.06 생산능력 증설 완료</p></div></div>
-        <div className={styles.track}><h3>G8급</h3><div><strong>대면적 개발 및 설비 투자</strong><p>2024.08 G8.6 제품 개발·설비 투자<br />2025.01 G8.6H 양산 투자 진행<br />2026.04 소개서: G8.7H Open Mask 개발</p></div></div>
+        <div className={styles.track}><h3>G8급</h3><div><strong>대면적 개발 및 설비 투자</strong><p>2024.08 G8.7 제품 개발·설비 투자<br />2025.01 8세대 Full Size 제품 개발·설비 투자<br />2026.04 소개서: G8.7H Open Mask 개발</p></div></div>
         <div className={styles.track}><h3 style={{ fontSize: 17 }}>Micro<br />OLED</h3><div><strong>고해상도 제품 개발</strong><p>2025.08 12인치·4,500 PPI 제품 개발 이력<br />2026.04 소개서: 5,500 PPI 개발 표기</p></div></div>
         <div className={styles.milestones}><h3>매출 확대와의 연결 조건</h3><p>제품 규격 확정 / 고객 평가·양산 승인<br />생산수율·가동률 확보 / 발주·납기·판매단가 확정</p></div>
       </div>
@@ -180,7 +193,7 @@ function Development() {
         </figure>
         <div className={styles.capacity}><strong>450</strong><span>매/월<br />G6H 생산 CAPA</span></div>
         <p className={styles.note}>2024년 6월 증설 기준 회사 제시치<br />G8급 CAPA·현재 실생산량으로 환산 불가</p>
-        <div className={styles.strip}><strong>인수로 결합한 기술·사업 기반</strong><p>템스코 소재 조달·코팅 사업<br />위폼스 시트 가공·인장용접·대형 제품 개발<br />대면적 마스크 적용 및 고객 평가 대응</p></div>
+        <div className={styles.strip}><strong>인수로 결합한 기술·사업 기반</strong><p>템스코 소재 조달·코팅·세정 사업<br />위폼스 시트 가공·인장용접·대형 제품 개발<br />대면적 마스크 적용 및 고객 평가 대응</p></div>
       </div>
     </div>
   </Page>

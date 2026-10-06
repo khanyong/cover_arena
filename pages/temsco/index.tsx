@@ -44,11 +44,11 @@ export default function TemscoLandingPage() {
             1안 투자제안서
           </Link>
           <Link
-            href="/temsco/deck-v4"
+            href="/temsco/deck-v5"
             className="text-xs font-black px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white transition flex items-center gap-2 shadow-lg shadow-blue-600/30 hover:scale-[1.02] active:scale-95"
           >
             <i className="fa-solid fa-play text-[10px]"></i>
-            4안 투자제안서 보기
+            5안 투자제안서 보기
           </Link>
         </div>
       </header>
@@ -56,8 +56,8 @@ export default function TemscoLandingPage() {
       <section aria-labelledby="proposal-versions" className="px-6 py-8 border-b border-slate-800 bg-slate-900/60">
         <div className="max-w-6xl mx-auto">
           <h2 id="proposal-versions" className="text-xl font-bold text-white mb-2">투자제안서 버전 선택</h2>
-          <p className="text-sm text-slate-400 mb-5">1~4안 투자제안서를 각각 열어볼 수 있습니다. 4안은 인수 시너지와 별도·연결 가치평가를 반영한 작성 중 버전입니다.</p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+          <p className="text-sm text-slate-400 mb-5">1~5안 투자제안서를 각각 열어볼 수 있습니다. 5안은 4안의 내용과 가치평가를 이어받은 수정 작업본입니다.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
             <Link href="/temsco/original" className="rounded-xl border border-slate-700 bg-slate-900 p-5 hover:border-blue-500 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
               <span className="text-xs font-bold text-slate-400">VERSION 01</span>
               <h3 className="text-lg font-bold text-white mt-2">1안 투자제안서</h3>
@@ -74,9 +74,14 @@ export default function TemscoLandingPage() {
               <p className="text-sm text-slate-400 mt-2">과거 실적·DCF·멀티플·3개 시나리오·후속 투자유치 · 간지 포함 44장</p>
             </Link>
             <Link href="/temsco/deck-v4" className="rounded-xl border border-blue-500/60 bg-blue-950/30 p-5 hover:border-blue-400 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-400">
-              <span className="text-xs font-bold text-blue-400">VERSION 04 · 작성 중</span>
+              <span className="text-xs font-bold text-blue-400">VERSION 04</span>
               <h3 className="text-lg font-bold text-white mt-2">4안 · NDA 이후 상세 검토용</h3>
               <p className="text-sm text-slate-300 mt-2">기술·인수 시너지·별도·연결 DCF · {v4MainChapters.length}개 장·별첨 · 목차·간지 포함 {v4Slides.length}장</p>
+            </Link>
+            <Link href="/temsco/deck-v5" className="rounded-xl border border-cyan-400/60 bg-cyan-950/30 p-5 hover:border-cyan-300 transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-cyan-400">
+              <span className="text-xs font-bold text-cyan-300">VERSION 05 · 작성 중</span>
+              <h3 className="text-lg font-bold text-white mt-2">5안 투자제안서</h3>
+              <p className="text-sm text-slate-300 mt-2">4안 기반 수정 작업본 · 전체본 및 제외본 PDF</p>
             </Link>
           </div>
         </div>

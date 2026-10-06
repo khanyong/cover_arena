@@ -1,0 +1,9 @@
+{
+  "source": "사용자 제공",
+  "receivedDate": "2026-09-15",
+  "amountInterpretation": "주당 액면가",
+  "shareCountBasis": "제공 발행주식수 · 종류별 권리 및 자기주식 내역 미확인",
+  "parent": { "name": "템스코", "parValueKRW": 500, "issuedShares": 100000, "potentialShares": 0 },
+  "subsidiary": { "name": "위폼스", "parValueKRW": 5000, "issuedShares": 1380000, "potentialShares": 0 },
+  "dilutionStatus": "CB·BW·주식선택권 등 잠재주식 없음"
+}

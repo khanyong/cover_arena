@@ -485,10 +485,8 @@ export default function TemscoDeckV4Page() {
               <h2 className="text-2xl text-blue-700 font-bold tracking-widest uppercase">TEMSCO Investment Proposal</h2>
               <p className="text-slate-500 mt-1.5 font-medium text-sm">NDA 이후 상세 검토용 · CONFIDENTIAL</p>
             </div>
+            <div className="flex w-full flex-1 flex-col justify-center py-7">
             <h1 className="leading-tight mb-7 flex flex-col items-start">
-              <span className="text-[34px] font-bold text-slate-800 tracking-tight mb-1">
-                박막 코팅 소재 × 정밀 메탈마스크,
-              </span>
               <span className="text-[44px] font-black text-blue-700 tracking-tight mb-1">
                 반도체·디스플레이 산업의 글로벌
               </span>
@@ -496,9 +494,10 @@ export default function TemscoDeckV4Page() {
                 <span className="text-blue-700">TIER-1 소부장 파트너</span>로의 퀀텀점프
               </span>
             </h1>
-            <p className="text-lg text-slate-700 mb-7 font-medium leading-relaxed max-w-3xl bg-white/60 p-4 rounded-xl border border-slate-200 shadow-xs">
-              템스코의 고순도 박막 코팅 소재 기술력과 정밀 메탈마스크 제조 역량을 결합하여 업계 유일의 &apos;소재-정밀가공-코팅-세정&apos; 원스톱 일원화 체계를 완성했습니다. LG 1차 벤더 직접 판매 및 중국 고객 판매 기반. LG 레퍼런스를 활용한 삼성 공급 가격 협상 진행.
+            <p className="text-lg text-slate-700 font-medium leading-relaxed max-w-3xl bg-white/60 p-4 rounded-xl border border-slate-200 shadow-xs">
+              템스코의 고순도 박막 코팅 소재 기술력과 정밀 메탈마스크 제조 역량을 결합하여 업계 유일의 &apos;소재-정밀가공-코팅-세정&apos; 원스톱 일원화 체계를 완성. LGD 1차 벤더 직접 판매 및 중국 고객 판매 기반. LGD 레퍼런스를 활용한 SDC 양산공급업체 등록.
             </p>
+            </div>
             <div className="mt-auto w-full flex justify-between items-end border-t border-slate-300 pt-5 pb-2">
               <div>
                 <p className="text-2xl font-bold tracking-wide text-slate-800">주식회사 템스코 (TEMSCO, Ltd.)</p>

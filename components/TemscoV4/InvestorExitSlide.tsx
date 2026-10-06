@@ -1,6 +1,8 @@
 import { entryInvestorShare, preIpoInvestorShare, postIpoInvestorShare, investorExitAssumptions as assumptions, investorExitCases } from './investorExitModel'
 
 import { terminalCashFlowYear } from './valuationInputs'
+import { peerBasisNote, peerAssumptionNote } from './peerMultiple'
+import { baseValuation } from './valuationModel'
 
 const navy = '#0f2746'
 const low = investorExitCases[0]
@@ -62,15 +64,17 @@ function ReturnSummary({ route, color }: { route: 'ipo' | 'sale'; color: string 
 
 function TransactionAssumptionsTable({ route }: { route: 'ipo' | 'sale' }) {
   const isIpo = route === 'ipo'
+  const lowTransaction = isIpo ? low.ipo : low.sale
+  const highTransaction = isIpo ? high.ipo : high.sale
   const rows = [
     { label: '지분가치', value: isIpo ? low.ipo && high.ipo ? `상장 후 시가총액 ${range(low.ipo.listingMarketCap, high.ipo.listingMarketCap)}억` : '상장 후 시가총액 · 산정 보류' : low.sale && high.sale ? `회사 100% 지분가치 ${range(low.sale.ownerEquity, high.sale.ownerEquity)}억` : '회사 100% 지분가치 · 산정 보류' },
-    { label: '거래구조', value: isIpo ? '신주 공모 후 지분 20% 가정 · 공모금액 보류' : 'SI / PE 등 · 보유지분 전량 매각' },
+    { label: '거래구조', value: isIpo ? low.ipo && high.ipo ? `신주 공모 20% · 공모금액 ${range(low.ipo.primaryOffering, high.ipo.primaryOffering)}억` : '신주 공모 20% 가정 · 공모금액 산정 보류' : 'SI / PE 등 · 보유지분 전량 매각' },
     { label: '투자자 지분', value: isIpo ? `IPO 후 ${percent(postIpoInvestorShare)}` : `매각 대상 ${percent(preIpoInvestorShare)}` },
-    { label: '적용배수', value: 'OMM 비교기업 배수 산정 중' },
+    { label: '적용배수', value: lowTransaction && highTransaction ? `EV/Sales ${range(lowTransaction.multiple, highTransaction.multiple, 2)}배 · 적용 가정` : '적용 배수 미확정' },
     { label: '실행조건', value: isIpo ? '상장심사·수요예측·보유제한 해제 후 매각' : '매수자 실사·가격 합의·양도제한 해소' },
   ]
   return <div className="pr-5" data-exit-assumptions={route}>
-    <table className="w-full table-fixed border-collapse text-[11px] leading-[1.4]" aria-label={`${isIpo ? 'IPO' : 'M&A'} 예상 거래 규모 및 가정`}>
+    <table className="w-full table-fixed border-collapse text-[11px] leading-[1.4]" aria-label={`${isIpo ? 'IPO' : '지분 매각'} 예상 거래 규모 및 가정`}>
       <colgroup><col style={{ width: '22%' }} /><col style={{ width: '78%' }} /></colgroup>
       <thead><tr className="border-y border-slate-300 bg-slate-50 text-slate-500 text-[10px]">
         <th scope="col" className="text-left px-2 py-[2px]">항목</th><th scope="col" className="text-left px-2 py-[2px]">규모 및 가정</th>
@@ -113,7 +117,7 @@ export default function InvestorExitSlide() {
       </div>
 
       <div data-exit-route="sale" className="grid grid-cols-[20%_43%_37%] items-center py-2 border-b border-slate-200">
-        <div className="pr-4"><p className="text-[10px] font-bold text-cyan-700 mb-1.5">02 / 지분 매각 경로</p><div className="flex items-center gap-2 mb-1.5"><ExitIcon route="sale" /><div><h3 className="text-[23px] leading-tight font-black text-cyan-700">M&amp;A</h3><p className="text-[9px] tracking-wider font-bold text-cyan-700">SECONDARY</p></div></div><p className="text-[14px] font-bold">2031말 매각 목표</p><p className="text-[11px] text-slate-500 mt-1">보유지분 전량 매각 · 5년</p></div>
+        <div className="pr-4"><p className="text-[10px] font-bold text-cyan-700 mb-1.5">02 / 지분 매각 경로</p><div className="flex items-center gap-2 mb-1.5"><ExitIcon route="sale" /><div><h3 className="text-[23px] leading-tight font-black text-cyan-700">지분 매각</h3><p className="text-[9px] tracking-wider font-bold text-cyan-700">SECONDARY SALE</p></div></div><p className="text-[14px] font-bold">2031말 매각 목표</p><p className="text-[11px] text-slate-500 mt-1">보유지분 전량 매각 · 5년</p></div>
         <TransactionAssumptionsTable route="sale" />
         <ReturnSummary route="sale" color="#0891b2" />
       </div>
@@ -137,8 +141,9 @@ export default function InvestorExitSlide() {
 
     <div data-exit-notes className="shrink-0 border-t border-slate-200 pt-2 mt-2 pr-8 text-[10px] leading-[1.5] text-slate-500">
       <p>¹ 연결 지배주주 DCF 중도값 적용 · ² 후속 조달 누적 희석 20%·추가 납입 없음. 연도·공모비중·비용·옵션 가격률: 분석가 가정.</p>
-      <p>회수 지분가치 = 정상 연결 EBIT × 배수 − 순차입금 235.10 − 위폼스 지분가치 × 25%. {terminalCashFlowYear} 정상 EBIT {range(low.normalizedGroupEbit, high.normalizedGroupEbit)}억: 회수연도까지 유지 가정(g=0).</p>
-      <p>비교기업: 핌스 우선의 OMM 사업 기준. Buy-back: 회사가치와 독립된 계약 가격 가정.</p>
+      <p>회수 지분가치 = 연결 외부매출 × 배수 − 순차입금 {amount(baseValuation.consolidated.netDebt, 2)} − 위폼스 지분가치 × 25%. {terminalCashFlowYear} 매출 {range(low.normalizedGroupRevenue, high.normalizedGroupRevenue)}억 유지 가정(g=0 · 무성장모형 채택).</p>
+      <p>{peerBasisNote}. IPO 기준배수 × 60~80% · 지분매각 × 50~70%: 분석가 할인 가정. Buy-back: 독립 계약가격.</p>
+      <p>{peerAssumptionNote}</p>
       <p>IPO 신주대금: 회사 유입·시가총액 가산, 발행비용 0 가정. 경로별 중복 회수 제외·투자자 세금 미반영. 옵션: 5년 가격 기준, 지급시점 수익률 변동·범위 밖 손실 가능.</p>
       <p>근거: DCF·OMM 비교기업 검토 · <a className="underline" href="https://www.krx.co.kr/contents/LST/04/04010102/LST04010102.jsp" target="_blank" rel="noreferrer">한국거래소</a> · <a className="underline" href="https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1031455411" target="_blank" rel="noreferrer">상법 제341조·제341조의4·제345조</a> / 2026.09.13 확인 · 미상장 및 미매각 시 옵션 선택·회사 소각/RCPS 상환 요건 별도</p>
     </div>

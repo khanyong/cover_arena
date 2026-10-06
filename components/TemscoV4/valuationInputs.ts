@@ -1,4 +1,5 @@
 import data from './valuationData.json'
+import { peerMean } from './peerMultiple'
 
 export const valuationDate = '2026-09-13'
 // Four company-plan years (2026–2029); only the remaining 2026 stub is valued.
@@ -10,15 +11,14 @@ export const residualFraction2026 = residualDays2026 / 365
 export const baseWacc = data.market.wacc.selectedModelConvention.wacc
 export const ncwcRatio = data.market.industry.ncwcToRevenue
 export const developmentRatio = data.market.industry.rdToRevenue * 0.20
-// OMM review (2026-09-13): DNP group EV/EBIT is not an eligible OMM peer multiple.
-// A missing peer input must remain unavailable, never zero or an inherited DNP value.
-export const exitMultiple: number | null = null
+// Default multiple is EV/Sales; never multiply it by EBIT.
+export const exitMultiple: number | null = peerMean
 export const exitMultipleBasis = {
-  status: 'pending-omm-peer-verification',
+  status: 'two-peer-ev-sales-proxy',
+  metric: 'EV/Sales',
   priorityPeer: '핌스',
   productPeers: ['핌스', '풍원정밀', '세우인코퍼레이션'],
-  excludedAppliedPeer: 'DNP',
-  reason: 'OMM 대상 사업과 DNP 전사 사업·이익 범위 불일치. 비교기업 EV·이익 및 매출 분모 대사 후 재산정.',
+  reason: '핌스·풍원정밀 연결 EV/LTM 매출 단순평균; 표본 2개·사업혼합·장부가 대용 가정',
 } as const
 
 export const firstPassAssumptions = {

@@ -1,0 +1,36 @@
+import data from './valuationData.json'
+import { waccModel } from './waccModel'
+import { peerMean } from './peerMultiple'
+
+export const valuationDate = '2026-09-13'
+// Five business-plan years (2026–2030); only the remaining 2026 stub is valued.
+export const companyForecastEndYear = 2030
+export const forecastEndYear = companyForecastEndYear
+export const terminalCashFlowYear = forecastEndYear + 1
+export const residualDays2026 = 109
+export const residualFraction2026 = residualDays2026 / 365
+export const baseWacc = waccModel.wacc
+export const ncwcRatio = data.market.industry.ncwcToRevenue
+export const developmentRatio = data.market.industry.rdToRevenue * 0.20
+// Default multiple is EV/Sales; never multiply it by EBIT.
+export const exitMultiple: number | null = peerMean
+export const exitMultipleBasis = {
+  status: 'two-peer-ev-sales-proxy',
+  metric: 'EV/Sales',
+  priorityPeer: '핌스',
+  productPeers: ['핌스', '풍원정밀', '세우인코퍼레이션'],
+  reason: '핌스·풍원정밀 연결 EV/LTM 매출 단순평균; 표본 2개·사업혼합·장부가 대용 가정',
+} as const
+
+export const firstPassAssumptions = {
+  openingAssetPools: data.assetPools,
+  growthAssetPlan: data.growthAssetPlan as { company: 'parent' | 'subsidiary'; year: number; assetClass: 'land' | 'building' | 'equipment'; cost: number }[],
+  depreciation: {
+    residualValueRate: 0, landDepreciationRate: 0,
+    constructionInProgressInService: false,
+    existingEquipmentRemainingYears: 5, newEquipmentYears: 10,
+    existingBuildingRemainingYears: 40, newBuildingYears: 40,
+    finiteIntangibleYears: 5, firstYearFraction: 0.5,
+  },
+  development: { usefulLifeYears: 5, firstYearFraction: 0.5 },
+}

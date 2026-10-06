@@ -43,6 +43,13 @@ import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
 import { LocationGlossary } from '../../components/NovelPlatform/LocationGlossary';
 import { QueryManager } from '../../components/NovelPlatform/QueryManager';
 import { novels, auth } from '../../shared/lib/supabase';
+import { findSceneById, findSceneByParagraphId } from '../../shared/lib/rosKoBlockModel';
+
+type ReaderLoadState =
+  | { status: 'idle' }
+  | { status: 'loading'; requestedSlug: string }
+  | { status: 'ready'; requestedSlug: string; loadedSlug: string }
+  | { status: 'error'; requestedSlug: string; message: string };
 
 export default function NovelStudioPage() {
   const router = useRouter();
@@ -67,7 +74,8 @@ export default function NovelStudioPage() {
     checkAuth();
   }, [router.isReady]);
 
-  // 소설 데이터 state (기본값: initialNovelData)
+  // 소설 데이터 state. initialNovelData는 렌더 전 placeholder일 뿐이며,
+  // 요청 slug와 실제 로드 slug가 일치하기 전에는 화면에 노출하지 않는다.
   const [novel, setNovel] = useState<NovelDetails>(() => {
     if (dbSlug && typeof dbSlug === 'string' && novelsMap[dbSlug]) {
       return novelsMap[dbSlug];
@@ -80,10 +88,12 @@ export default function NovelStudioPage() {
 
   // 단락별 개별 선택 버전 맵: paragraphId -> versionKey
   const [customVersionMap, setCustomVersionMap] = useState<Record<string, string>>({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [readerLoadState, setReaderLoadState] = useState<ReaderLoadState>({ status: 'idle' });
+  const readerRequestSequence = React.useRef(0);
   
   // 현재 선택된 메인 탭
   const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations' | 'diff' | 'queries'>('story');
+  const [comparisonRequestKey, setComparisonRequestKey] = useState(0);
 
   // 버전 비교 탭용 상태
   const [diffActNumber, setDiffActNumber] = useState<number>(1);
@@ -93,21 +103,36 @@ export default function NovelStudioPage() {
 
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
+    if (!router.isReady || isAuthChecking || !dbSlug || typeof dbSlug !== 'string') return;
+
+    const requestId = ++readerRequestSequence.current;
+    let cancelled = false;
+
+    setReaderLoadState({ status: 'loading', requestedSlug: dbSlug });
+
     async function loadNovel() {
-      if (!dbSlug || typeof dbSlug !== 'string') return;
-      
-      setIsLoading(true);
+      try {
+        const { data, error, meta } = await novels.getNovelBySlug(dbSlug);
 
+        if (cancelled || requestId !== readerRequestSequence.current) return;
 
+        if (error || !data) {
+          throw new Error(error?.message || `Reader document not found: ${dbSlug}`);
+        }
 
-      const { data, error } = await novels.getNovelBySlug(dbSlug);
-      
-      // 마이그레이션 로직: act -> chapter -> paragraphs 구조를 act -> chapter -> scenes -> paragraphs 구조로 변환
-      const migrateNovelData = (sourceData: any) => {
-        const migrated = JSON.parse(JSON.stringify(sourceData));
-        if (!migrated.scenes) migrated.scenes = initialNovelData.scenes || [];
-        if (!migrated.locations) migrated.locations = initialNovelData.locations || [];
-        
+        const loadedSlug = meta?.loadedSlug || data.slug || data.id;
+        const payloadSlug = data.slug || loadedSlug;
+        if (loadedSlug !== dbSlug || payloadSlug !== dbSlug) {
+          throw new Error(`Reader identity mismatch: requested ${dbSlug}, received ${loadedSlug || 'unknown'}`);
+        }
+
+        // 마이그레이션 로직: act -> chapter -> paragraphs 구조를 act -> chapter -> scenes -> paragraphs 구조로 변환
+        const migrated = JSON.parse(JSON.stringify(data));
+        if (!migrated.id) migrated.id = loadedSlug;
+        if (!migrated.slug) migrated.slug = loadedSlug;
+        if (!migrated.scenes) migrated.scenes = [];
+        if (!migrated.locations) migrated.locations = [];
+
         if (migrated.acts) {
           for (const act of migrated.acts) {
             if (act.chapters) {
@@ -121,37 +146,61 @@ export default function NovelStudioPage() {
                     paragraphs: ch.paragraphs
                   }];
                   delete ch.paragraphs;
-                } else if (!ch.scenes || ch.scenes.length === 0) {
-                  // If scenes are completely empty and paragraphs are missing (corrupted state), try to recover from initialNovelData
-                  const initialAct = initialNovelData.acts.find(a => a.number === act.number);
-                  const initialCh = initialAct?.chapters.find(c => c.number === ch.number);
-                  if (initialCh && initialCh.scenes && initialCh.scenes.length > 0) {
-                    ch.scenes = initialCh.scenes;
-                  } else {
-                    ch.scenes = [];
-                  }
+                } else if (!ch.scenes) {
+                  // 다른 언어의 정적 기본본으로 보충하지 않는다.
+                  ch.scenes = [];
                 }
               }
             }
           }
         }
-        return migrated;
-      };
 
-      if (data) {
-        setNovel(migrateNovelData(data));
-      } else if (novelsMap[dbSlug]) {
-        setNovel(migrateNovelData(novelsMap[dbSlug]));
-      } else if (novelId && typeof novelId === 'string' && novelsMap[novelId]) {
-        setNovel(migrateNovelData(novelsMap[novelId]));
-      } else {
-        setNovel(migrateNovelData(initialNovelData));
+        setNovel(migrated);
+        setCustomVersionMap({});
+        setReaderLoadState({
+          status: 'ready',
+          requestedSlug: dbSlug,
+          loadedSlug
+        });
+      } catch (loadError) {
+        if (cancelled || requestId !== readerRequestSequence.current) return;
+
+        setReaderLoadState({
+          status: 'error',
+          requestedSlug: dbSlug,
+          message: loadError instanceof Error ? loadError.message : 'Reader document load failed.'
+        });
       }
-      setIsLoading(false);
     }
-    
+
     loadNovel();
-  }, [dbSlug, novelId]);
+
+    return () => {
+      cancelled = true;
+    };
+  }, [router.isReady, isAuthChecking, dbSlug]);
+
+  const isCurrentReaderReady =
+    readerLoadState.status === 'ready' &&
+    readerLoadState.requestedSlug === dbSlug &&
+    readerLoadState.loadedSlug === dbSlug;
+
+  const currentReaderError =
+    readerLoadState.status === 'error' && readerLoadState.requestedSlug === dbSlug
+      ? readerLoadState.message
+      : null;
+
+  // 비동기 Reader가 렌더된 뒤 직접 Scene hash를 다시 적용한다.
+  useEffect(() => {
+    if (!isCurrentReaderReady || typeof window === 'undefined' || !window.location.hash) return;
+
+    const elementId = decodeURIComponent(window.location.hash.slice(1));
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(elementId)?.scrollIntoView({ block: 'start' });
+    });
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [isCurrentReaderReady, dbSlug, novel]);
 
   // 뷰 모드: 'reader' (전체 연속 정독 & 인라인 퀵 편집) | 'editor' (단락별 카드 세부 집필/비교) | 'mosaic' (최종본 조합)
   const [activeTab, setActiveTab] = useState<'reader' | 'editor' | 'mosaic'>('reader');
@@ -171,7 +220,53 @@ export default function NovelStudioPage() {
 
   // 현재 화면에 보이는 챕터 ID (Scroll Spy 용)
   const [activeChapterId, setActiveChapterId] = useState<string>('');
+  const [activeSceneId, setActiveSceneId] = useState('');
   const [expandedChapters, setExpandedChapters] = useState<Record<string, boolean>>({});
+
+  useEffect(() => {
+    if (!router.isReady || !dbSlug) return;
+    setActiveChapterId('');
+    setActiveSceneId('');
+    setExpandedChapters({});
+    setShowImportModal(false);
+    setImportDraftText('');
+  }, [router.isReady, dbSlug]);
+
+  // Keep a Scene anchor when switching languages, not a paragraph array index.
+  // Layout heights differ between translations; identify the visible Scene.
+  useEffect(() => {
+    if (!isCurrentReaderReady || mainTab !== 'story' || activeTab !== 'reader') return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const nodes = Array.from(document.querySelectorAll<HTMLElement>('[id^="scene-"]'));
+      // A short preceding Opening may still be visible above the Scene being read.
+      // Prefer the largest visible Scene instead of that first preceding node.
+      let visible: HTMLElement | undefined;
+      let largestVisibleHeight = 0;
+      for (const node of nodes) {
+        const rect = node.getBoundingClientRect();
+        const visibleHeight = Math.max(0, Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 160));
+        if (visibleHeight > largestVisibleHeight) {
+          visible = node;
+          largestVisibleHeight = visibleHeight;
+        }
+      }
+      if (visible) setActiveSceneId(visible.id.slice(6));
+    };
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    // Capture nested scroll containers as well as the document viewport.
+    window.addEventListener('scroll', schedule, { passive: true, capture: true });
+    window.addEventListener('resize', schedule);
+    schedule();
+    return () => {
+      window.removeEventListener('scroll', schedule, true);
+      window.removeEventListener('resize', schedule);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [isCurrentReaderReady, dbSlug, novel, mainTab, activeTab]);
+
+  const languageSceneAnchor = activeSceneId ? `#scene-${encodeURIComponent(activeSceneId)}` : '';
 
   // Scroll Spy 구현 (Intersection Observer)
   useEffect(() => {
@@ -218,6 +313,21 @@ export default function NovelStudioPage() {
     };
   }, [novel, activeTab]);
 
+  const saveCurrentNovel = (updatedNovel: NovelDetails) => {
+    const loadedSlug = readerLoadState.status === 'ready' ? readerLoadState.loadedSlug : null;
+
+    if (!isCurrentReaderReady || loadedSlug !== dbSlug || updatedNovel.slug !== dbSlug) {
+      const error = {
+        code: 'NOVEL_SAVE_IDENTITY_MISMATCH',
+        message: `Blocked Reader save: requested ${dbSlug || 'unknown'}, loaded ${loadedSlug || 'none'}, payload ${updatedNovel.slug || 'unknown'}`
+      };
+      console.error(error.message);
+      return Promise.resolve({ data: null, error });
+    }
+
+    return novels.saveNovel(updatedNovel);
+  };
+
   // 전체 버전을 일괄 변경할 때
   const handleSetGlobalVersion = (globalVer: string) => {
     const newMap: Record<string, string> = {};
@@ -243,13 +353,61 @@ export default function NovelStudioPage() {
     }));
   };
 
+  const handleManagedRevisionChange = async (sceneId: string, viewKey: string): Promise<boolean> => {
+    const scene = findSceneById(novel, sceneId);
+    if (!scene) return false;
+    const result = await novels.getManagedSceneRevision(scene, viewKey);
+    if (result.error || !result.data) {
+      console.error('Managed revision load failed:', result.error);
+      alert(`구성 리비전을 불러오지 못했습니다.\n${result.error?.message || result.error?.code || 'unknown error'}`);
+      return false;
+    }
+    const nextNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
+    const nextScene = findSceneById(nextNovel, sceneId);
+    if (!nextScene) return false;
+    Object.assign(nextScene, result.data);
+    setNovel(nextNovel);
+    setCustomVersionMap({});
+    return true;
+  };
+
   // 단락에 새 버전 추가/업데이트 핸들러
-  const handleAddNewVersion = (
+  const handleAddNewVersion = async (
     paragraphId: string,
     newVersionKey: string,
     content: string,
     note: string
-  ) => {
+  ): Promise<boolean> => {
+    const located = findSceneByParagraphId(novel, paragraphId);
+    if (located?.scene?.storageModel === 'ros-ko-block-v1') {
+      if (located.scene.managedReadOnly) {
+        alert('과거 구성은 읽기 전용입니다. 최신 review 구성으로 돌아간 뒤 수정해 주세요.');
+        return false;
+      }
+
+      const result = await novels.rewriteManagedBlock({
+        scene: located.scene,
+        paragraph: located.paragraph,
+        newBody: content,
+        note
+      });
+      if (result.error) {
+        console.error('Managed block save failed:', result.error);
+        alert(`블록 저장에 실패했습니다. 입력은 보존됩니다.\n${result.error.message || result.error.code || 'unknown error'}`);
+        return false;
+      }
+
+      const refreshed = await novels.getNovelBySlug(dbSlug);
+      if (refreshed.error || !refreshed.data) {
+        console.error('Managed block readback failed:', refreshed.error);
+        alert('저장 응답 후 독립 재조회에 실패했습니다. 같은 내용을 다시 저장하지 말고 새로고침해 상태를 확인해 주세요.');
+        return false;
+      }
+      setNovel(refreshed.data);
+      setCustomVersionMap({});
+      return true;
+    }
+
     const updatedNovel = addParagraphVersion(
       novel,
       paragraphId,
@@ -257,20 +415,22 @@ export default function NovelStudioPage() {
       content,
       note
     );
+    const saveResult = await saveCurrentNovel(updatedNovel);
+    if (saveResult.error) {
+      console.error('Paragraph save failed:', saveResult.error);
+      alert(`단락 저장에 실패했습니다. 입력은 보존됩니다.\n${saveResult.error.message || saveResult.error.code || 'unknown error'}`);
+      return false;
+    }
     setNovel(updatedNovel);
-    setCustomVersionMap(prev => ({
-      ...prev,
-      [paragraphId]: newVersionKey
-    }));
-    // Supabase에 저장
-    novels.saveNovel(updatedNovel);
+    setCustomVersionMap(prev => ({ ...prev, [paragraphId]: newVersionKey }));
+    return true;
   };
 
   const handleSaveAiPrompt = (paragraphId: string, targetVersion: string, prompt: string) => {
     const updatedNovel = addParagraphAiComment(novel, paragraphId, targetVersion, prompt);
     setNovel(updatedNovel);
     // Supabase에 저장
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteParagraph = (paragraphId: string) => {
@@ -278,151 +438,151 @@ export default function NovelStudioPage() {
       const updatedNovel = deleteParagraph(novel, paragraphId);
       setNovel(updatedNovel);
       // Supabase에 저장
-      novels.saveNovel(updatedNovel);
+      saveCurrentNovel(updatedNovel);
     }
   };
 
   const handleInsertParagraph = (paragraphId: string) => {
     const updatedNovel = insertParagraphAfter(novel, paragraphId);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleInsertParagraphBefore = (paragraphId: string) => {
     const updatedNovel = insertParagraphBefore(novel, paragraphId);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleInsertChapter = (actNumber: number, chapterNumber: number) => {
     const updatedNovel = insertChapterAfter(novel, actNumber, chapterNumber);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleInsertChapterBefore = (actNumber: number, chapterNumber: number) => {
     const updatedNovel = insertChapterBefore(novel, actNumber, chapterNumber);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteChapter = (actNumber: number, chapterNumber: number) => {
     if (confirm('이 챕터를 정말 삭제하시겠습니까? (삭제 시 내부의 모든 단락이 함께 삭제됩니다)')) {
       const updatedNovel = deleteChapter(novel, actNumber, chapterNumber);
       setNovel(updatedNovel);
-      novels.saveNovel(updatedNovel);
+      saveCurrentNovel(updatedNovel);
     }
   };
 
   const handleInsertActAfter = (actNumber: number) => {
     const updatedNovel = insertActAfter(novel, actNumber);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleInsertActBefore = (actNumber: number) => {
     const updatedNovel = insertActBefore(novel, actNumber);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteAct = (actNumber: number) => {
     if (confirm('이 막(Act)을 정말 삭제하시겠습니까? (삭제 시 내부의 모든 챕터와 단락이 함께 삭제됩니다)')) {
       const updatedNovel = deleteAct(novel, actNumber);
       setNovel(updatedNovel);
-      novels.saveNovel(updatedNovel);
+      saveCurrentNovel(updatedNovel);
     }
   };
 
   const handleUpdateActMetadata = (actNumber: number, title: string, summary?: string) => {
     const updatedNovel = updateActMetadata(novel, actNumber, title, summary);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleUpdateChapterMetadata = (actNumber: number, chapterNumber: number, title: string, synopsis?: string) => {
     const updatedNovel = updateChapterMetadata(novel, actNumber, chapterNumber, title, synopsis);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleInsertScene = (actNumber: number, chapterNumber: number, targetSceneId: string) => {
     const updatedNovel = insertNovelSceneAfter(novel, actNumber, chapterNumber, targetSceneId);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteSceneInner = (actNumber: number, chapterNumber: number, sceneId: string) => {
     if (confirm('이 씬(Scene)을 정말 삭제하시겠습니까? (삭제 시 내부의 모든 단락이 함께 삭제됩니다)')) {
       const updatedNovel = deleteNovelScene(novel, actNumber, chapterNumber, sceneId);
       setNovel(updatedNovel);
-      novels.saveNovel(updatedNovel);
+      saveCurrentNovel(updatedNovel);
     }
   };
 
   const handleUpdateSceneMetadata = (actNumber: number, chapterNumber: number, sceneId: string, title: string) => {
     const updatedNovel = updateNovelSceneMetadata(novel, actNumber, chapterNumber, sceneId, title);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleAddCharacter = () => {
     const updatedNovel = addCharacter(novel);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleUpdateCharacter = (id: string, updates: any) => {
     const updatedNovel = updateCharacter(novel, id, updates);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteCharacter = (id: string) => {
     const updatedNovel = deleteCharacter(novel, id);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleAddScene = () => {
     const updatedNovel = addScene(novel);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleUpdateScene = (id: string, updates: any) => {
     const updatedNovel = updateScene(novel, id, updates);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteScene = (id: string) => {
     const updatedNovel = deleteScene(novel, id);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleAddLocation = () => {
     const updatedNovel = addLocation(novel);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleUpdateLocation = (id: string, updates: any) => {
     const updatedNovel = updateLocation(novel, id, updates);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleDeleteLocation = (id: string) => {
     const updatedNovel = deleteLocation(novel, id);
     setNovel(updatedNovel);
-    novels.saveNovel(updatedNovel);
+    saveCurrentNovel(updatedNovel);
   };
 
   const handleUpdateNovel = (newNovel: NovelDetails) => {
     setNovel(newNovel);
-    novels.saveNovel(newNovel);
+    saveCurrentNovel(newNovel);
   };
 
   // 사용자가 가져온 초안 텍스트를 단락 구조로 자동 파싱하여 추가하는 헬퍼
@@ -517,9 +677,9 @@ export default function NovelStudioPage() {
 
   // ===== 14. 렌더링 =====
   
-  if (isAuthChecking) {
+  if (isAuthChecking || !router.isReady) {
     return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <div className="min-h-screen bg-zinc-950 flex items-center justify-center" data-reader-load-state="auth">
         <div className="text-amber-500 animate-pulse text-lg font-bold">
           Verifying access...
         </div>
@@ -527,8 +687,58 @@ export default function NovelStudioPage() {
     );
   }
 
+  if (currentReaderError) {
+    return (
+      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center px-6" data-reader-load-state="error" data-requested-slug={dbSlug}>
+        <div className="w-full max-w-lg rounded-2xl border border-rose-500/30 bg-zinc-900 p-8 text-center shadow-2xl">
+          <div className="text-rose-400 text-lg font-bold mb-3">Reader를 불러오지 못했습니다.</div>
+          <p className="text-sm text-zinc-400 break-words mb-6">{currentReaderError}</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => router.reload()}
+              className="rounded-lg bg-amber-500 px-4 py-2 text-sm font-bold text-zinc-950 hover:bg-amber-400"
+            >
+              다시 시도
+            </button>
+            <Link
+              href="/novel"
+              className="rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2 text-sm font-semibold text-zinc-200 hover:bg-zinc-700"
+            >
+              목록으로
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isCurrentReaderReady) {
+    return (
+      <div
+        className="min-h-screen bg-zinc-950 flex items-center justify-center"
+        data-reader-load-state="loading"
+        data-requested-slug={dbSlug}
+        aria-busy="true"
+      >
+        <div className="text-center">
+          <div className="text-amber-500 animate-pulse text-lg font-bold">
+            {lang === 'en' ? 'Loading English Reader...' : '한국어 Reader를 불러오는 중...'}
+          </div>
+          <div className="mt-2 text-xs text-zinc-500 font-mono">{dbSlug}</div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950">
+    <div
+      className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950"
+      data-reader-load-state="ready"
+      data-requested-slug={dbSlug}
+      data-loaded-slug={readerLoadState.status === 'ready' ? readerLoadState.loadedSlug : undefined}
+      data-reader-language={lang}
+    >
       <Head>
         <title>{novel.title} - 소설 집필 & 버전 스튜디오</title>
         <meta name="description" content={`${novel.title} 소설 막·장·단락 독립 버전 관리`} />
@@ -549,17 +759,25 @@ export default function NovelStudioPage() {
             {novelId && (
               <div className="ml-4 flex items-center bg-zinc-800 rounded-md p-0.5 border border-zinc-700">
                 <Link
-                  href={`/novel/${novelId}`}
+                  href={`/novel/${novelId}${languageSceneAnchor}`}
                   className={`text-xs px-2.5 py-1 rounded-sm font-semibold transition-colors ${lang !== 'en' ? 'bg-amber-500 text-zinc-950' : 'text-zinc-400 hover:text-zinc-200'}`}
                 >
                   KOR
                 </Link>
                 <Link
-                  href={`/novel/${novelId}/en`}
+                  href={`/novel/${novelId}/en${languageSceneAnchor}`}
                   className={`text-xs px-2.5 py-1 rounded-sm font-semibold transition-colors ${lang === 'en' ? 'bg-amber-500 text-zinc-950' : 'text-zinc-400 hover:text-zinc-200'}`}
                 >
                   ENG
                 </Link>
+                {novelId === 'quantum-vibration-novel' && (
+                  <Link
+                    href="/novel/quantum-vibration-novel?compare=b48a4f04#scene-b48a4f04"
+                    onClick={() => { setMainTab('story'); setActiveTab('reader'); setComparisonRequestKey(key => key + 1); }}
+                    title="합의의 건축 — 국문과 번역 기준 영문 비교"
+                    className="text-xs px-2.5 py-1 rounded-sm font-semibold text-sky-300 hover:bg-sky-500/10"
+                  >영한 비교</Link>
+                )}
               </div>
             )}
           </div>
@@ -754,6 +972,8 @@ export default function NovelStudioPage() {
                                     href={`#scene-${scene.id}`}
                                     onClick={(e) => {
                                       e.preventDefault();
+                                      window.history.replaceState(window.history.state, '', `#scene-${encodeURIComponent(scene.id)}`);
+                                      setActiveSceneId(scene.id);
                                       const el = document.getElementById(`scene-${scene.id}`);
                                       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     }}
@@ -951,6 +1171,8 @@ export default function NovelStudioPage() {
             activeTab === 'reader' ? (
               /* 전체 연속 정독 & 인라인 수정 뷰어 (메인 모드) */
               <NovelFullReader
+                requestedComparisonSceneId={router.query.compare === 'b48a4f04' ? 'b48a4f04' : undefined}
+                requestedComparisonKey={comparisonRequestKey}
                 novel={novel}
                 customVersionMap={customVersionMap}
                 onAddNewVersion={handleAddNewVersion}
@@ -970,6 +1192,7 @@ export default function NovelStudioPage() {
                 onInsertScene={handleInsertScene}
                 onDeleteScene={handleDeleteSceneInner}
                 onUpdateSceneMetadata={handleUpdateSceneMetadata}
+                onManagedRevisionChange={handleManagedRevisionChange}
               />
             ) : activeTab === 'mosaic' ? (
               /* 마스터 최종본 조합 스튜디오 */

@@ -31,9 +31,6 @@ scratch/
 # Private report authoring sources are backed up inside the encrypted artifact.
 /components/TemscoEquity/
 /components/TemscoEquityPrivate/
-/components/TemscoV5/ValuationSlideFrame.tsx
-/components/TemscoV5/CorporateSlideFrame.module.css
-/components/TemscoV5/AccountingValuationSlides.module.css
 /scripts/temsco/test-equity-model.mjs
 /scripts/temsco/test-equity-legal-model.mjs
 /scripts/temsco/test-equity-dividend-model.mjs

@@ -1,0 +1,96 @@
+import { formatEok as money, transactionFinancials as model, transactionSources as source, type ProfitRow } from './transactionFinancials'
+
+// Display precision requested by the user; all calculations retain the full source amount.
+const rawMaterialDisplay = (Math.floor(source.rawMaterialSales / 1_000_000) / 100).toFixed(2)
+
+const colors = { goods: '#2563eb', cash: '#047857', technology: '#7c3aed', pending: '#a16207' }
+
+function Flow({ y, label, kind, reverse = false, left = 224, right = 416, both = false }: {
+  y: number; label: string; kind: keyof typeof colors; reverse?: boolean; left?: number; right?: number; both?: boolean
+}) {
+  return <g fill={colors[kind]}>
+    <text x={(left + right) / 2} y={y - 11} fontSize="12" fontWeight="700" textAnchor="middle">{label}</text>
+    <path d={`M${reverse ? right : left} ${y} H${reverse ? left : right}`} stroke={colors[kind]} strokeWidth="1.8"
+      strokeDasharray={kind === 'technology' || kind === 'pending' ? '5 4' : undefined}
+      markerStart={both ? `url(#synergy-arrow-${kind})` : undefined} markerEnd={`url(#synergy-arrow-${kind})`} />
+  </g>
+}
+
+function TransactionDiagram() {
+  const entities = [
+    { x: 0.5, name: '위폼스', en: 'WeFOMS', desc: '마스크 설계·제조·품질', fill: '#f5f3ff', border: '#c4b5fd', color: '#6d28d9', total: model.subsidiaryTotal },
+    { x: 420, name: '템스코', en: 'TEMSCO', desc: '소재·코팅·세정 / 조달·물류·판매', fill: '#eff6ff', border: '#93c5fd', color: '#1d4ed8', total: model.parentTotal },
+  ]
+  return <svg viewBox="0 0 1027 232" className="w-full h-[235px] mt-3 mb-6 shrink-0" role="img" aria-labelledby="synergy-flow-title synergy-flow-description">
+    <title id="synergy-flow-title">2026년 추정 원재료·마스크 내부거래 및 법인별 손익</title>
+    <desc id="synergy-flow-description">템스코에서 위폼스로 원재료 {rawMaterialDisplay}억원 공급, 반대 방향의 매입대금. 위폼스에서 템스코로 마스크 91.56억원 공급, 반대 방향의 매입대금. 발생기준 거래액이며 실제 입출금과 구분. 위폼스 전사 영업손실 28.22억원, 템스코 전사 영업이익 41.52억원. 양사의 기술 연계, LGD·중국 Visionox·CSOT 직접 판매, SDC 양산공급업체 등록.</desc>
+    <defs>{Object.entries(colors).map(([key, color]) => <marker key={key} id={`synergy-arrow-${key}`} markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0,0 L8,4 L0,8 Z" fill={color} /></marker>)}</defs>
+    {entities.map(e => <g key={e.name}>
+      <rect x={e.x} y="8" width="220" height="207" rx="10" fill={e.fill} stroke={e.border} />
+      <rect x={e.x} y="8" width="220" height="5" rx="2" fill={e.color} />
+      <text x={e.x + 19} y="44" fontSize="24" fontWeight="900" fill={e.color}>{e.name} <tspan fontSize="12">{e.en}</tspan></text>
+      <text x={e.x + 19} y="67" fontSize="11" fontWeight="700" fill={e.color}>{e.desc}</text>
+      <path d={`M${e.x + 19} 83 H${e.x + 201}`} stroke={e.border} />
+      <text x={e.x + 19} y="108" fontSize="13" fill="#475569">전사 매출</text>
+      <text x={e.x + 201} y="108" textAnchor="end" fontSize="18" fontWeight="900" fill={e.color}>{money(e.total.revenue)}</text>
+      <text x={e.x + 19} y="143" fontSize="13" fill="#475569">영업손익</text>
+      <text x={e.x + 201} y="143" textAnchor="end" fontSize="25" fontWeight="900" fill={e.total.operatingProfit < 0 ? '#b91c1c' : e.color}>{e.total.operatingProfit > 0 ? '+' : ''}{money(e.total.operatingProfit)}</text>
+      <text x={e.x + 19} y="185" fontSize="11" fill="#64748b">추정손익의 연결 기준</text>
+      <text x={e.x + 19} y="202" fontSize="10" fill="#64748b">법인별 구성액</text>
+    </g>)}
+    <Flow y={34} label={`① 원재료 ${rawMaterialDisplay}`} kind="goods" reverse />
+    <Flow y={73} label={`매입대금 ${rawMaterialDisplay}`} kind="cash" />
+    <Flow y={119} label={`② 마스크 ${money(source.subsidiary.salesToParent)}`} kind="goods" />
+    <Flow y={158} label={`매입대금 ${money(source.subsidiary.salesToParent)}`} kind="cash" reverse />
+    <Flow y={205} label="소재·제조 기술 연계" kind="technology" both />
+    <rect x="830" y="8" width="196" height="111" rx="10" fill="#f8fafc" stroke="#94a3b8" />
+    <text x="847" y="36" fontSize="20" fontWeight="900" fill="#0f172a">LGD</text>
+    <text x="847" y="60" fontSize="13" fontWeight="700" fill="#0f172a">중국 Visionox, CSOT</text>
+    <text x="847" y="88" fontSize="12" fontWeight="700" fill="#1d4ed8">직접 판매</text>
+    <Flow y={34} label="소재·마스크 판매" kind="goods" left={644} right={826} />
+    <Flow y={73} label="판매대금 회수" kind="cash" left={644} right={826} reverse />
+    <text x="735" y="105" fontSize="10.5" textAnchor="middle" fill="#64748b">마스크부문 전체 {money(source.parent.maskRevenue)}</text>
+    <rect x="830" y="147" width="196" height="68" rx="10" fill="#fffbeb" stroke="#d97706" strokeDasharray="5 4" />
+    <text x="847" y="175" fontSize="19" fontWeight="900" fill="#854d0e">SDC</text>
+    <text x="847" y="198" fontSize="12" fontWeight="700" fill="#a16207">양산공급업체 등록</text>
+    <Flow y={180} label="LGD 레퍼런스 활용" kind="pending" left={644} right={826} />
+  </svg>
+}
+
+function ProfitTable({ title, rows, total }: { title: string; rows: ProfitRow[]; total: ProfitRow }) {
+  const fields = ['revenue', 'cost', 'grossProfit', 'sga', 'operatingProfit'] as const
+  return <div>
+    <h3 className="text-[15px] font-black text-slate-800 mb-3">{title}</h3>
+    <table className="w-full text-[11.5px] tabular-nums border-collapse" aria-label={`${title} 관리회계 배부표`}>
+      <thead className="bg-slate-100 text-slate-600 border-y border-slate-300 text-[10.5px]">
+        <tr><th scope="col" className="text-left py-3.5 pl-1">거래 구분</th>{['매출', '원가', '매출총익', '판관비', '영업손익'].map(label => <th scope="col" key={label} className="text-right py-3.5 pr-1 font-bold">{label}</th>)}</tr>
+      </thead>
+      <tbody>
+        {rows.map(r => <tr key={r.label} className="border-b border-slate-100" data-profit-row={r.label}>
+          <th scope="row" className="text-left py-3.5 pl-1 font-medium text-slate-700">{r.label}</th>
+          {fields.map(field => <td key={field} className={`text-right pr-1 py-3.5 ${r[field] < 0 ? 'text-red-700' : 'text-slate-700'} ${field === 'operatingProfit' ? 'font-black' : ''}`}>{r.label === '① 원재료 → 위폼스' && field === 'revenue' ? rawMaterialDisplay : money(r[field])}</td>)}
+        </tr>)}
+        {rows.length < 3 && <tr aria-hidden="true"><td colSpan={6} className="h-[47px]"></td></tr>}
+      </tbody>
+      <tfoot className="bg-blue-50 border-t-2 border-blue-600 font-bold" data-profit-total={title}>
+        <tr><th scope="row" className="text-left py-3.5 pl-1">전사 합계 · 원본</th>{fields.map(field => <td key={field} className={`text-right pr-1 py-3.5 ${total[field] < 0 ? 'text-red-700' : 'text-blue-800'}`}>{money(total[field])}</td>)}</tr>
+      </tfoot>
+    </table>
+  </div>
+}
+
+export default function AcquisitionSynergySlide() {
+  return <div className="h-full px-12 pt-6 pb-12 flex flex-col" data-acquisition-synergy>
+    <div className="flex items-start justify-between border-b-4 border-blue-600 pb-2 mb-2 gap-4">
+      <div><h2 className="text-[29px] font-black text-slate-800 tracking-tight">위폼스 인수 · 거래별 수익과 법인별 손익</h2></div>
+
+    </div>
+    <div className="flex justify-between items-center mb-1 text-[10.5px] font-bold">
+      <p className="text-slate-500">화살표 금액: 발생기준 거래액 · 지급·회수 시점 및 재고변동 미반영</p>
+      <div className="flex gap-4" aria-label="다이어그램 범례"><span className="text-blue-700">→ 상품</span><span className="text-emerald-700">→ 대금 방향</span><span className="text-violet-700">⇠ ⇢ 기술</span></div>
+    </div>
+    <TransactionDiagram />
+    <div className="flex items-center justify-between mb-2 border-t border-slate-200 pt-4"><h3 className="text-[16px] font-black text-slate-800">거래별 이익 기여 · 전사 손익 대사</h3></div>
+    <div className="grid grid-cols-2 gap-6"><ProfitTable title="템스코" rows={model.parentRows} total={model.parentTotal} /><ProfitTable title="위폼스" rows={model.subsidiaryRows} total={model.subsidiaryTotal} /></div>
+  </div>
+}

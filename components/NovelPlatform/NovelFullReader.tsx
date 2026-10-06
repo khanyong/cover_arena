@@ -1,10 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { NovelDetails, NovelParagraph, getParagraphText, getSceneTitle } from './novelData';
+import React, { useState, useEffect, useRef } from 'react';
+import { NovelDetails, NovelParagraph, NovelScene, getParagraphText, getSceneTitle } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
 import { SceneRevisionBadge } from './SceneRevisionBadge';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import { buildManagedSceneCopyText } from '../../shared/lib/rosKoBlockModel';
+import { listReviewComments, saveReviewComment } from '../../shared/lib/novelReviewCommentClient';
+import { listReviewGuidelines, saveReviewGuideline } from '../../shared/lib/novelReviewGuidelineClient';
+import { buildSceneReviewPacket } from '../../shared/lib/novelSceneReviewPacket';
+import { loadSceneTranslationComparison } from '../../shared/lib/novelTranslationComparison';
+import { buildBilingualReviewPacket } from '../../shared/lib/novelBilingualReviewPacket';
+import { ManagedBlockReviewDialog } from './ManagedBlockReviewDialog';
+import { NovelBilingualReader, TranslationComparison } from './NovelBilingualReader';
+import { SceneReviewCommentsPanel } from './SceneReviewCommentsPanel';
+import { supabase, novels } from '../../shared/lib/supabase';
+
+// Comment events are append-only. A delayed read must never replace a newer
+// revision already returned by a successful save in this same actor scope.
+const mergeReviewCommentRevisions = (current: any[], incoming: any[]): any[] => {
+  const rows = new Map(current.map(comment => [comment.id, comment]));
+  for (const comment of incoming) {
+    const previous = rows.get(comment.id);
+    if (!previous || Number(comment.revision) >= Number(previous.revision)) {
+      rows.set(comment.id, comment);
+    }
+  }
+  return [...rows.values()];
+};
 
 // Some legacy whole-chapter records contain escaped paragraph separators.
 // Decode only consecutive escaped newlines so LaTeX commands such as `\nabla`
@@ -15,6 +38,61 @@ export const normalizeEscapedParagraphBreaks = (content: string): string =>
     return '\n'.repeat(breakCount);
   });
 
+export const buildSceneCopyText = (
+  scene: NovelScene,
+  customVersionMap: Record<string, string>,
+  draftOverride?: { paragraphId: string; content: string }
+): string => {
+  if (!scene.paragraphs?.length) return '';
+
+  const blocks = scene.paragraphs.map((paragraph) => {
+    if (draftOverride?.paragraphId === paragraph.id) {
+      return draftOverride.content;
+    }
+
+    const versionKey = customVersionMap[paragraph.id] || paragraph.activeVersion;
+    return getParagraphText(paragraph, versionKey);
+  });
+
+  return `${blocks.join('\n\n')}\n`;
+};
+
+export const writeTextToClipboard = async (text: string): Promise<void> => {
+  // Run the synchronous path first so the browser still sees the original
+  // button click as the user gesture. Awaiting a denied async Clipboard call
+  // before this fallback would lose that gesture in some browser contexts.
+  if (typeof document !== 'undefined') {
+    const previousFocus = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.readOnly = true;
+    textarea.setAttribute('aria-hidden', 'true');
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '0';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+
+    try {
+      textarea.select();
+      textarea.setSelectionRange(0, text.length);
+      if (document.execCommand('copy')) return;
+    } finally {
+      textarea.remove();
+      previousFocus?.focus();
+    }
+  }
+
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  throw new Error('Clipboard is unavailable in this environment.');
+};
+
 interface NovelFullReaderProps {
   novel: NovelDetails;
   customVersionMap: Record<string, string>;
@@ -23,7 +101,7 @@ interface NovelFullReaderProps {
     newVersionKey: string,
     content: string,
     note: string
-  ) => void;
+  ) => boolean | Promise<boolean>;
   onParagraphVersionChange: (paragraphId: string, versionKey: string) => void;
   onSaveAiPrompt?: (paragraphId: string, targetVersion: string, prompt: string) => void;
   onDeleteParagraph?: (paragraphId: string) => void;
@@ -40,6 +118,9 @@ interface NovelFullReaderProps {
   onInsertScene?: (actNum: number, chNum: number, targetSceneId: string) => void;
   onDeleteScene?: (actNum: number, chNum: number, sceneId: string) => void;
   onUpdateSceneMetadata?: (actNum: number, chNum: number, sceneId: string, title: string) => void;
+  onManagedRevisionChange?: (sceneId: string, viewKey: string) => Promise<boolean>;
+  requestedComparisonSceneId?: string;
+  requestedComparisonKey?: number;
 }
 
 export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
@@ -61,10 +142,14 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onUpdateChapterMetadata,
   onInsertScene,
   onDeleteScene,
-  onUpdateSceneMetadata
+  onUpdateSceneMetadata,
+  onManagedRevisionChange,
+  requestedComparisonSceneId,
+  requestedComparisonKey = 0
 }) => {
   // 현재 클릭해서 편집 중인 단락 상태
   const [editingParagraph, setEditingParagraph] = useState<NovelParagraph | null>(null);
+  const [editingParagraphScene, setEditingParagraphScene] = useState<NovelScene | null>(null);
   const [editContent, setEditContent] = useState('');
   const [editingParagraphId, setEditingParagraphId] = useState<string | null>(null);
   const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
@@ -73,6 +158,222 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const [editAiPrompt, setEditAiPrompt] = useState('');
   const [showDiffInModal, setShowDiffInModal] = useState(false);
   const [compareTargetVersion, setCompareTargetVersion] = useState<string>('');
+  const [reviewSelection, setReviewSelection] = useState<{ text: string; start: number; end: number } | undefined>();
+  const [commentPanelSceneId, setCommentPanelSceneId] = useState<string | null>(null);
+  const [commentsReload, setCommentsReload] = useState(0);
+  const [commentActorId, setCommentActorId] = useState<string | null | undefined>(undefined);
+  const commentActorRef = useRef<string | null | undefined>(undefined);
+  const commentReadSequence = useRef(0);
+  const [commentState, setCommentState] = useState<{ scope: string; rows: any[]; guidelines: any[]; loading: boolean; error: string }>({ scope: '', rows: [], guidelines: [], loading: false, error: '' });
+  const managedScenes = novel.acts.flatMap(a => a.chapters.flatMap(ch => (ch.scenes || []).filter(s => s.managedSceneId)));
+  const commentsScope = `${commentActorId || 'no-actor'}:${novel.slug}:${managedScenes.map(s => `${s.managedSceneId}:${s.managedReviewCompositionId || s.compositionRevisionId}`).join('|')}`;
+  const activeCommentsScope = useRef(commentsScope);
+  activeCommentsScope.current = commentsScope;
+  const reviewComments = commentActorId && commentState.scope === commentsScope ? commentState.rows : [];
+  const reviewGuidelines = commentActorId && commentState.scope === commentsScope ? commentState.guidelines : [];
+  const commentPanelScene = managedScenes.find(s => s.id === commentPanelSceneId);
+  const [comparisonSceneId, setComparisonSceneId] = useState<string | null>(null);
+  const [comparisonReload, setComparisonReload] = useState(0);
+  const [comparisonState, setComparisonState] = useState<{ scope: string; value: TranslationComparison | null; loading: boolean; error: string }>({ scope: '', value: null, loading: false, error: '' });
+  const comparisonReadSequence = useRef(0);
+  const comparisonReturnAnchor = useRef<string | null>(null);
+  const consumedComparisonRequest = useRef('');
+  const isComparableScene = (scene: NovelScene) => novel.slug === 'quantum-vibration-novel'
+    && scene.id === 'b48a4f04' && scene.storageModel === 'ros-ko-block-v1'
+    && Boolean(scene.managedSceneId && scene.compositionRevisionId) && scene.managedViewKey !== 'legacy';
+  const comparisonScene = managedScenes.find(scene => isComparableScene(scene)
+    && (scene.id === comparisonSceneId || scene.id === editingParagraphScene?.id));
+  const comparisonScope = `${commentActorId || 'no-actor'}:${novel.slug}:${comparisonScene?.managedSceneId || ''}:${comparisonScene?.compositionRevisionId || ''}:${comparisonScene?.generation ?? ''}`;
+  const activeComparisonScope = useRef(comparisonScope);
+  activeComparisonScope.current = comparisonScope;
+  const comparison = commentActorId && comparisonState.scope === comparisonScope ? comparisonState.value : null;
+  const comparisonLoading = Boolean(comparisonScene) && (comparisonState.scope !== comparisonScope || comparisonState.loading);
+  const comparisonError = comparisonState.scope === comparisonScope ? comparisonState.error : '';
+
+  useEffect(() => {
+    let cancelled = false;
+    const sequence = ++comparisonReadSequence.current;
+    setComparisonState({ scope: comparisonScope, value: null, loading: Boolean(comparisonScene && commentActorId), error: comparisonScene && commentActorId === null ? '로그인 후 영한 비교를 열어 주세요.' : '' });
+    if (comparisonScene && commentActorId) {
+      loadSceneTranslationComparison({ scene: comparisonScene, client: supabase }).then((value: TranslationComparison) => {
+        if (!cancelled && sequence === comparisonReadSequence.current && commentActorRef.current === commentActorId
+          && activeComparisonScope.current === comparisonScope) {
+          setComparisonState({ scope: comparisonScope, value, loading: false, error: '' });
+        }
+      }).catch((caught: unknown) => {
+        if (!cancelled && sequence === comparisonReadSequence.current && activeComparisonScope.current === comparisonScope) {
+          setComparisonState({ scope: comparisonScope, value: null, loading: false, error: caught instanceof Error ? caught.message : '영한 대응을 불러오지 못했습니다.' });
+        }
+      });
+    }
+    return () => { cancelled = true; };
+  }, [comparisonScope, comparisonReload]);
+
+  useEffect(() => {
+    // The callback only updates local state. Awaiting Supabase calls here can
+    // deadlock its session lock; authorized reads run in the separate effect.
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      const nextActor = session?.user?.id || null;
+      if (commentActorRef.current !== nextActor || event === 'SIGNED_OUT') {
+        commentActorRef.current = nextActor;
+        commentReadSequence.current += 1;
+        setCommentState({ scope: '', rows: [], guidelines: [], loading: false, error: '' });
+        closeParagraphEditor();
+        setCommentPanelSceneId(null);
+        setComparisonSceneId(null);
+        consumedComparisonRequest.current = '';
+        comparisonReadSequence.current += 1;
+        setComparisonState({ scope: '', value: null, loading: false, error: '' });
+      }
+      setCommentActorId(nextActor);
+    });
+    return () => {
+      commentReadSequence.current += 1;
+      commentActorRef.current = undefined;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    const sequence = ++commentReadSequence.current;
+    const canRead = Boolean(commentActorId && managedScenes.length);
+    setCommentState(current => ({
+      scope: commentsScope,
+      rows: current.scope === commentsScope ? current.rows : [],
+      guidelines: current.scope === commentsScope ? current.guidelines : [],
+      loading: commentActorId === undefined || canRead,
+      error: commentActorId === null && managedScenes.length ? '로그인 후 코멘트를 확인해 주세요.' : ''
+    }));
+    if (canRead) {
+      Promise.all(managedScenes.map(s => Promise.all([listReviewComments(s.managedSceneId), listReviewGuidelines(s.managedSceneId)]))).then(groups => {
+        if (!cancelled && sequence === commentReadSequence.current
+          && commentActorRef.current === commentActorId && activeCommentsScope.current === commentsScope) {
+          const scopedGuidelines = new Map<string, any>();
+          groups.forEach((group, index) => group[1].forEach(guideline => {
+            const previous = scopedGuidelines.get(guideline.id);
+            scopedGuidelines.set(guideline.id, {
+              ...(previous && previous.revision > guideline.revision ? previous : guideline),
+              _visibleIn: [...(previous?._visibleIn || []), managedScenes[index].managedSceneId]
+            });
+          }));
+          setCommentState(current => ({
+            scope: commentsScope,
+            rows: mergeReviewCommentRevisions(current.scope === commentsScope ? current.rows : [], groups.flatMap(group => group[0])),
+            guidelines: [...scopedGuidelines.values()],
+            loading: false, error: ''
+          }));
+        }
+      }).catch(error => {
+        if (!cancelled && sequence === commentReadSequence.current
+          && commentActorRef.current === commentActorId && activeCommentsScope.current === commentsScope) {
+          setCommentState({ scope: commentsScope, rows: [], guidelines: [], loading: false, error: `코멘트·지침을 불러오지 못했습니다: ${error.message || error}` });
+        }
+      });
+    }
+    return () => { cancelled = true; };
+  }, [commentActorId, commentsScope, commentsReload]);
+
+  useEffect(() => {
+    closeParagraphEditor();
+    setCommentPanelSceneId(null);
+    setComparisonSceneId(null);
+    comparisonReturnAnchor.current = null;
+  }, [novel.slug]);
+
+  useEffect(() => {
+    const requestScope = `${novel.slug}:${requestedComparisonSceneId || ''}:${requestedComparisonKey}`;
+    if (!requestedComparisonSceneId) { consumedComparisonRequest.current = ''; return; }
+    if (!commentActorId) return;
+    const requestedScene = managedScenes.find(scene => scene.id === requestedComparisonSceneId && isComparableScene(scene));
+    if (!requestedScene || consumedComparisonRequest.current === requestScope) return;
+    consumedComparisonRequest.current = requestScope;
+    comparisonReturnAnchor.current = requestedScene.paragraphs[0]?.id || null;
+    setComparisonSceneId(requestedScene.id);
+  }, [novel.slug, commentActorId, requestedComparisonSceneId, requestedComparisonKey, managedScenes.map(scene => `${scene.id}:${scene.compositionRevisionId}`).join('|')]);
+
+  const persistReviewComment = async (scene: NovelScene, paragraph: NovelParagraph, input: any, existing?: any) => {
+    const actor = commentActorRef.current;
+    if (!actor || actor !== commentActorId) throw new Error('로그인 상태를 다시 확인해 주세요.');
+    const saved = await saveReviewComment({ scene, paragraph, input, existing });
+    if (commentActorRef.current !== actor || activeCommentsScope.current !== commentsScope) return true;
+    // Invalidate reads begun before this write returned, including responses
+    // that contain no row for this newly created comment yet.
+    const sequence = ++commentReadSequence.current;
+    setCommentState(current => current.scope === commentsScope ? {
+      ...current, loading: false, error: '', rows: mergeReviewCommentRevisions(current.rows, [saved])
+    } : current);
+    // The RPC result is authoritative; refresh for concurrent note changes as well.
+    try {
+      const rows = await listReviewComments(scene.managedSceneId);
+      if (sequence === commentReadSequence.current && commentActorRef.current === actor
+        && activeCommentsScope.current === commentsScope) {
+        setCommentState(current => current.scope === commentsScope ? {
+          ...current, rows: mergeReviewCommentRevisions(current.rows, rows)
+        } : current);
+      }
+    } catch {
+      if (sequence === commentReadSequence.current && commentActorRef.current === actor
+        && activeCommentsScope.current === commentsScope) {
+        showToast('코멘트는 저장됐습니다. 목록 재조회는 다시 시도해 주세요.');
+      }
+    }
+    return true;
+  };
+
+  const persistReviewGuideline = async (scene: NovelScene, input: any, existing?: any, paragraph?: NovelParagraph) => {
+    const actor = commentActorRef.current;
+    if (!actor || actor !== commentActorId) throw new Error('로그인 상태를 다시 확인해 주세요.');
+    const saved = await saveReviewGuideline({ scene, paragraph, input, existing });
+    if (commentActorRef.current !== actor || activeCommentsScope.current !== commentsScope) return true;
+    commentReadSequence.current += 1;
+    setCommentState(current => current.scope === commentsScope ? {
+      ...current, loading: false, error: '', guidelines: mergeReviewCommentRevisions(current.guidelines, [{ ...saved, _visibleIn: current.guidelines.find(g => g.id === saved.id)?._visibleIn || [scene.managedSceneId] }])
+    } : current);
+    setCommentsReload(n => n + 1);
+    return true;
+  };
+
+  const buildCurrentSceneReviewPacket = async (scene: NovelScene) => {
+    const actor = commentActorRef.current;
+    if (!actor || scene.managedReadOnly) throw new Error('로그인 후 최신 review 구성에서 검토본을 내려받아 주세요.');
+    const [current, comments, guidelines] = await Promise.all([
+      novels.getManagedSceneRevision(scene, null), listReviewComments(scene.managedSceneId), listReviewGuidelines(scene.managedSceneId)
+    ]);
+    if (current.error || !current.data) throw current.error || new Error('Scene 전문을 확인할 수 없습니다.');
+    if (current.data.compositionRevisionId !== scene.compositionRevisionId) throw new Error('Scene 본문이 변경됐습니다. 새로고침 후 검토본을 내려받아 주세요.');
+    const packet = await buildSceneReviewPacket({ scene: current.data, comments, guidelines, readerSlug: novel.slug || novel.id });
+    if (commentActorRef.current !== actor || activeCommentsScope.current !== commentsScope) throw new Error('계정 또는 Scene이 변경되어 다운로드를 중단했습니다.');
+    return packet;
+  };
+
+  const buildCurrentBilingualReviewPacket = async (scene: NovelScene) => {
+    const actor = commentActorRef.current;
+    const scope = activeComparisonScope.current;
+    if (!actor || !isComparableScene(scene) || scene.managedReadOnly) throw new Error('최신 한국어 review 구성에서 영한 검토본을 만들어 주세요.');
+    const [scenePacket, capturedComparison] = await Promise.all([
+      buildCurrentSceneReviewPacket(scene), loadSceneTranslationComparison({ scene, client: supabase }),
+    ]);
+    const packet = await buildBilingualReviewPacket({ scenePacket, comparison: capturedComparison });
+    if (commentActorRef.current !== actor || activeComparisonScope.current !== scope) throw new Error('계정 또는 구성이 변경되어 영한 검토본 생성을 중단했습니다.');
+    return packet;
+  };
+
+  const openBilingualComparison = (scene: NovelScene) => {
+    const visibleParagraph = scene.paragraphs.find(paragraph => {
+      const rect = document.getElementById(`paragraph-${paragraph.id}`)?.getBoundingClientRect();
+      return rect && rect.bottom > 120 && rect.top < window.innerHeight;
+    });
+    comparisonReturnAnchor.current = visibleParagraph?.id || scene.paragraphs[0]?.id || null;
+    setComparisonSceneId(scene.id);
+    setComparisonReload(value => value + 1);
+  };
+
+  const closeBilingualComparison = (scene: NovelScene) => {
+    const anchor = comparisonReturnAnchor.current;
+    setComparisonSceneId(null);
+    requestAnimationFrame(() => document.getElementById(anchor ? `paragraph-${anchor}` : `scene-${scene.id}`)?.scrollIntoView({ block: 'center' }));
+  };
 
   // 뷰 모드 (스크롤 vs 양면 책)
   const [viewMode, setViewMode] = useState<'scroll' | 'book'>('scroll');
@@ -159,10 +460,67 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     }, 3000);
   };
 
+  const closeParagraphEditor = () => {
+    setEditingParagraph(null);
+    setEditingParagraphScene(null);
+    setReviewSelection(undefined);
+  };
+
+  const copySceneToClipboard = async (
+    scene: NovelScene,
+    draftOverride?: { paragraphId: string; content: string }
+  ) => {
+    const sceneText = scene.storageModel === 'ros-ko-block-v1'
+      ? buildManagedSceneCopyText(
+          scene,
+          customVersionMap,
+          (paragraph: NovelParagraph, versionKey: string) =>
+            draftOverride?.paragraphId === paragraph.id
+              ? draftOverride.content
+              : getParagraphText(paragraph, versionKey)
+        )
+      : buildSceneCopyText(scene, customVersionMap, draftOverride);
+
+    if (!sceneText) {
+      showToast('복사할 Scene 본문이 없습니다.');
+      return false;
+    }
+
+    try {
+      await writeTextToClipboard(sceneText);
+      showToast(
+        draftOverride
+          ? `편집 중인 단락을 포함해 Scene 전체 ${scene.paragraphs.length}개 블록을 복사했습니다!`
+          : `Scene 전체 ${scene.paragraphs.length}개 블록을 복사했습니다!`
+      );
+      return true;
+    } catch (error) {
+      console.error('Scene clipboard copy failed:', error);
+      showToast('Scene 전체 복사에 실패했습니다. 브라우저의 클립보드 권한을 확인해 주세요.');
+      return false;
+    }
+  };
+
   // 단락 클릭 시 수정 모달 열기
-  const handleParagraphClick = (paragraph: NovelParagraph) => {
+  const handleParagraphClick = (paragraph: NovelParagraph, scene: NovelScene) => {
+    if (scene.storageModel === 'ros-ko-block-v1' && scene.managedReadOnly) {
+      showToast('과거 구성은 읽기 전용입니다. 최신 review 구성으로 돌아간 뒤 수정해 주세요.');
+      return;
+    }
     const currentVerKey = customVersionMap[paragraph.id] || paragraph.activeVersion;
     const currentText = getParagraphText(paragraph, currentVerKey);
+
+    // Rendered selections may contain math/layout text. Only attach a unique,
+    // exact match from this block; the dialog also offers raw-source selection.
+    const selected = window.getSelection();
+    const blockElement = document.getElementById(`paragraph-${paragraph.id}`);
+    const quote = selected?.toString() || '';
+    const offset = quote ? currentText.indexOf(quote) : -1;
+    const exactSelection = quote && selected?.anchorNode && selected?.focusNode && blockElement?.contains(selected.anchorNode) && blockElement.contains(selected.focusNode)
+      && offset >= 0 && currentText.indexOf(quote, offset + 1) === -1
+      ? { text: quote, start: Array.from(currentText.slice(0, offset)).length, end: Array.from(currentText.slice(0, offset + quote.length)).length }
+      : undefined;
+    setReviewSelection(exactSelection);
 
     // 다음 추천 버전명 계산 (예: v2.0 -> v2.1)
     const verKeys = Object.keys(paragraph.versions);
@@ -192,33 +550,45 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       }
     }
 
+    if (scene.storageModel === 'ros-ko-block-v1') {
+      const currentNo = Number(paragraph.versions?.[currentVerKey]?.versionNo || 1);
+      nextVerTag = `block-v${currentNo + 1}`;
+    }
+
     setEditingParagraph(paragraph);
+    setEditingParagraphScene(scene);
     setEditContent(currentText);
     setEditVersionTag(nextVerTag);
-    setEditNote('전체 창에서 즉시 수정 업데이트');
+    setEditNote(
+      scene.storageModel === 'ros-ko-block-v1'
+        ? '선택 블록 rewrite'
+        : '전체 창에서 즉시 수정 업데이트'
+    );
     setEditAiPrompt(''); // 항상 빈칸으로 시작 (새로운 지시사항 작성용)
     setShowDiffInModal(false);
     setCompareTargetVersion(currentVerKey);
   };
 
   // 모달에서 저장 클릭 시
-  const handleSaveParagraph = (e: React.FormEvent) => {
+  const handleSaveParagraph = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!editingParagraph || !editContent.trim()) return;
 
-    onAddNewVersion(
+    const saved = await onAddNewVersion(
       editingParagraph.id,
       editVersionTag.trim() || 'v2.1',
       editContent,
       editNote.trim() || '소설 뷰어에서 인라인 수정'
     );
 
-    if (onSaveAiPrompt && editAiPrompt.trim()) {
+    if (!saved) return;
+
+    if (editingParagraph.storageModel !== 'ros-ko-block-v1' && onSaveAiPrompt && editAiPrompt.trim()) {
       onSaveAiPrompt(editingParagraph.id, editVersionTag.trim() || 'v2.1', editAiPrompt);
     }
 
     showToast(`단락이 새로운 버전(${editVersionTag})으로 업데이트되었습니다!`);
-    setEditingParagraph(null);
+    closeParagraphEditor();
   };
 
   const getFontSizeClass = () => {
@@ -346,6 +716,34 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           ))}
         </div>
       </div>
+
+      {commentPanelScene && <SceneReviewCommentsPanel
+        key={`${commentActorId}:${commentPanelScene.id}`}
+        scene={commentPanelScene}
+        comments={reviewComments.filter(c => c.managed_scene_id === commentPanelScene.managedSceneId)}
+        guidelines={reviewGuidelines.filter(g => g._visibleIn?.includes(commentPanelScene.managedSceneId))}
+        onSaveGuideline={(input, existing) => persistReviewGuideline(commentPanelScene, input, existing)}
+        onBuildScenePacket={() => buildCurrentSceneReviewPacket(commentPanelScene)}
+        readerSlug={novel.slug || novel.id}
+        loading={commentState.loading || commentState.scope !== commentsScope}
+        error={commentState.error}
+        onReload={() => setCommentsReload(n => n + 1)}
+        onClose={() => setCommentPanelSceneId(null)}
+        onOpen={comment => {
+          const paragraph = commentPanelScene.paragraphs.find(p => (p.unitId || p.id) === comment.block_unit_id);
+          if (!paragraph) { showToast('최신 review 구성에서 해당 블록을 열어 주세요.'); return; }
+          document.getElementById(`paragraph-${paragraph.id}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          handleParagraphClick(paragraph, commentPanelScene);
+        }}
+        onToggle={async (comment, include) => {
+          const paragraph = commentPanelScene.paragraphs.find(p => (p.unitId || p.id) === comment.block_unit_id);
+          if (!paragraph) throw new Error('최신 review 구성에서 코멘트를 선택해 주세요.');
+          await persistReviewComment(commentPanelScene, paragraph, {
+            kind: comment.kind, priority: comment.priority, direction: comment.direction,
+            proposal: comment.proposal, status: comment.status, include_in_export: include
+          }, comment);
+        }}
+      />}
 
       {/* Full Novel Document Sheet */}
       <div className={`border rounded-3xl p-8 lg:p-12 shadow-2xl space-y-12 transition-all duration-700 ${
@@ -567,12 +965,12 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 {/* Paragraphs Continuous Text Container */}
                 <div className={`transition-all duration-700 ${
                   viewMode === 'book' 
-                    ? 'font-serif text-[#d6caba] max-w-3xl mx-auto space-y-4 text-justify leading-loose' 
+                    ? `font-serif text-[#d6caba] ${comparisonSceneId ? 'max-w-none' : 'max-w-3xl'} mx-auto space-y-4 text-justify leading-loose`
                     : 'font-sans text-zinc-200 space-y-8'
                 }`}>
                   {(ch.scenes || []).map((scene) => (
-                    <div key={scene.id} id={`scene-${scene.id}`} className="relative group/scene">
-                      <div className="flex items-center gap-2 mb-3">
+                    <div key={scene.id} id={`scene-${scene.id}`} className="relative group/scene scroll-mt-28">
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
                         {editingSceneId === scene.id ? (
                           <input 
                             autoFocus
@@ -599,23 +997,58 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           />
                         ) : (
                           <h4 
-                            className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${onUpdateSceneMetadata ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-500'}`}
+                            className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-500'}`}
                             onClick={() => {
-                              if (onUpdateSceneMetadata) {
+                              if (onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1') {
                                 setEditingSceneTitle(getSceneTitle(scene, customVersionMap));
                                 setEditingSceneId(scene.id);
                               }
                             }}
-                            title={onUpdateSceneMetadata ? "클릭하여 씬 제목 수정" : ""}
+                            title={onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? "클릭하여 씬 제목 수정" : ""}
                           >
                             <SceneRevisionBadge scene={scene} />
                             {getSceneTitle(scene, customVersionMap)}
                           </h4>
                         )}
+                        {scene.storageModel === 'ros-ko-block-v1' && onManagedRevisionChange && (
+                          <select
+                            aria-label={`${getSceneTitle(scene, customVersionMap)} 구성 리비전 선택`}
+                            value={scene.managedViewKey || scene.compositionRevisionId || ''}
+                            onChange={(event) => void onManagedRevisionChange(scene.id, event.target.value)}
+                            className="shrink-0 max-w-[220px] rounded border border-zinc-700 bg-zinc-900 px-2 py-1 text-[10px] text-zinc-300"
+                          >
+                            {(scene.managedHistory || []).map((revision) => (
+                              <option key={revision.compositionId} value={revision.compositionId}>
+                                {revision.isReview ? '최신 review' : '과거판'} · 구조 r{revision.revisionNo} · {revision.manuscriptVersion}
+                              </option>
+                            ))}
+                            {scene.managedLegacyAvailable && <option value="legacy">legacy 원형 · 읽기 전용</option>}
+                          </select>
+                        )}
+                        {scene.managedSceneId && <button type="button" onClick={() => {
+                          setCommentPanelSceneId(scene.id);
+                          requestAnimationFrame(() => document.querySelector('[aria-label="Scene 검토 코멘트 목록"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
+                        }} className="shrink-0 text-xs px-3 py-1 rounded border border-blue-500/30 text-blue-300 bg-blue-500/10">Scene 검토본 · 지침/코멘트 {reviewComments.filter(c => c.managed_scene_id === scene.managedSceneId && !['resolved', 'withdrawn'].includes(c.status)).length} · 다운로드</button>}
+                        {isComparableScene(scene) && <button type="button" aria-pressed={comparisonSceneId === scene.id} onClick={() => comparisonSceneId === scene.id ? closeBilingualComparison(scene) : openBilingualComparison(scene)} className="shrink-0 rounded border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs text-sky-200">{comparisonSceneId === scene.id ? '국문 읽기' : '영한 비교'}</button>}
+                        <button
+                          type="button"
+                          data-copy-scene-id={scene.id}
+                          onClick={() => void copySceneToClipboard(scene)}
+                          aria-label={`${getSceneTitle(scene, customVersionMap)} Scene 전체 본문 복사`}
+                          title="현재 선택된 Version으로 Scene 본문 전체를 복사합니다"
+                          className={`shrink-0 whitespace-nowrap text-[10px] px-2 py-1 rounded border font-sans transition-colors ${
+                            viewMode === 'book'
+                              ? 'bg-[#201d19] border-[#3a352c] text-[#c2b7a8] hover:bg-[#2a261f] hover:text-[#eee5d8]'
+                              : 'bg-zinc-800 border-zinc-700 text-zinc-300 hover:bg-zinc-700 hover:text-white'
+                          }`}
+                        >
+                          📋 Scene 전체 복사
+                        </button>
                         {onDeleteScene && (
                           <button
+                            disabled={scene.storageModel === 'ros-ko-block-v1'}
                             onClick={() => onDeleteScene(act.number, ch.number, scene.id)}
-                            className="ml-2 text-[10px] bg-zinc-800 hover:bg-red-900/50 text-zinc-400 hover:text-red-200 px-2 py-1 rounded opacity-0 group-hover/scene:opacity-100 transition-opacity font-sans"
+                            className="ml-2 text-[10px] bg-zinc-800 hover:bg-red-900/50 text-zinc-400 hover:text-red-200 px-2 py-1 rounded opacity-0 group-hover/scene:opacity-100 transition-opacity font-sans disabled:hidden"
                             title="이 씬을 삭제합니다"
                           >
                             🗑️ 씬 삭제
@@ -623,7 +1056,20 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
-                      <div className={viewMode === 'book' ? "space-y-0" : "space-y-2"}>
+                      {comparisonSceneId === scene.id && isComparableScene(scene) ? <NovelBilingualReader
+                        key={comparisonScope}
+                        scene={scene}
+                        comparison={comparison}
+                        loading={comparisonLoading}
+                        error={comparisonError}
+                        fontSizeClass={getFontSizeClass()}
+                        comments={reviewComments.filter(comment => comment.managed_scene_id === scene.managedSceneId)}
+                        onRetry={() => setComparisonReload(value => value + 1)}
+                        onClose={() => closeBilingualComparison(scene)}
+                        onSelectBlock={paragraph => { comparisonReturnAnchor.current = paragraph.id; }}
+                        onOpenBlock={paragraph => handleParagraphClick(paragraph, scene)}
+                        onBuildPacket={() => buildCurrentBilingualReviewPacket(scene)}
+                      /> : <div className={viewMode === 'book' ? "space-y-0" : "space-y-2"}>
                       {(scene.paragraphs || []).map((p) => {
                     const activeVerKey = customVersionMap[p.id] || p.activeVersion;
                     let content = getParagraphText(p, activeVerKey);
@@ -660,18 +1106,24 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       <div
                         id={`paragraph-${p.id}`}
                         key={p.id}
-                        onClick={() => handleParagraphClick(p)}
+                        data-managed-block-id={p.storageModel === 'ros-ko-block-v1' ? p.id : undefined}
+                        data-managed-unit-id={p.storageModel === 'ros-ko-block-v1' ? p.unitId : undefined}
+                        data-managed-position={p.storageModel === 'ros-ko-block-v1' ? p.sourceKey : undefined}
+                        onClick={() => handleParagraphClick(p, scene)}
                         className={
                           viewMode === 'book'
-                            ? `group relative px-2 py-1 transition-all cursor-pointer break-inside-avoid mb-2 rounded ${bgClass} ${getFontSizeClass()}`
-                            : `group relative px-3 py-1.5 transition-all cursor-pointer break-inside-avoid mb-1 rounded-lg border-transparent ${bgClass} ${getFontSizeClass()}`
+                            ? `group relative px-2 py-1 transition-all ${scene.managedReadOnly ? 'cursor-default' : 'cursor-pointer'} break-inside-avoid mb-2 rounded ${bgClass} ${getFontSizeClass()}`
+                            : `group relative px-3 py-1.5 transition-all ${scene.managedReadOnly ? 'cursor-default' : 'cursor-pointer'} break-inside-avoid mb-1 rounded-lg border-transparent ${bgClass} ${getFontSizeClass()}`
                         }
-                        title="클릭하여 이 단락 수정 & 새 버전 생성"
+                        title={scene.managedReadOnly ? '과거 구성 읽기 전용' : scene.managedSceneId ? '클릭하여 검토 코멘트 작성 또는 본문 수정' : '클릭하여 이 단락 수정 & 새 버전 생성'}
                       >
                         {/* Hover Quick Edit Badge */}
-                        <div className="absolute top-0 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-[10px] px-2 py-0.5 rounded font-bold shadow-lg flex items-center gap-1 font-sans z-10">
-                          <span>✏️</span> 수정
-                        </div>
+                        {!scene.managedReadOnly && (
+                          <div className="absolute top-0 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-[10px] px-2 py-0.5 rounded font-bold shadow-lg flex items-center gap-1 font-sans z-10">
+                            <span>✏️</span> {scene.managedSceneId ? '검토 · 수정' : '수정'}
+                          </div>
+                        )}
+                        {scene.managedSceneId && reviewComments.some(c => c.block_unit_id === (p.unitId || p.id) && !['resolved', 'withdrawn'].includes(c.status)) && <span className="inline-block text-xs text-blue-200 bg-blue-900/30 rounded px-2 py-0.5 mb-1" aria-label="이 블록의 검토 코멘트 수">💬 {reviewComments.filter(c => c.block_unit_id === (p.unitId || p.id) && !['resolved', 'withdrawn'].includes(c.status)).length}</span>}
 
                         {/* Version Indicator Tag and AI Prompt (hidden unless hovered) */}
                         <div className="flex items-center gap-2 flex-wrap font-sans opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all group-hover:mb-1">
@@ -728,7 +1180,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       </div>
                     );
                   })}
-                      </div>
+                      </div>}
                     </div>
                   ))}
                 </div>
@@ -796,7 +1248,33 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       </div>
 
       {/* Paragraph Edit Modal */}
-      {editingParagraph && (
+      {editingParagraph && editingParagraphScene?.managedSceneId && (
+        <ManagedBlockReviewDialog
+          key={`${editingParagraphScene.managedSceneId}:${editingParagraph.id}:${editingParagraph.revisionVersionId}`}
+          scene={editingParagraphScene}
+          paragraph={editingParagraph}
+          comments={reviewComments.filter(c => c.block_unit_id === (editingParagraph.unitId || editingParagraph.id))}
+          loading={commentState.loading || commentState.scope !== commentsScope}
+          loadError={commentState.error}
+          initialSelection={reviewSelection}
+          englishSource={comparison?.rows.find(row => row.ko_unit_id === (editingParagraph.unitId || editingParagraph.id) && row.ko_version_id === editingParagraph.revisionVersionId)}
+          englishSourceLoading={isComparableScene(editingParagraphScene) && comparisonLoading}
+          englishSourceError={isComparableScene(editingParagraphScene) ? comparisonError : undefined}
+          onClose={closeParagraphEditor}
+          onSaveComment={async (input, existing) => persistReviewComment(editingParagraphScene, editingParagraph, input, existing)}
+          onSaveGuideline={input => persistReviewGuideline(editingParagraphScene, input, undefined, editingParagraph)}
+          onSaveBody={async (body, note) => {
+            const saved = await onAddNewVersion(editingParagraph.id, editVersionTag, body, note);
+            if (saved) { showToast('수정본을 새 버전으로 저장했습니다.'); closeParagraphEditor(); }
+            return saved;
+          }}
+          onCopyScene={async () => {
+            if (!await copySceneToClipboard(editingParagraphScene)) throw new Error('Scene 복사에 실패했습니다. 클립보드 권한을 확인해 주세요.');
+          }}
+          onCopyText={writeTextToClipboard}
+        />
+      )}
+      {editingParagraph && !editingParagraphScene?.managedSceneId && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-zinc-900 border border-amber-500/40 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 lg:p-8 shadow-2xl space-y-6">
             {/* Modal Header */}
@@ -810,8 +1288,9 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </h3>
               </div>
               <button
-                onClick={() => setEditingParagraph(null)}
+                onClick={closeParagraphEditor}
                 className="text-zinc-500 hover:text-zinc-300 text-xl font-bold p-1"
+                aria-label="단락 편집 창 닫기"
               >
                 ✕
               </button>
@@ -878,6 +1357,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       type="text"
                       value={editVersionTag}
                       onChange={(e) => setEditVersionTag(e.target.value)}
+                      readOnly={editingParagraph.storageModel === 'ros-ko-block-v1'}
                       className="w-full bg-zinc-950 border border-zinc-700 rounded-xl p-2.5 text-amber-300 font-mono font-bold focus:outline-none focus:border-amber-500"
                       placeholder="v2.1"
                       required
@@ -978,14 +1458,33 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => {
-                        navigator.clipboard.writeText(editContent);
-                        showToast('단락 본문이 복사되었습니다!');
+                      onClick={async () => {
+                        try {
+                          await writeTextToClipboard(editContent);
+                          showToast('현재 단락 본문을 복사했습니다!');
+                        } catch (error) {
+                          console.error('Paragraph clipboard copy failed:', error);
+                          showToast('현재 단락 복사에 실패했습니다. 브라우저의 클립보드 권한을 확인해 주세요.');
+                        }
                       }}
                       className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-2.5 rounded-xl font-semibold transition-colors"
                     >
-                      📋 본문 전체 복사
+                      📋 현재 단락 복사
                     </button>
+                    {editingParagraphScene && (
+                      <button
+                        type="button"
+                        data-copy-editing-scene-id={editingParagraphScene.id}
+                        onClick={() => void copySceneToClipboard(editingParagraphScene, {
+                          paragraphId: editingParagraph.id,
+                          content: editContent
+                        })}
+                        className="bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-amber-500/30"
+                        title="현재 편집 중인 단락을 포함해 Scene 전체를 복사합니다"
+                      >
+                        📚 Scene 전체 복사
+                      </button>
+                    )}
                     <button
                       type="button"
                       onClick={() => {
@@ -1007,19 +1506,19 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     >
                       📋 본문 + 코멘트 복사
                     </button>
-                    {onDeleteParagraph && (
+                    {onDeleteParagraph && editingParagraph.storageModel !== 'ros-ko-block-v1' && (
                       <button
                         type="button"
                         onClick={() => {
                           onDeleteParagraph(editingParagraph.id);
-                          setEditingParagraph(null);
+                          closeParagraphEditor();
                         }}
                         className="bg-red-500/10 hover:bg-red-500/20 text-red-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-red-500/20 ml-2"
                       >
                         🗑️ 단락 삭제
                       </button>
                     )}
-                    {onInsertParagraph && (
+                    {onInsertParagraph && editingParagraph.storageModel !== 'ros-ko-block-v1' && (
                       <>
                         <button
                           type="button"
@@ -1027,7 +1526,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             if (onInsertParagraphBefore) {
                               onInsertParagraphBefore(editingParagraph.id);
                               showToast('현재 단락 위에 새 단락이 추가되었습니다.');
-                              setEditingParagraph(null);
+                              closeParagraphEditor();
                             }
                           }}
                           className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-purple-500/20 ml-2"
@@ -1039,7 +1538,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           onClick={() => {
                             onInsertParagraph(editingParagraph.id);
                             showToast('현재 단락 아래에 새 단락이 추가되었습니다.');
-                            setEditingParagraph(null);
+                            closeParagraphEditor();
                           }}
                           className="bg-purple-500/10 hover:bg-purple-500/20 text-purple-400 px-3 py-2.5 rounded-xl font-semibold transition-colors border border-purple-500/20 ml-2"
                         >
@@ -1051,7 +1550,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                   <div className="flex items-center gap-2">
                     <button
                       type="button"
-                      onClick={() => setEditingParagraph(null)}
+                      onClick={closeParagraphEditor}
                       className="bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-4 py-2.5 rounded-xl font-semibold transition-colors"
                     >
                       취소

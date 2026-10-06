@@ -4,6 +4,8 @@ import type { SceneRevisionMetadata } from './sceneRevision';
 export interface NovelParagraphVersion {
   version: string;
   content: string;
+  versionNo?: number;
+  revisionVersionId?: string;
   note?: string;
   createdAt: string;
   author?: string;
@@ -23,6 +25,13 @@ export interface NovelParagraph {
   commentary?: string;
   aiPrompt?: string; // (Legacy) 
   aiPrompts?: AiComment[];
+  unitId?: string;
+  sourceKey?: string;
+  revisionVersionId?: string;
+  storageModel?: 'ros-ko-block-v1';
+  compositionRevisionId?: string;
+  generation?: number;
+  separatorAfter?: '' | '\n\n';
 }
 
 export interface NovelScene extends SceneRevisionMetadata {
@@ -30,6 +39,26 @@ export interface NovelScene extends SceneRevisionMetadata {
   number: number;
   title?: string;
   paragraphs: NovelParagraph[];
+  storageModel?: 'ros-ko-block-v1';
+  managedSceneId?: string;
+  compositionRevisionId?: string;
+  generation?: number;
+  canonicalBodySha256?: string;
+  projectionSha256?: string;
+  manifestSha256?: string;
+  terminalLf?: 0 | 1;
+  managedReadOnly?: boolean;
+  managedReviewCompositionId?: string;
+  managedViewKey?: string;
+  managedHistory?: Array<{
+    compositionId: string;
+    revisionNo: number;
+    manuscriptVersion: string;
+    bodySha256: string;
+    createdAt: string;
+    isReview: boolean;
+  }>;
+  managedLegacyAvailable?: boolean;
 }
 
 export interface NovelChapter {

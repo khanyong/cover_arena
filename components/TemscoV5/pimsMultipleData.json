@@ -1,0 +1,42 @@
+{
+  "name": "핌스",
+  "ticker": "347770",
+  "metric": "EV/Sales",
+  "retrievedDate": "2026-09-15",
+  "priceDate": "2026-09-08",
+  "balanceDate": "2026-06-30",
+  "priceKRW": 916,
+  "issuedSharesBeforeCancellation": 22857042,
+  "cancelledShares": 197340,
+  "cancellationDate": "2026-07-31",
+  "listingDate": "2026-08-18",
+  "treasurySharesAfterCancellation": 0,
+  "bankDebtKRW": 27025000000,
+  "leaseDebtKRW": 1161544976,
+  "reportedCashKRW": 5623696344,
+  "buybackCashPaidKRW": 201999150,
+  "fairValueFinancialAssetsKRW": 3817200000,
+  "nciMarketValueAssumptionKRW": 0,
+  "financialAssetDeductionRateAssumption": 1,
+  "revenue2025KRW": 63383012048,
+  "revenueH12026KRW": 32892128831,
+  "revenueH12025KRW": 38091682065,
+  "ebit2025KRW": -6113556216,
+  "ebitH12026KRW": -1335601491,
+  "ebitH12025KRW": 219018279,
+  "sources": {
+    "price": "https://kind.krx.co.kr/common/stockprices.do?isurCd=34777&method=searchStockPricesMain",
+    "financials": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260814002498&dcmNo=11533550&eleId=17&offset=185297&length=744731&dtd=dart4.xsd",
+    "cancellation": "https://kind.krx.co.kr/external/2026/08/12/000884/20260812001979/70763.htm",
+    "buyback": "https://dart.fss.or.kr/report/viewer.do?rcpNo=20260722000317&dcmNo=11489472&eleId=8&offset=4710&length=9901&dtd=dart3.xsd"
+  },
+  "assumptions": [
+    "6월말 현금·차입·리스 잔액에 공시된 7월 자사주 취득대금만 반영; 수수료·그 외 후속 현금변동 0 가정",
+    "금융자산 38.172억원을 비영업자산으로 간주해 공시 공정가치 전액 차감; 매각세금·유동성 할인 0 가정",
+    "음수 비지배지분 장부액은 차감하지 않음; 비지배지분 시장가치 0 가정(시장가치 검증값 아님)",
+    "9월8일 시세 유지; 9월13일 평가와 가격시점 차이 공개",
+    "순수 OMM 단독 배수 아닌 핌스 연결 매출배수; 템스코 소재·제조 혼합사업에 1차 대용 적용",
+    "연결 외부매출을 법인 매출비중으로 배분해 지분평가 시 내부매출 중복 제외",
+    "EV/Sales 기준배수에 추가 비상장·규모 할인 0 가정; Exit 경로별 할인은 별도 분석가 가정"
+  ]
+}
