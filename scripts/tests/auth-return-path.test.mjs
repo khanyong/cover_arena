@@ -10,6 +10,31 @@ test('returns either protected route with its query and fragment unchanged', () 
   }
 })
 
+test('returns only the novel index and a lowercase slug with optional en suffix, preserving query and fragment', () => {
+  for (const path of ['/novel', '/novel/a', '/novel/a1-b2', '/novel/quantum-vibration-novel', '/novel/quantum-vibration-novel/en']) {
+    for (const suffix of ['', '?scene=3b301af5', '#scene-1', '?scene=30ad0834&label=%ED%95%A9%EC%84%B1#review']) {
+      assert.equal(getSafeAuthReturnPath(path + suffix), path + suffix)
+    }
+  }
+})
+
+test('rejects arbitrary novel subpaths, external returns, encoding tricks and path traversal', () => {
+  for (const path of [
+    '/novel/', '/novels', '/novel//a', '/novel/A', '/novel/Upper-Case',
+    '/novel/a_b', '/novel/-a', '/novel/a-', '/novel/a--b',
+    '/novel/a/ko', '/novel/a/edit', '/novel/a/en/', '/novel/a/en/extra',
+    '/novel/./a', '/novel/../auth', '/novel/a/../b',
+    '/novel/%61', '/novel/%2e%2e', '/novel/%252e%252e', '/novel/a%2fen',
+    '/novel/a%2f..%2fauth', '/novel/a%5c..%5cauth', '/novel/a%00',
+    '/novel/a%3fnext=//outside.example', '/novel/a%23review',
+    '//outside.example/novel/a', 'https://outside.example/novel/a',
+    '/\\outside.example/novel/a', ' /novel/a', '/novel/a\n',
+    '/novel/a?x=\r\n//outside.example', '/novel/a#\\outside.example',
+  ]) {
+    assert.equal(getSafeAuthReturnPath(path), '/', path)
+  }
+})
+
 test('rejects absent, repeated, or non-string next parameters', () => {
   for (const value of [undefined, null, '', ['/temsco/equity'], ['/temsco/equity', '//evil.example'], {}, 1]) {
     assert.equal(getSafeAuthReturnPath(value), '/')

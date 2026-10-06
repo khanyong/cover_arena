@@ -42,7 +42,8 @@ import { CharacterGlossary } from '../../components/NovelPlatform/CharacterGloss
 import { SceneGlossary } from '../../components/NovelPlatform/SceneGlossary';
 import { LocationGlossary } from '../../components/NovelPlatform/LocationGlossary';
 import { QueryManager } from '../../components/NovelPlatform/QueryManager';
-import { novels, auth } from '../../shared/lib/supabase';
+import { novels } from '../../shared/lib/supabase';
+import { ReaderAccountControls, ReaderSessionBoundary } from '../../components/NovelPlatform/ReaderSessionBoundary';
 import { findSceneById, findSceneByParagraphId } from '../../shared/lib/rosKoBlockModel';
 
 type ReaderLoadState =
@@ -52,27 +53,15 @@ type ReaderLoadState =
   | { status: 'error'; requestedSlug: string; message: string };
 
 export default function NovelStudioPage() {
+  return <ReaderSessionBoundary><NovelStudioContent /></ReaderSessionBoundary>;
+}
+
+function NovelStudioContent() {
   const router = useRouter();
   const { slug } = router.query;
   const novelId = Array.isArray(slug) ? slug[0] : slug;
   const lang = Array.isArray(slug) && slug.length > 1 ? slug[1] : 'ko';
   const dbSlug = lang === 'en' ? `${novelId}-en` : (novelId || '');
-
-  const [isAuthChecking, setIsAuthChecking] = useState(true);
-
-  // 인증 확인
-  useEffect(() => {
-    if (!router.isReady) return;
-    const checkAuth = async () => {
-      const user = await auth.getCurrentUser();
-      if (!user) {
-        router.replace('/auth');
-      } else {
-        setIsAuthChecking(false);
-      }
-    };
-    checkAuth();
-  }, [router.isReady]);
 
   // 소설 데이터 state. initialNovelData는 렌더 전 placeholder일 뿐이며,
   // 요청 slug와 실제 로드 slug가 일치하기 전에는 화면에 노출하지 않는다.
@@ -103,7 +92,7 @@ export default function NovelStudioPage() {
 
   // Supabase에서 소설 데이터 불러오기
   useEffect(() => {
-    if (!router.isReady || isAuthChecking || !dbSlug || typeof dbSlug !== 'string') return;
+    if (!router.isReady || !dbSlug || typeof dbSlug !== 'string') return;
 
     const requestId = ++readerRequestSequence.current;
     let cancelled = false;
@@ -178,7 +167,7 @@ export default function NovelStudioPage() {
     return () => {
       cancelled = true;
     };
-  }, [router.isReady, isAuthChecking, dbSlug]);
+  }, [router.isReady, dbSlug]);
 
   const isCurrentReaderReady =
     readerLoadState.status === 'ready' &&
@@ -677,7 +666,7 @@ export default function NovelStudioPage() {
 
   // ===== 14. 렌더링 =====
   
-  if (isAuthChecking || !router.isReady) {
+  if (!router.isReady) {
     return (
       <div className="min-h-screen bg-zinc-950 flex items-center justify-center" data-reader-load-state="auth">
         <div className="text-amber-500 animate-pulse text-lg font-bold">
@@ -689,7 +678,8 @@ export default function NovelStudioPage() {
 
   if (currentReaderError) {
     return (
-      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex items-center justify-center px-6" data-reader-load-state="error" data-requested-slug={dbSlug}>
+      <div className="min-h-screen bg-zinc-950 text-zinc-100 flex flex-col items-center justify-center px-6" data-reader-load-state="error" data-requested-slug={dbSlug}>
+        <div className="mb-6 w-full max-w-lg"><ReaderAccountControls /></div>
         <div className="w-full max-w-lg rounded-2xl border border-rose-500/30 bg-zinc-900 p-8 text-center shadow-2xl">
           <div className="text-rose-400 text-lg font-bold mb-3">Reader를 불러오지 못했습니다.</div>
           <p className="text-sm text-zinc-400 break-words mb-6">{currentReaderError}</p>
@@ -716,11 +706,12 @@ export default function NovelStudioPage() {
   if (!isCurrentReaderReady) {
     return (
       <div
-        className="min-h-screen bg-zinc-950 flex items-center justify-center"
+        className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center"
         data-reader-load-state="loading"
         data-requested-slug={dbSlug}
         aria-busy="true"
       >
+        <div className="mb-6 w-full max-w-lg"><ReaderAccountControls /></div>
         <div className="text-center">
           <div className="text-amber-500 animate-pulse text-lg font-bold">
             {lang === 'en' ? 'Loading English Reader...' : '한국어 Reader를 불러오는 중...'}
@@ -746,6 +737,7 @@ export default function NovelStudioPage() {
 
       {/* Navigation Header */}
       <header className="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-50">
+        <ReaderAccountControls />
         <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Link href="/novel" className="text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-3 py-1.5 rounded-md font-semibold transition-colors">

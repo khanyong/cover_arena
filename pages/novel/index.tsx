@@ -3,32 +3,24 @@ import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { initialNovelData } from '../../components/NovelPlatform/novelData';
-import { novels, auth } from '../../shared/lib/supabase';
+import { novels } from '../../shared/lib/supabase';
+import { ReaderAccountControls, ReaderSessionBoundary } from '../../components/NovelPlatform/ReaderSessionBoundary';
 
 export default function NovelDashboard() {
+  return <ReaderSessionBoundary><NovelDashboardContent /></ReaderSessionBoundary>;
+}
+
+function NovelDashboardContent() {
   const router = useRouter();
   const [novelList, setNovelList] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [isAuthChecking, setIsAuthChecking] = useState(true);
-
-  // 인증 확인
-  useEffect(() => {
-    const checkAuth = async () => {
-      const user = await auth.getCurrentUser();
-      if (!user) {
-        router.replace('/auth');
-      } else {
-        setIsAuthChecking(false);
-      }
-    };
-    checkAuth();
-  }, [router]);
-
   // DB에서 소설 목록 불러오기
   useEffect(() => {
+    let cancelled = false;
     const fetchNovels = async () => {
       try {
         const { data, error } = await novels.getAllNovels();
+        if (cancelled) return;
         if (error) {
           console.error("Error fetching novels:", error);
         } else if (data) {
@@ -38,10 +30,11 @@ export default function NovelDashboard() {
       } catch (err) {
         console.error(err);
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
     fetchNovels();
+    return () => { cancelled = true; };
   }, []);
 
   const handleCreateNewVolume = async () => {
@@ -74,16 +67,6 @@ export default function NovelDashboard() {
     }
   };
 
-  if (isAuthChecking) {
-    return (
-      <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
-        <div className="text-amber-500 animate-pulse text-lg font-bold">
-          Verifying access...
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="min-h-screen bg-zinc-950 text-zinc-100 font-sans selection:bg-amber-500 selection:text-zinc-950">
       <Head>
@@ -93,6 +76,7 @@ export default function NovelDashboard() {
 
       {/* Navigation Bar */}
       <nav className="border-b border-zinc-800 bg-zinc-900/80 backdrop-blur sticky top-0 z-50">
+        <ReaderAccountControls />
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link href="/" className="text-xl font-black tracking-tight text-amber-400 hover:text-amber-300 transition-colors">

@@ -6,5 +6,6 @@ export function getSafeAuthReturnPath(value) {
   if (typeof value !== 'string' || /[\u0000-\u0020\u007f\\]/.test(value)) return '/'
 
   const pathname = value.split(/[?#]/, 1)[0]
-  return RETURN_PATHS.has(pathname) ? value : '/'
+  const readerPath = /^\/novel(?:\/[a-z0-9]+(?:-[a-z0-9]+)*(?:\/en)?)?$/.test(pathname)
+  return RETURN_PATHS.has(pathname) || readerPath ? value : '/'
 }
