@@ -45,6 +45,7 @@ import { QueryManager } from '../../components/NovelPlatform/QueryManager';
 import { novels } from '../../shared/lib/supabase';
 import { ReaderAccountControls, ReaderSessionBoundary } from '../../components/NovelPlatform/ReaderSessionBoundary';
 import { findSceneById, findSceneByParagraphId } from '../../shared/lib/rosKoBlockModel';
+import { buildNovelTocTitles, chapterTocKey, getTocTitle } from '../../shared/lib/novelTocTitles';
 
 type ReaderLoadState =
   | { status: 'idle' }
@@ -79,6 +80,35 @@ function NovelStudioContent() {
   const [customVersionMap, setCustomVersionMap] = useState<Record<string, string>>({});
   const [readerLoadState, setReaderLoadState] = useState<ReaderLoadState>({ status: 'idle' });
   const readerRequestSequence = React.useRef(0);
+  const currentReaderSlug = React.useRef(dbSlug);
+  currentReaderSlug.current = dbSlug;
+  const [tocEnglish, setTocEnglish] = useState<{ requestedSlug: string; novel: NovelDetails } | null>(null);
+  const [tocEnglishState, setTocEnglishState] = useState<{ requestedSlug: string; status: 'loading' | 'ready' | 'error' } | null>(null);
+
+  // Account-bound, optional read. EN title loading must not block the KO Reader.
+  useEffect(() => {
+    let cancelled = false;
+    setTocEnglish(null);
+    setTocEnglishState(null);
+    if (!router.isReady || dbSlug !== 'quantum-vibration-novel') return;
+    const requestedSlug = dbSlug;
+    setTocEnglishState({ requestedSlug, status: 'loading' });
+    novels.getNovelBySlug(`${requestedSlug}-en`).then(({ data, error, meta }) => {
+      if (cancelled || currentReaderSlug.current !== requestedSlug) return;
+      if (error || !data || data.slug !== `${requestedSlug}-en` || meta?.loadedSlug !== `${requestedSlug}-en`) {
+        setTocEnglishState({ requestedSlug, status: 'error' });
+        return;
+      }
+      setTocEnglish({ requestedSlug, novel: data });
+      setTocEnglishState({ requestedSlug, status: 'ready' });
+    }).catch(() => {
+      if (!cancelled && currentReaderSlug.current === requestedSlug) setTocEnglishState({ requestedSlug, status: 'error' });
+    });
+    return () => { cancelled = true; };
+  }, [router.isReady, dbSlug]);
+
+  const tocTitles = React.useMemo(() => buildNovelTocTitles(novel,
+    tocEnglish?.requestedSlug === dbSlug ? tocEnglish.novel : null), [novel, tocEnglish, dbSlug]);
   
   // 현재 선택된 메인 탭
   const [mainTab, setMainTab] = useState<'story' | 'characters' | 'scenes' | 'locations' | 'diff' | 'queries'>('story');
@@ -919,6 +949,14 @@ function NovelStudioContent() {
                 <span className="text-[10px] text-amber-400/80 bg-amber-500/10 px-2 py-0.5 rounded font-mono">Sticky Fix</span>
               </h3>
 
+              {tocEnglishState?.requestedSlug === dbSlug && tocEnglishState.status !== 'ready' && (
+                <p role="status" className="text-xs text-zinc-500 mb-3">
+                  {tocEnglishState.status === 'loading' ? '목차 영문 제목 확인 중…' : '영문 제목을 읽지 못해 기존 목차 제목을 표시합니다.'}
+                </p>
+              )}
+              {tocTitles.issues.length > 0 && (
+                <p role="status" className="text-xs text-amber-300 mb-3">제목 확인 필요 {tocTitles.issues.length}개 · 해당 항목의 원래 제목을 유지합니다.</p>
+              )}
               <div className="space-y-4 text-xs">
                 {novel.acts.map((act) => (
                   <div key={act.number} className="space-y-2">
@@ -927,6 +965,7 @@ function NovelStudioContent() {
                     </div>
                     <div className="pl-3 space-y-1 border-l border-zinc-800">
                       {act.chapters.map((ch) => {
+                        const chapterTitle = getTocTitle(tocTitles.chapters.get(chapterTocKey(act.number, ch.number)), ch.title);
                         const targetId = activeTab === 'reader' 
                           ? `full-act-${act.number}-ch-${ch.number}` 
                           : `act-${act.number}-ch-${ch.number}`;
@@ -944,23 +983,28 @@ function NovelStudioContent() {
                               </button>
                               <a
                                 id={`nav-${targetId}`}
+                                title={chapterTitle}
                                 href={`#${targetId}`}
                                 onClick={(e) => handleNavClick(e, targetId)}
-                                className={`flex-1 transition-all py-1.5 px-1.5 rounded-md truncate duration-150 ${
+                                className={`flex-1 min-w-0 transition-all py-1.5 px-1.5 rounded-md whitespace-normal break-words duration-150 ${
                                   isActive
                                     ? 'text-amber-300 font-bold bg-amber-500/10 border border-amber-500/20 translate-x-1'
                                     : 'text-zinc-400 hover:text-amber-300 hover:translate-x-1 hover:bg-zinc-800/50'
                                 }`}
                               >
-                                {ch.title}
+                                {chapterTitle}
                               </a>
                             </div>
                             {/* Scenes dropdown */}
                             {expandedChapters[targetId] && ch.scenes && ch.scenes.length > 0 && (
                               <div className="pl-6 py-1 space-y-1 border-l border-zinc-800 ml-2 mb-1">
-                                {ch.scenes.map((scene) => (
+                                {ch.scenes.map((scene) => {
+                                  const tocEntry = tocTitles.scenes.get(scene.id);
+                                  const sceneTitle = getTocTitle(tocEntry, getSceneTitle(scene, customVersionMap));
+                                  return (
                                   <a
                                     key={scene.id}
+                                    title={tocEntry?.issue ? `${sceneTitle} · ${tocEntry.issue}` : sceneTitle}
                                     href={`#scene-${scene.id}`}
                                     onClick={(e) => {
                                       e.preventDefault();
@@ -969,11 +1013,12 @@ function NovelStudioContent() {
                                       const el = document.getElementById(`scene-${scene.id}`);
                                       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
                                     }}
-                                    className="block transition-all py-1 px-2 rounded-md truncate duration-150 text-[11px] text-zinc-500 hover:text-amber-200 hover:bg-zinc-800/50"
+                                    className="block transition-all py-1 px-2 rounded-md whitespace-normal break-words duration-150 text-[11px] text-zinc-500 hover:text-amber-200 hover:bg-zinc-800/50"
                                   >
-                                    🎬 <SceneRevisionBadge scene={scene} />{getSceneTitle(scene, customVersionMap)}
+                                    🎬 <SceneRevisionBadge scene={scene} />{sceneTitle}{tocEntry?.issue && <span className="ml-1 text-amber-300"> · 제목 확인 필요</span>}
                                   </a>
-                                ))}
+                                  );
+                                })}
                               </div>
                             )}
                           </div>
