@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NovelDetails, NovelParagraph, NovelScene, getParagraphText, getSceneTitle } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
 import { SceneRevisionBadge } from './SceneRevisionBadge';
+import { KoreanTranslationBadge } from './KoreanTranslationBadge';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
@@ -1007,6 +1008,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             title={onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? "클릭하여 씬 제목 수정" : ""}
                           >
                             <SceneRevisionBadge scene={scene} />
+                            <KoreanTranslationBadge novelSlug={novel.slug} actNumber={act.number} scene={scene} customVersionMap={customVersionMap} />
                             {getSceneTitle(scene, customVersionMap)}
                           </h4>
                         )}

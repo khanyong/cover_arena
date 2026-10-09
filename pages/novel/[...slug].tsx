@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SceneRevisionBadge } from '../../components/NovelPlatform/SceneRevisionBadge';
+import { KoreanTranslationBadge } from '../../components/NovelPlatform/KoreanTranslationBadge';
 import Head from 'next/head';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -46,6 +47,12 @@ import { novels } from '../../shared/lib/supabase';
 import { ReaderAccountControls, ReaderSessionBoundary } from '../../components/NovelPlatform/ReaderSessionBoundary';
 import { findSceneById, findSceneByParagraphId } from '../../shared/lib/rosKoBlockModel';
 import { buildNovelTocTitles, chapterTocKey, getTocTitle } from '../../shared/lib/novelTocTitles';
+import {
+  captureKoreanReviewScenes,
+  getKoreanReviewScene,
+  reconcileKoreanReviewScene,
+  invalidateKoreanReviewScene,
+} from '../../shared/lib/koreanTranslationReviewState';
 
 type ReaderLoadState =
   | { status: 'idle' }
@@ -80,6 +87,12 @@ function NovelStudioContent() {
   const [customVersionMap, setCustomVersionMap] = useState<Record<string, string>>({});
   const [readerLoadState, setReaderLoadState] = useState<ReaderLoadState>({ status: 'idle' });
   const readerRequestSequence = React.useRef(0);
+  // The TOC describes the loaded default review, independently of the body view.
+  // This cache is account-bound by ReaderSessionBoundary and never persisted.
+  const [koreanReviewScenes, setKoreanReviewScenes] = useState<ReturnType<typeof captureKoreanReviewScenes> | null>(null);
+  const managedViewRequests = React.useRef(new Map<string, number>());
+  const managedViewSequence = React.useRef(0);
+  const reviewReadbackSequence = React.useRef(0);
   const currentReaderSlug = React.useRef(dbSlug);
   currentReaderSlug.current = dbSlug;
   const [tocEnglish, setTocEnglish] = useState<{ requestedSlug: string; novel: NovelDetails } | null>(null);
@@ -128,6 +141,8 @@ function NovelStudioContent() {
     let cancelled = false;
 
     setReaderLoadState({ status: 'loading', requestedSlug: dbSlug });
+    setKoreanReviewScenes(null);
+    managedViewRequests.current.clear();
 
     async function loadNovel() {
       try {
@@ -175,6 +190,7 @@ function NovelStudioContent() {
         }
 
         setNovel(migrated);
+        setKoreanReviewScenes(captureKoreanReviewScenes(migrated));
         setCustomVersionMap({});
         setReaderLoadState({
           status: 'ready',
@@ -196,6 +212,7 @@ function NovelStudioContent() {
 
     return () => {
       cancelled = true;
+      if (readerRequestSequence.current === requestId) readerRequestSequence.current += 1;
     };
   }, [router.isReady, dbSlug]);
 
@@ -374,18 +391,29 @@ function NovelStudioContent() {
 
   const handleManagedRevisionChange = async (sceneId: string, viewKey: string): Promise<boolean> => {
     const scene = findSceneById(novel, sceneId);
-    if (!scene) return false;
+    const actNumber = novel.acts.find(act => act.chapters.some(ch => ch.scenes.some(item => item.id === sceneId)))?.number;
+    if (!scene || actNumber === undefined || !isCurrentReaderReady) return false;
+    const loadSequence = readerRequestSequence.current;
+    const viewRequest = ++managedViewSequence.current;
+    managedViewRequests.current.set(sceneId, viewRequest);
     const result = await novels.getManagedSceneRevision(scene, viewKey);
-    if (result.error || !result.data) {
+    if (currentReaderSlug.current !== dbSlug || loadSequence !== readerRequestSequence.current
+      || managedViewRequests.current.get(sceneId) !== viewRequest) return false;
+    if (result.error || !result.data || result.data.id !== sceneId || result.data.managedSceneId !== scene.managedSceneId) {
+      setKoreanReviewScenes(previous => invalidateKoreanReviewScene(previous, dbSlug, actNumber, sceneId));
       console.error('Managed revision load failed:', result.error);
       alert(`구성 리비전을 불러오지 못했습니다.\n${result.error?.message || result.error?.code || 'unknown error'}`);
       return false;
     }
-    const nextNovel: NovelDetails = JSON.parse(JSON.stringify(novel));
-    const nextScene = findSceneById(nextNovel, sceneId);
-    if (!nextScene) return false;
-    Object.assign(nextScene, result.data);
-    setNovel(nextNovel);
+    setNovel(previous => {
+      if (previous.slug !== dbSlug) return previous;
+      const nextNovel: NovelDetails = JSON.parse(JSON.stringify(previous));
+      const nextScene = findSceneById(nextNovel, sceneId);
+      if (!nextScene || nextScene.managedSceneId !== result.data.managedSceneId) return previous;
+      Object.assign(nextScene, result.data);
+      return nextNovel;
+    });
+    setKoreanReviewScenes(previous => reconcileKoreanReviewScene(previous, dbSlug, actNumber, result.data));
     setCustomVersionMap({});
     return true;
   };
@@ -399,30 +427,42 @@ function NovelStudioContent() {
   ): Promise<boolean> => {
     const located = findSceneByParagraphId(novel, paragraphId);
     if (located?.scene?.storageModel === 'ros-ko-block-v1') {
+      if (!isCurrentReaderReady) return false;
       if (located.scene.managedReadOnly) {
         alert('과거 구성은 읽기 전용입니다. 최신 review 구성으로 돌아간 뒤 수정해 주세요.');
         return false;
       }
 
+      const loadSequence = readerRequestSequence.current;
       const result = await novels.rewriteManagedBlock({
         scene: located.scene,
         paragraph: located.paragraph,
         newBody: content,
         note
       });
+      if (currentReaderSlug.current !== dbSlug || loadSequence !== readerRequestSequence.current) return false;
       if (result.error) {
         console.error('Managed block save failed:', result.error);
         alert(`블록 저장에 실패했습니다. 입력은 보존됩니다.\n${result.error.message || result.error.code || 'unknown error'}`);
         return false;
       }
 
+      // A successful write invalidates the old review evidence until readback.
+      setKoreanReviewScenes(null);
+      managedViewRequests.current.clear();
+      const readbackRequest = ++reviewReadbackSequence.current;
       const refreshed = await novels.getNovelBySlug(dbSlug);
-      if (refreshed.error || !refreshed.data) {
+      if (currentReaderSlug.current !== dbSlug || loadSequence !== readerRequestSequence.current
+        || readbackRequest !== reviewReadbackSequence.current) return false;
+      const loadedSlug = refreshed.meta?.loadedSlug || refreshed.data?.slug || refreshed.data?.id;
+      if (refreshed.error || !refreshed.data || loadedSlug !== dbSlug || refreshed.data.slug !== dbSlug) {
         console.error('Managed block readback failed:', refreshed.error);
         alert('저장 응답 후 독립 재조회에 실패했습니다. 같은 내용을 다시 저장하지 말고 새로고침해 상태를 확인해 주세요.');
         return false;
       }
+      managedViewRequests.current.clear();
       setNovel(refreshed.data);
+      setKoreanReviewScenes(captureKoreanReviewScenes(refreshed.data));
       setCustomVersionMap({});
       return true;
     }
@@ -999,8 +1039,12 @@ function NovelStudioContent() {
                             {expandedChapters[targetId] && ch.scenes && ch.scenes.length > 0 && (
                               <div className="pl-6 py-1 space-y-1 border-l border-zinc-800 ml-2 mb-1">
                                 {ch.scenes.map((scene) => {
+                                  const reviewScene = getKoreanReviewScene(koreanReviewScenes, novel.slug, act.number, scene);
                                   const tocEntry = tocTitles.scenes.get(scene.id);
-                                  const sceneTitle = getTocTitle(tocEntry, getSceneTitle(scene, customVersionMap));
+                                  const sceneTitle = getTocTitle(
+                                    tocEntry,
+                                    getSceneTitle(reviewScene || scene, reviewScene ? {} : customVersionMap),
+                                  );
                                   return (
                                   <a
                                     key={scene.id}
@@ -1015,7 +1059,7 @@ function NovelStudioContent() {
                                     }}
                                     className="block transition-all py-1 px-2 rounded-md whitespace-normal break-words duration-150 text-[11px] text-zinc-500 hover:text-amber-200 hover:bg-zinc-800/50"
                                   >
-                                    🎬 <SceneRevisionBadge scene={scene} />{sceneTitle}{tocEntry?.issue && <span className="ml-1 text-amber-300"> · 제목 확인 필요</span>}
+                                    🎬 <SceneRevisionBadge scene={scene} />{reviewScene && <KoreanTranslationBadge novelSlug={novel.slug} actNumber={act.number} scene={reviewScene} customVersionMap={{}} />}{sceneTitle}{tocEntry?.issue && <span className="ml-1 text-amber-300"> · 제목 확인 필요</span>}
                                   </a>
                                   );
                                 })}
