@@ -23,6 +23,15 @@ const MANAGED_CONTRACTS = [
   { id: '605986cc', actNumber: 3, sourceKey: 'A0/CH02/SC02', blocks: 360, sha256: '6913332a604d6929b7b3358ae829623dce25e85970efbe1ab8c2d4c1ff6a7c78' },
   { id: 'dd5e34a3', actNumber: 3, sourceKey: 'A0/CH03/SC01', blocks: 261, sha256: '54486b4a9293eed4c64c68ecd0991bdbb6728364f11130ee6e1c019f36dc7fff' },
   { id: '6e1f0f9c', actNumber: 3, sourceKey: 'A0/CH03/SC02', blocks: 310, sha256: '46d789fad4d9f25132d9beac18018861f2bc6ddd5c3d0f8db60614681be85c97' },
+  { id: 'ce917762', actNumber: 3, sourceKey: 'A0/CH04/SC01', blocks: 211, sha256: '8523a50bb186ac310c0da9867b3f7f93f0d560f82150a1a9a1f7e7ce5f32abab' },
+  { id: '03a2c338', actNumber: 3, sourceKey: 'A0/CH04/SC02', blocks: 247, sha256: 'aa3e84b8fd12ea7b8e71efd1dcfd32ad43743d7d7c80d3522de18dd8b1f438ba' },
+  { id: '74eb2b3c', actNumber: 4, sourceKey: 'A1/CH01/SC01', blocks: 133, sha256: '0b73c59b29a545b1743676257c7810c2ac4e698c2d1f9bc74bb20ec1cd6a14af' },
+  { id: 'e1ea29cd', actNumber: 4, sourceKey: 'A1/CH01/SC02', blocks: 170, sha256: '7e9ea71af04e2c6f827140ff2af63a54038a5bda46888fdbc5e9810abb865a60' },
+  { id: '039dff61', actNumber: 4, sourceKey: 'A1/CH02/SC01', blocks: 227, sha256: '7878905be4d0859c923565679343fb6a813184267af7f0a0dda1a05702151f38' },
+  { id: 'f18137d0', actNumber: 4, sourceKey: 'A1/CH02/SC02', blocks: 259, sha256: '1b3a5db487c0274598d9a4c3e7dde246a94e8545141f0d067753910bb2e7001a' },
+  { id: 'b8ced2bc', actNumber: 4, sourceKey: 'A1/CH03/SC01', blocks: 162, sha256: '53493b4a09fabdc84988fe129ea10fa0af2dfb51f6ba767a2165333e2b7f93cc' },
+  { id: '43676a32', actNumber: 4, sourceKey: 'A1/CH03/SC02', blocks: 159, sha256: '5bbdd0c3fb19208080c2c3c43d42d9dabd234ec3430f8a86da2acbb96207258f' },
+  { id: '2a1a4b0d', actNumber: 4, sourceKey: 'A1/CH03/SC03', blocks: 200, sha256: 'eeb63dc2a42cea83a1f64711fdaf0846eed26ca4853e2436091d0192f3a6b004' },
 ];
 const ROOT_SLUG = 'quantum-vibration-novel';
 const COMPOSITION = '00000000-0000-4000-8000-000000000001';
@@ -465,4 +474,58 @@ test('invalid hash candidates fail closed', async () => {
   for (const value of [null, undefined, {}, { body: null, sha256: OPENING_SHA }, { body: 5, sha256: CH1_SHA }, { body: 'abc' }, { body: 'abc', sha256: null }, { body: 'abc', sha256: 'not-a-hash' }]) {
     assert.equal(await matchesKoreanTranslationEdition(value), false);
   }
+});
+
+// Synthetic three-line formulas exercise block boundaries, not manuscript
+// contents or live DB state. Each formula is one selected Version body.
+function arrivalWithMultilineFormulas() {
+  const scene = rewrittenManagedChapter(MANAGED_CONTRACTS.find(contract => contract.id === 'f18137d0'));
+  scene.paragraphs[85].versions.review.content = '$$\na_{86} = \\frac{b}{c}\n$$';
+  scene.paragraphs[143].versions.review.content = '$$\nz_{144} = \\sum_k x_k\n$$';
+  scene.canonicalBodySha256 = digest(scene.paragraphs.map(p => p.versions.review.content + p.separatorAfter).join(''));
+  scene.managedHistory[0].bodySha256 = scene.canonicalBodySha256;
+  return scene;
+}
+
+test('Arrival: 259 selected blocks preserve two three-line formulas and LF520 without flattening', async () => {
+  const scene = arrivalWithMultilineFormulas();
+  const before = structuredClone(scene);
+  freezeDeep(scene);
+  const result = candidate(scene);
+  assert.equal(scene.paragraphs.length, 259);
+  assert.equal(result.body.split('\n\n').length, 259);
+  assert.equal((result.body.match(/\n/g) || []).length, 520);
+  assert.equal(scene.paragraphs.reduce((total, p) => total + (p.separatorAfter.match(/\n/g) || []).length, 0), 516);
+  for (const [index, paragraph] of scene.paragraphs.entries()) {
+    const content = paragraph.versions.review.content;
+    assert.equal((content.match(/\n/g) || []).length, [85, 143].includes(index) ? 2 : 0);
+    assert.equal(result.body.split('\n\n')[index], content);
+  }
+  assert.equal(result.body.endsWith('\n'), false);
+  assert.equal(await matchesKoreanTranslationEdition(result), true);
+  assert.deepEqual(scene, before);
+});
+
+test('Arrival: formula flattening, double escaping, line-ending changes and three-block splitting cannot verify', async () => {
+  const current = arrivalWithMultilineFormulas();
+  for (const index of [85, 143]) {
+    for (const transform of [
+      text => text.replaceAll('\n', ' '),
+      text => text.replaceAll('\n', '\\n'),
+      text => text.replaceAll('\n', '\r\n'),
+      text => text.replaceAll('\\', '\\\\'),
+    ]) {
+      const changed = structuredClone(current);
+      changed.paragraphs[index].versions.review.content = transform(changed.paragraphs[index].versions.review.content);
+      assert.equal(await matchesKoreanTranslationEdition(candidate(changed)), false);
+    }
+    const split = structuredClone(current);
+    const formula = split.paragraphs[index];
+    split.paragraphs.splice(index, 1, ...formula.versions.review.content.split('\n').map(content => ({
+      ...structuredClone(formula), versions: { review: { ...formula.versions.review, content } },
+    })));
+    assert.equal(split.paragraphs.length, 261);
+    assert.equal(candidate(split), null);
+  }
+  assert.equal(await matchesKoreanTranslationEdition(candidate(current)), true);
 });
