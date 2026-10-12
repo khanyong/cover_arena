@@ -10,12 +10,15 @@ import { buildManagedSceneCopyText } from '../../shared/lib/rosKoBlockModel';
 import { listReviewComments, saveReviewComment } from '../../shared/lib/novelReviewCommentClient';
 import { listReviewGuidelines, saveReviewGuideline } from '../../shared/lib/novelReviewGuidelineClient';
 import { buildSceneReviewPacket } from '../../shared/lib/novelSceneReviewPacket';
-import { loadSceneTranslationComparison } from '../../shared/lib/novelTranslationComparison';
+import { loadSceneTranslationComparison, supportsSceneTranslationComparison } from '../../shared/lib/novelTranslationComparison';
 import { buildBilingualReviewPacket } from '../../shared/lib/novelBilingualReviewPacket';
 import { ManagedBlockReviewDialog } from './ManagedBlockReviewDialog';
 import { NovelBilingualReader, TranslationComparison } from './NovelBilingualReader';
+import { NovelParallelReader, ParallelReading } from './NovelParallelReader';
+import { buildParallelReading } from '../../shared/lib/novelParallelReading';
 import { SceneReviewCommentsPanel } from './SceneReviewCommentsPanel';
 import { supabase, novels } from '../../shared/lib/supabase';
+import styles from './NovelFullReader.module.css';
 
 // Comment events are append-only. A delayed read must never replace a newer
 // revision already returned by a successful save in this same actor scope.
@@ -95,6 +98,10 @@ export const writeTextToClipboard = async (text: string): Promise<void> => {
 };
 
 interface NovelFullReaderProps {
+  readingOnly?: boolean;
+  onReadingOnlyChange?: (value: boolean) => void;
+  focusMode?: boolean;
+  onFocusModeChange?: (value: boolean) => void;
   novel: NovelDetails;
   customVersionMap: Record<string, string>;
   onAddNewVersion: (
@@ -122,9 +129,14 @@ interface NovelFullReaderProps {
   onManagedRevisionChange?: (sceneId: string, viewKey: string) => Promise<boolean>;
   requestedComparisonSceneId?: string;
   requestedComparisonKey?: number;
+  onComparisonSceneChange?: (sceneId: string) => void;
 }
 
 export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
+  readingOnly = true,
+  onReadingOnlyChange,
+  focusMode = false,
+  onFocusModeChange,
   novel,
   customVersionMap,
   onAddNewVersion,
@@ -146,8 +158,11 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   onUpdateSceneMetadata,
   onManagedRevisionChange,
   requestedComparisonSceneId,
+  onComparisonSceneChange,
   requestedComparisonKey = 0
 }) => {
+  const readingOnlyRef = useRef(readingOnly);
+  readingOnlyRef.current = readingOnly;
   // 현재 클릭해서 편집 중인 단락 상태
   const [editingParagraph, setEditingParagraph] = useState<NovelParagraph | null>(null);
   const [editingParagraphScene, setEditingParagraphScene] = useState<NovelScene | null>(null);
@@ -166,7 +181,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const commentActorRef = useRef<string | null | undefined>(undefined);
   const commentReadSequence = useRef(0);
   const [commentState, setCommentState] = useState<{ scope: string; rows: any[]; guidelines: any[]; loading: boolean; error: string }>({ scope: '', rows: [], guidelines: [], loading: false, error: '' });
-  const managedScenes = novel.acts.flatMap(a => a.chapters.flatMap(ch => (ch.scenes || []).filter(s => s.managedSceneId)));
+  const allScenes = novel.acts.flatMap(a => a.chapters.flatMap(ch => ch.scenes || []));
+  const managedScenes = allScenes.filter(scene => scene.managedSceneId);
   const commentsScope = `${commentActorId || 'no-actor'}:${novel.slug}:${managedScenes.map(s => `${s.managedSceneId}:${s.managedReviewCompositionId || s.compositionRevisionId}`).join('|')}`;
   const activeCommentsScope = useRef(commentsScope);
   activeCommentsScope.current = commentsScope;
@@ -174,22 +190,71 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const reviewGuidelines = commentActorId && commentState.scope === commentsScope ? commentState.guidelines : [];
   const commentPanelScene = managedScenes.find(s => s.id === commentPanelSceneId);
   const [comparisonSceneId, setComparisonSceneId] = useState<string | null>(null);
+  const [comparisonMode, setComparisonMode] = useState<'aligned' | 'parallel'>('aligned');
+  const [parallelReadingUnit, setParallelReadingUnit] = useState<'paragraph' | 'sentence'>('paragraph');
   const [comparisonReload, setComparisonReload] = useState(0);
   const [comparisonState, setComparisonState] = useState<{ scope: string; value: TranslationComparison | null; loading: boolean; error: string }>({ scope: '', value: null, loading: false, error: '' });
   const comparisonReadSequence = useRef(0);
   const comparisonReturnAnchor = useRef<string | null>(null);
   const consumedComparisonRequest = useRef('');
+  const canCompareNovel = novel.slug === 'quantum-vibration-novel' || novel.slug === 'quantum-vibration-novel-en';
   const isComparableScene = (scene: NovelScene) => novel.slug === 'quantum-vibration-novel'
-    && scene.id === 'b48a4f04' && scene.storageModel === 'ros-ko-block-v1'
-    && Boolean(scene.managedSceneId && scene.compositionRevisionId) && scene.managedViewKey !== 'legacy';
+    && supportsSceneTranslationComparison(scene)
+    && scene.paragraphs.every(paragraph => !customVersionMap[paragraph.id] || customVersionMap[paragraph.id] === paragraph.activeVersion);
+  const readingComparisonScene = allScenes.find(scene => scene.id === comparisonSceneId);
   const comparisonScene = managedScenes.find(scene => isComparableScene(scene)
-    && (scene.id === comparisonSceneId || scene.id === editingParagraphScene?.id));
-  const comparisonScope = `${commentActorId || 'no-actor'}:${novel.slug}:${comparisonScene?.managedSceneId || ''}:${comparisonScene?.compositionRevisionId || ''}:${comparisonScene?.generation ?? ''}`;
+    && scene.id === (editingParagraphScene?.id || (comparisonMode === 'aligned' ? comparisonSceneId : null)));
+  const comparisonScope = `${commentActorId || 'no-actor'}:${novel.slug}:${comparisonScene?.managedSceneId || ''}:${comparisonScene?.compositionRevisionId || ''}:${comparisonScene?.generation ?? ''}:${comparisonScene?.managedDocumentId || ''}:${comparisonScene?.managedSourceKey || ''}:${comparisonScene?.canonicalBodySha256 || ''}:${comparisonScene?.projectionSha256 || ''}`;
   const activeComparisonScope = useRef(comparisonScope);
   activeComparisonScope.current = comparisonScope;
   const comparison = commentActorId && comparisonState.scope === comparisonScope ? comparisonState.value : null;
   const comparisonLoading = Boolean(comparisonScene) && (comparisonState.scope !== comparisonScope || comparisonState.loading);
   const comparisonError = comparisonState.scope === comparisonScope ? comparisonState.error : '';
+
+  const parallelScene = readingComparisonScene && (comparisonMode === 'parallel' || !isComparableScene(readingComparisonScene))
+    ? readingComparisonScene : null;
+  // The selection fingerprint invalidates a captured peer read immediately
+  // when the displayed source changes, even before the next effect runs.
+  const parallelSelection = parallelScene ? JSON.stringify(parallelScene.paragraphs.map(paragraph => {
+    const key = customVersionMap[paragraph.id] || paragraph.activeVersion;
+    return [paragraph.id, key, paragraph.versions?.[key]?.content, paragraph.separatorAfter];
+  })) : '';
+  const parallelLocation = parallelScene ? JSON.stringify(novel.acts.flatMap(act => act.chapters.flatMap(chapter =>
+    chapter.scenes.filter(scene => scene.id === parallelScene.id).map(scene => [act.number, chapter.number, scene.number])
+  ))) : '';
+  const parallelScope = `${commentActorId || 'no-actor'}:${novel.slug}:${parallelScene?.id || ''}:${parallelScene?.compositionRevisionId || ''}:${parallelScene?.title || ''}:${parallelScene?.terminalLf ?? ''}:${parallelLocation}:${parallelSelection}`;
+  const activeParallelScope = useRef(parallelScope);
+  activeParallelScope.current = parallelScope;
+  const parallelReadSequence = useRef(0);
+  const [parallelState, setParallelState] = useState<{ scope: string; value: ParallelReading | null; loading: boolean; error: string }>({ scope: '', value: null, loading: false, error: '' });
+  const parallelComparison = commentActorId && parallelState.scope === parallelScope ? parallelState.value : null;
+  const parallelLoading = Boolean(parallelScene) && (parallelState.scope !== parallelScope || parallelState.loading);
+  const parallelError = parallelState.scope === parallelScope ? parallelState.error : '';
+
+  useEffect(() => {
+    let cancelled = false;
+    const sequence = ++parallelReadSequence.current;
+    setParallelState({ scope: parallelScope, value: null, loading: Boolean(parallelScene && commentActorId), error: parallelScene && commentActorId === null ? '로그인 후 영한 비교를 열어 주세요.' : '' });
+    if (parallelScene && commentActorId && canCompareNovel) {
+      const counterpartSlug = novel.slug.endsWith('-en') ? novel.slug.slice(0, -3) : `${novel.slug}-en`;
+      // On-demand, authorized Reader lookup. No automatic pairing by titles,
+      // writes, service credentials, or cross-session manuscript cache.
+      novels.getNovelBySlug(counterpartSlug).then(({ data, error }: any) => {
+        if (error || !data) throw new Error(error?.message || '다른 언어의 Reader를 불러오지 못했습니다.');
+        const value = buildParallelReading({ novel, sceneId: parallelScene.id, counterpartNovel: data, customVersionMap });
+        if (!cancelled && sequence === parallelReadSequence.current && commentActorRef.current === commentActorId
+          && activeParallelScope.current === parallelScope) {
+          setParallelState({ scope: parallelScope, value, loading: false, error: '' });
+        }
+      }).catch((caught: unknown) => {
+        if (!cancelled && sequence === parallelReadSequence.current && commentActorRef.current === commentActorId
+          && activeParallelScope.current === parallelScope) {
+          setParallelState({ scope: parallelScope, value: null, loading: false, error: caught instanceof Error ? caught.message : '다른 언어의 Scene을 확인하지 못했습니다.' });
+        }
+      });
+    }
+    return () => { cancelled = true; };
+  }, [parallelScope, comparisonReload]);
 
   useEffect(() => {
     let cancelled = false;
@@ -203,7 +268,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         }
       }).catch((caught: unknown) => {
         if (!cancelled && sequence === comparisonReadSequence.current && activeComparisonScope.current === comparisonScope) {
-          setComparisonState({ scope: comparisonScope, value: null, loading: false, error: caught instanceof Error ? caught.message : '영한 대응을 불러오지 못했습니다.' });
+          const message = caught && typeof caught === 'object' && 'message' in caught && typeof caught.message === 'string' ? caught.message : '영한 대응을 불러오지 못했습니다.';
+          setComparisonState({ scope: comparisonScope, value: null, loading: false, error: message });
         }
       });
     }
@@ -225,6 +291,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         consumedComparisonRequest.current = '';
         comparisonReadSequence.current += 1;
         setComparisonState({ scope: '', value: null, loading: false, error: '' });
+        parallelReadSequence.current += 1;
+        setParallelState({ scope: '', value: null, loading: false, error: '' });
       }
       setCommentActorId(nextActor);
     });
@@ -238,7 +306,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   useEffect(() => {
     let cancelled = false;
     const sequence = ++commentReadSequence.current;
-    const canRead = Boolean(commentActorId && managedScenes.length);
+    const canRead = Boolean(!readingOnly && commentActorId && managedScenes.length);
     setCommentState(current => ({
       scope: commentsScope,
       rows: current.scope === commentsScope ? current.rows : [],
@@ -273,7 +341,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       });
     }
     return () => { cancelled = true; };
-  }, [commentActorId, commentsScope, commentsReload]);
+  }, [commentActorId, commentsScope, commentsReload, readingOnly]);
 
   useEffect(() => {
     closeParagraphEditor();
@@ -286,14 +354,17 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     const requestScope = `${novel.slug}:${requestedComparisonSceneId || ''}:${requestedComparisonKey}`;
     if (!requestedComparisonSceneId) { consumedComparisonRequest.current = ''; return; }
     if (!commentActorId) return;
-    const requestedScene = managedScenes.find(scene => scene.id === requestedComparisonSceneId && isComparableScene(scene));
+    const requestedScene = canCompareNovel && allScenes.find(scene => scene.id === requestedComparisonSceneId);
     if (!requestedScene || consumedComparisonRequest.current === requestScope) return;
     consumedComparisonRequest.current = requestScope;
+    if (requestedScene.id === comparisonSceneId) return;
     comparisonReturnAnchor.current = requestedScene.paragraphs[0]?.id || null;
+    setComparisonMode(isComparableScene(requestedScene) ? 'aligned' : 'parallel');
     setComparisonSceneId(requestedScene.id);
-  }, [novel.slug, commentActorId, requestedComparisonSceneId, requestedComparisonKey, managedScenes.map(scene => `${scene.id}:${scene.compositionRevisionId}`).join('|')]);
+  }, [novel.slug, commentActorId, requestedComparisonSceneId, requestedComparisonKey, allScenes.map(scene => `${scene.id}:${scene.compositionRevisionId}`).join('|')]);
 
   const persistReviewComment = async (scene: NovelScene, paragraph: NovelParagraph, input: any, existing?: any) => {
+    if (readingOnlyRef.current) throw new Error('인라인 수정 모드에서만 코멘트를 저장할 수 있습니다.');
     const actor = commentActorRef.current;
     if (!actor || actor !== commentActorId) throw new Error('로그인 상태를 다시 확인해 주세요.');
     const saved = await saveReviewComment({ scene, paragraph, input, existing });
@@ -323,6 +394,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   };
 
   const persistReviewGuideline = async (scene: NovelScene, input: any, existing?: any, paragraph?: NovelParagraph) => {
+    if (readingOnlyRef.current) throw new Error('인라인 수정 모드에서만 지침을 저장할 수 있습니다.');
     const actor = commentActorRef.current;
     if (!actor || actor !== commentActorId) throw new Error('로그인 상태를 다시 확인해 주세요.');
     const saved = await saveReviewGuideline({ scene, paragraph, input, existing });
@@ -366,8 +438,21 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       return rect && rect.bottom > 120 && rect.top < window.innerHeight;
     });
     comparisonReturnAnchor.current = visibleParagraph?.id || scene.paragraphs[0]?.id || null;
+    setComparisonMode(isComparableScene(scene) ? 'aligned' : 'parallel');
     setComparisonSceneId(scene.id);
     setComparisonReload(value => value + 1);
+    onComparisonSceneChange?.(scene.id);
+  };
+
+  const navigateBilingualComparison = (sceneId: string) => {
+    const nextScene = allScenes.find(scene => scene.id === sceneId);
+    if (!nextScene) return;
+    comparisonReturnAnchor.current = nextScene.paragraphs[0]?.id || null;
+    if (!isComparableScene(nextScene)) setComparisonMode('parallel');
+    setComparisonSceneId(nextScene.id);
+    setComparisonReload(value => value + 1);
+    onComparisonSceneChange?.(nextScene.id);
+    requestAnimationFrame(() => document.getElementById(`scene-${nextScene.id}`)?.scrollIntoView({ block: 'start' }));
   };
 
   const closeBilingualComparison = (scene: NovelScene) => {
@@ -383,6 +468,51 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
   // 폰트 크기 조절 (독서 편의용)
   const [fontSize, setFontSize] = useState<'sm' | 'base' | 'lg' | 'xl'>('lg');
+  const [readingWidth, setReadingWidth] = useState<'narrow' | 'standard' | 'wide'>('standard');
+  const [readingSpacing, setReadingSpacing] = useState<'compact' | 'comfortable' | 'spacious'>('comfortable');
+  const [readingFont, setReadingFont] = useState<'serif' | 'sans'>('serif');
+  const [readingToolsExpanded, setReadingToolsExpanded] = useState(false);
+  const compactTools = readingOnly && focusMode && !readingToolsExpanded;
+  const readerElement = useRef<HTMLDivElement>(null);
+  const readerToolbar = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const toolbar = readerToolbar.current;
+    const reader = readerElement.current;
+    if (!toolbar || !reader) return;
+    const measure = () => reader.style.setProperty('--reader-tools-height', `${toolbar.getBoundingClientRect().height}px`);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(toolbar);
+    return () => observer.disconnect();
+  }, []);
+  const readingAnchor = useRef<{ element: HTMLElement; gap: number } | null>(null);
+  const keepReadingPosition = (update: () => void) => {
+    const edge = readerToolbar.current?.getBoundingClientRect().bottom || 0;
+    const paragraphs = readerElement.current?.querySelectorAll<HTMLElement>('[id^="paragraph-"]');
+    readingAnchor.current = null;
+    for (const element of Array.from(paragraphs || [])) {
+      const rect = element.getBoundingClientRect();
+      if (rect.height && rect.bottom > edge && rect.top < window.innerHeight) {
+        readingAnchor.current = { element, gap: rect.top - edge };
+        break;
+      }
+    }
+    update();
+  };
+  useEffect(() => {
+    if (!readingAnchor.current) return;
+    let secondFrame = 0;
+    const firstFrame = requestAnimationFrame(() => {
+      secondFrame = requestAnimationFrame(() => {
+        const anchor = readingAnchor.current;
+        readingAnchor.current = null;
+        if (!anchor?.element.isConnected) return;
+        const edge = readerToolbar.current?.getBoundingClientRect().bottom || 0;
+        window.scrollBy({ top: anchor.element.getBoundingClientRect().top - edge - anchor.gap, behavior: 'instant' as ScrollBehavior });
+      });
+    });
+    return () => { cancelAnimationFrame(firstFrame); cancelAnimationFrame(secondFrame); };
+  }, [readingOnly, focusMode, fontSize, readingWidth, readingSpacing, readingFont, viewMode, readingToolsExpanded]);
   
   // 저장 성공 알림 메시지
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -395,6 +525,24 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const [editingChapter, setEditingChapter] = useState<{actNumber: number, chapterNumber: number} | null>(null);
   const [chapterEditTitle, setChapterEditTitle] = useState('');
   const [chapterEditSynopsis, setChapterEditSynopsis] = useState('');
+
+  // Keep an open draft intact: save/cancel it before changing modes.
+  const hasOpenEditor = Boolean(editingParagraph || editingAct !== null || editingChapter || editingSceneId);
+  const changeReadingMode = (next: boolean) => {
+    if (hasOpenEditor || next === readingOnly) return;
+    keepReadingPosition(() => onReadingOnlyChange?.(next));
+    if (!next) onFocusModeChange?.(false);
+    setCommentPanelSceneId(null);
+  };
+
+  useEffect(() => {
+    if (!focusMode) return;
+    const exitFocus = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') keepReadingPosition(() => onFocusModeChange?.(false));
+    };
+    window.addEventListener('keydown', exitFocus);
+    return () => window.removeEventListener('keydown', exitFocus);
+  }, [focusMode, onFocusModeChange]);
 
   // 검색 상태
   const [searchQuery, setSearchQuery] = useState('');
@@ -504,6 +652,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
   // 단락 클릭 시 수정 모달 열기
   const handleParagraphClick = (paragraph: NovelParagraph, scene: NovelScene) => {
+    if (readingOnlyRef.current) return;
     if (scene.storageModel === 'ros-ko-block-v1' && scene.managedReadOnly) {
       showToast('과거 구성은 읽기 전용입니다. 최신 review 구성으로 돌아간 뒤 수정해 주세요.');
       return;
@@ -558,6 +707,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
     setEditingParagraph(paragraph);
     setEditingParagraphScene(scene);
+    if (comparisonSceneId && comparisonSceneId !== scene.id) setComparisonSceneId(null);
     setEditContent(currentText);
     setEditVersionTag(nextVerTag);
     setEditNote(
@@ -573,6 +723,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   // 모달에서 저장 클릭 시
   const handleSaveParagraph = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (readingOnlyRef.current) return;
     if (!editingParagraph || !editContent.trim()) return;
 
     const saved = await onAddNewVersion(
@@ -608,7 +759,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   };
 
   return (
-    <div className="space-y-6 relative">
+    <div ref={readerElement} className={`${styles.readerRoot} space-y-6 relative`} style={{ '--reader-sticky-offset': focusMode ? '8px' : 'var(--reader-header-offset, 5rem)' } as React.CSSProperties} data-reading-mode={readingOnly ? 'read' : 'edit'}>
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 bg-emerald-500 text-zinc-950 px-5 py-3 rounded-xl font-bold shadow-2xl z-50 flex items-center gap-2 animate-bounce">
@@ -617,8 +768,20 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       )}
 
       {/* Reader Control Bar */}
-      <div className="bg-zinc-900/90 border border-zinc-800 rounded-2xl p-4 sticky top-20 z-40 backdrop-blur shadow-xl flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
+      <div ref={readerToolbar} aria-label="독서 도구" style={{ top: focusMode ? 8 : 'var(--reader-header-offset, 5rem)' }} className="bg-zinc-900/95 border border-zinc-800 rounded-2xl p-3 sm:p-4 sticky z-40 backdrop-blur shadow-xl flex flex-wrap items-center justify-between gap-3">
+        <div className="flex w-full flex-wrap items-center justify-between gap-2">
+          <div role="group" aria-label="읽기 및 수정 모드" className="flex rounded-xl border border-zinc-700 bg-zinc-950 p-1 text-sm">
+            <button type="button" aria-pressed={readingOnly} disabled={!readingOnly && hasOpenEditor} onClick={() => changeReadingMode(true)} className={`rounded-lg px-4 py-2 font-semibold disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 ${readingOnly ? 'bg-amber-100 text-zinc-950' : 'text-zinc-300'}`}>읽기 전용</button>
+            <button type="button" aria-pressed={!readingOnly} onClick={() => changeReadingMode(false)} className={`rounded-lg px-4 py-2 font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400 ${!readingOnly ? 'bg-amber-500 text-zinc-950' : 'text-zinc-300'}`}>인라인 수정</button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {readingOnly && focusMode && <button type="button" aria-expanded={readingToolsExpanded} onClick={() => keepReadingPosition(() => setReadingToolsExpanded(value => !value))} className="rounded-lg border border-zinc-600 px-3 py-2 text-sm text-zinc-200">{readingToolsExpanded ? '독서 도구 접기' : '독서 도구 펼치기'}</button>}
+            {readingOnly && onFocusModeChange && <button type="button" aria-pressed={focusMode} onClick={() => keepReadingPosition(() => onFocusModeChange(!focusMode))} className="rounded-lg border border-zinc-600 px-3 py-2 text-sm text-zinc-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">{focusMode ? '집중 화면 해제 (Esc)' : '집중 화면'}</button>}
+          </div>
+          {!compactTools && <p className="w-full text-xs text-zinc-400">{readingOnly ? '본문은 선택·복사만 가능합니다. 클릭하거나 마우스를 올려도 편집 도구가 나타나지 않습니다.' : hasOpenEditor ? '작성 중인 내용을 저장하거나 편집창을 닫으면 읽기 전용으로 전환할 수 있습니다.' : '본문을 클릭하면 기존 인라인 편집기를 엽니다.'}</p>}
+        </div>
+        <div className={`${compactTools ? 'hidden' : 'flex'} flex-wrap items-center gap-3`}>
+          {!readingOnly && <>
           <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
             📖 FULL CONTINUOUS READER
           </span>
@@ -653,24 +816,27 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           >
             {isGeneratingPDF ? '⏳ 조판 중...' : '📚 책으로 다운받기 (Mac_로컬 only)'}
           </button>
+          </>}
 
           {/* View Mode Toggle */}
           <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 ml-1">
             <button
-              onClick={() => setViewMode('scroll')}
+              type="button" aria-pressed={viewMode === 'scroll'}
+              onClick={() => { if (viewMode !== 'scroll') keepReadingPosition(() => setViewMode('scroll')); }}
               className={`px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                 viewMode === 'scroll' ? 'bg-amber-500 text-zinc-950 shadow' : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              📜 스크롤
+              {readingOnly ? '어두운 화면' : '📜 스크롤'}
             </button>
             <button
-              onClick={() => setViewMode('book')}
+              type="button" aria-pressed={viewMode === 'book'}
+              onClick={() => { if (viewMode !== 'book') keepReadingPosition(() => setViewMode('book')); }}
               className={`px-3 py-1 text-xs font-bold rounded-lg transition-all ${
                 viewMode === 'book' ? 'bg-[#3a352c] text-[#e0d6c8] shadow' : 'text-zinc-400 hover:text-zinc-200'
               }`}
             >
-              📖 책 모드
+              {readingOnly ? '따뜻한 화면' : '📖 책 모드'}
             </button>
           </div>
 
@@ -679,10 +845,11 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             <input
               type="text"
               placeholder="단어 검색... (Enter로 다음)"
+              aria-label="본문 검색"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={handleSearchKeyDown}
-              className="bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-amber-500 w-48 lg:w-64"
+              className="bg-zinc-950 border border-zinc-700 rounded-lg px-3 py-1.5 text-xs text-zinc-200 focus:outline-none focus:border-amber-500 w-40 sm:w-48 lg:w-64"
             />
             {searchResults.length > 0 && (
               <div className="flex items-center gap-1 text-xs">
@@ -700,12 +867,13 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         </div>
 
         {/* Font Size Adjuster */}
-        <div className="flex items-center gap-2 bg-zinc-950 p-1 rounded-xl border border-zinc-800 text-xs">
+        <div className={`${compactTools ? 'hidden' : 'flex'} items-center gap-2 bg-zinc-950 p-1 rounded-xl border border-zinc-800 text-xs`}>
           <span className="text-zinc-500 px-2 font-mono">글자 크기:</span>
           {(['sm', 'base', 'lg', 'xl'] as const).map((sz) => (
             <button
               key={sz}
-              onClick={() => setFontSize(sz)}
+              type="button" aria-pressed={fontSize === sz} aria-label={`글자 크기 ${sz}`}
+              onClick={() => { if (fontSize !== sz) keepReadingPosition(() => setFontSize(sz)); }}
               className={`px-2.5 py-1 rounded-lg font-mono font-bold uppercase transition-all ${
                 fontSize === sz
                   ? 'bg-amber-500 text-zinc-950 shadow'
@@ -716,9 +884,17 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             </button>
           ))}
         </div>
+        {readingOnly && <details className={`${compactTools ? 'hidden' : ''} w-full text-sm text-zinc-300`}>
+          <summary className="w-fit cursor-pointer rounded py-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">읽기 설정 · 줄 간격 / 본문 폭 / 글꼴</summary>
+          <div className="mt-3 flex flex-wrap gap-4">
+            <label className="flex items-center gap-2">줄 간격<select aria-label="줄 간격" value={readingSpacing} onChange={e => keepReadingPosition(() => setReadingSpacing(e.target.value as typeof readingSpacing))} className="rounded border border-zinc-600 bg-zinc-950 p-2"><option value="compact">촘촘하게</option><option value="comfortable">편안하게</option><option value="spacious">넉넉하게</option></select></label>
+            <label className="flex items-center gap-2">본문 폭<select aria-label="본문 폭" value={readingWidth} onChange={e => keepReadingPosition(() => setReadingWidth(e.target.value as typeof readingWidth))} className="rounded border border-zinc-600 bg-zinc-950 p-2"><option value="narrow">좁게</option><option value="standard">보통</option><option value="wide">넓게</option></select></label>
+            <label className="flex items-center gap-2">글꼴<select aria-label="본문 글꼴" value={readingFont} onChange={e => keepReadingPosition(() => setReadingFont(e.target.value as typeof readingFont))} className="rounded border border-zinc-600 bg-zinc-950 p-2"><option value="serif">명조</option><option value="sans">고딕</option></select></label>
+          </div>
+        </details>}
       </div>
 
-      {commentPanelScene && <SceneReviewCommentsPanel
+      {!readingOnly && commentPanelScene && <SceneReviewCommentsPanel
         key={`${commentActorId}:${commentPanelScene.id}`}
         scene={commentPanelScene}
         comments={reviewComments.filter(c => c.managed_scene_id === commentPanelScene.managedSceneId)}
@@ -747,7 +923,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
       />}
 
       {/* Full Novel Document Sheet */}
-      <div className={`border rounded-3xl p-8 lg:p-12 shadow-2xl space-y-12 transition-all duration-700 ${
+      <div data-reading-sheet data-reading-width={readingWidth} data-reading-spacing={readingSpacing} data-reading-font={readingFont} className={`${readingOnly ? styles.readingSheet : ''} border rounded-3xl p-4 sm:p-8 lg:p-12 shadow-2xl space-y-12 ${
         viewMode === 'book' 
           ? 'bg-[#1a1815] bg-[radial-gradient(#2a2620_1px,transparent_1px)] [background-size:20px_20px] text-[#e0d6c8] border-[#3a352c] shadow-[inset_0_0_120px_rgba(0,0,0,0.8)]' 
           : 'bg-zinc-900/80 border-zinc-800 text-zinc-200'
@@ -755,7 +931,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         {/* Title Header */}
         <div className={`text-center pb-8 border-b space-y-3 ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-zinc-800/80'}`}>
           <span className="text-xs font-mono text-amber-400 tracking-widest uppercase">
-            MASTER NOVEL READ & EDIT MODE
+            {readingOnly ? 'READ ONLY · 읽기 전용' : 'MASTER NOVEL READ & EDIT MODE'}
           </span>
           <h1 className={`text-3xl lg:text-4xl font-black tracking-tight ${viewMode === 'book' ? 'text-[#e5dcd0] font-serif' : 'text-white'}`}>
             {novel.title}
@@ -772,7 +948,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         {novel.acts.map((act) => (
           <div key={act.number} className="mb-16">
             {/* Act Insert Before Button (Only for the first act) */}
-            {onInsertActBefore && act.number === 1 && (
+            {!readingOnly && onInsertActBefore && act.number === 1 && (
               <div className="flex justify-center mb-8">
                 <button
                   onClick={() => onInsertActBefore(act.number)}
@@ -789,7 +965,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
             {/* Act Header */}
             <div className={`mb-8 pb-4 border-b group relative ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-amber-500/30'}`}>
-              {editingAct === act.number ? (
+              {!readingOnly && editingAct === act.number ? (
                 <div className="bg-zinc-950 border border-amber-500/50 p-4 rounded-xl space-y-3 shadow-lg">
                   <input
                     value={actEditTitle}
@@ -838,7 +1014,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 <>
                   <h2 className={`text-2xl font-black flex items-center gap-2 ${viewMode === 'book' ? 'text-amber-500/90 font-serif' : 'text-amber-400'}`}>
                     <span>🎬</span> {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
-                    <button
+                    {!readingOnly && <button
                       onClick={() => {
                         setEditingAct(act.number);
                         setActEditTitle(act.title);
@@ -847,9 +1023,9 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                       className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity font-sans"
                     >
                       ✏️ 수정
-                    </button>
+                    </button>}
                   </h2>
-                  {act.summary && (
+                  {!readingOnly && act.summary && (
                     <p className={`text-xs mt-1 ${viewMode === 'book' ? 'text-[#a39a8c] font-serif' : 'text-zinc-400'}`}>{act.summary}</p>
                   )}
                 </>
@@ -864,7 +1040,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 className="space-y-6 scroll-mt-28 break-inside-avoid"
               >
                 {/* Insert Chapter Before Button (Only shown before chapter 1, or can be shown before any chapter) */}
-                {onInsertChapterBefore && ch.number === 1 && (
+                {!readingOnly && onInsertChapterBefore && ch.number === 1 && (
                   <div className={`mb-2 flex justify-center pb-2 font-sans`}>
                     <button
                       onClick={() => onInsertChapterBefore(act.number, ch.number)}
@@ -884,7 +1060,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     ? 'bg-[#141311]/50 border-[#3a352c]/50' 
                     : 'bg-zinc-950/60 border-zinc-800/80'
                 }`}>
-                  {editingChapter?.actNumber === act.number && editingChapter?.chapterNumber === ch.number ? (
+                  {!readingOnly && editingChapter?.actNumber === act.number && editingChapter?.chapterNumber === ch.number ? (
                     <div className="space-y-3">
                       <input
                         value={chapterEditTitle}
@@ -933,7 +1109,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     <>
                       <h3 className={`text-lg font-bold flex items-center gap-2 ${viewMode === 'book' ? 'text-[#e5dcd0] font-serif' : 'text-zinc-200'}`}>
                         <span>📖</span> {ch.title}
-                        <span className={`text-xs font-normal px-2 py-0.5 rounded-full whitespace-nowrap ml-2 ${
+                        {!readingOnly && <span className={`text-xs font-normal px-2 py-0.5 rounded-full whitespace-nowrap ml-2 ${
                           viewMode === 'book'
                             ? 'bg-[#201d19] text-[#a39a8c] border border-[#3a352c]'
                             : 'bg-zinc-800 text-zinc-400'
@@ -944,8 +1120,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             const wordCount = chText.trim() === '' ? 0 : chText.trim().split(/\s+/).length;
                             return `${wordCount}단어 / 공백제외 ${charCount}자`;
                           })()}
-                        </span>
-                        <button
+                        </span>}
+                        {!readingOnly && <button
                           onClick={() => {
                             setEditingChapter({ actNumber: act.number, chapterNumber: ch.number });
                             setChapterEditTitle(ch.title);
@@ -954,9 +1130,9 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           className="ml-2 text-xs bg-zinc-800 hover:bg-zinc-700 text-zinc-300 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity font-sans"
                         >
                           ✏️ 수정
-                        </button>
+                        </button>}
                       </h3>
-                      {ch.synopsis && (
+                      {!readingOnly && ch.synopsis && (
                         <p className={`text-xs mt-1 ${viewMode === 'book' ? 'text-[#a39a8c] font-serif' : 'text-zinc-400'}`}>{ch.synopsis}</p>
                       )}
                     </>
@@ -964,7 +1140,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </div>
 
                 {/* Paragraphs Continuous Text Container */}
-                <div className={`transition-all duration-700 ${
+                <div className={`${readingOnly ? styles.readingColumn : ''} ${
                   viewMode === 'book' 
                     ? `font-serif text-[#d6caba] ${comparisonSceneId ? 'max-w-none' : 'max-w-3xl'} mx-auto space-y-4 text-justify leading-loose`
                     : 'font-sans text-zinc-200 space-y-8'
@@ -972,19 +1148,21 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                   {(ch.scenes || []).map((scene) => (
                     <div key={scene.id} id={`scene-${scene.id}`} className="relative group/scene scroll-mt-28">
                       <div className="flex flex-wrap items-center gap-2 mb-3">
-                        {editingSceneId === scene.id ? (
+                        {!readingOnly && editingSceneId === scene.id ? (
                           <input 
                             autoFocus
                             type="text"
                             value={editingSceneTitle}
                             onChange={(e) => setEditingSceneTitle(e.target.value)}
                             onBlur={() => {
+                              if (readingOnlyRef.current) return;
                               if (editingSceneTitle.trim() !== '') {
                                 onUpdateSceneMetadata?.(act.number, ch.number, scene.id, editingSceneTitle.trim());
                               }
                               setEditingSceneId(null);
                             }}
                             onKeyDown={(e) => {
+                              if (readingOnlyRef.current) return;
                               if (e.key === 'Enter') {
                                 if (editingSceneTitle.trim() !== '') {
                                   onUpdateSceneMetadata?.(act.number, ch.number, scene.id, editingSceneTitle.trim());
@@ -998,14 +1176,14 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           />
                         ) : (
                           <h4 
-                            className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-500'}`}
-                            onClick={() => {
+                            className={`text-sm font-semibold font-sans tracking-wider border-b border-zinc-800 pb-1 flex-1 ${!readingOnly && onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? 'cursor-pointer hover:text-amber-400 text-zinc-500' : 'text-zinc-400'}`}
+                            onClick={readingOnly ? undefined : () => {
                               if (onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1') {
                                 setEditingSceneTitle(getSceneTitle(scene, customVersionMap));
                                 setEditingSceneId(scene.id);
                               }
                             }}
-                            title={onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? "클릭하여 씬 제목 수정" : ""}
+                            title={!readingOnly && onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? "클릭하여 씬 제목 수정" : undefined}
                           >
                             <SceneRevisionBadge scene={scene} />
                             <KoreanTranslationBadge novelSlug={novel.slug} actNumber={act.number} scene={scene} customVersionMap={customVersionMap} />
@@ -1027,11 +1205,11 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             {scene.managedLegacyAvailable && <option value="legacy">legacy 원형 · 읽기 전용</option>}
                           </select>
                         )}
-                        {scene.managedSceneId && <button type="button" onClick={() => {
+                        {!readingOnly && scene.managedSceneId && <button type="button" onClick={() => {
                           setCommentPanelSceneId(scene.id);
                           requestAnimationFrame(() => document.querySelector('[aria-label="Scene 검토 코멘트 목록"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
                         }} className="shrink-0 text-xs px-3 py-1 rounded border border-blue-500/30 text-blue-300 bg-blue-500/10">Scene 검토본 · 지침/코멘트 {reviewComments.filter(c => c.managed_scene_id === scene.managedSceneId && !['resolved', 'withdrawn'].includes(c.status)).length} · 다운로드</button>}
-                        {isComparableScene(scene) && <button type="button" aria-pressed={comparisonSceneId === scene.id} onClick={() => comparisonSceneId === scene.id ? closeBilingualComparison(scene) : openBilingualComparison(scene)} className="shrink-0 rounded border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs text-sky-200">{comparisonSceneId === scene.id ? '국문 읽기' : '영한 비교'}</button>}
+                        {canCompareNovel && <button type="button" aria-pressed={comparisonSceneId === scene.id} onClick={() => comparisonSceneId === scene.id ? closeBilingualComparison(scene) : openBilingualComparison(scene)} className="shrink-0 rounded border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs text-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400">{comparisonSceneId === scene.id ? '한 언어로 읽기' : '영한 비교'}</button>}
                         <button
                           type="button"
                           data-copy-scene-id={scene.id}
@@ -1046,7 +1224,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         >
                           📋 Scene 전체 복사
                         </button>
-                        {onDeleteScene && (
+                        {!readingOnly && onDeleteScene && (
                           <button
                             disabled={scene.storageModel === 'ros-ko-block-v1'}
                             onClick={() => onDeleteScene(act.number, ch.number, scene.id)}
@@ -1058,8 +1236,22 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
-                      {comparisonSceneId === scene.id && isComparableScene(scene) ? <NovelBilingualReader
+                      {comparisonSceneId === scene.id && canCompareNovel ? <div className="space-y-3">
+                      <div className="flex flex-wrap items-center gap-2 rounded border border-zinc-700 p-2 text-xs text-zinc-200">
+                        <label htmlFor={`comparison-navigation-${scene.id}`}>비교하며 Scene 이동</label>
+                        <select id={`comparison-navigation-${scene.id}`} value={scene.id} onChange={event => navigateBilingualComparison(event.target.value)} className="min-w-0 max-w-full flex-1 rounded border border-zinc-700 bg-zinc-900 p-2">
+                          {novel.acts.flatMap(a => a.chapters.flatMap(chapter => chapter.scenes.map(item => <option key={item.id} value={item.id}>{a.title} · {chapter.title} · {getSceneTitle(item, customVersionMap)}</option>)))}
+                        </select>
+                        <button type="button" disabled={allScenes[0]?.id === scene.id} onClick={() => navigateBilingualComparison(allScenes[allScenes.findIndex(item => item.id === scene.id) - 1]?.id)} className="rounded border border-zinc-700 px-3 py-2 disabled:opacity-40">이전 Scene</button>
+                        <button type="button" disabled={allScenes[allScenes.length - 1]?.id === scene.id} onClick={() => navigateBilingualComparison(allScenes[allScenes.findIndex(item => item.id === scene.id) + 1]?.id)} className="rounded border border-zinc-700 px-3 py-2 disabled:opacity-40">다음 Scene</button>
+                      </div>
+                      {isComparableScene(scene) && <div role="group" aria-label="영한 비교 방식" className="flex flex-wrap gap-2 text-xs">
+                        <button type="button" aria-pressed={comparisonMode === 'aligned'} onClick={() => setComparisonMode('aligned')} className={`rounded border px-3 py-2 ${comparisonMode === 'aligned' ? 'border-sky-400 text-sky-200' : 'border-zinc-700 text-zinc-400'}`}>대응 블록 비교</button>
+                        <button type="button" aria-pressed={comparisonMode === 'parallel'} onClick={() => setComparisonMode('parallel')} className={`rounded border px-3 py-2 ${comparisonMode === 'parallel' ? 'border-sky-400 text-sky-200' : 'border-zinc-700 text-zinc-400'}`}>문장·단락 나란히 읽기</button>
+                      </div>}
+                      {isComparableScene(scene) && comparisonMode === 'aligned' ? <NovelBilingualReader
                         key={comparisonScope}
+                        readingOnly={readingOnly}
                         scene={scene}
                         comparison={comparison}
                         loading={comparisonLoading}
@@ -1071,7 +1263,18 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         onSelectBlock={paragraph => { comparisonReturnAnchor.current = paragraph.id; }}
                         onOpenBlock={paragraph => handleParagraphClick(paragraph, scene)}
                         onBuildPacket={() => buildCurrentBilingualReviewPacket(scene)}
-                      /> : <div className={viewMode === 'book' ? "space-y-0" : "space-y-2"}>
+                      /> : <NovelParallelReader
+                        key={parallelScope}
+                        scene={scene}
+                        comparison={parallelComparison}
+                        readingUnit={parallelReadingUnit}
+                        onReadingUnitChange={setParallelReadingUnit}
+                        loading={parallelLoading}
+                        error={parallelError}
+                        fontSizeClass={getFontSizeClass()}
+                        onRetry={() => setComparisonReload(value => value + 1)}
+                        onClose={() => closeBilingualComparison(scene)}
+                      />}</div> : <div className={viewMode === 'book' ? "space-y-0" : "space-y-2"}>
                       {(scene.paragraphs || []).map((p) => {
                     const activeVerKey = customVersionMap[p.id] || p.activeVersion;
                     let content = getParagraphText(p, activeVerKey);
@@ -1080,12 +1283,12 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                     
                     let bgClass = isMatch 
                       ? 'bg-amber-900/30 border-amber-500/80 shadow-[0_0_15px_rgba(245,158,11,0.2)]' 
-                      : 'border-transparent hover:bg-amber-500/5';
+                      : readingOnly ? 'border-transparent' : 'border-transparent hover:bg-amber-500/5';
                       
                     if (viewMode === 'book') {
                       bgClass = isMatch
                         ? 'bg-amber-900/20 border-amber-800/40 shadow-[0_0_10px_rgba(245,158,11,0.05)]'
-                        : 'border-transparent hover:bg-[#201d19]/40';
+                        : readingOnly ? 'border-transparent' : 'border-transparent hover:bg-[#201d19]/40';
                     }
 
                     let displayContent = content;
@@ -1111,24 +1314,24 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         data-managed-block-id={p.storageModel === 'ros-ko-block-v1' ? p.id : undefined}
                         data-managed-unit-id={p.storageModel === 'ros-ko-block-v1' ? p.unitId : undefined}
                         data-managed-position={p.storageModel === 'ros-ko-block-v1' ? p.sourceKey : undefined}
-                        onClick={() => handleParagraphClick(p, scene)}
+                        onClick={readingOnly ? undefined : () => handleParagraphClick(p, scene)}
                         className={
-                          viewMode === 'book'
+                          readingOnly ? `relative cursor-text select-text break-inside-avoid mb-5 rounded ${bgClass} ${getFontSizeClass()}` : viewMode === 'book'
                             ? `group relative px-2 py-1 transition-all ${scene.managedReadOnly ? 'cursor-default' : 'cursor-pointer'} break-inside-avoid mb-2 rounded ${bgClass} ${getFontSizeClass()}`
                             : `group relative px-3 py-1.5 transition-all ${scene.managedReadOnly ? 'cursor-default' : 'cursor-pointer'} break-inside-avoid mb-1 rounded-lg border-transparent ${bgClass} ${getFontSizeClass()}`
                         }
-                        title={scene.managedReadOnly ? '과거 구성 읽기 전용' : scene.managedSceneId ? '클릭하여 검토 코멘트 작성 또는 본문 수정' : '클릭하여 이 단락 수정 & 새 버전 생성'}
+                        title={readingOnly ? undefined : scene.managedReadOnly ? '과거 구성 읽기 전용' : scene.managedSceneId ? '클릭하여 검토 코멘트 작성 또는 본문 수정' : '클릭하여 이 단락 수정 & 새 버전 생성'}
                       >
                         {/* Hover Quick Edit Badge */}
-                        {!scene.managedReadOnly && (
+                        {!readingOnly && !scene.managedReadOnly && (
                           <div className="absolute top-0 right-1 opacity-0 group-hover:opacity-100 transition-opacity bg-amber-500 text-zinc-950 text-[10px] px-2 py-0.5 rounded font-bold shadow-lg flex items-center gap-1 font-sans z-10">
                             <span>✏️</span> {scene.managedSceneId ? '검토 · 수정' : '수정'}
                           </div>
                         )}
-                        {scene.managedSceneId && reviewComments.some(c => c.block_unit_id === (p.unitId || p.id) && !['resolved', 'withdrawn'].includes(c.status)) && <span className="inline-block text-xs text-blue-200 bg-blue-900/30 rounded px-2 py-0.5 mb-1" aria-label="이 블록의 검토 코멘트 수">💬 {reviewComments.filter(c => c.block_unit_id === (p.unitId || p.id) && !['resolved', 'withdrawn'].includes(c.status)).length}</span>}
+                        {!readingOnly && scene.managedSceneId && reviewComments.some(c => c.block_unit_id === (p.unitId || p.id) && !['resolved', 'withdrawn'].includes(c.status)) && <span className="inline-block text-xs text-blue-200 bg-blue-900/30 rounded px-2 py-0.5 mb-1" aria-label="이 블록의 검토 코멘트 수">💬 {reviewComments.filter(c => c.block_unit_id === (p.unitId || p.id) && !['resolved', 'withdrawn'].includes(c.status)).length}</span>}
 
                         {/* Version Indicator Tag and AI Prompt (hidden unless hovered) */}
-                        <div className="flex items-center gap-2 flex-wrap font-sans opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all group-hover:mb-1">
+                        {!readingOnly && <div className="flex items-center gap-2 flex-wrap font-sans opacity-0 h-0 overflow-hidden group-hover:opacity-100 group-hover:h-auto transition-all group-hover:mb-1">
                           <div className="inline-block text-[11px] font-mono text-amber-400/80 bg-zinc-950 px-2 py-0.5 rounded border border-zinc-800 select-none">
                             {activeVerKey}
                           </div>
@@ -1144,7 +1347,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                               </div>
                             );
                           })()}
-                        </div>
+                        </div>}
 
                         {/* Paragraph Content with Paragraph Breaks */}
                         <div className="whitespace-pre-wrap leading-relaxed prose prose-invert max-w-none novel-math-prose">
@@ -1188,7 +1391,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </div>
                 
                 {/* Add Scene Button */}
-                {onInsertScene && (
+                {!readingOnly && onInsertScene && (
                   <div className={`mt-2 flex justify-center pb-4 font-sans`}>
                     <button
                       onClick={() => {
@@ -1206,7 +1409,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 )}
                 
                 {/* Add Chapter Button */}
-                {onInsertChapter && (
+                {!readingOnly && onInsertChapter && (
                   <div className={`mt-6 flex justify-center border-t pt-4 font-sans ${viewMode === 'book' ? 'border-[#3a352c]' : 'border-zinc-800/50'}`}>
                     <button
                       onClick={() => {
@@ -1226,7 +1429,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             ))}
 
             {/* Insert Act After Button */}
-            {onInsertActAfter && (
+            {!readingOnly && onInsertActAfter && (
               <div className="flex justify-center mt-12 mb-8">
                 <button
                   onClick={() => onInsertActAfter(act.number)}
@@ -1245,12 +1448,12 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
 
         {/* End of Novel Sheet */}
         <div className={`text-center pt-12 border-t text-xs font-mono ${viewMode === 'book' ? 'border-[#3a352c] text-[#a39a8c]' : 'border-zinc-800 text-zinc-500'}`}>
-          [ 소설 전체 본문 읽기 종료 - 모든 단락은 최신 버전으로 연동됩니다 ]
+          [ 소설 전체 본문 읽기 종료 · 현재 선택한 판본 ]
         </div>
       </div>
 
       {/* Paragraph Edit Modal */}
-      {editingParagraph && editingParagraphScene?.managedSceneId && (
+      {!readingOnly && editingParagraph && editingParagraphScene?.managedSceneId && (
         <ManagedBlockReviewDialog
           key={`${editingParagraphScene.managedSceneId}:${editingParagraph.id}:${editingParagraph.revisionVersionId}`}
           scene={editingParagraphScene}
@@ -1266,6 +1469,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           onSaveComment={async (input, existing) => persistReviewComment(editingParagraphScene, editingParagraph, input, existing)}
           onSaveGuideline={input => persistReviewGuideline(editingParagraphScene, input, undefined, editingParagraph)}
           onSaveBody={async (body, note) => {
+            if (readingOnlyRef.current) return false;
             const saved = await onAddNewVersion(editingParagraph.id, editVersionTag, body, note);
             if (saved) { showToast('수정본을 새 버전으로 저장했습니다.'); closeParagraphEditor(); }
             return saved;
@@ -1276,7 +1480,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           onCopyText={writeTextToClipboard}
         />
       )}
-      {editingParagraph && !editingParagraphScene?.managedSceneId && (
+      {!readingOnly && editingParagraph && !editingParagraphScene?.managedSceneId && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
           <div className="bg-zinc-900 border border-amber-500/40 rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 lg:p-8 shadow-2xl space-y-6">
             {/* Modal Header */}

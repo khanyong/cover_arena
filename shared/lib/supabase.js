@@ -37,6 +37,7 @@ const getProjectionParagraphText = (paragraph) =>
 const applyManagedSceneResult = (scene, managed) => {
   scene.paragraphs = managed.paragraphs;
   scene.managedSceneId = managed.managed_scene_id;
+  scene.managedSourceKey = managed.source_key;
   scene.compositionRevisionId = managed.requested_composition_id;
   scene.managedReviewCompositionId = managed.review_composition_id;
   scene.managedViewKey = managed.display_mode === 'legacy' || managed.display_mode === 'legacy_browse'
@@ -499,6 +500,16 @@ export const novels = {
           return actStub;
         }
 
+        // Comparison reads use the same verified fragment identity as this
+        // Reader, never a title or an inferred array position.
+        for (const chapter of row.data.chapters || []) {
+          for (const scene of chapter.scenes || []) {
+            if (scene.storageModel === 'ros-ko-block-v1') {
+              scene.managedDocumentId = row.id;
+              scene.managedDocumentSlug = row.slug;
+            }
+          }
+        }
         return row.data;
       });
 

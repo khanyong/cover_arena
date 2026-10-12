@@ -41,6 +41,9 @@ export interface NovelScene extends SceneRevisionMetadata {
   paragraphs: NovelParagraph[];
   storageModel?: 'ros-ko-block-v1';
   managedSceneId?: string;
+  managedSourceKey?: string;
+  managedDocumentId?: string;
+  managedDocumentSlug?: string;
   compositionRevisionId?: string;
   generation?: number;
   canonicalBodySha256?: string;

@@ -1,0 +1,52 @@
+.readerRoot [id^="scene-"],
+.readerRoot [id^="paragraph-"],
+.readerRoot [id^="full-act-"] {
+  scroll-margin-top: calc(var(--reader-sticky-offset, 5rem) + var(--reader-tools-height, 12rem) + 16px);
+}
+
+.readingSheet {
+  --reading-measure: 48rem;
+  --reading-leading: 1.9;
+  --reading-font: Georgia, "Noto Serif KR", "Nanum Myeongjo", "AppleMyungjo", "Batang", serif;
+  background-image: none;
+  box-shadow: none;
+  overflow-wrap: anywhere;
+}
+
+.readingSheet[data-reading-width="narrow"] { --reading-measure: 40rem; }
+.readingSheet[data-reading-width="wide"] { --reading-measure: 64rem; }
+.readingSheet[data-reading-spacing="compact"] { --reading-leading: 1.65; }
+.readingSheet[data-reading-spacing="spacious"] { --reading-leading: 2.2; }
+.readingSheet[data-reading-font="sans"] {
+  --reading-font: system-ui, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+}
+
+.readingSheet .readingColumn {
+  width: 100%;
+  max-width: var(--reading-measure);
+  margin-inline: auto;
+  text-align: start;
+}
+
+/* Set the actual text elements, not just a wrapper overridden by prose utilities. */
+.readingSheet :global(.novel-math-prose),
+.readingSheet :global(.novel-math-prose p),
+.readingSheet :global(.novel-math-prose li) {
+  font-size: inherit;
+  font-family: var(--reading-font);
+  line-height: var(--reading-leading);
+  word-break: normal;
+}
+
+.readingSheet :global(.novel-math-prose p) {
+  margin-block: 0 1.1em;
+}
+
+.readingSheet :global(.novel-math-prose p:last-child) {
+  margin-bottom: 0;
+}
+
+.readingSheet :global(.katex-display) {
+  overflow-x: auto;
+  overflow-y: hidden;
+}

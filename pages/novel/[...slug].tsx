@@ -240,6 +240,21 @@ function NovelStudioContent() {
 
   // 뷰 모드: 'reader' (전체 연속 정독 & 인라인 퀵 편집) | 'editor' (단락별 카드 세부 집필/비교) | 'mosaic' (최종본 조합)
   const [activeTab, setActiveTab] = useState<'reader' | 'editor' | 'mosaic'>('reader');
+  const [readerReadingOnly, setReaderReadingOnly] = useState(true);
+  const [readerFocusMode, setReaderFocusMode] = useState(false);
+  const isQuietReader = mainTab === 'story' && activeTab === 'reader' && readerReadingOnly;
+  const isFocusedReader = isQuietReader && readerFocusMode;
+  const readerHeaderRef = React.useRef<HTMLElement | null>(null);
+  const [readerHeaderHeight, setReaderHeaderHeight] = useState(0);
+  useEffect(() => {
+    const header = readerHeaderRef.current;
+    if (!header) return;
+    const measure = () => setReaderHeaderHeight(header.getBoundingClientRect().height);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(header);
+    return () => observer.disconnect();
+  }, [isCurrentReaderReady]);
 
   // 개요/캐릭터 접기 토글 상태
   const [showOutlineDetails, setShowOutlineDetails] = useState(true);
@@ -303,6 +318,9 @@ function NovelStudioContent() {
   }, [isCurrentReaderReady, dbSlug, novel, mainTab, activeTab]);
 
   const languageSceneAnchor = activeSceneId ? `#scene-${encodeURIComponent(activeSceneId)}` : '';
+  const readerSceneIds = novel?.acts.flatMap(act => act.chapters.flatMap(chapter => chapter.scenes.map(scene => scene.id))) || [];
+  // Keep the entry visible before scroll-spy has selected a Scene as well.
+  const comparisonTargetId = readerSceneIds.includes(activeSceneId) ? activeSceneId : readerSceneIds[0];
 
   // Scroll Spy 구현 (Intersection Observer)
   useEffect(() => {
@@ -799,6 +817,7 @@ function NovelStudioContent() {
       data-requested-slug={dbSlug}
       data-loaded-slug={readerLoadState.status === 'ready' ? readerLoadState.loadedSlug : undefined}
       data-reader-language={lang}
+      style={{ '--reader-header-offset': `${readerHeaderHeight + 8}px` } as React.CSSProperties}
     >
       <Head>
         <title>{novel.title} - 소설 집필 & 버전 스튜디오</title>
@@ -806,7 +825,7 @@ function NovelStudioContent() {
       </Head>
 
       {/* Navigation Header */}
-      <header className="border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-50">
+      <header ref={readerHeaderRef} className={`${isFocusedReader ? 'hidden' : ''} border-b border-zinc-800 bg-zinc-900/90 backdrop-blur sticky top-0 z-50`}>
         <ReaderAccountControls />
         <div className="max-w-7xl mx-auto px-6 py-3 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center gap-3">
@@ -832,11 +851,11 @@ function NovelStudioContent() {
                 >
                   ENG
                 </Link>
-                {novelId === 'quantum-vibration-novel' && (
+                {novelId === 'quantum-vibration-novel' && comparisonTargetId && (
                   <Link
-                    href="/novel/quantum-vibration-novel?compare=b48a4f04#scene-b48a4f04"
+                    href={`/novel/quantum-vibration-novel${lang === 'en' ? '/en' : ''}?compare=${encodeURIComponent(comparisonTargetId)}#scene-${encodeURIComponent(comparisonTargetId)}`}
                     onClick={() => { setMainTab('story'); setActiveTab('reader'); setComparisonRequestKey(key => key + 1); }}
-                    title="합의의 건축 — 국문과 번역 기준 영문 비교"
+                    title="현재 Scene의 국문·영문 문장/단락 비교"
                     className="text-xs px-2.5 py-1 rounded-sm font-semibold text-sky-300 hover:bg-sky-500/10"
                   >영한 비교</Link>
                 )}
@@ -854,7 +873,7 @@ function NovelStudioContent() {
                   : 'text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800'
               }`}
             >
-              📖 본문 편집
+              📖 본문 읽기 / 편집
             </button>
             <button
               onClick={() => setMainTab('characters')}
@@ -910,15 +929,15 @@ function NovelStudioContent() {
 
           {/* 탭 & 컨트롤 (본문 편집 시에만 표시) */}
           {mainTab === 'story' && (
-            <div className="flex items-center gap-3 shrink-0">
-              <button
+            <div className="flex flex-wrap items-center gap-3">
+              {!isQuietReader && <button
                 onClick={() => setShowImportModal(true)}
                 className="bg-amber-500/10 hover:bg-amber-500/20 text-amber-300 border border-amber-500/30 text-xs px-3.5 py-1.5 rounded-lg font-semibold transition-colors flex items-center gap-1.5"
               >
                 <span>📥</span> 초안 가져오기/입력
-              </button>
+              </button>}
 
-              <div className="bg-zinc-950 p-1 rounded-xl border border-zinc-800 flex items-center text-xs">
+              <div className="bg-zinc-950 p-1 rounded-xl border border-zinc-800 flex flex-wrap items-center text-xs">
                 <button
                   onClick={() => setActiveTab('reader')}
                   className={`px-3.5 py-1.5 rounded-lg font-bold transition-all ${
@@ -927,7 +946,7 @@ function NovelStudioContent() {
                       : 'text-zinc-400 hover:text-zinc-200'
                   }`}
                 >
-                  📖 전체 정독 & 인라인 수정
+                  📖 전체 정독
                 </button>
                 <button
                   onClick={() => setActiveTab('editor')}
@@ -958,7 +977,7 @@ function NovelStudioContent() {
       {/* Main Container */}
       <div className="max-w-[1600px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         {/* Left Sidebar: Sticky Fixed Navigation & Version Swapper */}
-        {mainTab === 'story' && (
+        {mainTab === 'story' && !isFocusedReader && (
           <aside className="space-y-6 lg:col-span-1 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1 font-sans scrollbar-thin scrollbar-thumb-zinc-800">
             {/* Global Version Selector Box */}
             <div className="hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-5 shadow-xl">
@@ -1041,10 +1060,7 @@ function NovelStudioContent() {
                                 {ch.scenes.map((scene) => {
                                   const reviewScene = getKoreanReviewScene(koreanReviewScenes, novel.slug, act.number, scene);
                                   const tocEntry = tocTitles.scenes.get(scene.id);
-                                  const sceneTitle = getTocTitle(
-                                    tocEntry,
-                                    getSceneTitle(reviewScene || scene, reviewScene ? {} : customVersionMap),
-                                  );
+                                  const sceneTitle = getTocTitle(tocEntry, getSceneTitle(scene, customVersionMap));
                                   return (
                                   <a
                                     key={scene.id}
@@ -1077,7 +1093,7 @@ function NovelStudioContent() {
         )}
 
         {/* Center/Right Content Area */}
-        <main className={mainTab === 'story' ? 'lg:col-span-3 space-y-8' : 'lg:col-span-4 space-y-8'}>
+        <main className={mainTab === 'story' && !isFocusedReader ? 'lg:col-span-3 min-w-0 space-y-8' : 'lg:col-span-4 min-w-0 space-y-8'}>
           {/* Main Content View Switch */}
           {mainTab === 'characters' && (
             <CharacterGlossary
@@ -1252,8 +1268,15 @@ function NovelStudioContent() {
             activeTab === 'reader' ? (
               /* 전체 연속 정독 & 인라인 수정 뷰어 (메인 모드) */
               <NovelFullReader
-                requestedComparisonSceneId={router.query.compare === 'b48a4f04' ? 'b48a4f04' : undefined}
+                readingOnly={readerReadingOnly}
+                onReadingOnlyChange={setReaderReadingOnly}
+                focusMode={isFocusedReader}
+                onFocusModeChange={setReaderFocusMode}
+                requestedComparisonSceneId={typeof router.query.compare === 'string' && readerSceneIds.includes(router.query.compare) ? router.query.compare : undefined}
                 requestedComparisonKey={comparisonRequestKey}
+                onComparisonSceneChange={sceneId => {
+                  void router.replace({ pathname: router.pathname, query: { ...router.query, compare: sceneId }, hash: `scene-${sceneId}` }, undefined, { shallow: true, scroll: false });
+                }}
                 novel={novel}
                 customVersionMap={customVersionMap}
                 onAddNewVersion={handleAddNewVersion}
