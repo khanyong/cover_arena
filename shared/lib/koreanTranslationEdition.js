@@ -151,6 +151,20 @@ const editions = Object.freeze({
     version: 'review',
     sourceKey: 'A1/CH03/SC03',
   }),
+  e858f9a3: Object.freeze({
+    actNumber: 4,
+    blocks: 156,
+    sha256: 'fe1c25e081181170763bf1760ebd7d2484653dfd9dcd30d234e079aba4595544',
+    version: 'review',
+    sourceKey: 'A1/CH04/SC01',
+  }),
+  b3d54f9e: Object.freeze({
+    actNumber: 4,
+    blocks: 240,
+    sha256: '3b97bc16fed3bd6d57fe5d7ada73546bc87c04241fc631986164fda745d151bd',
+    version: 'review',
+    sourceKey: 'A1/CH04/SC02',
+  }),
 });
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
