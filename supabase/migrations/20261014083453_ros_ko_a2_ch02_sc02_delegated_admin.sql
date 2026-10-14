@@ -55,7 +55,7 @@ begin
      or p_payload->>'legacy_paragraph_id' is distinct from '__empty_scene_2571b97a__'
      or p_payload->>'title_snapshot' is distinct from '[Scene 2: The Phase Fold]'
      or p_payload->>'project_slug' is distinct from 'ros-ko-pro-ch01-sc01-blocks'
-     or p_payload->>'project_title' is distinct from 'ROS-KO PRO/CH01/SC01 Blocks'
+     or p_payload->>'project_title' is distinct from 'ROS-KO PRO/CH01/SC02 Blocks'
      or p_payload->>'manuscript_version' is distinct from 'r01'
      or p_payload->>'block_count' is distinct from '184'
      or p_payload->>'body_bytes' is distinct from '20697'
@@ -96,7 +96,7 @@ begin
   perform 1 from public.revision_projects where id=v_project for share;
   if not exists(select 1 from public.revision_projects
     where id=v_project and owner_id=v_actor and slug='ros-ko-pro-ch01-sc01-blocks'
-      and title='ROS-KO PRO/CH01/SC01 Blocks' and source_document_id='quantum-vibration-novel-act-2') then
+      and title='ROS-KO PRO/CH01/SC02 Blocks' and source_document_id='quantum-vibration-novel-act-2') then
     raise exception using errcode='42501',message='EXISTING_KO_PROJECT_OWNER_MISMATCH';
   end if;
   v_payload_sha := public.ros_ko_sha256_text(p_payload::text);
@@ -159,8 +159,8 @@ begin
      or v_en_doc.data#>'{chapters,1,number}' is distinct from '2'::jsonb
      or v_doc.data#>>'{chapters,1,title}' is distinct from '제2장: 광학 지연선'
      or v_en_doc.data#>>'{chapters,1,title}' is distinct from 'Chapter 2: The Optical Delay Line'
-     or v_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '2'::jsonb
-     or v_en_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '2'::jsonb
+     or v_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '1'::jsonb
+     or v_en_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '1'::jsonb
      or v_en_doc.data#>>'{chapters,1,scenes,1,id}' is distinct from '2571b97a'
      or v_en_doc.data#>>'{chapters,1,scenes,1,title}' is distinct from '[Scene 2: The Phase Fold]'
      or left(v_en_root.title,5) is distinct from '[EN] '
@@ -317,7 +317,7 @@ begin
        or jsonb_typeof(v_row->'body') is distinct from 'string'
        or public.ros_ko_sha256_text(v_row->>'body') is distinct from v_row->>'body_sha256'
        or octet_length(convert_to(v_row->>'body','UTF8')) is distinct from (v_row->>'body_bytes')::int
-       or (case when v_pos in (63,65,67,69,73,106,108,110,160)
+       or (case when v_pos in (42,44)
                 then length(v_row->>'body')-length(replace(v_row->>'body',E'\n',''))<>2
                 else position(E'\n' in v_row->>'body')<>0 end)
        or position(E'\r' in v_row->>'body')<>0
@@ -363,7 +363,7 @@ begin
      or public.ros_ko_sha256_text(v_body)<>'e2c0766a4051b8669c9aef02425d6a4e081eef2d3ae5aa1d2ed9929e1d4c8328'
      or length(v_en_body)-length(replace(v_en_body,E'\n',''))<>384
      or position(E'\r' in v_en_body)<>0
-     or octet_length(convert_to(v_en_body,'UTF8'))<>16556
+     or octet_length(convert_to(v_en_body,'UTF8'))<>19085
      or public.ros_ko_sha256_text(v_en_body)<>'e2c6781e5b9d5def07ba727d85263f6d36f69d0a50cc55c9128558c93f6bcd13' then
     raise exception using errcode='22023',message='SCENE_BODY_CONTRACT_MISMATCH';
   end if;
@@ -684,9 +684,9 @@ begin
      or v_doc.data#>'{chapters,1,number}' is distinct from '2'::jsonb
      or v_en_doc.data#>'{chapters,1,number}' is distinct from '2'::jsonb
      or v_doc.data#>>'{chapters,1,scenes,1,id}' is distinct from '2571b97a'
-     or v_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '2'::jsonb
+     or v_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '1'::jsonb
      or v_en_doc.data#>>'{chapters,1,scenes,1,id}' is distinct from '2571b97a'
-     or v_en_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '2'::jsonb
+     or v_en_doc.data#>'{chapters,1,scenes,1,number}' is distinct from '1'::jsonb
      or v_doc.data#>>'{chapters,1,title}' is distinct from '제2장: 광학 지연선'
      or v_en_doc.data#>>'{chapters,1,title}' is distinct from 'Chapter 2: The Optical Delay Line'
      or v_en_doc.data#>>'{chapters,1,scenes,1,title}' is distinct from '[Scene 2: The Phase Fold]'
@@ -828,4 +828,3 @@ REVOKE ALL ON FUNCTION ros_ko_private.rename_a2_ch02_sc02_scene_delegated(uuid,t
 GRANT EXECUTE ON FUNCTION ros_ko_private.rename_a2_ch02_sc02_scene_delegated(uuid,text,jsonb) TO postgres;
 COMMENT ON FUNCTION ros_ko_private.rename_a2_ch02_sc02_scene_delegated(uuid,text,jsonb)
   IS 'Target-only A2/CH02/SC02 delegated Scene title: new metadata composition references unchanged 184 Versions; original title/archive/history are immutable; shared Chapter/Act untouched.';
-
