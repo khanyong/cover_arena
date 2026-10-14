@@ -165,6 +165,13 @@ const editions = Object.freeze({
     version: 'review',
     sourceKey: 'A1/CH04/SC02',
   }),
+  '2571b97a': Object.freeze({
+    actNumber: 5,
+    blocks: 184,
+    sha256: 'e2c0766a4051b8669c9aef02425d6a4e081eef2d3ae5aa1d2ed9929e1d4c8328',
+    version: 'review',
+    sourceKey: 'A2/CH02/SC02',
+  }),
 });
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
