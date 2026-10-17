@@ -172,6 +172,14 @@ const editions = Object.freeze({
     version: 'review',
     sourceKey: 'A2/CH02/SC02',
   }),
+  e01a745e: Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 325,
+    sha256: '6827412f7c51d7de5a473dec69642fdaa050944436d0f4a09994b86739ab54f6',
+    version: 'review',
+    sourceKey: 'A3/CH02/SC02',
+  }),
 });
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
