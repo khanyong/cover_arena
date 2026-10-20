@@ -61,10 +61,21 @@ export const buildSceneCopyText = (
   return `${blocks.join('\n\n')}\n`;
 };
 
+export const buildManagedSceneClipboardText = (body: string): string =>
+  body ? `${body}\n` : '';
+
 export const writeTextToClipboard = async (text: string): Promise<void> => {
-  // Run the synchronous path first so the browser still sees the original
-  // button click as the user gesture. Awaiting a denied async Clipboard call
-  // before this fallback would lose that gesture in some browser contexts.
+  // Prefer the standard Clipboard API. Some browsers report a successful
+  // execCommand('copy') without updating the observable system clipboard.
+  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return;
+    } catch {
+      // Fall through for older or permission-restricted browser contexts.
+    }
+  }
+
   if (typeof document !== 'undefined') {
     const previousFocus = document.activeElement instanceof HTMLElement
       ? document.activeElement
@@ -87,11 +98,6 @@ export const writeTextToClipboard = async (text: string): Promise<void> => {
       textarea.remove();
       previousFocus?.focus();
     }
-  }
-
-  if (typeof navigator !== 'undefined' && navigator.clipboard?.writeText) {
-    await navigator.clipboard.writeText(text);
-    return;
   }
 
   throw new Error('Clipboard is unavailable in this environment.');
@@ -620,14 +626,14 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     draftOverride?: { paragraphId: string; content: string }
   ) => {
     const sceneText = scene.storageModel === 'ros-ko-block-v1'
-      ? buildManagedSceneCopyText(
+      ? buildManagedSceneClipboardText(buildManagedSceneCopyText(
           scene,
           customVersionMap,
           (paragraph: NovelParagraph, versionKey: string) =>
             draftOverride?.paragraphId === paragraph.id
               ? draftOverride.content
               : getParagraphText(paragraph, versionKey)
-        )
+        ))
       : buildSceneCopyText(scene, customVersionMap, draftOverride);
 
     if (!sceneText) {
