@@ -1,0 +1,7 @@
+# Raw Scene publication evidence is retained in the repository audit history but
+# must never be uploaded as Vercel deployment source.
+reports/scene-publication
+
+# Historical database payloads excluded by the existing R01 release contract.
+supabase/migrations/20260907163153_remote_schema.sql
+supabase/migrations/20260911052131_correct_all_current_snapshots.sql
