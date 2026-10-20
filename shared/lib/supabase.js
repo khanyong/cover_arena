@@ -8,6 +8,7 @@ import {
   postgresJsonbText,
   sha256Hex
 } from './rosKoBlockModel'
+import { isExpectedNovelFragment } from './novelFragmentIdentity'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -495,7 +496,7 @@ export const novels = {
           return actStub;
         }
 
-        if (row.id !== actSlug || row.slug !== actSlug || !row.data || row.data.number !== actStub.number) {
+        if (!isExpectedNovelFragment(row, actSlug, actStub.number)) {
           invalidFragments.push(actSlug);
           return actStub;
         }
