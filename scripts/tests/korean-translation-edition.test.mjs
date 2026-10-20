@@ -56,6 +56,7 @@ const MANAGED_CONTRACTS = [
   { id: 'd4ffadd2', actNumber: 7, sourceKey: 'A4/CH01/SC01', blocks: 485, sha256: '8a1d23e859696a6a4267b9b5cff8f472274d99112c79121662d753dd6cfc0b5a' },
   { id: '21a0304d', actNumber: 7, sourceKey: 'A4/CH01/SC02', blocks: 276, sha256: 'b254987e0f16d53a0f09662efddf23383787e71910f13d06c5c8237fcf014d31' },
   { id: 'bafe9c6c', actNumber: 7, sourceKey: 'A4/CH02/SC01', blocks: 369, sha256: '9257a00a6db9aaa15797d21e418d5f331b32d3696f0301dc103a547d4d27d55d' },
+  { id: '306dfaf6', actNumber: 7, sourceKey: 'A4/CH02/SC02', blocks: 263, sha256: '67f59de9bb2718c64b84298df335ca728132c1e43355a5d01373ef6bc89946e8' },
 ];
 const ROOT_SLUG = 'quantum-vibration-novel';
 const COMPOSITION = '00000000-0000-4000-8000-000000000001';
