@@ -165,12 +165,170 @@ const editions = Object.freeze({
     version: 'review',
     sourceKey: 'A1/CH04/SC02',
   }),
+  '52902ef2': Object.freeze({
+    actNumber: 4,
+    blocks: 183,
+    sha256: '4a7a718d5048f3785e77be90f0d18e79d3e7f1c461b738a508ecb6db3c69a42b',
+    version: 'review',
+    sourceKey: 'A1/CH04/SC03',
+  }),
+  b7c0daf4: Object.freeze({
+    actNumber: 5,
+    blocks: 311,
+    sha256: 'c47576d4113d76ae934a85896f0c8f5a69cdf50dba8a168447873d81d299bbde',
+    version: 'review',
+    sourceKey: 'A2/CH01/SC01',
+  }),
+  '7795c33b': Object.freeze({
+    actNumber: 5,
+    blocks: 235,
+    sha256: '595578fbf7bc6305782ac9d1904082f79e2f81b7b51cf0be1fec7ef28bc4a67e',
+    version: 'review',
+    sourceKey: 'A2/CH01/SC02',
+  }),
+  e9c8ba2a: Object.freeze({
+    actNumber: 5,
+    blocks: 215,
+    sha256: 'a940132fe25d3dedab7c0d6fb1a9a738123b1b4158fc2116727777c9dc9a1f38',
+    version: 'review',
+    sourceKey: 'A2/CH02/SC01',
+  }),
   '2571b97a': Object.freeze({
     actNumber: 5,
     blocks: 184,
     sha256: 'e2c0766a4051b8669c9aef02425d6a4e081eef2d3ae5aa1d2ed9929e1d4c8328',
     version: 'review',
     sourceKey: 'A2/CH02/SC02',
+  }),
+  f7cf08b2: Object.freeze({
+    actNumber: 5,
+    blocks: 264,
+    sha256: '87de1979abf329b8c88a88e377a23fa52618b3d7ff273873003b6dc98decb598',
+    version: 'review',
+    sourceKey: 'A2/CH03/SC01',
+  }),
+  ec639075: Object.freeze({
+    actNumber: 5,
+    blocks: 228,
+    sha256: 'd822ba9c702cce5eb72a3758d5d6b9d4573a842991cbb89b123f2a920d27459b',
+    version: 'review',
+    sourceKey: 'A2/CH03/SC02',
+  }),
+  '7b33b295': Object.freeze({
+    actNumber: 5,
+    blocks: 227,
+    sha256: '4625e05907c63d71a4e64dfb43ebeacb596046926b5375b64474f71707e0dcf2',
+    version: 'review',
+    sourceKey: 'A2/CH03/SC03',
+  }),
+  '7999ed7c': Object.freeze({
+    actNumber: 5,
+    blocks: 209,
+    sha256: '7a0ee31aa11f0f481e699c94ae49ce63b1e9bf8e5c46779e018541f4e7a9d283',
+    version: 'review',
+    sourceKey: 'A2/CH04/SC01',
+  }),
+  '8ea1c60e': Object.freeze({
+    actNumber: 5,
+    blocks: 237,
+    sha256: '0929aa984e94ba627f2f3bcf50b31fc29c26500cb1b6954219982bdc19869df7',
+    version: 'review',
+    sourceKey: 'A2/CH04/SC02',
+  }),
+  '309ff3fd': Object.freeze({
+    actNumber: 5,
+    blocks: 295,
+    sha256: '7e8f17de29c28b6193285720b10313798470556e592f37f87392370b19bc2789',
+    version: 'review',
+    sourceKey: 'A2/CH04/SC03',
+  }),
+  ab4c188e: Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 306,
+    sha256: 'ad0585a3c3b0eebb67c36d97cfa740a40b0767b9d8e02f5a4b6259fc9c204eb0',
+    version: 'review',
+    sourceKey: 'A3/CH01/SC01',
+  }),
+  b4394323: Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 305,
+    sha256: '1ec398fa321a3d1da561cc884a5a0c33366b51ef8a78172449b8f6674527cf6d',
+    version: 'review',
+    sourceKey: 'A3/CH01/SC02',
+  }),
+  '91c868b6': Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 359,
+    sha256: 'e4002627c74c9fb0f599afac82c5e657e5eafbae43ac42a09ce5c02b4c9bcd3d',
+    version: 'review',
+    sourceKey: 'A3/CH02/SC01',
+  }),
+  e01a745e: Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 325,
+    sha256: '6827412f7c51d7de5a473dec69642fdaa050944436d0f4a09994b86739ab54f6',
+    version: 'review',
+    sourceKey: 'A3/CH02/SC02',
+  }),
+  c7e45423: Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 277,
+    sha256: '89990a3fb4686d80847ea93b89fd98eda87f822654a7b9dc63d88f54f804570f',
+    version: 'review',
+    sourceKey: 'A3/CH03/SC01',
+  }),
+  e32996cf: Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 274,
+    sha256: '56fa03d80eeec11f368118c3f463205d08263773847d85b3501cb30baa94be85',
+    version: 'review',
+    sourceKey: 'A3/CH03/SC02',
+  }),
+  '6ca38002': Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 368,
+    sha256: '3842f0a9b0c650c52b24db9e554feb12ce15cf31267de57e54377a5829c503fe',
+    version: 'review',
+    sourceKey: 'A3/CH04/SC01',
+  }),
+  '128383c2': Object.freeze({
+    // Literary ACT 3 is stored under internal Act 6.
+    actNumber: 6,
+    blocks: 392,
+    sha256: '803c654db89fa19567910bb9c4d9cb5cb02efb64784d88adbe6489f251daeb86',
+    version: 'review',
+    sourceKey: 'A3/CH04/SC02',
+  }),
+  d4ffadd2: Object.freeze({
+    // Literary ACT 4 is stored under internal Act 7.
+    actNumber: 7,
+    blocks: 485,
+    sha256: '8a1d23e859696a6a4267b9b5cff8f472274d99112c79121662d753dd6cfc0b5a',
+    version: 'review',
+    sourceKey: 'A4/CH01/SC01',
+  }),
+  '21a0304d': Object.freeze({
+    // Literary ACT 4 is stored under internal Act 7.
+    actNumber: 7,
+    blocks: 276,
+    sha256: 'b254987e0f16d53a0f09662efddf23383787e71910f13d06c5c8237fcf014d31',
+    version: 'review',
+    sourceKey: 'A4/CH01/SC02',
+  }),
+  bafe9c6c: Object.freeze({
+    // Literary ACT 4 is stored under internal Act 7.
+    actNumber: 7,
+    blocks: 369,
+    sha256: '9257a00a6db9aaa15797d21e418d5f331b32d3696f0301dc103a547d4d27d55d',
+    version: 'review',
+    sourceKey: 'A4/CH02/SC01',
   }),
 });
 

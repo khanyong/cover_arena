@@ -1060,7 +1060,7 @@ function NovelStudioContent() {
                                 {ch.scenes.map((scene) => {
                                   const reviewScene = getKoreanReviewScene(koreanReviewScenes, novel.slug, act.number, scene);
                                   const tocEntry = tocTitles.scenes.get(scene.id);
-                                  const sceneTitle = getTocTitle(tocEntry, getSceneTitle(scene, customVersionMap));
+                                  const sceneTitle = getTocTitle(tocEntry, getSceneTitle(reviewScene || scene, reviewScene ? {} : customVersionMap));
                                   return (
                                   <a
                                     key={scene.id}
