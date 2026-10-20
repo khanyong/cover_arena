@@ -146,14 +146,27 @@ test('Scene copy assembles a complete approved Reader payload byte-for-byte', ()
   assert.equal(copied, read(`${fixtureFolder}/approved.md`));
 });
 
-test('clipboard writer keeps a synchronous user-gesture path and an async non-DOM path', async () => {
+test('managed Scene clipboard appends exactly one copy-contract LF to the stored BODY', () => {
+  const buildManagedSceneClipboardText = vm.runInNewContext(
+    initializer('components/NovelPlatform/NovelFullReader.tsx', 'buildManagedSceneClipboardText')
+  );
+  assert.equal(buildManagedSceneClipboardText('first\n\nlast'), 'first\n\nlast\n');
+  assert.equal(buildManagedSceneClipboardText(''), '');
+});
+
+test('clipboard writer prefers the standard API and preserves a synchronous fallback', async () => {
   const nativeWrites = [];
+  let fallbackCreations = 0;
   const nativeWriter = vm.runInNewContext(
     initializer('components/NovelPlatform/NovelFullReader.tsx', 'writeTextToClipboard'),
-    { navigator: { clipboard: { writeText: async (text) => nativeWrites.push(text) } } }
+    {
+      navigator: { clipboard: { writeText: async (text) => nativeWrites.push(text) } },
+      document: { createElement() { fallbackCreations += 1; } },
+    }
   );
   await nativeWriter('native');
   assert.deepEqual(nativeWrites, ['native']);
+  assert.equal(fallbackCreations, 0);
 
   let fallbackValue = '';
   let removed = false;
