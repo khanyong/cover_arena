@@ -63,6 +63,9 @@ const MANAGED_CONTRACTS = [
   { id: 'ca627c7e', actNumber: 7, sourceKey: 'A4/CH04/SC02', blocks: 291, sha256: 'ccb661756dfc48fc1599efed9c00555d94de5bd1de2ee5ecf44a5dd915131620' },
   { id: '5a97bdf6', actNumber: 7, sourceKey: 'A4/CH04/SC03', blocks: 394, sha256: '3d4884fede7eef0752c410fabcb44f7884874f1e1ab57766fae172143c914fed' },
   { id: '0ec4d373', actNumber: 8, sourceKey: 'EPILOGUE/OPENING', blocks: 217, sha256: 'a11d11ccb64567d2bd308bd40057f57f77a0911f7d8f68187fa978df0ec81f9a' },
+  { id: 'a93b7cca', actNumber: 9, sourceKey: 'APPENDIX/A/OPENING', blocks: 13, sha256: '7056e5752b11b6cef5cede252ebc78a428f757610a39875afb9024055c2d9747' },
+  { id: 'ec252d96', actNumber: 9, sourceKey: 'APPENDIX/B/OPENING', blocks: 30, sha256: 'b60e036759629601c2f5c9a923ceadb367037fb525280785299c6094e75355d6' },
+  { id: '6bdd341c', actNumber: 9, sourceKey: 'APPENDIX/C/OPENING', blocks: 10, sha256: 'b0c3215a92dc69b24bd288bffc9fb30f343ee2494c6fc4f69fafa473fd578e42' },
 ];
 const ROOT_SLUG = 'quantum-vibration-novel';
 const COMPOSITION = '00000000-0000-4000-8000-000000000001';
