@@ -386,6 +386,30 @@ const editions = Object.freeze({
     version: 'review',
     sourceKey: 'EPILOGUE/OPENING',
   }),
+  a93b7cca: Object.freeze({
+    // Appendix A is stored under internal Act 9; the leaf title remains Opening.
+    actNumber: 9,
+    blocks: 13,
+    sha256: '7056e5752b11b6cef5cede252ebc78a428f757610a39875afb9024055c2d9747',
+    version: 'review',
+    sourceKey: 'APPENDIX/A/OPENING',
+  }),
+  ec252d96: Object.freeze({
+    // Appendix B is stored under internal Act 9; the leaf title remains Opening.
+    actNumber: 9,
+    blocks: 30,
+    sha256: 'b60e036759629601c2f5c9a923ceadb367037fb525280785299c6094e75355d6',
+    version: 'review',
+    sourceKey: 'APPENDIX/B/OPENING',
+  }),
+  '6bdd341c': Object.freeze({
+    // Appendix C is stored under internal Act 9; the leaf title remains Opening.
+    actNumber: 9,
+    blocks: 10,
+    sha256: 'b0c3215a92dc69b24bd288bffc9fb30f343ee2494c6fc4f69fafa473fd578e42',
+    version: 'review',
+    sourceKey: 'APPENDIX/C/OPENING',
+  }),
 });
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
