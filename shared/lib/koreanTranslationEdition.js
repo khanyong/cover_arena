@@ -378,6 +378,14 @@ const editions = Object.freeze({
     version: 'review',
     sourceKey: 'A4/CH04/SC03',
   }),
+  '0ec4d373': Object.freeze({
+    // The epilogue is stored under internal Act 8.
+    actNumber: 8,
+    blocks: 217,
+    sha256: 'a11d11ccb64567d2bd308bd40057f57f77a0911f7d8f68187fa978df0ec81f9a',
+    version: 'review',
+    sourceKey: 'EPILOGUE/OPENING',
+  }),
 });
 
 const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
