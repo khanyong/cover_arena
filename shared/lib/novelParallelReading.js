@@ -136,7 +136,7 @@ export function segmentParallelText(body, mode = 'paragraph', locale = 'ko', opt
   let usedFallback = false;
   let keptMath = false;
   const segments = paragraphs.flatMap(paragraph => {
-    if (hasParallelMath(paragraph)) { keptMath = true; return [paragraph]; }
+    if (hasParallelMath(paragraph) || /^> \*\*(?:Equation note|수식 해설)/m.test(paragraph)) { keptMath = true; return [paragraph]; }
     if (segmenter) {
       try {
         const parts = Array.from(segmenter.segment(paragraph), entry => entry.segment);
@@ -157,7 +157,7 @@ export function pairParallelReadingRows(koBody, enBody, mode = 'paragraph') {
   if (ko.length !== en.length) return [{ ko: koBody, en: enBody, label: '장면 전체 · 단락 수 다름', fallback: true }];
   return ko.flatMap((body, index) => {
     const pair = { ko: body, en: en[index], label: `단락 ${index + 1}`, fallback: false };
-    if (mode !== 'sentence' || hasParallelMath(body) || hasParallelMath(en[index])) return [pair];
+    if (mode !== 'sentence' || hasParallelMath(body) || hasParallelMath(en[index]) || /^> \*\*(?:Equation note|수식 해설)/m.test(body) || /^> \*\*(?:Equation note|수식 해설)/m.test(en[index])) return [pair];
     const ks = segmentParallelText(body, 'sentence', 'ko').segments;
     const es = segmentParallelText(en[index], 'sentence', 'en').segments;
     if (ks.length !== es.length) return [{ ...pair, label: `${pair.label} · 문장 수 다름`, fallback: true }];

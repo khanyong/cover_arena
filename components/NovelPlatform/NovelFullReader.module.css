@@ -72,3 +72,17 @@
 .readerRoot[data-comparison-active="true"] [data-reading-sheet] {
   padding-inline: clamp(4px, .5vw, 12px);
 }
+
+.readerRoot :global(.equation-commentary) {
+  border: 1px solid currentColor;
+  border-radius: .35rem;
+  padding: 1rem 1.2rem;
+  margin: 1.2rem 0;
+  font-style: normal;
+  quotes: none;
+  white-space: normal;
+}
+.readerRoot :global(.equation-commentary p)::before,
+.readerRoot :global(.equation-commentary p)::after { content: none; }
+.readerRoot :global(.equation-commentary-links) { font-size: .85em; margin-top: .8em; }
+.readerRoot :global(.equation-detail-heading) { scroll-margin-top: 9rem; }

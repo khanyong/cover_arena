@@ -1,3 +1,4 @@
+import { remarkEquationCommentary, normalizeDisplayMath } from '../../shared/lib/equationCommentary';
 import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -48,7 +49,7 @@ const buttonClass = 'rounded-lg border border-zinc-700 bg-zinc-900 px-3 py-2 tex
 
 export function BilingualBlockText({ body }: { body: string }) {
   return <div className="novel-math-prose prose prose-invert max-w-none whitespace-pre-wrap break-words leading-relaxed">
-    <ReactMarkdown remarkPlugins={[remarkMath]} rehypePlugins={[rehypeKatex]}>{body}</ReactMarkdown>
+    <ReactMarkdown remarkPlugins={[remarkMath, remarkEquationCommentary]} rehypePlugins={[rehypeKatex]}>{normalizeDisplayMath(body)}</ReactMarkdown>
   </div>;
 }
 

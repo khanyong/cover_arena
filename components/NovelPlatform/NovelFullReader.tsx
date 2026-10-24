@@ -1,3 +1,4 @@
+import { remarkEquationCommentary, normalizeDisplayMath } from '../../shared/lib/equationCommentary';
 import React, { useState, useEffect, useRef } from 'react';
 import { NovelDetails, NovelParagraph, NovelScene, getParagraphText, getSceneTitle } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
@@ -1345,7 +1346,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             <span>{displayContent}</span>
                           ) : (
                             <ReactMarkdown
-                              remarkPlugins={[remarkMath]}
+                              remarkPlugins={[remarkMath, remarkEquationCommentary]}
                               rehypePlugins={[rehypeKatex]}
                               components={{
                                 code({node, className, children, ...props}) {
@@ -1368,7 +1369,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                                 }
                               }}
                             >
-                              {displayContent}
+                              {normalizeDisplayMath(displayContent)}
                             </ReactMarkdown>
                           )}
                         </div>
