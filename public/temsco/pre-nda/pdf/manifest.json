@@ -5,5 +5,10 @@
   "pageCount": 40,
   "generatedAt": "2026-10-06T02:11:43.527Z",
   "previewUrl": "/temsco/pre-nda/editions/d0323629b5fc/preview.json",
-  "previewHash": "d162f08d3a85d59627f4519fb026f62a9e31859ae649ec9b9794881b1656a461"
+  "previewHash": "d162f08d3a85d59627f4519fb026f62a9e31859ae649ec9b9794881b1656a461",
+  "buildCompatibility": {
+    "baseSourceHash": "d0323629b5fc69a7fcd1ce6ea53fe15472c43c10db18117d25698ff8df822b01",
+    "sourceHash": "a4b0435d1d5711f144f07e84622d18108bd578711de10cea9c3ca488a7a0e0f4",
+    "reason": "ROS PDF and EPUB exports only: Node 24, pinned Chromium/Puppeteer and JSZip dependencies, API asset tracing. Existing TEMSCO source content and PDF/preview bytes are unchanged; only package.json, package-lock.json and next.config.js differ in the source graph."
+  }
 }

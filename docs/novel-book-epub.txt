@@ -1,0 +1,38 @@
+Kindle EPUB export — 2026-10-24
+
+Reader > 전체 정독 > Kindle용 EPUB 다운로드.
+Both language routes use POST /api/novel-book-epub with the existing user bearer session.
+The API reuses authenticateBookRequest and loadBookSnapshot. No service role, manuscript writes, or public static manuscript route.
+Exports current saved Reader selection, checking unchanged read passes; historical UI selections and unsaved edits are excluded.
+
+EPUB 3: reflowable XHTML, nested navigation, NCX fallback, MathML, UTF-8 Korean, content fingerprint in title/filename.
+EPUB/review-map.json records scene/composition/paragraph/version IDs and SHA-256 of exact source text plus XHTML anchors.
+Hashes in this map are recomputed SHA-256 and are independent of older DB MD5 fields.
+Each language is captured independently; matching timestamps or one atomic bilingual snapshot are not claimed.
+
+Verified: 53 tests; TypeScript; browser downloads with HTTP 200 for both languages;
+13,331 KO / 13,333 EN blocks; ZIP CRC, XML parsing, all block anchors.
+Evidence: output/epub/verification.json.
+Physical Kindle and Amazon conversion have not been tested.
+
+Send: download EPUB, open https://www.amazon.com/sendtokindle using the Kindle account, upload, then sync Kindle over Wi-Fi.
+No Amazon upload is performed by the site. Review Kindle highlights against the edition fingerprint and quoted text.
+
+Local implementation directory: private/ros-book-pdf-online-20261024.
+Production deployment is not included in this change.
+
+Cover/title update (2026-10-24):
+- Generated artwork: assets/book-covers/ros-cover-v1.png, shared by EN/KO.
+- EPUB 3 cover-image property, legacy cover metadata and guide reference, dedicated image cover followed by title/edition page.
+- Reader title omits language prefix and export date/hash; KO adds Korean Edition.
+- Filename is The Resonance of Space - Architects of Spacetime[ - Korean Edition].epub.
+- Manuscript fingerprint remains in review-map; publication UUID additionally incorporates cover artwork/version.
+- Send the new file again; already delivered Kindle documents do not change automatically.
+
+Kindle formula rendering (2026-10-24):
+EPUB exports convert MathML formulas to embedded 3x PNG images using isolated
+Chromium. Prose stays reflowable. Inline formulas scale in em units; display
+formulas fit the page width. TeX is retained only in image alternative text;
+review-map IDs and source hashes are unchanged. Each PNG is in the OPF manifest.
+Requires the same Chromium runtime as PDF exports. No network requests are allowed
+while rendering formulas. Re-send the new EPUB to Kindle; existing copies do not update.

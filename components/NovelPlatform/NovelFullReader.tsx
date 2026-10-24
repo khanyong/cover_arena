@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { NovelDetails, NovelParagraph, NovelScene, getParagraphText, getSceneTitle } from './novelData';
 import { NovelDiffViewer } from './NovelDiffViewer';
 import { SceneRevisionBadge } from './SceneRevisionBadge';
+import { BookEpubDownload } from './BookEpubDownload';
+import { BookPdfDownload } from './BookPdfDownload';
 import { KoreanTranslationBadge } from './KoreanTranslationBadge';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -174,7 +176,6 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const [editingParagraphScene, setEditingParagraphScene] = useState<NovelScene | null>(null);
   const [editContent, setEditContent] = useState('');
   const [editingParagraphId, setEditingParagraphId] = useState<string | null>(null);
-  const [isGeneratingPDF, setIsGeneratingPDF] = useState(false);
   const [editVersionTag, setEditVersionTag] = useState('');
   const [editNote, setEditNote] = useState('');
   const [editAiPrompt, setEditAiPrompt] = useState('');
@@ -791,38 +792,9 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
           <span className="text-xs font-mono font-bold text-amber-400 bg-amber-500/10 px-3 py-1.5 rounded-lg border border-amber-500/20">
             📖 FULL CONTINUOUS READER
           </span>
-          
-          <button
-            onClick={async () => {
-              setIsGeneratingPDF(true);
-              setToastMessage('⏳ 서버에서 LaTeX PDF를 조판 중입니다... (10~20초 소요)');
-              try {
-                const response = await fetch('/api/generate-pdf', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ slug: novel.id }) });
-                const result = await response.json();
-                if (result.success) {
-                  window.open(result.url, '_blank');
-                  setToastMessage('🎉 PDF 조판이 완료되었습니다!');
-                } else {
-                  alert('PDF 생성 실패: ' + result.error);
-                  setToastMessage('❌ PDF 조판 실패');
-                }
-              } catch (e) {
-                alert('PDF 생성 중 오류 발생');
-                setToastMessage('❌ 시스템 오류');
-              }
-              setIsGeneratingPDF(false);
-              setTimeout(() => setToastMessage(null), 3000);
-            }}
-            disabled={isGeneratingPDF}
-            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg font-bold text-xs transition-colors ${
-              isGeneratingPDF 
-                ? 'bg-emerald-700 text-emerald-200 cursor-not-allowed opacity-70' 
-                : 'bg-emerald-500 hover:bg-emerald-400 text-zinc-950'
-            }`}
-          >
-            {isGeneratingPDF ? '⏳ 조판 중...' : '📚 책으로 다운받기 (Mac_로컬 only)'}
-          </button>
           </>}
+          <BookPdfDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
+          <BookEpubDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
 
           {/* View Mode Toggle */}
           <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 ml-1">

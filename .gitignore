@@ -36,3 +36,8 @@ scratch/
 /scripts/temsco/test-equity-dividend-model.mjs
 /scripts/temsco/test-equity-reassessment-model.mjs
 /scripts/temsco/fixtures/equity-workbook-calculations.json
+# Private manuscript export/QA artifacts are never source-controlled.
+/output/pdf/
+/tmp/pdfs/
+
+/output/epub/

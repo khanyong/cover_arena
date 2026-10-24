@@ -6,9 +6,19 @@ import { verifyPreNdaPdfArtifact } from './lib/temsco/pre-nda-pdf-artifact.mjs';
 const nextConfig = {
   reactStrictMode: true,
   devIndicators: false,
+  outputFileTracingRoot: process.cwd(),
+  turbopack: { root: process.cwd() },
+  serverExternalPackages: ['@sparticuz/chromium', 'puppeteer-core'],
   outputFileTracingIncludes: {
+    '/api/novel-book-epub': ['./assets/book-covers/**', './node_modules/@sparticuz/chromium/bin/**'],
     '/api/temsco/equity-report': ['./private/temsco/equity-report.enc.json'],
     '/api/temsco/pre-nda-pdf': ['./public/temsco/pre-nda/pdf/manifest.json'],
+    '/api/novel-book-pdf': [
+      './assets/book-fonts/**',
+      './node_modules/@sparticuz/chromium/bin/**',
+      './node_modules/katex/dist/katex.min.css',
+      './node_modules/katex/dist/fonts/*.woff2',
+    ],
   },
 };
 
