@@ -76,7 +76,7 @@ export function NovelParallelReader({ scene, comparison, loading, error, fontSiz
           {rows.map((row, index) => <article key={`${mode}-${index}`} data-parallel-row={index + 1} className="grid grid-cols-2 items-stretch border-b border-zinc-800/60 last:border-b-0">
             {(['ko', 'en'] as const).map(language => <div key={language} lang={language} data-parallel-language={language} data-parallel-index={index + 1} className={`min-w-0 p-3 ${language === 'en' ? 'border-l border-zinc-800' : ''} ${fontSizeClass}`}>
               <p className="mb-2 text-[10px] text-zinc-500">{language.toUpperCase()} · {row.label}</p>
-              {hasParallelMath(row[language]) ? <BilingualBlockText body={row[language]} /> : <div className="whitespace-pre-wrap break-words leading-relaxed">{row[language]}</div>}
+              {(hasParallelMath(row[language]) || /(?:Equation note|수식 해설|^## )/m.test(row[language])) ? <BilingualBlockText body={row[language]} /> : <div className="whitespace-pre-wrap break-words leading-relaxed">{row[language]}</div>}
             </div>)}
           </article>)}
         </div>
