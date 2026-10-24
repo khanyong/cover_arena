@@ -149,3 +149,18 @@ export function segmentParallelText(body, mode = 'paragraph', locale = 'ko', opt
   requireValue(segments.join('') === body, '읽기 단위 분리 중 원본 보존 검증에 실패했습니다.');
   return { segments, method: keptMath ? 'mixed' : usedFallback ? 'sentence-fallback' : 'intl-sentence' };
 }
+
+/** Display-only ordinal pairing within paragraph boundaries; never a persisted alignment. */
+export function pairParallelReadingRows(koBody, enBody, mode = 'paragraph') {
+  const ko = segmentParallelText(koBody, 'paragraph', 'ko').segments;
+  const en = segmentParallelText(enBody, 'paragraph', 'en').segments;
+  if (ko.length !== en.length) return [{ ko: koBody, en: enBody, label: '장면 전체 · 단락 수 다름', fallback: true }];
+  return ko.flatMap((body, index) => {
+    const pair = { ko: body, en: en[index], label: `단락 ${index + 1}`, fallback: false };
+    if (mode !== 'sentence' || hasParallelMath(body) || hasParallelMath(en[index])) return [pair];
+    const ks = segmentParallelText(body, 'sentence', 'ko').segments;
+    const es = segmentParallelText(en[index], 'sentence', 'en').segments;
+    if (ks.length !== es.length) return [{ ...pair, label: `${pair.label} · 문장 수 다름`, fallback: true }];
+    return ks.map((text, sentence) => ({ ko: text, en: es[sentence], label: `${pair.label} · 문장 ${sentence + 1}`, fallback: false }));
+  });
+}

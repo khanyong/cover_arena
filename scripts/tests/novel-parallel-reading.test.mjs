@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createHash } from 'node:crypto';
-import { buildParallelReading, segmentParallelText, PARALLEL_READING_FORMAT } from '../../shared/lib/novelParallelReading.js';
+import { buildParallelReading, segmentParallelText, pairParallelReadingRows, PARALLEL_READING_FORMAT } from '../../shared/lib/novelParallelReading.js';
 
 const hash = body => createHash('sha256').update(body).digest('hex');
 const paragraph = (id, body) => ({ id, activeVersion: 'v1', versions: { v1: { content: body }, v2: { content: `revised ${body}` } } });
@@ -115,4 +115,23 @@ test('broken or lossy browser segmentation safely falls back without losing char
     assert.equal(result.method, 'sentence-fallback');
     assert.equal(result.segments.join(''), 'Hello.  World.\n');
   }
+});
+
+
+test('paired display rows preserve both source texts and contain sentence count differences', () => {
+  const ko = '첫째. 둘째.\n\n다음 단락.';
+  const en = 'A single longer sentence.\n\nNext paragraph.';
+  const rows = pairParallelReadingRows(ko, en, 'sentence');
+  assert.equal(rows.length, 2);
+  assert.equal(rows[0].fallback, true);
+  assert.equal(rows[1].ko, '다음 단락.');
+  assert.equal(rows[1].en, 'Next paragraph.');
+  assert.equal(rows.map(r => r.ko).join(''), ko);
+  assert.equal(rows.map(r => r.en).join(''), en);
+});
+test('unequal paragraph counts do not invent shifted pairs', () => {
+  const rows = pairParallelReadingRows('하나.\n\n둘.', 'One.', 'sentence');
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].fallback, true);
+  assert.equal(rows[0].ko, '하나.\n\n둘.');
 });
