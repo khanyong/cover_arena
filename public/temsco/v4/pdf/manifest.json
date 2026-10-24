@@ -6,7 +6,7 @@
   "generatedAt": "2026-10-06T02:08:18.000Z",
   "buildCompatibility": {
     "baseSourceHash": "fed3c61cbe8e88d348737628ef24d43c8f5cb9547febe545aedbb90e62eb8aa3",
-    "sourceHash": "17bcbd8b37b2fc675b3b64ea3bacc54f2932323485f639dc2c6bf979d4ffe90c",
+    "sourceHash": "2b5ac3f979d25b451ff838777fdcc0f203633b623ab841a74cc61337c8bf641b",
     "reason": "ROS PDF and EPUB exports only: Node 24, pinned Chromium/Puppeteer and JSZip dependencies, API asset tracing. Existing TEMSCO source content and PDF/preview bytes are unchanged; only package.json, package-lock.json and next.config.js differ in the source graph."
   }
 }

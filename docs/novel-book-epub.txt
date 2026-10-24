@@ -36,3 +36,7 @@ formulas fit the page width. TeX is retained only in image alternative text;
 review-map IDs and source hashes are unchanged. Each PNG is in the OPF manifest.
 Requires the same Chromium runtime as PDF exports. No network requests are allowed
 while rendering formulas. Re-send the new EPUB to Kindle; existing copies do not update.
+
+Production verification: formulas use KaTeX HTML with embedded WOFF2 math fonts
+and Korean fallback fonts before PNG capture. Native Linux MathML font fallback
+is not reliable. External font requests are blocked; embedded data fonts are allowed.
