@@ -85,4 +85,13 @@
 .readerRoot :global(.equation-commentary p)::before,
 .readerRoot :global(.equation-commentary p)::after { content: none; }
 .readerRoot :global(.equation-commentary-links) { font-size: .85em; margin-top: .8em; }
-.readerRoot :global(.equation-detail-heading) { scroll-margin-top: 9rem; }
+.readerRoot :global(.equation-commentary-links a) { text-decoration: underline; text-underline-offset: .2em; }
+/* Leave the fixed navigation and sticky reading controls above linked destinations. */
+.readerRoot :global(.equation-detail-heading),
+.readerRoot [id^="paragraph-"]:target { scroll-margin-top: 26rem; }
+.readerRoot :global(.equation-detail-heading) {
+  font-size: 1.2em;
+  font-weight: 700;
+  line-height: 1.4;
+  margin: 1.4em 0 .8em;
+}
