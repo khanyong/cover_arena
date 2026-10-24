@@ -774,6 +774,20 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
         </div>
       )}
 
+      {/* Downloads stay outside the sticky reading controls. Native details keeps
+          active downloads mounted when collapsed, without reserving reading space. */}
+      {['quantum-vibration-novel', 'quantum-vibration-novel-en'].includes(novel.slug) && (
+        <details className="rounded-xl border border-zinc-800 bg-zinc-900/50 text-zinc-200">
+          <summary className="cursor-pointer rounded-xl px-4 py-2 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-amber-400">
+            책 다운로드 · PDF / Kindle
+          </summary>
+          <div className="grid gap-3 p-3 pt-1 lg:grid-cols-2">
+            <BookPdfDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
+            <BookEpubDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
+          </div>
+        </details>
+      )}
+
       {/* Reader Control Bar */}
       <div ref={readerToolbar} aria-label="독서 도구" style={{ top: focusMode ? 8 : 'var(--reader-header-offset, 5rem)' }} className="bg-zinc-900/95 border border-zinc-800 rounded-2xl p-3 sm:p-4 sticky z-40 backdrop-blur shadow-xl flex flex-wrap items-center justify-between gap-3">
         <div className="flex w-full flex-wrap items-center justify-between gap-2">
@@ -793,8 +807,6 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             📖 FULL CONTINUOUS READER
           </span>
           </>}
-          <BookPdfDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
-          <BookEpubDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
 
           {/* View Mode Toggle */}
           <div className="flex items-center gap-1 bg-zinc-950 p-1 rounded-xl border border-zinc-800 ml-1">
