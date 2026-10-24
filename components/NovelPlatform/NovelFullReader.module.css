@@ -50,3 +50,25 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
+
+/* Two-language reading uses the viewport, independent of the single-language measure. */
+:global([data-reader-layout]):has(.readerRoot[data-comparison-active="true"]) {
+  max-width: none;
+  width: 100%;
+  padding-inline: clamp(8px, 1vw, 20px);
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+}
+:global([data-reader-layout]):has(.readerRoot[data-comparison-active="true"]) > aside {
+  display: none;
+}
+:global([data-reader-layout]):has(.readerRoot[data-comparison-active="true"]) > main {
+  grid-column: 1 / -1;
+}
+.readerRoot[data-comparison-active="true"] .readingColumn {
+  max-width: none;
+  width: 100%;
+}
+.readerRoot[data-comparison-active="true"] [data-reading-sheet] {
+  padding-inline: clamp(4px, .5vw, 12px);
+}

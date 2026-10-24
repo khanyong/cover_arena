@@ -975,7 +975,7 @@ function NovelStudioContent() {
       </header>
 
       {/* Main Container */}
-      <div className="max-w-[1600px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
+      <div data-reader-layout className="max-w-[1600px] mx-auto px-6 py-8 grid grid-cols-1 lg:grid-cols-4 gap-8 items-start">
         {/* Left Sidebar: Sticky Fixed Navigation & Version Swapper */}
         {mainTab === 'story' && !isFocusedReader && (
           <aside className="space-y-6 lg:col-span-1 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1 font-sans scrollbar-thin scrollbar-thumb-zinc-800">

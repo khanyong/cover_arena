@@ -766,7 +766,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   };
 
   return (
-    <div ref={readerElement} className={`${styles.readerRoot} space-y-6 relative`} style={{ '--reader-sticky-offset': focusMode ? '8px' : 'var(--reader-header-offset, 5rem)' } as React.CSSProperties} data-reading-mode={readingOnly ? 'read' : 'edit'}>
+    <div ref={readerElement} className={`${styles.readerRoot} space-y-6 relative`} style={{ '--reader-sticky-offset': focusMode ? '8px' : 'var(--reader-header-offset, 5rem)' } as React.CSSProperties} data-comparison-active={Boolean(comparisonSceneId)} data-reading-mode={readingOnly ? 'read' : 'edit'}>
       {/* Toast Notification */}
       {toastMessage && (
         <div className="fixed bottom-6 right-6 bg-emerald-500 text-zinc-950 px-5 py-3 rounded-xl font-bold shadow-2xl z-50 flex items-center gap-2 animate-bounce">
