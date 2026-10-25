@@ -1,6 +1,17 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {mkdtemp,writeFile,mkdir,rm} from 'node:fs/promises';import {tmpdir} from 'node:os';import {join} from 'node:path';
 import {sha,immutable,buildDraft,readReview,safeId,localRequest} from '../../lib/novel-local-review/store.mjs';
+import {listReadingOrder} from '../../lib/novel-local-review/store.mjs';
 const baseline=[{position:1,en_body:'Alpha',ko_body:'가'},{position:2,en_body:'Beta',ko_body:'나'},{position:3,en_body:'Gamma',ko_body:'다'}];
+test('reading plan does not claim missing revisions are loaded or expose them to another user',async()=>{
+ const root=await mkdtemp(join(tmpdir(),'ros-order-'));try{
+  const scenes=[{id:'PRO-C01-S01-r01',scene:'first',readerPath:'https://external.invalid'},{id:'PRO-C02-S01-r01',scene:'second'}];
+  await writeFile(join(root,'reading-order.json'),JSON.stringify({allowedUserIds:['author'],scenes}));
+  const reviews=[{id:'PRO-C02-S01-r01',scene:'second'},{id:'PRO-C02-S01-r02',scene:'second'}];
+  const order=await listReadingOrder('author',reviews,root);
+  assert.equal(order[0].loaded,false);assert.equal(order[0].status,'LOCAL_REVIEW_MISSING');assert.equal(order[0].readerPath,undefined);
+  assert.deepEqual(order.slice(1),reviews);assert.deepEqual(await listReadingOrder('other',[],root),[]);
+ }finally{await rm(root,{recursive:true,force:true});}
+});
 const lang=(before,after)=>({start_position:1,end_position:2,official_before:before,full_after:after,after_block_hashes:after.map(sha)});
 const report=()=>({status:'MAPPED_DRAFT_NOT_APPROVED',changes:[{id:'R01',title:'merge',languages:{en:lang(['Alpha','Beta'],['Combined']),ko:lang(['가','나'],['합침'])}}]});
 test('merges retain provenance and untouched context',()=>{const r=buildDraft(report(),baseline);assert.equal(r.before.length,3);assert.equal(r.after.length,2);assert.deepEqual(r.after[0].sourcePositions,[1,2]);assert.equal(r.after[1].en,'Gamma');assert.equal(r.rows[0].content.en.before.length,2);});
