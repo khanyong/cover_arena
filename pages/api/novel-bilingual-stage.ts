@@ -4,12 +4,13 @@ import { stageBilingualRevision } from '../../lib/novel-revision/stageBilingualR
 import { RevisionConflict } from '../../lib/novel-revision/bilingual-plan.mjs';
 
 export const config = { api: { bodyParser: { sizeLimit: '256kb' } } };
+export const maxDuration = 60;
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Cache-Control', 'private, no-store');
   res.setHeader('Vary', 'Authorization');
   if (req.method !== 'POST') { res.setHeader('Allow', 'POST'); return res.status(405).json({ error: 'METHOD_NOT_ALLOWED' }); }
   try {
-    const { client } = await authenticateBookRequest(req.headers.authorization);
+    const { client } = await authenticateBookRequest(req.headers.authorization, {requestTimeoutMs: 55000});
     const result = await stageBilingualRevision(client, req.body);
     return res.status(200).json(result);
   } catch (error) {
