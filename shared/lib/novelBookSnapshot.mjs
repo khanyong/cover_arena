@@ -101,6 +101,7 @@ async function managedParagraphs(scene, managed) {
     && Number.isSafeInteger(managed.generation) && managed.generation > 0,
   'BOOK_CURRENT_REVIEW_UNAVAILABLE');
   requireValue(list(managed.paragraphs, 50000) && managed.paragraphs.length === composition.block_count
+    && [0,1].includes(composition.terminal_lf)
     && hash(managed.projection_sha256) && hash(composition.body_sha256), 'BOOK_MANAGED_INTEGRITY_FAILED');
   const paragraphs = managed.paragraphs.map((paragraph, index) => {
     requireValue(paragraph.storageModel === 'ros-ko-block-v1' && paragraph.unitId === paragraph.id
@@ -114,7 +115,7 @@ async function managedParagraphs(scene, managed) {
           && managed.bilingual_publication.pairs[index]?.ko_version_id === paragraph.revisionVersionId
           && managed.bilingual_publication.ko_paragraphs?.[index]?.sourceKey === paragraph.sourceKey
         : paragraph.sourceKey === `KO/${managed.source_key}/B${String(index + 1).padStart(4, '0')}`)
-      && paragraph.separatorAfter === (index + 1 < managed.paragraphs.length ? '\n\n' : ''),
+      && paragraph.separatorAfter === (index + 1 < managed.paragraphs.length ? '\n\n' : '\n'.repeat(composition.terminal_lf)),
     'BOOK_MANAGED_MAPPING_INVALID');
     return selectedParagraph(paragraph);
   });
@@ -124,7 +125,7 @@ async function managedParagraphs(scene, managed) {
     && await sha256Hex(body) === composition.body_sha256
     && composition.body_bytes === encoder.encode(body).length
     && composition.body_lf === (body.match(/\n/g) || []).length
-    && composition.terminal_lf === (body.match(/\n*$/)?.[0].length || 0), 'BOOK_MANAGED_INTEGRITY_FAILED');
+    && composition.terminal_lf === managed.paragraphs.at(-1).separatorAfter.length, 'BOOK_MANAGED_INTEGRITY_FAILED');
   return paragraphs;
 }
 
