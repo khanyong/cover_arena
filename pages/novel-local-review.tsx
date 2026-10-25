@@ -26,9 +26,9 @@ export default function LocalReview(){
  };
  useEffect(()=>{if(!router.isReady)return;setLanguage(router.query.lang==='en'?'en':'ko');setMode(['read','bilingual'].includes(String(router.query.mode))?String(router.query.mode):'compare');setSide(router.query.side==='before'?'before':'after');},[router.isReady]);
  useEffect(()=>{
-  if(!router.isReady)return;let active=true;
-  const load=async()=>{setLoading(true);setReview(null);setError('');try{const r=await request();if(active)setReview(r);}catch(e){if(active)setError(e.message);}finally{if(active)setLoading(false);}};
-  void load();const {data:{subscription}}=supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){setReview(null);setError('로그인이 필요합니다.');}if(event==='SIGNED_IN')setTimeout(()=>{if(active)void load();},0);});
+  if(!router.isReady)return;let active=true;let generation=0;
+  const load=async()=>{const current=++generation;setLoading(true);setReview(null);setError('');try{const r=await request();if(active&&current===generation)setReview(r);}catch(e){if(active&&current===generation)setError(e.message);}finally{if(active&&current===generation)setLoading(false);}};
+  void load();const {data:{subscription}}=supabase.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){generation++;setLoading(false);setReview(null);setError('로그인이 필요합니다.');}if(event==='SIGNED_IN')setTimeout(()=>{if(active)void load();},0);});
   return()=>{active=false;subscription.unsubscribe();};
  },[router.isReady,id]);
  const go=(key:string)=>{setItem(key);document.getElementById(key)?.scrollIntoView({block:'start'});};
