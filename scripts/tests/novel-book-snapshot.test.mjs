@@ -185,3 +185,17 @@ test('auth rejects anonymous/invalid tokens, service role keys and network error
   await assert.rejects(authenticateBookRequest('Bearer h.p.s', { env: { ...env, NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: serviceKey } }), error => error.status === 503);
   await assert.rejects(authenticateBookRequest('Bearer h.p.s', { env, clientFactory: () => ({ auth: { getUser: async () => { throw new Error('SECRET'); } } }) }), error => error.status === 503 && !error.message.includes('SECRET'));
 });
+
+test('terminal_lf validates the appended separator, preserving newlines inside the last block', async()=>{
+ for(const terminal of [0,1])for(const internal of [0,1,2]){
+  const input=await fixture(),m=input.managedResults.get('managed-id');
+  const last=m.paragraphs.at(-1);last.versions.review.content+='\n'.repeat(internal);last.separatorAfter='\n'.repeat(terminal);
+  const body=m.paragraphs.map(p=>p.versions.review.content+p.separatorAfter).join('');
+  Object.assign(m.composition,{terminal_lf:terminal,body_sha256:await sha256Hex(body),body_bytes:Buffer.byteLength(body),body_lf:(body.match(/\n/g)||[]).length});
+  m.projection_sha256=await bookSourceFingerprint(m.paragraphs);
+  const output=await buildBookSnapshot(input);
+  assert.equal(output.acts[1].chapters[0].scenes[0].paragraphs.at(-1).text,last.versions.review.content);
+  m.composition.terminal_lf=1-terminal;
+  await assert.rejects(buildBookSnapshot(input),BookSnapshotError);
+ }
+});
