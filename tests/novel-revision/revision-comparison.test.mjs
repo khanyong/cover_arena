@@ -4,8 +4,10 @@ import {readFileSync} from 'node:fs';
 import {revisionComparisonRows} from '../../shared/lib/novelRevisionComparison.mjs';
 const dir=process.env.ROS_EXEC02_FIXTURE_DIR;
 const secret=JSON.parse(readFileSync(dir+'/../local-secrets.json'));
-const login=async who=>{const r=await fetch('http://127.0.0.1:55463/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:who+'@exec02.test',password:secret.password})});assert.equal(r.status,200);return (await r.json()).access_token;};
-const call=async(token,scene='13a795ae-456e-4623-9714-b302c9db9585')=>fetch('http://127.0.0.1:55464/rpc/ros_bilingual_revision_history',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({p_managed_scene_id:scene})});
+const auth=process.env.ROS_EXEC02_AUTH,rest=process.env.ROS_EXEC02_REST;
+for(const endpoint of [auth,rest])assert.match(endpoint,/^http:\/\/127\.0\.0\.1:554[0-9]{2}$/);
+const login=async who=>{const r=await fetch(auth+'/token?grant_type=password',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email:who+'@exec02.test',password:secret.password})});assert.equal(r.status,200);return (await r.json()).access_token;};
+const call=async(token,scene='13a795ae-456e-4623-9714-b302c9db9585')=>fetch(rest+'/rpc/ros_bilingual_revision_history',{method:'POST',headers:{'Content-Type':'application/json',...(token?{Authorization:'Bearer '+token}:{})},body:JSON.stringify({p_managed_scene_id:scene})});
 test('historical before/after survives restore, groups merges and preserves both complete texts',async()=>{
  const r=await call(await login('owner'));assert.equal(r.status,200);const history=await r.json();assert.equal(history.length,1);assert.equal(history[0].current,false);
  for(const lang of ['en','ko']){

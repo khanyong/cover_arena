@@ -56,5 +56,36 @@ class StaleState(unittest.TestCase):
         finally:
             d.sql('update public.ko_scene_display_selections set generation=generation-1')
 
+    def test_07_ko_version_body_and_composition_cannot_be_corrupted(self):
+        # Sealed histories cannot be edited even by the fixture DB administrator.
+        # Keep the production guards enabled: rejection is the expected contract.
+        cases = [
+            ("update public.paragraph_versions set body_markdown=body_markdown||'!' where id=(select block_version_id from public.ko_scene_composition_blocks limit 1)", 'immutable'),
+            ("update public.ko_scene_composition_revisions set body_sha256=repeat('0',64) where status='sealed'", 'SEALED_COMPOSITION_IMMUTABLE'),
+            ("update public.ko_scene_composition_blocks set block_version_id=(select id from public.paragraph_versions limit 1) where position=1", 'SEALED_COMPOSITION_MAPPING_IMMUTABLE'),
+        ]
+        for query, message in cases:
+            with self.subTest(guard=message):
+                before = d.counts()
+                with self.assertRaisesRegex(RuntimeError, message):
+                    d.sql(query)
+                self.assertEqual(d.counts(), before)
+
+    def test_08_different_sealed_ko_composition_is_stale(self):
+        # test_06 produced a valid sealed revised composition, not fabricated data.
+        original = d.sql('select review_composition_id from public.ko_scene_display_selections')
+        other = d.sql('select ko_composition_id from ros_bilingual_private.releases limit 1')
+        self.assertNotEqual(original, other)
+        release = d.sql('select id from ros_bilingual_private.releases limit 1')
+        d.sql("update public.ko_scene_display_selections set review_composition_id='" + other + "'")
+        try:
+            before = d.counts()
+            status, result = d.rpc('ros_bilingual_publish', {'p_request_id': str(uuid.uuid4()), 'p_release_id': release})
+            self.assertEqual(status, 409, result)
+            self.assertIn('STALE_BILINGUAL_HEAD', result['message'])
+            self.assertEqual(d.counts(), before)
+        finally:
+            d.sql("update public.ko_scene_display_selections set review_composition_id='" + original + "'")
+
 if __name__ == '__main__':
     unittest.main(verbosity=2)

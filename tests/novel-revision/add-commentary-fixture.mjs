@@ -4,7 +4,7 @@ import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import equationCommentaryIndex from '../../shared/lib/equationCommentaryIndex.js';
 const db=process.env.ROS_EXEC02_DB;
-if(!/^ros_exec02_run[6-9]$/.test(db))throw Error('Isolated fixture required');
+if(!/^ros_exec02_run[0-9]+$/.test(db))throw Error('Isolated fixture required');
 const d='/usr/local/bin/docker';
 if(execFileSync(d,['inspect','ros-exec02-db','--format','{{index .Config.Labels "ros.scope"}}'],{encoding:'utf8'}).trim()!=='exec02-nonproduction')throw Error('Wrong container');
 const q=x=>"'"+JSON.stringify(x).replaceAll("'","''")+"'::jsonb";
