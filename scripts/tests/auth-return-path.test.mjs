@@ -3,7 +3,7 @@ import test from 'node:test'
 import { getSafeAuthReturnPath } from '../../shared/lib/authReturnPath.js'
 
 test('returns either protected route with its query and fragment unchanged', () => {
-  for (const path of ['/temsco/equity', '/temsco/equity/evidence']) {
+  for (const path of ['/temsco/equity', '/temsco/equity/evidence', '/novel-revision-execute']) {
     for (const suffix of ['', '?year=2026', '#sources', '?company=%ED%85%9C%EC%8A%A4%EC%BD%94&source=%2Freport#source-2']) {
       assert.equal(getSafeAuthReturnPath(path + suffix), path + suffix)
     }
@@ -48,6 +48,8 @@ test('rejects external, unlisted, normalized, and encoded path tricks', () => {
     '/\\evil.example/temsco/equity',
     'javascript:alert(1)',
     '/auth?next=/temsco/equity',
+    '/novel-revision-execute/extra',
+    '//novel-revision-execute',
     '/temsco/equity-other',
     '/temsco/equity/evidence/extra',
     '/temsco/equity/',

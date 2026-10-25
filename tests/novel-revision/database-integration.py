@@ -114,7 +114,10 @@ class Integration(unittest.TestCase):
  def test_11_private_joint_restore_and_replay(self):
   before=json.loads(counts())
   restore={'p_request_id':str(uuid.uuid4()),'p_release_id':self.release,'p_expected_generation':99}
-  status,r=rpc('ros_bilingual_restore_staged',restore);self.assertEqual(status,409,r)
+  status,r=rpc('ros_bilingual_restore_staged',restore)
+  if os.environ.get('ROS_EXEC02_DELEGATED')=='1':
+   self.assertEqual(status,403,r);self.assertEqual(json.loads(counts()),before);return
+  self.assertEqual(status,409,r)
   restore['p_expected_generation']=1
   status,r=rpc('ros_bilingual_restore_staged',restore);self.assertEqual(status,200,r);self.assertTrue(r['restored'])
   self.assertEqual(sql("select (release_id is null)::text||':'||generation from ros_bilingual_private.selections"),'true:2')

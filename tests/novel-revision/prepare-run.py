@@ -27,14 +27,14 @@ db(helpers)
 for name in ['owner','outsider','reader']:
  req=urllib.request.Request(AUTH+'/signup',data=json.dumps({'email':name+'@exec02.test','password':s['password']}).encode(),headers={'Content-Type':'application/json'})
  d=json.load(urllib.request.urlopen(req));(p/(name+'-session.json')).write_text(json.dumps(d));(p/(name+'-session.json')).chmod(0o600)
-files=['tests/novel-revision/fixture-schema.sql','supabase/migrations/20261005123000_ros_ko_block_model_v2_schema.sql','supabase/migrations/20261005123100_ros_ko_block_model_v2_api.sql','supabase/migrations/20261025072604_ros_bilingual_staged_transaction.sql','supabase/migrations/20261025074724_ros_bilingual_rewrite_identity.sql','supabase/migrations/20261025074937_ros_bilingual_publication.sql','tests/novel-revision/reader-policy-fixture.sql','tests/novel-revision/production-read-policy-fixture.sql','supabase/migrations/20261025082926_ros_bilingual_revision_comparison.sql','supabase/migrations/20261025084610_ros_bilingual_existing_project_authority.sql','supabase/migrations/20261025090237_ros_bilingual_private_version_read_guard.sql']
+files=['tests/novel-revision/fixture-schema.sql','supabase/migrations/20261005123000_ros_ko_block_model_v2_schema.sql','supabase/migrations/20261005123100_ros_ko_block_model_v2_api.sql','supabase/migrations/20261025072604_ros_bilingual_staged_transaction.sql','supabase/migrations/20261025074724_ros_bilingual_rewrite_identity.sql','supabase/migrations/20261025074937_ros_bilingual_publication.sql','tests/novel-revision/reader-policy-fixture.sql','tests/novel-revision/production-read-policy-fixture.sql','supabase/migrations/20261025082926_ros_bilingual_revision_comparison.sql','supabase/migrations/20261025084610_ros_bilingual_existing_project_authority.sql','supabase/migrations/20261025090237_ros_bilingual_private_version_read_guard.sql','supabase/migrations/20261025094740_ros_bilingual_scoped_self_restore.sql']
 applied=[]
 for file in files:
  raw=pathlib.Path(file).read_bytes();db(raw);print('APPLIED',file)
  applied.append({'path':file,'sha256':hashlib.sha256(raw).hexdigest()})
 (p/'applied-files.json').write_text(json.dumps(applied,indent=2))
 owner=json.loads((p/'owner-session.json').read_text())['user']['id'];node=os.environ.get('ROS_NODE','node')
-subprocess.run([node,'tests/novel-revision/seed-private-fixture.mjs',os.environ['ROS_R01_MANIFEST'],os.environ['ROS_R01_PROPOSAL'],owner,str(p/'fixture')],check=True)
+subprocess.run([node,'tests/novel-revision/seed-private-fixture.mjs',os.environ['ROS_R01_MANIFEST'],os.environ['ROS_R01_PROPOSAL'],owner,str(p/'fixture'),json.loads((p/'outsider-session.json').read_text())['user']['id'] if os.environ.get('ROS_EXEC02_DELEGATED')=='1' else owner],check=True)
 (p/'seed.log').write_bytes(db((p/'fixture.sql').read_bytes()))
 subprocess.run([node,'tests/novel-revision/register-private-approval.mjs',str(p/'fixture'),os.environ['ROS_R01_PROPOSAL'],owner],check=True)
 db((p/'fixture.approval.sql').read_bytes())

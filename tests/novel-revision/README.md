@@ -38,6 +38,14 @@ read-only synthetic grants. The fixture owner can restore; this does not prove
 that a delegated production rewrite actor can restore. Check the actual actor's
 restore capability before operational publication, without changing grants.
 
+For the delegated actor case, set `ROS_EXEC02_DELEGATED=1` before preparation
+and database integration. This seeds a distinct scene owner from the start;
+it never changes an existing owner or grants generic restore. After publication,
+run `scoped-self-restore.py` to check the explicit r01 opt-in, unauthorized denial,
+later-edit conflict, joint restore, and idempotent retry. It ends RESTORED.
+The opt-in table is empty on migration installation and requires separate,
+documented approval registration. No other changeset receives this exception.
+
 With the isolated app connected to the same run, `ROS_EXEC02_ACTOR=reader` selects
 the real reader session for `http-output.mjs`. Its books contain the test fixture,
 not the production full manuscript. `add-commentary-fixture.mjs` optionally adds

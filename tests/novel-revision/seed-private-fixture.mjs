@@ -2,13 +2,13 @@ import { readFileSync, writeFileSync } from 'node:fs';
 import { randomUUID } from 'node:crypto';
 import { buildBilingualPlan } from '../../lib/novel-revision/bilingual-plan.mjs';
 // Generates private SQL only; never commits manuscript fixtures or credentials.
-const [manifestFile,proposalFile,actor,outputPrefix] = process.argv.slice(2);
+const [manifestFile,proposalFile,actor,outputPrefix,sceneOwner = actor] = process.argv.slice(2);
 if(!outputPrefix) throw Error('manifest proposal local-auth-user-id output-prefix required');
 const m=JSON.parse(readFileSync(manifestFile)), proposal=JSON.parse(readFileSync(proposalFile));
 const q=x=>x===null?'null':"'"+String(typeof x==='object'?JSON.stringify(x):x).replaceAll("'","''")+"'";
 const sql=[];const insert=(table,row)=>sql.push(`insert into ${table}(${Object.keys(row).join(',')}) values(${Object.values(row).map(q).join(',')});`);
 const en=m.en_snapshot.project_id, ko=m.managed_scene.logical_project_id;
-m.managed_scene.owner_id=actor; m.selection.updated_by=actor;m.composition.created_by=actor;
+m.managed_scene.owner_id=sceneOwner; m.selection.updated_by=actor;m.composition.created_by=actor;
 for(const [id,project] of [['quantum-vibration-novel-en-act-2',en],['quantum-vibration-novel-act-2',ko]]) {
  insert('public.novel_documents',{id,slug:id,title:'PRIVATE TEST',data:{number:2,chapters:[{id:'untouched-chapter',number:1,scenes:[]},{id:'test-chapter',number:2,scenes:[{id:m.managed_scene.scene_id,...(project===ko?{storageModel:'ros-ko-block-v1',managedSceneId:m.managed_scene.id}:{}),paragraphs:m.ordered_alignment.map(r=>{const x=r[project===en?'en':'ko'];return {id:x.unit_id,unitId:x.unit_id,revisionVersionId:x.version_id,activeVersion:'review',versions:{review:{version:'review',content:x.body}}};})}]}],otherScene:'preserve me'}});
  insert('public.revision_projects',{id:project,slug:project,title:'PRIVATE TEST',source_document_id:id,owner_id:actor});
