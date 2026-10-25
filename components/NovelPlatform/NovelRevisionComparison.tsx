@@ -7,10 +7,15 @@ import {revisionComparisonRows} from '../../shared/lib/novelRevisionComparison.m
 import {remarkEquationCommentary,normalizeDisplayMath} from '../../shared/lib/equationCommentary';
 
 export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}) {
+ const [localDraft,setLocalDraft]=useState(false);
  const [history,setHistory]=useState<any[]>([]),[selected,setSelected]=useState('');
  const [language,setLanguage]=useState('en'),[changesOnly,setChangesOnly]=useState(true);
  const [error,setError]=useState(''),[loading,setLoading]=useState(true);
- useEffect(()=>{let active=true;setLoading(true);setHistory([]);setSelected('');setError('');
+ useEffect(()=>{
+  const draft=process.env.NODE_ENV==='development' && ['localhost','127.0.0.1','[::1]'].includes(window.location.hostname) && managedSceneId==='21a8aa06-4311-4dbf-80dd-fe7f5dc48eff';
+  setLocalDraft(draft);
+  if(draft){setLoading(false);return;}
+  let active=true;setLoading(true);setHistory([]);setSelected('');setError('');
   Promise.resolve(supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:managedSceneId})).then(({data,error})=>{
    if(!active)return;
    if(error)setError('이력 조회가 불가능합니다. 로그인·접근권한 및 비교 기능 적용 상태를 확인해 주세요.');
@@ -18,6 +23,12 @@ export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}
   }).catch(()=>{if(active){setError('이력을 불러오지 못했습니다.');setLoading(false);}});
   return()=>{active=false;};
  },[managedSceneId]);
+ if(localDraft)return <section aria-label="수정 전후 비교" className="my-4 rounded-xl border border-sky-700 p-4">
+  <h5 className="font-bold">로컬 실행 r01 · 수정 전후 검토</h5>
+  <p className="my-2 text-sm">게시 전 검토용 초안입니다. 왼쪽은 매핑 기준 원문, 오른쪽은 r01 수정안입니다.</p>
+  <a className="text-sky-400 underline" href="/novel-local-review" target="_blank" rel="noreferrer">큰 화면에서 비교하기 ↗</a>
+  <iframe title="로컬 실행 r01 수정 전후 비교" src="/novel-local-review" style={{width:'100%',height:'80vh',border:0,marginTop:12}} />
+ </section>;
  const publication=history.find(p=>p.id===selected);
  let rows:any[]=[];let mappingError=false;
  try{if(publication)rows=revisionComparisonRows(publication,language);}catch{mappingError=true;}
