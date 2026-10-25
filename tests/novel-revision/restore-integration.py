@@ -3,6 +3,9 @@ import importlib.util,pathlib,json,unittest,uuid,urllib.request,threading
 from concurrent.futures import ThreadPoolExecutor
 spec=importlib.util.spec_from_file_location('d',pathlib.Path(__file__).with_name('database-integration.py'));d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
 pub=json.loads((d.P/'published.json').read_text())
+manifest=json.loads((d.P/'fixture.manifest.json').read_text())
+chapter_index=int(manifest['managed_scene']['scene_path'][1])
+before_count=len(manifest['ordered_alignment']);after_count=len(d.plan['result_pairs'])
 body={'action':'restore','request_id':str(uuid.uuid4()),'target_id':pub['publication_id']}
 def restore():
  req=urllib.request.Request('http://127.0.0.1:3003/api/novel-bilingual-publication',data=json.dumps(body).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+json.loads((d.P/'owner-session.json').read_text())['access_token']})
@@ -19,8 +22,8 @@ class Restore(unittest.TestCase):
      self.assertIn(c['message'],['CAPTURE_DOCUMENT_CHANGED','CAPTURE_SCENE_CHANGED']);result.append(['RETRY']);continue
     self.assertEqual(status,200,c)
     docs=[x for x in c['documents'] if x['id'].endswith('act-2')]
-    sizes=[len(x['data']['chapters'][1]['scenes'][0]['paragraphs']) for x in docs]
-    self.assertIn(sizes,[[67,67],[79,79]])
+    sizes=[len(x['data']['chapters'][chapter_index]['scenes'][0]['paragraphs']) for x in docs]
+    self.assertIn(sizes,[[after_count,after_count],[before_count,before_count]])
     self.assertEqual(c['managed'][0]['composition']['block_count'],sizes[0]);result.append(sizes)
    return result
   def change():barrier.wait();return restore()
@@ -32,8 +35,8 @@ class Restore(unittest.TestCase):
   self.assertEqual(d.sql("select data->>'otherScene' from public.novel_documents where id='quantum-vibration-novel-en-act-2'"),'later edit retained')
  def test_02_replay_and_history(self):
   before=d.counts();status,r=restore();self.assertEqual(status,200);self.assertTrue(r['replayed']);self.assertEqual(d.counts(),before)
-  status,p=d.rpc('ros_bilingual_read_published',{'p_managed_scene_id':'13a795ae-456e-4623-9714-b302c9db9585','p_composition_id':pub['ko_composition_id']})
-  self.assertEqual(status,200,p);self.assertEqual(len(p['pairs']),67)
+  status,p=d.rpc('ros_bilingual_read_published',{'p_managed_scene_id':manifest['managed_scene']['id'],'p_composition_id':pub['ko_composition_id']})
+  self.assertEqual(status,200,p);self.assertEqual(len(p['pairs']),after_count)
  def test_03_old_capture_download_rejected(self):
   capture=json.loads((d.P/'output-results.json').read_text())[0]['captureId']
   req=urllib.request.Request('http://127.0.0.1:3003/api/novel-book-pdf',data=json.dumps({'slug':'quantum-vibration-novel-en','captureId':capture}).encode(),headers={'Content-Type':'application/json','Authorization':'Bearer '+json.loads((d.P/'owner-session.json').read_text())['access_token']})

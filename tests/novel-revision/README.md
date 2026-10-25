@@ -15,6 +15,7 @@ export ROS_EXEC02_AUTH=http://127.0.0.1:55471
 export ROS_EXEC02_REST=http://127.0.0.1:55472
 export ROS_R01_MANIFEST=/private/path/REVIEW-MANIFEST.json
 export ROS_R01_PROPOSAL=/private/path/CHANGESET.json
+export ROS_R01_APPROVAL_DIGEST=<independently-verified-approved-content-sha256>
 export ROS_NODE=/absolute/path/to/node
 python3 tests/novel-revision/start-local-run.py
 python3 tests/novel-revision/prepare-run.py
@@ -50,3 +51,5 @@ With the isolated app connected to the same run, `ROS_EXEC02_ACTOR=reader` selec
 the real reader session for `http-output.mjs`. Its books contain the test fixture,
 not the production full manuscript. `add-commentary-fixture.mjs` optionally adds
 privately supplied note fixtures. Never label those outputs as production books.
+
+For PRO-C02-S01, use its officially mapped manifest and normalized approved proposal, not TXT paragraph counts. Run `node --test tests/novel-revision/residual-plan.test.mjs` with these private inputs. Shared DB/publication/restore tests derive counts and scene paths from the fixture; equal-size replacements must preserve each ordinal Unit and alignment. Do not commit fixture manuscript files or sessions.
