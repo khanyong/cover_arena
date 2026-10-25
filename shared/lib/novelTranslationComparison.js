@@ -112,7 +112,8 @@ export async function loadSceneTranslationComparison({ scene, client }) {
   requireValue(typeof client?.rpc === 'function', '인증된 비교 조회 연결이 필요합니다.');
   // r01 publication has version-specific correspondence. Legacy alignment rows
   // remain historical and must not substitute an earlier EN version for R05/R07.
-  if (scene.id === 'b48a4f04' && scene.paragraphs.length === 67) {
+  if ((scene.id === 'b48a4f04' && scene.paragraphs.length === 67)
+    || (scene.id === '3b301af5' && scene.paragraphs.length === 129)) {
     const { data: pinned, error } = await client.rpc('ros_bilingual_read_published', {
       p_managed_scene_id: scene.managedSceneId, p_composition_id: scene.compositionRevisionId,
     });
