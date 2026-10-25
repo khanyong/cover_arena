@@ -5,10 +5,12 @@ import JSZip from 'jszip';
 const dir=process.env.ROS_EXEC02_FIXTURE_DIR;
 const secret=JSON.parse(readFileSync(dir+'/../local-secrets.json'));
 const browser=await puppeteer.launch({executablePath:'/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',headless:true});
+const origin=process.env.ROS_EXEC02_BROWSER_ORIGIN||'http://127.0.0.1:3003';
+assert.ok(['http://127.0.0.1:3003','http://localhost:3003'].includes(origin));
 let page;
 try{
  console.log('Browser launched');page=await browser.newPage();page.on('console',m=>{if(m.text().startsWith('Access to fetch'))console.log('CORS',m.text());});page.on('requestfailed',r=>{const u=new URL(r.url());console.log('Network failure',u.origin+u.pathname,r.failure()?.errorText);});await page.setViewport({width:1440,height:1000});
- await page.goto('http://127.0.0.1:3003/auth?next=%2Fnovel%2Fquantum-vibration-novel',{waitUntil:'networkidle0',timeout:60000});
+ await page.goto(origin+'/auth?next=%2Fnovel%2Fquantum-vibration-novel',{waitUntil:'networkidle0',timeout:60000});
  console.log('Auth page loaded');await page.waitForSelector('input[type=email]');await page.type('input[type=email]','owner@exec02.test');await page.type('input[type=password]',secret.password);
  console.log('Login form filled');await page.click('button[type=submit]');
  await new Promise(resolve=>setTimeout(resolve,3000));

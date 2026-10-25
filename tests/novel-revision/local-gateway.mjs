@@ -5,8 +5,9 @@ for(const u of [auth,rest]) if(u.hostname!=='127.0.0.1'||!/^554\d\d$/.test(u.por
 http.createServer((req,res)=>{
  // Supabase's API gateway supplies CORS in a full stack. This isolated proxy
  // permits only the local Next test origin; authentication is still upstream.
- const cors=req.headers.origin==='http://127.0.0.1:3003'?{
-  'access-control-allow-origin':'http://127.0.0.1:3003',
+ const allowedOrigins=new Set(['http://127.0.0.1:3003','http://localhost:3003']);
+ const cors=allowedOrigins.has(req.headers.origin)?{
+  'access-control-allow-origin':req.headers.origin,
   'access-control-allow-methods':'GET,POST,OPTIONS',
   'access-control-allow-headers':'authorization,apikey,content-type,x-client-info,x-supabase-api-version,prefer,range,range-unit,accept-profile,content-profile',
   'vary':'Origin',
