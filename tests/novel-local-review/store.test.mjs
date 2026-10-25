@@ -8,3 +8,18 @@ test('stale source and modified proposal rejected',()=>{const r=report();r.chang
 test('path traversal rejected',()=>assert.throws(()=>safeId('../secret'),/INVALID/));
 test('production and external network requests rejected',()=>{const old=process.env.NODE_ENV;process.env.NODE_ENV='production';assert.equal(localRequest({socket:{remoteAddress:'127.0.0.1'},headers:{host:'localhost:3000'}}),false);process.env.NODE_ENV='development';assert.equal(localRequest({socket:{remoteAddress:'10.0.0.1'},headers:{host:'localhost:3000'}}),false);assert.equal(localRequest({socket:{remoteAddress:'127.0.0.1'},headers:{host:'evil.example'}}),false);process.env.NODE_ENV=old;});
 test('immutable retry, restart read, wrong user and corruption',async()=>{const root=await mkdtemp(join(tmpdir(),'ros-review-'));try{const id='PRO-C02-S02-r01',dir=join(root,id);await mkdir(dir);const payload=buildDraft(report(),baseline),files={};for(const name of ['before','after','rows']){const raw=JSON.stringify(payload[name]);files[name]=sha(raw);await immutable(join(dir,name+'.json'),raw);await immutable(join(dir,name+'.json'),raw);}await writeFile(join(dir,'manifest.json'),JSON.stringify({id,allowedUserIds:['author'],files}));assert.equal((await readReview(id,'author',root)).after[0].en,'Combined');await assert.rejects(readReview(id,'reader',root),/DENIED/);await assert.rejects(immutable(join(dir,'after.json'),'different'),/IMMUTABLE/);await writeFile(join(dir,'after.json'),'[]');await assert.rejects(readReview(id,'author',root),/INTEGRITY/);}finally{await rm(root,{recursive:true,force:true});}});
+
+test('catalog filters users, separates scenes and comments persist',async()=>{
+ const {listReviews,addComment,readComments}=await import('../../lib/novel-local-review/store.mjs');
+ const root=await mkdtemp(join(tmpdir(),'ros-catalog-'));try{
+  for(const id of ['PRO-C02-S02-r01','PRO-C03-S01-r01']){
+   const dir=join(root,id);await mkdir(dir);const payload=buildDraft(report(),baseline),files={};
+   for(const name of ['before','after','rows']){const raw=JSON.stringify(payload[name]);files[name]=sha(raw);await immutable(join(dir,name+'.json'),raw);}
+   await writeFile(join(dir,'manifest.json'),JSON.stringify({id,scene:id.slice(0,11),baselineId:'fixed',title:id,allowedUserIds:['author'],files}));
+  }
+  assert.equal((await listReviews('author',root)).length,2);assert.deepEqual(await listReviews('reader',root),[]);
+  const r=await readReview('PRO-C02-S02-r01','author',root);await addComment(r,'author',{item:'R01',text:'storage test'},root);
+  assert.equal((await readComments(r.manifest.id,root))[0].baseline,'fixed');assert.equal((await readComments('PRO-C03-S01-r01',root)).length,0);
+  await assert.rejects(readReview('PRO-C03-S02-r01','author',root),{code:'ENOENT'});
+ }finally{await rm(root,{recursive:true,force:true});}
+});

@@ -1,5 +1,5 @@
 import {authenticateBookRequest} from '../../lib/novel-book/loadBookSnapshot.mjs';
-import {localRequest,readReview,readComments,addComment} from '../../lib/novel-local-review/store.mjs';
+import {localRequest,readReview,readComments,addComment,listReviews} from '../../lib/novel-local-review/store.mjs';
 export const config={api:{bodyParser:{sizeLimit:'16kb'}}};
 export default async function handler(req,res){
  res.setHeader('Cache-Control','private, no-store');res.setHeader('Vary','Authorization');
@@ -7,6 +7,14 @@ export default async function handler(req,res){
  if(!['GET','POST'].includes(req.method))return res.status(405).end();
  try{
   const {client,userId}=await authenticateBookRequest(req.headers.authorization);
+  if(req.query.list==='1' && req.method==='GET'){
+   const visible=[];
+   for(const item of await listReviews(userId)){
+    const {data,error}=await client.rpc('ros_ko_get_scene',{p_managed_scene_id:item.managedSceneId,p_composition_id:null,p_include_legacy:false});
+    if(!error&&data)visible.push(item);
+   }
+   return res.json({reviews:visible});
+  }
   const review=await readReview(req.query.id,userId);
   // Normal user-scoped RPC independently enforces existing scene read permission.
   const {data,error}=await client.rpc('ros_ko_get_scene',{p_managed_scene_id:review.manifest.managedSceneId,p_composition_id:null,p_include_legacy:false});

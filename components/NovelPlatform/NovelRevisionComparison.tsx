@@ -8,15 +8,22 @@ import {revisionComparisonRows} from '../../shared/lib/novelRevisionComparison.m
 import {remarkEquationCommentary,normalizeDisplayMath} from '../../shared/lib/equationCommentary';
 
 export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}) {
- const [localDraft,setLocalDraft]=useState(false);
+ const [localDraft,setLocalDraft]=useState('');
  const [history,setHistory]=useState<any[]>([]),[selected,setSelected]=useState('');
  const [language,setLanguage]=useState('en'),[changesOnly,setChangesOnly]=useState(true);
  const [error,setError]=useState(''),[loading,setLoading]=useState(true);
  useEffect(()=>{
-  const draft=process.env.NODE_ENV==='development' && ['localhost','127.0.0.1','[::1]'].includes(window.location.hostname) && managedSceneId==='21a8aa06-4311-4dbf-80dd-fe7f5dc48eff';
-  setLocalDraft(draft);
-  if(draft){setLoading(false);return;}
   let active=true;setLoading(true);setHistory([]);setSelected('');setError('');
+  setLocalDraft('');
+  if(process.env.NODE_ENV==='development'&&['localhost','127.0.0.1','[::1]'].includes(window.location.hostname)){
+   void supabase.auth.getSession().then(async({data})=>{
+    if(!data.session)return;
+    const response=await fetch('/api/novel-local-review?list=1',{headers:{Authorization:`Bearer ${data.session.access_token}`},cache:'no-store'});
+    if(!response.ok)return;
+    const result=await response.json();const matches=result.reviews.filter(r=>r.managedSceneId===managedSceneId);
+    if(active&&matches.length)setLocalDraft(matches[0].id);
+   }).catch(()=>{});
+  }
   Promise.resolve(supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:managedSceneId})).then(({data,error})=>{
    if(!active)return;
    if(error)setError('이력 조회가 불가능합니다. 로그인·접근권한 및 비교 기능 적용 상태를 확인해 주세요.');
@@ -24,7 +31,7 @@ export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}
   }).catch(()=>{if(active){setError('이력을 불러오지 못했습니다.');setLoading(false);}});
   return()=>{active=false;};
  },[managedSceneId]);
- if(localDraft)return <NovelLocalReview embedded/>;
+ if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft}/>;
  const publication=history.find(p=>p.id===selected);
  let rows:any[]=[];let mappingError=false;
  try{if(publication)rows=revisionComparisonRows(publication,language);}catch{mappingError=true;}
