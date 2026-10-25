@@ -52,8 +52,9 @@ export function createBookEpubHandler(dependencies: Dependencies = {}) {
       const { client } = await (dependencies.authenticate || authenticateBookRequest)(req.headers.authorization,
         { signal: controller.signal });
       if (controller.signal.aborted) throw new BookSnapshotError('BOOK_REQUEST_ABORTED', 504);
-      const snapshot = await (dependencies.load || loadBookSnapshot)(client, request.slug, { signal: controller.signal });
+      const snapshot = await (dependencies.load || loadBookSnapshot)(client, request.slug, { signal: controller.signal, captureId: request.captureId });
       if (controller.signal.aborted) throw new BookSnapshotError('BOOK_REQUEST_ABORTED', 504);
+      if (snapshot.source?.captureId) res.setHeader('X-ROS-Book-Capture',snapshot.source.captureId);
       rendered = await (dependencies.render || renderBookEpub)(snapshot, request.options, { signal: controller.signal });
       if (controller.signal.aborted) throw new BookSnapshotError('BOOK_REQUEST_ABORTED', 504);
       reader = rendered.stream.getReader();

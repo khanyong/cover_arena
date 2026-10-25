@@ -101,3 +101,49 @@ Do not interpret successful private staging as RELEASED. The existing author
 approval remains valid; no new wording revision or repeat author approval is
 required. Do not use KO-only sequential writes or administrative projection
 SQL to bypass the remaining release gates.
+
+## EXEC-02 v3 follow-up (draft, not deployed)
+
+The follow-up migrations preserve R05/R07 Unit IDs, allocate new Versions with
+`rewritten_from`, and retain historical alignment records. Structural merges
+still allocate new Units. This r01 produces 18 new Units and 22 new Versions;
+67 result pairs and the 56 untouched pairs remain the acceptance criteria.
+
+Publication is a separate immutable record, not a status edit to PRIVATE_STAGED.
+`ros_bilingual_publish` rechecks the approved target, current composition and
+both original/staged EN maps under locks. It clones the current non-target map
+and changes only target scene paragraphs. The existing authenticated mutation
+ledger and protected-document trigger remain active. Restore likewise preserves
+non-target work, rejects target drift, and appends history instead of deleting it.
+
+`ros_bilingual_read_published` pins paired Versions by composition. The Reader
+uses a single-statement bilingual capture after publication; PDF/EPUB carry its
+SHA-256 capture ID and reject changes with 409. Capture is SECURITY INVOKER and
+preserves existing document RLS. Existing EN-only readers retain their path.
+The deployed `ros_ko_get_scene` implementation is retained privately behind an
+unpublished-composition guard. This wrapper requires production policy review;
+do not infer full shared-reader coverage from owner-only fixture tests.
+
+Reproduction uses private input paths in `ROS_R01_MANIFEST`, `ROS_R01_PROPOSAL`,
+`ROS_R01_APPROVAL_DIGEST`, plus `ROS_EXEC02_FIXTURE_DIR`, `ROS_EXEC02_DB`,
+`ROS_EXEC02_AUTH`, and `ROS_EXEC02_REST`. No fixture prose or tokens belong in Git.
+Use fresh labelled databases (never reset or delete existing ones):
+
+1. `python3 tests/novel-revision/start-local-run.py`
+2. `python3 tests/novel-revision/prepare-run.py`
+3. `python3 tests/novel-revision/database-integration.py`
+4. `python3 tests/novel-revision/publication-integration.py`
+5. `node --test tests/novel-revision/publication-read.test.mjs`
+6. Add exact existing private endnotes using `add-commentary-fixture.mjs` and the
+   two `ROS_EN_COMMENTARY_SNAPSHOT` / `ROS_KO_COMMENTARY_SNAPSHOT` paths.
+7. Run `local-gateway.mjs` and the actual Next server on localhost:3003 using its
+   localhost URL and test publishable key. Then run `http-output.mjs`,
+   `browser-reader.mjs`, `check-output-links.py`, and `restore-integration.py`.
+
+The fixture is one edited scene plus its four existing detailed notes, not the
+complete production novel. The schema fixture covers selected constraints and
+owner permissions; deployed shared-reader authorization, real comments/review
+anchors, full production parity and independent code review remain release gates.
+Production approval registration must cite the existing EXEC-01 source and fixed
+approval digest, not invent a new author approval. No production approval record,
+manuscript write, deployment, or operational publication is performed by tests.

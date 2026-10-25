@@ -20,7 +20,7 @@ db(helpers)
 for name in ['owner','outsider']:
  req=urllib.request.Request(AUTH+'/signup',data=json.dumps({'email':name+'@exec02.test','password':s['password']}).encode(),headers={'Content-Type':'application/json'})
  d=json.load(urllib.request.urlopen(req));(p/(name+'-session.json')).write_text(json.dumps(d));(p/(name+'-session.json')).chmod(0o600)
-for file in ['tests/novel-revision/fixture-schema.sql','supabase/migrations/20261005123000_ros_ko_block_model_v2_schema.sql','supabase/migrations/20261025072604_ros_bilingual_staged_transaction.sql']:
+for file in ['tests/novel-revision/fixture-schema.sql','supabase/migrations/20261005123000_ros_ko_block_model_v2_schema.sql','supabase/migrations/20261005123100_ros_ko_block_model_v2_api.sql','supabase/migrations/20261025072604_ros_bilingual_staged_transaction.sql','supabase/migrations/20261025074724_ros_bilingual_rewrite_identity.sql','supabase/migrations/20261025074937_ros_bilingual_publication.sql','tests/novel-revision/reader-policy-fixture.sql']:
  db(pathlib.Path(file).read_bytes());print('APPLIED',file)
 owner=json.loads((p/'owner-session.json').read_text())['user']['id'];node=os.environ.get('ROS_NODE','node')
 subprocess.run([node,'tests/novel-revision/seed-private-fixture.mjs',os.environ['ROS_R01_MANIFEST'],os.environ['ROS_R01_PROPOSAL'],owner,str(p/'fixture')],check=True)

@@ -130,6 +130,7 @@ test('current edited or selected title takes precedence over stale formatted lab
   assert.equal(getTocTitle(entry, scene(ko).title), entry.label);
   assert.equal(getTocTitle(entry, '[장면 1: 저자 수정]'), '[장면 1: 저자 수정]');
   assert.equal(getTocTitle(undefined, '원래 제목'), '원래 제목');
+  assert.equal(getTocTitle(undefined, undefined), undefined);
 });
 
 test('translation catalog has 48 immutable, title-only entries', () => {

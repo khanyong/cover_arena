@@ -1,3 +1,4 @@
+import { selectedBookCapture } from '../../shared/lib/novelBookCaptureSession.js';
 import { useEffect, useId, useRef, useState } from 'react';
 import { supabase } from '../../shared/lib/supabase';
 
@@ -142,7 +143,7 @@ export function BookPdfDownload({ slug, hasOpenEditor = false }: { slug: string;
       const response = await fetch('/api/novel-book-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session.access_token}` },
-        body: JSON.stringify({ slug, options: { pageSize, fontSize } }),
+        body: JSON.stringify({ slug, options: { pageSize, fontSize }, captureId: selectedBookCapture(expectedActor) }),
         cache: 'no-store',
         credentials: 'same-origin',
         signal: controller.signal,

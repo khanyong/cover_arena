@@ -13,8 +13,8 @@ const fetchImpl=(input,init)=>{
  const url=new URL(input instanceof Request?input.url:String(input));
  assert.equal(url.origin,env.NEXT_PUBLIC_SUPABASE_URL);
  let target;
- if(url.pathname.startsWith('/auth/v1/')) target='http://127.0.0.1:55439'+url.pathname.slice(8)+url.search;
- else if(url.pathname.startsWith('/rest/v1/')) target='http://127.0.0.1:55440'+url.pathname.slice(8)+url.search;
+ if(url.pathname.startsWith('/auth/v1/')) target=(process.env.ROS_EXEC02_AUTH || 'http://127.0.0.1:55439')+url.pathname.slice(8)+url.search;
+ else if(url.pathname.startsWith('/rest/v1/')) target=(process.env.ROS_EXEC02_REST || 'http://127.0.0.1:55440')+url.pathname.slice(8)+url.search;
  else throw Error('Unexpected local service route');
  return fetch(target,init);
 };

@@ -1,3 +1,4 @@
+import { selectedBookCapture } from '../../shared/lib/novelBookCaptureSession.js';
 import { useEffect, useId, useRef, useState } from 'react';
 import { supabase } from '../../shared/lib/supabase';
 
@@ -137,7 +138,7 @@ export function BookEpubDownload({ slug, hasOpenEditor = false }: { slug: string
       const response = await fetch('/api/novel-book-epub', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session.access_token}` },
-        body: JSON.stringify({ slug }),
+        body: JSON.stringify({ slug, captureId: selectedBookCapture(expectedActor) }),
         cache: 'no-store',
         credentials: 'same-origin',
         signal: controller.signal,

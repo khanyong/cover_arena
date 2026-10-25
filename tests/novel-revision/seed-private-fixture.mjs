@@ -10,15 +10,15 @@ const sql=[];const insert=(table,row)=>sql.push(`insert into ${table}(${Object.k
 const en=m.en_snapshot.project_id, ko=m.managed_scene.logical_project_id;
 m.managed_scene.owner_id=actor; m.selection.updated_by=actor;m.composition.created_by=actor;
 for(const [id,project] of [['quantum-vibration-novel-en-act-2',en],['quantum-vibration-novel-act-2',ko]]) {
- insert('public.novel_documents',{id,slug:id,title:'PRIVATE TEST',data:{scene:'test fixture',otherScene:'preserve me'}});
+ insert('public.novel_documents',{id,slug:id,title:'PRIVATE TEST',data:{number:2,chapters:[{id:'untouched-chapter',number:1,scenes:[]},{id:'test-chapter',number:2,scenes:[{id:m.managed_scene.scene_id,...(project===ko?{storageModel:'ros-ko-block-v1',managedSceneId:m.managed_scene.id}:{}),paragraphs:m.ordered_alignment.map(r=>{const x=r[project===en?'en':'ko'];return {id:x.unit_id,unitId:x.unit_id,revisionVersionId:x.version_id,activeVersion:'review',versions:{review:{version:'review',content:x.body}}};})}]}],otherScene:'preserve me'}});
  insert('public.revision_projects',{id:project,slug:project,title:'PRIVATE TEST',source_document_id:id,owner_id:actor});
 }
-insert('public.novel_documents',{id:m.managed_scene.root_document_id,slug:m.managed_scene.root_document_id,title:'PRIVATE TEST',data:{}});
+for(const slug of ['quantum-vibration-novel','quantum-vibration-novel-en']) insert('public.novel_documents',{id:slug,slug,title:'PRIVATE TEST',data:{id:slug,slug,title:'Private acceptance fixture',author:'Private test',logline:'',synopsis:'',characters:[],scenes:[],locations:[],versionHistory:['review'],updatedAt:'2026-10-25',acts:[{number:2}]}});
 for(const lang of ['en','ko']) {
  const parent=randomUUID();
  insert('public.content_units',{id:parent,project_id:lang==='en'?en:ko,unit_type:'scene',source_key:`test/${lang}/scene`,source_path:`test/${lang}/scene`});
  for(const r of m.ordered_alignment) {
- const x=r[lang];insert('public.content_units',{id:x.unit_id,project_id:lang==='en'?en:ko,unit_type:'paragraph',source_key:`test/${lang}/${r.position}`,source_path:`test/${lang}/${r.position}`,original_parent_id:parent,original_position:r.position});
+ const x=r[lang];insert('public.content_units',{id:x.unit_id,project_id:lang==='en'?en:ko,unit_type:'paragraph',source_key:lang==='ko'?`KO/${m.managed_scene.source_key}/B${String(r.position).padStart(4,'0')}`:`test/${lang}/${r.position}`,source_path:`test/${lang}/${r.position}`,original_parent_id:parent,original_position:r.position});
  insert('public.paragraph_versions',{id:x.version_id,paragraph_unit_id:x.unit_id,body_markdown:x.body,body_hash:x.sha256,created_by:actor});
  }
 }
@@ -30,7 +30,7 @@ insert('ros_ko_private.ko_scene_authorizations',{actor_id:actor,document_id:m.ma
 const comp={...m.composition,parent_revision_id:null,status:'assembling',manifest_sha256:'0'.repeat(64)};
 sql.push(`insert into public.ko_scene_composition_revisions select * from jsonb_populate_record(null::public.ko_scene_composition_revisions,${q(comp)}::jsonb);`);
 for(const r of m.ordered_alignment) {
- insert('public.ko_scene_composition_blocks',{composition_id:comp.id,position:r.position,block_unit_id:r.ko.unit_id,block_version_id:r.ko.version_id,source_key:`test/ko/${r.position}`,separator_after:r.ko.separator_after});
+ insert('public.ko_scene_composition_blocks',{composition_id:comp.id,position:r.position,block_unit_id:r.ko.unit_id,block_version_id:r.ko.version_id,source_key:`KO/${m.managed_scene.source_key}/B${String(r.position).padStart(4,'0')}`,separator_after:r.ko.separator_after});
  insert('public.ko_en_block_alignments',{id:r.alignment_id,ko_block_unit_id:r.ko.unit_id,managed_scene_id:m.managed_scene.id,en_block_unit_id:r.en.unit_id,en_block_version_id:r.en.version_id,evidence_manifest_sha256:'0'.repeat(64)});
 }
 sql.push(`update public.ko_scene_composition_revisions set manifest_sha256=public.ros_ko_sha256_text(public.ros_ko_composition_manifest_text(id)),status='sealed';`);

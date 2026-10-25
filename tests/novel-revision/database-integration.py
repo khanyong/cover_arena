@@ -58,8 +58,18 @@ class Integration(unittest.TestCase):
   try:self.rejected(message='TEST_ONLY_AFTER_EN_INSERT')
   finally:sql('drop trigger exec02_test_fail_ko on public.paragraph_versions; drop function public.exec02_test_fail_ko();')
  def test_06_success_and_bilingual_readback(self):
-  status,result=rpc('ros_bilingual_stage',request);self.assertEqual(status,200,result)
-  self.assertFalse(result['replayed']);self.assertEqual(result['status'],'PRIVATE_STAGED')
+  # All four workers start before any release exists; include identical and
+  # different UUIDs for the same approval, not merely retries of a saved result.
+  import threading
+  barrier=threading.Barrier(4)
+  requests=[dict(request),dict(request),dict(request,p_request_id=str(uuid.uuid4())),dict(request,p_request_id=str(uuid.uuid4()))]
+  def first_call(body):
+   barrier.wait();return rpc('ros_bilingual_stage',body)
+  with ThreadPoolExecutor(max_workers=4) as pool: results=list(pool.map(first_call,requests))
+  for status,item in results:self.assertEqual(status,200,item)
+  self.assertEqual(len({item['release_id'] for _,item in results}),1)
+  self.assertEqual(sum(not item['replayed'] for _,item in results),1)
+  result=results[0][1];self.assertEqual(result['status'],'PRIVATE_STAGED')
   type(self).release=result['release_id']
   status,r=rpc('ros_bilingual_read_staged',{'p_release_id':self.release});self.assertEqual(status,200,r)
   self.assertEqual(len(r['pairs']),67)
@@ -69,8 +79,18 @@ class Integration(unittest.TestCase):
     self.assertEqual(actual[l+'_body'],original['body'])
     if expected['kind']=='retained':
      self.assertEqual(actual[l+'_unit_id'],original['unit_id']);self.assertEqual(actual[l+'_version_id'],original['version_id'])
+  for change in ['R05','R07']:
+   index=next(i for i,pair in enumerate(plan['result_pairs']) if pair.get('change_key')==change)
+   old=next(item for item in plan['lineage'] if item['change_key']==change)['predecessor_pairs'][0]
+   actual=r['pairs'][index]
+   self.assertEqual(actual['alignment_id'],old['alignment_id'])
+   for lang in ['en','ko']:
+    self.assertEqual(actual[lang+'_unit_id'],old[lang+'_unit_id'])
+    self.assertNotEqual(actual[lang+'_version_id'],old[lang+'_version_id'])
+    self.assertEqual(sql("select change_type||':'||base_version_id from public.paragraph_versions where id='"+actual[lang+'_version_id']+"'"),'rewrite:'+old[lang+'_version_id'])
+    self.assertEqual(sql("select relation_type from public.paragraph_version_lineage where child_version_id='"+actual[lang+'_version_id']+"'"),'rewritten_from')
   before=json.loads(self.before);after=json.loads(counts())
-  self.assertEqual(after['versions']-before['versions'],22);self.assertEqual(after['units']-before['units'],22)
+  self.assertEqual(after['versions']-before['versions'],22);self.assertEqual(after['units']-before['units'],18)
   self.assertEqual(after['public_selection'],before['public_selection']);self.assertEqual(after['documents'],before['documents'])
   (P/'readback.json').write_text(json.dumps(r,ensure_ascii=False,indent=2))
  def test_07_lost_response_replay(self):

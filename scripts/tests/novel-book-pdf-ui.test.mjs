@@ -17,7 +17,7 @@ const tick = () => new Promise(resolve => setImmediate(resolve));
 const session = actor => actor ? { user: { id: actor }, access_token: `SYNTHETIC-TOKEN-${actor}` } : null;
 const pdfResponse = (headers = {}) => new Response('%PDF-1.7\nSYNTHETIC PDF\n%%EOF\n', { headers: { 'Content-Type': 'application/pdf', ...headers } });
 
-function harness({ slug = 'quantum-vibration-novel', hasOpenEditor = false, actor = 'actor-1', fetchResult = () => Promise.resolve(pdfResponse()) } = {}) {
+function harness({ slug = 'quantum-vibration-novel', hasOpenEditor = false, actor = 'actor-1', captureId, fetchResult = () => Promise.resolve(pdfResponse()) } = {}) {
   let cursor = 0;
   let authCallback;
   let tree;
@@ -51,6 +51,7 @@ function harness({ slug = 'quantum-vibration-novel', hasOpenEditor = false, acto
   const scope = {
     exports, AbortController, Error, Date, Set,
     require(name) {
+      if (name.endsWith('/novelBookCaptureSession.js')) return {selectedBookCapture: () => captureId};
       if (name === 'react') return React;
       if (name === 'react/jsx-runtime') return { jsx, jsxs: jsx };
       if (name.endsWith('/supabase')) return { supabase: { auth: {
@@ -212,7 +213,12 @@ test('filename header allows safe PDF names and rejects path/control/extension t
 
 test('Reader integrates outside edit-only controls and removes legacy Mac/open-window workflow', () => {
   assert.match(reader, /<BookPdfDownload slug=\{novel\.slug\} hasOpenEditor=\{hasOpenEditor\} \/>/);
-  assert.match(reader, /<\/span>\s*<\/>\}\s*<BookPdfDownload/);
+  assert.match(reader, /<details[\s\S]*?책 다운로드 · PDF \/ Kindle[\s\S]*?<BookPdfDownload[\s\S]*?<\/details>/);
   assert.doesNotMatch(reader, /isGeneratingPDF|Mac_로컬 only|fetch\('\/api\/generate-pdf'/);
   assert.doesNotMatch(source, /window\.open|localStorage|service_role|supabaseAdmin|console\./);
+});
+
+test('Reader capture ID is carried through the actual PDF handler', async () => {
+ const captureId='a'.repeat(64);const h=harness({captureId});await h.ready();await h.generate();
+ assert.equal(JSON.parse(h.requests[0].options.body).captureId,captureId);h.unmount();
 });
