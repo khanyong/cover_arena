@@ -33,7 +33,9 @@ class AuthorityLifecycle(unittest.TestCase):
             barrier.wait()
             observations = []
             for _ in range(12):
-                status, result = d.rpc('ros_bilingual_capture_book', {})
+                status, result = d.capture()
+                if status == 409:
+                    self.assertIn(result['message'], ['CAPTURE_DOCUMENT_CHANGED','CAPTURE_SCENE_CHANGED']); observations.append(['RETRY']); continue
                 self.assertEqual(status, 200, result)
                 sizes = [len(x['data']['chapters'][1]['scenes'][0]['paragraphs']) for x in result['documents'] if x['id'].endswith('act-2')]
                 self.assertIn(sizes, [[67, 67], [79, 79]])

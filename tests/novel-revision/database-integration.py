@@ -27,6 +27,20 @@ def rpc(name,body,token='owner'):
   with urllib.request.urlopen(req,timeout=30) as r:return r.status,json.load(r)
  except urllib.error.HTTPError as e:return e.code,json.load(e)
 
+def capture(token='owner'):
+ status,result=rpc('ros_bilingual_capture_book',{},token)
+ if status!=200 or result.get('format')!='ros-bilingual-book-manifest-v2':return status,result
+ docs=[];managed=[]
+ for entry in result['documents']:
+  status,text=rpc('ros_bilingual_capture_document',{'p_id':entry['id'],'p_sha256':entry['sha256']},token)
+  if status!=200:return status,text
+  docs.append({'id':entry['id'],'slug':entry['slug'],'data':json.loads(text)})
+ for entry in result['managed']:
+  status,text=rpc('ros_bilingual_capture_scene',{'p_id':entry['id'],'p_sha256':entry['sha256']},token)
+  if status!=200:return status,text
+  managed.append(json.loads(text))
+ return 200,{'documents':docs,'managed':managed}
+
 def counts():
  return sql("select jsonb_build_object('units',(select count(*) from public.content_units),'versions',(select count(*) from public.paragraph_versions),'lineage',(select count(*) from public.paragraph_version_lineage),'compositions',(select count(*) from public.ko_scene_composition_revisions),'snapshots',(select count(*) from public.revision_snapshots),'alignments',(select count(*) from public.ko_en_block_alignments),'releases',(select count(*) from ros_bilingual_private.releases),'events',(select count(*) from ros_bilingual_private.events),'requests',(select count(*) from ros_bilingual_private.requests),'public_selection',(select jsonb_agg(to_jsonb(s)) from public.ko_scene_display_selections s),'documents',(select jsonb_agg(to_jsonb(d) order by id) from public.novel_documents d))")
 

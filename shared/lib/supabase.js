@@ -1,3 +1,4 @@
+import { loadBilingualCapture } from './loadBilingualCapture.mjs'
 import { bookSourceFingerprint, assembleBookActs } from './novelBookSnapshot.mjs'
 import { rememberBookCapture } from './novelBookCaptureSession.js'
 import { createClient } from '@supabase/supabase-js'
@@ -550,7 +551,7 @@ export const novels = {
       const {data: sessionData} = await supabase.auth.getSession();
       const actorId = sessionData.session?.user?.id;
       if (actorId) {
-        const {data: captured, error: captureError} = await supabase.rpc('ros_bilingual_capture_book');
+        const {data: captured, error: captureError} = await loadBilingualCapture(supabase);
         const root = captured?.documents?.find(d => d.id === slug && d.slug === slug);
         // Existing EN-only readers keep their access; they cannot capture KO.
         const bothRoots = captured?.documents?.filter(d => ['quantum-vibration-novel','quantum-vibration-novel-en'].includes(d.id)).length === 2;

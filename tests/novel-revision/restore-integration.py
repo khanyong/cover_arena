@@ -14,7 +14,10 @@ class Restore(unittest.TestCase):
   def reads(_):
    barrier.wait();result=[]
    for i in range(12):
-    status,c=d.rpc('ros_bilingual_capture_book',{});self.assertEqual(status,200,c)
+    status,c=d.capture()
+    if status==409:
+     self.assertIn(c['message'],['CAPTURE_DOCUMENT_CHANGED','CAPTURE_SCENE_CHANGED']);result.append(['RETRY']);continue
+    self.assertEqual(status,200,c)
     docs=[x for x in c['documents'] if x['id'].endswith('act-2')]
     sizes=[len(x['data']['chapters'][1]['scenes'][0]['paragraphs']) for x in docs]
     self.assertIn(sizes,[[67,67],[79,79]])
