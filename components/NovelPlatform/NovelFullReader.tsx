@@ -1,3 +1,4 @@
+import { NovelRevisionComparison } from './NovelRevisionComparison';
 import { remarkEquationCommentary, normalizeDisplayMath } from '../../shared/lib/equationCommentary';
 import React, { useState, useEffect, useRef } from 'react';
 import { NovelDetails, NovelParagraph, NovelScene, getParagraphText, getSceneTitle } from './novelData';
@@ -197,6 +198,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
   const reviewComments = commentActorId && commentState.scope === commentsScope ? commentState.rows : [];
   const reviewGuidelines = commentActorId && commentState.scope === commentsScope ? commentState.guidelines : [];
   const commentPanelScene = managedScenes.find(s => s.id === commentPanelSceneId);
+  const [revisionSceneId, setRevisionSceneId] = useState<string | null>(null);
   const [comparisonSceneId, setComparisonSceneId] = useState<string | null>(null);
   const [comparisonMode, setComparisonMode] = useState<'aligned' | 'parallel'>('aligned');
   const [parallelReadingUnit, setParallelReadingUnit] = useState<'paragraph' | 'sentence'>('paragraph');
@@ -1133,7 +1135,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 {/* Paragraphs Continuous Text Container */}
                 <div className={`${readingOnly ? styles.readingColumn : ''} ${
                   viewMode === 'book' 
-                    ? `font-serif text-[#d6caba] ${comparisonSceneId ? 'max-w-none' : 'max-w-3xl'} mx-auto space-y-4 text-justify leading-loose`
+                    ? `font-serif text-[#d6caba] ${comparisonSceneId || revisionSceneId ? 'max-w-none' : 'max-w-3xl'} mx-auto space-y-4 text-justify leading-loose`
                     : 'font-sans text-zinc-200 space-y-8'
                 }`}>
                   {(ch.scenes || []).map((scene) => (
@@ -1200,6 +1202,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           setCommentPanelSceneId(scene.id);
                           requestAnimationFrame(() => document.querySelector('[aria-label="Scene 검토 코멘트 목록"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
                         }} className="shrink-0 text-xs px-3 py-1 rounded border border-blue-500/30 text-blue-300 bg-blue-500/10">Scene 검토본 · 지침/코멘트 {reviewComments.filter(c => c.managed_scene_id === scene.managedSceneId && !['resolved', 'withdrawn'].includes(c.status)).length} · 다운로드</button>}
+                        {scene.managedSceneId && <button type="button" aria-pressed={revisionSceneId === scene.id} onClick={()=>setRevisionSceneId(revisionSceneId===scene.id?null:scene.id)} className="rounded border border-sky-500 px-3 py-1 text-xs text-sky-200">수정 전후 비교</button>}
                         {canCompareNovel && <button type="button" aria-pressed={comparisonSceneId === scene.id} onClick={() => comparisonSceneId === scene.id ? closeBilingualComparison(scene) : openBilingualComparison(scene)} className="shrink-0 rounded border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs text-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400">{comparisonSceneId === scene.id ? '한 언어로 읽기' : '영한 비교'}</button>}
                         <button
                           type="button"
@@ -1227,6 +1230,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
+                      {revisionSceneId === scene.id && scene.managedSceneId && <NovelRevisionComparison key={scene.managedSceneId} managedSceneId={scene.managedSceneId} />}
                       {comparisonSceneId === scene.id && canCompareNovel ? <div className="space-y-3">
                       <div className="flex flex-wrap items-center gap-2 rounded border border-zinc-700 p-2 text-xs text-zinc-200">
                         <label htmlFor={`comparison-navigation-${scene.id}`}>비교하며 Scene 이동</label>
