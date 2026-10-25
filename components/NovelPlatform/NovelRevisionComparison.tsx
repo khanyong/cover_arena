@@ -1,3 +1,4 @@
+import NovelLocalReview from './NovelLocalReview';
 import React, {useEffect,useState} from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
@@ -23,12 +24,7 @@ export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}
   }).catch(()=>{if(active){setError('이력을 불러오지 못했습니다.');setLoading(false);}});
   return()=>{active=false;};
  },[managedSceneId]);
- if(localDraft)return <section aria-label="수정 전후 비교" className="my-4 rounded-xl border border-sky-700 p-4">
-  <h5 className="font-bold">로컬 실행 r01 · 수정 전후 검토</h5>
-  <p className="my-2 text-sm">게시 전 검토용 초안입니다. 왼쪽은 매핑 기준 원문, 오른쪽은 r01 수정안입니다.</p>
-  <a className="text-sky-400 underline" href="/novel-local-review" target="_blank" rel="noreferrer">큰 화면에서 비교하기 ↗</a>
-  <iframe title="로컬 실행 r01 수정 전후 비교" src="/novel-local-review" style={{width:'100%',height:'80vh',border:0,marginTop:12}} />
- </section>;
+ if(localDraft)return <NovelLocalReview embedded/>;
  const publication=history.find(p=>p.id===selected);
  let rows:any[]=[];let mappingError=false;
  try{if(publication)rows=revisionComparisonRows(publication,language);}catch{mappingError=true;}
