@@ -1,5 +1,5 @@
 import { loadBilingualCapture } from './loadBilingualCapture.mjs'
-import { bookSourceFingerprint, assembleBookActs } from './novelBookSnapshot.mjs'
+import { bookSourceFingerprint, assembleBookActs, getBookFragmentSlugs } from './novelBookSnapshot.mjs'
 import { rememberBookCapture } from './novelBookCaptureSession.js'
 import { createClient } from '@supabase/supabase-js'
 import {
@@ -558,7 +558,8 @@ export const novels = {
         if (captureError && slug === 'quantum-vibration-novel') return {data:null,error:captureError};
         if (!captureError && root && bothRoots) {
           const captureId=await bookSourceFingerprint(captured);
-          const fragments = structuredClone(captured.documents.filter(d => d.slug.startsWith(slug + '-act-')));
+          const required = new Set(getBookFragmentSlugs(root, slug));
+          const fragments = structuredClone(captured.documents.filter(d => required.has(d.slug)));
           Object.assign(novel,structuredClone(root.data));
           novel.acts = assembleBookActs(root, fragments, slug);
           capturedManaged = new Map(captured.managed.map(m => [m.managed_scene_id,m]));
