@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {useEffect,useState} from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import {supabase} from '../shared/lib/supabase';
@@ -6,6 +6,21 @@ import {supabase} from '../shared/lib/supabase';
 // Operator UI uses the same normal signed-in user API/RPC paths as the tests.
 // No service key, impersonation, approval registration, or manuscript editing.
 export default function RevisionExecute(){
+ const [account,setAccount]=useState<string|null>(null);
+ const [authReady,setAuthReady]=useState(false);
+ useEffect(()=>{
+  let active=true;let generation=0;
+  const verify=async()=>{
+   const current=++generation;
+   try{
+    const {data,error}=await supabase.auth.getUser();
+    if(active&&current===generation){setAccount(!error&&data.user&&!data.user.is_anonymous?(data.user.email||'로그인된 계정'):null);setAuthReady(true);}
+   }catch{if(active&&current===generation){setAccount(null);setAuthReady(true);}}
+  };
+  void verify();
+  const {data:{subscription}}=supabase.auth.onAuthStateChange(()=>{setTimeout(()=>{if(active)void verify();},0);});
+  return()=>{active=false;subscription.unsubscribe();};
+ },[]);
  const [approval,setApproval]=useState('');
  const [context,setContext]=useState<any>(null);
  const [release,setRelease]=useState<any>(null);
@@ -33,7 +48,7 @@ export default function RevisionExecute(){
  const restore=()=>run(async()=>{const p=await api('/api/novel-bilingual-publication',{action:'restore',request_id:keys.restore,target_id:publication.publication_id});setPublication(p);setMessage('영한 공동 복원 완료.');});
  return <main className="min-h-screen bg-zinc-950 text-zinc-100 p-8 max-w-4xl mx-auto"><Head><title>승인 원고 공동 반영</title></Head><h1 className="text-2xl mb-4">승인 원고 공동 반영</h1>
  <p className="mb-4">현재 로그인 계정의 기존 권한으로 서버에 등록된 승인만 실행합니다. 문안 편집이나 승인 등록 기능이 아닙니다.</p>
- <Link href="/auth?next=%2Fnovel-revision-execute">로그인</Link>
+ <p aria-live="polite">{!authReady?'로그인 상태 확인 중…':account?`로그인됨: ${account} · 아래에서 승인 자료를 조회하세요.`:<Link href="/auth?next=%2Fnovel-revision-execute">로그인</Link>}</p>
  <label className="block my-4">공식 승인 ID<input className="block bg-zinc-800 p-2 w-full" value={approval} onChange={e=>{setApproval(e.target.value);setContext(null);setRelease(null);setPublication(null);}} disabled={busy||!!release}/></label>
  <div className="flex gap-3 flex-wrap"><button disabled={busy} onClick={validateCapture}>전권 조회만 검증</button><button disabled={busy||!approval||!!release} onClick={load}>승인 자료 조회</button><button disabled={busy||!context||!!release} onClick={stage}>영한 공동 저장·전문 검증</button><button disabled={busy||!release||!!publication} onClick={publish}>검증된 판본 공동 게시</button><button disabled={busy||!publication||publication.status==='RESTORED'} onClick={restore}>이번 게시 공동 복원</button>{publication?.status==='RESTORED'&&<button disabled={busy} onClick={prepareRepublish}>복원판 재게시 준비·전문 검증</button>}</div>
  {context&&<p className="my-4">{context.proposal.proposal_id} · 리비전 {context.proposal.proposal_revision} · 결과 {context.plan.result_pairs.length}쌍 · 변경 밖 {context.plan.retained_pairs}쌍</p>}
