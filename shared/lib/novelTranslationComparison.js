@@ -110,6 +110,31 @@ export async function validateTranslationComparison(raw, scene) {
 export async function loadSceneTranslationComparison({ scene, client }) {
   requireValue(supportsSceneTranslationComparison(scene), '이 Scene 또는 legacy 전문은 영한 블록 비교 대상이 아닙니다.');
   requireValue(typeof client?.rpc === 'function', '인증된 비교 조회 연결이 필요합니다.');
+  // r01 publication has version-specific correspondence. Legacy alignment rows
+  // remain historical and must not substitute an earlier EN version for R05/R07.
+  if (scene.id === 'b48a4f04' && scene.paragraphs.length === 67) {
+    const { data: pinned, error } = await client.rpc('ros_bilingual_read_published', {
+      p_managed_scene_id: scene.managedSceneId, p_composition_id: scene.compositionRevisionId,
+    });
+    if (error) throw error;
+    requireValue(pinned?.ko_composition_id === scene.compositionRevisionId && uuid.test(pinned.publication_id || ''),
+      '공동 게시 판본을 확인할 수 없습니다.');
+    const contract = comparisonContract(scene);
+    const rows = pinned.pairs.map(p => ({ ...p, ko_body: p.ko_body, en_body: p.en_body,
+      en_body_sha256: p.en_sha256, en_latest_version_id: p.en_version_id,
+      en_latest_body: p.en_body, en_latest_body_sha256: p.en_sha256, en_status: 'unchanged' }));
+    const enBody = rows.map(p => p.en_body + p.separator_after).join('');
+    const koBody = rows.map(p => p.ko_body + p.separator_after).join('');
+    return validateTranslationComparison({format: TRANSLATION_COMPARISON_FORMAT,
+      publication_id: pinned.publication_id, release_id: pinned.release_id, en_snapshot_id: pinned.en_snapshot_id,
+      managed_scene_id: scene.managedSceneId, scene_id: scene.id, source_key: contract.sourceKey,
+      ko_document_id: contract.documentId, ko_document_slug: contract.documentId,
+      en_document_id: contract.enDocumentId, en_document_slug: contract.enDocumentId, en_scene_id: scene.id,
+      ko_composition_id: scene.compositionRevisionId, ko_title: scene.title, en_title: null,
+      en_title_basis: 'pinned_publication', ko_body: koBody, ko_body_sha256: await sha256Hex(koBody),
+      en_body: enBody, en_body_sha256: await sha256Hex(enBody), ko_terminal_lf: 0, en_terminal_lf: 0,
+      rows, changed_count: 0, unavailable_count: 0, en_latest_structure_changed: false, latest_status: 'unchanged'}, scene);
+  }
   if (hasBinding(scene)) return loadManagedTranslationComparison({ scene, client });
   const { data, error } = await client.rpc('ros_ko_get_translation_comparison', {
     p_managed_scene_id: scene.managedSceneId,

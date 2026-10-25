@@ -1,4 +1,4 @@
-const RETURN_PATHS = new Set(['/temsco/equity', '/temsco/equity/evidence'])
+const RETURN_PATHS = new Set(['/temsco/equity', '/temsco/equity/evidence', '/novel-revision-execute'])
 
 // Next has already decoded the `next` query parameter. Require an exact path
 // before its query/hash; do not normalize or decode a second time.

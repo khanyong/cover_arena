@@ -20,16 +20,17 @@ const list = (value, maximum) => Array.isArray(value) && value.length <= maximum
 
 export function validateBookPdfRequest(body) {
   if (!object(body) || !own(body, 'slug') || !BOOK_ROOT_SLUGS.includes(body.slug)
-    || Object.keys(body).some(key => !['slug', 'options'].includes(key))) {
+    || Object.keys(body).some(key => !['slug', 'options', 'captureId'].includes(key))) {
     throw new BookSnapshotError('INVALID_BOOK_REQUEST', 400);
   }
+  if (body.captureId !== undefined && !hash(body.captureId)) throw new BookSnapshotError('INVALID_BOOK_CAPTURE',400);
   const options = body.options === undefined ? {} : body.options;
   if (!object(options) || Object.keys(options).some(key => !['pageSize', 'fontSize'].includes(key))
     || (own(options, 'pageSize') && !['book', 'A4'].includes(options.pageSize))
     || (own(options, 'fontSize') && ![10, 11, 12].includes(options.fontSize))) {
     throw new BookSnapshotError('INVALID_BOOK_OPTIONS', 400);
   }
-  return { slug: body.slug, options: { pageSize: options.pageSize ?? 'book', fontSize: options.fontSize ?? 11 } };
+  return { slug: body.slug, ...(body.captureId ? {captureId:body.captureId} : {}), options: { pageSize: options.pageSize ?? 'book', fontSize: options.fontSize ?? 11 } };
 }
 
 export function getBookFragmentSlugs(root, slug) {
@@ -106,7 +107,13 @@ async function managedParagraphs(scene, managed) {
       && paragraph.activeVersion === 'review' && id(paragraph.revisionVersionId)
       && paragraph.versions?.review?.revisionVersionId === paragraph.revisionVersionId
       && paragraph.compositionRevisionId === composition.id && paragraph.generation === managed.generation
-      && paragraph.sourceKey === `KO/${managed.source_key}/B${String(index + 1).padStart(4, '0')}`
+      && (managed.bilingual_publication
+        ? managed.bilingual_publication.ko_composition_id === composition.id
+          && managed.bilingual_publication.pairs?.length === managed.paragraphs.length
+          && managed.bilingual_publication.pairs[index]?.ko_unit_id === paragraph.unitId
+          && managed.bilingual_publication.pairs[index]?.ko_version_id === paragraph.revisionVersionId
+          && managed.bilingual_publication.ko_paragraphs?.[index]?.sourceKey === paragraph.sourceKey
+        : paragraph.sourceKey === `KO/${managed.source_key}/B${String(index + 1).padStart(4, '0')}`)
       && paragraph.separatorAfter === (index + 1 < managed.paragraphs.length ? '\n\n' : ''),
     'BOOK_MANAGED_MAPPING_INVALID');
     return selectedParagraph(paragraph);

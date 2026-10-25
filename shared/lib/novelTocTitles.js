@@ -109,5 +109,5 @@ export function buildNovelTocTitles(novel, counterpartNovel, translations = NOVE
 
 // Preserve a newly edited/selected title instead of hiding it behind stale labels.
 export function getTocTitle(entry, currentTitle) {
-  return entry?.sourceTitle === currentTitle ? entry.label : currentTitle;
+  return entry && entry.sourceTitle === currentTitle ? entry.label : currentTitle;
 }

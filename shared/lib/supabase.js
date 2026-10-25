@@ -1,3 +1,5 @@
+import { bookSourceFingerprint, assembleBookActs } from './novelBookSnapshot.mjs'
+import { rememberBookCapture } from './novelBookCaptureSession.js'
 import { createClient } from '@supabase/supabase-js'
 import {
   buildManagedSceneCopyText,
@@ -538,7 +540,40 @@ export const novels = {
       }
     }
 
-    const managedOverlay = await overlayManagedScenes(novel);
+    // Once r01 is jointly published, hydrate the Reader from ONE bilingual DB
+    // capture. Preliminary fragment reads are discarded rather than mixed with it.
+    const jointScene = novel.acts?.flatMap(a => a.chapters || []).flatMap(c => c.scenes || [])
+      .find(s => s.id === 'b48a4f04' && (s.paragraphs?.some(p => p.bilingualReleaseId)
+        || s.storageModel === 'ros-ko-block-v1' && s.paragraphs?.length === 67));
+    let capturedManaged = null;
+    if (jointScene) {
+      const {data: sessionData} = await supabase.auth.getSession();
+      const actorId = sessionData.session?.user?.id;
+      if (actorId) {
+        const {data: captured, error: captureError} = await supabase.rpc('ros_bilingual_capture_book');
+        const root = captured?.documents?.find(d => d.id === slug && d.slug === slug);
+        // Existing EN-only readers keep their access; they cannot capture KO.
+        const bothRoots = captured?.documents?.filter(d => ['quantum-vibration-novel','quantum-vibration-novel-en'].includes(d.id)).length === 2;
+        if (captureError && slug === 'quantum-vibration-novel') return {data:null,error:captureError};
+        if (!captureError && root && bothRoots) {
+          const captureId=await bookSourceFingerprint(captured);
+          const fragments = structuredClone(captured.documents.filter(d => d.slug.startsWith(slug + '-act-')));
+          Object.assign(novel,structuredClone(root.data));
+          novel.acts = assembleBookActs(root, fragments, slug);
+          capturedManaged = new Map(captured.managed.map(m => [m.managed_scene_id,m]));
+          for (const fragment of fragments) for (const chapter of fragment.data.chapters || []) for (const scene of chapter.scenes || []) {
+            if (scene.storageModel === 'ros-ko-block-v1') {
+              scene.managedDocumentId=fragment.id;scene.managedDocumentSlug=fragment.slug;
+              const managed=capturedManaged.get(scene.managedSceneId);
+              if (!managed) return {data:null,error:managedReaderError('BILINGUAL_CAPTURE_INCOMPLETE','공동 판본을 다시 불러와 주세요.')};
+              applyManagedSceneResult(scene,managed);
+            }
+          }
+          novel.bilingualCaptureId=captureId;rememberBookCapture(actorId,captureId);
+        }
+      }
+    }
+    const managedOverlay = capturedManaged ? {data:novel,error:null} : await overlayManagedScenes(novel);
     if (managedOverlay.error) {
       return {
         data: null,
