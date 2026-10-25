@@ -39,6 +39,6 @@ export default function RevisionExecute(){
  {context&&<p className="my-4">{context.proposal.proposal_id} · 리비전 {context.proposal.proposal_revision} · 결과 {context.plan.result_pairs.length}쌍 · 변경 밖 {context.plan.retained_pairs}쌍</p>}
  <p role="status" className="my-4 whitespace-pre-wrap">{message}</p>
  <pre className="whitespace-pre-wrap break-all">{JSON.stringify(publication||release&&{release_id:release.release_id,en_snapshot_id:release.en_snapshot_id,ko_composition_id:release.ko_composition_id},null,2)}</pre>
- <p className="mt-6"><Link href="/novel/quantum-vibration-novel/en#scene-b48a4f04">영문 Reader</Link> · <Link href="/novel/quantum-vibration-novel#scene-b48a4f04">국문 Reader</Link></p>
+ <p className="mt-6"><Link href={`/novel/quantum-vibration-novel/en#scene-${context?.baseline?.managed_scene?.scene_id || "b48a4f04"}`}>영문 Reader</Link> · <Link href={`/novel/quantum-vibration-novel#scene-${context?.baseline?.managed_scene?.scene_id || "b48a4f04"}`}>국문 Reader</Link></p>
  </main>;
 }

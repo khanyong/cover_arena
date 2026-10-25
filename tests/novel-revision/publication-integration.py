@@ -45,7 +45,10 @@ class Publication(unittest.TestCase):
  def test_03_joint_publish_preserves_later_edit(self):
   status,r=rpc('ros_bilingual_publish',self.request);self.assertEqual(status,200,r);self.assertEqual(r['status'],'PUBLISHED')
   type(self).published=r;(d.P/'published.json').write_text(json.dumps(r))
-  self.assertEqual(sql("select string_agg(jsonb_array_length(data#>'{chapters,1,scenes,0,paragraphs}')::text,',' order by id) from public.novel_documents where id like '%act-2'"),'67,67')
+  manifest=json.loads((d.P/'fixture.manifest.json').read_text())
+  path=','.join(manifest['managed_scene']['scene_path']+['paragraphs'])
+  size=str(len(d.plan['result_pairs']))
+  self.assertEqual(sql("select string_agg(jsonb_array_length(data#>'{"+path+"}')::text,',' order by id) from public.novel_documents where id like '%act-2'"),size+','+size)
   self.assertEqual(sql("select data->>'otherScene' from public.novel_documents where id='quantum-vibration-novel-en-act-2'"),'later edit retained')
   self.assertEqual(sql('select review_composition_id::text from public.ko_scene_display_selections'),r['ko_composition_id'])
   self.assertEqual(sql('select id::text from public.revision_snapshots where is_primary_working'),r['en_snapshot_id'])

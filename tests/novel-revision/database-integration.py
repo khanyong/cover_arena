@@ -86,25 +86,26 @@ class Integration(unittest.TestCase):
   result=results[0][1];self.assertEqual(result['status'],'PRIVATE_STAGED')
   type(self).release=result['release_id']
   status,r=rpc('ros_bilingual_read_staged',{'p_release_id':self.release});self.assertEqual(status,200,r)
-  self.assertEqual(len(r['pairs']),67)
+  self.assertEqual(len(r['pairs']),len(plan['result_pairs']))
   for actual,expected in zip(r['pairs'],plan['result_pairs']):
    for l in ['en','ko']:
     original=expected['original'][l] if expected['kind']=='retained' else expected[l]
     self.assertEqual(actual[l+'_body'],original['body'])
     if expected['kind']=='retained':
      self.assertEqual(actual[l+'_unit_id'],original['unit_id']);self.assertEqual(actual[l+'_version_id'],original['version_id'])
-  for change in ['R05','R07']:
-   index=next(i for i,pair in enumerate(plan['result_pairs']) if pair.get('change_key')==change)
-   old=next(item for item in plan['lineage'] if item['change_key']==change)['predecessor_pairs'][0]
-   actual=r['pairs'][index]
-   self.assertEqual(actual['alignment_id'],old['alignment_id'])
-   for lang in ['en','ko']:
-    self.assertEqual(actual[lang+'_unit_id'],old[lang+'_unit_id'])
-    self.assertNotEqual(actual[lang+'_version_id'],old[lang+'_version_id'])
-    self.assertEqual(sql("select change_type||':'||base_version_id from public.paragraph_versions where id='"+actual[lang+'_version_id']+"'"),'rewrite:'+old[lang+'_version_id'])
-    self.assertEqual(sql("select relation_type from public.paragraph_version_lineage where child_version_id='"+actual[lang+'_version_id']+"'"),'rewritten_from')
+  for lineage in plan['lineage']:
+   if len(lineage['predecessor_pairs'])!=len(lineage['successor_keys']):continue
+   for key,old in zip(lineage['successor_keys'],lineage['predecessor_pairs']):
+    index=next(i for i,pair in enumerate(plan['result_pairs']) if pair.get('local_pair_key')==key)
+    actual=r['pairs'][index]
+    self.assertEqual(actual['alignment_id'],old['alignment_id'])
+    for lang in ['en','ko']:
+     self.assertEqual(actual[lang+'_unit_id'],old[lang+'_unit_id'])
+     self.assertNotEqual(actual[lang+'_version_id'],old[lang+'_version_id'])
+     self.assertEqual(sql("select change_type||':'||base_version_id from public.paragraph_versions where id='"+actual[lang+'_version_id']+"'"),'rewrite:'+old[lang+'_version_id'])
+     self.assertEqual(sql("select relation_type from public.paragraph_version_lineage where child_version_id='"+actual[lang+'_version_id']+"'"),'rewritten_from')
   before=json.loads(self.before);after=json.loads(counts())
-  self.assertEqual(after['versions']-before['versions'],22);self.assertEqual(after['units']-before['units'],18)
+  self.assertEqual(after['versions']-before['versions'],2*sum(len(l['successor_keys']) for l in plan['lineage']));self.assertEqual(after['units']-before['units'],2*sum(len(l['successor_keys']) for l in plan['lineage'] if len(l['predecessor_pairs'])!=len(l['successor_keys'])))
   self.assertEqual(after['public_selection'],before['public_selection']);self.assertEqual(after['documents'],before['documents'])
   (P/'readback.json').write_text(json.dumps(r,ensure_ascii=False,indent=2))
  def test_07_lost_response_replay(self):
@@ -138,6 +139,6 @@ class Integration(unittest.TestCase):
   after=json.loads(counts());self.assertEqual(after['versions'],before['versions']);self.assertEqual(after['public_selection'],before['public_selection']);self.assertEqual(after['documents'],before['documents'])
   status,r=rpc('ros_bilingual_restore_staged',restore);self.assertEqual(status,200,r);self.assertTrue(r['replayed'])
   self.assertEqual(json.loads(counts()),after)
-  status,r=rpc('ros_bilingual_read_staged',{'p_release_id':self.release});self.assertEqual(status,200,r);self.assertEqual(len(r['pairs']),67)
+  status,r=rpc('ros_bilingual_read_staged',{'p_release_id':self.release});self.assertEqual(status,200,r);self.assertEqual(len(r['pairs']),len(plan['result_pairs']))
 
 if __name__=='__main__':unittest.main(verbosity=2)
