@@ -1,45 +1,103 @@
-# Bilingual r01 preparation
+# Bilingual r01 preparation and private transactional staging
 
-`bilingual-plan.mjs` is an offline, side-effect-free preparation module for
-ROS-STYLE-PRO-C01-S01-r01. It validates an independently supplied approval digest,
-full captured baseline, seven exact bilingual replacements, ordered alignment,
-retained objects and full-scene before/after SHA-256. It returns a 67-pair plan,
-with separate historical predecessor groups and current bilingual pair keys.
-It never allocates official IDs or relocates comments automatically.
+The original `bilingual-plan.mjs` (d93500a) remains unchanged. It checks exact
+r01 wording and a complete captured baseline and produces the 67-pair plan.
+The new `stageBilingualRevision.mjs` retrieves an independently registered
+approval using the authenticated user's Supabase client, reuses that planner,
+and invokes one database transaction. `POST /api/novel-bilingual-stage` reuses
+the existing `authenticateBookRequest` / `getUser` authentication path.
 
-**This is not a publish API.** `executable: false` and `pending` are intentional.
-The approval digest is a content commitment, not proof of actor authentication.
-A production caller must retrieve an authorized approval record independently;
-it must not trust a digest or actor ID from an HTTP request. Approval remains
-valid from EXEC-01; no further author approval is required for the same wording.
+## Scope and security
 
-## Reproduce with the private review inputs
+This implements **PRIVATE_STAGED**, not public publication. No public Reader
+projection, primary working snapshot, or KO display selection is advanced.
+No production approval or manuscript is seeded by the migration. A reviewed
+approval-registration step remains necessary in production; the only included
+registrar is an explicitly nonproduction fixture generator.
 
-Set ROS_R01_PROPOSAL to the original CHANGESET JSON and ROS_R01_MANIFEST to the
-reviewed REVIEW-MANIFEST.json. The verified r01 content digest is:
-`823cf88be9224b3b54ca4b92b58eff19e0445507bad3a45f6c7509e48387826f`.
-Set ROS_R01_APPROVAL_DIGEST to that value, then run:
+The database independently verifies auth.uid(), JWT expiry/non-anonymous login,
+existing KO scene rewrite capability, EN project ownership, and the actor bound
+to an immutable approval record. Clients cannot write approval records. Request
+actor IDs, service-role fallbacks and transaction claim injection are absent.
+The proposal must equal the separately registered approved proposal. The server
+also rechecks the original canonical content digest and stored plan.
+
+Locks cover current snapshots/maps/alignments, both documents and KO selection.
+Under those locks, current official versions, hashes, separators and selection
+are compared again. Whole-document drift returns PT409. SQLSTATE 40001 is not
+used for editorial conflicts because PostgREST automatically retries it.
+
+One transaction creates 22 new language-specific Units/Versions, full merge
+lineage, 11 current one-to-one alignments, a 67-block sealed KO composition,
+a private EN snapshot, audit records, unresolved historical-anchor records,
+and one PRIVATE selection. Existing 56 pairs retain their Units/Versions.
+Retries bind actor + request UUID to the entire payload; a unique approval
+release prevents duplicate versions even under different retry UUIDs.
+
+`ros_bilingual_read_staged(release_id)` returns both languages from one fixed
+release and rejects version-body drift. It does not change the existing Reader.
+`ros_bilingual_restore_staged` atomically clears the private selection back to
+the untouched bilingual baseline, with generation conflict and retry checks.
+All historical versions and staged editions remain readable to the authorized
+owner. Production restore/publication and automatic comment relocation are not
+implemented. Merged anchors are explicitly marked MANUAL_REVIEW_REQUIRED.
+
+## Local verification
+
+Real PostgreSQL 15.8, GoTrue 2.196.0 and PostgREST 12.2.11 run in a separately
+labelled Docker network/container, using synthetic locally registered users.
+No production database is used as a test environment. Manuscript fixtures,
+tokens, passwords, and SQL seed output are stored outside this worktree.
+`fixture-schema.sql` supplies the minimum prerequisite revision schema; the
+actual existing KO schema migration and new staging migration are loaded.
+This is not proof of full production-schema or production-RLS parity.
+
+The initial container uses the already installed official image:
+`public.ecr.aws/supabase/postgres:15.8.1.073`, network `ros-exec02-test`, label
+`ros.scope=exec02-nonproduction`, isolated database `ros_exec02`, and a locally
+generated password. No existing containers/volumes were deleted. Subsequent
+runs create fresh databases, preserving earlier failed-run evidence.
+
+Set private input paths and local run environment (example run3):
 
 ```
+ROS_EXEC02_DB=ros_exec02_run3
+ROS_EXEC02_AUTH=http://127.0.0.1:55439
+ROS_EXEC02_REST=http://127.0.0.1:55440
+ROS_EXEC02_FIXTURE_DIR=/absolute/private/ros-style-exec02-integration/run3
+ROS_R01_MANIFEST=/absolute/private/REVIEW-MANIFEST.json
+ROS_R01_PROPOSAL=/absolute/private/CHANGESET-r01.dom.json
+ROS_R01_APPROVAL_DIGEST=823cf88be9224b3b54ca4b92b58eff19e0445507bad3a45f6c7509e48387826f
+```
+
+Export these variables. On a fresh run (fails rather than deleting existing DB):
+
+```
+python3 tests/novel-revision/start-local-run.py
+# Verify the local Auth /health endpoint is ready.
+python3 tests/novel-revision/prepare-run.py
+python3 tests/novel-revision/database-integration.py
+node --test tests/novel-revision/server-integration.test.mjs
 node --test tests/novel-revision/bilingual-plan.test.mjs
-node scripts/novel-revision/preflight-r01.mjs proposal.json expected.json current.json APPROVAL_SHA256 plan.json
 ```
 
-Missing fixtures fail rather than silently skip. Manuscript fixtures are not
-copied into the application bundle. CLI output uses exclusive creation to avoid
-overwriting previous evidence. Tests use the captured baseline, not a fresh
-production read. A successful plan is not authority to write it to production.
+`start-local-run.py` requires the labelled initial test container and the private
+`local-secrets.json` from its setup; it cannot create or change production access.
+`server-integration.test.mjs` currently targets run3's fixed loopback ports.
+DB tests deliberately install and remove a **test-only** insert-failure trigger
+in the labelled disposable database. There is no production failure-injection
+parameter or bypass. A discarded success response is replayed through HTTP.
 
-## Remaining integration
+## Remaining release gates
 
-- Authenticated EN and KO scene capability checks and independent approval lookup.
-- Transactional re-read/lock, normal Unit/Version allocation, composition,
-  explicit 1:1 alignment, audit and bilingual publication in one transaction.
-- Durable idempotency and conflict handling for whole-document/head changes.
-- Historical review anchors and explicit unresolved-anchor records.
-- Reader/comparison/export edition pinning; real database failure and rollback
-  tests; authenticated production read-back and regenerated PDF/EPUB tests.
+- Production-schema parity, independent migration/code review, and controlled
+  approval registration backed by the already valid EXEC-01 decision.
+- Public atomic selection plus Reader/comparison/cache/PDF/EPUB edition pinning.
+- Complete T01–T12 (including expired real sessions, concurrent editor races,
+  projection-failure injection, real anchors and production output checks).
+- Production deployment, authorized r01 application, and output read-back.
 
-Do not call the existing KO-only single-block rewrite sequentially to simulate
-this transaction. Do not change managed documents through administrative SQL.
-No migration, endpoint, RLS change or production mutation is included here.
+Do not interpret successful private staging as RELEASED. The existing author
+approval remains valid; no new wording revision or repeat author approval is
+required. Do not use KO-only sequential writes or administrative projection
+SQL to bypass the remaining release gates.
