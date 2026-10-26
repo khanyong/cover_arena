@@ -1,3 +1,4 @@
+import { loadNovelActFragments } from './loadNovelActFragments.mjs'
 import { loadBilingualCapture } from './loadBilingualCapture.mjs'
 import { bookSourceFingerprint, assembleBookActs, getBookFragmentSlugs } from './novelBookSnapshot.mjs'
 import { rememberBookCapture } from './novelBookCaptureSession.js'
@@ -442,10 +443,7 @@ export const novels = {
     if (novel && novel.acts && novel.acts.length > 0) {
       const actSlugs = novel.acts.map(act => `${slug}-act-${act.number}`);
       
-      const { data: actRows, error: actError } = await supabase
-        .from('novel_documents')
-        .select('id, slug, data')
-        .in('slug', actSlugs);
+      const { data: actRows, error: actError } = await loadNovelActFragments(supabase, actSlugs);
 
       if (actError) {
         return {
