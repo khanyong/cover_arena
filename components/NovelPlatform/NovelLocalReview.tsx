@@ -8,7 +8,7 @@ import {supabase} from '../../shared/lib/supabase';
 import {normalizeDisplayMath,remarkEquationCommentary} from '../../shared/lib/equationCommentary';
 
 function Body({texts}:{texts:string[]}){return <>{texts.map((text,i)=><div key={i} data-review-block style={{marginBottom:18}}>{/^\d+\.$/.test(text.trim())?<p>{text}</p>:<ReactMarkdown remarkPlugins={[remarkMath,remarkEquationCommentary]} rehypePlugins={[rehypeKatex]}>{normalizeDisplayMath(text)}</ReactMarkdown>}</div>)}</>;}
-export default function NovelLocalReview({embedded=false,reviewId}:{embedded?:boolean;reviewId?:string}){
+export default function NovelLocalReview({embedded=false,reviewId,initialLanguage}:{embedded?:boolean;reviewId?:string;initialLanguage?:'en'|'ko'}){
  const router=useRouter();const [review,setReview]=useState<any>(null),[error,setError]=useState(''),[loading,setLoading]=useState(true);
  const [language,setLanguage]=useState('ko'),[mode,setMode]=useState('compare'),[side,setSide]=useState('after'),[only,setOnly]=useState(true),[highlight,setHighlight]=useState(true),[item,setItem]=useState('R01');
  const [comment,setComment]=useState(''),[feedback,setFeedback]=useState('');
@@ -25,7 +25,7 @@ export default function NovelLocalReview({embedded=false,reviewId}:{embedded?:bo
   const response=await fetch(`/api/novel-local-review?id=${encodeURIComponent(id)}`,{method,cache:'no-store',headers:{Authorization:`Bearer ${data.session.access_token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
   const result=await response.json();if(!response.ok)throw new Error(response.status===401?'로그인이 필요합니다.':response.status===403?'이 검토판의 조회 권한이 없습니다.':`검토판을 불러올 수 없습니다 (${result.error}).`);return result;
  };
- useEffect(()=>{if(!router.isReady)return;setLanguage(router.query.lang==='en'?'en':'ko');setMode(['read','bilingual'].includes(String(router.query.mode))?String(router.query.mode):'compare');setSide(router.query.side==='before'?'before':'after');},[router.isReady]);
+ useEffect(()=>{if(!router.isReady)return;setLanguage(initialLanguage||(router.query.lang==='en'?'en':'ko'));setMode(['read','bilingual'].includes(String(router.query.mode))?String(router.query.mode):'compare');setSide(router.query.side==='before'?'before':'after');},[router.isReady]);
  useEffect(()=>{
   if(!router.isReady)return;let active=true;let generation=0;
   const load=async()=>{if(!id){setReview(null);setLoading(false);setError('검토판 목록에서 Scene과 리비전을 선택해 주세요.');return;}const current=++generation;setLoading(true);setReview(null);setError('');try{const r=await request();if(active&&current===generation)setReview(r);}catch(e){if(active&&current===generation)setError(e.message);}finally{if(active&&current===generation)setLoading(false);}};

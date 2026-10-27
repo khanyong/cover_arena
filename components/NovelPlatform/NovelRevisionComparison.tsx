@@ -1,19 +1,36 @@
+import {buildParallelReading} from '../../shared/lib/novelParallelReading';
 import NovelLocalReview from './NovelLocalReview';
 import React, {useEffect,useState} from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import {supabase} from '../../shared/lib/supabase';
+import {supabase,novels} from '../../shared/lib/supabase';
 import {revisionComparisonRows} from '../../shared/lib/novelRevisionComparison.mjs';
 import {remarkEquationCommentary,normalizeDisplayMath} from '../../shared/lib/equationCommentary';
 
-export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}) {
+export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLanguage='ko'}:{managedSceneId?:string;novel?:any;sceneId?:string;initialLanguage?:'en'|'ko'}) {
+ const [resolvedId,setResolvedId]=useState(managedSceneId||'');
+ const [resolutionError,setResolutionError]=useState('');
+ useEffect(()=>{
+  let active=true;setResolvedId(managedSceneId||'');setResolutionError('');
+  if(!managedSceneId && novel?.slug==='quantum-vibration-novel-en' && sceneId){
+   void novels.getNovelBySlug('quantum-vibration-novel').then(({data,error}:any)=>{
+    if(error||!data)throw new Error('국문 대응 장면을 불러오지 못했습니다.');
+    buildParallelReading({novel,sceneId,counterpartNovel:data});
+    const matches=data.acts.flatMap(a=>a.chapters.flatMap(c=>c.scenes)).filter(s=>s.id===sceneId);
+    if(matches.length!==1||!matches[0].managedSceneId)throw new Error('대응 장면의 공식 이력 식별자를 확인할 수 없습니다.');
+    if(active)setResolvedId(matches[0].managedSceneId);
+   }).catch(e=>{if(active)setResolutionError(e.message);});
+  }
+  return()=>{active=false;};
+ },[managedSceneId,novel,sceneId]);
  const [localDraft,setLocalDraft]=useState('');
  const [retry,setRetry]=useState(0);
  const [history,setHistory]=useState<any[]>([]),[selected,setSelected]=useState('');
- const [language,setLanguage]=useState('en'),[changesOnly,setChangesOnly]=useState(true);
+ const [language,setLanguage]=useState<string>(initialLanguage),[changesOnly,setChangesOnly]=useState(true);
  const [error,setError]=useState(''),[loading,setLoading]=useState(true);
  useEffect(()=>{
+  if(!resolvedId)return;
   let active=true;setLoading(true);setHistory([]);setSelected('');setError('');
   setLocalDraft('');
   void (async()=>{
@@ -24,18 +41,20 @@ export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}
      const response=await fetch('/api/novel-local-review?list=1',{headers:{Authorization:`Bearer ${data.session.access_token}`},cache:'no-store'});
      if(!response.ok)throw new Error(`로컬 검토판 조회에 실패했습니다 (${response.status}). 다시 불러오기를 눌러 주세요.`);
      const result=await response.json();
-     const draft=result.reviews.find(r=>r.managedSceneId===managedSceneId);
+     const draft=result.reviews.find(r=>r.managedSceneId===resolvedId);
      if(draft){if(active)setLocalDraft(draft.id);return;}
     }
-    const {data,error}=await supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:managedSceneId});
+    const {data,error}=await supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:resolvedId});
     if(error)throw new Error('이력 조회가 불가능합니다. 로그인·접근권한 및 비교 기능 적용 상태를 확인해 주세요.');
     if(active){setHistory(data||[]);setSelected(data?.[0]?.id||'');}
    }catch(error){if(active)setError(error instanceof Error?error.message:'이력을 불러오지 못했습니다.');}
    finally{if(active)setLoading(false);}
   })();
   return()=>{active=false;};
- },[managedSceneId,retry]);
- if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft}/>;
+ },[resolvedId,retry]);
+ if(resolutionError)return <p role="alert">{resolutionError}</p>;
+ if(!resolvedId)return <p role="status">대응 장면의 수정 이력을 확인하고 있습니다…</p>;
+ if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft} initialLanguage={initialLanguage}/>;
  const publication=history.find(p=>p.id===selected);
  let rows:any[]=[];let mappingError=false;
  try{if(publication)rows=revisionComparisonRows(publication,language);}catch{mappingError=true;}
