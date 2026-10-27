@@ -1,30 +1,67 @@
+import {buildParallelReading} from '../../shared/lib/novelParallelReading';
+import NovelLocalReview from './NovelLocalReview';
 import React, {useEffect,useState} from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import {supabase} from '../../shared/lib/supabase';
+import {supabase,novels} from '../../shared/lib/supabase';
 import {revisionComparisonRows} from '../../shared/lib/novelRevisionComparison.mjs';
 import {remarkEquationCommentary,normalizeDisplayMath} from '../../shared/lib/equationCommentary';
 
-export function NovelRevisionComparison({managedSceneId}:{managedSceneId:string}) {
- const [history,setHistory]=useState<any[]>([]),[selected,setSelected]=useState('');
- const [language,setLanguage]=useState('en'),[changesOnly,setChangesOnly]=useState(true);
- const [error,setError]=useState(''),[loading,setLoading]=useState(true);
- useEffect(()=>{let active=true;setLoading(true);setHistory([]);setSelected('');setError('');
-  Promise.resolve(supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:managedSceneId})).then(({data,error})=>{
-   if(!active)return;
-   if(error)setError('이력 조회가 불가능합니다. 로그인·접근권한 및 비교 기능 적용 상태를 확인해 주세요.');
-   else {setHistory(data||[]);setSelected(data?.[0]?.id||'');}setLoading(false);
-  }).catch(()=>{if(active){setError('이력을 불러오지 못했습니다.');setLoading(false);}});
+export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLanguage='ko'}:{managedSceneId?:string;novel?:any;sceneId?:string;initialLanguage?:'en'|'ko'}) {
+ const [resolvedId,setResolvedId]=useState(managedSceneId||'');
+ const [resolutionError,setResolutionError]=useState('');
+ useEffect(()=>{
+  let active=true;setResolvedId(managedSceneId||'');setResolutionError('');
+  if(!managedSceneId && novel?.slug==='quantum-vibration-novel-en' && sceneId){
+   void novels.getNovelBySlug('quantum-vibration-novel').then(({data,error}:any)=>{
+    if(error||!data)throw new Error('국문 대응 장면을 불러오지 못했습니다.');
+    buildParallelReading({novel,sceneId,counterpartNovel:data});
+    const matches=data.acts.flatMap(a=>a.chapters.flatMap(c=>c.scenes)).filter(s=>s.id===sceneId);
+    if(matches.length!==1||!matches[0].managedSceneId)throw new Error('대응 장면의 공식 이력 식별자를 확인할 수 없습니다.');
+    if(active)setResolvedId(matches[0].managedSceneId);
+   }).catch(e=>{if(active)setResolutionError(e.message);});
+  }
   return()=>{active=false;};
- },[managedSceneId]);
+ },[managedSceneId,novel,sceneId]);
+ const [localDraft,setLocalDraft]=useState('');
+ const [retry,setRetry]=useState(0);
+ const [history,setHistory]=useState<any[]>([]),[selected,setSelected]=useState('');
+ const [language,setLanguage]=useState<string>(initialLanguage),[changesOnly,setChangesOnly]=useState(true);
+ const [error,setError]=useState(''),[loading,setLoading]=useState(true);
+ useEffect(()=>{
+  if(!resolvedId)return;
+  let active=true;setLoading(true);setHistory([]);setSelected('');setError('');
+  setLocalDraft('');
+  void (async()=>{
+   try{
+    if(process.env.NODE_ENV==='development'&&['localhost','127.0.0.1','[::1]'].includes(window.location.hostname)){
+     const {data}=await supabase.auth.getSession();
+     if(!data.session)throw new Error('로그인 후 검토판을 다시 불러와 주세요.');
+     const response=await fetch('/api/novel-local-review?list=1',{headers:{Authorization:`Bearer ${data.session.access_token}`},cache:'no-store'});
+     if(!response.ok)throw new Error(`로컬 검토판 조회에 실패했습니다 (${response.status}). 다시 불러오기를 눌러 주세요.`);
+     const result=await response.json();
+     const draft=result.reviews.find(r=>r.managedSceneId===resolvedId);
+     if(draft){if(active)setLocalDraft(draft.id);return;}
+    }
+    const {data,error}=await supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:resolvedId});
+    if(error)throw new Error('이력 조회가 불가능합니다. 로그인·접근권한 및 비교 기능 적용 상태를 확인해 주세요.');
+    if(active){setHistory(data||[]);setSelected(data?.[0]?.id||'');}
+   }catch(error){if(active)setError(error instanceof Error?error.message:'이력을 불러오지 못했습니다.');}
+   finally{if(active)setLoading(false);}
+  })();
+  return()=>{active=false;};
+ },[resolvedId,retry]);
+ if(resolutionError)return <p role="alert">{resolutionError}</p>;
+ if(!resolvedId)return <p role="status">대응 장면의 수정 이력을 확인하고 있습니다…</p>;
+ if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft} initialLanguage={initialLanguage}/>;
  const publication=history.find(p=>p.id===selected);
  let rows:any[]=[];let mappingError=false;
  try{if(publication)rows=revisionComparisonRows(publication,language);}catch{mappingError=true;}
  return <section style={{scrollMarginTop:420}} aria-label="수정 전후 비교" className="my-4 rounded-xl border border-sky-700 bg-zinc-950 p-4 text-zinc-200">
   <h5 className="font-bold">수정 전 · 수정 후 비교</h5>
   <p className="text-xs text-zinc-400 my-2">조회만 수행합니다. 과거판을 선택해도 현재 게시 문안은 바뀌지 않습니다.</p>
-  {loading?<p role="status">이력을 불러오는 중…</p>:error?<p role="alert">{error}</p>:!history.length?<p>아직 비교할 공동 게시 이력이 없습니다.</p>:<>
+  {loading?<p role="status">이력을 불러오는 중…</p>:error?<div role="alert">{error} <button type="button" className="underline text-sky-300" onClick={()=>setRetry(n=>n+1)}>다시 불러오기</button></div>:!history.length?<p>아직 비교할 공동 게시 이력이 없습니다.</p>:<>
    <div className="flex flex-wrap gap-3 my-3">
     <label>비교 판본 <select aria-label="비교 판본" value={selected} onChange={e=>setSelected(e.target.value)} className="bg-zinc-800 p-2 rounded">{history.map(p=><option key={p.id} value={p.id}>r{p.revision} · {new Date(p.created_at).toLocaleString()} · {p.current?'현재 게시판':'과거 게시 이력'}</option>)}</select></label>
     <label>언어 <select aria-label="비교 언어" value={language} onChange={e=>setLanguage(e.target.value)} className="bg-zinc-800 p-2 rounded"><option value="en">English</option><option value="ko">한국어</option></select></label>

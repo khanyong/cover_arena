@@ -1202,7 +1202,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                           setCommentPanelSceneId(scene.id);
                           requestAnimationFrame(() => document.querySelector('[aria-label="Scene 검토 코멘트 목록"]')?.scrollIntoView({ behavior: 'smooth', block: 'center' }));
                         }} className="shrink-0 text-xs px-3 py-1 rounded border border-blue-500/30 text-blue-300 bg-blue-500/10">Scene 검토본 · 지침/코멘트 {reviewComments.filter(c => c.managed_scene_id === scene.managedSceneId && !['resolved', 'withdrawn'].includes(c.status)).length} · 다운로드</button>}
-                        {scene.managedSceneId && <button type="button" aria-pressed={revisionSceneId === scene.id} onClick={()=>setRevisionSceneId(revisionSceneId===scene.id?null:scene.id)} className="rounded border border-sky-500 px-3 py-1 text-xs text-sky-200">수정 전후 비교</button>}
+                        {(scene.managedSceneId || novel.slug === 'quantum-vibration-novel-en') && <button type="button" aria-pressed={revisionSceneId === scene.id} onClick={()=>setRevisionSceneId(revisionSceneId===scene.id?null:scene.id)} className="rounded border border-sky-500 px-3 py-1 text-xs text-sky-200">수정 전후 비교</button>}
                         {canCompareNovel && <button type="button" aria-pressed={comparisonSceneId === scene.id} onClick={() => comparisonSceneId === scene.id ? closeBilingualComparison(scene) : openBilingualComparison(scene)} className="shrink-0 rounded border border-sky-500/40 bg-sky-500/10 px-3 py-1 text-xs text-sky-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-sky-400">{comparisonSceneId === scene.id ? '한 언어로 읽기' : '영한 비교'}</button>}
                         <button
                           type="button"
@@ -1230,7 +1230,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
-                      {revisionSceneId === scene.id && scene.managedSceneId && <NovelRevisionComparison key={scene.managedSceneId} managedSceneId={scene.managedSceneId} />}
+                      {revisionSceneId === scene.id && <NovelRevisionComparison key={`${novel.slug}:${scene.id}`} managedSceneId={scene.managedSceneId} novel={novel} sceneId={scene.id} initialLanguage={novel.slug.endsWith('-en') ? 'en' : 'ko'} />}
                       {comparisonSceneId === scene.id && canCompareNovel ? <div className="space-y-3">
                       <div className="flex flex-wrap items-center gap-2 rounded border border-zinc-700 p-2 text-xs text-zinc-200">
                         <label htmlFor={`comparison-navigation-${scene.id}`}>비교하며 Scene 이동</label>
