@@ -1,11 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
-const dir=process.env.ROS_EXEC02_FIXTURE_DIR;
-const input=JSON.parse(readFileSync(dir+'/fixture.request.json'));
-const body={request_id:input.p_request_id,approval_id:input.p_approval_id,proposal:input.p_proposal};
-const endpoint='http://127.0.0.1:3003/api/novel-bilingual-stage';
-const token=name=>JSON.parse(readFileSync(dir+'/'+name+'-session.json')).access_token;
+import {loadHttpFixture} from './http-fixture.mjs';
+const {body,endpoint,tokens}=loadHttpFixture();
+const token=name=>tokens[name];
 const send=(name,payload=body)=>fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json',...(name?{Authorization:'Bearer '+token(name)}:{})},body:JSON.stringify(payload)});
 test('actual Next HTTP route: method restriction',async()=>assert.equal((await fetch(endpoint)).status,405));
 test('actual Next HTTP route: no authentication',async()=>assert.equal((await send(null)).status,401));
