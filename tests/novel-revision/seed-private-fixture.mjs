@@ -8,8 +8,9 @@ const m=JSON.parse(readFileSync(manifestFile)), proposal=JSON.parse(readFileSync
 const q=x=>x===null?'null':"'"+String(typeof x==='object'?JSON.stringify(x):x).replaceAll("'","''")+"'";
 const sql=[];const insert=(table,row)=>sql.push(`insert into ${table}(${Object.keys(row).join(',')}) values(${Object.values(row).map(q).join(',')});`);
 const en=m.en_snapshot.project_id, ko=m.managed_scene.logical_project_id;
+const koDocument=m.managed_scene.document_id, enDocument=koDocument.replace('quantum-vibration-novel-','quantum-vibration-novel-en-');
 m.managed_scene.owner_id=sceneOwner; m.selection.updated_by=actor;m.composition.created_by=actor;
-for(const [id,project] of [['quantum-vibration-novel-en-act-2',en],['quantum-vibration-novel-act-2',ko]]) {
+for(const [id,project] of [[enDocument,en],[koDocument,ko]]) {
  insert('public.novel_documents',{id,slug:id,title:'PRIVATE TEST',data:{number:2,chapters:[...Array.from({length:Number(m.managed_scene.scene_path[1])},(_,i)=>({id:'untouched-chapter-'+i,number:i+1,scenes:[]})),{id:'test-chapter',number:Number(m.managed_scene.scene_path[1])+1,scenes:[{id:m.managed_scene.scene_id,...(project===ko?{storageModel:'ros-ko-block-v1',managedSceneId:m.managed_scene.id}:{}),paragraphs:m.ordered_alignment.map(r=>{const x=r[project===en?'en':'ko'];return {id:x.unit_id,unitId:x.unit_id,revisionVersionId:x.version_id,activeVersion:'review',versions:{review:{version:'review',content:x.body}}};})}]}],otherScene:'preserve me'}});
  insert('public.revision_projects',{id:project,slug:project,title:'PRIVATE TEST',source_document_id:id,owner_id:actor});
 }
@@ -37,6 +38,6 @@ sql.push(`update public.ko_scene_composition_revisions set manifest_sha256=publi
 insert('public.ko_scene_display_selections',{...m.selection,legacy_archive_id:null});
 // Head hashes below are PostgreSQL JSONB hashes. Update the captured baseline
 // fixture using the same canonical representation, never production documents.
-sql.push(`select jsonb_build_object('documents',(select jsonb_agg(jsonb_build_object('id',id,'document_sha256',public.ros_ko_sha256_text(data::text))) from public.novel_documents where id in ('quantum-vibration-novel-en-act-2','quantum-vibration-novel-act-2')),'composition',(select to_jsonb(c) from public.ko_scene_composition_revisions c where id=${q(comp.id)})) as fixture_state;`);
+sql.push(`select jsonb_build_object('documents',(select jsonb_agg(jsonb_build_object('id',id,'document_sha256',public.ros_ko_sha256_text(data::text))) from public.novel_documents where id in (${q(enDocument)},${q(koDocument)})),'composition',(select to_jsonb(c) from public.ko_scene_composition_revisions c where id=${q(comp.id)})) as fixture_state;`);
 writeFileSync(outputPrefix+'.sql',sql.join('\n')+'\n');
 writeFileSync(outputPrefix+'.manifest.json',JSON.stringify(m));
