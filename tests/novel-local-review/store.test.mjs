@@ -27,12 +27,12 @@ test('immutable retry, restart read, wrong user and corruption',async()=>{const 
 test('catalog filters users, separates scenes and comments persist',async()=>{
  const {listReviews,addComment,readComments}=await import('../../lib/novel-local-review/store.mjs');
  const root=await mkdtemp(join(tmpdir(),'ros-catalog-'));try{
-  for(const id of ['PRO-C02-S02-r01','PRO-C03-S01-r01','A0-C01-S01-r01','A1-C01-S01-r01','A2-C01-S01-r01','A3-C01-S01-r01']){
+  for(const id of ['PRO-C02-S02-r01','PRO-C03-S01-r01','A0-C01-S01-r01','A1-C01-S01-r01','A2-C01-S01-r01','A3-C01-S01-r01','A4-C01-S01-r01']){
    const dir=join(root,id);await mkdir(dir);const payload=buildDraft(report(),baseline),files={};
    for(const name of ['before','after','rows']){const raw=JSON.stringify(payload[name]);files[name]=sha(raw);await immutable(join(dir,name+'.json'),raw);}
    await writeFile(join(dir,'manifest.json'),JSON.stringify({id,scene:id.slice(0,11),baselineId:'fixed',title:id,allowedUserIds:['author'],files}));
   }
-  assert.equal((await listReviews('author',root)).length,6);assert.deepEqual(await listReviews('reader',root),[]);
+  assert.equal((await listReviews('author',root)).length,7);assert.deepEqual(await listReviews('reader',root),[]);
   assert.equal((await readReview('A0-C01-S01-r01','author',root)).after[0].en,'Combined');
   const r=await readReview('PRO-C02-S02-r01','author',root);await addComment(r,'author',{item:'R01',text:'storage test'},root);
   assert.equal((await readComments(r.manifest.id,root))[0].baseline,'fixed');assert.equal((await readComments('PRO-C03-S01-r01',root)).length,0);
@@ -45,3 +45,5 @@ test('Act one identifiers retain strict path validation',()=>{assert.equal(safeI
 test('Act two review IDs allow the requested scene while rejecting malformed paths',()=>{assert.equal(safeId('A2-C01-S01-r01'),'A2-C01-S01-r01');for(const id of ['A2-C01-S01-r01/..','A2-C1-S01-r01','A20-C01-S01-r01'])assert.throws(()=>safeId(id),/INVALID/);});
 
 test('Act three IDs retain strict path validation',()=>{assert.equal(safeId('A3-C01-S01-r01'),'A3-C01-S01-r01');for(const id of ['A3-C01-S01-r01/..','A3-C1-S01-r01','A30-C01-S01-r01'])assert.throws(()=>safeId(id),/INVALID/);});
+
+test('Act four IDs retain strict path validation',()=>{assert.equal(safeId('A4-C01-S01-r01'),'A4-C01-S01-r01');for(const id of ['A4-C01-S01-r01/..','A4-C1-S01-r01','A40-C01-S01-r01'])assert.throws(()=>safeId(id),/INVALID/);});
