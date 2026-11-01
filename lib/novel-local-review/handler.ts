@@ -1,5 +1,5 @@
 import {versionView,finalize} from './finalVersions.mjs';
-import {readDecisions,saveDecision} from './decisions.mjs';
+import {readDecisions,saveDecision,saveBilingualDecision} from './decisions.mjs';
 import {authenticateBookRequest} from '../novel-book/loadBookSnapshot.mjs';
 import {localRequest,readReview,readComments,addComment,listReviews,listReadingOrder} from './store.mjs';
 export default async function handler(req,res){
@@ -43,6 +43,7 @@ export default async function handler(req,res){
   if(error||!data)return res.status(403).json({error:'REVIEW_ACCESS_DENIED'});
   if(req.method==='POST'){
    if(req.headers.origin!==`http://${req.headers.host}`)return res.status(403).json({error:'ORIGIN_DENIED'});
+   if(req.body?.action==='bilingual-decision')return res.json(versionView(review,await saveBilingualDecision(review,userId,req.body)));
    if(req.body?.action==='decision')return res.json(versionView(review,await saveDecision(review,userId,req.body)));
    if(['confirm-language','adopt-bilingual'].includes(req.body?.action))return res.json(versionView(review,await finalize(review,userId,req.body)));
    return res.json(await addComment(review,userId,req.body));
