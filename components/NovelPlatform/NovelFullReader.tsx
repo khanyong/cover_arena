@@ -1240,11 +1240,11 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         <button type="button" disabled={allScenes[0]?.id === scene.id} onClick={() => navigateBilingualComparison(allScenes[allScenes.findIndex(item => item.id === scene.id) - 1]?.id)} className="rounded border border-zinc-700 px-3 py-2 disabled:opacity-40">이전 Scene</button>
                         <button type="button" disabled={allScenes[allScenes.length - 1]?.id === scene.id} onClick={() => navigateBilingualComparison(allScenes[allScenes.findIndex(item => item.id === scene.id) + 1]?.id)} className="rounded border border-zinc-700 px-3 py-2 disabled:opacity-40">다음 Scene</button>
                       </div>
-                      {isComparableScene(scene) && <div role="group" aria-label="영한 비교 방식" className="flex flex-wrap gap-2 text-xs">
+                      {process.env.NODE_ENV!=='development' && isComparableScene(scene) && <div role="group" aria-label="영한 비교 방식" className="flex flex-wrap gap-2 text-xs">
                         <button type="button" aria-pressed={comparisonMode === 'aligned'} onClick={() => setComparisonMode('aligned')} className={`rounded border px-3 py-2 ${comparisonMode === 'aligned' ? 'border-sky-400 text-sky-200' : 'border-zinc-700 text-zinc-400'}`}>대응 블록 비교</button>
                         <button type="button" aria-pressed={comparisonMode === 'parallel'} onClick={() => setComparisonMode('parallel')} className={`rounded border px-3 py-2 ${comparisonMode === 'parallel' ? 'border-sky-400 text-sky-200' : 'border-zinc-700 text-zinc-400'}`}>문장·단락 나란히 읽기</button>
                       </div>}
-                      {isComparableScene(scene) && comparisonMode === 'aligned' ? <NovelBilingualReader
+                      {process.env.NODE_ENV==='development' ? <NovelRevisionComparison key={`candidate:${scene.id}`} candidateComparison managedSceneId={scene.managedSceneId} novel={novel} sceneId={scene.id} initialLanguage={novel.slug.endsWith('-en')?'en':'ko'}/> : isComparableScene(scene) && comparisonMode === 'aligned' ? <NovelBilingualReader
                         key={comparisonScope}
                         readingOnly={readingOnly}
                         scene={scene}

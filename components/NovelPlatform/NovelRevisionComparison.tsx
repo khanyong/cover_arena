@@ -8,7 +8,7 @@ import {supabase,novels} from '../../shared/lib/supabase';
 import {revisionComparisonRows} from '../../shared/lib/novelRevisionComparison.mjs';
 import {remarkEquationCommentary,normalizeDisplayMath} from '../../shared/lib/equationCommentary';
 
-export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLanguage='ko'}:{managedSceneId?:string;novel?:any;sceneId?:string;initialLanguage?:'en'|'ko'}) {
+export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLanguage='ko',candidateComparison=false}:{candidateComparison?:boolean;managedSceneId?:string;novel?:any;sceneId?:string;initialLanguage?:'en'|'ko'}) {
  const [resolvedId,setResolvedId]=useState(managedSceneId||'');
  const [resolutionError,setResolutionError]=useState('');
  useEffect(()=>{
@@ -44,6 +44,7 @@ export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLan
      const draft=result.reviews.find(r=>r.managedSceneId===resolvedId);
      if(draft){if(active)setLocalDraft(draft.id);return;}
     }
+    if(candidateComparison)return;
     const {data,error}=await supabase.rpc('ros_bilingual_revision_history',{p_managed_scene_id:resolvedId});
     if(error)throw new Error('이력 조회가 불가능합니다. 로그인·접근권한 및 비교 기능 적용 상태를 확인해 주세요.');
     if(active){setHistory(data||[]);setSelected(data?.[0]?.id||'');}
@@ -51,10 +52,11 @@ export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLan
    finally{if(active)setLoading(false);}
   })();
   return()=>{active=false;};
- },[resolvedId,retry]);
+ },[resolvedId,retry,candidateComparison]);
  if(resolutionError)return <p role="alert">{resolutionError}</p>;
  if(!resolvedId)return <p role="status">대응 장면의 수정 이력을 확인하고 있습니다…</p>;
- if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft} initialLanguage={initialLanguage}/>;
+ if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft} initialLanguage={initialLanguage} initialMode={candidateComparison?'correspondence':undefined}/>;
+ if(candidateComparison)return <div role="status">{loading?'저장된 선택·직접 수정 후보를 확인하고 있습니다…':error||'이 장면에 접근 가능한 로컬 검토판이 없습니다. 운영 원문으로 대체하지 않았습니다.'}</div>;
  const publication=history.find(p=>p.id===selected);
  let rows:any[]=[];let mappingError=false;
  try{if(publication)rows=revisionComparisonRows(publication,language);}catch{mappingError=true;}
