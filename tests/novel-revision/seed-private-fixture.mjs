@@ -23,6 +23,12 @@ for(const lang of ['en','ko']) {
  insert('public.paragraph_versions',{id:x.version_id,paragraph_unit_id:x.unit_id,body_markdown:x.body,body_hash:x.sha256,created_by:actor});
  }
 }
+// Reproduce historical alignment references independently from selected versions.
+for(const r of m.ordered_alignment) if(r.alignment_en_version_id && r.alignment_en_version_id!==r.en.version_id) {
+ const h=m.historical_en_versions?.find(v=>v.id===r.alignment_en_version_id);
+ if(!h) throw Error('Historical alignment fixture body required');
+ insert('public.paragraph_versions',{id:h.id,paragraph_unit_id:r.en.unit_id,version_no:2,body_markdown:h.body_markdown,body_hash:h.body_hash,created_by:actor});
+}
 insert('public.revision_snapshots',{id:m.en_snapshot.id,project_id:en,code:'private-test-baseline',name:'private test',is_primary_working:true});
 for(const r of m.ordered_alignment) insert('public.revision_content_map',{snapshot_id:m.en_snapshot.id,unit_id:r.en.unit_id,position:r.position,paragraph_version_id:r.en.version_id,is_included:true});
 const ms={...m.managed_scene};delete ms.scene_path;
@@ -32,7 +38,7 @@ const comp={...m.composition,parent_revision_id:null,status:'assembling',manifes
 sql.push(`insert into public.ko_scene_composition_revisions select * from jsonb_populate_record(null::public.ko_scene_composition_revisions,${q(comp)}::jsonb);`);
 for(const r of m.ordered_alignment) {
  insert('public.ko_scene_composition_blocks',{composition_id:comp.id,position:r.position,block_unit_id:r.ko.unit_id,block_version_id:r.ko.version_id,source_key:`KO/${m.managed_scene.source_key}/B${String(r.position).padStart(4,'0')}`,separator_after:r.ko.separator_after});
- insert('public.ko_en_block_alignments',{id:r.alignment_id,ko_block_unit_id:r.ko.unit_id,managed_scene_id:m.managed_scene.id,en_block_unit_id:r.en.unit_id,en_block_version_id:r.en.version_id,evidence_manifest_sha256:'0'.repeat(64)});
+ insert('public.ko_en_block_alignments',{id:r.alignment_id,ko_block_unit_id:r.ko.unit_id,managed_scene_id:m.managed_scene.id,en_block_unit_id:r.en.unit_id,en_block_version_id:r.alignment_en_version_id || r.en.version_id,evidence_manifest_sha256:'0'.repeat(64)});
 }
 sql.push(`update public.ko_scene_composition_revisions set manifest_sha256=public.ros_ko_sha256_text(public.ros_ko_composition_manifest_text(id)),status='sealed';`);
 insert('public.ko_scene_display_selections',{...m.selection,legacy_archive_id:null});

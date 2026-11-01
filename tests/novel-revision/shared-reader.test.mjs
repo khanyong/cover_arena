@@ -6,6 +6,8 @@ import {loadSceneTranslationComparison} from '../../shared/lib/novelTranslationC
 const dir=process.env.ROS_EXEC02_FIXTURE_DIR,base=process.env.ROS_EXEC02_REST;
 assert.match(base,/^http:\/\/127\.0\.0\.1:554\d\d$/);
 const published=process.env.ROS_EXEC02_PHASE==='published';
+const beforeCount=JSON.parse(readFileSync(dir+'/fixture.manifest.json')).ordered_alignment.length;
+const afterCount=JSON.parse(readFileSync(dir+'/fixture.expected-plan.json')).result_pairs.length;
 const staged=JSON.parse(readFileSync(dir+'/readback.json'));
 const token=JSON.parse(readFileSync(dir+'/reader-session.json')).access_token;
 const rpc=async(name,args={})=>{
@@ -15,9 +17,9 @@ const rpc=async(name,args={})=>{
 const sceneId='13a795ae-456e-4623-9714-b302c9db9585';
 test('shared reader sees only the published KO scene and bilingual book capture',async()=>{
  const {data:scene,error}=await rpc('ros_ko_get_scene',{p_managed_scene_id:sceneId,p_composition_id:null,p_include_legacy:false});
- assert.equal(error,null);assert.equal(scene.paragraphs.length,published?67:79);
+ assert.equal(error,null);assert.equal(scene.paragraphs.length,published?afterCount:beforeCount);
  const capture=await loadBilingualBookCapture({rpc});
- for(const lang of ['EN','KO'])assert.equal(capture.books[lang].counts.paragraphs,published?67:79);
+ for(const lang of ['EN','KO'])assert.equal(capture.books[lang].counts.paragraphs,published?afterCount:beforeCount);
  const history=await rpc('ros_bilingual_revision_history',{p_managed_scene_id:sceneId});
  assert.equal(history.error,null);
  const privateRead=await rpc('ros_bilingual_read_staged',{p_release_id:staged.release_id});
@@ -27,7 +29,7 @@ test('shared reader sees only the published KO scene and bilingual book capture'
   assert.equal(r.error?.code,'42501');
  }else{
   const compared=await loadSceneTranslationComparison({client:{rpc},scene:{id:'b48a4f04',storageModel:'ros-ko-block-v1',managedSceneId:sceneId,managedSourceKey:scene.source_key,managedDocumentId:'quantum-vibration-novel-act-2',managedDocumentSlug:'quantum-vibration-novel-act-2',compositionRevisionId:scene.requested_composition_id,canonicalBodySha256:scene.composition.body_sha256,terminalLf:0,paragraphs:scene.paragraphs}});
-  assert.equal(compared.rows.length,67);
+  assert.equal(compared.rows.length,afterCount);
  }
 });
 test('shared read capability never grants staging or publication',async()=>{

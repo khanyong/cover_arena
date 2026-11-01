@@ -2,11 +2,14 @@
 The initial ros-exec02-db Docker container and ros-exec02-test network must exist.
 No production credentials or URLs are accepted. Secrets live outside the repo.
 """
-import os,json,subprocess,re,pathlib
+import os,json,subprocess,re,pathlib,socket
 D='/usr/local/bin/docker';DB=os.environ['ROS_EXEC02_DB'];AUTH=os.environ['ROS_EXEC02_AUTH'];REST=os.environ['ROS_EXEC02_REST'];P=pathlib.Path(os.environ['ROS_EXEC02_FIXTURE_DIR'])
 assert re.fullmatch(r'ros_exec02_run[0-9]+',DB)
 assert all(re.fullmatch(r'http://127\.0\.0\.1:554[0-9]{2}',u) for u in [AUTH,REST])
 assert subprocess.check_output([D,'inspect','ros-exec02-db','--format','{{index .Config.Labels "ros.scope"}}'],text=True).strip()=='exec02-nonproduction'
+# Fail before creating a DB when a requested loopback port is occupied.
+for url in [AUTH,REST]:
+ with socket.socket() as probe: probe.bind(('127.0.0.1',int(url.rsplit(':',1)[1])))
 s=json.loads((P.parent/'local-secrets.json').read_text());P.mkdir(exist_ok=True)
 def sql(q,db):
  r=subprocess.run([D,'exec','-i','ros-exec02-db','psql','-U','supabase_admin','-d',db,'-At','-v','ON_ERROR_STOP=1'],input=q,text=True,capture_output=True)
@@ -21,4 +24,6 @@ for suffix,image,port,env in [
  'PGRST_DB_URI':'postgres://authenticator:'+s['password']+'@ros-exec02-db:5432/'+DB,'PGRST_DB_SCHEMAS':'public','PGRST_DB_ANON_ROLE':'anon','PGRST_JWT_SECRET':s['jwt']})]:
  args=[D,'run','-d','--name',DB+'-'+suffix,'--network','ros-exec02-test','--label','ros.scope=exec02-nonproduction','-p','127.0.0.1:'+port]
  for k,v in env.items():args+=['-e',k+'='+v]
- subprocess.run(args+[image],check=True)
+ result=subprocess.run(args+[image],capture_output=True,text=True)
+ if result.returncode: raise RuntimeError('Isolated '+suffix+' container start failed; inspect container status without printing environment')
+ print('STARTED',DB+'-'+suffix)
