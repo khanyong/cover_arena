@@ -13,7 +13,7 @@ test('language-specific immutable decisions, readback, concurrent conflict and s
   const input={item:'R01',language:'ko',choice:'before',revision:0,basis:basisOf(review)};
   const results=await Promise.allSettled([saveDecision(review,'author',input,root),saveDecision(review,'author',input,root)]);
   assert.equal(results.filter(r=>r.status==='fulfilled').length,1);
-  const first=await readDecisions(review,'author',root);assert.equal(first.choices['ko:R01'].choice,'before');assert.equal(first.choices['en:R01'],undefined);
+  const first=await readDecisions(review,'author',root);assert.equal(first.choices['ko:R01'].choice,'before');assert.equal(first.choices['en:R01'].choice,'before');
   await saveDecision(review,'author',{...input,revision:1,choice:'custom',texts:['직접 수정\n내부 줄바꿈']},root);
   assert.deepEqual((await readDecisions(review,'author',root)).choices['ko:R01'].texts,['직접 수정\n내부 줄바꿈']);
   assert.equal((await readDecisions(review,'other',root)).revision,0);
@@ -38,7 +38,7 @@ test('paired edits save atomically and reject invalid or stale pairs without los
   for(const lang of ['ko','en']){assert.deepEqual(saved.choices[`${lang}:R01`].texts,input.texts[lang]);assert.equal(saved.choices[`${lang}:R01`].pairedRevision,1);}
   await assert.rejects(saveBilingualDecision(review,'author',{...input,texts:{ko:['stale'],en:['stale']}},root));
   assert.deepEqual(await readDecisions(review,'author',root),saved);
-  await saveDecision(review,'author',{item:'R01',language:'ko',choice:'before',revision:1,basis:input.basis},root);
+  await assert.rejects(saveDecision(review,'author',{item:'R01',language:'ko',choice:'before',revision:1,basis:input.basis},root),/EN_CUSTOM_CONFLICT/);
   assert.deepEqual((await readDecisions(review,'author',root)).choices['en:R01'],saved.choices['en:R01']);
   assert.equal((await readDecisions(review,'other',root)).revision,0);
  }finally{await rm(root,{recursive:true,force:true});}

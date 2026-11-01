@@ -45,7 +45,7 @@ export default function NovelLocalReview({embedded=false,reviewId,initialLanguag
  const candidateTexts=(row:any,lang:string)=>{const choice=review.decisions?.choices[`${lang}:${row.id}`];return choice?.choice==='custom'?choice.texts:row.content[lang][choice?.choice||'after'];};
  const selectChoice=async(row:any,choice:string,texts?:string[],englishTexts?:string[])=>{
   setSavingChoice(true);const target=id;
-  try{const decisions=await request('POST',{action:englishTexts?'bilingual-decision':'decision',item:row.id,language,choice,texts:englishTexts?{ko:texts,en:englishTexts}:texts,revision:review.decisions.revision,basis:review.decisions.basis});setReview(r=>r?.manifest.id===target?{...r,decisions}:r);}catch(e){throw new Error('선택을 저장하지 못했습니다. 다른 창에서 변경했을 수 있습니다. 새로고침 후 다시 확인하세요.');}finally{setSavingChoice(false);}
+  try{const decisions=await request('POST',{action:englishTexts?'bilingual-decision':'decision',item:row.id,language,choice,texts:englishTexts?{ko:texts,en:englishTexts}:texts,revision:review.decisions.revision,basis:review.decisions.basis});setReview(r=>r?.manifest.id===target?{...r,decisions}:r);}catch(e){if(String(e.message).includes('EN_CUSTOM_CONFLICT'))throw new Error('이미 저장된 영문 직접 수정본이 있습니다. 직접 수정에서 국문·영문을 함께 확인해 저장하세요. 기존 수정문은 보존했습니다.');throw new Error('선택을 저장하지 못했습니다. 다른 창에서 변경했을 수 있습니다. 새로고침 후 다시 확인하세요.');}finally{setSavingChoice(false);}
  };
  const finalAction=async(input:any)=>{const decisions=await request('POST',{...input,revision:review.decisions.revision,basis:review.decisions.basis});setReview(r=>({...r,decisions}));};
  const finalVersion=review?.decisions?.adoptionHistory?.find(v=>v.id===finalId)||review?.decisions?.confirmationHistory?.find(v=>v.id===finalId);

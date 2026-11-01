@@ -18,8 +18,10 @@ test('exact full-text confirmation, separate languages, stale rejection, preserv
   assert.deepEqual(candidate(review,state,'ko').paragraphs,['전1','전2','보존']);assert.deepEqual(state.adopted,old);
   await assert.rejects(apply({action:'adopt-bilingual',enId:state.confirmed.en.id,koId:state.confirmed.ko.id,correspondenceReviewed:true}));
   await apply({action:'confirm-language',language:'ko',...candidate(review,state,'ko')});
+  await assert.rejects(apply({action:'adopt-bilingual',enId:state.confirmed.en.id,koId:state.confirmed.ko.id,correspondenceReviewed:true}));
+  await apply({action:'confirm-language',language:'en',...candidate(review,state,'en')});
   await apply({action:'adopt-bilingual',enId:state.confirmed.en.id,koId:state.confirmed.ko.id,correspondenceReviewed:true});
-  assert.equal(state.adoptionHistory.length,2);assert.deepEqual(state.adoptionHistory[0],old);assert.equal(state.adopted.alignment[0].ko.length,2);assert.equal(state.adopted.alignment[0].en.length,1);
+  assert.equal(state.adoptionHistory.length,2);assert.deepEqual(state.adoptionHistory[0],old);assert.equal(state.adopted.alignment[0].ko.length,2);assert.equal(state.adopted.alignment[0].en.length,2);
   assert.deepEqual((await readDecisions(review,user,root)).adopted,state.adopted);
  }finally{await rm(root,{recursive:true,force:true});}
 });
