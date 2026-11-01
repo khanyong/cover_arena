@@ -40,8 +40,16 @@ export default function NovelLocalReview({embedded=false,reviewId,initialLanguag
  const move=(delta:number)=>{const i=changes.findIndex(r=>r.id===item);go(changes[Math.max(0,Math.min(changes.length-1,i+delta))].id);};
  const save=async()=>{setFeedback('저장 중…');try{const entry=await request('POST',{item,text:comment});setReview(r=>({...r,comments:[...r.comments,entry]}));setComment('');setFeedback('이 장면·리비전·기준판·수정 항목에 검토 의견을 저장했습니다.');}catch(e){setFeedback(e.message);}};
  const login=`/auth?next=${encodeURIComponent(router.asPath)}`;
+ const downloadLocal = async () => {
+  try {
+   const {data}=await supabase.auth.getSession();if(!data.session)throw new Error('로그인이 필요합니다.');
+   const response=await fetch(`/api/novel-local-review?export=1&lang=${language}`,{headers:{Authorization:`Bearer ${data.session.access_token}`},cache:'no-store'});
+   if(!response.ok)throw new Error('수정본 다운로드 실패');
+   const url=URL.createObjectURL(await response.blob());const a=document.createElement('a');a.href=url;a.download=`ROS_로컬수정후판모음_${language}.txt`;a.click();URL.revokeObjectURL(url);
+  }catch(e){setError(e instanceof Error?e.message:'다운로드 실패');}
+ };
  return <main className={`local-review ${embedded?'embedded':''}`}>{!embedded&&<Head><title>{`${review?.manifest.title||'로컬 검토 목록'} · 작가 검토`}</title><meta name="robots" content="noindex,nofollow"/></Head>}
-  <header>{catalog.length>0&&<nav aria-label="로컬 검토판 목록" className="scene-list"><ol>{catalog.map(c=><li key={c.id} aria-current={c.id===id?'page':undefined}>{c.loaded===false?<><span>{c.scene} · {c.title} · 로컬 검토판 미적재 (누락)</span>{c.readerPath&&<> · <a href={c.readerPath}>기존 Reader·게시 이력</a></>}</>:<a href={`/novel-local-review?id=${encodeURIComponent(c.id)}&lang=${language}&mode=${mode}&side=${side}`}>{c.scene} · {c.title} · {c.id.split('-').at(-1)} · {c.status==='AUTHOR_UNREVIEWED'?'미검토':c.status}</a>}</li>)}</ol></nav>}<h1>수정 전 · 수정 후 비교</h1><p>{review?.manifest.scene} · {review?.manifest.title} · {revision} / {decision} / 운영 기존판 유지</p>
+  <header>{catalog.length>0&&<nav aria-label="로컬 검토판 목록" className="scene-list"><ol>{catalog.map(c=><li key={c.id} aria-current={c.id===id?'page':undefined}>{c.loaded===false?<><span>{c.scene} · {c.title} · 로컬 검토판 미적재 (누락)</span>{c.readerPath&&<> · <a href={c.readerPath}>기존 Reader·게시 이력</a></>}</>:<a href={`/novel-local-review?id=${encodeURIComponent(c.id)}&lang=${language}&mode=${mode}&side=${side}`}>{c.scene} · {c.title} · {c.id.split('-').at(-1)} · {c.status==='AUTHOR_UNREVIEWED'?'미검토':c.status}</a>}</li>)}</ol></nav>}<h1>수정 전 · 수정 후 비교</h1><button onClick={downloadLocal}>로컬 수정 후판 모음 다운로드 (현재 언어)</button><p>적재된 수정 후판을 모읍니다. 미적재 장면은 본문 없이 누락으로 표시합니다. 전권 조합은 마스터 조합본에서 이용하세요.</p><p>{review?.manifest.scene} · {review?.manifest.title} · {revision} / {decision} / 운영 기존판 유지</p>
    {review&&<><details><summary>고정 기준판·검토판 정보</summary><p>검토판: {review.manifest.id}</p><p>기준판: {review.manifest.baselineId}</p><p>제안문: {review.manifest.proposalId}</p><p>기준 확인: {review.manifest.baselineCheckedAt}</p></details>
    {review.baselineChanged&&<p role="alert">운영 구성에 후속 변경이 있습니다. 이 화면은 고정된 검토판을 유지합니다.</p>}
    <nav><label>언어 <select aria-label="검토 언어" value={language} onChange={e=>setLanguage(e.target.value)}><option value="ko">한국어</option><option value="en">English</option></select></label>

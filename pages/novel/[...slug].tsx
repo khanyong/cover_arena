@@ -1300,7 +1300,7 @@ function NovelStudioContent() {
               />
             ) : activeTab === 'mosaic' ? (
               /* 마스터 최종본 조합 스튜디오 */
-              <NovelMosaicMixer novel={novel} customVersionMap={customVersionMap} />
+              <NovelMosaicMixer novel={novel} customVersionMap={customVersionMap} language={lang} />
             ) : (
               /* 단락별 집필 및 버전 비교 모드 */
               <div>
