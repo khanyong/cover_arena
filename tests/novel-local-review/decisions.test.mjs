@@ -19,6 +19,11 @@ test('language-specific immutable decisions, readback, concurrent conflict and s
   assert.equal((await readDecisions(review,'other',root)).revision,0);
   await assert.rejects(saveDecision(review,'author',{...input,revision:2,choice:'custom',texts:['']},root));
   await assert.rejects(saveDecision(review,'author',{...input,revision:2,item:'B1'},root));
+  assert.deepEqual((await readDecisions(review,'author',root)).choices['ko:R01'].previousTexts,['전']);
+  await saveDecision(review,'author',{...input,revision:2,choice:'custom',texts:['두 번째 수정']},root);
+  assert.deepEqual((await readDecisions(review,'author',root)).choices['ko:R01'].previousTexts,['직접 수정\n내부 줄바꿈']);
+  await saveDecision(review,'author',{...input,revision:3,choice:'custom',texts:['두 번째 수정']},root);
+  assert.deepEqual((await readDecisions(review,'author',root)).choices['ko:R01'].previousTexts,['직접 수정\n내부 줄바꿈']);
   assert.equal(JSON.stringify(review),source);
   await assert.rejects(readDecisions({...review,manifest:{...review.manifest,files:{after:'changed'}}},'author',root));
  }finally{await rm(root,{recursive:true,force:true});}
