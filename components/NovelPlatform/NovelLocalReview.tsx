@@ -26,7 +26,7 @@ export default function NovelLocalReview({embedded=false,reviewId,initialLanguag
  const request=async(method='GET',body?:any)=>{
   const {data}=await supabase.auth.getSession();if(!data.session)throw new Error('로그인이 필요합니다.');
   const response=await fetch(`/api/novel-local-review?id=${encodeURIComponent(id)}`,{method,cache:'no-store',headers:{Authorization:`Bearer ${data.session.access_token}`,...(body?{'Content-Type':'application/json'}:{})},...(body?{body:JSON.stringify(body)}:{})});
-  const result=await response.json();if(!response.ok)throw new Error(response.status===401?'로그인이 필요합니다.':response.status===403?'이 검토판의 조회 권한이 없습니다.':`검토판을 불러올 수 없습니다 (${result.error}).`);return result;
+  const result=await response.json();if(!response.ok)throw new Error(response.status===401?'로그인이 필요합니다.':response.status===403?'이 검토판의 조회 권한이 없습니다.':`검토판을 불러올 수 없습니다 (${result.error}).`);if(method==='POST'&&body?.action)window.dispatchEvent(new Event('ros-review-updated'));return result;
  };
  useEffect(()=>{if(!router.isReady)return;setLanguage(initialLanguage||(router.query.lang==='en'?'en':'ko'));setMode(initialMode||(['read','bilingual','candidate','correspondence'].includes(String(router.query.mode))?String(router.query.mode):'compare'));setSide(router.query.side==='before'?'before':'after');},[router.isReady]);
  useEffect(()=>{

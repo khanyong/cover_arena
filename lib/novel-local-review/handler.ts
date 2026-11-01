@@ -1,4 +1,4 @@
-import {versionView,finalize} from './finalVersions.mjs';
+import {versionView,finalize,reviewStatus} from './finalVersions.mjs';
 import {readDecisions,saveDecision,saveBilingualDecision} from './decisions.mjs';
 import {authenticateBookRequest} from '../novel-book/loadBookSnapshot.mjs';
 import {localRequest,readReview,readComments,addComment,listReviews,listReadingOrder} from './store.mjs';
@@ -19,7 +19,7 @@ export default async function handler(req,res){
      if(!data)return null;
      if(item.loaded===false)return item;
      const r=await readReview(item.id,userId),state=await readDecisions(r,userId);
-     return {...item,finalAdoptionId:state.adopted?.id||null,confirmedLanguages:Object.keys(state.confirmed||{})};
+     return {...item,...reviewStatus(r,state)};
     }));
     visible.push(...batch.filter(Boolean));
    }

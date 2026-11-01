@@ -1,0 +1,20 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {candidate,reviewStatus} from '../../lib/novel-local-review/finalVersions.mjs';
+import {reviewBadgeText} from '../../lib/novel-local-review/badgeStatus.mjs';
+test('badges distinguish language confirmation, adoption and edited candidates',()=>{
+ const review={rows:[{id:'R01',content:{ko:{after:['후'],before:['전']},en:{after:['after'],before:['before']}}}]};
+ const state={choices:{}};
+ const badge=()=>reviewBadgeText({id:'PRO-C01-S01-r01',...reviewStatus(review,state)});
+ assert.match(badge(),/미채택/);
+ state.confirmed={ko:candidate(review,state,'ko')};
+ assert.equal(badge(),'국문 확정 · 영문 검토 대기');
+ state.confirmed.en=candidate(review,state,'en');
+ assert.equal(badge(),'국문·영문 확정 · 최종 채택 대기');
+ state.adopted={id:'PRO-C01-S01-r01-final-v15',...state.confirmed};
+ assert.equal(badge(),'영한 최종 채택 v15');
+ state.choices['ko:R01']={choice:'custom',texts:['새 문장']};
+ assert.equal(badge(),'영한 최종 채택 v15 · 추가 수정 중');
+ assert.deepEqual(reviewStatus(review,state).confirmedLanguages,['en']);
+ assert.equal(state.adopted.ko.paragraphs[0],'후');
+});
