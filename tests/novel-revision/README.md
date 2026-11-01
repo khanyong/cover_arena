@@ -53,3 +53,15 @@ not the production full manuscript. `add-commentary-fixture.mjs` optionally adds
 privately supplied note fixtures. Never label those outputs as production books.
 
 For PRO-C02-S01, use its officially mapped manifest and normalized approved proposal, not TXT paragraph counts. Run `node --test tests/novel-revision/residual-plan.test.mjs` with these private inputs. Shared DB/publication/restore tests derive counts and scene paths from the fixture; equal-size replacements must preserve each ordinal Unit and alignment. Do not commit fixture manuscript files or sessions.
+
+For the adopted PRO-C01-S01 v15 edition, prepare a new run with
+`ROS_EXEC02_FINAL_PACKAGE=1` and `ROS_EXEC02_DELEGATED=1`. Supply the private
+current-selection manifest (including historical EN alignment versions), the
+exact adopted proposal, and its independently verified approval digest.
+Run `final-adoption-integration.py`, `publication-integration.py`, then the
+server/publication/shared-reader JS suites with `ROS_EXEC02_PHASE=published`.
+`final-restore-authority.py` verifies the existing delegated restore denial;
+its PASS means access was correctly denied, **not** that rollback succeeded.
+Do not publish operationally until the intended restore contract is authorized
+and its successful joint rollback and later-edit conflict paths are tested.
+The new migration contains no manuscript or approval package data.

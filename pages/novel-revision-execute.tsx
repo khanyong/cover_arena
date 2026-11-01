@@ -4,7 +4,8 @@ import Link from 'next/link';
 import {supabase} from '../shared/lib/supabase';
 
 // Operator UI uses the same normal signed-in user API/RPC paths as the tests.
-// No service key, impersonation, approval registration, or manuscript editing.
+// No service key, impersonation, or manuscript editing. Final registration
+// accepts only an immutable server package for the authenticated operator.
 export default function RevisionExecute(){
  const [account,setAccount]=useState<string|null>(null);
  const [authReady,setAuthReady]=useState(false);
@@ -22,6 +23,7 @@ export default function RevisionExecute(){
   return()=>{active=false;subscription.unsubscribe();};
  },[]);
  const [approval,setApproval]=useState('');
+ const [finalPackage,setFinalPackage]=useState('');
  const [context,setContext]=useState<any>(null);
  const [release,setRelease]=useState<any>(null);
  const [publication,setPublication]=useState<any>(null);
@@ -35,6 +37,13 @@ export default function RevisionExecute(){
  };
  const run=async(fn:()=>Promise<void>)=>{setBusy(true);setMessage('처리 중');try{await fn();}catch(e){setMessage(e instanceof Error?e.message:'실행 실패');}finally{setBusy(false);}};
  const load=()=>run(async()=>{setContext(null);setRelease(null);setPublication(null);const c=await rpc('ros_bilingual_stage_context',{p_approval_id:approval});setContext(c);setMessage('등록된 승인 자료를 확인했습니다.');});
+ const registerFinal=()=>run(async()=>{
+  const fixed=await rpc('ros_bilingual_final_approval_context',{p_package_id:finalPackage});
+  const registered=await api('/api/novel-final-approval',{package_id:finalPackage,proposal:fixed.proposal,approval_digest:fixed.approval_digest});
+  setApproval(registered.approval_id);setRelease(null);setPublication(null);
+  setContext(await rpc('ros_bilingual_stage_context',{p_approval_id:registered.approval_id}));
+  setMessage('기존 최종 채택 지시를 서버에 등록했습니다. 아직 원고 저장·게시 전입니다.');
+ });
  const stage=()=>run(async()=>{
   const r=await api('/api/novel-bilingual-stage',{request_id:keys.stage,approval_id:approval,proposal:context.proposal});
   const read=await rpc('ros_bilingual_read_staged',{p_release_id:r.release_id});
@@ -47,8 +56,9 @@ export default function RevisionExecute(){
  const publish=()=>run(async()=>{setMessage('현재 영한 전권 조회 검증 중');await api('/api/novel-bilingual-book',{});const p=await api('/api/novel-bilingual-publication',{action:'publish',request_id:keys.publish,target_id:release.release_id});setPublication(p);setMessage('영한 공동 게시 완료. 기본 Reader에서 확인하세요.');});
  const restore=()=>run(async()=>{const p=await api('/api/novel-bilingual-publication',{action:'restore',request_id:keys.restore,target_id:publication.publication_id});setPublication(p);setMessage('영한 공동 복원 완료.');});
  return <main className="min-h-screen bg-zinc-950 text-zinc-100 p-8 max-w-4xl mx-auto"><Head><title>승인 원고 공동 반영</title></Head><h1 className="text-2xl mb-4">승인 원고 공동 반영</h1>
- <p className="mb-4">현재 로그인 계정의 기존 권한으로 서버에 등록된 승인만 실행합니다. 문안 편집이나 승인 등록 기능이 아닙니다.</p>
+ <p className="mb-4">현재 로그인 계정의 기존 권한으로 서버에 등록된 승인만 실행합니다. 문안은 편집하지 않으며, 기존 최종 채택 지시는 고정된 서버 패키지로만 등록합니다.</p>
  <p aria-live="polite">{!authReady?'로그인 상태 확인 중…':account?`로그인됨: ${account} · 아래에서 승인 자료를 조회하세요.`:<Link href="/auth?next=%2Fnovel-revision-execute">로그인</Link>}</p>
+ <section className="my-4 border border-zinc-700 p-4"><label className="block">최종 채택 패키지 ID<input className="block bg-zinc-800 p-2 w-full" value={finalPackage} onChange={e=>setFinalPackage(e.target.value)} disabled={busy||!!release}/></label><button className="mt-3" disabled={busy||!account||!finalPackage||!!release} onClick={registerFinal}>기존 최종 채택 지시 서버 등록</button></section>
  <label className="block my-4">공식 승인 ID<input className="block bg-zinc-800 p-2 w-full" value={approval} onChange={e=>{setApproval(e.target.value);setContext(null);setRelease(null);setPublication(null);}} disabled={busy||!!release}/></label>
  <div className="flex gap-3 flex-wrap"><button disabled={busy} onClick={validateCapture}>전권 조회만 검증</button><button disabled={busy||!approval||!!release} onClick={load}>승인 자료 조회</button><button disabled={busy||!context||!!release} onClick={stage}>영한 공동 저장·전문 검증</button><button disabled={busy||!release||!!publication} onClick={publish}>검증된 판본 공동 게시</button><button disabled={busy||!publication||publication.status==='RESTORED'} onClick={restore}>이번 게시 공동 복원</button>{publication?.status==='RESTORED'&&<button disabled={busy} onClick={prepareRepublish}>복원판 재게시 준비·전문 검증</button>}</div>
  {context&&<p className="my-4">{context.proposal.proposal_id} · 리비전 {context.proposal.proposal_revision} · 결과 {context.plan.result_pairs.length}쌍 · 변경 밖 {context.plan.retained_pairs}쌍</p>}
