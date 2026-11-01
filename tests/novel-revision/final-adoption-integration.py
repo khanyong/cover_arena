@@ -6,6 +6,11 @@ d=importlib.util.module_from_spec(spec);spec.loader.exec_module(d)
 class FinalAdoption(unittest.TestCase):
  def test_01_registration_permissions_and_digest(self):
   body={'p_package_id':d.request['p_approval_id'],'p_proposal':d.request['p_proposal'],'p_approval_digest':d.plan['approval_digest']}
+  for actor in [None,'outsider','reader','owner']:
+   status,context=d.rpc('ros_bilingual_final_approval_context',{'p_package_id':body['p_package_id']},actor)
+   if actor=='owner':
+    self.assertEqual(status,200,context);self.assertEqual(context['proposal'],body['p_proposal']);self.assertEqual(context['approval_digest'],body['p_approval_digest'])
+   else:self.assertGreaterEqual(status,400)
   for actor in [None,'outsider','reader']:
    status,r=d.rpc('ros_bilingual_register_final_approval',body,actor);self.assertGreaterEqual(status,400)
   for variant in ['word','scope','digest']:

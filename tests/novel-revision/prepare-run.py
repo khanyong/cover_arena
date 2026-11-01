@@ -31,7 +31,8 @@ files=['tests/novel-revision/fixture-schema.sql','supabase/migrations/2026100512
 if os.environ.get('ROS_EXEC02_PACKAGE_ONLY')=='1':
  files += ['supabase/migrations/20261029132056_ros_bilingual_explicit_lineage_and_approval_packages.sql']
 if os.environ.get('ROS_EXEC02_FINAL_PACKAGE')=='1':
- files += ['supabase/migrations/20261101112556_ros_final_adoption_publication.sql']
+ files = [f for f in files if not f.endswith('20261028141000_ros_bilingual_batch18_scope.sql')]
+ files += ['supabase/migrations/20261101112556_ros_final_adoption_publication.sql','supabase/migrations/20261101113708_ros_final_v15_scoped_self_restore.sql']
 applied=[]
 for file in files:
  raw=pathlib.Path(file).read_bytes();db(raw);print('APPLIED',file)

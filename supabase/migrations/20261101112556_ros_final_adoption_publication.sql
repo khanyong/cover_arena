@@ -273,5 +273,29 @@ $$;
 revoke all on function public.ros_bilingual_register_final_approval(uuid,jsonb,text) from public,anon;
 grant execute on function public.ros_bilingual_register_final_approval(uuid,jsonb,text) to authenticated;
 
+-- Read only the fixed package addressed to the current normal operator.
+CREATE FUNCTION ros_bilingual_private.final_approval_context(p_package_id uuid)
+RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path='' AS $$
+DECLARE pack ros_bilingual_private.final_adoption_packages; actor uuid:=auth.uid();
+BEGIN
+ IF actor IS NULL OR coalesce((auth.jwt()->>'is_anonymous')::boolean,false)
+ OR coalesce((auth.jwt()->>'exp')::bigint,0)<=extract(epoch from now()) THEN
+ RAISE EXCEPTION USING errcode='42501',message='AUTHENTICATED_ACTOR_REQUIRED'; END IF;
+ SELECT * INTO pack FROM ros_bilingual_private.final_adoption_packages WHERE id=p_package_id;
+ IF NOT FOUND OR pack.package->>'approved_actor' IS DISTINCT FROM actor::text THEN
+ RAISE EXCEPTION USING errcode='42501',message='APPROVAL_PACKAGE_ACCESS_DENIED'; END IF;
+ PERFORM public.ros_ko_assert_scene_owner((pack.package->>'managed_scene_id')::uuid,'rewrite');
+ IF NOT coalesce(public.fn_is_project_owner((pack.package->>'en_project_id')::uuid),false) THEN
+ RAISE EXCEPTION USING errcode='42501',message='EN_PROJECT_ACCESS_DENIED'; END IF;
+ RETURN jsonb_build_object('proposal',pack.package->'proposal','approval_digest',pack.package->>'approval_digest');
+END $$;
+REVOKE ALL ON FUNCTION ros_bilingual_private.final_approval_context(uuid) FROM public,anon,authenticated;
+CREATE FUNCTION public.ros_bilingual_final_approval_context(p_package_id uuid)
+RETURNS jsonb LANGUAGE sql SECURITY DEFINER SET search_path='' AS $$
+ SELECT ros_bilingual_private.final_approval_context(p_package_id)
+$$;
+REVOKE ALL ON FUNCTION public.ros_bilingual_final_approval_context(uuid) FROM public,anon;
+GRANT EXECUTE ON FUNCTION public.ros_bilingual_final_approval_context(uuid) TO authenticated;
+
 NOTIFY pgrst,'reload schema';
 COMMIT;
