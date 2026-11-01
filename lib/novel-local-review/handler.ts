@@ -1,3 +1,4 @@
+import {versionView,finalize} from './finalVersions.mjs';
 import {readDecisions,saveDecision} from './decisions.mjs';
 import {authenticateBookRequest} from '../novel-book/loadBookSnapshot.mjs';
 import {localRequest,readReview,readComments,addComment,listReviews,listReadingOrder} from './store.mjs';
@@ -15,7 +16,10 @@ export default async function handler(req,res){
     const batch=await Promise.all(order.slice(i,i+8).map(async item=>{
      const {data,error}=await client.rpc('ros_ko_get_scene',{p_managed_scene_id:item.managedSceneId,p_composition_id:null,p_include_legacy:false});
      if(error)throw Object.assign(new Error('SCENE_CHECK_FAILED'),{status:503});
-     return data?item:null;
+     if(!data)return null;
+     if(item.loaded===false)return item;
+     const r=await readReview(item.id,userId),state=await readDecisions(r,userId);
+     return {...item,finalAdoptionId:state.adopted?.id||null,confirmedLanguages:Object.keys(state.confirmed||{})};
     }));
     visible.push(...batch.filter(Boolean));
    }
@@ -39,10 +43,11 @@ export default async function handler(req,res){
   if(error||!data)return res.status(403).json({error:'REVIEW_ACCESS_DENIED'});
   if(req.method==='POST'){
    if(req.headers.origin!==`http://${req.headers.host}`)return res.status(403).json({error:'ORIGIN_DENIED'});
-   if(req.body?.action==='decision')return res.json(await saveDecision(review,userId,req.body));
+   if(req.body?.action==='decision')return res.json(versionView(review,await saveDecision(review,userId,req.body)));
+   if(['confirm-language','adopt-bilingual'].includes(req.body?.action))return res.json(versionView(review,await finalize(review,userId,req.body)));
    return res.json(await addComment(review,userId,req.body));
   }
   const {allowedUserIds,...manifest}=review.manifest;
-  return res.json({...review,manifest:{...manifest,legacySceneId:data.scene_id},decisions:await readDecisions(review,userId),comments:await readComments(manifest.id),account:userId,baselineChanged:data.requested_composition_id!==manifest.koCompositionId});
- }catch(e){const status=[400,401,403,409].includes(e.status)?e.status:e.code==='ENOENT'?404:503;return res.status(status).json({error:status===401?'LOGIN_REQUIRED':status===403?'REVIEW_ACCESS_DENIED':status===409?'REVIEW_INTEGRITY_FAILED':'REVIEW_UNAVAILABLE'});}
+  return res.json({...review,manifest:{...manifest,legacySceneId:data.scene_id},decisions:versionView(review,await readDecisions(review,userId)),comments:await readComments(manifest.id),account:userId,baselineChanged:data.requested_composition_id!==manifest.koCompositionId});
+ }catch(e){const status=[400,401,403,409].includes(e.status)?e.status:e.code==='ENOENT'?404:503;return res.status(status).json({error:status===401?'LOGIN_REQUIRED':status===403?'REVIEW_ACCESS_DENIED':status===409?e.message:'REVIEW_UNAVAILABLE'});}
 }

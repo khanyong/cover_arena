@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from 'react';
-export default function ReviewChoice({row,language,decision,onSave,disabled}:{row:any;language:string;decision:any;onSave:(choice:string,texts?:string[])=>Promise<void>;disabled:boolean}){
+export default function ReviewChoice({row,language,decision,onSave,disabled,onDirty}:{row:any;language:string;decision:any;onSave:(choice:string,texts?:string[])=>Promise<void>;disabled:boolean;onDirty?:(dirty:boolean)=>void}){
  const [editing,setEditing]=useState(false),[texts,setTexts]=useState<string[]>([]),[error,setError]=useState('');
+ useEffect(()=>{onDirty?.(editing);return()=>onDirty?.(false);},[editing]);
  useEffect(()=>{if(!editing)return;const warn=(event:BeforeUnloadEvent)=>{event.preventDefault();event.returnValue='';};window.addEventListener('beforeunload',warn);return()=>window.removeEventListener('beforeunload',warn);},[editing]);
  const save=async(choice:string,values?:string[])=>{setError('');try{await onSave(choice,values);setEditing(false);}catch(e){setError(e instanceof Error?e.message:'저장 실패');}};
  return <fieldset disabled={disabled} style={{border:'1px solid #64748b',padding:12,marginBottom:16}}>
