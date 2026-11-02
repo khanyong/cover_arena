@@ -35,6 +35,8 @@ export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLan
   setLocalDraft('');
   void (async()=>{
    try{
+    const latest=novel?.acts?.flatMap(a=>a.chapters.flatMap(c=>c.scenes)).find(s=>s.id===sceneId)?.localLatestReading;
+    if(latest){if(active)setLocalDraft(latest.reviewId);return;}
     if(process.env.NODE_ENV==='development'&&['localhost','127.0.0.1','[::1]'].includes(window.location.hostname)){
      const {data}=await supabase.auth.getSession();
      if(!data.session)throw new Error('로그인 후 검토판을 다시 불러와 주세요.');
@@ -52,7 +54,7 @@ export function NovelRevisionComparison({managedSceneId,novel,sceneId,initialLan
    finally{if(active)setLoading(false);}
   })();
   return()=>{active=false;};
- },[resolvedId,retry,candidateComparison]);
+ },[resolvedId,retry,candidateComparison,novel,sceneId]);
  if(resolutionError)return <p role="alert">{resolutionError}</p>;
  if(!resolvedId)return <p role="status">대응 장면의 수정 이력을 확인하고 있습니다…</p>;
  if(localDraft)return <NovelLocalReview key={localDraft} embedded reviewId={localDraft} initialLanguage={initialLanguage} initialMode={candidateComparison?'correspondence':undefined}/>;

@@ -1,4 +1,5 @@
 import { loadNovelActFragments } from './loadNovelActFragments.mjs'
+import { applyLocalLatestReading } from './localLatestReading.mjs'
 import { loadBilingualCapture } from './loadBilingualCapture.mjs'
 import { bookSourceFingerprint, assembleBookActs, getBookFragmentSlugs } from './novelBookSnapshot.mjs'
 import { rememberBookCapture } from './novelBookCaptureSession.js'
@@ -587,6 +588,17 @@ export const novels = {
       };
     }
     
+    if (process.env.NODE_ENV === 'development' && typeof window !== 'undefined'
+      && ['localhost','127.0.0.1','[::1]'].includes(window.location.hostname)
+      && ['quantum-vibration-novel','quantum-vibration-novel-en'].includes(slug)) {
+      try {
+        const {data}=await supabase.auth.getSession();
+        if(!data.session)throw Error('LOGIN_REQUIRED');
+        const response=await fetch('/api/novel-local-latest',{headers:{Authorization:`Bearer ${data.session.access_token}`},cache:'no-store'});
+        if(!response.ok)throw Error('LATEST_READING_UNAVAILABLE');
+        applyLocalLatestReading(managedOverlay.data,await response.json(),slug.endsWith('-en')?'en':'ko');
+      } catch(error) { return {data:null,error:managedReaderError('LATEST_READING_UNAVAILABLE','최신 열람본을 불러오지 못했습니다. 이전 판본으로 대체하지 않았습니다.',error)}; }
+    }
     return {
       data: managedOverlay.data,
       error: null,
@@ -604,6 +616,7 @@ export const novels = {
 
   // 소설 덮어쓰기 (업데이트 - 파편화 지원)
   async saveNovel(novelDetails) {
+    if(novelDetails.acts?.some(a=>a.chapters?.some(c=>c.scenes?.some(s=>s.localLatestReading))))return {data:null,error:managedReaderError('LATEST_READING_READ_ONLY','최신 열람본은 전체 원고 저장으로 덮어쓸 수 없습니다.')};
     if (hasManagedScenes(novelDetails)) {
       const error = managedReaderError(
         'MANAGED_SCENE_REQUIRES_TARGETED_RPC',

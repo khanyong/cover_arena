@@ -74,6 +74,7 @@ export function KoreanTranslationBadge({ scene, novelSlug }: KoreanTranslationBa
     const { data: listener } = supabase.auth.onAuthStateChange((event) => { if (active && event === 'SIGNED_OUT') setBadge(null); });
     return () => { active = false; window.removeEventListener('ros-review-updated', refresh); window.removeEventListener('focus', refresh); listener.subscription.unsubscribe(); };
   }, [managedId, scene.id, novelSlug]);
+  if ((scene as any).localLatestReading) return <span className="mr-1 text-xs text-sky-300">[D1 · 국문 채택 · 영문 검토 중]</span>;
   if (!badge || badge.sceneId !== scene.id) return null;
   return <span data-scene-comparison-badge={scene.id}
     className="mr-1 inline-block whitespace-nowrap rounded border border-sky-500/40 bg-sky-500/10 px-1.5 py-0.5 font-sans text-[11px] font-semibold text-sky-300"

@@ -1,3 +1,4 @@
+import LocalLatestPair, {LatestReadingStatus} from './LocalLatestPair';
 import { NovelRevisionComparison } from './NovelRevisionComparison';
 import { remarkEquationCommentary, normalizeDisplayMath } from '../../shared/lib/equationCommentary';
 import React, { useState, useEffect, useRef } from 'react';
@@ -270,7 +271,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
     let cancelled = false;
     const sequence = ++comparisonReadSequence.current;
     setComparisonState({ scope: comparisonScope, value: null, loading: Boolean(comparisonScene && commentActorId), error: comparisonScene && commentActorId === null ? '로그인 후 영한 비교를 열어 주세요.' : '' });
-    if (comparisonScene && commentActorId) {
+    if (comparisonScene && commentActorId && !(comparisonScene as any).localLatestReading) {
       loadSceneTranslationComparison({ scene: comparisonScene, client: supabase }).then((value: TranslationComparison) => {
         if (!cancelled && sequence === comparisonReadSequence.current && commentActorRef.current === commentActorId
           && activeComparisonScope.current === comparisonScope) {
@@ -785,6 +786,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
             책 다운로드 · PDF / Kindle
           </summary>
           <div className="grid gap-3 p-3 pt-1 lg:grid-cols-2">
+            {allScenes.some(s=>(s as any).localLatestReading) && <p className="w-full text-sm text-amber-200">아래 PDF·EPUB는 기존 운영판입니다. 현재 화면의 D1 최신 열람본은 아직 포함되지 않습니다.</p>}
             <BookPdfDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
             <BookEpubDownload slug={novel.slug} hasOpenEditor={hasOpenEditor} />
           </div>
@@ -1178,12 +1180,12 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                             }}
                             title={!readingOnly && onUpdateSceneMetadata && scene.storageModel !== 'ros-ko-block-v1' ? "클릭하여 씬 제목 수정" : undefined}
                           >
-                            <SceneRevisionBadge scene={scene} />
+                            {(scene as any).localLatestReading ? <LatestReadingStatus pair={(scene as any).localLatestReading}/> : <SceneRevisionBadge scene={scene} />}
                             <KoreanTranslationBadge novelSlug={novel.slug} actNumber={act.number} scene={scene} customVersionMap={customVersionMap} />
                             {getSceneTitle(scene, customVersionMap)}
                           </h4>
                         )}
-                        {scene.storageModel === 'ros-ko-block-v1' && onManagedRevisionChange && (
+                        {!(scene as any).localLatestReading && scene.storageModel === 'ros-ko-block-v1' && onManagedRevisionChange && (
                           <select
                             aria-label={`${getSceneTitle(scene, customVersionMap)} 구성 리비전 선택`}
                             value={scene.managedViewKey || scene.compositionRevisionId || ''}
@@ -1244,7 +1246,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         <button type="button" aria-pressed={comparisonMode === 'aligned'} onClick={() => setComparisonMode('aligned')} className={`rounded border px-3 py-2 ${comparisonMode === 'aligned' ? 'border-sky-400 text-sky-200' : 'border-zinc-700 text-zinc-400'}`}>대응 블록 비교</button>
                         <button type="button" aria-pressed={comparisonMode === 'parallel'} onClick={() => setComparisonMode('parallel')} className={`rounded border px-3 py-2 ${comparisonMode === 'parallel' ? 'border-sky-400 text-sky-200' : 'border-zinc-700 text-zinc-400'}`}>문장·단락 나란히 읽기</button>
                       </div>}
-                      {process.env.NODE_ENV==='development' ? <NovelRevisionComparison key={`candidate:${scene.id}`} candidateComparison managedSceneId={scene.managedSceneId} novel={novel} sceneId={scene.id} initialLanguage={novel.slug.endsWith('-en')?'en':'ko'}/> : isComparableScene(scene) && comparisonMode === 'aligned' ? <NovelBilingualReader
+                      {(scene as any).localLatestReading ? <LocalLatestPair pair={(scene as any).localLatestReading}/> : process.env.NODE_ENV==='development' ? <NovelRevisionComparison key={`candidate:${scene.id}`} candidateComparison managedSceneId={scene.managedSceneId} novel={novel} sceneId={scene.id} initialLanguage={novel.slug.endsWith('-en')?'en':'ko'}/> : isComparableScene(scene) && comparisonMode === 'aligned' ? <NovelBilingualReader
                         key={comparisonScope}
                         readingOnly={readingOnly}
                         scene={scene}
