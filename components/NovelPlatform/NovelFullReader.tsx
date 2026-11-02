@@ -1,4 +1,5 @@
 import LocalLatestPair, {LatestReadingStatus} from './LocalLatestPair';
+import SceneIllustration from './SceneIllustration';
 import { NovelRevisionComparison } from './NovelRevisionComparison';
 import { remarkEquationCommentary, normalizeDisplayMath } from '../../shared/lib/equationCommentary';
 import React, { useState, useEffect, useRef } from 'react';
@@ -1232,6 +1233,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
+                      <SceneIllustration sceneId={scene.id} language={novel.slug.endsWith('-en')?'en':'ko'}/>
                       {revisionSceneId === scene.id && <NovelRevisionComparison key={`${novel.slug}:${scene.id}`} managedSceneId={scene.managedSceneId} novel={novel} sceneId={scene.id} initialLanguage={novel.slug.endsWith('-en') ? 'en' : 'ko'} />}
                       {comparisonSceneId === scene.id && canCompareNovel ? <div className="space-y-3">
                       <div className="flex flex-wrap items-center gap-2 rounded border border-zinc-700 p-2 text-xs text-zinc-200">
