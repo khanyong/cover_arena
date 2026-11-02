@@ -48,3 +48,19 @@ test('paired edits save atomically and reject invalid or stale pairs without los
   assert.equal((await readDecisions(review,'other',root)).revision,0);
  }finally{await rm(root,{recursive:true,force:true});}
 });
+
+test('D1 is isolated, unselected and held text stays BEFORE, finalization remains blocked',async()=>{
+ const {candidate,finalize}=await import('../../lib/novel-local-review/finalVersions.mjs');
+ const root=await mkdtemp(join(tmpdir(),'ros-d1-'));
+ const review={manifest:{id:'PRO-C01-S01-D1-20261102',baselineId:'current',files:{rows:'fixed'},reassessment:true,defaultChoice:'before',finalizationBlocked:true},rows:[{id:'D01',changed:true,content:{ko:{before:['현재'],after:['제안']},en:{before:['Current'],after:['Draft']}}}]};
+ try{
+  let state=await readDecisions(review,'author',root);assert.deepEqual(candidate(review,state,'ko').paragraphs,['현재']);
+  const input={item:'D01',language:'ko',choice:'hold',revision:0,basis:basisOf(review)};
+  await saveDecision(review,'author',input,root);state=await readDecisions(review,'author',root);
+  assert.deepEqual(candidate(review,state,'en').paragraphs,['Current']);
+  await saveDecision(review,'author',{...input,revision:1,choice:'after'},root);
+  state=await readDecisions(review,'author',root);assert.deepEqual(candidate(review,state,'ko').paragraphs,['제안']);
+  await assert.rejects(finalize(review,'author',{action:'confirm-language'},root),/REASSESSMENT_VALIDATION_PENDING/);
+  assert.equal((await readDecisions({...review,manifest:{...review.manifest,id:'PRO-C01-S01-r01'}},'author',root)).revision,0);
+ }finally{await rm(root,{recursive:true,force:true});}
+});
