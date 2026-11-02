@@ -317,10 +317,11 @@ function NovelStudioContent() {
     };
   }, [isCurrentReaderReady, dbSlug, novel, mainTab, activeTab]);
 
-  const languageSceneAnchor = activeSceneId ? `#scene-${encodeURIComponent(activeSceneId)}` : '';
   const readerSceneIds = novel?.acts.flatMap(act => act.chapters.flatMap(chapter => chapter.scenes.map(scene => scene.id))) || [];
   // Keep the entry visible before scroll-spy has selected a Scene as well.
-  const comparisonTargetId = readerSceneIds.includes(activeSceneId) ? activeSceneId : readerSceneIds[0];
+  const pinnedComparisonScene = typeof router.query.compare === 'string' && readerSceneIds.includes(router.query.compare) ? router.query.compare : '';
+  const comparisonTargetId = pinnedComparisonScene || (readerSceneIds.includes(activeSceneId) ? activeSceneId : readerSceneIds[0]);
+  const languageSceneAnchor = pinnedComparisonScene ? `?compare=${encodeURIComponent(pinnedComparisonScene)}#scene-${encodeURIComponent(pinnedComparisonScene)}` : activeSceneId ? `#scene-${encodeURIComponent(activeSceneId)}` : '';
 
   // Scroll Spy 구현 (Intersection Observer)
   useEffect(() => {
