@@ -1,5 +1,5 @@
 import LocalLatestPair, {LatestReadingStatus} from './LocalLatestPair';
-import SceneIllustration from './SceneIllustration';
+import SceneIllustration, {PrologueIllustrations} from './SceneIllustration';
 import { NovelRevisionComparison } from './NovelRevisionComparison';
 import { remarkEquationCommentary, normalizeDisplayMath } from '../../shared/lib/equationCommentary';
 import React, { useState, useEffect, useRef } from 'react';
@@ -1027,6 +1027,8 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                 </>
               )}
             </div>
+
+            {act.chapters.some(ch => ch.scenes.some(scene => scene.id === 'b48a4f04')) && <PrologueIllustrations language={novel.slug.endsWith('-en')?'en':'ko'}/>}
 
             {/* Chapters */}
             {act.chapters.map((ch) => (
