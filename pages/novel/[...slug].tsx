@@ -1023,6 +1023,9 @@ function NovelStudioContent() {
                     <div className="font-bold text-amber-300 flex items-center gap-1.5">
                       <span>🎬</span> {act.title === 'Unknown Act' ? 'Front Matter' : act.title}
                     </div>
+                    {activeTab === 'reader' && act.chapters.some(ch => ch.scenes.some(scene => scene.id === 'b48a4f04')) && (
+                      <a href="#prologue-illustrations" onClick={e => handleNavClick(e, 'prologue-illustrations')} className="block pl-4 py-2 text-sky-300 hover:text-sky-100">🖼 {novel.slug.endsWith('-en') ? 'Facility illustrations (2)' : '시설 삽화 2장'}</a>
+                    )}
                     <div className="pl-3 space-y-1 border-l border-zinc-800">
                       {act.chapters.map((ch) => {
                         const chapterTitle = getTocTitle(tocTitles.chapters.get(chapterTocKey(act.number, ch.number)), ch.title);

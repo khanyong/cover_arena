@@ -35,7 +35,7 @@ export default function SceneIllustration({sceneId,language}:{sceneId:string;lan
  return <StoredIllustration path="illustrations/A0-C01-S02/helios-complex/v1/Helios Complex Architectural Sketch.png" assetId="helios-complex-v1" width={1254} height={1254} language={language} caption={language==='ko'?'헬리오스 단지 — 붕괴 전 건축 스케치':'Helios Complex — Architectural Sketch Before the Collapse'}/>;
 }
 export function PrologueIllustrations({language}:{language:'ko'|'en'}) {
- return <section id="prologue-illustrations" aria-label={language==='ko'?'프롤로그 시설 안내':'Prologue facility illustrations'}>
+ return <section style={{scrollMarginTop:440}} id="prologue-illustrations" aria-label={language==='ko'?'프롤로그 시설 안내':'Prologue facility illustrations'}>
   <StoredIllustration path="illustrations/prologue/ngc-facility/v1/ngc-geneva-basin-aerial-v1.png" assetId="ngc-aerial-v1" width={1448} height={1086} language={language} caption={language==='ko'?'NGC 시설 조감도 — 중앙 통제 센터와 검출기 부지의 개념적 배치.':'NGC aerial view — conceptual layout of the central control center and detector site.'}/>
   <StoredIllustration path="illustrations/prologue/ngc-facility/v1/ngc-detector-control-cutaway-v1.png" assetId="ngc-cutaway-v1" width={1536} height={1024} language={language} caption={language==='ko'?'NGC 지하 검출기와 제어 시설 — 지상 지원 시설·광섬유 연결·로컬 제어 및 보호 계통.':'NGC underground detector and control facilities — surface support, fiber links, local control and protection.'}/>
   <p className="text-center text-sm text-zinc-400">{language==='ko'?'시설 외관과 배치는 개념적 표현이며, 거리·깊이·크기는 축척을 따르지 않습니다.':'Conceptual illustration; distances, depths and sizes are not to scale.'}</p>
