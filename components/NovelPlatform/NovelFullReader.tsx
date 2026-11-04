@@ -1,3 +1,4 @@
+import WholeSceneReview from './WholeSceneReview';
 import LocalLatestPair, {LatestReadingStatus} from './LocalLatestPair';
 import SceneIllustration, {PrologueIllustrations} from './SceneIllustration';
 import { NovelRevisionComparison } from './NovelRevisionComparison';
@@ -1235,6 +1236,7 @@ export const NovelFullReader: React.FC<NovelFullReaderProps> = ({
                         )}
                       </div>
                       
+                      <WholeSceneReview key={scene.id} sceneId={scene.id}/>
                       <SceneIllustration sceneId={scene.id} language={novel.slug.endsWith('-en')?'en':'ko'}/>
                       {revisionSceneId === scene.id && <NovelRevisionComparison key={`${novel.slug}:${scene.id}`} managedSceneId={scene.managedSceneId} novel={novel} sceneId={scene.id} initialLanguage={novel.slug.endsWith('-en') ? 'en' : 'ko'} />}
                       {comparisonSceneId === scene.id && canCompareNovel ? <div className="space-y-3">
